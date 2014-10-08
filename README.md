@@ -1,29 +1,23 @@
 # README #
 
-This README would normally document whatever steps are necessary to get your application up and running.
+OnTarget - Construction Management Tool API
 
 ### What is this repository for? ###
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+* to create API for handling data to and from web UI and mobile devices.
 
 ### How do I get set up? ###
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+* check out the project by using git checkout git@bitbucket.org:ontargetconstructionmanagement/ontargetrs.git
+* mvn clean install
+* we will be using tomcat as an application server and I am using jdk1.8
 
 ### Contribution guidelines ###
 
-* Writing tests
-* Code review
-* Other guidelines
+* Writing tests in src/main/tests
+* Code reviews will be done on each feature branch
+
 
 ### Who do I talk to? ###
 
-* Repo owner or admin
-* Other community or team contact
+* Sanjeev Ghimire
