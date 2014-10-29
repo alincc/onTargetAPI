@@ -7,6 +7,6 @@ import com.ontarget.bean.User;
  */
 public interface Authentication {
 
-    public User signIn(String username, String Password);
+    public com.ontarget.api.response.UserResponse signIn(User user);
 
 }

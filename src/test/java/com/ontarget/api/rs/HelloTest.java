@@ -18,9 +18,8 @@ public class HelloTest extends JerseyTest{
     @Test
     public void testHello(){
         WebResource resource=resource();
-        String msg = resource.path("/services/hello").get(String.class);
-
-        Assert.assertEquals("This is OnTarget - Construction Management Tool.", msg);
+        String msg = resource.path("/hello").get(String.class);
+        Assert.assertEquals("Hi there, This is OnTarget - Construction Management Tool.", msg);
 
     }
 
