@@ -14,7 +14,6 @@ public class OnTargetResponse implements Serializable {
     private List<ResponseError> errors;
 
     private boolean isAuthenticated;
-    private boolean tokenString;
 
     public OnTargetResponse() {
     }
@@ -49,13 +48,5 @@ public class OnTargetResponse implements Serializable {
 
     public void setAuthenticated(boolean isAuthenticated) {
         this.isAuthenticated = isAuthenticated;
-    }
-
-    public boolean isTokenString() {
-        return tokenString;
-    }
-
-    public void setTokenString(boolean tokenString) {
-        this.tokenString = tokenString;
     }
 }
