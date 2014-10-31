@@ -7,6 +7,7 @@ import com.ontarget.bean.User;
 import com.ontarget.bean.UserRegistrationRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Created by Owner on 10/30/14.
@@ -23,6 +24,7 @@ public class AuthenticationServiceImpl implements AuthenticationService{
     }
 
     @Override
+    @Transactional
     public boolean registrationRequest(UserRegistrationRequest request) throws Exception {
         return authenticationDAO.saveRegistrationRequest(request);
     }

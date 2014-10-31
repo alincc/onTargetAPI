@@ -12,4 +12,5 @@ public interface OnTargetConstant {
     public static final String RETURN_MESSAGE_AUTHENTICATION = "Successfully Authenticated";
     public static final String SUCCESSFULLY_REGISTERED = "Registration Successfully Requested.";
     public static final String REGISTRATION_REQUEST_FAILED = "Registration request failed.";
+    public static final String REGISTRATIOIN_PENDING = "PENDING";
 }

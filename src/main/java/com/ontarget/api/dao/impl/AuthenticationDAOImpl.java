@@ -2,6 +2,7 @@ package com.ontarget.api.dao.impl;
 
 import com.ontarget.api.dao.AuthenticationDAO;
 import com.ontarget.bean.UserRegistrationRequest;
+import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.constant.OnTargetQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -20,7 +21,7 @@ public class AuthenticationDAOImpl implements AuthenticationDAO {
     @Override
     public boolean saveRegistrationRequest(UserRegistrationRequest request) throws Exception {
 
-        int row = jdbcTemplate.update(OnTargetQuery.REGISTRATION_REQUEST,new Object[]{request.getName(),request.getEmail(),request.getPassword()});
+        int row = jdbcTemplate.update(OnTargetQuery.REGISTRATION_REQUEST,new Object[]{request.getName(),request.getEmail(),request.getCompanyName(),request.getPhoneNumber(),request.getMsg(), OnTargetConstant.REGISTRATIOIN_PENDING});
         if(row <=0){
             throw new Exception("Error while inserting registration request.");
         }

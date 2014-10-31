@@ -16,7 +16,7 @@
 
     <context:annotation-config />
 
-    <tx:annotation-driven transaction-manager="txManager"/>
+    <tx:annotation-driven/>
 
     <mvc:annotation-driven />
 
@@ -36,7 +36,7 @@
         <property name="dataSource" ref="dataSource"/>
     </bean>
 
-    <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource" />
     </bean>
 

@@ -9,7 +9,9 @@ public class UserRegistrationRequest implements Serializable {
 
     private String name;
     private String email;
-    private String password;
+    private String companyName;
+    private String phoneNumber;
+    private String msg;
 
     public String getName() {
         return name;
@@ -27,11 +29,27 @@ public class UserRegistrationRequest implements Serializable {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
+    public String getCompanyName() {
+        return companyName;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
     }
 }
