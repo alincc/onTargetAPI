@@ -49,6 +49,8 @@ public class AuthenticationImpl  implements Authentication{
     }
 
     @Override
+    @POST
+    @Path("/registrationRequest")
     public OnTargetResponse registrationRequest(UserRegistrationRequest request) {
         OnTargetResponse response=new OnTargetResponse();
         try {
@@ -63,6 +65,22 @@ public class AuthenticationImpl  implements Authentication{
         }
 
         return response;
+    }
+
+    @Override
+    @POST
+    @Path("/logout")
+    public OnTargetResponse logout(User user) {
+        try {
+            if(authenticationService.logout(user.getUsername())){
+
+            }
+
+        } catch (Exception e) {
+            logger.error("Error while logging out."+e);
+        }
+
+        return null;
     }
 
 }

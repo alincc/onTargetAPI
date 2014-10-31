@@ -13,4 +13,5 @@ public interface AuthenticationService {
 
     public boolean registrationRequest(UserRegistrationRequest request) throws Exception;
 
+    public boolean logout(String username) throws Exception;
 }

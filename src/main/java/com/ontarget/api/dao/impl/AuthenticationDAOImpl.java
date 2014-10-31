@@ -22,10 +22,19 @@ public class AuthenticationDAOImpl implements AuthenticationDAO {
     public boolean saveRegistrationRequest(UserRegistrationRequest request) throws Exception {
 
         int row = jdbcTemplate.update(OnTargetQuery.REGISTRATION_REQUEST,new Object[]{request.getName(),request.getEmail(),request.getCompanyName(),request.getPhoneNumber(),request.getMsg(), OnTargetConstant.REGISTRATIOIN_PENDING});
-        if(row <=0){
+        if(row ==0){
             throw new Exception("Error while inserting registration request.");
         }
 
+        return true;
+    }
+
+    @Override
+    public boolean logout(String username) throws Exception {
+        int row = jdbcTemplate.update(OnTargetQuery.EXPIRE_TOKEN,new Object[]{username});
+        if(row ==0){
+            throw new Exception("Error while inserting registration request.");
+        }
         return true;
     }
 

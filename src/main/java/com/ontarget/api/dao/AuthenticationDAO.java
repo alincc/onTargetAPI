@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
  */
 public interface AuthenticationDAO {
     public boolean saveRegistrationRequest(UserRegistrationRequest request) throws Exception;
+
+    public boolean logout(String username) throws  Exception;
 }

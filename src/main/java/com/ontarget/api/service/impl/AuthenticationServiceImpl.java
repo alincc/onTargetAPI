@@ -28,4 +28,9 @@ public class AuthenticationServiceImpl implements AuthenticationService{
     public boolean registrationRequest(UserRegistrationRequest request) throws Exception {
         return authenticationDAO.saveRegistrationRequest(request);
     }
+
+    @Override
+    public boolean logout(String username) throws Exception {
+        return authenticationDAO.logout(username);
+    }
 }

@@ -39,6 +39,18 @@ public class AuthenticationServiceTest extends BaseTest {
 
     }
 
+    @Test
+    public void testLogout(){
+        String username="testemail@mail.com";
+        try {
+            boolean loggedOut=authenticationService.logout(username);
+            Assert.assertTrue(loggedOut);
+        } catch (Exception e) {
+            logger.error("Error while logging out.",e);
+            fail();
+        }
+    }
+
 
 
 }

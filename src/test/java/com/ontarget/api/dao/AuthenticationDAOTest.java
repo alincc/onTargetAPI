@@ -36,9 +36,17 @@ public class AuthenticationDAOTest extends BaseTest {
             logger.error("Error while saving registration request",e);
             fail();
         }
-
-
     }
 
-
+    @Test
+    public void testLogout(){
+        String username="testemail@mail.com";
+        try {
+            boolean loggedOut=authenticationDAO.logout(username);
+            Assert.assertTrue(loggedOut);
+        } catch (Exception e) {
+            logger.error("Error while logging out.",e);
+            fail();
+        }
+    }
 }

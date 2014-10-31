@@ -9,5 +9,5 @@ public interface OnTargetQuery {
 
     public static final  String USER_LOGIN=new StringBuilder("SELECT * FROM USER WHERE USERNAME=? AND PASSWORD=? AND ACCOUNT_STATUS='ACTIVE' AND USER_STATUS=1").toString();
 
-
+    public static final String EXPIRE_TOKEN = new StringBuilder("UPDATE USER_SESSION_INFO SET EXPIRE_DATE=NOW() WHERE USER_ID=(SELECT USER_ID FROM USER WHERE USER_NAME=?)").toString();
 }
