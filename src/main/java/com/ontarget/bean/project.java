@@ -11,7 +11,7 @@ public class Project implements Serializable{
     private int projectId;
     private String projectName;
     private String projectDescription;
-    private String projectTypeId;
+    private int projectTypeId;
     private String status;
     private int companyId;//TODO: add company object instead of companyId
     private int projectParentId;
@@ -70,11 +70,11 @@ public class Project implements Serializable{
         this.companyId = companyId;
     }
 
-    public String getProjectTypeId() {
+    public int getProjectTypeId() {
         return projectTypeId;
     }
 
-    public void setProjectTypeId(String projectTypeId) {
+    public void setProjectTypeId(int projectTypeId) {
         this.projectTypeId = projectTypeId;
     }
 

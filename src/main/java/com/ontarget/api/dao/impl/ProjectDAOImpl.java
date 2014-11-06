@@ -38,7 +38,7 @@ public class ProjectDAOImpl implements ProjectDAO {
                                 connection.prepareStatement(OnTargetQuery.ADD_PROJECT, new String[] {"id"});
                         ps.setString(1, project.getProjectName());
                         ps.setString(2, project.getProjectDescription());
-                        ps.setString(3, project.getProjectTypeId());//TODO: get project type id and get it from project type table.
+                        ps.setInt(3, project.getProjectTypeId());//TODO: get project type id and get it from project type table.
                         ps.setInt(4, project.getCompanyId());
                         ps.setInt(5, project.getProjectAddress().getAddressId());
                         ps.setString(6, project.getStatus());
