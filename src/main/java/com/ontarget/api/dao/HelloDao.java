@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 public class HelloDao {
 
     public String getHello() {
-        return "This is OnTarget - Construction Management Tool";
+        return "Hi there, This is OnTarget - Construction Management Tool.";
 
     }
 }

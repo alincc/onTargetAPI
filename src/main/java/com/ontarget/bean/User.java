@@ -7,11 +7,20 @@ import java.io.Serializable;
  */
 public class User implements Serializable{
 
+    private int userId;
     private String username;
     private String password;
     private String firstName;
     private String lastName;
+    private String designation;
 
+    public String getDesignation() {
+        return designation;
+    }
+
+    public void setDesignation(String designation) {
+        this.designation = designation;
+    }
 
     public String getFirstName() {
         return firstName;
@@ -58,4 +67,11 @@ public class User implements Serializable{
                 '}';
     }
 
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
 }

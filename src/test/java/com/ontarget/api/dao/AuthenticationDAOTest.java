@@ -1,11 +1,13 @@
 package com.ontarget.api.dao;
 
 import com.ontarget.api.BaseTest;
-import com.ontarget.bean.UserRegistrationRequest;
+import com.ontarget.dto.UserRegistrationRequest;
 import junit.framework.Assert;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
 
 import static org.junit.Assert.fail;
 
@@ -37,6 +39,30 @@ public class AuthenticationDAOTest extends BaseTest {
             fail();
         }
     }
+
+    @Test
+    public void testGetRegistrationRequest(){
+        try {
+            UserRegistrationRequest info = authenticationDAO.getUserRegistrationRequestInfo(3);
+            Assert.assertTrue(info!=null);
+        } catch (Exception e) {
+            logger.error("Error while getting user registration request info.",e);
+            fail();
+        }
+    }
+
+    @Test
+    public void testGetUserRegistrationPendingRequest(){
+        try {
+            List<UserRegistrationRequest> requestList = authenticationDAO.getUserRegistrationPendingRequests();
+            Assert.assertTrue(requestList.size() >= 0);
+        } catch (Exception e) {
+            logger.error("Error while getting user registration request info.",e);
+            fail();
+        }
+
+    }
+
 
     @Test
     public void testLogout(){

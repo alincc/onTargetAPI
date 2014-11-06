@@ -1,6 +1,8 @@
-package com.ontarget.api.rs;
+package com.ontarget.api.rs.impl;
 
+import com.ontarget.api.service.HelloService;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.GET;
@@ -17,6 +19,10 @@ public class Hello {
     private Logger logger = Logger.getLogger(Hello.class);
 
 
+    @Autowired
+    private HelloService helloService;
+
+
     /**
      * Method processing HTTP GET requests, producing "text/plain" MIME media
      * type.
@@ -27,6 +33,6 @@ public class Hello {
     @Produces("text/plain")
     public String hello() {
         logger.info("Hello Service");
-        return "Hi there, This is OnTarget - Construction Management Tool.";
+        return helloService.getHello();
     }
 }

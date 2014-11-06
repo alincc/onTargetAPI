@@ -22,8 +22,6 @@
 
     <bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>
 
-    <context:property-placeholder location="classpath:database.properties"/>
-
     <!-- declare datasource bean -->
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="${driverClassName}" />

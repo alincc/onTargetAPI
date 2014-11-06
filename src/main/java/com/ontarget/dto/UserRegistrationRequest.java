@@ -1,4 +1,4 @@
-package com.ontarget.bean;
+package com.ontarget.dto;
 
 import java.io.Serializable;
 
@@ -7,11 +7,31 @@ import java.io.Serializable;
  */
 public class UserRegistrationRequest implements Serializable {
 
+    private int registrationReqId;
     private String name;
     private String email;
     private String companyName;
     private String phoneNumber;
     private String msg;
+    private String status;
+
+    public UserRegistrationRequest() {
+    }
+
+    public int getRegistrationReqId() {
+        return registrationReqId;
+    }
+    public void setRegistrationReqId(int registrationReqId) {
+        this.registrationReqId = registrationReqId;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public String getName() {
         return name;

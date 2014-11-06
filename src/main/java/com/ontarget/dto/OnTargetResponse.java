@@ -1,4 +1,4 @@
-package com.ontarget.api.response;
+package com.ontarget.dto;
 
 import java.io.Serializable;
 import java.util.List;

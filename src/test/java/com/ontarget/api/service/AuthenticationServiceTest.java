@@ -1,7 +1,7 @@
 package com.ontarget.api.service;
 
 import com.ontarget.api.BaseTest;
-import com.ontarget.bean.UserRegistrationRequest;
+import com.ontarget.dto.UserRegistrationRequest;
 import junit.framework.Assert;
 import org.apache.log4j.Logger;
 import org.junit.Test;

@@ -1,4 +1,4 @@
-package com.ontarget.api.response;
+package com.ontarget.dto;
 
 import com.ontarget.bean.User;
 

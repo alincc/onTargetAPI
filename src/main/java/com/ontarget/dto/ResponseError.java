@@ -1,4 +1,4 @@
-package com.ontarget.api.response;
+package com.ontarget.dto;
 
 /**
  * Created by Owner on 10/29/14.
