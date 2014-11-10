@@ -8,7 +8,7 @@ import java.util.Date;
  */
 public class Task implements Serializable{
 
-    private int taskId;
+    private int projectTaskId;
     private String title;
     private String description;
     private String status;
@@ -18,16 +18,18 @@ public class Task implements Serializable{
     private int percentageComplete;
     private Date startDate;
     private Date endDate;
+    private String completed;
 
     private Project project;
     private Task parentTask;
 
-    public int getTaskId() {
-        return taskId;
+
+    public int getProjectTaskId() {
+        return projectTaskId;
     }
 
-    public void setTaskId(int taskId) {
-        this.taskId = taskId;
+    public void setProjectTaskId(int projectTaskId) {
+        this.projectTaskId = projectTaskId;
     }
 
     public String getTitle() {
@@ -93,7 +95,7 @@ public class Task implements Serializable{
     @Override
     public String toString() {
         return "Task{" +
-                "taskId='" + taskId + '\'' +
+                "projectTaskId='" + projectTaskId + '\'' +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", status='" + status + '\'' +
@@ -134,5 +136,13 @@ public class Task implements Serializable{
 
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
+    }
+
+    public String getCompleted() {
+        return completed;
+    }
+
+    public void setCompleted(String completed) {
+        this.completed = completed;
     }
 }

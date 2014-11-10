@@ -3,6 +3,7 @@ package com.ontarget.api.service.impl;
 import com.ontarget.api.dao.CompanyDAO;
 import com.ontarget.api.dao.ContactDAO;
 import com.ontarget.api.service.UserProfileService;
+import com.ontarget.bean.Company;
 import com.ontarget.bean.Contact;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.OnTargetResponse;
@@ -30,16 +31,21 @@ public class UserProfileServiceImpl implements UserProfileService {
 
     //TODO: separate logic of user profile and company profile.
     @Override
-    @Transactional
-    public OnTargetResponse addUserProfile(UserProfileRequest request)  {
-
+    @Transactional(rollbackFor={Exception.class})
+    public OnTargetResponse addUserProfile(UserProfileRequest request) throws Exception {
+        logger.info("Request to add user profile"+ request);
         OnTargetResponse response=new OnTargetResponse();
         //add company.
-        try {
+
             int companyId = companyDAO.addCompanyInfo(request.getCompany());
 
             Contact contact=request.getContact();
-            contact.getCompany().setCompanyId(companyId);
+
+            Company company=request.getCompany();
+            company.setCompanyId(companyId);
+
+            contact.setCompany(company);
+            contact.setUser(request.getUser());
 
             boolean saved=contactDAO.addContactInfo(request.getContact());
             if(!saved){
@@ -47,12 +53,6 @@ public class UserProfileServiceImpl implements UserProfileService {
             }
             response.setReturnMessage("Successfully created company and user profile");
             response.setReturnVal(OnTargetConstant.SUCCESS);
-
-        } catch (Exception e) {
-            logger.error("Error while saving user and company profile",e);
-            response.setReturnMessage("Error creating company and user  profile");
-            response.setReturnVal(OnTargetConstant.ERROR);
-        }
 
         return response;
 

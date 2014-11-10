@@ -1,7 +1,8 @@
 package com.ontarget.api.service;
 
 import com.ontarget.bean.Task;
-import com.ontarget.dto.OnTargetResponse;
+
+import java.util.List;
 
 /**
  * Created by Owner on 11/6/14.
@@ -9,5 +10,7 @@ import com.ontarget.dto.OnTargetResponse;
 public interface TaskService {
 
     public boolean addTaskService(Task task) throws Exception;
+
+    public List<Task> getTask(int projectId) throws Exception;
 
 }

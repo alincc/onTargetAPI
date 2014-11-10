@@ -27,13 +27,13 @@ public class AuthenticationServiceImpl implements AuthenticationService{
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor={Exception.class})
     public boolean registrationRequest(UserRegistrationRequest request) throws Exception {
         return authenticationDAO.saveRegistrationRequest(request);
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor={Exception.class})
     public boolean logout(String username) throws Exception {
         return authenticationDAO.logout(username);
     }
@@ -48,7 +48,7 @@ public class AuthenticationServiceImpl implements AuthenticationService{
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor={Exception.class})
     public boolean approvePendingRegistrationRequest(List<UserRegistrationRequest> requests) throws Exception {
         return authenticationDAO.approvePendingRegistrationRequest(requests);
     }

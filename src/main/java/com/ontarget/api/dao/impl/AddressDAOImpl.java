@@ -39,7 +39,7 @@ public class AddressDAOImpl implements AddressDAO {
                         ps.setString(2, address.getAddress2());
                         ps.setString(3, address.getCity());
                         ps.setString(4, address.getState());
-                        ps.setString(5, address.getZipcode());
+                        ps.setString(5, address.getZip());
                         ps.setString(6, address.getCountry());
                         ps.setString(7, address.getAddressType());
                         return ps;
@@ -48,5 +48,10 @@ public class AddressDAOImpl implements AddressDAO {
                 keyHolder);
         logger.debug("Added address with id: "+keyHolder.getKey().intValue());
         return keyHolder.getKey().intValue();
+    }
+
+    @Override
+    public Address getAddress(int addressId) throws Exception {
+        return jdbcTemplate.queryForObject(OnTargetQuery.GET_ADDRESS,Address.class,new Object[]{addressId});
     }
 }

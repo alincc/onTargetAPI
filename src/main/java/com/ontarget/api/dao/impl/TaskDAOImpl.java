@@ -14,7 +14,10 @@ import org.springframework.stereotype.Repository;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Owner on 11/6/14.
@@ -30,17 +33,21 @@ public class TaskDAOImpl implements TaskDAO {
     @Override
     public int addTask(Task task) throws Exception {
 
-        logger.info("Adding address: "+ task);
+        logger.info("Adding address: " + task);
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(
                 new PreparedStatementCreator() {
                     public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
                         PreparedStatement ps =
-                                connection.prepareStatement(OnTargetQuery.ADD_TASK, new String[] {"id"});
-                        ps.setInt(1, task.getProject().getProjectId());
+                                connection.prepareStatement(OnTargetQuery.ADD_TASK, new String[]{"id"});
+                        //ps.setInt(1, task.getProject().getProjectId());
+                        ps.setInt(1, 3);
+
                         ps.setString(2, task.getTitle());
                         ps.setString(3, task.getDescription());
-                        ps.setInt(4, task.getParentTask().getTaskId());
+                        ps.setInt(4, task.getParentTask().getProjectTaskId());
+
+                        ps.setInt(4, 0);
                         ps.setString(5, task.getStatus());
                         ps.setString(6, task.getSeverity());
                         ps.setDate(7, new java.sql.Date(task.getStartDate().getTime()));
@@ -49,12 +56,27 @@ public class TaskDAOImpl implements TaskDAO {
                     }
                 },
                 keyHolder);
-        logger.debug("Added address with id: "+keyHolder.getKey().intValue());
+        logger.debug("Added address with id: " + keyHolder.getKey().intValue());
         return keyHolder.getKey().intValue();
     }
 
     @Override
     public List<Task> getTask(int projectId) throws Exception {
-        return null;
+        List<Map<String, Object>> taskList = jdbcTemplate.queryForList(OnTargetQuery.GET_PROJECT_TASK, new Object[]{projectId});
+        List<Task> tasks = new ArrayList<>();
+        for (Map<String, Object> taskMap : taskList) {
+            Task task = new Task();
+            task.setTitle((String) taskMap.get("title"));
+            task.setDescription((String) taskMap.get("description"));
+            task.setStatus((String) taskMap.get("status"));
+            task.setSeverity((String) taskMap.get("severity"));
+            task.setProjectTaskId((Integer) taskMap.get("project_task_id"));
+            task.setStartDate((Date) taskMap.get("start_date"));
+            task.setEndDate((Date) taskMap.get("end_date"));
+            task.setCompleted((String) taskMap.get("status"));
+            tasks.add(task);
+        }
+
+        return tasks;
     }
 }

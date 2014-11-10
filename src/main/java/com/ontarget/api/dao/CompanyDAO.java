@@ -11,4 +11,5 @@ public interface CompanyDAO {
 
     public Company getCompany(int companyId) throws Exception;
 
+    public java.util.Map<String, Object> getCompanyByUser(int userId) throws Exception;
 }

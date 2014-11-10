@@ -45,7 +45,7 @@ public class UserProfileTest extends JerseyTest{
         address.setAddress2("Apt #9C");
         address.setCity("Woodside");
         address.setState("NY");
-        address.setZipcode("11377");
+        address.setZip("11377");
         address.setCountry("USA");
         address.setAddressType("COMPANY");
         comp.setAddress(address);

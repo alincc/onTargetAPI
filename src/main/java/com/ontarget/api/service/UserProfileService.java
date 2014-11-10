@@ -8,7 +8,7 @@ import com.ontarget.dto.UserProfileRequest;
  */
 public interface UserProfileService {
 
-    public OnTargetResponse addUserProfile(UserProfileRequest request);
+    public OnTargetResponse addUserProfile(UserProfileRequest request) throws Exception;
 
 
 }

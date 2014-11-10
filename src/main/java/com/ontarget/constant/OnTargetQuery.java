@@ -33,8 +33,16 @@ public interface OnTargetQuery {
 
     public static final String ADD_ADDRESS = new StringBuilder("INSERT INTO ADDRESS (address1,address2,city,state,zip,country,address_type) values (?,?,?,?,?,?,?)").toString();
 
-    public static  final String ADD_TASK=new StringBuilder("INSERT INTO PROJECT_TASK (PROJECT_ID,TASK_TITLE,TASK_DESCRIPTION, PARENT_TASK_ID,TASK_STATUS,SEVERITY, START_DATE, END_DATE, CREATED_DATE, CREATED_BY, MODIFIED_DATE, MODIFIED_BY) values (?,?,?,?,?,?,?,?,NOW(),'SYSTEM',NOW(),'SYSTEM')").toString();
+    public static  final String ADD_TASK=new StringBuilder("INSERT INTO PROJECT_TASK (PROJECT_ID,TITLE,DESCRIPTION, PARENT_TASK_ID,STATUS,SEVERITY, START_DATE, END_DATE, CREATED_DATE, CREATED_BY, MODIFIED_DATE, MODIFIED_BY) values (?,?,?,?,?,?,?,?,NOW(),'SYSTEM',NOW(),'SYSTEM')").toString();
 
     public static final String GET_PROJECT_TASK=new StringBuilder("SELECT * FROM PROJECT_TASK WHERE PROJECT_ID=?").toString();
 
+    public final static String GET_PROJECT = new StringBuilder("SELECT * FROM PROJECT WHERE PROJECT_ID=?").toString();
+
+    public static final String GET_ADDRESS = new StringBuilder("SELECT * FROM ADDRESS WHERE ADDRESS_ID=?").toString();
+
+    public static final String GET_PROJECT_BY_COMPANY = new StringBuilder("SELECT * FROM contact c, PROJECT p,project_member pm")
+            .append(" where c.user_id=pm.user_id and p.company_id=c.contact_company_id and p.company_id=? and c.user_id=?").toString();
+
+    public static final String GET_COMPANY_BY_USER = new StringBuilder("Select * from contact where user_id=?").toString();
 }

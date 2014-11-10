@@ -12,21 +12,14 @@ public class Address implements Serializable{
     private String address2;
     private String city;
     private String state;
-    private String zipcode;
+    private String zip;
 
     public Address() {
     }
 
-    private String Country;
+    private String country;
     private String addressType;
 
-    public String getZipcode() {
-        return zipcode;
-    }
-
-    public void setZipcode(String zipcode) {
-        this.zipcode = zipcode;
-    }
     public int getAddressId() {
         return addressId;
     }
@@ -68,11 +61,11 @@ public class Address implements Serializable{
     }
 
     public String getCountry() {
-        return Country;
+        return this.country;
     }
 
     public void setCountry(String country) {
-        Country = country;
+        this.country = country;
     }
 
     public String getAddressType() {
@@ -91,9 +84,17 @@ public class Address implements Serializable{
                 ", address2='" + address2 + '\'' +
                 ", city='" + city + '\'' +
                 ", state='" + state + '\'' +
-                ", zipcode='" + zipcode + '\'' +
-                ", Country='" + Country + '\'' +
+                ", zip='" + zip + '\'' +
+                ", Country='" + country + '\'' +
                 ", addressType='" + addressType + '\'' +
                 '}';
+    }
+
+    public String getZip() {
+        return zip;
+    }
+
+    public void setZip(String zip) {
+        this.zip = zip;
     }
 }

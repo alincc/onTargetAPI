@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.Map;
+
 /**
  * Created by Owner on 11/4/14.
  */
@@ -27,4 +29,12 @@ public class ContactDAOImpl implements ContactDAO {
 
         return true;
     }
+
+    @Override
+    public Map<String, Object> getContactDetail(int userId) throws Exception{
+        return jdbcTemplate.queryForMap(OnTargetQuery.GET_COMPANY_BY_USER, new Object[]{userId});
+    }
+
+
+
 }

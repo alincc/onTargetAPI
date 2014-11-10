@@ -2,6 +2,7 @@ package com.ontarget.api.rs.impl;
 
 import com.ontarget.api.rs.UserProfile;
 import com.ontarget.api.service.UserProfileService;
+import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.UserProfileRequest;
 import org.apache.log4j.Logger;
@@ -33,7 +34,15 @@ public class UserProfileImpl implements UserProfile {
     @Path("/addUserProfile")
     public OnTargetResponse addUserProfile(UserProfileRequest userProfileRequest) {
         logger.info("Received request to add profile: "+ userProfileRequest);
-        return userProfileService.addUserProfile(userProfileRequest);
+        OnTargetResponse response=null;
+        try {
+            response =  userProfileService.addUserProfile(userProfileRequest);
+        } catch (Exception e) {
+            logger.error("Add User Profile failed."+ e);
+            response.setReturnMessage("Add task failed");
+            response.setReturnVal(OnTargetConstant.ERROR);
+        }
+        return response;
     }
 
 
