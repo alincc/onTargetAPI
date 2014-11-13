@@ -45,4 +45,6 @@ public interface OnTargetQuery {
             .append(" where c.user_id=pm.user_id and p.company_id=c.contact_company_id and p.company_id=? and c.user_id=?").toString();
 
     public static final String GET_COMPANY_BY_USER = new StringBuilder("Select * from contact where user_id=?").toString();
+
+    public static final String GET_PROJECT_TASK_COUNT_BY_STATUS = new StringBuilder("select status, count(status) as count from project_task where project_id=? group by status").toString();
 }

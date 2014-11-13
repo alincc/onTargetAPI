@@ -73,25 +73,21 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public ProjectResponse getProjectDetail(int projectId) throws Exception {
-        Map<String, Object> projectDetail = projectDAO.getProject(projectId);
-
-        Project project = new Project();
-        project.setProjectId(projectId);
-        project.setProjectName((String) projectDetail.get("PROJECT_NAME"));
-        project.setProjectDescription((String) projectDetail.get("PROJECT_DESCRIPTION"));
-        project.setProjectTypeId((Integer) projectDetail.get("PROJECT_TYPE_ID"));
-        project.setProjectParentId((Integer) projectDetail.get("PROJECT_PARENT_ID"));
-        project.setCompanyId((Integer) projectDetail.get("COMPANY_ID"));
-
-        //set project address
-        Address projectAddress = addressDAO.getAddress(((Integer) projectDetail.get("ADDRESS_ID")).intValue());
-        project.setProjectAddress(projectAddress);
-
-        //get list of tasks.
-        List<Task> tasks = taskDAO.getTask(projectId);
-        project.setTaskList(tasks);
-
+        Project project = projectDAO.getProject(projectId);
         ProjectResponse response = new ProjectResponse();
+        response.setProject(project);
+
+        if(project.getProjectId() > 0) {
+
+            //set project address
+            Address projectAddress = addressDAO.getAddress(project.getProjectId());
+            project.setProjectAddress(projectAddress);
+
+            //get list of tasks.
+            List<Task> tasks = taskDAO.getTask(projectId);
+            project.setTaskList(tasks);
+        }
+
         response.setProject(project);
         return response;
     }

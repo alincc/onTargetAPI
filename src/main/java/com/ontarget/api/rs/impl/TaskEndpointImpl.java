@@ -1,5 +1,6 @@
 package com.ontarget.api.rs.impl;
 
+import com.ontarget.api.response.TaskListCountResponse;
 import com.ontarget.api.rs.TaskEndpoint;
 import com.ontarget.api.service.TaskService;
 import com.ontarget.bean.Task;
@@ -64,6 +65,27 @@ public class TaskEndpointImpl implements TaskEndpoint{
             response.setReturnVal(OnTargetConstant.ERROR);
         }
         return response;
+    }
+
+    @Override
+    @GET
+    @Path("/getTaskCount/project/{projectId}")
+    public TaskListCountResponse getTaskCountByStatus(@PathParam("projectId") int projectId){
+        TaskListCountResponse response=new TaskListCountResponse();
+        logger.info("Getting all tasks count for project: "+ projectId);
+        try {
+            response.setTaskCountByStatus(taskService.getTaskCountByStatus(projectId));
+            response.setReturnMessage("Successfully retrieved tasks and counts");
+            response.setReturnVal(OnTargetConstant.SUCCESS);
+        } catch (Exception e) {
+            logger.error("Get task count failed."+ e);
+            response.setReturnMessage("Get task count failed");
+            response.setReturnVal(OnTargetConstant.ERROR);
+        }
+        return response;
+
+
+
     }
 
 }

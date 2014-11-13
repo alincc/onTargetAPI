@@ -12,7 +12,7 @@ public interface ProjectDAO {
 
     public int addProject(Project project) throws Exception;
 
-    public java.util.Map<String, Object> getProject(int projectId) throws Exception;
+    public Project getProject(int projectId) throws Exception;
 
     public List<Map<String,Object>> getProjectByCompany(int companyId, int userId) throws Exception;
 }

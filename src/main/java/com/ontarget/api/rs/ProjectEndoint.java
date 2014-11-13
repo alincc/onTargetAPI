@@ -13,7 +13,7 @@ public interface ProjectEndoint {
 
     public OnTargetResponse addProject(ProjectRequest request);
 
-    public ProjectResponse getProjectDetail(ProjectRequest request);
+    public ProjectResponse getProjectDetail(int projectId);
 
     public com.ontarget.dto.ProjectListResponse getProjectByCompany(Company company, User user);
 

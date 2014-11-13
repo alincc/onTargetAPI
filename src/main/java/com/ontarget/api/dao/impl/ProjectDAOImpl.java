@@ -7,12 +7,14 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
@@ -55,8 +57,24 @@ public class ProjectDAOImpl implements ProjectDAO {
     }
 
     @Override
-    public Map<String, Object> getProject(int projectId) throws Exception {
-       return jdbcTemplate.queryForMap(OnTargetQuery.GET_PROJECT, new Object[]{projectId});
+    public Project getProject(int projectId) throws Exception {
+
+        final Project project = new Project();
+
+       jdbcTemplate.query(OnTargetQuery.GET_PROJECT, new Object[]{projectId}, new RowMapper<Project>() {
+           @Override
+           public Project mapRow(ResultSet resultSet, int i) throws SQLException {
+               project.setProjectId(projectId);
+               project.setProjectName( resultSet.getString("PROJECT_NAME"));
+               project.setProjectDescription(resultSet.getString("PROJECT_DESCRIPTION"));
+               project.setProjectTypeId(resultSet.getInt("PROJECT_TYPE_ID"));
+               project.setProjectParentId(resultSet.getInt("PROJECT_PARENT_ID"));
+               project.setCompanyId(resultSet.getInt("COMPANY_ID"));
+
+               return project;
+           }
+       });
+        return project;
     }
 
     @Override

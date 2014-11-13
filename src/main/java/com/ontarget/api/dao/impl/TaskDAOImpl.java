@@ -14,10 +14,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Owner on 11/6/14.
@@ -64,19 +61,33 @@ public class TaskDAOImpl implements TaskDAO {
     public List<Task> getTask(int projectId) throws Exception {
         List<Map<String, Object>> taskList = jdbcTemplate.queryForList(OnTargetQuery.GET_PROJECT_TASK, new Object[]{projectId});
         List<Task> tasks = new ArrayList<>();
-        for (Map<String, Object> taskMap : taskList) {
-            Task task = new Task();
-            task.setTitle((String) taskMap.get("title"));
-            task.setDescription((String) taskMap.get("description"));
-            task.setStatus((String) taskMap.get("status"));
-            task.setSeverity((String) taskMap.get("severity"));
-            task.setProjectTaskId((Integer) taskMap.get("project_task_id"));
-            task.setStartDate((Date) taskMap.get("start_date"));
-            task.setEndDate((Date) taskMap.get("end_date"));
-            task.setCompleted((String) taskMap.get("status"));
-            tasks.add(task);
+        if (taskList != null && taskList.size() > 0) {
+            for (Map<String, Object> taskMap : taskList) {
+                Task task = new Task();
+                task.setTitle((String) taskMap.get("title"));
+                task.setDescription((String) taskMap.get("description"));
+                task.setStatus((String) taskMap.get("status"));
+                task.setSeverity((String) taskMap.get("severity"));
+                task.setProjectTaskId((Integer) taskMap.get("project_task_id"));
+                task.setStartDate((Date) taskMap.get("start_date"));
+                task.setEndDate((Date) taskMap.get("end_date"));
+                task.setCompleted((String) taskMap.get("status"));
+                tasks.add(task);
+            }
         }
 
         return tasks;
+    }
+
+    @Override
+    public Map<String, Integer> getTaskCountByStatus(int projectId) throws Exception {
+        List<Map<String, Object>> taskList = jdbcTemplate.queryForList(OnTargetQuery.GET_PROJECT_TASK_COUNT_BY_STATUS, new Object[]{projectId});
+        Map<String, Integer> taskCountByStatus = new HashMap<>();
+        if (taskList != null && taskList.size() > 0) {
+            for (Map<String, Object> taskMap : taskList) {
+                taskCountByStatus.put((String)taskMap.get("status"), (Integer)taskMap.get("count"));
+            }
+        }
+        return taskCountByStatus;
     }
 }

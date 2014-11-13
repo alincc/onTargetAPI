@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Owner on 11/6/14.
@@ -36,6 +37,11 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public List<Task> getTask(int projectId) throws Exception{
         return taskDAO.getTask(projectId);
+    }
+
+    @Override
+    public Map<String, Integer> getTaskCountByStatus(int projectId) throws Exception {
+        return taskDAO.getTaskCountByStatus(projectId);
     }
 
 

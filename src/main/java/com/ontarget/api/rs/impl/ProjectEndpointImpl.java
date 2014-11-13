@@ -34,12 +34,12 @@ public class ProjectEndpointImpl implements ProjectEndoint {
     @POST
     @Path("/addProject")
     public OnTargetResponse addProject(ProjectRequest request) {
-        OnTargetResponse response=null;
+        OnTargetResponse response = null;
         try {
-            response= projectService.addProject(request);
+            response = projectService.addProject(request);
         } catch (Exception e) {
-            logger.error("Error while adding project",e);
-            response=new OnTargetResponse();
+            logger.error("Error while adding project", e);
+            response = new OnTargetResponse();
             response.setReturnMessage("Error while creating project");
             response.setReturnVal(OnTargetConstant.ERROR);
         }
@@ -48,15 +48,16 @@ public class ProjectEndpointImpl implements ProjectEndoint {
 
     @Override
     @GET
-    @Path("/getProjectDetail")
-    public ProjectResponse getProjectDetail(ProjectRequest request) {
-        ProjectResponse response=new ProjectResponse();
+    @Path("/{projectId}")
+    public ProjectResponse getProjectDetail(@PathParam("projectId") int projectId) {
+        ProjectResponse response = new ProjectResponse();
         try {
-            response = projectService.getProjectDetail(request.getProject().getProjectId());
+            response = projectService.getProjectDetail(projectId);
             response.setReturnVal(OnTargetConstant.SUCCESS);
             response.setReturnMessage("Successfully retrieved project info");
+
         } catch (Exception e) {
-            logger.error("Error while getting project",e);
+            logger.error("Error while getting project", e);
             response.setReturnMessage("Error while getting project");
             response.setReturnVal(OnTargetConstant.ERROR);
         }
@@ -69,13 +70,13 @@ public class ProjectEndpointImpl implements ProjectEndoint {
     @Path("/getProjectForCompany")
     public ProjectListResponse getProjectByCompany(Company company, User user) {
 
-        ProjectListResponse response= null;
+        ProjectListResponse response = null;
         try {
-            response = projectService.getProjectsByCompany(company,user);
+            response = projectService.getProjectsByCompany(company, user);
             response.setReturnVal(OnTargetConstant.SUCCESS);
             response.setReturnMessage("Successfully retrieved project info");
         } catch (Exception e) {
-            logger.error("Error while getting project by company",e);
+            logger.error("Error while getting project by company", e);
             response.setReturnMessage("Error while getting project by company");
             response.setReturnVal(OnTargetConstant.ERROR);
         }
