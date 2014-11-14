@@ -67,12 +67,12 @@ public class ProjectEndpointImpl implements ProjectEndoint {
 
     @Override
     @GET
-    @Path("/getProjectForCompany")
-    public ProjectListResponse getProjectByCompany(Company company, User user) {
+    @Path("/getProject/company/{companyId}/user/{userId}")
+    public ProjectListResponse getProjectByCompany(@PathParam("companyId") int companyId, @PathParam("userId")int userId) {
 
         ProjectListResponse response = null;
         try {
-            response = projectService.getProjectsByCompany(company, user);
+            response = projectService.getProjectsByCompany(companyId, userId);
             response.setReturnVal(OnTargetConstant.SUCCESS);
             response.setReturnMessage("Successfully retrieved project info");
         } catch (Exception e) {

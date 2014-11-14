@@ -71,7 +71,8 @@ public class TaskDAOImpl implements TaskDAO {
                 task.setProjectTaskId((Integer) taskMap.get("project_task_id"));
                 task.setStartDate((Date) taskMap.get("start_date"));
                 task.setEndDate((Date) taskMap.get("end_date"));
-                task.setCompleted((String) taskMap.get("status"));
+                task.setStatus((String) taskMap.get("status"));
+                task.setCompleted((Long) taskMap.get("completed"));
                 tasks.add(task);
             }
         }

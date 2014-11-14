@@ -35,16 +35,20 @@ public interface OnTargetQuery {
 
     public static  final String ADD_TASK=new StringBuilder("INSERT INTO PROJECT_TASK (PROJECT_ID,TITLE,DESCRIPTION, PARENT_TASK_ID,STATUS,SEVERITY, START_DATE, END_DATE, CREATED_DATE, CREATED_BY, MODIFIED_DATE, MODIFIED_BY) values (?,?,?,?,?,?,?,?,NOW(),'SYSTEM',NOW(),'SYSTEM')").toString();
 
-    public static final String GET_PROJECT_TASK=new StringBuilder("SELECT * FROM PROJECT_TASK WHERE PROJECT_ID=?").toString();
+    public static final String GET_PROJECT_TASK=new StringBuilder("SELECT * , if(status='COMPLETED',true,false) as completed FROM PROJECT_TASK WHERE PROJECT_ID=?").toString();
 
     public final static String GET_PROJECT = new StringBuilder("SELECT * FROM PROJECT WHERE PROJECT_ID=?").toString();
 
     public static final String GET_ADDRESS = new StringBuilder("SELECT * FROM ADDRESS WHERE ADDRESS_ID=?").toString();
 
-    public static final String GET_PROJECT_BY_COMPANY = new StringBuilder("SELECT * FROM contact c, PROJECT p,project_member pm")
-            .append(" where c.user_id=pm.user_id and p.company_id=c.contact_company_id and p.company_id=? and c.user_id=?").toString();
+    public static final String GET_PROJECT_BY_COMPANY = new StringBuilder("SELECT p.* FROM contact c, PROJECT p,project_member pm")
+            .append(" where c.user_id=pm.user_id and p.company_id=c.contact_company_id and p.company_id=? and c.user_id=? order by p.project_id, p.project_parent_id").toString();
 
     public static final String GET_COMPANY_BY_USER = new StringBuilder("Select * from contact where user_id=?").toString();
 
     public static final String GET_PROJECT_TASK_COUNT_BY_STATUS = new StringBuilder("select status, count(status) as count from project_task where project_id=? group by status").toString();
+
+    public static final String GET_PROJECT_AND_TASKS = new StringBuilder("select p.project_id, p.project_parent_id, t.* from project p left outer join project_task t")
+            .append(" on p.project_id=t.project_id order by p.project_id, t.project_parent_id,t.project_task_id").toString();
+
 }
