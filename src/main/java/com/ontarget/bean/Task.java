@@ -2,6 +2,7 @@ package com.ontarget.bean;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Owner on 10/29/14.
@@ -22,6 +23,7 @@ public class Task implements Serializable{
 
     private Project project;
     private Task parentTask;
+    private List<TaskComment> comments;
 
 
     public int getProjectTaskId() {
@@ -144,5 +146,13 @@ public class Task implements Serializable{
 
     public void setCompleted(long completed) {
         this.completed = completed;
+    }
+
+    public List<TaskComment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<TaskComment> comments) {
+        this.comments = comments;
     }
 }

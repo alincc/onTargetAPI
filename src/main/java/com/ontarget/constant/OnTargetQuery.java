@@ -51,4 +51,9 @@ public interface OnTargetQuery {
     public static final String GET_PROJECT_AND_TASKS = new StringBuilder("select p.project_id, p.project_parent_id, t.* from project p left outer join project_task t")
             .append(" on p.project_id=t.project_id order by p.project_id, t.project_parent_id,t.project_task_id").toString();
 
+    public static final String ADD_TASK_COMMENT = new StringBuilder("insert into task_comment (task_id, comment, commented_by, commented_date, comment_status) values (?, ?, ? ,now(),'ACTIVE')").toString();
+
+    public static final String UPDATE_TASK_COMMENT = new StringBuilder("update task_comment set comment=?, commented_by=?, commented_date=now() where task_comment_id=?").toString();
+
+    public static final String GET_TASK_COMMENT = new StringBuilder("select * from task_comment where task_id=? and comment_status='ACTIVE'").toString();
 }

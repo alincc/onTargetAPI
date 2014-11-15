@@ -123,6 +123,14 @@ public class ProjectServiceImpl implements ProjectService {
             List<Task> tasks = taskDAO.getTask(project.getProjectId());
             project.setTaskList(tasks);
 
+            //get all the comments in the tasks.
+            if(tasks!=null && tasks.size() > 0){
+                for(Task task : tasks){
+                    List<TaskComment> comments = taskDAO.getTaskComments(task.getProjectTaskId());
+                    task.setComments(comments);
+                }
+            }
+
             if(parentProjectId == 0){
                parentProject=project;
                 projectList.add(parentProject);
