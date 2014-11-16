@@ -23,7 +23,8 @@ public class AuthenticationServiceImpl implements AuthenticationService{
 
     @Override
     public UserResponse signIn(User user) throws Exception {
-        return null;
+        //return authenticationDAO.getUserSignInInfo(user);
+    	return null;
     }
 
     @Override

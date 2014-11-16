@@ -1,9 +1,12 @@
 package com.ontarget.api.dao.impl;
 
 import com.ontarget.api.dao.AuthenticationDAO;
+import com.ontarget.bean.User;
 import com.ontarget.dto.UserRegistrationRequest;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.constant.OnTargetQuery;
+
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -17,6 +20,7 @@ import java.util.List;
 @Repository
 public class AuthenticationDAOImpl implements AuthenticationDAO {
 
+	private Logger logger = Logger.getLogger(AuthenticationDAO.class);
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -89,6 +93,19 @@ public class AuthenticationDAOImpl implements AuthenticationDAO {
         }
 
         return false;
+    }
+    
+    @Override
+    public boolean getUserSignInInfo (User user) throws Exception {
+    	//jdbcTemplate.queryForObject(OnTargetQuery.USER_LOGIN, new Object[]{userRequestId}, new BeanPropertyRowMapper<UserRegistrationRequest>(UserRegistrationRequest.class));
+    	System.out.println("Username : " + user.getUsername() + " Password : " + user.getPassword());
+    	User userDto = (User) jdbcTemplate.queryForObject(OnTargetQuery.USER_LOGIN, new Object [] {user.getUsername(), user.getPassword()}, new BeanPropertyRowMapper<User>(User.class));
+    	System.out.println("rows returned : " + userDto.getUsername());
+//    	if(rows > 0) {
+//    		return true;
+//    	} 
+
+    	return false;
     }
 
 }

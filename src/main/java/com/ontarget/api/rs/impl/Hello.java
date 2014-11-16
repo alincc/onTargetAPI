@@ -1,6 +1,9 @@
 package com.ontarget.api.rs.impl;
 
+import com.ontarget.api.dao.impl.AuthenticationDAOImpl;
 import com.ontarget.api.service.HelloService;
+import com.ontarget.bean.User;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -28,11 +31,18 @@ public class Hello {
      * type.
      *
      * @return String that will be send back as a response of type "text/plain".
+     * @throws Exception 
      */
     @GET
     @Produces("text/plain")
-    public String hello() {
+    public String hello() throws Exception {
         logger.info("Hello Service");
-        return helloService.getHello();
+        User user = new User();
+        user.setUsername("sanj@gmail.com");
+        user.setPassword("hello123");
+        
+        return Boolean.toString(new AuthenticationDAOImpl().getUserSignInInfo(user));
+        //return helloService.getHello();
+        
     }
 }

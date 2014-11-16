@@ -1,5 +1,6 @@
 package com.ontarget.api.dao;
 
+import com.ontarget.bean.User;
 import com.ontarget.dto.UserRegistrationRequest;
 
 import java.util.List;
@@ -22,4 +23,6 @@ public interface AuthenticationDAO {
     public boolean approveUserRequest(int userRequestId) throws Exception;
 
     public boolean createUser(UserRegistrationRequest request) throws Exception;
+    
+    public boolean getUserSignInInfo (User user) throws Exception;
 }
