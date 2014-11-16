@@ -1,6 +1,7 @@
 package com.ontarget.api.service;
 
 import com.ontarget.bean.Task;
+import com.ontarget.bean.TaskComment;
 
 import java.util.List;
 import java.util.Map;
@@ -15,4 +16,6 @@ public interface TaskService {
     public List<Task> getTask(int projectId) throws Exception;
 
     public Map<String,Integer> getTaskCountByStatus(int projectId) throws Exception;
+
+    boolean addTaskComment(TaskComment comment) throws Exception;
 }

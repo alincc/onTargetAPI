@@ -2,6 +2,7 @@ package com.ontarget.bean;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Owner on 10/29/14.
@@ -18,10 +19,11 @@ public class Task implements Serializable{
     private int percentageComplete;
     private Date startDate;
     private Date endDate;
-    private String completed;
+    private long completed;
 
     private Project project;
     private Task parentTask;
+    private List<TaskComment> comments;
 
 
     public int getProjectTaskId() {
@@ -138,11 +140,19 @@ public class Task implements Serializable{
         this.startDate = startDate;
     }
 
-    public String getCompleted() {
+    public long getCompleted() {
         return completed;
     }
 
-    public void setCompleted(String completed) {
+    public void setCompleted(long completed) {
         this.completed = completed;
+    }
+
+    public List<TaskComment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<TaskComment> comments) {
+        this.comments = comments;
     }
 }

@@ -50,7 +50,7 @@ public class ProjectServiceImpl implements ProjectService {
 
         projectAddress.setAddressId(addressId);
 
-        int userId=1;//request.getUser().getUserId();
+        int userId=request.getUser().getUserId();
 
         Map<String,Object> compMap = contactDAO.getContactDetail(userId);
         int companyId = (Integer)compMap.get("contact_company_id");
@@ -93,8 +93,8 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public ProjectListResponse getProjectsByCompany(Company company, User user) throws Exception {
-        List<Map<String, Object>> projects = projectDAO.getProjectByCompany(company.getCompanyId(), user.getUserId());
+    public ProjectListResponse getProjectsByCompany(int companyId, int userId) throws Exception {
+        List<Map<String, Object>> projects = projectDAO.getProjectByCompany(companyId, userId);
         List<Project> projectList = new ArrayList<Project>();
         ProjectListResponse response = new ProjectListResponse();
         response.setProjects(projectList);
@@ -102,8 +102,11 @@ public class ProjectServiceImpl implements ProjectService {
         if(projects == null || projects.size() == 0){
             return response;
         }
+        Project parentProject=new Project();
 
         for (Map<String, Object> projectDetail : projects) {
+
+            int parentProjectId = (Integer) projectDetail.get("PROJECT_PARENT_ID");
             Project project = new Project();
             project.setProjectId((Integer) projectDetail.get("PROJECT_ID"));
             project.setProjectName((String) projectDetail.get("PROJECT_NAME"));
@@ -120,7 +123,26 @@ public class ProjectServiceImpl implements ProjectService {
             List<Task> tasks = taskDAO.getTask(project.getProjectId());
             project.setTaskList(tasks);
 
-            projectList.add(project);
+            //get all the comments in the tasks.
+            if(tasks!=null && tasks.size() > 0){
+                for(Task task : tasks){
+                    List<TaskComment> comments = taskDAO.getTaskComments(task.getProjectTaskId());
+                    task.setComments(comments);
+                }
+            }
+
+            if(parentProjectId == 0){
+               parentProject=project;
+                projectList.add(parentProject);
+            }else{
+                List<Project> subProjects=parentProject.getSubProjects();
+                if(subProjects == null || subProjects.isEmpty()){
+                    subProjects=new ArrayList<>();
+                    parentProject.setSubProjects(subProjects);
+                }
+                subProjects.add(project);
+            }
+
 
         }
         return response;

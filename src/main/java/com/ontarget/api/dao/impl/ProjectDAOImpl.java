@@ -16,6 +16,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -76,6 +78,49 @@ public class ProjectDAOImpl implements ProjectDAO {
        });
         return project;
     }
+
+
+    @Override
+    public Project getProjectAndSubProjects(int projectId) throws Exception {
+
+        final Project project = new Project();
+
+        Map<Integer, List<Project>> projectToSubProject=new HashMap<>();
+
+        jdbcTemplate.query(OnTargetQuery.GET_PROJECT_AND_TASKS, new Object[]{projectId}, new RowMapper<Project>() {
+            @Override
+            public Project mapRow(ResultSet resultSet, int i) throws SQLException {
+
+                int parentProjectId=resultSet.getInt("PROJECT_PARENT_ID");
+                int projectId = resultSet.getInt("PROJECT_ID");
+
+                Project project1=new Project();
+                project1.setProjectId(projectId);
+                project1.setProjectName( resultSet.getString("PROJECT_NAME"));
+                project1.setProjectDescription(resultSet.getString("PROJECT_DESCRIPTION"));
+                project1.setProjectTypeId(resultSet.getInt("PROJECT_TYPE_ID"));
+                project1.setProjectParentId(parentProjectId);
+                project1.setCompanyId(resultSet.getInt("COMPANY_ID"));
+
+
+               if(parentProjectId==0 && projectToSubProject.get(projectId)==null){
+                   List<Project> subProjects = new ArrayList<>();
+                   subProjects.add(project1);
+                   projectToSubProject.put(projectId,subProjects);
+               }
+
+
+
+
+
+
+                return project;
+            }
+        });
+        return project;
+    }
+
+
 
     @Override
     public List<Map<String, Object>> getProjectByCompany(int companyId, int userId) throws Exception {
