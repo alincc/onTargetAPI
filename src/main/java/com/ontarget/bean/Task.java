@@ -19,7 +19,7 @@ public class Task implements Serializable{
     private int percentageComplete;
     private Date startDate;
     private Date endDate;
-    private long completed;
+    private boolean completed;
 
     private Project project;
     private Task parentTask;
@@ -140,11 +140,11 @@ public class Task implements Serializable{
         this.startDate = startDate;
     }
 
-    public long getCompleted() {
+    public boolean getCompleted() {
         return completed;
     }
 
-    public void setCompleted(long completed) {
+    public void setCompleted(boolean completed) {
         this.completed = completed;
     }
 

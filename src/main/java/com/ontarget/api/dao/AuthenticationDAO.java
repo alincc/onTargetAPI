@@ -24,5 +24,5 @@ public interface AuthenticationDAO {
 
     public boolean createUser(UserRegistrationRequest request) throws Exception;
     
-    public boolean getUserSignInInfo (User user) throws Exception;
+    public User getUserSignInInfo(User user) throws Exception;
 }

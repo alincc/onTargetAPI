@@ -17,7 +17,7 @@ public class Project implements Serializable{
     private int projectParentId;
     private Address projectAddress;
     private List<Task> taskList;
-    private List<Project> subProjects;
+    private List<Project> projects;
 
     public Project() {
     }
@@ -109,11 +109,12 @@ public class Project implements Serializable{
                 '}';
     }
 
-    public List<Project> getSubProjects() {
-        return subProjects;
+
+    public List<Project> getProjects() {
+        return projects;
     }
 
-    public void setSubProjects(List<Project> subProjects) {
-        this.subProjects = subProjects;
+    public void setProjects(List<Project> projects) {
+        this.projects = projects;
     }
 }

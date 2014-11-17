@@ -1,7 +1,9 @@
 package com.ontarget.api.response;
 
+import com.ontarget.bean.TaskStatusCount;
 import com.ontarget.dto.OnTargetResponse;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -12,13 +14,13 @@ public class TaskListCountResponse extends OnTargetResponse {
     public TaskListCountResponse() {
     }
 
-    Map<String, Integer> taskCountByStatus;
+    List<TaskStatusCount> taskCountByStatus;
 
-    public Map<String, Integer> getTaskCountByStatus() {
+    public List<TaskStatusCount> getTaskCountByStatus() {
         return taskCountByStatus;
     }
 
-    public void setTaskCountByStatus(Map<String, Integer> taskCountByStatus) {
+    public void setTaskCountByStatus(List<TaskStatusCount> taskCountByStatus) {
         this.taskCountByStatus = taskCountByStatus;
     }
 }

@@ -3,6 +3,7 @@ package com.ontarget.api.dao.impl;
 import com.ontarget.api.dao.TaskDAO;
 import com.ontarget.bean.Task;
 import com.ontarget.bean.TaskComment;
+import com.ontarget.bean.TaskStatusCount;
 import com.ontarget.constant.OnTargetQuery;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,7 +72,13 @@ public class TaskDAOImpl implements TaskDAO {
                 task.setStartDate((Date) taskMap.get("start_date"));
                 task.setEndDate((Date) taskMap.get("end_date"));
                 task.setStatus((String) taskMap.get("status"));
-                task.setCompleted((Long) taskMap.get("completed"));
+
+                long status = (Long) taskMap.get("completed");
+                if(status == 0) {
+                    task.setCompleted(false);
+                }else{
+                    task.setCompleted(true);
+                }
                 tasks.add(task);
             }
         }
@@ -80,12 +87,16 @@ public class TaskDAOImpl implements TaskDAO {
     }
 
     @Override
-    public Map<String, Integer> getTaskCountByStatus(int projectId) throws Exception {
+    public List<TaskStatusCount> getTaskCountByStatus(int projectId) throws Exception {
         List<Map<String, Object>> taskList = jdbcTemplate.queryForList(OnTargetQuery.GET_PROJECT_TASK_COUNT_BY_STATUS, new Object[]{projectId});
-        Map<String, Integer> taskCountByStatus = new HashMap<>();
+        List<TaskStatusCount> taskCountByStatus=new ArrayList<>();
+
         if (taskList != null && taskList.size() > 0) {
             for (Map<String, Object> taskMap : taskList) {
-                taskCountByStatus.put((String) taskMap.get("status"), (Integer) taskMap.get("count"));
+                TaskStatusCount count = new TaskStatusCount();
+                count.setStatusType((String) taskMap.get("status_name"));
+                count.setTaskCount((Long) taskMap.get("count"));
+                taskCountByStatus.add(count);
             }
         }
         return taskCountByStatus;
@@ -129,10 +140,10 @@ public class TaskDAOImpl implements TaskDAO {
             for (Map<String, Object> commentMap : taskList) {
                 TaskComment comment = new TaskComment();
                 comment.setTaskCommentId((Integer)commentMap.get("task_comment_id"));
-                comment.setTaskId((Integer)commentMap.get("task_id"));
-                comment.setComment((String)commentMap.get("comment"));
-                comment.setCommentedBy((String)commentMap.get("commented_by"));
-                comment.setCommentedDate((Date)commentMap.get("commented_date"));
+                comment.setTaskId((Integer) commentMap.get("task_id"));
+                comment.setComment((String) commentMap.get("comment"));
+                comment.setCommentedBy((String) commentMap.get("commented_by"));
+                comment.setCommentedDate((Date) commentMap.get("commented_date"));
                 comments.add(comment);
             }
         }

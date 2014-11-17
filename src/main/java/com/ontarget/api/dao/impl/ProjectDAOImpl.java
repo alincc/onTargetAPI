@@ -109,11 +109,6 @@ public class ProjectDAOImpl implements ProjectDAO {
                    projectToSubProject.put(projectId,subProjects);
                }
 
-
-
-
-
-
                 return project;
             }
         });

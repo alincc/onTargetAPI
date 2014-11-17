@@ -41,8 +41,8 @@ public class Hello {
         user.setUsername("sanj@gmail.com");
         user.setPassword("hello123");
         
-        return Boolean.toString(new AuthenticationDAOImpl().getUserSignInInfo(user));
-        //return helloService.getHello();
+        //return Boolean.toString(new AuthenticationDAOImpl().getUserSignInInfo(user));
+        return helloService.getHello();
         
     }
 }

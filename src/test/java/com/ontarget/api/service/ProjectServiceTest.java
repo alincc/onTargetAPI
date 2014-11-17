@@ -31,7 +31,7 @@ public class ProjectServiceTest extends BaseTest{
 
             Project project = response.getProjects().get(0);
 
-            Assert.assertTrue(project!=null && project.getSubProjects().size() > 0);
+            Assert.assertTrue(project!=null && project.getProjects().size() > 0);
 
         } catch (Exception e) {
             logger.error("Error while getting project by company",e);

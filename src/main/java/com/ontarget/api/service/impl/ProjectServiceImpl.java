@@ -135,10 +135,10 @@ public class ProjectServiceImpl implements ProjectService {
                parentProject=project;
                 projectList.add(parentProject);
             }else{
-                List<Project> subProjects=parentProject.getSubProjects();
+                List<Project> subProjects=parentProject.getProjects();
                 if(subProjects == null || subProjects.isEmpty()){
                     subProjects=new ArrayList<>();
-                    parentProject.setSubProjects(subProjects);
+                    parentProject.setProjects(subProjects);
                 }
                 subProjects.add(project);
             }

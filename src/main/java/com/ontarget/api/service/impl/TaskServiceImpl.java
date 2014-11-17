@@ -4,13 +4,13 @@ import com.ontarget.api.dao.TaskDAO;
 import com.ontarget.api.service.TaskService;
 import com.ontarget.bean.Task;
 import com.ontarget.bean.TaskComment;
+import com.ontarget.bean.TaskStatusCount;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Owner on 11/6/14.
@@ -41,7 +41,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Map<String, Integer> getTaskCountByStatus(int projectId) throws Exception {
+    public List<TaskStatusCount> getTaskCountByStatus(int projectId) throws Exception {
         return taskDAO.getTaskCountByStatus(projectId);
     }
 

@@ -5,7 +5,7 @@ package com.ontarget.api.service;
  */
 public interface EmailService {
 
-    public boolean sendUserRequestEmail(int userRequestId) ;
+    public boolean sendUserRequestEmail(int userRequestId);
 
     public boolean sendUserRequestEmailToAdmin(int userRequestId);
 

@@ -18,7 +18,7 @@ public interface OnTargetConstant {
     public static final String LOGOUT_SUCCESSFULL = "Successfully Logged out";
     public static final String ERROR_LOGGEDOUT = "Error Logging out";
     public static final String REGISTRATION_APPROVAL_REQUEST_SUCCESS = "Registration approval request success";
-
+    public static final String AUTHENTICATION_FAILED = "Authentication Failed";
 
 
     interface AddressType{

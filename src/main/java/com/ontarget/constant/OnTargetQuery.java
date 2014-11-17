@@ -7,7 +7,7 @@ public interface OnTargetQuery {
 
     public static final String REGISTRATION_REQUEST=new StringBuilder("INSERT INTO REGISTRATION_REQUEST (NAME,EMAIL,COMPANY_NAME,PHONE_NUMBER, MSG,STATUS) VALUES (?,?,?,?,?,?)").toString();
 
-    public static final  String USER_LOGIN=new StringBuilder("SELECT * FROM USER WHERE USERNAME=? AND PASSWORD=? AND ACCOUNT_STATUS='ACTIVE' AND USER_STATUS=1").toString();
+    public static final  String USER_LOGIN=new StringBuilder("SELECT * FROM USER WHERE USER_NAME=? AND PASSWORD=? AND ACCOUNT_STATUS='ACTIVE' AND USER_STATUS=1").toString();
 
     public static final String EXPIRE_TOKEN = new StringBuilder("UPDATE USER_SESSION_INFO SET EXPIRE_DATE=NOW() WHERE USER_ID=(SELECT USER_ID FROM USER WHERE USER_NAME=?)").toString();
 
@@ -46,7 +46,9 @@ public interface OnTargetQuery {
 
     public static final String GET_COMPANY_BY_USER = new StringBuilder("Select * from contact where user_id=?").toString();
 
-    public static final String GET_PROJECT_TASK_COUNT_BY_STATUS = new StringBuilder("select status, count(status) as count from project_task where project_id=? group by status").toString();
+    public static final String GET_PROJECT_TASK_COUNT_BY_STATUS = new StringBuilder("select t.status_name, if(j.count is null,0,j.count) as count from task_status t")
+            .append(" left outer join (select p.status, count(p.status) as count from project_task p where project_id=? group by status) j")
+            .append(" on t.status_code=j.status").toString();
 
     public static final String GET_PROJECT_AND_TASKS = new StringBuilder("select p.project_id, p.project_parent_id, t.* from project p left outer join project_task t")
             .append(" on p.project_id=t.project_id order by p.project_id, t.project_parent_id,t.project_task_id").toString();
@@ -56,4 +58,6 @@ public interface OnTargetQuery {
     public static final String UPDATE_TASK_COMMENT = new StringBuilder("update task_comment set comment=?, commented_by=?, commented_date=now() where task_comment_id=?").toString();
 
     public static final String GET_TASK_COMMENT = new StringBuilder("select * from task_comment where task_id=? and comment_status='ACTIVE'").toString();
+
+    public static final String SAVE_USER_SESSION_INFO = new StringBuilder("insert into user_session_info (user_id,login_token,created_date,expire_date,is_expired) values (?,?,now(),NULL,0)").toString();
 }

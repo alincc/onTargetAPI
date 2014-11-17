@@ -1,6 +1,7 @@
 package com.ontarget.api.dao;
 
 import com.ontarget.api.BaseTest;
+import com.ontarget.bean.User;
 import com.ontarget.dto.UserRegistrationRequest;
 import junit.framework.Assert;
 import org.apache.log4j.Logger;
@@ -75,4 +76,25 @@ public class AuthenticationDAOTest extends BaseTest {
             fail();
         }
     }
+
+
+    @Test
+    public void testSignIn(){
+        User user = new User();
+        user.setUsername("sanjeevghimire");
+        user.setPassword("123456");
+
+        try {
+            user = authenticationDAO.getUserSignInInfo(user);
+            logger.info(user);
+            Assert.assertTrue(user != null);
+        } catch (Exception e) {
+            logger.error("Error while logging in.", e);
+            fail();
+        }
+    }
+
+
+
+
 }

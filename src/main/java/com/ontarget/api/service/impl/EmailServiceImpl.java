@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
+import org.springframework.stereotype.Repository;
 import org.springframework.ui.velocity.VelocityEngineUtils;
 
 import javax.mail.internet.InternetAddress;
@@ -21,6 +22,7 @@ import java.util.Map;
 /**
  * Created by Owner on 11/2/14.
  */
+@Repository
 public class EmailServiceImpl implements EmailService {
 
     private Logger logger = Logger.getLogger(EmailServiceImpl.class);
@@ -99,7 +101,22 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     public boolean sendUserRegistrationEmail() {
-        return false;
+        MimeMessagePreparator preparator = new MimeMessagePreparator() {
+            @SuppressWarnings({ "rawtypes", "unchecked" })
+            public void prepare(MimeMessage mimeMessage) throws Exception {
+                MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
+                message.setTo(OnTargetConstant.EmailServiceConstants.USER_REGISTRATION_ADMIN_EMAIL);
+                message.setFrom(new InternetAddress(OnTargetConstant.EmailServiceConstants.USER_REGISTRATION_FROM) );
+                message.setSubject(OnTargetConstant.EmailServiceConstants.USER_REGISTRATION_REQUEST_APPROVAL_SUBJECT);
+                message.setSentDate(new Date());
+
+                String text = "test email";
+                message.setText(text, true);
+            }
+        };
+        javaMailSender.send(preparator);
+
+        return true;
     }
 
 }

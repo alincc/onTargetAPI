@@ -15,7 +15,7 @@ public interface TaskDAO {
 
     public List<Task> getTask(int projectId) throws Exception;
 
-    public Map<String,Integer> getTaskCountByStatus(int projectId) throws Exception;
+    public List<com.ontarget.bean.TaskStatusCount> getTaskCountByStatus(int projectId) throws Exception;
 
     public boolean updateComment(TaskComment comment) throws Exception;
 
