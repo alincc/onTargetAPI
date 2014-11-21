@@ -16,4 +16,8 @@ public class TokenUtil {
     public static String getLoginToken(String username){
         return String.valueOf(UUID.randomUUID());
     }
+
+    public static String getPasswordToken() {
+        return String.valueOf(UUID.randomUUID());
+    }
 }

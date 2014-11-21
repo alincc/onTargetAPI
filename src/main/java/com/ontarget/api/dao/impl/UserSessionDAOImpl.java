@@ -25,6 +25,6 @@ public class UserSessionDAOImpl implements UserSessionDAO {
             throw new Exception("Could not save user session info");
         }
 
-        return false;
+        return true;
     }
 }

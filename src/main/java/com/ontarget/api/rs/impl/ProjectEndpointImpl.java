@@ -36,7 +36,13 @@ public class ProjectEndpointImpl implements ProjectEndoint {
     public OnTargetResponse addProject(ProjectRequest request) {
         OnTargetResponse response = null;
         try {
-            response = projectService.addProject(request);
+
+            if(request.getProject().getProjectId() < 0) {
+                response = projectService.addProject(request);
+            }else{
+                response = projectService.updateProject(request);
+            }
+
         } catch (Exception e) {
             logger.error("Error while adding project", e);
             response = new OnTargetResponse();

@@ -1,8 +1,14 @@
 package com.ontarget.api.service.impl;
 
-import com.ontarget.api.dao.*;
+import com.ontarget.api.dao.AddressDAO;
+import com.ontarget.api.dao.ContactDAO;
+import com.ontarget.api.dao.ProjectDAO;
+import com.ontarget.api.dao.TaskDAO;
 import com.ontarget.api.service.ProjectService;
-import com.ontarget.bean.*;
+import com.ontarget.bean.Address;
+import com.ontarget.bean.Project;
+import com.ontarget.bean.Task;
+import com.ontarget.bean.TaskComment;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.ProjectListResponse;
@@ -39,7 +45,7 @@ public class ProjectServiceImpl implements ProjectService {
 
 
     @Override
-    @Transactional(rollbackFor={Exception.class})
+    @Transactional(rollbackFor = {Exception.class})
     public OnTargetResponse addProject(ProjectRequest request) throws Exception {
         logger.info("Adding new project " + request.getProject());
 
@@ -50,12 +56,12 @@ public class ProjectServiceImpl implements ProjectService {
 
         projectAddress.setAddressId(addressId);
 
-        int userId=request.getUser().getUserId();
+        int userId = request.getUser().getUserId();
 
-        Map<String,Object> compMap = contactDAO.getContactDetail(userId);
-        int companyId = (Integer)compMap.get("contact_company_id");
+        Map<String, Object> compMap = contactDAO.getContactDetail(userId);
+        int companyId = (Integer) compMap.get("contact_company_id");
 
-        Project project=request.getProject();
+        Project project = request.getProject();
         project.setCompanyId(companyId);
 
         int projectId = projectDAO.addProject(project);
@@ -71,13 +77,47 @@ public class ProjectServiceImpl implements ProjectService {
         return response;
     }
 
+
+    @Override
+    @Transactional(rollbackFor = {Exception.class})
+    public OnTargetResponse updateProject(ProjectRequest request) throws Exception {
+        logger.info("Updating project " + request.getProject());
+
+        //add project address first.
+        Address projectAddress = request.getProject().getProjectAddress();
+        projectAddress.setAddressType(OnTargetConstant.AddressType.PROJECT_ADDR);
+        int addressId = projectAddress.getAddressId();
+
+        boolean updated = addressDAO.updateAddress(projectAddress);
+        if (!updated) {
+            throw new Exception("Error while updating address");
+        }
+
+        projectAddress.setAddressId(addressId);
+
+        Project project = request.getProject();
+
+        boolean updatedPr = projectDAO.updateProject(project);
+
+        OnTargetResponse response = new OnTargetResponse();
+        if (updatedPr) {
+            response.setReturnMessage("Successfully created project.");
+            response.setReturnVal(OnTargetConstant.SUCCESS);
+        } else {
+            throw new Exception("Error while creating project");
+        }
+
+        return response;
+    }
+
+
     @Override
     public ProjectResponse getProjectDetail(int projectId) throws Exception {
         Project project = projectDAO.getProject(projectId);
         ProjectResponse response = new ProjectResponse();
         response.setProject(project);
 
-        if(project.getProjectId() > 0) {
+        if (project.getProjectId() > 0) {
 
             //set project address
             Address projectAddress = addressDAO.getAddress(project.getProjectId());
@@ -99,10 +139,10 @@ public class ProjectServiceImpl implements ProjectService {
         ProjectListResponse response = new ProjectListResponse();
         response.setProjects(projectList);
 
-        if(projects == null || projects.size() == 0){
+        if (projects == null || projects.size() == 0) {
             return response;
         }
-        Project parentProject=new Project();
+        Project parentProject = new Project();
 
         for (Map<String, Object> projectDetail : projects) {
 
@@ -114,6 +154,7 @@ public class ProjectServiceImpl implements ProjectService {
             project.setProjectTypeId((Integer) projectDetail.get("PROJECT_TYPE_ID"));
             project.setProjectParentId((Integer) projectDetail.get("PROJECT_PARENT_ID"));
             project.setCompanyId((Integer) projectDetail.get("COMPANY_ID"));
+            project.setProjectImagePath((String) projectDetail.get("project_image_path"));
 
             //set project address
             Address projectAddress = addressDAO.getAddress(((Integer) projectDetail.get("ADDRESS_ID")).intValue());
@@ -124,20 +165,20 @@ public class ProjectServiceImpl implements ProjectService {
             project.setTaskList(tasks);
 
             //get all the comments in the tasks.
-            if(tasks!=null && tasks.size() > 0){
-                for(Task task : tasks){
+            if (tasks != null && tasks.size() > 0) {
+                for (Task task : tasks) {
                     List<TaskComment> comments = taskDAO.getTaskComments(task.getProjectTaskId());
                     task.setComments(comments);
                 }
             }
 
-            if(parentProjectId == 0){
-               parentProject=project;
+            if (parentProjectId == 0) {
+                parentProject = project;
                 projectList.add(parentProject);
-            }else{
-                List<Project> subProjects=parentProject.getProjects();
-                if(subProjects == null || subProjects.isEmpty()){
-                    subProjects=new ArrayList<>();
+            } else {
+                List<Project> subProjects = parentProject.getProjects();
+                if (subProjects == null || subProjects.isEmpty()) {
+                    subProjects = new ArrayList<>();
                     parentProject.setProjects(subProjects);
                 }
                 subProjects.add(project);

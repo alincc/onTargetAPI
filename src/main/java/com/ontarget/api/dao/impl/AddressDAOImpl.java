@@ -2,7 +2,6 @@ package com.ontarget.api.dao.impl;
 
 import com.ontarget.api.dao.AddressDAO;
 import com.ontarget.bean.Address;
-import com.ontarget.bean.Project;
 import com.ontarget.constant.OnTargetQuery;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +52,9 @@ public class AddressDAOImpl implements AddressDAO {
         return keyHolder.getKey().intValue();
     }
 
+
+
+
     @Override
     public Address getAddress(int addressId) throws Exception {
         Address address=new Address();
@@ -72,5 +74,15 @@ public class AddressDAOImpl implements AddressDAO {
         });
 
         return address;
+    }
+
+
+    @Override
+    public boolean updateAddress(Address address) throws Exception {
+        int row = jdbcTemplate.update(OnTargetQuery.UPDATE_PROJECT_ADDRESS, new Object[]{address.getAddress1(),address.getAddress2(),address.getCity(),address.getState(),address.getZip(),address.getCountry(),address.getAddressId()});
+        if (row == 0) {
+            throw new Exception("Unable to update project address");
+        }
+        return true;
     }
 }

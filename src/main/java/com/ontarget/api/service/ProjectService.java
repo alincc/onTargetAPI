@@ -6,6 +6,7 @@ import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.ProjectListResponse;
 import com.ontarget.dto.ProjectRequest;
 import com.ontarget.dto.ProjectResponse;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Created by Owner on 11/6/14.
@@ -13,6 +14,8 @@ import com.ontarget.dto.ProjectResponse;
 public interface ProjectService {
 
     public OnTargetResponse addProject(ProjectRequest request) throws Exception;
+
+    public OnTargetResponse updateProject(ProjectRequest request) throws Exception;
 
     public ProjectResponse getProjectDetail(int projectId) throws Exception;
 

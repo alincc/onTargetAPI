@@ -1,6 +1,7 @@
 package com.ontarget.bean;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -18,6 +19,9 @@ public class Project implements Serializable{
     private Address projectAddress;
     private List<Task> taskList;
     private List<Project> projects;
+    private Date startDate;
+    private Date endDate;
+    private String projectImagePath;
 
     public Project() {
     }
@@ -116,5 +120,29 @@ public class Project implements Serializable{
 
     public void setProjects(List<Project> projects) {
         this.projects = projects;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
+    public String getProjectImagePath() {
+        return projectImagePath;
+    }
+
+    public void setProjectImagePath(String projectImagePath) {
+        this.projectImagePath = projectImagePath;
     }
 }

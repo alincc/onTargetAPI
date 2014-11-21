@@ -8,6 +8,7 @@ import java.io.Serializable;
 public class UserRegistrationRequest implements Serializable {
 
     private int registrationReqId;
+    private int projectId;
     private String name;
     private String email;
     private String companyName;
@@ -71,5 +72,13 @@ public class UserRegistrationRequest implements Serializable {
 
     public void setMsg(String msg) {
         this.msg = msg;
+    }
+
+    public int getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(int projectId) {
+        this.projectId = projectId;
     }
 }

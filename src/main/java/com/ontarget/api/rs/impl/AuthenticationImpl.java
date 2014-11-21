@@ -117,11 +117,13 @@ public class AuthenticationImpl implements Authentication {
             if (authenticationService.logout(user.getUsername())) {
                 response.setReturnVal(OnTargetConstant.SUCCESS);
                 response.setReturnMessage(OnTargetConstant.LOGOUT_SUCCESSFULL);
+                response.setAuthenticated(false);
             }
         } catch (Exception e) {
             logger.error("Error while logging out." + e);
             response.setReturnMessage(OnTargetConstant.ERROR_LOGGEDOUT);
             response.setReturnVal(OnTargetConstant.ERROR);
+            response.setAuthenticated(false);
         }
 
         return response;

@@ -199,7 +199,6 @@
         <!--<dependency>-->
             <!--<groupId>javax.activation</groupId>-->
             <!--<artifactId>activation</artifactId>-->
-            <!--<classifier>pom</classifier>-->
             <!--<version>1.0.2</version>-->
         <!--</dependency>-->
 

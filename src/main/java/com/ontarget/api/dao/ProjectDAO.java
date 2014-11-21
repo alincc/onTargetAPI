@@ -17,4 +17,6 @@ public interface ProjectDAO {
     Project getProjectAndSubProjects(int projectId) throws Exception;
 
     public List<Map<String,Object>> getProjectByCompany(int companyId, int userId) throws Exception;
+
+    public boolean updateProject(Project project) throws Exception;
 }

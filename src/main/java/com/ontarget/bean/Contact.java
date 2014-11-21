@@ -12,6 +12,7 @@ public class Contact implements Serializable{
     private String title;
     private Company company;
     private User user;
+    private String userImagePath;
 
     public Contact() {
     }
@@ -65,5 +66,13 @@ public class Contact implements Serializable{
                 ", company=" + company +
                 ", user=" + user +
                 '}';
+    }
+
+    public String getUserImagePath() {
+        return userImagePath;
+    }
+
+    public void setUserImagePath(String userImagePath) {
+        this.userImagePath = userImagePath;
     }
 }

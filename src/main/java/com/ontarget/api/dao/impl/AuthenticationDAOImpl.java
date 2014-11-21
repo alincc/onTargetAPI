@@ -7,6 +7,7 @@ import com.ontarget.dto.UserRegistrationRequest;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.constant.OnTargetQuery;
 
+import com.ontarget.util.TokenUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -34,7 +35,7 @@ public class AuthenticationDAOImpl implements AuthenticationDAO {
     @Override
     public boolean saveRegistrationRequest(UserRegistrationRequest request) throws Exception {
 
-        int row = jdbcTemplate.update(OnTargetQuery.REGISTRATION_REQUEST,new Object[]{request.getName(),request.getEmail(),request.getCompanyName(),request.getPhoneNumber(),request.getMsg(), OnTargetConstant.REGISTRATIOIN_PENDING});
+        int row = jdbcTemplate.update(OnTargetQuery.REGISTRATION_REQUEST,new Object[]{request.getProjectId(),request.getName(),request.getEmail(),request.getCompanyName(),request.getPhoneNumber(),request.getMsg(), OnTargetConstant.REGISTRATIOIN_PENDING});
         if(row ==0){
             throw new Exception("Error while inserting registration request.");
         }
@@ -93,7 +94,7 @@ public class AuthenticationDAOImpl implements AuthenticationDAO {
 
     @Override
     public boolean createUser(UserRegistrationRequest request) throws Exception {
-        int row = jdbcTemplate.update(OnTargetQuery.CREATE_NEW_USER,new Object[]{request.getEmail(), 1 , OnTargetConstant.USER_STATUS.ACTIVE, 1 , OnTargetConstant.AccountStatus.ACTIVE});
+        int row = jdbcTemplate.update(OnTargetQuery.CREATE_NEW_USER,new Object[]{request.getEmail(), TokenUtil.getPasswordToken(),1 , OnTargetConstant.USER_STATUS.ACTIVE, 1 , OnTargetConstant.AccountStatus.ACTIVE});
         if(row > 0){
             return true;
         }
@@ -106,7 +107,7 @@ public class AuthenticationDAOImpl implements AuthenticationDAO {
     	logger.info("Authenticating user: "+ user);
 
        final User returnUser = new User();
-       jdbcTemplate.query(OnTargetQuery.USER_LOGIN,new Object[]{user.getUsername(),user.getPassword()},new RowMapper<User>() {
+       jdbcTemplate.query(OnTargetQuery.USER_LOGIN, new Object[]{user.getUsername(), user.getPassword()}, new RowMapper<User>() {
            @Override
            public User mapRow(ResultSet resultSet, int i) throws SQLException {
                returnUser.setUsername(user.getUsername());

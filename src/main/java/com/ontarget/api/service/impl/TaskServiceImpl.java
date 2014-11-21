@@ -1,9 +1,11 @@
 package com.ontarget.api.service.impl;
 
 import com.ontarget.api.dao.TaskDAO;
+import com.ontarget.api.dao.TaskEstimatedCostDAO;
 import com.ontarget.api.service.TaskService;
 import com.ontarget.bean.Task;
 import com.ontarget.bean.TaskComment;
+import com.ontarget.bean.TaskEstimatedCost;
 import com.ontarget.bean.TaskStatusCount;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,15 +25,46 @@ public class TaskServiceImpl implements TaskService {
     @Autowired
     private TaskDAO taskDAO;
 
+    @Autowired
+    private TaskEstimatedCostDAO taskEstimatedCostDAO;
+
     @Override
     @Transactional(rollbackFor = {Exception.class})
     public boolean addTaskService(Task task) throws Exception {
-        logger.info("Adding task: " + task);
-        int taskId = taskDAO.addTask(task);
+        logger.info("Add/Update task: " + task);
+
+        int taskId = task.getProjectTaskId();
+
+        if(taskId <=0){
+            taskId = taskDAO.addTask(task);
+        }else{
+            boolean updated = taskDAO.updateTask(task);
+            if(!updated){
+                throw new Exception("Add/update task failed.");
+            }
+        }
+
 
         if (taskId == 0) {
-            throw new Exception("Add task failed.");
+            throw new Exception("Add/update task failed.");
         }
+
+        if(task.getCosts()!=null && task.getCosts().size() > 0){
+            for(TaskEstimatedCost cost : task.getCosts()) {
+                 int taskEstimatePlannedCostId=cost.getId();
+                if(cost.getId() <=0){
+                    taskEstimatePlannedCostId = taskEstimatedCostDAO.addPlannedAcutalCost(cost);
+                }else{
+                    boolean updated=taskEstimatedCostDAO.updatePlannedActualCost(cost);
+                    if(!updated){
+                        throw new Exception("");
+                    }
+                }
+
+                logger.info("Added costs with id: "+ taskEstimatePlannedCostId);
+            }
+        }
+
         return true;
     }
 

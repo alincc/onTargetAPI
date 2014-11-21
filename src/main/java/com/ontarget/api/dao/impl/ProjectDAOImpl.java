@@ -49,6 +49,9 @@ public class ProjectDAOImpl implements ProjectDAO {
                         ps.setInt(5, project.getProjectAddress().getAddressId());
                         ps.setString(6, project.getStatus());
                         ps.setInt(7, project.getProjectParentId());
+                        ps.setDate(8, new java.sql.Date(project.getStartDate().getTime()));
+                        ps.setDate(9, new java.sql.Date(project.getEndDate().getTime()));
+                        ps.setString(10, project.getProjectImagePath());
                         return ps;
                     }
                 },
@@ -120,6 +123,16 @@ public class ProjectDAOImpl implements ProjectDAO {
     @Override
     public List<Map<String, Object>> getProjectByCompany(int companyId, int userId) throws Exception {
         return jdbcTemplate.queryForList(OnTargetQuery.GET_PROJECT_BY_COMPANY, new Object[]{companyId,userId});
+    }
+
+    @Override
+    //TODO: get user from project task
+    public boolean updateProject(Project project) throws Exception {
+        int row = jdbcTemplate.update(OnTargetQuery.UPDATE_PROJECT, new Object[]{project.getProjectName(), project.getProjectDescription(), project.getProjectTypeId(),project.getProjectParentId(), project.getStatus(), project.getStartDate(), project.getEndDate(),"USER",project.getProjectId()});
+        if (row == 0) {
+            throw new Exception("Unable to update project.");
+        }
+        return true;
     }
 
 

@@ -22,4 +22,6 @@ public interface TaskDAO {
     public int addComment(TaskComment comment) throws Exception;
 
     public List<TaskComment> getTaskComments(int projectTaskId) throws Exception;
+
+    public boolean updateTask(Task task) throws Exception;
 }
