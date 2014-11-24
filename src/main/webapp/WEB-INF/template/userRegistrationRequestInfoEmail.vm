@@ -2,10 +2,11 @@
 <body>
 <h2>Hi ${name},</h2>
 
-<p> We have successfully received your request. We will review and notify you as soon as possible.Watch out for your email for registration.</p>
+<p> We have successfully received your request. We will review and notify you as soon as possible.Watch out for your
+    email for registration.</p>
 
 <p>thanks<br>
-OnTarget team
+    OnTarget team
 </p>
 </body>
 </html>

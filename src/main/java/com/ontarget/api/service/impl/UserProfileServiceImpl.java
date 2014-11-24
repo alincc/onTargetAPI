@@ -31,34 +31,32 @@ public class UserProfileServiceImpl implements UserProfileService {
 
     //TODO: separate logic of user profile and company profile.
     @Override
-    @Transactional(rollbackFor={Exception.class})
+    @Transactional(rollbackFor = {Exception.class})
     public OnTargetResponse addUserProfile(UserProfileRequest request) throws Exception {
-        logger.info("Request to add user profile"+ request);
-        OnTargetResponse response=new OnTargetResponse();
+        logger.info("Request to add user profile" + request);
+        OnTargetResponse response = new OnTargetResponse();
         //add company.
 
-            int companyId = companyDAO.addCompanyInfo(request.getCompany());
+        int companyId = companyDAO.addCompanyInfo(request.getCompany());
 
-            Contact contact=request.getContact();
+        Contact contact = request.getContact();
 
-            Company company=request.getCompany();
-            company.setCompanyId(companyId);
+        Company company = request.getCompany();
+        company.setCompanyId(companyId);
 
-            contact.setCompany(company);
-            contact.setUser(request.getUser());
+        contact.setCompany(company);
+        contact.setUser(request.getUser());
 
-            boolean saved=contactDAO.addContactInfo(request.getContact());
-            if(!saved){
-                throw new Exception("Contact not saved.");
-            }
-            response.setReturnMessage("Successfully created company and user profile");
-            response.setReturnVal(OnTargetConstant.SUCCESS);
+        boolean saved = contactDAO.addContactInfo(request.getContact());
+        if (!saved) {
+            throw new Exception("Contact not saved.");
+        }
+        response.setReturnMessage("Successfully created company and user profile");
+        response.setReturnVal(OnTargetConstant.SUCCESS);
 
         return response;
 
     }
-
-
 
 
 }

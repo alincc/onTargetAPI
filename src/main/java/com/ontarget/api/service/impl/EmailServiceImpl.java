@@ -2,8 +2,8 @@ package com.ontarget.api.service.impl;
 
 import com.ontarget.api.dao.AuthenticationDAO;
 import com.ontarget.api.service.EmailService;
-import com.ontarget.dto.UserRegistrationRequest;
 import com.ontarget.constant.OnTargetConstant;
+import com.ontarget.dto.UserRegistrationRequest;
 import org.apache.log4j.Logger;
 import org.apache.velocity.app.VelocityEngine;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,8 +63,8 @@ public class EmailServiceImpl implements EmailService {
                 }
             };
             javaMailSender.send(preparator);
-        }catch(Exception e){
-            logger.error("Not able to send user request email",e);
+        } catch (Exception e) {
+            logger.error("Not able to send user request email", e);
             return false;
         }
 
@@ -74,11 +74,11 @@ public class EmailServiceImpl implements EmailService {
     @Override
     public boolean sendUserRequestEmailToAdmin(int userRequestId) {
         MimeMessagePreparator preparator = new MimeMessagePreparator() {
-            @SuppressWarnings({ "rawtypes", "unchecked" })
+            @SuppressWarnings({"rawtypes", "unchecked"})
             public void prepare(MimeMessage mimeMessage) throws Exception {
                 MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
                 message.setTo(OnTargetConstant.EmailServiceConstants.USER_REGISTRATION_ADMIN_EMAIL);
-                message.setFrom(new InternetAddress(OnTargetConstant.EmailServiceConstants.USER_REGISTRATION_FROM) );
+                message.setFrom(new InternetAddress(OnTargetConstant.EmailServiceConstants.USER_REGISTRATION_FROM));
                 message.setSubject(OnTargetConstant.EmailServiceConstants.USER_REGISTRATION_REQUEST_APPROVAL_SUBJECT);
                 message.setSentDate(new Date());
 
@@ -102,11 +102,11 @@ public class EmailServiceImpl implements EmailService {
     @Override
     public boolean sendUserRegistrationEmail() {
         MimeMessagePreparator preparator = new MimeMessagePreparator() {
-            @SuppressWarnings({ "rawtypes", "unchecked" })
+            @SuppressWarnings({"rawtypes", "unchecked"})
             public void prepare(MimeMessage mimeMessage) throws Exception {
                 MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
                 message.setTo(OnTargetConstant.EmailServiceConstants.USER_REGISTRATION_ADMIN_EMAIL);
-                message.setFrom(new InternetAddress(OnTargetConstant.EmailServiceConstants.USER_REGISTRATION_FROM) );
+                message.setFrom(new InternetAddress(OnTargetConstant.EmailServiceConstants.USER_REGISTRATION_FROM));
                 message.setSubject(OnTargetConstant.EmailServiceConstants.USER_REGISTRATION_REQUEST_APPROVAL_SUBJECT);
                 message.setSentDate(new Date());
 

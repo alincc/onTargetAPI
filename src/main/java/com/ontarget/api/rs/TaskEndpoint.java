@@ -27,4 +27,6 @@ public interface TaskEndpoint {
     @POST
     @Path("/addComment")
     OnTargetResponse addUpdateCommentToTask(TaskComment comment);
+
+    public OnTargetResponse updateTaskStatus(long taskId, String taskStatus);
 }

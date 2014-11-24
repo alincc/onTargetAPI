@@ -21,15 +21,15 @@ public class CompanyDAOTest extends BaseTest {
     private CompanyDAO companyDAO;
 
     @Test
-    public void testAddCompanyInfo(){
+    public void testAddCompanyInfo() {
 
-       Company comp = new Company();
+        Company comp = new Company();
         comp.setCompanyName("The TTG Inc.");
         comp.setCompanyTypeId(1);
         comp.setEmail("company@company.com");
         comp.setWebsite("http://www.comp.com");
 
-        Address address=new Address();
+        Address address = new Address();
         address.setAddress1("4750 59th street");
         address.setAddress2("Apt #9C");
         address.setCity("Woodside");
@@ -45,7 +45,7 @@ public class CompanyDAOTest extends BaseTest {
             Assert.assertTrue(returnId > 0);
 
         } catch (Exception e) {
-            logger.error("Fail to add company",e);
+            logger.error("Fail to add company", e);
             fail();
         }
 

@@ -38,8 +38,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             return response;
         }
         String token = TokenUtil.getLoginToken(user.getUsername());
-        boolean saved = userSessionDAO.saveUserSessionToken(returnUser.getUserId(),token);
-        if(!saved){
+        boolean saved = userSessionDAO.saveUserSessionToken(returnUser.getUserId(), token);
+        if (!saved) {
             throw new Exception("User session token failed");
         }
 

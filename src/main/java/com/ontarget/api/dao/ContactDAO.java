@@ -1,7 +1,6 @@
 package com.ontarget.api.dao;
 
 import com.ontarget.bean.Contact;
-import org.springframework.stereotype.Repository;
 
 import java.util.Map;
 

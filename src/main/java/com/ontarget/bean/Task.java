@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Created by Owner on 10/29/14.
  */
-public class Task implements Serializable{
+public class Task implements Serializable {
 
     private int projectTaskId;
     private String title;

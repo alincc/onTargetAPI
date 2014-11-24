@@ -9,7 +9,7 @@ import java.io.Serializable;
 /**
  * Created by Owner on 11/4/14.
  */
-public class UserProfileRequest implements Serializable{
+public class UserProfileRequest implements Serializable {
 
     private Contact contact;
     private Company company;

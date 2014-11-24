@@ -85,7 +85,6 @@ public class TaskEndpointImpl implements TaskEndpoint {
     }
 
 
-
     @Override
     @POST
     @Path("/addComment")
@@ -104,5 +103,26 @@ public class TaskEndpointImpl implements TaskEndpoint {
         return response;
     }
 
-
+    @Override
+    @GET
+    @Path("/updateTaskStatus")
+    public OnTargetResponse updateTaskStatus(@QueryParam("taskId") long taskId, @QueryParam("taskStatus") String taskStatus) {
+        System.out.println("these are the requests " + taskId + " and " + taskStatus);
+        OnTargetResponse response = new OnTargetResponse();
+        try {
+            if (taskService.updateTaskStatus(taskId, taskStatus)) {
+                System.out.println("succesfully updated");
+                response.setReturnMessage("Successfully updated task status");
+                response.setReturnVal(OnTargetConstant.SUCCESS);
+            } else {
+                System.out.println("failed...");
+            }
+        } catch (Exception e) {
+            // logger.error("update task failed." + e);
+            e.printStackTrace();
+            response.setReturnMessage("update task status failed");
+            response.setReturnVal(OnTargetConstant.ERROR);
+        }
+        return response;
+    }
 }

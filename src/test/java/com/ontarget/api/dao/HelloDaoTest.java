@@ -4,9 +4,9 @@ import com.ontarget.api.BaseTest;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
-public class HelloDaoTest extends BaseTest{
+public class HelloDaoTest extends BaseTest {
 
 
     @Autowired
@@ -14,9 +14,9 @@ public class HelloDaoTest extends BaseTest{
 
 
     @Test
-    public void testHello(){
-        String msg=helloDao.getHello();
-        assertTrue(msg!=null);
+    public void testHello() {
+        String msg = helloDao.getHello();
+        assertTrue(msg != null);
     }
 
 }

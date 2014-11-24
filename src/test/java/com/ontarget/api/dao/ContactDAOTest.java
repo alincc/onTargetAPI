@@ -23,7 +23,7 @@ public class ContactDAOTest extends BaseTest {
 
 
     @Test
-    public void testAddContactInfo(){
+    public void testAddContactInfo() {
 
         Contact contact = new Contact();
         contact.setTitle("Project Manager");
@@ -43,7 +43,7 @@ public class ContactDAOTest extends BaseTest {
             Assert.assertTrue(added);
 
         } catch (Exception e) {
-            logger.error("Error while adding contact",e);
+            logger.error("Error while adding contact", e);
             fail();
 
         }

@@ -25,8 +25,8 @@ public class AuthenticationDAOTest extends BaseTest {
 
 
     @Test
-    public void testSaveRegistrationRequest(){
-        UserRegistrationRequest request= new UserRegistrationRequest();
+    public void testSaveRegistrationRequest() {
+        UserRegistrationRequest request = new UserRegistrationRequest();
         request.setName("firstname lastname");
         request.setEmail("email@email.com");
         request.setCompanyName("Ontarget Inc.");
@@ -36,29 +36,29 @@ public class AuthenticationDAOTest extends BaseTest {
             boolean saved = authenticationDAO.saveRegistrationRequest(request);
             Assert.assertTrue(saved);
         } catch (Exception e) {
-            logger.error("Error while saving registration request",e);
+            logger.error("Error while saving registration request", e);
             fail();
         }
     }
 
     @Test
-    public void testGetRegistrationRequest(){
+    public void testGetRegistrationRequest() {
         try {
             UserRegistrationRequest info = authenticationDAO.getUserRegistrationRequestInfo(3);
-            Assert.assertTrue(info!=null);
+            Assert.assertTrue(info != null);
         } catch (Exception e) {
-            logger.error("Error while getting user registration request info.",e);
+            logger.error("Error while getting user registration request info.", e);
             fail();
         }
     }
 
     @Test
-    public void testGetUserRegistrationPendingRequest(){
+    public void testGetUserRegistrationPendingRequest() {
         try {
             List<UserRegistrationRequest> requestList = authenticationDAO.getUserRegistrationPendingRequests();
             Assert.assertTrue(requestList.size() >= 0);
         } catch (Exception e) {
-            logger.error("Error while getting user registration request info.",e);
+            logger.error("Error while getting user registration request info.", e);
             fail();
         }
 
@@ -66,20 +66,20 @@ public class AuthenticationDAOTest extends BaseTest {
 
 
     @Test
-    public void testLogout(){
-        String username="testemail@mail.com";
+    public void testLogout() {
+        String username = "testemail@mail.com";
         try {
-            boolean loggedOut=authenticationDAO.logout(username);
+            boolean loggedOut = authenticationDAO.logout(username);
             Assert.assertTrue(loggedOut);
         } catch (Exception e) {
-            logger.error("Error while logging out.",e);
+            logger.error("Error while logging out.", e);
             fail();
         }
     }
 
 
     @Test
-    public void testSignIn(){
+    public void testSignIn() {
         User user = new User();
         user.setUsername("sanjeevghimire");
         user.setPassword("123456");
@@ -93,8 +93,6 @@ public class AuthenticationDAOTest extends BaseTest {
             fail();
         }
     }
-
-
 
 
 }

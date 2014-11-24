@@ -197,9 +197,9 @@
             <version>1.4.7</version>
         </dependency>
         <!--<dependency>-->
-            <!--<groupId>javax.activation</groupId>-->
-            <!--<artifactId>activation</artifactId>-->
-            <!--<version>1.0.2</version>-->
+        <!--<groupId>javax.activation</groupId>-->
+        <!--<artifactId>activation</artifactId>-->
+        <!--<version>1.0.2</version>-->
         <!--</dependency>-->
 
         <!-- velocity -->

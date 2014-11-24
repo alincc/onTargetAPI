@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Created by Owner on 10/29/14.
  */
-public class Project implements Serializable{
+public class Project implements Serializable {
 
     private int projectId;
     private String projectName;

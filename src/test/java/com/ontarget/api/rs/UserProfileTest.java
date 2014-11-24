@@ -18,14 +18,14 @@ import java.io.IOException;
 /**
  * Created by Owner on 11/5/14.
  */
-public class UserProfileTest extends JerseyTest{
+public class UserProfileTest extends JerseyTest {
 
     public UserProfileTest() throws TestContainerException {
         super("com.ontarget.api.rs");
     }
 
     @Test
-    public void testAddUserProfile(){
+    public void testAddUserProfile() {
 
         WebResource resource = resource();
 
@@ -40,7 +40,7 @@ public class UserProfileTest extends JerseyTest{
         comp.setEmail("company@company.com");
         comp.setWebsite("http://www.comp.com");
 
-        Address address=new Address();
+        Address address = new Address();
         address.setAddress1("4750 59th street");
         address.setAddress2("Apt #9C");
         address.setCity("Woodside");
@@ -50,7 +50,7 @@ public class UserProfileTest extends JerseyTest{
         address.setAddressType("COMPANY");
         comp.setAddress(address);
 
-        User user=new User();
+        User user = new User();
         user.setUserId(1);
 
         UserProfileRequest req = new UserProfileRequest();
@@ -58,11 +58,11 @@ public class UserProfileTest extends JerseyTest{
         req.setUser(user);
         req.setContact(contact);
 
-        ObjectMapper mapper=new ObjectMapper();
+        ObjectMapper mapper = new ObjectMapper();
 
         ClientResponse response = null;
         try {
-        System.out.println(mapper.writeValueAsString(req));
+            System.out.println(mapper.writeValueAsString(req));
             response = resource.path("/profile/addUserProfile")
                     //.accept(MediaType.APPLICATION_JSON)
                     .type(MediaType.APPLICATION_JSON)

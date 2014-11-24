@@ -22,6 +22,7 @@ public class UserRegistrationRequest implements Serializable {
     public int getRegistrationReqId() {
         return registrationReqId;
     }
+
     public void setRegistrationReqId(int registrationReqId) {
         this.registrationReqId = registrationReqId;
     }

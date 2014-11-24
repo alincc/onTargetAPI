@@ -1,10 +1,10 @@
 package com.ontarget.api.rs;
 
+import com.ontarget.bean.User;
 import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.UserRegistationApprovalResponse;
-import com.ontarget.dto.UserResponse;
-import com.ontarget.bean.User;
 import com.ontarget.dto.UserRegistrationRequest;
+import com.ontarget.dto.UserResponse;
 
 import java.util.List;
 

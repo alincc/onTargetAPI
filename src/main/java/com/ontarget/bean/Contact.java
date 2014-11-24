@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by Owner on 11/4/14.
  */
-public class Contact implements Serializable{
+public class Contact implements Serializable {
 
     private String firstName;
     private String lastName;

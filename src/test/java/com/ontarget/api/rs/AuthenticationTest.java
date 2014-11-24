@@ -20,12 +20,12 @@ public class AuthenticationTest extends JerseyTest {
     public void testSignIn() {
         WebResource resource = resource();
 
-        String auth="{\"username\":\"username\",\"password\":\"password\"}";
+        String auth = "{\"username\":\"username\",\"password\":\"password\"}";
 
         ClientResponse response = resource.path("/user/signin")
                 //.accept(MediaType.APPLICATION_JSON)
                 .type(MediaType.APPLICATION_JSON)
-                .post(ClientResponse.class,auth);
+                .post(ClientResponse.class, auth);
 
         if (response.getStatus() != 200) {
             throw new RuntimeException("Failed : HTTP error code : "

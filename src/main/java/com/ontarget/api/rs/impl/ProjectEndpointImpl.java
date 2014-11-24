@@ -2,8 +2,6 @@ package com.ontarget.api.rs.impl;
 
 import com.ontarget.api.rs.ProjectEndoint;
 import com.ontarget.api.service.ProjectService;
-import com.ontarget.bean.Company;
-import com.ontarget.bean.User;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.ProjectListResponse;
@@ -37,9 +35,9 @@ public class ProjectEndpointImpl implements ProjectEndoint {
         OnTargetResponse response = null;
         try {
 
-            if(request.getProject().getProjectId() < 0) {
+            if (request.getProject().getProjectId() < 0) {
                 response = projectService.addProject(request);
-            }else{
+            } else {
                 response = projectService.updateProject(request);
             }
 
@@ -74,7 +72,7 @@ public class ProjectEndpointImpl implements ProjectEndoint {
     @Override
     @GET
     @Path("/getProject/company/{companyId}/user/{userId}")
-    public ProjectListResponse getProjectByCompany(@PathParam("companyId") int companyId, @PathParam("userId")int userId) {
+    public ProjectListResponse getProjectByCompany(@PathParam("companyId") int companyId, @PathParam("userId") int userId) {
 
         ProjectListResponse response = null;
         try {

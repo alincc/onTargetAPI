@@ -5,7 +5,7 @@ import com.ontarget.bean.Project;
 /**
  * Created by Owner on 11/6/14.
  */
-public class ProjectResponse extends OnTargetResponse{
+public class ProjectResponse extends OnTargetResponse {
 
     private Project project;
 

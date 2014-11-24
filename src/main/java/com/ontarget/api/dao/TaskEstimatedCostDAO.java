@@ -8,7 +8,7 @@ import com.ontarget.bean.TaskEstimatedCost;
 public interface TaskEstimatedCostDAO {
 
 
-    public int addPlannedAcutalCost(TaskEstimatedCost cost) throws  Exception;
+    public int addPlannedAcutalCost(TaskEstimatedCost cost) throws Exception;
 
     public boolean updatePlannedActualCost(TaskEstimatedCost cost) throws Exception;
 }

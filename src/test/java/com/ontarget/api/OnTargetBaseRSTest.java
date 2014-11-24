@@ -13,21 +13,21 @@ import org.springframework.web.context.request.RequestContextListener;
 /**
  * Created by Owner on 11/6/14.
  */
-public class OnTargetBaseRSTest{
+public class OnTargetBaseRSTest {
 
     private static JerseyTest jerseyTest;
 
 
     @Before
-    public void init(){
-        jerseyTest = new JerseyTest( new WebAppDescriptor.Builder(
-                "com.ontarget.api.rs" ).contextPath( "rest" )
+    public void init() {
+        jerseyTest = new JerseyTest(new WebAppDescriptor.Builder(
+                "com.ontarget.api.rs").contextPath("rest")
                 .contextParam(
-                        "contextConfigLocation", "classpath:applicationContext.xml" )
-                .servletClass( SpringServlet.class )
-                .contextListenerClass( ContextLoaderListener.class )
-                .requestListenerClass( RequestContextListener.class )
-                .build() ) {
+                        "contextConfigLocation", "classpath:applicationContext.xml")
+                .servletClass(SpringServlet.class)
+                .contextListenerClass(ContextLoaderListener.class)
+                .requestListenerClass(RequestContextListener.class)
+                .build()) {
         };
     }
 
@@ -40,7 +40,7 @@ public class OnTargetBaseRSTest{
     }
 
     @After
-    public void destroy() throws Exception{
+    public void destroy() throws Exception {
         jerseyTest.tearDown();
     }
 

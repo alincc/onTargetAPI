@@ -19,11 +19,11 @@ public class ContactDAOImpl implements ContactDAO {
     private JdbcTemplate jdbcTemplate;
 
     @Override
-    public boolean addContactInfo(Contact contact) throws Exception{
+    public boolean addContactInfo(Contact contact) throws Exception {
 
-        int row = jdbcTemplate.update(OnTargetQuery.CREATE_CONTACT, new Object[]{contact.getUser().getUserId(),contact.getCompany().getCompanyId(),contact.getFirstName(),contact.getLastName(), contact.getTitle(),contact.getUserImagePath()});
+        int row = jdbcTemplate.update(OnTargetQuery.CREATE_CONTACT, new Object[]{contact.getUser().getUserId(), contact.getCompany().getCompanyId(), contact.getFirstName(), contact.getLastName(), contact.getTitle(), contact.getUserImagePath()});
 
-        if(row <= 0){
+        if (row <= 0) {
             throw new Exception("Contact was not created");
         }
 
@@ -31,10 +31,9 @@ public class ContactDAOImpl implements ContactDAO {
     }
 
     @Override
-    public Map<String, Object> getContactDetail(int userId) throws Exception{
+    public Map<String, Object> getContactDetail(int userId) throws Exception {
         return jdbcTemplate.queryForMap(OnTargetQuery.GET_COMPANY_BY_USER, new Object[]{userId});
     }
-
 
 
 }

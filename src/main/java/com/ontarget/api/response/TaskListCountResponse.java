@@ -4,7 +4,6 @@ import com.ontarget.bean.TaskStatusCount;
 import com.ontarget.dto.OnTargetResponse;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Owner on 11/12/14.

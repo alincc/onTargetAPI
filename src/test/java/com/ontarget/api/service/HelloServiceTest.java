@@ -4,17 +4,17 @@ import com.ontarget.api.BaseTest;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
-public class HelloServiceTest extends BaseTest{
+public class HelloServiceTest extends BaseTest {
 
     @Autowired
     HelloService helloService;
 
     @Test
-    public void testHello(){
+    public void testHello() {
         String msg = helloService.getHello();
-        assertTrue(msg!=null);
+        assertTrue(msg != null);
     }
 
 }

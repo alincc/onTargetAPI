@@ -30,13 +30,13 @@ public class AddressDAOImpl implements AddressDAO {
 
     @Override
     public int addAddress(Address address) throws Exception {
-        logger.info("Adding address: "+address);
+        logger.info("Adding address: " + address);
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(
                 new PreparedStatementCreator() {
                     public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
                         PreparedStatement ps =
-                                connection.prepareStatement(OnTargetQuery.ADD_ADDRESS, new String[] {"id"});
+                                connection.prepareStatement(OnTargetQuery.ADD_ADDRESS, new String[]{"id"});
                         ps.setString(1, address.getAddress1());
                         ps.setString(2, address.getAddress2());
                         ps.setString(3, address.getCity());
@@ -48,16 +48,14 @@ public class AddressDAOImpl implements AddressDAO {
                     }
                 },
                 keyHolder);
-        logger.debug("Added address with id: "+keyHolder.getKey().intValue());
+        logger.debug("Added address with id: " + keyHolder.getKey().intValue());
         return keyHolder.getKey().intValue();
     }
 
 
-
-
     @Override
     public Address getAddress(int addressId) throws Exception {
-        Address address=new Address();
+        Address address = new Address();
         jdbcTemplate.query(OnTargetQuery.GET_ADDRESS, new Object[]{addressId}, new RowMapper<Address>() {
             @Override
             public Address mapRow(ResultSet resultSet, int i) throws SQLException {
@@ -79,7 +77,7 @@ public class AddressDAOImpl implements AddressDAO {
 
     @Override
     public boolean updateAddress(Address address) throws Exception {
-        int row = jdbcTemplate.update(OnTargetQuery.UPDATE_PROJECT_ADDRESS, new Object[]{address.getAddress1(),address.getAddress2(),address.getCity(),address.getState(),address.getZip(),address.getCountry(),address.getAddressId()});
+        int row = jdbcTemplate.update(OnTargetQuery.UPDATE_PROJECT_ADDRESS, new Object[]{address.getAddress1(), address.getAddress2(), address.getCity(), address.getState(), address.getZip(), address.getCountry(), address.getAddressId()});
         if (row == 0) {
             throw new Exception("Unable to update project address");
         }

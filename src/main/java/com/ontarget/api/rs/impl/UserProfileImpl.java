@@ -33,12 +33,12 @@ public class UserProfileImpl implements UserProfile {
     @POST
     @Path("/addUserProfile")
     public OnTargetResponse addUserProfile(UserProfileRequest userProfileRequest) {
-        logger.info("Received request to add profile: "+ userProfileRequest);
-        OnTargetResponse response=null;
+        logger.info("Received request to add profile: " + userProfileRequest);
+        OnTargetResponse response = null;
         try {
-            response =  userProfileService.addUserProfile(userProfileRequest);
+            response = userProfileService.addUserProfile(userProfileRequest);
         } catch (Exception e) {
-            logger.error("Add User Profile failed."+ e);
+            logger.error("Add User Profile failed." + e);
             response.setReturnMessage("Add task failed");
             response.setReturnVal(OnTargetConstant.ERROR);
         }

@@ -13,6 +13,6 @@ public interface ProjectEndoint {
 
     public ProjectResponse getProjectDetail(int projectId);
 
-    public com.ontarget.dto.ProjectListResponse getProjectByCompany( int companyId, int userId);
+    public com.ontarget.dto.ProjectListResponse getProjectByCompany(int companyId, int userId);
 
 }

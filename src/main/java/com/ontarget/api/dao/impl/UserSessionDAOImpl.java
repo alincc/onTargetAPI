@@ -17,11 +17,11 @@ public class UserSessionDAOImpl implements UserSessionDAO {
 
 
     @Override
-    public boolean saveUserSessionToken(int userId, String token) throws Exception{
+    public boolean saveUserSessionToken(int userId, String token) throws Exception {
 
-        int row = jdbcTemplate.update(OnTargetQuery.SAVE_USER_SESSION_INFO, new Object[]{userId,token});
+        int row = jdbcTemplate.update(OnTargetQuery.SAVE_USER_SESSION_INFO, new Object[]{userId, token});
 
-        if(row < 0){
+        if (row < 0) {
             throw new Exception("Could not save user session info");
         }
 

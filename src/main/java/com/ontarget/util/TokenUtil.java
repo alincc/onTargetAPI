@@ -11,9 +11,10 @@ public class TokenUtil {
 
     /**
      * Return token login based on username and created timestamp
+     *
      * @return
      */
-    public static String getLoginToken(String username){
+    public static String getLoginToken(String username) {
         return String.valueOf(UUID.randomUUID());
     }
 

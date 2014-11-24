@@ -66,19 +66,19 @@ public class ProjectDAOImpl implements ProjectDAO {
 
         final Project project = new Project();
 
-       jdbcTemplate.query(OnTargetQuery.GET_PROJECT, new Object[]{projectId}, new RowMapper<Project>() {
-           @Override
-           public Project mapRow(ResultSet resultSet, int i) throws SQLException {
-               project.setProjectId(projectId);
-               project.setProjectName( resultSet.getString("PROJECT_NAME"));
-               project.setProjectDescription(resultSet.getString("PROJECT_DESCRIPTION"));
-               project.setProjectTypeId(resultSet.getInt("PROJECT_TYPE_ID"));
-               project.setProjectParentId(resultSet.getInt("PROJECT_PARENT_ID"));
-               project.setCompanyId(resultSet.getInt("COMPANY_ID"));
+        jdbcTemplate.query(OnTargetQuery.GET_PROJECT, new Object[]{projectId}, new RowMapper<Project>() {
+            @Override
+            public Project mapRow(ResultSet resultSet, int i) throws SQLException {
+                project.setProjectId(projectId);
+                project.setProjectName(resultSet.getString("PROJECT_NAME"));
+                project.setProjectDescription(resultSet.getString("PROJECT_DESCRIPTION"));
+                project.setProjectTypeId(resultSet.getInt("PROJECT_TYPE_ID"));
+                project.setProjectParentId(resultSet.getInt("PROJECT_PARENT_ID"));
+                project.setCompanyId(resultSet.getInt("COMPANY_ID"));
 
-               return project;
-           }
-       });
+                return project;
+            }
+        });
         return project;
     }
 
@@ -88,29 +88,29 @@ public class ProjectDAOImpl implements ProjectDAO {
 
         final Project project = new Project();
 
-        Map<Integer, List<Project>> projectToSubProject=new HashMap<>();
+        Map<Integer, List<Project>> projectToSubProject = new HashMap<>();
 
         jdbcTemplate.query(OnTargetQuery.GET_PROJECT_AND_TASKS, new Object[]{projectId}, new RowMapper<Project>() {
             @Override
             public Project mapRow(ResultSet resultSet, int i) throws SQLException {
 
-                int parentProjectId=resultSet.getInt("PROJECT_PARENT_ID");
+                int parentProjectId = resultSet.getInt("PROJECT_PARENT_ID");
                 int projectId = resultSet.getInt("PROJECT_ID");
 
-                Project project1=new Project();
+                Project project1 = new Project();
                 project1.setProjectId(projectId);
-                project1.setProjectName( resultSet.getString("PROJECT_NAME"));
+                project1.setProjectName(resultSet.getString("PROJECT_NAME"));
                 project1.setProjectDescription(resultSet.getString("PROJECT_DESCRIPTION"));
                 project1.setProjectTypeId(resultSet.getInt("PROJECT_TYPE_ID"));
                 project1.setProjectParentId(parentProjectId);
                 project1.setCompanyId(resultSet.getInt("COMPANY_ID"));
 
 
-               if(parentProjectId==0 && projectToSubProject.get(projectId)==null){
-                   List<Project> subProjects = new ArrayList<>();
-                   subProjects.add(project1);
-                   projectToSubProject.put(projectId,subProjects);
-               }
+                if (parentProjectId == 0 && projectToSubProject.get(projectId) == null) {
+                    List<Project> subProjects = new ArrayList<>();
+                    subProjects.add(project1);
+                    projectToSubProject.put(projectId, subProjects);
+                }
 
                 return project;
             }
@@ -119,16 +119,15 @@ public class ProjectDAOImpl implements ProjectDAO {
     }
 
 
-
     @Override
     public List<Map<String, Object>> getProjectByCompany(int companyId, int userId) throws Exception {
-        return jdbcTemplate.queryForList(OnTargetQuery.GET_PROJECT_BY_COMPANY, new Object[]{companyId,userId});
+        return jdbcTemplate.queryForList(OnTargetQuery.GET_PROJECT_BY_COMPANY, new Object[]{companyId, userId});
     }
 
     @Override
     //TODO: get user from project task
     public boolean updateProject(Project project) throws Exception {
-        int row = jdbcTemplate.update(OnTargetQuery.UPDATE_PROJECT, new Object[]{project.getProjectName(), project.getProjectDescription(), project.getProjectTypeId(),project.getProjectParentId(), project.getStatus(), project.getStartDate(), project.getEndDate(),"USER",project.getProjectId()});
+        int row = jdbcTemplate.update(OnTargetQuery.UPDATE_PROJECT, new Object[]{project.getProjectName(), project.getProjectDescription(), project.getProjectTypeId(), project.getProjectParentId(), project.getStatus(), project.getStartDate(), project.getEndDate(), "USER", project.getProjectId()});
         if (row == 0) {
             throw new Exception("Unable to update project.");
         }

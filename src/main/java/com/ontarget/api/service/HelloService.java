@@ -14,7 +14,7 @@ public class HelloService {
     HelloDao helloDao;
 
 
-    public String getHello(){
+    public String getHello() {
         return helloDao.getHello();
     }
 

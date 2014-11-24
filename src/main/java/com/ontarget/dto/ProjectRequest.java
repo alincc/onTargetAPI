@@ -8,7 +8,7 @@ import java.io.Serializable;
 /**
  * Created by Owner on 11/6/14.
  */
-public class ProjectRequest implements Serializable{
+public class ProjectRequest implements Serializable {
 
     public ProjectRequest() {
     }

@@ -35,11 +35,11 @@ public class TaskServiceImpl implements TaskService {
 
         int taskId = task.getProjectTaskId();
 
-        if(taskId <=0){
+        if (taskId <= 0) {
             taskId = taskDAO.addTask(task);
-        }else{
+        } else {
             boolean updated = taskDAO.updateTask(task);
-            if(!updated){
+            if (!updated) {
                 throw new Exception("Add/update task failed.");
             }
         }
@@ -49,19 +49,19 @@ public class TaskServiceImpl implements TaskService {
             throw new Exception("Add/update task failed.");
         }
 
-        if(task.getCosts()!=null && task.getCosts().size() > 0){
-            for(TaskEstimatedCost cost : task.getCosts()) {
-                 int taskEstimatePlannedCostId=cost.getId();
-                if(cost.getId() <=0){
+        if (task.getCosts() != null && task.getCosts().size() > 0) {
+            for (TaskEstimatedCost cost : task.getCosts()) {
+                int taskEstimatePlannedCostId = cost.getId();
+                if (cost.getId() <= 0) {
                     taskEstimatePlannedCostId = taskEstimatedCostDAO.addPlannedAcutalCost(cost);
-                }else{
-                    boolean updated=taskEstimatedCostDAO.updatePlannedActualCost(cost);
-                    if(!updated){
+                } else {
+                    boolean updated = taskEstimatedCostDAO.updatePlannedActualCost(cost);
+                    if (!updated) {
                         throw new Exception("");
                     }
                 }
 
-                logger.info("Added costs with id: "+ taskEstimatePlannedCostId);
+                logger.info("Added costs with id: " + taskEstimatePlannedCostId);
             }
         }
 
@@ -92,5 +92,9 @@ public class TaskServiceImpl implements TaskService {
         return false;
     }
 
-
+    @Override
+    @Transactional(rollbackFor = {Exception.class})
+    public boolean updateTaskStatus(long taskId, String taskStatus) throws Exception {
+        return taskDAO.updateTaskStatus(taskId, taskStatus);
+    }
 }

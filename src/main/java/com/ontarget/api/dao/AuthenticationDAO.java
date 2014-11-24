@@ -12,7 +12,7 @@ public interface AuthenticationDAO {
 
     public boolean saveRegistrationRequest(UserRegistrationRequest request) throws Exception;
 
-    public boolean logout(String username) throws  Exception;
+    public boolean logout(String username) throws Exception;
 
     public UserRegistrationRequest getUserRegistrationRequestInfo(int userRequestId) throws Exception;
 
@@ -23,6 +23,6 @@ public interface AuthenticationDAO {
     public boolean approveUserRequest(int userRequestId) throws Exception;
 
     public boolean createUser(UserRegistrationRequest request) throws Exception;
-    
+
     public User getUserSignInInfo(User user) throws Exception;
 }

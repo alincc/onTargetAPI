@@ -1,7 +1,6 @@
 package com.ontarget.api.rs;
 
 import com.ontarget.dto.OnTargetResponse;
-import com.ontarget.bean.User;
 import com.ontarget.dto.UserProfileRequest;
 
 /**

@@ -5,8 +5,8 @@ package com.ontarget.constant;
  */
 public interface OnTargetConstant {
 
-    public static  final String SUCCESS="SUCCESS";
-    public static  final String ERROR="ERROR";
+    public static final String SUCCESS = "SUCCESS";
+    public static final String ERROR = "ERROR";
 
 
     public static final String RETURN_MESSAGE_AUTHENTICATION = "Successfully Authenticated";
@@ -21,7 +21,7 @@ public interface OnTargetConstant {
     public static final String AUTHENTICATION_FAILED = "Authentication Failed";
 
 
-    interface AddressType{
+    interface AddressType {
         public static final String PROJECT_ADDR = "PROJECT";
         public static final String COMPANY_ADDR = "COMPANY";
         public static final String CONTACT_ADDR = "CONTACT";
@@ -32,27 +32,27 @@ public interface OnTargetConstant {
      */
 
 
-    interface EmailServiceConstants{
-        public static final String USER_REGISTRATION_SUBJECT="OnTarget Registration Request";
-        public static final String USER_REGISTRATION_FROM="dontoreply@ontarget.com";
+    interface EmailServiceConstants {
+        public static final String USER_REGISTRATION_SUBJECT = "OnTarget Registration Request";
+        public static final String USER_REGISTRATION_FROM = "dontoreply@ontarget.com";
         public static final String USER_REGISTRATION_REQUEST_APPROVAL_SUBJECT = "OnTarget Registration Approval";
 
-        public static final String USER_REGISTRATION_ADMIN_EMAIL="ontarget@gmail.com";
+        public static final String USER_REGISTRATION_ADMIN_EMAIL = "ontarget@gmail.com";
     }
 
     public interface USER_STATUS {
-        public static final String ACTIVE="ACTIVE";
-        public static final String PENDING="PENDING";
+        public static final String ACTIVE = "ACTIVE";
+        public static final String PENDING = "PENDING";
 
     }
 
     public interface AccountStatus {
-        public static final String ACTIVE="ACTIVE";
-        public static final String LOCKED="LOCKED";
+        public static final String ACTIVE = "ACTIVE";
+        public static final String LOCKED = "LOCKED";
 
     }
 
     public interface CompanyStatus {
-        public static final String STATUS="ACTIVE";
+        public static final String STATUS = "ACTIVE";
     }
 }

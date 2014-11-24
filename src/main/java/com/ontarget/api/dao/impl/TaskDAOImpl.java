@@ -16,7 +16,10 @@ import org.springframework.stereotype.Repository;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Owner on 11/6/14.
@@ -74,9 +77,9 @@ public class TaskDAOImpl implements TaskDAO {
                 task.setStatus((String) taskMap.get("status"));
 
                 long status = (Long) taskMap.get("completed");
-                if(status == 0) {
+                if (status == 0) {
                     task.setCompleted(false);
-                }else{
+                } else {
                     task.setCompleted(true);
                 }
                 tasks.add(task);
@@ -89,7 +92,7 @@ public class TaskDAOImpl implements TaskDAO {
     @Override
     public List<TaskStatusCount> getTaskCountByStatus(int projectId) throws Exception {
         List<Map<String, Object>> taskList = jdbcTemplate.queryForList(OnTargetQuery.GET_PROJECT_TASK_COUNT_BY_STATUS, new Object[]{projectId});
-        List<TaskStatusCount> taskCountByStatus=new ArrayList<>();
+        List<TaskStatusCount> taskCountByStatus = new ArrayList<>();
 
         if (taskList != null && taskList.size() > 0) {
             for (Map<String, Object> taskMap : taskList) {
@@ -139,7 +142,7 @@ public class TaskDAOImpl implements TaskDAO {
         if (taskList != null && taskList.size() > 0) {
             for (Map<String, Object> commentMap : taskList) {
                 TaskComment comment = new TaskComment();
-                comment.setTaskCommentId((Integer)commentMap.get("task_comment_id"));
+                comment.setTaskCommentId((Integer) commentMap.get("task_comment_id"));
                 comment.setTaskId((Integer) commentMap.get("task_id"));
                 comment.setComment((String) commentMap.get("comment"));
                 comment.setCommentedBy((String) commentMap.get("commented_by"));
@@ -152,10 +155,37 @@ public class TaskDAOImpl implements TaskDAO {
 
     @Override
     public boolean updateTask(Task task) throws Exception {
-        int row = jdbcTemplate.update(OnTargetQuery.UPDATE_TASK, new Object[]{task.getTitle(),task.getDescription(),task.getParentTask().getProjectTaskId(),task.getStatus(), task.getStartDate(),task.getEndDate(),task.getPercentageComplete(),task.getSeverity(),"USER",task.getProjectTaskId()});
+        int row = jdbcTemplate.update(OnTargetQuery.UPDATE_TASK, new Object[]{task.getTitle(), task.getDescription(), task.getParentTask().getProjectTaskId(), task.getStatus(), task.getStartDate(), task.getEndDate(), task.getPercentageComplete(), task.getSeverity(), "USER", task.getProjectTaskId()});
         if (row == 0) {
             throw new Exception("Unable to update task comment");
         }
         return true;
+    }
+
+    @Override
+    public boolean updateTaskStatus(long taskId, String taskStatus) throws Exception {
+//        KeyHolder keyHolder = new GeneratedKeyHolder();
+//        PreparedStatementCreator statementCreator = new PreparedStatementCreator() {
+//            public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+//                PreparedStatement ps = connection.prepareStatement(OnTargetQuery.UPDATE_TASK_STATUS, Statement.RETURN_GENERATED_KEYS);
+//                ps.setLong(1, taskId);
+//                ps.setString(2, taskStatus);
+//                return ps;
+//            }
+//        };
+//        int updates = jdbcTemplate.update(statementCreator);
+////        int updates = jdbcTemplate.update(statementCreator, keyHolder);
+//        System.out.println("updated rows: " + updates);
+//        return updates > 0;
+
+        String sql = "UPDATE project_task SET status ='" + taskStatus + "' WHERE project_task_id =" + taskId;
+        System.out.println(sql);
+        int updates = jdbcTemplate.update(sql);
+        System.out.println("updated rows: " + updates);
+        return updates > 0;
+
+//        int updates = jdbcTemplate.update(OnTargetQuery.UPDATE_TASK_STATUS, new Object[]{String.valueOf(taskId), taskStatus});
+//        System.out.println("updated rows: " + updates);
+//        return updates > 0;
     }
 }

@@ -25,7 +25,7 @@ public class ProjectDAOTest extends BaseTest {
     private AddressDAO addressDAO;
 
     @Test
-    public void testAddProject(){
+    public void testAddProject() {
 
         Project project = new Project();
         project.setCompanyId(1);
@@ -35,7 +35,7 @@ public class ProjectDAOTest extends BaseTest {
         project.setProjectTypeId(1);
         project.setStatus("PENDING");
 
-        Address address=new Address();
+        Address address = new Address();
         address.setAddress1("4750 59th street");
         address.setAddress2("Apt #9C");
         address.setCity("Woodside");
@@ -47,7 +47,7 @@ public class ProjectDAOTest extends BaseTest {
 
         try {
 
-            int addressId=addressDAO.addAddress(address);
+            int addressId = addressDAO.addAddress(address);
             Assert.assertTrue(addressId > 0);
 
             address.setAddressId(addressId);
@@ -55,7 +55,7 @@ public class ProjectDAOTest extends BaseTest {
             int projectId = projectDAO.addProject(project);
             Assert.assertTrue(projectId > 0);
         } catch (Exception e) {
-            logger.error("Fail to add task",e);
+            logger.error("Fail to add task", e);
             fail();
         }
 

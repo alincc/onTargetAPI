@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Created by Owner on 11/3/14.
  */
-public class UserRegistationApprovalResponse extends OnTargetResponse{
+public class UserRegistationApprovalResponse extends OnTargetResponse {
 
     private List<UserRegistrationRequest> userRegistrationRequestList;
 
