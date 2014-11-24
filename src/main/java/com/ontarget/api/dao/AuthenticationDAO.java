@@ -25,4 +25,6 @@ public interface AuthenticationDAO {
     public boolean createUser(UserRegistrationRequest request) throws Exception;
 
     public User getUserSignInInfo(User user) throws Exception;
+
+    public boolean changePassword(long userId, String password, String salt) throws Exception;
 }

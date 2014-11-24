@@ -5,14 +5,12 @@ import com.ontarget.api.service.UserProfileService;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.UserProfileRequest;
+import com.ontarget.util.Security;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
 /**
@@ -45,5 +43,28 @@ public class UserProfileImpl implements UserProfile {
         return response;
     }
 
+    @Override
+    @GET
+    @Path("/changeUserPassword")
+    public OnTargetResponse changeUserPassword(@QueryParam("userId") long userId, @QueryParam("password") String password) throws Exception {
+        System.out.println("this is user id "+userId+" password "+password);
+        OnTargetResponse response = new OnTargetResponse();
+        try {
+            if(userProfileService.changeUserPassword(userId, password)){
+                response.setReturnMessage("succesfully updated");
+                response.setReturnVal(OnTargetConstant.SUCCESS);
+            }
+            else {
+                System.out.println("failed updating password");
+                response.setReturnMessage("Add task failed");
+                response.setReturnVal(OnTargetConstant.ERROR);
+            }
 
+        } catch (Exception e) {
+            logger.error("Add User Profile failed." + e);
+            response.setReturnMessage("Add task failed");
+            response.setReturnVal(OnTargetConstant.ERROR);
+        }
+        return response;
+    }
 }

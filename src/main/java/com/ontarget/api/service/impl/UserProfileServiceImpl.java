@@ -1,13 +1,16 @@
 package com.ontarget.api.service.impl;
 
+import com.ontarget.api.dao.AuthenticationDAO;
 import com.ontarget.api.dao.CompanyDAO;
 import com.ontarget.api.dao.ContactDAO;
+import com.ontarget.api.dao.impl.AuthenticationDAOImpl;
 import com.ontarget.api.service.UserProfileService;
 import com.ontarget.bean.Company;
 import com.ontarget.bean.Contact;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.UserProfileRequest;
+import com.ontarget.util.Security;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +30,9 @@ public class UserProfileServiceImpl implements UserProfileService {
 
     @Autowired
     private ContactDAO contactDAO;
+
+    @Autowired
+    private AuthenticationDAO authenticationDAO;
 
 
     //TODO: separate logic of user profile and company profile.
@@ -55,8 +61,14 @@ public class UserProfileServiceImpl implements UserProfileService {
         response.setReturnVal(OnTargetConstant.SUCCESS);
 
         return response;
-
     }
 
+    @Override
+    @Transactional(rollbackFor = {Exception.class})
+    public boolean changeUserPassword(long userId, String password) throws Exception {
+        String salt = Security.generateSecureSalt();
+        String hashedPassword = Security.encodePassword(password, salt);
+        return authenticationDAO.changePassword(userId, hashedPassword, salt);
+    }
 
 }
