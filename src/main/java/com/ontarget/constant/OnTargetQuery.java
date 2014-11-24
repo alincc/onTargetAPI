@@ -68,6 +68,8 @@ public interface OnTargetQuery {
 
     public static final String UPDATE_PROJECT = new StringBuilder("update project set project_name=?,project_description=?,project_type=?, project_parent_id=?, project_status=?, project_start_date=?,project_end_date=?, modified_by=?, modified_date=now() where project_id=?").toString();
 
+    public static final String GET_PROJECT_MEMBERS = new StringBuilder("SELECT * FROM project_member WHERE project_id=?").toString();
+
     public static final String UPDATE_TASK = new StringBuilder("update project_task set title=?,description=?,parent_task_id=?,status=?,start_date=?,end_date=?,percentage_complete=?,severity=?,modified_by=?, modified_date=now() where project_task_id=?").toString();
 
     public static final String UPDATE_TASK_PLANNED_ESTIMATED_COST = new StringBuilder("update planned_actuals_cost set value=?,modified_by=?,modified_date=now() where id=?").toString();

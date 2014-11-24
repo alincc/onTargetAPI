@@ -1,9 +1,6 @@
 package com.ontarget.api.service;
 
-import com.ontarget.dto.OnTargetResponse;
-import com.ontarget.dto.ProjectListResponse;
-import com.ontarget.dto.ProjectRequest;
-import com.ontarget.dto.ProjectResponse;
+import com.ontarget.dto.*;
 
 /**
  * Created by Owner on 11/6/14.
@@ -17,4 +14,6 @@ public interface ProjectService {
     public ProjectResponse getProjectDetail(int projectId) throws Exception;
 
     public ProjectListResponse getProjectsByCompany(int companyId, int userId) throws Exception;
+
+    public ProjectMemberListResponse getProjectMembers(long projectId) throws Exception;
 }
