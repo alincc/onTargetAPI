@@ -25,6 +25,8 @@ public interface OnTargetQuery {
     //TODO: MOVE ACTIVE TO CONSTANT CLASS. ADD MORE FIELDS TO THIS QUERY.
     public static final String CREATE_CONTACT = new StringBuilder("INSERT INTO CONTACT (user_id, contact_company_id, first_name,last_name, title, created_date, created_by, modified_date, modified_by, contact_status,contact_image) values (?,?,?,?,?,  NOW(),'SYSTEM', NOW(),'SYSTEM','ACTIVE',?)").toString();
 
+    public static final String UPDATE_CONTACT = new StringBuilder("UPDATE contact SET first_name=?,last_name=?, title=?, contact_image=? WHERE user_id=?").toString();
+
     public static final String CREATE_COMPANY = new StringBuilder("INSERT INTO COMPANY_INFO (COMPANY_NAME, COMPANY_TYPE_ID,ADDRESS1, ADDRESS2, CITY, STATE, ZIPCODE,COUNTRY, WEBSITE,STATUS) values (?,?,?,?,?,?,?,?,?,?)").toString();
 
     public static final String GET_COMPANY = new StringBuilder("SELECT * FROM COMPANY_INFO").toString();

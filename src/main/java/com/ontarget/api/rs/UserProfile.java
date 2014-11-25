@@ -11,4 +11,6 @@ public interface UserProfile {
     public OnTargetResponse addUserProfile(UserProfileRequest userProfileRequest);
 
     public OnTargetResponse changeUserPassword(long userId, String password) throws Exception;
+
+    public OnTargetResponse updateUserProfile(UserProfileRequest userProfileRequest);
 }

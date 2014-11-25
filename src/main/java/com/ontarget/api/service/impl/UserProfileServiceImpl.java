@@ -3,7 +3,6 @@ package com.ontarget.api.service.impl;
 import com.ontarget.api.dao.AuthenticationDAO;
 import com.ontarget.api.dao.CompanyDAO;
 import com.ontarget.api.dao.ContactDAO;
-import com.ontarget.api.dao.impl.AuthenticationDAOImpl;
 import com.ontarget.api.service.UserProfileService;
 import com.ontarget.bean.Company;
 import com.ontarget.bean.Contact;
@@ -59,6 +58,26 @@ public class UserProfileServiceImpl implements UserProfileService {
         }
         response.setReturnMessage("Successfully created company and user profile");
         response.setReturnVal(OnTargetConstant.SUCCESS);
+
+        return response;
+    }
+
+    @Override
+    @Transactional(rollbackFor = {Exception.class})
+    public OnTargetResponse updateUserProfileAndContactInfo(UserProfileRequest request) throws Exception {
+        logger.info("Request to add user profile" + request);
+        OnTargetResponse response = new OnTargetResponse();
+        Contact contact = request.getContact();
+        contact.setUser(request.getUser());
+
+        boolean saved = contactDAO.updateContactInfo(request.getContact());
+        if (saved) {
+            response.setReturnMessage("Successfully created company and user profile");
+            response.setReturnVal(OnTargetConstant.SUCCESS);
+        } else {
+            response.setReturnMessage("No Rows were updated. Seems User does not exists or may not have any contact info");
+            response.setReturnVal(OnTargetConstant.ERROR);
+        }
 
         return response;
     }

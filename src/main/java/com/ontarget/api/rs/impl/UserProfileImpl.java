@@ -45,6 +45,23 @@ public class UserProfileImpl implements UserProfile {
 
     @Override
     @GET
+    @Path("/updateUserProfile")
+    public OnTargetResponse updateUserProfile(UserProfileRequest userProfileRequest) {
+        logger.info("Received request to add profile: " + userProfileRequest);
+        System.out.println("Received request to add profile: " + userProfileRequest);
+        OnTargetResponse response = null;
+        try {
+            response = userProfileService.updateUserProfileAndContactInfo(userProfileRequest);
+        } catch (Exception e) {
+            logger.error("Add User Profile failed." + e);
+            response.setReturnMessage("Update task failed");
+            response.setReturnVal(OnTargetConstant.ERROR);
+        }
+        return response;
+    }
+
+    @Override
+    @GET
     @Path("/changeUserPassword")
     public OnTargetResponse changeUserPassword(@QueryParam("userId") long userId, @QueryParam("password") String password) throws Exception {
         System.out.println("this is user id "+userId+" password "+password);

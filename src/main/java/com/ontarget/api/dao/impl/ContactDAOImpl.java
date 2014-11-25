@@ -31,9 +31,14 @@ public class ContactDAOImpl implements ContactDAO {
     }
 
     @Override
+    public boolean updateContactInfo(Contact contact) throws Exception {
+        int row = jdbcTemplate.update(OnTargetQuery.UPDATE_CONTACT, new Object[]{contact.getFirstName(), contact.getLastName(), contact.getTitle(), contact.getUserImagePath(), contact.getUser().getUserId()});
+        return row > 0;
+    }
+
+    @Override
     public Map<String, Object> getContactDetail(int userId) throws Exception {
         return jdbcTemplate.queryForMap(OnTargetQuery.GET_COMPANY_BY_USER, new Object[]{userId});
     }
-
 
 }
