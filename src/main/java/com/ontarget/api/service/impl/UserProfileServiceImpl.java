@@ -8,6 +8,7 @@ import com.ontarget.bean.Contact;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.UserProfileRequest;
+import com.ontarget.dto.UserProfileResponse;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,9 +33,9 @@ public class UserProfileServiceImpl implements UserProfileService {
     //TODO: separate logic of user profile and company profile.
     @Override
     @Transactional(rollbackFor={Exception.class})
-    public OnTargetResponse addUserProfile(UserProfileRequest request) throws Exception {
+    public UserProfileResponse addUserProfile(UserProfileRequest request) throws Exception {
         logger.info("Request to add user profile"+ request);
-        OnTargetResponse response=new OnTargetResponse();
+        UserProfileResponse response=new UserProfileResponse();
         //add company.
 
             int companyId = companyDAO.addCompanyInfo(request.getCompany());
@@ -53,9 +54,15 @@ public class UserProfileServiceImpl implements UserProfileService {
             }
             response.setReturnMessage("Successfully created company and user profile");
             response.setReturnVal(OnTargetConstant.SUCCESS);
+            response.setCompany(company);
 
         return response;
 
+    }
+
+    @Override
+    public Company getCompanyInfoByUser(int userId) throws Exception{
+        return null;
     }
 
 

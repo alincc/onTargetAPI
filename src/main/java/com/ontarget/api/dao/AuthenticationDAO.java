@@ -18,7 +18,7 @@ public interface AuthenticationDAO {
 
     public List<UserRegistrationRequest> getUserRegistrationPendingRequests() throws Exception;
 
-    public boolean approvePendingRegistrationRequest(List<UserRegistrationRequest> requests) throws Exception;
+    public boolean approvePendingRegistrationRequest(UserRegistrationRequest req) throws Exception;
 
     public boolean approveUserRequest(int userRequestId) throws Exception;
 

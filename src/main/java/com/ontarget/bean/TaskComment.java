@@ -1,11 +1,12 @@
 package com.ontarget.bean;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by Owner on 11/14/14.
  */
-public class TaskComment {
+public class TaskComment implements Serializable{
 
     private int taskCommentId;
     private int taskId;

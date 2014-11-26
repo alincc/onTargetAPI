@@ -5,6 +5,7 @@ import com.ontarget.api.service.UserProfileService;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.UserProfileRequest;
+import com.ontarget.dto.UserProfileResponse;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -32,9 +33,9 @@ public class UserProfileImpl implements UserProfile {
     @Override
     @POST
     @Path("/addUserProfile")
-    public OnTargetResponse addUserProfile(UserProfileRequest userProfileRequest) {
+    public UserProfileResponse addUserProfile(UserProfileRequest userProfileRequest) {
         logger.info("Received request to add profile: "+ userProfileRequest);
-        OnTargetResponse response=null;
+        UserProfileResponse response=null;
         try {
             response =  userProfileService.addUserProfile(userProfileRequest);
         } catch (Exception e) {

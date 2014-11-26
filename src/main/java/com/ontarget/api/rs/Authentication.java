@@ -23,6 +23,6 @@ public interface Authentication {
 
     public UserRegistationApprovalResponse getPendingUserRegistrationRequests();
 
-    public OnTargetResponse approvePendingRegistrationRequest(List<UserRegistrationRequest> requests);
+    public OnTargetResponse approvePendingRegistrationRequest(UserRegistrationRequest requests);
 
 }

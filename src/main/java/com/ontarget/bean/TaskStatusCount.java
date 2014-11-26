@@ -1,9 +1,11 @@
 package com.ontarget.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by Owner on 11/15/14.
  */
-public class TaskStatusCount {
+public class TaskStatusCount implements Serializable{
 
     private String statusType;
     private long taskCount;

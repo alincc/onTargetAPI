@@ -5,11 +5,11 @@ package com.ontarget.constant;
  */
 public interface OnTargetQuery {
 
-    public static final String REGISTRATION_REQUEST=new StringBuilder("INSERT INTO REGISTRATION_REQUEST (project_id,NAME,EMAIL,COMPANY_NAME,PHONE_NUMBER, MSG,STATUS) VALUES (?,?,?,?,?,?)").toString();
+    public static final String REGISTRATION_REQUEST=new StringBuilder("INSERT INTO REGISTRATION_REQUEST (project_id,NAME,EMAIL,COMPANY_NAME,PHONE_NUMBER, MSG,STATUS) VALUES (?,?,?,?,?,?,?)").toString();
 
-    public static final  String USER_LOGIN=new StringBuilder("SELECT * FROM USER WHERE USER_NAME=? AND PASSWORD=? AND ACCOUNT_STATUS='ACTIVE' AND USER_STATUS=1").toString();
+    public static final  String USER_LOGIN=new StringBuilder("SELECT * FROM USER WHERE USER_NAME=? AND PASSWORD=? AND ACCOUNT_STATUS!='LOCKED'").toString();
 
-    public static final String EXPIRE_TOKEN = new StringBuilder("UPDATE USER_SESSION_INFO SET EXPIRE_DATE=NOW() WHERE USER_ID=(SELECT USER_ID FROM USER WHERE USER_NAME=?)").toString();
+    public static final String EXPIRE_TOKEN = new StringBuilder("UPDATE USER_SESSION_INFO SET EXPIRE_DATE=NOW(),is_expired='1' WHERE USER_ID=(SELECT USER_ID FROM USER WHERE USER_NAME=?) and is_expired='0'").toString();
 
     public static final String  GET_USER_REQUEST_INFO=new StringBuilder("SELECT REGISTRATION_REQ_ID,NAME,EMAIL,COMPANY_NAME,PHONE_NUMBER,MSG,STATUS FROM REGISTRATION_REQUEST WHERE REGISTRATION_REQ_ID=?").toString();
 
@@ -18,7 +18,7 @@ public interface OnTargetQuery {
     public static final String APPROVE_PENDING_USER_REQUEST= new StringBuilder("UPDATE REGISTRATION_REQUEST SET STATUS=? WHERE REGISTRATION_REQ_ID=?").toString();
 
 
-    public static final String CREATE_NEW_USER = new StringBuilder("INSERT INTO USER (USERNAME, USER_TYPE, PASSWORD, USER_STATUS,NUMBER_OF_LOGIN, MODIFIED_DATE, ACCOUNT_STATUS) VALUES (?,?,?,?,?,NOW(),?,?)").toString();
+    public static final String CREATE_NEW_USER = new StringBuilder("INSERT INTO USER (USER_NAME, USER_TYPE_id, PASSWORD, USER_STATUS,NUMBER_OF_LOGIN, MODIFIED_DATE, ACCOUNT_STATUS) VALUES (?,?,?,?,?,NOW(),?)").toString();
 
 
     //TODO: MOVE ACTIVE TO CONSTANT CLASS. ADD MORE FIELDS TO THIS QUERY.
@@ -41,8 +41,8 @@ public interface OnTargetQuery {
 
     public static final String GET_ADDRESS = new StringBuilder("SELECT * FROM ADDRESS WHERE ADDRESS_ID=?").toString();
 
-    public static final String GET_PROJECT_BY_COMPANY = new StringBuilder("SELECT p.* FROM contact c, PROJECT p,project_member pm")
-            .append(" where c.user_id=pm.user_id and p.company_id=c.contact_company_id and p.company_id=? and c.user_id=? order by p.project_id, p.project_parent_id").toString();
+    public static final String GET_PROJECT_BY_COMPANY = new StringBuilder("SELECT p.* FROM contact c, PROJECT p")
+            .append(" where p.company_id=c.contact_company_id and p.company_id=? and c.user_id=? order by p.project_id, p.project_parent_id").toString();
 
     public static final String GET_COMPANY_BY_USER = new StringBuilder("Select * from contact where user_id=?").toString();
 
@@ -70,4 +70,16 @@ public interface OnTargetQuery {
     public static final String UPDATE_TASK = new StringBuilder("update project_task set title=?,description=?,parent_task_id=?,status=?,start_date=?,end_date=?,percentage_complete=?,severity=?,modified_by=?, modified_date=now() where project_task_id=?").toString();
 
     public static final String UPDATE_TASK_PLANNED_ESTIMATED_COST = new StringBuilder("update planned_actuals_cost set value=?,modified_by=?,modified_date=now() where id=?").toString();
+
+    public static final String GET_TASK_COST_MIN_MAX_DATE = new StringBuilder("select min(pac.from_date) as min_date,max(pac.to_date) as max_date  from")
+            .append(" planned_actuals_cost pac, project_task pt, project p")
+            .append(" where pac.task_id=pt.project_task_id and pt.project_id=p.project_id and pac.cost_type=? and p.project_id=?").toString();
+
+    public static final String GET_TASK_PLANNED_ESTIMATED_COST_BY_PROJECT = new StringBuilder("select pt.title,pt.project_task_id,pt.project_id,pac.* from planned_actuals_cost pac, project_task pt, project p ")
+            .append(" where pac.task_id=pt.project_task_id and pt.project_id=p.project_id and pac.cost_type=? and p.project_id=? order by pt.created_date asc").toString();
+
+    public static final String ADD_TASK_PERCENTAGE_COMPLETE = new StringBuilder("insert into task_percentage_log (task_id, start_date, end_date, percentage_type, percentage_complete, created_by, created_date, modified_by, modified_date) values (?,?,?,?,?, ?, now(), ?, now())").toString();
+
+    public static final String UPDATE_TASK_PERCENTAGE_COMPLETE = new StringBuilder("update task_percentage_log set percentage_complete=?,modified_by=?,modified_date=now() where id=?").toString();
+
 }

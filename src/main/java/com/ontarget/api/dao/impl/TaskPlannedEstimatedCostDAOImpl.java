@@ -29,7 +29,7 @@ public class TaskPlannedEstimatedCostDAOImpl implements TaskEstimatedCostDAO {
     @Override
     public int addPlannedAcutalCost(TaskEstimatedCost cost) throws Exception {
 
-        logger.info("Adding address: " + cost);
+        logger.info("Adding Percentage: " + cost);
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(
                 new PreparedStatementCreator() {
@@ -53,7 +53,7 @@ public class TaskPlannedEstimatedCostDAOImpl implements TaskEstimatedCostDAO {
     public boolean updatePlannedActualCost(TaskEstimatedCost cost) throws Exception {
         int row = jdbcTemplate.update(OnTargetQuery.UPDATE_TASK_PLANNED_ESTIMATED_COST, new Object[]{cost.getCost(), "USER", cost.getId()});
         if (row == 0) {
-            throw new Exception("Unable to update task estimated and planned cost");
+            return false;
         }
         return true;
     }

@@ -11,4 +11,6 @@ public interface EmailService {
 
     public boolean sendUserRegistrationEmail() throws Exception;
 
+    //public boolean sendSubmittalEmailForApproval() throws Exception;
+
 }

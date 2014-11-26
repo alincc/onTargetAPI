@@ -43,7 +43,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             throw new Exception("User session token failed");
         }
 
-        response.setUser(user);
+        response.setUser(returnUser);
         response.setToken(token);
         response.setReturnMessage(OnTargetConstant.RETURN_MESSAGE_AUTHENTICATION);
         response.setReturnVal(OnTargetConstant.SUCCESS);
@@ -74,7 +74,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     @Transactional(rollbackFor = {Exception.class})
-    public boolean approvePendingRegistrationRequest(List<UserRegistrationRequest> requests) throws Exception {
+    public boolean approvePendingRegistrationRequest(UserRegistrationRequest requests) throws Exception {
         return authenticationDAO.approvePendingRegistrationRequest(requests);
     }
 }

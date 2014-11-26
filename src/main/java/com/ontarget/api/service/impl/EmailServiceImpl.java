@@ -105,7 +105,8 @@ public class EmailServiceImpl implements EmailService {
             @SuppressWarnings({ "rawtypes", "unchecked" })
             public void prepare(MimeMessage mimeMessage) throws Exception {
                 MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
-                message.setTo(OnTargetConstant.EmailServiceConstants.USER_REGISTRATION_ADMIN_EMAIL);
+               // message.setTo(OnTargetConstant.EmailServiceConstants.USER_REGISTRATION_ADMIN_EMAIL);
+                message.setTo("gsanjeev7@gmail.com");
                 message.setFrom(new InternetAddress(OnTargetConstant.EmailServiceConstants.USER_REGISTRATION_FROM) );
                 message.setSubject(OnTargetConstant.EmailServiceConstants.USER_REGISTRATION_REQUEST_APPROVAL_SUBJECT);
                 message.setSentDate(new Date());
@@ -118,5 +119,4 @@ public class EmailServiceImpl implements EmailService {
 
         return true;
     }
-
 }

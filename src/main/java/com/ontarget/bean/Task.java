@@ -1,6 +1,7 @@
 package com.ontarget.bean;
 
 import java.io.Serializable;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -20,6 +21,7 @@ public class Task implements Serializable{
     private Date startDate;
     private Date endDate;
     private boolean completed;
+    private User assignedTo;
 
     private Project project;
     private Task parentTask;
@@ -164,5 +166,42 @@ public class Task implements Serializable{
 
     public void setCosts(List<TaskEstimatedCost> costs) {
         this.costs = costs;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Task task = (Task) o;
+
+        if (Double.compare(task.cost, cost) != 0) return false;
+        if (percentageComplete != task.percentageComplete) return false;
+        if (projectTaskId != task.projectTaskId) return false;
+        if (description != null ? !description.equals(task.description) : task.description != null) return false;
+        if (!endDate.equals(task.endDate)) return false;
+        if (!severity.equals(task.severity)) return false;
+        if (!startDate.equals(task.startDate)) return false;
+        if (!status.equals(task.status)) return false;
+        if (!title.equals(task.title)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        result = projectTaskId;
+        result = 31 * result + title.hashCode();
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + status.hashCode();
+        result = 31 * result + severity.hashCode();
+        temp = Double.doubleToLongBits(cost);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + percentageComplete;
+        result = 31 * result + startDate.hashCode();
+        result = 31 * result + endDate.hashCode();
+        return result;
     }
 }

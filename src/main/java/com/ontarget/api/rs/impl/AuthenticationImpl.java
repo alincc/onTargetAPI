@@ -91,9 +91,9 @@ public class AuthenticationImpl implements Authentication {
 
     @Override
     @POST
-    @Path("/approvePendingRequests")
-    public OnTargetResponse approvePendingRegistrationRequest(List<UserRegistrationRequest> requests) {
-        OnTargetResponse response = null;
+    @Path("/approvePendingRequest")
+    public OnTargetResponse approvePendingRegistrationRequest(UserRegistrationRequest requests) {
+        OnTargetResponse response = new OnTargetResponse();
         try {
             if (authenticationService.approvePendingRegistrationRequest(requests)) {
                 response.setReturnVal(OnTargetConstant.SUCCESS);

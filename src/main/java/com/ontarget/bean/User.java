@@ -10,9 +10,35 @@ public class User implements Serializable{
     private int userId;
     private String username;
     private String password;
-    private String firstName;
-    private String lastName;
     private String designation;
+    private String accountStatus;
+    private String userStatus;
+
+    public String getAccountStatus() {
+        return accountStatus;
+    }
+
+    public void setAccountStatus(String accountStatus) {
+        this.accountStatus = accountStatus;
+    }
+
+    public String getUserStatus() {
+        return userStatus;
+    }
+
+    public void setUserStatus(String userStatus) {
+        this.userStatus = userStatus;
+    }
+
+    public int getUserTypeId() {
+        return userTypeId;
+    }
+
+    public void setUserTypeId(int userTypeId) {
+        this.userTypeId = userTypeId;
+    }
+
+    private int userTypeId;
 
     public String getDesignation() {
         return designation;
@@ -22,21 +48,6 @@ public class User implements Serializable{
         this.designation = designation;
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
 
     public User() {
     }
@@ -71,8 +82,6 @@ public class User implements Serializable{
                 "userId=" + userId +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
                 ", designation='" + designation + '\'' +
                 '}';
     }

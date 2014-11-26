@@ -20,5 +20,5 @@ public interface AuthenticationService {
 
     public UserRegistationApprovalResponse getUserRegistrationPendingRequests() throws Exception;
 
-    public boolean approvePendingRegistrationRequest(List<UserRegistrationRequest> requests) throws Exception;
+    public boolean approvePendingRegistrationRequest(UserRegistrationRequest requests) throws Exception;
 }

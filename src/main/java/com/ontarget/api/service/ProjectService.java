@@ -20,4 +20,6 @@ public interface ProjectService {
     public ProjectResponse getProjectDetail(int projectId) throws Exception;
 
     public ProjectListResponse getProjectsByCompany(int companyId, int userId) throws Exception;
+
+    public ProjectListResponse getProjectsByUser(int userId) throws Exception;
 }

@@ -1,14 +1,8 @@
 package com.ontarget.api.service.impl;
 
-import com.ontarget.api.dao.AddressDAO;
-import com.ontarget.api.dao.ContactDAO;
-import com.ontarget.api.dao.ProjectDAO;
-import com.ontarget.api.dao.TaskDAO;
+import com.ontarget.api.dao.*;
 import com.ontarget.api.service.ProjectService;
-import com.ontarget.bean.Address;
-import com.ontarget.bean.Project;
-import com.ontarget.bean.Task;
-import com.ontarget.bean.TaskComment;
+import com.ontarget.bean.*;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.ProjectListResponse;
@@ -42,6 +36,9 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Autowired
     private ContactDAO contactDAO;
+
+    @Autowired
+    private CompanyDAO companyDAO;
 
 
     @Override
@@ -187,6 +184,14 @@ public class ProjectServiceImpl implements ProjectService {
 
         }
         return response;
+    }
+
+    @Override
+    public ProjectListResponse getProjectsByUser(int userId) throws Exception {
+        Map<String, Object> companyMap=companyDAO.getCompanyByUser(userId);
+        int companyId = (Integer)companyMap.get("contact_company_id");
+        return this.getProjectsByCompany(companyId,userId);
+
     }
 
 
