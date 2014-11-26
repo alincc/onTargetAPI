@@ -44,7 +44,7 @@ public class UserProfileImpl implements UserProfile {
     }
 
     @Override
-    @GET
+    @POST
     @Path("/updateUserProfile")
     public OnTargetResponse updateUserProfile(UserProfileRequest userProfileRequest) {
         logger.info("Received request to add profile: " + userProfileRequest);

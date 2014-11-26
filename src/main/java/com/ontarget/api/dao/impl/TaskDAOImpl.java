@@ -16,10 +16,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Owner on 11/6/14.
@@ -164,20 +161,6 @@ public class TaskDAOImpl implements TaskDAO {
 
     @Override
     public boolean updateTaskStatus(long taskId, String taskStatus) throws Exception {
-//        KeyHolder keyHolder = new GeneratedKeyHolder();
-//        PreparedStatementCreator statementCreator = new PreparedStatementCreator() {
-//            public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
-//                PreparedStatement ps = connection.prepareStatement(OnTargetQuery.UPDATE_TASK_STATUS, Statement.RETURN_GENERATED_KEYS);
-//                ps.setLong(1, taskId);
-//                ps.setString(2, taskStatus);
-//                return ps;
-//            }
-//        };
-//        int updates = jdbcTemplate.update(statementCreator);
-////        int updates = jdbcTemplate.update(statementCreator, keyHolder);
-//        System.out.println("updated rows: " + updates);
-//        return updates > 0;
-
         String sql = "UPDATE project_task SET status ='" + taskStatus + "' WHERE project_task_id =" + taskId;
         System.out.println(sql);
         int updates = jdbcTemplate.update(sql);
@@ -187,5 +170,15 @@ public class TaskDAOImpl implements TaskDAO {
 //        int updates = jdbcTemplate.update(OnTargetQuery.UPDATE_TASK_STATUS, new Object[]{String.valueOf(taskId), taskStatus});
 //        System.out.println("updated rows: " + updates);
 //        return updates > 0;
+    }
+
+    public Set<Long> getTaskMembers(long taskId) throws Exception {
+        List<Long> users = jdbcTemplate.queryForList(OnTargetQuery.GET_TASK_MEMBERS, Long.class, new Object[]{taskId});
+        return new HashSet<Long>(users);
+    }
+
+    public boolean addTaskMember(long projectId, long taskId, long memberId) throws Exception {
+        int row = jdbcTemplate.update(OnTargetQuery.ADD_TASK_MEMBER, new Object[]{taskId, projectId, memberId});
+        return row > 0;
     }
 }

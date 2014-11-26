@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Owner on 11/6/14.
@@ -96,5 +97,17 @@ public class TaskServiceImpl implements TaskService {
     @Transactional(rollbackFor = {Exception.class})
     public boolean updateTaskStatus(long taskId, String taskStatus) throws Exception {
         return taskDAO.updateTaskStatus(taskId, taskStatus);
+    }
+
+    @Override
+    @Transactional(rollbackFor = {Exception.class})
+    public Set<Long> getTaskMembers(long taskId) throws Exception {
+        return taskDAO.getTaskMembers(taskId);
+    }
+
+    @Override
+    @Transactional(rollbackFor = {Exception.class})
+    public boolean addTaskMember(long projectId, long taskId, long memberId) throws Exception {
+        return taskDAO.addTaskMember(projectId, taskId, memberId);
     }
 }
