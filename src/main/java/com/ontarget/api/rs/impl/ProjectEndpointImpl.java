@@ -2,8 +2,6 @@ package com.ontarget.api.rs.impl;
 
 import com.ontarget.api.rs.ProjectEndoint;
 import com.ontarget.api.service.ProjectService;
-import com.ontarget.bean.Company;
-import com.ontarget.bean.User;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.ProjectListResponse;
@@ -94,7 +92,7 @@ public class ProjectEndpointImpl implements ProjectEndoint {
     @Path("/getProject/user/{userId}")
     public ProjectListResponse getProjectByUser(@PathParam("userId")int userId) {
 
-        ProjectListResponse response = null;
+        ProjectListResponse response  =new ProjectListResponse();
         try {
             response = projectService.getProjectsByUser(userId);
             response.setReturnVal(OnTargetConstant.SUCCESS);
