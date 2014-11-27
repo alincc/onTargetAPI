@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -20,6 +21,7 @@ import java.util.Map;
 /**
  * Created by Owner on 11/25/14.
  */
+@Repository
 public class TaskPercentageDAOImpl implements TaskPercentageDAO {
 
     private Logger logger = Logger.getLogger(TaskPercentageDAOImpl.class);

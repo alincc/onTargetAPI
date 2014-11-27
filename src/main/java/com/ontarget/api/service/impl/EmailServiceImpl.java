@@ -11,6 +11,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 import org.springframework.ui.velocity.VelocityEngineUtils;
 
 import javax.mail.internet.InternetAddress;
@@ -22,7 +23,7 @@ import java.util.Map;
 /**
  * Created by Owner on 11/2/14.
  */
-@Repository
+@Service
 public class EmailServiceImpl implements EmailService {
 
     private Logger logger = Logger.getLogger(EmailServiceImpl.class);
