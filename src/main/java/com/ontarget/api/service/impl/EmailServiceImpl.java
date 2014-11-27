@@ -100,18 +100,19 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public boolean sendUserRegistrationEmail(String tokenId, String name) {
+    public boolean sendUserRegistrationEmail(String userEmail, String tokenId, String firstName, String lastName) {
         MimeMessagePreparator preparator = new MimeMessagePreparator() {
             @SuppressWarnings({"rawtypes", "unchecked"})
             public void prepare(MimeMessage mimeMessage) throws Exception {
                 MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
-                message.setTo(OnTargetConstant.EmailServiceConstants.USER_REGISTRATION_ADMIN_EMAIL);
+                message.setTo(userEmail);
                 message.setFrom(new InternetAddress(OnTargetConstant.EmailServiceConstants.USER_REGISTRATION_FROM));
                 message.setSubject(OnTargetConstant.EmailServiceConstants.USER_REGISTRATION_REQUEST_APPROVAL_SUBJECT);
                 message.setSentDate(new Date());
 
                 Map model = new HashMap();
-                model.put("name", name);
+                model.put("name", firstName+" "+lastName);
+                model.put("firstName", firstName);
                 model.put("url", "http://localhost:8080/");
 
                 String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "/template/registrationRequestsApproval.vm", "UTF-8", model);

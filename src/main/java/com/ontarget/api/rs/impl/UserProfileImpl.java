@@ -100,7 +100,7 @@ public class UserProfileImpl implements UserProfile {
         try {
             if(userProfileService.saveRegistration(firstName, lastName, email, tokenId)){
                 // build n send email
-                emailService.sendUserRegistrationEmail(tokenId, firstName+" "+lastName);
+                emailService.sendUserRegistrationEmail(email, tokenId, firstName,lastName);
                 response.setReturnMessage("Email sent. Please check mail");
                 response.setReturnVal(OnTargetConstant.SUCCESS);
             }

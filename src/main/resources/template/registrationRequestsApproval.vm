@@ -1,6 +1,6 @@
 <html>
 <body>
-<h2>Dear admin,</h2>
+<h2>Dear ${firstName},</h2>
 
 <p> Mr <b><i>${name}</i></b> has send you request to register. To approve click this link</p>
 
