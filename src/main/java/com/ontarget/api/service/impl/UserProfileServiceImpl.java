@@ -3,6 +3,7 @@ package com.ontarget.api.service.impl;
 import com.ontarget.api.dao.AuthenticationDAO;
 import com.ontarget.api.dao.CompanyDAO;
 import com.ontarget.api.dao.ContactDAO;
+import com.ontarget.api.dao.UserRegistrationDAO;
 import com.ontarget.api.service.UserProfileService;
 import com.ontarget.bean.Company;
 import com.ontarget.bean.Contact;
@@ -28,12 +29,14 @@ public class UserProfileServiceImpl implements UserProfileService {
     @Autowired
     private CompanyDAO companyDAO;
 
-
     @Autowired
     private ContactDAO contactDAO;
 
     @Autowired
     private AuthenticationDAO authenticationDAO;
+
+    @Autowired
+    private UserRegistrationDAO userRegistrationDAO;
 
 
     //TODO: separate logic of user profile and company profile.
@@ -92,4 +95,7 @@ public class UserProfileServiceImpl implements UserProfileService {
         return authenticationDAO.changePassword(userId, hashedPassword, salt);
     }
 
+    public boolean saveRegistration(String firstName, String lastName, String email, String tokenId) throws Exception {
+        return userRegistrationDAO.saveRegistrationInvitation(firstName, lastName, email, tokenId) != 0;
+    }
 }

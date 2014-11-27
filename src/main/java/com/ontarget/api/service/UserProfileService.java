@@ -13,4 +13,6 @@ public interface UserProfileService {
     public OnTargetResponse updateUserProfileAndContactInfo(UserProfileRequest request) throws Exception;
 
     public boolean changeUserPassword(long userId, String password) throws Exception;
+
+    public boolean saveRegistration(String firstName, String lastName, String email, String tokenId) throws Exception;
 }

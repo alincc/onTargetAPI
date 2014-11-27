@@ -79,4 +79,6 @@ public interface OnTargetQuery {
     public static final String ADD_TASK_MEMBER = new StringBuilder("INSERT INTO task_member (task_id, project_id, user_id) VALUES (?, ?, ?)").toString();
 
     public static final String UPDATE_TASK_PLANNED_ESTIMATED_COST = new StringBuilder("update planned_actuals_cost set value=?,modified_by=?,modified_date=now() where id=?").toString();
+
+    public static final String ADD_REGISTRATION_INVITATION = new StringBuilder("INSERT INTO registration_request (registration_token, first_name, last_name, email) VALUES (?,?,?,?) ").toString();
 }
