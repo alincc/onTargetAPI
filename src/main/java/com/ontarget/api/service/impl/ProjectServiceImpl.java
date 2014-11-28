@@ -104,6 +104,10 @@ public class ProjectServiceImpl implements ProjectService {
         return response;
     }
 
+    public Project getProject(long projectId) throws Exception {
+        return projectDAO.getProject((int) projectId);
+    }
+
     @Override
     public ProjectResponse getProjectDetail(int projectId) throws Exception {
         Project project = projectDAO.getProject(projectId);

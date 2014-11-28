@@ -87,6 +87,10 @@ public class UserProfileServiceImpl implements UserProfileService {
         return response;
     }
 
+    public Contact getContact(long userId) throws Exception {
+        return contactDAO.getContact(userId);
+    }
+
     @Override
     @Transactional(rollbackFor = {Exception.class})
     public boolean changeUserPassword(long userId, String password) throws Exception {
@@ -95,7 +99,7 @@ public class UserProfileServiceImpl implements UserProfileService {
         return authenticationDAO.changePassword(userId, hashedPassword, salt);
     }
 
-    public boolean saveRegistration(String firstName, String lastName, String email, String tokenId) throws Exception {
-        return userRegistrationDAO.saveRegistrationInvitation(firstName, lastName, email, tokenId) != 0;
+    public boolean saveRegistration(long projectId, String firstName, String lastName, String email, String tokenId) throws Exception {
+        return userRegistrationDAO.saveRegistrationInvitation(projectId, firstName, lastName, email, tokenId) != 0;
     }
 }

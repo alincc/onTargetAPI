@@ -20,8 +20,8 @@ public class UserRegistrationDAOImpl implements com.ontarget.api.dao.UserRegistr
     private JdbcTemplate jdbcTemplate;
 
     @Override
-    public int saveRegistrationInvitation(String firstName, String lastName, String email, String tokenId) throws Exception {
-        jdbcTemplate.update(OnTargetQuery.ADD_REGISTRATION_INVITATION, new Object[]{tokenId, firstName, lastName, email});
+    public int saveRegistrationInvitation(long projectId, String firstName, String lastName, String email, String tokenId) throws Exception {
+        jdbcTemplate.update(OnTargetQuery.ADD_REGISTRATION_INVITATION, new Object[]{tokenId, firstName, lastName, email, projectId});
         return 1;
     }
 }

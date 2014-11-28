@@ -16,5 +16,5 @@ public interface UserProfile {
 
     public OnTargetResponse updateUserProfile(UserProfileRequest userProfileRequest);
 
-    public OnTargetResponse inviteUserIntoProject(String firstName,  String lastName, String email);
+    public OnTargetResponse inviteUserIntoProject(long projectId, String firstName,  String lastName, String email);
 }

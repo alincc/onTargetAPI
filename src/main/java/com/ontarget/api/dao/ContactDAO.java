@@ -14,4 +14,6 @@ public interface ContactDAO {
     public Map<String, Object> getContactDetail(int userId) throws Exception;
 
     public boolean updateContactInfo(Contact contact) throws Exception;
+
+    public Contact getContact(long userId) throws Exception;
 }

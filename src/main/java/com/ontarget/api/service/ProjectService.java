@@ -1,5 +1,6 @@
 package com.ontarget.api.service;
 
+import com.ontarget.bean.Project;
 import com.ontarget.dto.*;
 
 /**
@@ -16,4 +17,6 @@ public interface ProjectService {
     public ProjectListResponse getProjectsByCompany(int companyId, int userId) throws Exception;
 
     public ProjectMemberListResponse getProjectMembers(long projectId) throws Exception;
+
+    public Project getProject(long projectId) throws Exception;
 }

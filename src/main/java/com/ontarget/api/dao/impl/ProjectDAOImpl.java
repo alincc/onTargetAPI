@@ -55,8 +55,8 @@ public class ProjectDAOImpl implements ProjectDAO {
                 },
                 keyHolder);
         logger.debug("Added address with id: " + keyHolder.getKey().intValue());
-        return keyHolder.getKey().intValue();
 
+        return keyHolder.getKey().intValue();
     }
 
     @Override
@@ -73,13 +73,13 @@ public class ProjectDAOImpl implements ProjectDAO {
                 project.setProjectTypeId(resultSet.getInt("PROJECT_TYPE_ID"));
                 project.setProjectParentId(resultSet.getInt("PROJECT_PARENT_ID"));
                 project.setCompanyId(resultSet.getInt("COMPANY_ID"));
+                project.setProjectOwnerId(resultSet.getLong("project_owner_id"));
 
                 return project;
             }
         });
         return project;
     }
-
 
     @Override
     public Project getProjectAndSubProjects(int projectId) throws Exception {

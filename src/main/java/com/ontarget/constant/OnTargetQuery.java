@@ -40,7 +40,7 @@ public interface OnTargetQuery {
 
     public static final String GET_PROJECT_TASK = new StringBuilder("SELECT * , if(status='COMPLETED',true,false) as completed FROM PROJECT_TASK WHERE PROJECT_ID=?").toString();
 
-    public final static String GET_PROJECT = new StringBuilder("SELECT * FROM PROJECT WHERE PROJECT_ID=?").toString();
+    public final static String GET_PROJECT = new StringBuilder("SELECT * FROM project WHERE project_id=?").toString();
 
     public static final String GET_ADDRESS = new StringBuilder("SELECT * FROM ADDRESS WHERE ADDRESS_ID=?").toString();
 
@@ -80,5 +80,5 @@ public interface OnTargetQuery {
 
     public static final String UPDATE_TASK_PLANNED_ESTIMATED_COST = new StringBuilder("update planned_actuals_cost set value=?,modified_by=?,modified_date=now() where id=?").toString();
 
-    public static final String ADD_REGISTRATION_INVITATION = new StringBuilder("INSERT INTO registration_request (registration_token, first_name, last_name, email) VALUES (?,?,?,?) ").toString();
+    public static final String ADD_REGISTRATION_INVITATION = new StringBuilder("INSERT INTO registration_request (registration_token, first_name, last_name, email, project_id) VALUES (?,?,?,?,?) ").toString();
 }
