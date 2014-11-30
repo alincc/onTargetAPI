@@ -82,4 +82,7 @@ public interface OnTargetQuery {
 
     public static final String UPDATE_TASK_PERCENTAGE_COMPLETE = new StringBuilder("update task_percentage_log set percentage_complete=?,modified_by=?,modified_date=now() where id=?").toString();
 
+    public static final String SAVE_UPLOADED_DOCUMENT =  new StringBuilder("insert into project_file (file_name,project_id,created_by,created_date) values (?,?,?,now())").toString();
+    
+    public static final String GET_PROJECT_FILE=new StringBuilder("SELECT * FROM PROJECT_FILE WHERE PROJECT_ID=?").toString();
 }

@@ -8,7 +8,12 @@ public interface OnTargetConstant {
     public static  final String SUCCESS="SUCCESS";
     public static  final String ERROR="ERROR";
 
-
+    public static final String SUCCESS_CODE = "200"; // does not necessary means transaction completed. just when application is aware of the issue
+    public static final String INTERNAL_SERVER_ERROR_CODE = "500";
+    public static final String INTERNAL_SERVER_ERROR_MSG = "Unable to process request on server. Please try later";
+    public static final String DEFAULT_SUCCESS_MESSAGE="Request processed successfully";
+    
+    
     public static final String RETURN_MESSAGE_AUTHENTICATION = "Successfully Authenticated";
     public static final String SUCCESSFULLY_REGISTERED = "Registration Successfully Requested";
     public static final String REGISTRATION_REQUEST_FAILED = "Registration request failed";
