@@ -5,6 +5,7 @@ import com.ontarget.bean.TaskComment;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by Owner on 11/6/14.
@@ -24,4 +25,10 @@ public interface TaskDAO {
     public List<TaskComment> getTaskComments(int projectTaskId) throws Exception;
 
     public boolean updateTask(Task task) throws Exception;
+
+    public boolean updateTaskStatus(long taskId, String taskStatus) throws Exception;
+
+    public Set<Long> getTaskMembers(long taskId) throws Exception;
+
+    public boolean addTaskMember(long projectId, long taskId, long memberId) throws Exception;
 }

@@ -1,11 +1,9 @@
 package com.ontarget.api.service;
 
 import com.ontarget.bean.Company;
+import com.ontarget.bean.Project;
 import com.ontarget.bean.User;
-import com.ontarget.dto.OnTargetResponse;
-import com.ontarget.dto.ProjectListResponse;
-import com.ontarget.dto.ProjectRequest;
-import com.ontarget.dto.ProjectResponse;
+import com.ontarget.dto.*;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -22,4 +20,8 @@ public interface ProjectService {
     public ProjectListResponse getProjectsByCompany(int companyId, int userId) throws Exception;
 
     public ProjectListResponse getProjectsByUser(int userId) throws Exception;
+
+    public ProjectMemberListResponse getProjectMembers(long projectId) throws Exception;
+
+    public Project getProject(long projectId) throws Exception;
 }

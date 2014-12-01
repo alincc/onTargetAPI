@@ -7,6 +7,7 @@ import com.ontarget.bean.TaskComment;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.TaskListResponse;
+import com.ontarget.dto.TaskMemberRequest;
 import com.ontarget.dto.TaskRequest;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,8 @@ import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Owner on 11/6/14.
@@ -104,5 +107,63 @@ public class TaskEndpointImpl implements TaskEndpoint {
         return response;
     }
 
+    @Override
+    @GET
+    @Path("/updateTaskStatus")
+    public OnTargetResponse updateTaskStatus(@QueryParam("taskId") long taskId, @QueryParam("taskStatus") String taskStatus) {
+        System.out.println("these are the requests " + taskId + " and " + taskStatus);
+        OnTargetResponse response = new OnTargetResponse();
+        try {
+            if (taskService.updateTaskStatus(taskId, taskStatus)) {
+                System.out.println("succesfully updated");
+                response.setReturnMessage("Successfully updated task status");
+                response.setReturnVal(OnTargetConstant.SUCCESS);
+            } else {
+                System.out.println("failed...");
+            }
+        } catch (Exception e) {
+            // logger.error("update task failed." + e);
+            e.printStackTrace();
+            response.setReturnMessage("update task status failed");
+            response.setReturnVal(OnTargetConstant.ERROR);
+        }
+        return response;
+    }
 
+    @Override
+    @POST
+    @Path("/addTaskMember")
+    public OnTargetResponse addTaskMember(TaskMemberRequest taskMemberRequest) {
+        OnTargetResponse response = new OnTargetResponse();
+        long taskId = taskMemberRequest.getTaskId();
+        long projectId = taskMemberRequest.getProjectId();
+        if (taskId == 0) {
+            response.setReturnMessage("validation error");
+            response.setReturnVal(OnTargetConstant.ERROR);
+        } else {
+            try {
+                Set<Long> members = taskService.getTaskMembers(taskId);
+                List<Long> taskMemberRequestMembers = taskMemberRequest.getMembers();
+                int count = 0;
+                for (long member : taskMemberRequestMembers) {
+                    if (!members.contains(member)) {
+                        if (taskService.addTaskMember(projectId, taskId, member))
+                            count++;
+                    }
+                }
+                if (count < taskMemberRequestMembers.size()) {
+                    response.setReturnMessage("Out of " + taskMemberRequestMembers.size() + " only " + count + " were written");
+                    response.setReturnVal(OnTargetConstant.SUCCESS);
+                } else {
+                    response.setReturnMessage("Successfully written");
+                    response.setReturnVal(OnTargetConstant.SUCCESS);
+                }
+            } catch (Exception e) {
+                response.setReturnMessage("error while reading task members");
+                response.setReturnVal(OnTargetConstant.ERROR);
+            }
+        }
+
+        return response;
+    }
 }

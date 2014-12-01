@@ -101,18 +101,22 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public boolean sendUserRegistrationEmail() {
+    public boolean sendUserRegistrationEmail(String userEmail, String tokenId, String receiverFirstName, String senderFirstName, String senderLastName) {
         MimeMessagePreparator preparator = new MimeMessagePreparator() {
-            @SuppressWarnings({ "rawtypes", "unchecked" })
+            @SuppressWarnings({"rawtypes", "unchecked"})
             public void prepare(MimeMessage mimeMessage) throws Exception {
                 MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
-               // message.setTo(OnTargetConstant.EmailServiceConstants.USER_REGISTRATION_ADMIN_EMAIL);
-                message.setTo("gsanjeev7@gmail.com");
-                message.setFrom(new InternetAddress(OnTargetConstant.EmailServiceConstants.USER_REGISTRATION_FROM) );
+                message.setTo(userEmail);
+                message.setFrom(new InternetAddress(OnTargetConstant.EmailServiceConstants.USER_REGISTRATION_FROM));
                 message.setSubject(OnTargetConstant.EmailServiceConstants.USER_REGISTRATION_REQUEST_APPROVAL_SUBJECT);
                 message.setSentDate(new Date());
 
-                String text = "test email";
+                Map model = new HashMap();
+                model.put("senderName", senderFirstName + " " + senderLastName);
+                model.put("receiverFirstName", receiverFirstName);
+                model.put("url", "http://localhost:8080/");
+
+                String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "/template/registrationRequestsApproval.vm", "UTF-8", model);
                 message.setText(text, true);
             }
         };
@@ -120,4 +124,5 @@ public class EmailServiceImpl implements EmailService {
 
         return true;
     }
+
 }

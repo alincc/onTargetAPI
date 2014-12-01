@@ -1,7 +1,9 @@
 package com.ontarget.api.service.impl;
 
+import com.ontarget.api.dao.AuthenticationDAO;
 import com.ontarget.api.dao.CompanyDAO;
 import com.ontarget.api.dao.ContactDAO;
+import com.ontarget.api.dao.UserRegistrationDAO;
 import com.ontarget.api.service.UserProfileService;
 import com.ontarget.bean.Company;
 import com.ontarget.bean.Contact;
@@ -9,10 +11,13 @@ import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.UserProfileRequest;
 import com.ontarget.dto.UserProfileResponse;
+import com.ontarget.util.Security;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Set;
 
 /**
  * Created by Owner on 11/4/14.
@@ -28,6 +33,12 @@ public class UserProfileServiceImpl implements UserProfileService {
 
     @Autowired
     private ContactDAO contactDAO;
+
+    @Autowired
+    private AuthenticationDAO authenticationDAO;
+
+    @Autowired
+    private UserRegistrationDAO userRegistrationDAO;
 
 
     //TODO: separate logic of user profile and company profile.
@@ -54,10 +65,42 @@ public class UserProfileServiceImpl implements UserProfileService {
             }
             response.setReturnMessage("Successfully created company and user profile");
             response.setReturnVal(OnTargetConstant.SUCCESS);
+
             response.setCompany(company);
 
         return response;
+    }
 
+    @Override
+    @Transactional(rollbackFor = {Exception.class})
+    public OnTargetResponse updateUserProfileAndContactInfo(UserProfileRequest request) throws Exception {
+        logger.info("Request to add user profile" + request);
+        OnTargetResponse response = new OnTargetResponse();
+        Contact contact = request.getContact();
+        contact.setUser(request.getUser());
+
+        boolean saved = contactDAO.updateContactInfo(request.getContact());
+        if (saved) {
+            response.setReturnMessage("Successfully created company and user profile");
+            response.setReturnVal(OnTargetConstant.SUCCESS);
+        } else {
+            response.setReturnMessage("No Rows were updated. Seems User does not exists or may not have any contact info");
+            response.setReturnVal(OnTargetConstant.ERROR);
+        }
+
+        return response;
+    }
+
+    public Contact getContact(long userId) throws Exception {
+        return contactDAO.getContact(userId);
+    }
+
+    @Override
+    @Transactional(rollbackFor = {Exception.class})
+    public boolean changeUserPassword(long userId, String password) throws Exception {
+        String salt = Security.generateSecureSalt();
+        String hashedPassword = Security.encodePassword(password, salt);
+        return authenticationDAO.changePassword(userId, hashedPassword, salt);
     }
 
     @Override
@@ -65,7 +108,7 @@ public class UserProfileServiceImpl implements UserProfileService {
         return null;
     }
 
-
-
-
+    public boolean saveRegistration(long projectId, String firstName, String lastName, String email, String tokenId) throws Exception {
+        return userRegistrationDAO.saveRegistrationInvitation(projectId, firstName, lastName, email, tokenId) != 0;
+    }
 }

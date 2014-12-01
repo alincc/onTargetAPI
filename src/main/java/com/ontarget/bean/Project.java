@@ -13,6 +13,7 @@ public class Project implements Serializable{
     private String projectName;
     private String projectDescription;
     private int projectTypeId;
+    private long projectOwnerId;
     private String status;
     private int companyId;//TODO: add company object instead of companyId
     private int projectParentId;
@@ -24,6 +25,14 @@ public class Project implements Serializable{
     private String projectImagePath;
 
     public Project() {
+    }
+
+    public long getProjectOwnerId() {
+        return projectOwnerId;
+    }
+
+    public void setProjectOwnerId(long projectOwnerId) {
+        this.projectOwnerId = projectOwnerId;
     }
 
     public int getProjectId() {

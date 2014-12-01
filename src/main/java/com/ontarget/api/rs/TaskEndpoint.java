@@ -4,6 +4,7 @@ import com.ontarget.api.response.TaskListCountResponse;
 import com.ontarget.bean.TaskComment;
 import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.TaskListResponse;
+import com.ontarget.dto.TaskMemberRequest;
 import com.ontarget.dto.TaskRequest;
 
 import javax.ws.rs.GET;
@@ -27,4 +28,8 @@ public interface TaskEndpoint {
     @POST
     @Path("/addComment")
     OnTargetResponse addUpdateCommentToTask(TaskComment comment);
+
+    public OnTargetResponse updateTaskStatus(long taskId, String taskStatus);
+
+    public OnTargetResponse addTaskMember(TaskMemberRequest taskMemberRequest);
 }

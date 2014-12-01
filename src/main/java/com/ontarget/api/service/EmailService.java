@@ -9,8 +9,5 @@ public interface EmailService {
 
     public boolean sendUserRequestEmailToAdmin(int userRequestId);
 
-    public boolean sendUserRegistrationEmail() throws Exception;
-
-    //public boolean sendSubmittalEmailForApproval() throws Exception;
-
+    public boolean sendUserRegistrationEmail(String userEmail, String tokenId, String receiverFirstName, String senderFirstName, String senderLastName) throws Exception;
 }
