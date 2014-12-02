@@ -55,6 +55,10 @@ public class TaskPercentageEndpointImpl implements TaskPercentageEndpoint {
     @Override
     @POST
     @Path("/update")
+    /**
+     *
+     * Update task percentage complete.
+     */
     public OnTargetResponse updateTaskPercentageComplete(TaskPercentageRequest request) {
         logger.info("update task Percentage");
         OnTargetResponse response = new OnTargetResponse();
