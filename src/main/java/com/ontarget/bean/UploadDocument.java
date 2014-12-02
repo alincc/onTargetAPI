@@ -22,8 +22,8 @@ public class UploadDocument extends BaseBean{
 		this.name=requestData.getName();
 		this.createdBy=requestData.getUser().getUsername();
 		this.modifiedBy=requestData.getUser().getUsername();
-		this.createdTimeStamp=new Date();
-		this.modifiedTimeStamp=new Date();
+		this.createdDate=new Date();
+		this.modifiedDate=new Date();
 		
 	}
 

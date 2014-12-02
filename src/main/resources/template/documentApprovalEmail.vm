@@ -1,0 +1,15 @@
+<html>
+<body>
+<h2>Hi ${assignee.username},</h2>
+
+<p>You have new ${document.name} available for approval. </p>
+
+<p>Follow the link below to view the docoment.</p>
+
+<p>${documentUrl}</p>
+
+<p>thanks<br>
+OnTarget team
+</p>
+</body>
+</html>

@@ -3,12 +3,13 @@ package com.ontarget.bean;
 import java.io.Serializable;
 import java.util.Date;
 
-public abstract class BaseBean implements Serializable {
+public class BaseBean implements Serializable {
+	private static final long serialVersionUID = 1L;
 	
 	protected String createdBy;
+	protected Date createdDate;
 	protected String modifiedBy;
-	protected Date createdTimeStamp;
-	protected Date modifiedTimeStamp;
+	protected Date modifiedDate;
 	
 	public String getCreatedBy() {
 		return createdBy;
@@ -16,24 +17,24 @@ public abstract class BaseBean implements Serializable {
 	public void setCreatedBy(String createdBy) {
 		this.createdBy = createdBy;
 	}
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
 	public String getModifiedBy() {
 		return modifiedBy;
 	}
 	public void setModifiedBy(String modifiedBy) {
 		this.modifiedBy = modifiedBy;
 	}
-	public Date getCreatedTimeStamp() {
-		return createdTimeStamp;
+	public Date getModifiedDate() {
+		return modifiedDate;
 	}
-	public void setCreatedTimeStamp(Date createdTimeStamp) {
-		this.createdTimeStamp = createdTimeStamp;
-	}
-	public Date getModifiedTimeStamp() {
-		return modifiedTimeStamp;
-	}
-	public void setModifiedTimeStamp(Date modifiedTimeStamp) {
-		this.modifiedTimeStamp = modifiedTimeStamp;
+	public void setModifiedDate(Date modifiedDate) {
+		this.modifiedDate = modifiedDate;
 	}
 	
-
+	
 }

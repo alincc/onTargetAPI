@@ -44,9 +44,6 @@ public interface OnTargetConstant {
         public static final String USER_REGISTRATION_REQUEST_APPROVAL_SUBJECT = "OnTarget Registration Approval";
 
         public static final String USER_REGISTRATION_ADMIN_EMAIL="ontarget@gmail.com";
-        
-        String DOCUMENT_APPROVAL_FROM = "dontoreply@ontarget.com";
-        String DOCUMENT_APPROVAL_SUBJECT = "New document available for approval";
     }
 
     public interface USER_STATUS {
@@ -69,11 +66,5 @@ public interface OnTargetConstant {
     public interface CostType {
         public static final String PLANNED="PLANNED";
         public static final String ACTUAL="ACTUAL";
-    }
- 
-    public interface DocumentStatus {
-    	String SUBMITTED = "SUBMITTED";
-    	String APPROVED = "APPROVED";
-    	String REJECTED = "REJECTED";
     }
 }
