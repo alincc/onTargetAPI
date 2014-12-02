@@ -4,10 +4,7 @@ import com.ontarget.api.dao.*;
 import com.ontarget.api.service.ProjectService;
 import com.ontarget.bean.*;
 import com.ontarget.constant.OnTargetConstant;
-import com.ontarget.dto.OnTargetResponse;
-import com.ontarget.dto.ProjectListResponse;
-import com.ontarget.dto.ProjectRequest;
-import com.ontarget.dto.ProjectResponse;
+import com.ontarget.dto.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -107,6 +104,9 @@ public class ProjectServiceImpl implements ProjectService {
         return response;
     }
 
+    public Project getProject(long projectId) throws Exception {
+        return projectDAO.getProject((int) projectId);
+    }
 
     @Override
     public ProjectResponse getProjectDetail(int projectId) throws Exception {
@@ -126,6 +126,16 @@ public class ProjectServiceImpl implements ProjectService {
         }
 
         response.setProject(project);
+        return response;
+    }
+
+    @Override
+    public ProjectMemberListResponse getProjectMembers(long projectId) throws Exception {
+        List<ProjectMember> projectMembers = projectDAO.getProjectMembers(projectId);
+        ProjectMemberListResponse response = new ProjectMemberListResponse();
+        response.setProjectId(projectId);
+
+        response.setProjectMemberList(projectMembers);
         return response;
     }
 

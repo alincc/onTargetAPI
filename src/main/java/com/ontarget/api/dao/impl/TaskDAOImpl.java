@@ -158,4 +158,27 @@ public class TaskDAOImpl implements TaskDAO {
         }
         return true;
     }
+
+    @Override
+    public boolean updateTaskStatus(long taskId, String taskStatus) throws Exception {
+        String sql = "UPDATE project_task SET status ='" + taskStatus + "' WHERE project_task_id =" + taskId;
+        System.out.println(sql);
+        int updates = jdbcTemplate.update(sql);
+        System.out.println("updated rows: " + updates);
+        return updates > 0;
+
+//        int updates = jdbcTemplate.update(OnTargetQuery.UPDATE_TASK_STATUS, new Object[]{String.valueOf(taskId), taskStatus});
+//        System.out.println("updated rows: " + updates);
+//        return updates > 0;
+    }
+
+    public Set<Long> getTaskMembers(long taskId) throws Exception {
+        List<Long> users = jdbcTemplate.queryForList(OnTargetQuery.GET_TASK_MEMBERS, Long.class, new Object[]{taskId});
+        return new HashSet<Long>(users);
+    }
+
+    public boolean addTaskMember(long projectId, long taskId, long memberId) throws Exception {
+        int row = jdbcTemplate.update(OnTargetQuery.ADD_TASK_MEMBER, new Object[]{taskId, projectId, memberId});
+        return row > 0;
+    }
 }

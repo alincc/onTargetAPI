@@ -21,12 +21,5 @@ public class EmailServiceTest extends BaseTest {
     @Test
     public void testSendUserRequestEmail(){
 
-        try {
-            emailService.sendUserRegistrationEmail();
-        } catch (Exception e) {
-            logger.error("Error while sending email",e);
-            fail();
-        }
-
     }
 }

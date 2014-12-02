@@ -1,0 +1,14 @@
+<html>
+<body>
+<h2>Dear ${receiverFirstName},</h2>
+
+<p> Mr <b><i>${senderName}</i></b> has send you request to register. To approve click this link</p>
+
+<p>${url}</p>
+
+
+<p>thanks<br>
+    OnTarget team
+</p>
+</body>
+</html>

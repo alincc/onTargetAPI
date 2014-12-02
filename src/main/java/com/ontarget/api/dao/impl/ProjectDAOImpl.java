@@ -2,6 +2,7 @@ package com.ontarget.api.dao.impl;
 
 import com.ontarget.api.dao.ProjectDAO;
 import com.ontarget.bean.Project;
+import com.ontarget.bean.ProjectMember;
 import com.ontarget.constant.OnTargetQuery;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +17,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Owner on 11/5/14.
@@ -57,6 +55,7 @@ public class ProjectDAOImpl implements ProjectDAO {
                 },
                 keyHolder);
         logger.debug("Added address with id: " + keyHolder.getKey().intValue());
+
         return keyHolder.getKey().intValue();
 
     }
@@ -66,15 +65,16 @@ public class ProjectDAOImpl implements ProjectDAO {
 
         final Project project = new Project();
 
-       jdbcTemplate.query(OnTargetQuery.GET_PROJECT, new Object[]{projectId}, new RowMapper<Project>() {
-           @Override
-           public Project mapRow(ResultSet resultSet, int i) throws SQLException {
-               project.setProjectId(projectId);
-               project.setProjectName( resultSet.getString("PROJECT_NAME"));
-               project.setProjectDescription(resultSet.getString("PROJECT_DESCRIPTION"));
-               project.setProjectTypeId(resultSet.getInt("PROJECT_TYPE_ID"));
-               project.setProjectParentId(resultSet.getInt("PROJECT_PARENT_ID"));
-               project.setCompanyId(resultSet.getInt("COMPANY_ID"));
+        jdbcTemplate.query(OnTargetQuery.GET_PROJECT, new Object[]{projectId}, new RowMapper<Project>() {
+            @Override
+            public Project mapRow(ResultSet resultSet, int i) throws SQLException {
+                project.setProjectId(projectId);
+                project.setProjectName(resultSet.getString("PROJECT_NAME"));
+                project.setProjectDescription(resultSet.getString("PROJECT_DESCRIPTION"));
+                project.setProjectTypeId(resultSet.getInt("PROJECT_TYPE_ID"));
+                project.setProjectParentId(resultSet.getInt("PROJECT_PARENT_ID"));
+                project.setCompanyId(resultSet.getInt("COMPANY_ID"));
+                project.setProjectOwnerId(resultSet.getLong("project_owner_id"));
 
                return project;
            }
@@ -135,5 +135,21 @@ public class ProjectDAOImpl implements ProjectDAO {
         return true;
     }
 
-
+    public List<ProjectMember> getProjectMembers(long projectId) throws Exception {
+        List<ProjectMember> projectMemberList = new LinkedList<ProjectMember>();
+        jdbcTemplate.query(OnTargetQuery.GET_PROJECT_MEMBERS, new Object[]{projectId}, new RowMapper<ProjectMember>() {
+            @Override
+            public ProjectMember mapRow(ResultSet resultSet, int i) throws SQLException {
+                ProjectMember projectMember = new ProjectMember();
+                projectMember.setMemberStatus(resultSet.getString("member_status"));
+                projectMember.setProjectId(projectId);
+                projectMember.setProjectMemberId(resultSet.getLong("project_member_id"));
+                projectMember.setUserId(resultSet.getLong("user_id"));
+                projectMemberList.add(projectMember);
+                return projectMember;
+            }
+        });
+        System.out.println("total read " + projectMemberList.size());
+        return projectMemberList;
+    }
 }

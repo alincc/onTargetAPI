@@ -3,10 +3,7 @@ package com.ontarget.api.rs.impl;
 import com.ontarget.api.rs.ProjectEndoint;
 import com.ontarget.api.service.ProjectService;
 import com.ontarget.constant.OnTargetConstant;
-import com.ontarget.dto.OnTargetResponse;
-import com.ontarget.dto.ProjectListResponse;
-import com.ontarget.dto.ProjectRequest;
-import com.ontarget.dto.ProjectResponse;
+import com.ontarget.dto.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -68,6 +65,27 @@ public class ProjectEndpointImpl implements ProjectEndoint {
 
         return response;
     }
+
+    @Override
+    @GET
+    @Path("/getProjectMembers")
+    public ProjectMemberListResponse getProjectMembers(@QueryParam("projectId") long projectId) {
+        System.out.println("project id "+projectId);
+        ProjectMemberListResponse response = new ProjectMemberListResponse();
+        try {
+            response = projectService.getProjectMembers(projectId);
+            response.setReturnVal(OnTargetConstant.SUCCESS);
+            response.setReturnMessage("Successfully retrieved project members");
+
+        } catch (Exception e) {
+            logger.error("Error while reading project members", e);
+            response.setReturnMessage("Error while getting project members");
+            response.setReturnVal(OnTargetConstant.ERROR);
+        }
+
+        return response;
+    }
+
 
     @Override
     @GET

@@ -20,9 +20,12 @@ public interface OnTargetQuery {
 
     public static final String CREATE_NEW_USER = new StringBuilder("INSERT INTO USER (USER_NAME, USER_TYPE_id, PASSWORD, USER_STATUS,NUMBER_OF_LOGIN, MODIFIED_DATE, ACCOUNT_STATUS) VALUES (?,?,?,?,?,NOW(),?)").toString();
 
+    public static final String CHANGE_USER_PASSWORD = new StringBuilder("UPDATE user SET password=? , salt=? WHERE user_id=?").toString();
 
     //TODO: MOVE ACTIVE TO CONSTANT CLASS. ADD MORE FIELDS TO THIS QUERY.
     public static final String CREATE_CONTACT=new StringBuilder("INSERT INTO CONTACT (user_id, contact_company_id, first_name,last_name, title, created_date, created_by, modified_date, modified_by, contact_status,contact_image) values (?,?,?,?,?,  NOW(),'SYSTEM', NOW(),'SYSTEM','ACTIVE',?)").toString();
+
+    public static final String UPDATE_CONTACT = new StringBuilder("UPDATE contact SET first_name=?,last_name=?, title=?, contact_image=? WHERE user_id=?").toString();
 
     public static final String CREATE_COMPANY=new StringBuilder("INSERT INTO COMPANY_INFO (COMPANY_NAME, COMPANY_TYPE_ID,ADDRESS1, ADDRESS2, CITY, STATE, ZIPCODE,COUNTRY, WEBSITE,STATUS) values (?,?,?,?,?,?,?,?,?,?)").toString();
 
@@ -67,7 +70,13 @@ public interface OnTargetQuery {
 
     public static final String UPDATE_PROJECT = new StringBuilder("update project set project_name=?,project_description=?,project_type=?, project_parent_id=?, project_status=?, project_start_date=?,project_end_date=?, modified_by=?, modified_date=now() where project_id=?").toString();
 
+    public static final String GET_PROJECT_MEMBERS = new StringBuilder("SELECT * FROM project_member WHERE project_id=?").toString();
+
     public static final String UPDATE_TASK = new StringBuilder("update project_task set title=?,description=?,parent_task_id=?,status=?,start_date=?,end_date=?,percentage_complete=?,severity=?,modified_by=?, modified_date=now() where project_task_id=?").toString();
+
+    public static final String GET_TASK_MEMBERS = new StringBuilder("SELECT `user_id` FROM `task_member` WHERE `task_id`=? and `status` = 'ACTIVE'").toString();
+
+    public static final String ADD_TASK_MEMBER = new StringBuilder("INSERT INTO task_member (task_id, project_id, user_id) VALUES (?, ?, ?)").toString();
 
     public static final String UPDATE_TASK_PLANNED_ESTIMATED_COST = new StringBuilder("update planned_actuals_cost set value=?,modified_by=?,modified_date=now() where id=?").toString();
 
@@ -81,5 +90,7 @@ public interface OnTargetQuery {
     public static final String ADD_TASK_PERCENTAGE_COMPLETE = new StringBuilder("insert into task_percentage_log (task_id, start_date, end_date, percentage_type, percentage_complete, created_by, created_date, modified_by, modified_date) values (?,?,?,?,?, ?, now(), ?, now())").toString();
 
     public static final String UPDATE_TASK_PERCENTAGE_COMPLETE = new StringBuilder("update task_percentage_log set percentage_complete=?,modified_by=?,modified_date=now() where id=?").toString();
+
+    public static final String ADD_REGISTRATION_INVITATION = new StringBuilder("INSERT INTO registration_request (registration_token, first_name, last_name, email, project_id) VALUES (?,?,?,?,?) ").toString();
 
 }
