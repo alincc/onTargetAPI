@@ -289,7 +289,7 @@
     <properties>
         <jersey-version>1.18.1</jersey-version>
         <spring.version>4.0.5.RELEASE</spring.version>
-        <env>dev</env>
+        <env>local</env>
         <enunciate.version>1.28</enunciate.version>
     </properties>
 
