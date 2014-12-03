@@ -94,4 +94,8 @@ public interface OnTargetQuery {
     public static final String ADD_REGISTRATION_INVITATION = new StringBuilder("INSERT INTO registration_request (registration_token, first_name, last_name, email, project_id) VALUES (?,?,?,?,?) ").toString();
 
     public static final String GET_REGISTRATION_INVITATION = new StringBuilder("SELECT * FROM registration_request WHERE registration_token=?").toString();
+
+    public static final String GET_USER = new StringBuilder("SELECT * FROM user WHERE user_id = ?").toString();
+
+    public static final String GET_RANDOM_SAFETY_INFO = new StringBuilder("SELECT name FROM user_safety_info where discipline_id=? ORDER BY RAND() LIMIT 1").toString();
 }

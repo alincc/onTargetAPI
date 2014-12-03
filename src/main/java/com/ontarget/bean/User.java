@@ -13,6 +13,7 @@ public class User implements Serializable{
     private String designation;
     private String accountStatus;
     private String userStatus;
+    private long discipline;
 
     public String getAccountStatus() {
         return accountStatus;
@@ -74,6 +75,14 @@ public class User implements Serializable{
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    public long getDiscipline() {
+        return discipline;
+    }
+
+    public void setDiscipline(long discipline) {
+        this.discipline = discipline;
     }
 
     @Override

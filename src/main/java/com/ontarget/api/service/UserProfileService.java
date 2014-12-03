@@ -25,4 +25,6 @@ public interface UserProfileService {
     public UserRegistration getRegistration(String token) throws Exception;
 
     public Company getCompanyInfoByUser(int userId) throws Exception;
+
+    public String getRandomSafetyUserInfo(long userId) throws Exception;
 }

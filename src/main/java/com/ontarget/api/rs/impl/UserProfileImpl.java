@@ -6,6 +6,7 @@ import com.ontarget.api.service.ProjectService;
 import com.ontarget.api.service.UserProfileService;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.OnTargetResponse;
+import com.ontarget.dto.SafetyInfoResponse;
 import com.ontarget.dto.UserProfileRequest;
 import com.ontarget.dto.UserProfileResponse;
 import org.apache.log4j.Logger;
@@ -66,13 +67,14 @@ public class UserProfileImpl implements UserProfile {
             response.setReturnMessage("Update task failed");
             response.setReturnVal(OnTargetConstant.ERROR);
         }
+
         return response;
     }
 
     @Override
     @GET
     @Path("/changeUserPassword")
-    public OnTargetResponse changeUserPassword(@QueryParam("userId") long userId, @QueryParam("password") String password) throws Exception {
+    public OnTargetResponse changeUserPassword(@QueryParam("userId") long userId, @QueryParam("password") String password)  {
         System.out.println("this is user id " + userId + " password " + password);
         OnTargetResponse response = new OnTargetResponse();
         try {
@@ -93,5 +95,27 @@ public class UserProfileImpl implements UserProfile {
         return response;
     }
 
+    @Override
+    @GET
+    @Path("/getSafetyInfoForUser")
+    public SafetyInfoResponse getSafetyInfoForUser(@QueryParam("userId") long userId){
+        System.out.println("this is user id " + userId);
+        SafetyInfoResponse response = new SafetyInfoResponse();
+        try {
+            String safetyUserInfo = userProfileService.getRandomSafetyUserInfo(userId);
+            if(safetyUserInfo == null){
+                response.setReturnVal(OnTargetConstant.ERROR);
+                response.setReturnMessage("Null info");
+            }
+            else {
+                response.setSafetyInfo(safetyUserInfo);
+                response.setReturnVal(OnTargetConstant.SUCCESS);
+            }
+        } catch (Exception e) {
+            response.setReturnMessage(e.getMessage());
+            response.setReturnVal(OnTargetConstant.ERROR);
+        }
 
+        return response;
+    }
 }
