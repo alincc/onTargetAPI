@@ -130,6 +130,12 @@ public interface OnTargetQuery {
     	String GET_BY_ID = "select * from document_submittal where document_submittal_id=?";
     }
     
+    interface documentAttachment {
+    	String ADD = "insert into document_attachment(`document_id`,`file_path`,`created_by`,`created_date`,`modified_by`,`modified_date`) " +
+    				 "values (?,?,?,now(),?,now());";
+    	String GET_BY_DOCUMENT_ID = "select * from document_attachment where document_id=?";
+    }
+    
     String GET_EMAIL_BY_CONTACT_ID = "select * from email where contact_id = ?";
     String GET_USER_BY_ID = "select * from user where user_id=?";
 

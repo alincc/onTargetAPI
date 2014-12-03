@@ -9,12 +9,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.ontarget.bean.DocumentGridKeyValue;
 import com.ontarget.bean.DocumentKeyValue;
 import com.ontarget.bean.User;
 import com.ontarget.constant.OnTargetConstant;
+import com.ontarget.dto.AddDocumentAttachmentRequest;
 import com.ontarget.dto.AddDocumentRequest;
 import com.ontarget.dto.UpdateDocumentDataRequest;
 import com.ontarget.dto.UpdateDocumentStatusRequest;
@@ -25,7 +25,6 @@ import com.sun.jersey.test.framework.spi.container.TestContainerException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:/applicationContext.xml"})
-@Transactional
 public class DocumentEndpointTest extends JerseyTest {
 	
 	public DocumentEndpointTest() throws TestContainerException {
@@ -273,5 +272,24 @@ public class DocumentEndpointTest extends JerseyTest {
         } catch(Throwable t) {
         	throw new RuntimeException(t);
         }
+	}
+	
+	@Test
+	public void testAddDocumentAttachment() {
+		AddDocumentAttachmentRequest request = new AddDocumentAttachmentRequest();
+		request.setDocumentId(31L);
+		request.setFilePath("/path/to/file/file.txt");
+		User user = new User();
+		user.setUserId(6);
+		user.setUsername("Assignee3");
+		request.setUser(user);
+		try {
+			ObjectMapper mapper = new ObjectMapper();
+	    	mapper.configure(SerializationConfig.Feature.INDENT_OUTPUT, true);
+			String payLoad = mapper.writeValueAsString(request);
+	    	System.out.println(payLoad);
+		} catch(Exception ex) {
+			System.out.println(ex);
+		}
 	}
 }

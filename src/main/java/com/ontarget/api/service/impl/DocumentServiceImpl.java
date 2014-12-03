@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ontarget.api.dao.DocumentAttachmentDAO;
 import com.ontarget.api.dao.DocumentDAO;
 import com.ontarget.api.dao.DocumentGridKeyValueDAO;
 import com.ontarget.api.dao.DocumentKeyValueDAO;
@@ -15,14 +16,18 @@ import com.ontarget.api.dao.DocumentTemplateDAO;
 import com.ontarget.api.service.DocumentService;
 import com.ontarget.api.service.EmailService;
 import com.ontarget.bean.Document;
+import com.ontarget.bean.DocumentAttachment;
 import com.ontarget.bean.DocumentGridKeyValue;
 import com.ontarget.bean.DocumentKeyValue;
 import com.ontarget.bean.DocumentSubmittal;
 import com.ontarget.bean.DocumentTemplate;
 import com.ontarget.bean.User;
 import com.ontarget.constant.OnTargetConstant;
+import com.ontarget.dto.AddDocumentAttachmentRequest;
+import com.ontarget.dto.AddDocumentAttachmentResponse;
 import com.ontarget.dto.AddDocumentRequest;
 import com.ontarget.dto.AddDocumentResponse;
+import com.ontarget.dto.GetDocumentAttachmentsResponse;
 import com.ontarget.dto.GetDocumentsResponse;
 import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.UpdateDocumentDataRequest;
@@ -50,6 +55,9 @@ public class DocumentServiceImpl implements DocumentService {
 	
 	@Autowired
 	private EmailService emailService;
+	
+	@Autowired
+	private DocumentAttachmentDAO documentAttachmentDAO;
 	
 	@Transactional(rollbackFor = {Exception.class})
 	@Override
@@ -172,6 +180,48 @@ public class DocumentServiceImpl implements DocumentService {
 		} catch(Throwable t) {
 			logger.error("Error while updating document status!", t);
 			throw new Exception("Unable to update the document status!");
+		}
+	}
+
+	@Transactional(rollbackFor = {Exception.class})
+	@Override
+	public GetDocumentAttachmentsResponse getDocumentAttachments(Long documentId)  throws Exception {
+		if(documentId == null) {
+			throw new Exception("Please provide a valid documentId!");
+		}
+		try {
+			List<DocumentAttachment> attachments = documentAttachmentDAO.getByDocumentId(documentId);
+			GetDocumentAttachmentsResponse response = new GetDocumentAttachmentsResponse();
+			response.setResponseCode(OnTargetConstant.SUCCESS);
+			response.setAttachments(attachments);
+			return response;
+		} catch(Throwable t) {
+			logger.error("Error while getting document attachments!", t);
+			throw new Exception("Unable to get the document attachments!");
+		}
+	}
+
+	@Override
+	public AddDocumentAttachmentResponse addDocumentAttachment(
+			AddDocumentAttachmentRequest request) throws Exception {
+		try {
+			String filePath = request.getFilePath();
+			Long documentId = request.getDocumentId();
+			User user = request.getUser();
+			DocumentAttachment attachment = new DocumentAttachment();
+			attachment.setDocument(new Document(documentId));
+			attachment.setFilePath(filePath);
+			attachment.setCreatedBy(user.getUsername());
+			attachment.setModifiedBy(user.getUsername());
+			documentAttachmentDAO.insert(attachment);
+			AddDocumentAttachmentResponse response = new AddDocumentAttachmentResponse();
+			response.setDocumentAttachmentId(attachment.getDocumentAttachmentId());
+			response.setReturnVal(OnTargetConstant.SUCCESS);
+			response.setReturnMessage("Document attachment succefully added.");
+			return response;
+		} catch(Throwable t) {
+			logger.error("Unable to add document attachment", t);
+			throw new Exception("Unable to add document attachment!");
 		}
 	}
 

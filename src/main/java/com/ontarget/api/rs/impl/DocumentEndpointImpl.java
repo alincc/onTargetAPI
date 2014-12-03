@@ -5,6 +5,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
@@ -17,8 +18,11 @@ import com.ontarget.api.rs.DocumentEndpoint;
 import com.ontarget.api.service.DocumentService;
 import com.ontarget.api.service.impl.DocumentServiceImpl;
 import com.ontarget.constant.OnTargetConstant;
+import com.ontarget.dto.AddDocumentAttachmentRequest;
+import com.ontarget.dto.AddDocumentAttachmentResponse;
 import com.ontarget.dto.AddDocumentRequest;
 import com.ontarget.dto.AddDocumentResponse;
+import com.ontarget.dto.GetDocumentAttachmentsResponse;
 import com.ontarget.dto.GetDocumentsResponse;
 import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.UpdateDocumentDataRequest;
@@ -102,4 +106,36 @@ public class DocumentEndpointImpl implements DocumentEndpoint {
 			return response;
 		}
 	}
+
+	@GET
+	@Path("/{documentId}/attachments")
+	@Override
+	public GetDocumentAttachmentsResponse getDocumentAttachments(@PathParam("documentId") Long documentId) {
+		try {
+			GetDocumentAttachmentsResponse response = documentService.getDocumentAttachments(documentId);
+			return response;
+		} catch (Throwable t) {
+			GetDocumentAttachmentsResponse response = new GetDocumentAttachmentsResponse(OnTargetConstant.ERROR,
+					t.getMessage());
+			return response;
+		}
+	}
+
+	@PUT
+	@Path("/attachments")
+	@Override
+	public AddDocumentAttachmentResponse addDocumentAttachment(
+			AddDocumentAttachmentRequest request) {
+		try {
+			AddDocumentAttachmentResponse response = documentService.addDocumentAttachment(request);
+			return response;
+		} catch (Throwable t) {
+			AddDocumentAttachmentResponse response = new AddDocumentAttachmentResponse();
+			response.setReturnVal(OnTargetConstant.ERROR);
+			response.setReturnMessage(t.getMessage());
+			return response;
+		}
+	}
+
+	
 }
