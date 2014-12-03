@@ -3,6 +3,7 @@ package com.ontarget.api.dao.impl;
 import com.ontarget.api.dao.TaskBudgetDAO;
 import com.ontarget.bean.Task;
 import com.ontarget.bean.TaskEstimatedCost;
+import com.ontarget.bean.TaskPercentage;
 import com.ontarget.constant.OnTargetQuery;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,4 +83,43 @@ public class TaskBudgetDAOImpl implements TaskBudgetDAO {
 
         return taskToCostMap;
     }
+
+
+
+    @Override
+    public List<TaskEstimatedCost> getTaskCostByTask(int projectTaskId) throws Exception{
+        final List<TaskEstimatedCost> taskCostList=new ArrayList<>();
+
+        jdbcTemplate.query(OnTargetQuery.GET_TASK_COST_BY_TASK,new Object[]{projectTaskId},new RowMapper<Void>() {
+            @Override
+            public Void mapRow(ResultSet resultSet, int i) throws SQLException {
+                TaskEstimatedCost cost = new TaskEstimatedCost();
+                cost.setId(resultSet.getInt("id"));
+                Date fromDate = resultSet.getDate("from_date");
+                cost.setFromDate(fromDate);
+                cost.setToDate(resultSet.getDate("to_date"));
+                cost.setCostType(resultSet.getString("cost_type"));
+                cost.setCost(resultSet.getDouble("value"));
+                cost.setCreatedBy(resultSet.getString("created_by"));
+
+                int year=0;
+                int month=0;
+                if(fromDate!=null) {
+                    Calendar cal = Calendar.getInstance();
+                    cal.setTime(fromDate);
+                    year = cal.get(Calendar.YEAR);
+                    month = cal.get(Calendar.MONTH);
+                }
+                cost.setMonth(month);
+                cost.setYear(year);
+
+                taskCostList.add(cost);
+                return null;
+            }
+        });
+
+        return taskCostList;
+    }
+
+
 }

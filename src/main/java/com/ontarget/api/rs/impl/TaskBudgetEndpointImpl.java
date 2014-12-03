@@ -32,6 +32,9 @@ public class TaskBudgetEndpointImpl implements TaskBudgetEndpoint {
     @Override
     @Path("/project/{projectId}")
     @GET
+    /**
+     * Get list of task estimated cost by project
+     */
     public TaskBudgetResponse getTaskBudgetActualsAndEstimated(@PathParam("projectId") int projectId) {
         TaskBudgetResponse response = new TaskBudgetResponse();
         try {
@@ -50,6 +53,9 @@ public class TaskBudgetEndpointImpl implements TaskBudgetEndpoint {
     @Override
     @POST
     @Path("/add")
+    /**
+     * Add task budget (cost)
+     */
     public OnTargetResponse addTaskBudget(TaskBudgetRequest request){
         logger.info("Adding task budget");
         OnTargetResponse response = new OnTargetResponse();
@@ -72,6 +78,9 @@ public class TaskBudgetEndpointImpl implements TaskBudgetEndpoint {
     @Override
     @POST
     @Path("/update")
+    /**
+     * Update task budget (cost)
+     */
     public OnTargetResponse updateTaskBudget(TaskBudgetRequest request){
         logger.info("updating task budget");
         OnTargetResponse response = new OnTargetResponse();
@@ -89,6 +98,30 @@ public class TaskBudgetEndpointImpl implements TaskBudgetEndpoint {
         }
 
         return response;
+    }
+
+    @Override
+    @GET
+    @Path("/{taskId}")
+    /**
+     * Get task budget by task
+     */
+    public TaskBudgetListResponse getTaskBudgetByTaskId(@PathParam("taskId") int taskId){
+
+        TaskBudgetListResponse response = new TaskBudgetListResponse();
+
+        try {
+            response.setCostList(taskBudgetService.getTaskBudgetByTask(taskId));
+            response.setReturnMessage("Successfully retrieved task budget cost");
+            response.setReturnVal(OnTargetConstant.SUCCESS);
+        } catch (Exception e) {
+            logger.error("Error while retrieving task budget cost", e);
+            response.setReturnVal(OnTargetConstant.ERROR);
+            response.setReturnMessage("Error while retrieving task budget cost");
+        }
+
+        return response;
+
     }
 
 

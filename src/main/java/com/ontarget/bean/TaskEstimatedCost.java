@@ -16,6 +16,7 @@ public class TaskEstimatedCost implements Serializable{
     private Double cost;
     private int month;
     private int year;
+    private String createdBy;
 
     public int getMonth() {
         return month;
@@ -126,5 +127,14 @@ public class TaskEstimatedCost implements Serializable{
         result = 31 * result + month;
         result = 31 * result + year;
         return result;
+    }
+
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
     }
 }

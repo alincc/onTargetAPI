@@ -4,10 +4,7 @@ import com.ontarget.api.dao.TaskBudgetDAO;
 import com.ontarget.api.dao.TaskEstimatedCostDAO;
 import com.ontarget.api.dao.impl.TaskPlannedEstimatedCostDAOImpl;
 import com.ontarget.api.service.TaskBudgetService;
-import com.ontarget.bean.ProjectEarnedValueAnalysisReport;
-import com.ontarget.bean.Task;
-import com.ontarget.bean.TaskEstimatedCost;
-import com.ontarget.bean.TaskInterval;
+import com.ontarget.bean.*;
 import com.ontarget.constant.OnTargetConstant;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -123,6 +120,12 @@ public class TaskBudgetServiceImpl implements TaskBudgetService {
         }
 
         return true;
+    }
+
+    @Override
+    public List<TaskEstimatedCost> getTaskBudgetByTask(int taskId) throws Exception{
+        logger.debug("Getting list of task budget for task: "+ taskId);
+        return taskBudgetDAO.getTaskCostByTask(taskId);
     }
 
 

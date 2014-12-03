@@ -1,7 +1,11 @@
 package com.ontarget.api.rs.impl;
 
+import com.ontarget.api.response.TaskPercentageListResponse;
+import com.ontarget.api.response.TaskPercentageResponse;
 import com.ontarget.api.rs.TaskPercentageEndpoint;
 import com.ontarget.api.service.TaskPercentageService;
+import com.ontarget.bean.Task;
+import com.ontarget.bean.TaskPercentage;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.TaskPercentageRequest;
@@ -9,11 +13,10 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Owner on 11/25/14.
@@ -33,6 +36,9 @@ public class TaskPercentageEndpointImpl implements TaskPercentageEndpoint {
     @Override
     @POST
     @Path("/add")
+    /**
+     * Add task percentage complete
+     */
     public OnTargetResponse addTaskPercentageComplete(TaskPercentageRequest request) {
         logger.info("Adding task Percentage");
         OnTargetResponse response = new OnTargetResponse();
@@ -56,7 +62,6 @@ public class TaskPercentageEndpointImpl implements TaskPercentageEndpoint {
     @POST
     @Path("/update")
     /**
-     *
      * Update task percentage complete.
      */
     public OnTargetResponse updateTaskPercentageComplete(TaskPercentageRequest request) {
@@ -77,4 +82,49 @@ public class TaskPercentageEndpointImpl implements TaskPercentageEndpoint {
 
         return response;
     }
+
+    @Override
+    @GET
+    @Path("/{taskId}")
+    /**
+     * Get Task percentage by task
+     */
+    public TaskPercentageListResponse getTaskPercentagesByTask(@PathParam("taskId") int taskId){
+
+        TaskPercentageListResponse response = new TaskPercentageListResponse();
+
+        try {
+            response.setTaskPercentageList(taskPercentageService.getTaskPercentageByTask(taskId));
+            response.setReturnMessage("Successfully retrieved task percentage");
+            response.setReturnVal(OnTargetConstant.SUCCESS);
+        } catch (Exception e) {
+            logger.error("Error while retrieving task percentage", e);
+            response.setReturnVal(OnTargetConstant.ERROR);
+            response.setReturnMessage("Error while retrieving task percentage");
+        }
+
+        return response;
+    }
+
+    @Override
+    @Path("/project/{projectId}")
+    @GET
+    /**
+     * Gets task percentage for all task for the project
+     */
+    public TaskPercentageResponse getTaskPercentageByProject(@PathParam("projectId") int projectId) {
+        TaskPercentageResponse response=new TaskPercentageResponse();
+        try {
+            response.setTaskListMap(taskPercentageService.getTaskPercentageByProject(projectId));
+            response.setReturnMessage("Successfully retrieved task percentage");
+            response.setReturnVal(OnTargetConstant.SUCCESS);
+        } catch (Exception e) {
+            logger.error("Error while retrieving task percentage", e);
+            response.setReturnVal(OnTargetConstant.ERROR);
+            response.setReturnMessage("Error while retrieving task percentage");
+        }
+        return response;
+    }
+
+
 }

@@ -93,4 +93,12 @@ public interface OnTargetQuery {
 
     public static final String ADD_REGISTRATION_INVITATION = new StringBuilder("INSERT INTO registration_request (registration_token, first_name, last_name, email, project_id) VALUES (?,?,?,?,?) ").toString();
 
+
+    public static final String GET_TASK_PERCENTAGE = new StringBuilder("select pt.title,pt.project_task_id,pt.project_id,tpl.*  from task_percentage_log tpl, project_task pt, project p")
+                .append(" where tpl.task_id=pt.project_task_id and pt.project_id=p.project_id")
+                .append(" and tpl.percentage_type='TASK_PERCENTAGE' and p.project_id=? order by pt.created_date asc;").toString();
+
+    public static final String GET_TASK_PERCENTAGE_BY_TASK=new StringBuilder(" select * from task_percentage_log tpl where tpl.task_id=?").toString();
+
+    public static final String GET_TASK_COST_BY_TASK = new StringBuilder("select * from planned_actuals_cost pac where pac.task_id=?").toString();
 }

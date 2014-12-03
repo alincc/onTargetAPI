@@ -15,10 +15,12 @@ import java.util.Map;
 public interface TaskPercentageDAO {
 
 
-    Map<Task, List<TaskPercentage>> getTaskPercentageCompletes() throws Exception;
+    public Map<Task, List<TaskPercentage>> getTaskPercentageCompletes(int projectId) throws Exception;
 
 
-    int addTaskPercentageComplete(TaskPercentage taskPercentage) throws Exception;
+    public int addTaskPercentageComplete(TaskPercentage taskPercentage) throws Exception;
 
-    boolean updateTaskPercentageComplete(TaskPercentage cost) throws Exception;
+    public boolean updateTaskPercentageComplete(TaskPercentage cost) throws Exception;
+
+    List<TaskPercentage> getTaskPercentageByTask(int projectTaskId) throws Exception;
 }

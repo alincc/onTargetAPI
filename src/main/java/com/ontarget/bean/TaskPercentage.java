@@ -15,6 +15,7 @@ public class TaskPercentage {
     private Double taskPercentageComplete;
     private int month;
     private int year;
+    private String createdBy;
 
     public int getId() {
         return id;
@@ -96,4 +97,11 @@ public class TaskPercentage {
     }
 
 
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
 }
