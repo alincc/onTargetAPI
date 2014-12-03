@@ -147,6 +147,9 @@ public class DocumentServiceImpl implements DocumentService {
 	@Transactional(rollbackFor = {Exception.class})
 	@Override
 	public GetDocumentsResponse getDocuments(String userName) throws Exception {
+		if(userName == null || userName.trim().isEmpty()) {
+			throw new Exception("Please specify the userName!");
+		}
 		try {
 			List<Document> submittals = documentDAO.getByCreatedBy(userName);
 			List<Document> approvals = documentDAO.getByAssigneeUsername(userName);
