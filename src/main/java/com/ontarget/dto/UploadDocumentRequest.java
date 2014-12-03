@@ -8,6 +8,7 @@ public class UploadDocumentRequest extends BaseRequest implements Serializable{
 	
 	private int projectId;
 	private String name;
+	private String fileType;
 	
 	public int getProjectId() {
 		return projectId;
@@ -20,6 +21,12 @@ public class UploadDocumentRequest extends BaseRequest implements Serializable{
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	public String getFileType() {
+		return fileType;
+	}
+	public void setFileType(String fileType) {
+		this.fileType = fileType;
 	}
 	
 	

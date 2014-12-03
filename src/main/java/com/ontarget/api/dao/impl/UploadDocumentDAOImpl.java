@@ -43,8 +43,9 @@ public class UploadDocumentDAOImpl implements UploadDocumentDAO {
 	                        PreparedStatement ps =
 	                                connection.prepareStatement(OnTargetQuery.SAVE_UPLOADED_DOCUMENT, new String[]{"id"});
 	                        ps.setString(1, documentBean.getName());
-	                        ps.setInt(2, documentBean.getProjectId());
-	                        ps.setString(3,documentBean.getCreatedBy());
+	                        ps.setString(2,documentBean.getFileType());
+	                        ps.setInt(3, documentBean.getProjectId());
+	                        ps.setString(4,documentBean.getCreatedBy());
 	                        return ps;
 	                    }
 	                },
@@ -68,6 +69,7 @@ public class UploadDocumentDAOImpl implements UploadDocumentDAO {
 	            	 UploadedDocumentDetail documentDetail = new UploadedDocumentDetail();
 	            	 documentDetail.setFileId((Integer) taskMap.get("project_file_id"));
 	            	 documentDetail.setName((String) taskMap.get("file_name"));
+	            	 documentDetail.setFileType((String)taskMap.get("file_type"));
 	            	 documentDetail.setCreatedBy((String) taskMap.get("created_by"));
 	            	 documentDetail.setCreatedDate((Date) taskMap.get("created_date"));
 	                

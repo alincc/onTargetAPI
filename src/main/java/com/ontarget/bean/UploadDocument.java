@@ -11,6 +11,7 @@ public class UploadDocument extends BaseBean{
 	
 	private int projectId;
 	private String name;
+	private String fileType;
 	
 	
 	public UploadDocument(){
@@ -22,6 +23,7 @@ public class UploadDocument extends BaseBean{
 		this.name=requestData.getName();
 		this.createdBy=requestData.getUser().getUsername();
 		this.modifiedBy=requestData.getUser().getUsername();
+		this.fileType=requestData.getFileType();
 		this.createdDate=new Date();
 		this.modifiedDate=new Date();
 		
@@ -49,6 +51,14 @@ public class UploadDocument extends BaseBean{
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getFileType() {
+		return fileType;
+	}
+
+	public void setFileType(String fileType) {
+		this.fileType = fileType;
 	}
 	
 	

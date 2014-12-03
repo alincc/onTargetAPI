@@ -6,6 +6,7 @@ public class UploadedDocumentDetail{
 	
 	private int fileId;
 	private String name;
+	private String fileType;
 	private String createdBy;
 	private Date createdDate;
 	
@@ -32,6 +33,12 @@ public class UploadedDocumentDetail{
 	}
 	public void setCreatedDate(Date createdDate) {
 		this.createdDate = createdDate;
+	}
+	public String getFileType() {
+		return fileType;
+	}
+	public void setFileType(String fileType) {
+		this.fileType = fileType;
 	}
 	
 	

@@ -46,6 +46,7 @@ public class UploadDocumentEndPointImpl implements UploadDocumentEndPoint {
 	 * {	 
 	 * "projectId": "100", 
 	 * "name": "path/to/file/filename/extension", 
+	 * "fileType": "excel",
 	 * "user": {
 	 * "userId": "1001", "username": "sbhandari", "password": "password",
 	 * "firstName": "subash", "lastName": "bhandari", "designation": "developer"
