@@ -154,7 +154,7 @@ public class EmailServiceImpl implements EmailService {
 //	                    Email email = emailDAO.getByContactId(((Integer)contact.get("contact_id")).intValue());
 //	                    message.setTo(email.getEmailAddress());
 	                    
-	                    message.setTo("bgurung.ebox@gmail.com");
+	                    message.setTo(assignee.getUsername());
 
 	                    Map model = new HashMap();
 	                    model.put("document", document);
