@@ -2,6 +2,7 @@ package com.ontarget.api.dao;
 
 import com.ontarget.bean.Task;
 import com.ontarget.bean.TaskEstimatedCost;
+import com.ontarget.bean.TaskInterval;
 
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,8 @@ public interface TaskBudgetDAO {
 
     public Map<Task,List<TaskEstimatedCost>> getTaskToCostMap(int projectId,String costType) throws Exception;
 
+
+    Map<Task, Map<TaskInterval,TaskEstimatedCost>> getTaskToCostMapByMonthYear(int projectId, String costType) throws Exception;
 
     List<TaskEstimatedCost> getTaskCostByTask(int projectTaskId) throws Exception;
 }

@@ -13,6 +13,11 @@ public class TaskInterval implements Serializable {
     public TaskInterval() {
     }
 
+    public TaskInterval(int month, int year) {
+        this.month=month;
+        this.year=year;
+    }
+
     public int getMonth() {
         return month;
     }

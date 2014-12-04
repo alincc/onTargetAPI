@@ -50,7 +50,7 @@ public interface OnTargetConstant {
 
         public static final String ACTIVE="ACTIVE";
         public static final String LOCKED="LOCKED";
-        public static final String ACCOUNT_INFVITATION="ACCT_INVITE";
+        public static final String ACCOUNT_INVITATION="ACCT_INVITE";
         public static final String ACCT_NEW = "ACCT_NEW";
     }
 
@@ -61,5 +61,10 @@ public interface OnTargetConstant {
     public interface CostType {
         public static final String PLANNED="PLANNED";
         public static final String ACTUAL="ACTUAL";
+    }
+
+    public interface PROJECT_STATUS {
+        public static final String ACTIVE="1";
+        public static final String PENDING="0";
     }
 }

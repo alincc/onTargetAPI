@@ -50,21 +50,9 @@ public class TaskServiceImpl implements TaskService {
             throw new Exception("Add/update task failed.");
         }
 
-        if(task.getCosts()!=null && task.getCosts().size() > 0){
-            for(TaskEstimatedCost cost : task.getCosts()) {
-                 int taskEstimatePlannedCostId=cost.getId();
-                if(cost.getId() <=0){
-                    taskEstimatePlannedCostId = taskEstimatedCostDAO.addPlannedAcutalCost(cost);
-                }else{
-                    boolean updated=taskEstimatedCostDAO.updatePlannedActualCost(cost);
-                    if(!updated){
-                        throw new Exception("");
-                    }
-                }
+        // add project task assignee.
 
-                logger.info("Added costs with id: "+ taskEstimatePlannedCostId);
-            }
-        }
+
 
         return true;
     }

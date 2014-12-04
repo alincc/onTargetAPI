@@ -204,4 +204,12 @@ public class Task implements Serializable{
         result = 31 * result + endDate.hashCode();
         return result;
     }
+
+    public User getAssignedTo() {
+        return assignedTo;
+    }
+
+    public void setAssignedTo(User assignedTo) {
+        this.assignedTo = assignedTo;
+    }
 }

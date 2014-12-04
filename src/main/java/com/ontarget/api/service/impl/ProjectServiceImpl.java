@@ -87,10 +87,7 @@ public class ProjectServiceImpl implements ProjectService {
             throw new Exception("Error while updating address");
         }
 
-        projectAddress.setAddressId(addressId);
-
         Project project = request.getProject();
-
         boolean updatedPr = projectDAO.updateProject(project);
 
         OnTargetResponse response = new OnTargetResponse();

@@ -66,30 +66,6 @@ public class TaskBudgetServiceImpl implements TaskBudgetService {
         return taskBudgetDAO.getTaskToCostMap(projectId, OnTargetConstant.CostType.PLANNED);
     }
 
-
-    @Override
-    public List<ProjectEarnedValueAnalysisReport> getEarnedValueAnalysisReport(int projectId) throws Exception {
-        logger.debug("Getting earned value analysis report: "+ projectId);
-        Map<Task, List<TaskEstimatedCost>> taskCostByMonthAndYear= taskBudgetDAO.getTaskToCostMap(projectId, OnTargetConstant.CostType.PLANNED);
-
-        if(taskCostByMonthAndYear.isEmpty()){
-            return null;
-        }
-
-        for (Map.Entry<Task, List<TaskEstimatedCost>> entry : taskCostByMonthAndYear.entrySet()) {
-
-
-            double totalBudgetedCost = 0.0;
-
-
-
-
-
-        }
-
-        return null;
-    }
-
     @Override
     public boolean addTaskBudget(List<TaskEstimatedCost> costs) throws Exception {
         logger.debug("Adding task budget: "+ costs);

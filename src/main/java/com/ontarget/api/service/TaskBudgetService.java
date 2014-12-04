@@ -16,8 +16,6 @@ public interface TaskBudgetService {
 
    public Map<Task, List<TaskEstimatedCost>> getTaskCostByMonthAndYear(int projectId) throws Exception;
 
-   public List<com.ontarget.bean.ProjectEarnedValueAnalysisReport> getEarnedValueAnalysisReport(int projectId) throws Exception;
-
    public boolean addTaskBudget(List<TaskEstimatedCost> costs) throws  Exception;
 
     public boolean updateTaskBudget(List<TaskEstimatedCost> costs) throws  Exception;
