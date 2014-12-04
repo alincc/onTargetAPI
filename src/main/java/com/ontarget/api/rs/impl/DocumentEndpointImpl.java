@@ -40,7 +40,10 @@ public class DocumentEndpointImpl implements DocumentEndpoint {
 	private DocumentService documentService;
 
 	/**
-	 * 
+	 * API to add new document.
+	 */
+	/* (non-Javadoc)
+	 * @see com.ontarget.api.rs.DocumentEndpoint#addDocument(com.ontarget.dto.AddDocumentRequest)
 	 */
 	@PUT
 	@Override
@@ -58,7 +61,10 @@ public class DocumentEndpointImpl implements DocumentEndpoint {
 	}
 
 	/**
-	 * 
+	 * Updates the document data.
+	 */
+	/* (non-Javadoc)
+	 * @see com.ontarget.api.rs.DocumentEndpoint#updateDocumentData(com.ontarget.dto.UpdateDocumentDataRequest)
 	 */
 	@POST
 	@Override
@@ -74,7 +80,10 @@ public class DocumentEndpointImpl implements DocumentEndpoint {
 	}
 
 	/**
-	 * 
+	 * Updates the status of the specified document to the provided status value.
+	 */
+	/* (non-Javadoc)
+	 * @see com.ontarget.api.rs.DocumentEndpoint#updateDocumentStatus(com.ontarget.dto.UpdateDocumentStatusRequest)
 	 */
 	@POST
 	@Path("/status")
@@ -92,7 +101,16 @@ public class DocumentEndpointImpl implements DocumentEndpoint {
 	}
 
 	/**
+	 * This API returns all the documents submitted/assigned by/to the specified user.
+	 * Parameter userName is required.
 	 * 
+	 * e.g. usage
+	 * /documents?userName=jondoe
+	 * this will return the documents (along with the data) that are submitted/assigned
+	 * to/from jondoe.
+	 */
+	/* (non-Javadoc)
+	 * @see com.ontarget.api.rs.DocumentEndpoint#getDocuments(java.lang.String)
 	 */
 	@GET
 	@Override
@@ -107,6 +125,18 @@ public class DocumentEndpointImpl implements DocumentEndpoint {
 		}
 	}
 
+	/**
+	 * Returns the attachments that belongs to the specified document.
+	 * The document id is withing the URL.
+	 * 
+	 * e.g.
+	 * 
+	 * /1234/attachments
+	 * this will return the attachments that belong to the document with id 1234.
+	 */
+	/* (non-Javadoc)
+	 * @see com.ontarget.api.rs.DocumentEndpoint#getDocumentAttachments(java.lang.Long)
+	 */
 	@GET
 	@Path("/{documentId}/attachments")
 	@Override
@@ -121,6 +151,12 @@ public class DocumentEndpointImpl implements DocumentEndpoint {
 		}
 	}
 
+	/**
+	 * Saves the specified document attachment file.
+	 */
+	/* (non-Javadoc)
+	 * @see com.ontarget.api.rs.DocumentEndpoint#addDocumentAttachment(com.ontarget.dto.AddDocumentAttachmentRequest)
+	 */
 	@PUT
 	@Path("/attachments")
 	@Override

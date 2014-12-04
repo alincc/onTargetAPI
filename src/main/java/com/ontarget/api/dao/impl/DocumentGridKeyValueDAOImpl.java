@@ -66,4 +66,22 @@ public class DocumentGridKeyValueDAOImpl
 		return (count > 0);
 	}
 
+	@Override
+	public List<DocumentGridKeyValue> getByDocumentId(long documentId) {
+		List<DocumentGridKeyValue> gridKeyValues = jdbcTemplate.query(OnTargetQuery.documentGridKeyValue.GET_BY_DOCUMENT, 
+				new Object[] { documentId }, 
+				new RowMapper<DocumentGridKeyValue>() {
+					@Override
+					public DocumentGridKeyValue mapRow(ResultSet rs, int rowNum)
+							throws SQLException {
+						DocumentGridKeyValue keyValue = new DocumentGridKeyValue();
+						keyValue.setGridId(rs.getString("grid_id"));
+						keyValue.setGridRowIndex(rs.getInt("grid_row_index"));
+						keyValue.setKey(rs.getString("key"));
+						keyValue.setValue(rs.getString("value"));
+						return keyValue;
+					}});
+		return gridKeyValues;
+	}
+
 }

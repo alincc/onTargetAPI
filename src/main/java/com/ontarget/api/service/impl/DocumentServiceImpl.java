@@ -152,7 +152,23 @@ public class DocumentServiceImpl implements DocumentService {
 		}
 		try {
 			List<Document> submittals = documentDAO.getByCreatedBy(userName);
+			
+			for(Document doc : submittals) {
+				List<DocumentKeyValue> keyValues = documentKeyValueDAO.getByDocumentId(doc.getDocumentId());
+				doc.setKeyValues(keyValues);
+				List<DocumentGridKeyValue> gridKeyValues = documentGridKeyValueDAO.getByDocumentId(doc.getDocumentId());
+				doc.setGridKeyValues(gridKeyValues);
+			}
+			
 			List<Document> approvals = documentDAO.getByAssigneeUsername(userName);
+			
+			for(Document doc : approvals) {
+				List<DocumentKeyValue> keyValues = documentKeyValueDAO.getByDocumentId(doc.getDocumentId());
+				doc.setKeyValues(keyValues);
+				List<DocumentGridKeyValue> gridKeyValues = documentGridKeyValueDAO.getByDocumentId(doc.getDocumentId());
+				doc.setGridKeyValues(gridKeyValues);
+			}
+			
 			GetDocumentsResponse response = new GetDocumentsResponse();
 			response.setSubmittals(submittals);
 			response.setApprovals(approvals);

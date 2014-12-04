@@ -121,6 +121,7 @@ public interface OnTargetQuery {
     	String UPDATE_VALUE = "update document_grid_key_value set value=?, modified_by=? where document_id=? and grid_id=? and grid_row_index=? and `key`=?";
     	String DELETE = "";
     	String GET_BY_DOCUMENT_GRID = "select * from document_grid_key_value where document_id = ? and grid_id = ?";
+    	String GET_BY_DOCUMENT = "select * from document_grid_key_value where document_id = ?";
     }
     
     interface documentSubmittal {
