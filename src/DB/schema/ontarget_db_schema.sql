@@ -21,8 +21,8 @@ CREATE  TABLE IF NOT EXISTS `ontarget`.`address` (
   `country` VARCHAR(20) NOT NULL ,
   `address_type` VARCHAR(45) NULL DEFAULT NULL ,
   PRIMARY KEY (`address_id`) )
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf32;
+  ENGINE = InnoDB
+  DEFAULT CHARACTER SET = utf32;
 
 
 -- -----------------------------------------------------
@@ -42,8 +42,8 @@ CREATE  TABLE IF NOT EXISTS `ontarget`.`project_category` (
   `deleted_by` VARCHAR(20) NULL ,
   `deleted_date` DATETIME NULL ,
   PRIMARY KEY (`project_category_id`) )
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
+  ENGINE = InnoDB
+  DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
@@ -63,8 +63,8 @@ CREATE  TABLE IF NOT EXISTS `ontarget`.`company_type` (
   `deleted_by` VARCHAR(20) NULL ,
   `status` VARCHAR(10) NOT NULL ,
   PRIMARY KEY (`company_type_id`) )
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
+  ENGINE = InnoDB
+  DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
@@ -87,12 +87,12 @@ CREATE  TABLE IF NOT EXISTS `ontarget`.`company_info` (
   PRIMARY KEY (`company_id`) ,
   INDEX `comany_type_fk` (`company_type_id` ASC) ,
   CONSTRAINT `comany_type_fk`
-    FOREIGN KEY (`company_type_id` )
-    REFERENCES `ontarget`.`company_type` (`company_type_id` )
+  FOREIGN KEY (`company_type_id` )
+  REFERENCES `ontarget`.`company_type` (`company_type_id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
+  ENGINE = InnoDB
+  DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
@@ -109,8 +109,8 @@ CREATE  TABLE IF NOT EXISTS `ontarget`.`user_type` (
   `modified_by` VARCHAR(20) NOT NULL ,
   `is_expired` ENUM('0','1') NOT NULL DEFAULT '0' ,
   PRIMARY KEY (`user_type_id`) )
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = latin1;
+  ENGINE = InnoDB
+  DEFAULT CHARACTER SET = latin1;
 
 
 -- -----------------------------------------------------
@@ -131,12 +131,12 @@ CREATE  TABLE IF NOT EXISTS `ontarget`.`user` (
   UNIQUE INDEX `user_name_UNIQUE` (`user_name` ASC) ,
   INDEX `fk_user_type_id_idx` (`user_type_id` ASC) ,
   CONSTRAINT `fk_user_type_id`
-    FOREIGN KEY (`user_type_id` )
-    REFERENCES `ontarget`.`user_type` (`user_type_id` )
+  FOREIGN KEY (`user_type_id` )
+  REFERENCES `ontarget`.`user_type` (`user_type_id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf32;
+  ENGINE = InnoDB
+  DEFAULT CHARACTER SET = utf32;
 
 
 -- -----------------------------------------------------
@@ -164,17 +164,17 @@ CREATE  TABLE IF NOT EXISTS `ontarget`.`contact` (
   INDEX `contact_user_fk` (`user_id` ASC) ,
   INDEX `company_fk` (`contact_company_id` ASC) ,
   CONSTRAINT `contact_user_fk`
-    FOREIGN KEY (`user_id` )
-    REFERENCES `ontarget`.`user` (`user_id` )
+  FOREIGN KEY (`user_id` )
+  REFERENCES `ontarget`.`user` (`user_id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `company_fk`
-    FOREIGN KEY (`contact_company_id` )
-    REFERENCES `ontarget`.`company_info` (`company_id` )
+  FOREIGN KEY (`contact_company_id` )
+  REFERENCES `ontarget`.`company_info` (`company_id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf32;
+  ENGINE = InnoDB
+  DEFAULT CHARACTER SET = utf32;
 
 
 -- -----------------------------------------------------
@@ -187,8 +187,8 @@ CREATE  TABLE IF NOT EXISTS `ontarget`.`countries` (
   `country_name` VARCHAR(100) NOT NULL ,
   `country_code` VARCHAR(3) NOT NULL ,
   PRIMARY KEY (`country_id`) )
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
+  ENGINE = InnoDB
+  DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
@@ -205,12 +205,12 @@ CREATE  TABLE IF NOT EXISTS `ontarget`.`email` (
   PRIMARY KEY (`email_id`) ,
   INDEX `email_fk` (`contact_id` ASC) ,
   CONSTRAINT `email_fk`
-    FOREIGN KEY (`contact_id` )
-    REFERENCES `ontarget`.`contact` (`contact_id` )
+  FOREIGN KEY (`contact_id` )
+  REFERENCES `ontarget`.`contact` (`contact_id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
+  ENGINE = InnoDB
+  DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
@@ -229,8 +229,8 @@ CREATE  TABLE IF NOT EXISTS `ontarget`.`email_templates` (
   `modified_date` DATETIME NOT NULL ,
   `modified_by` INT(11) NOT NULL ,
   PRIMARY KEY (`email_template_id`) )
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
+  ENGINE = InnoDB
+  DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
@@ -248,12 +248,12 @@ CREATE  TABLE IF NOT EXISTS `ontarget`.`phone` (
   PRIMARY KEY (`phone_id`) ,
   INDEX `phone_fk` (`contact_id` ASC) ,
   CONSTRAINT `phone_fk`
-    FOREIGN KEY (`contact_id` )
-    REFERENCES `ontarget`.`contact` (`contact_id` )
+  FOREIGN KEY (`contact_id` )
+  REFERENCES `ontarget`.`contact` (`contact_id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
+  ENGINE = InnoDB
+  DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
@@ -273,8 +273,8 @@ CREATE  TABLE IF NOT EXISTS `ontarget`.`project_type` (
   `deleted_by` VARCHAR(20) NULL ,
   `status` VARCHAR(10) NOT NULL ,
   PRIMARY KEY (`project_type_id`) )
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
+  ENGINE = InnoDB
+  DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
@@ -312,28 +312,28 @@ CREATE  TABLE IF NOT EXISTS `ontarget`.`project` (
   INDEX `project_addr_fk` (`address_id` ASC) ,
   INDEX `project_comp_fk` (`company_id` ASC) ,
   CONSTRAINT `project_categ_fk`
-    FOREIGN KEY (`project_category_id` )
-    REFERENCES `ontarget`.`project_category` (`project_category_id` )
+  FOREIGN KEY (`project_category_id` )
+  REFERENCES `ontarget`.`project_category` (`project_category_id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `project_type_fk`
-    FOREIGN KEY (`project_type_id` )
-    REFERENCES `ontarget`.`project_type` (`project_type_id` )
+  FOREIGN KEY (`project_type_id` )
+  REFERENCES `ontarget`.`project_type` (`project_type_id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `project_addr_fk`
-    FOREIGN KEY (`address_id` )
-    REFERENCES `ontarget`.`address` (`address_id` )
+  FOREIGN KEY (`address_id` )
+  REFERENCES `ontarget`.`address` (`address_id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `project_comp_fk`
-    FOREIGN KEY (`company_id` )
-    REFERENCES `ontarget`.`company_info` (`company_id` )
+  FOREIGN KEY (`company_id` )
+  REFERENCES `ontarget`.`company_info` (`company_id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB
-AUTO_INCREMENT = 2
-DEFAULT CHARACTER SET = utf32;
+  ENGINE = InnoDB
+  AUTO_INCREMENT = 2
+  DEFAULT CHARACTER SET = utf32;
 
 
 -- -----------------------------------------------------
@@ -359,12 +359,12 @@ CREATE  TABLE IF NOT EXISTS `ontarget`.`project_task` (
   PRIMARY KEY (`project_task_id`) ,
   INDEX `project_task_fk` (`project_id` ASC) ,
   CONSTRAINT `project_task_fk`
-    FOREIGN KEY (`project_id` )
-    REFERENCES `ontarget`.`project` (`project_id` )
+  FOREIGN KEY (`project_id` )
+  REFERENCES `ontarget`.`project` (`project_id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf32;
+  ENGINE = InnoDB
+  DEFAULT CHARACTER SET = utf32;
 
 
 -- -----------------------------------------------------
@@ -381,12 +381,12 @@ CREATE  TABLE IF NOT EXISTS `ontarget`.`project_activities` (
   PRIMARY KEY (`project_activity_id`) ,
   INDEX `proj_actvt_fk` (`project_task_id` ASC) ,
   CONSTRAINT `proj_actvt_fk`
-    FOREIGN KEY (`project_task_id` )
-    REFERENCES `ontarget`.`project_task` (`project_task_id` )
+  FOREIGN KEY (`project_task_id` )
+  REFERENCES `ontarget`.`project_task` (`project_task_id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
+  ENGINE = InnoDB
+  DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
@@ -403,12 +403,12 @@ CREATE  TABLE IF NOT EXISTS `ontarget`.`project_file` (
   PRIMARY KEY (`project_file_id`) ,
   INDEX `project_file_fk` (`project_id` ASC) ,
   CONSTRAINT `project_file_fk`
-    FOREIGN KEY (`project_id` )
-    REFERENCES `ontarget`.`project` (`project_id` )
+  FOREIGN KEY (`project_id` )
+  REFERENCES `ontarget`.`project` (`project_id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
+  ENGINE = InnoDB
+  DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
@@ -425,17 +425,17 @@ CREATE  TABLE IF NOT EXISTS `ontarget`.`project_member` (
   INDEX `member_project_fk` (`project_id` ASC) ,
   INDEX `member_user_fk` (`user_id` ASC) ,
   CONSTRAINT `member_project_fk`
-    FOREIGN KEY (`project_id` )
-    REFERENCES `ontarget`.`project` (`project_id` )
+  FOREIGN KEY (`project_id` )
+  REFERENCES `ontarget`.`project` (`project_id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `member_user_fk`
-    FOREIGN KEY (`user_id` )
-    REFERENCES `ontarget`.`user` (`user_id` )
+  FOREIGN KEY (`user_id` )
+  REFERENCES `ontarget`.`user` (`user_id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
+  ENGINE = InnoDB
+  DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
@@ -453,12 +453,12 @@ CREATE  TABLE IF NOT EXISTS `ontarget`.`project_task_comments` (
   PRIMARY KEY (`task_comment_id`) ,
   INDEX `task_cmnt_fk` (`project_task_id` ASC) ,
   CONSTRAINT `task_cmnt_fk`
-    FOREIGN KEY (`project_task_id` )
-    REFERENCES `ontarget`.`project_task` (`project_task_id` )
+  FOREIGN KEY (`project_task_id` )
+  REFERENCES `ontarget`.`project_task` (`project_task_id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
+  ENGINE = InnoDB
+  DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
@@ -475,12 +475,12 @@ CREATE  TABLE IF NOT EXISTS `ontarget`.`project_task_files` (
   PRIMARY KEY (`task_file_id`) ,
   INDEX `project_task_files_fk` (`project_task_id` ASC) ,
   CONSTRAINT `project_task_files_fk`
-    FOREIGN KEY (`project_task_id` )
-    REFERENCES `ontarget`.`project_task` (`project_task_id` )
+  FOREIGN KEY (`project_task_id` )
+  REFERENCES `ontarget`.`project_task` (`project_task_id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
+  ENGINE = InnoDB
+  DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
@@ -499,12 +499,12 @@ CREATE  TABLE IF NOT EXISTS `ontarget`.`project_wall_post` (
   PRIMARY KEY (`project_wall_post_id`) ,
   INDEX `fk_project_id_idx` (`project_id` ASC) ,
   CONSTRAINT `fk_project_id`
-    FOREIGN KEY (`project_id` )
-    REFERENCES `ontarget`.`project` (`project_id` )
+  FOREIGN KEY (`project_id` )
+  REFERENCES `ontarget`.`project` (`project_id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf32;
+  ENGINE = InnoDB
+  DEFAULT CHARACTER SET = utf32;
 
 
 -- -----------------------------------------------------
@@ -519,12 +519,12 @@ CREATE  TABLE IF NOT EXISTS `ontarget`.`task_assignee` (
   PRIMARY KEY (`task_assignee_id`) ,
   INDEX `task_assignee_fk` (`project_task_id` ASC) ,
   CONSTRAINT `task_assignee_fk`
-    FOREIGN KEY (`project_task_id` )
-    REFERENCES `ontarget`.`project_task` (`project_task_id` )
+  FOREIGN KEY (`project_task_id` )
+  REFERENCES `ontarget`.`project_task` (`project_task_id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf32;
+  ENGINE = InnoDB
+  DEFAULT CHARACTER SET = utf32;
 
 
 -- -----------------------------------------------------
@@ -543,8 +543,8 @@ CREATE  TABLE IF NOT EXISTS `ontarget`.`user_groups` (
   `deleted_date` DATETIME NOT NULL ,
   `deleted_by` INT(11) NOT NULL ,
   PRIMARY KEY (`user_group_id`) )
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
+  ENGINE = InnoDB
+  DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
@@ -562,12 +562,12 @@ CREATE  TABLE IF NOT EXISTS `ontarget`.`user_session_info` (
   PRIMARY KEY (`user_session_info_id`) ,
   INDEX `fk_user_id_idx` (`user_id` ASC) ,
   CONSTRAINT `fk_user_id`
-    FOREIGN KEY (`user_id` )
-    REFERENCES `ontarget`.`user` (`user_id` )
+  FOREIGN KEY (`user_id` )
+  REFERENCES `ontarget`.`user` (`user_id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = latin1;
+  ENGINE = InnoDB
+  DEFAULT CHARACTER SET = latin1;
 
 
 -- -----------------------------------------------------
@@ -585,7 +585,7 @@ CREATE  TABLE IF NOT EXISTS `ontarget`.`registration_request` (
   `msg` TEXT NULL ,
   `status` VARCHAR(20) NULL ,
   PRIMARY KEY (`registration_req_id`) )
-ENGINE = InnoDB;
+  ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -600,7 +600,7 @@ CREATE  TABLE IF NOT EXISTS `ontarget`.`planned_actuals_cost` (
   `to_date` DATETIME NULL ,
   `cost_type` VARCHAR(10) NULL ,
   `value` DECIMAL(10,3) NULL ,
-  `expirty_date` DATETIME NULL ,
+  `expiry_date` DATETIME NULL ,
   `created_by` VARCHAR(20) NULL ,
   `created_date` DATETIME NULL ,
   `modified_by` VARCHAR(20) NULL ,
@@ -608,11 +608,11 @@ CREATE  TABLE IF NOT EXISTS `ontarget`.`planned_actuals_cost` (
   PRIMARY KEY (`id`) ,
   INDEX `planned_actual_task_fk` (`task_id` ASC) ,
   CONSTRAINT `planned_actual_task_fk`
-    FOREIGN KEY (`task_id` )
-    REFERENCES `ontarget`.`project_task` (`project_task_id` )
+  FOREIGN KEY (`task_id` )
+  REFERENCES `ontarget`.`project_task` (`project_task_id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+  ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -630,11 +630,11 @@ CREATE  TABLE IF NOT EXISTS `ontarget`.`task_comment` (
   PRIMARY KEY (`task_comment_id`) ,
   INDEX `task_comment_fk` (`task_id` ASC) ,
   CONSTRAINT `task_comment_fk`
-    FOREIGN KEY (`task_id` )
-    REFERENCES `ontarget`.`project_task` (`project_task_id` )
+  FOREIGN KEY (`task_id` )
+  REFERENCES `ontarget`.`project_task` (`project_task_id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+  ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -648,7 +648,7 @@ CREATE  TABLE IF NOT EXISTS `ontarget`.`task_status` (
   `status_name` VARCHAR(15) NULL ,
   `status_description` VARCHAR(45) NULL ,
   PRIMARY KEY (`task_status_id`) )
-ENGINE = InnoDB;
+  ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -657,7 +657,7 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `ontarget`.`task_percentage_log` ;
 
 CREATE  TABLE IF NOT EXISTS `ontarget`.`task_percentage_log` (
-  `task_percentage_log_id` INT NOT NULL ,
+  `task_percentage_log_id` INT NOT NULL AUTO_INCREMENT ,
   `task_id` INT NOT NULL ,
   `percentage_type` VARCHAR(45) NULL ,
   `percentage_complete` DOUBLE NULL DEFAULT 0 ,
@@ -666,14 +666,15 @@ CREATE  TABLE IF NOT EXISTS `ontarget`.`task_percentage_log` (
   `created_by` VARCHAR(20) NULL ,
   `modified_date` DATETIME NULL ,
   `modified_by` VARCHAR(45) NULL ,
+  `created_date` DATETIME NULL ,
   PRIMARY KEY (`task_percentage_log_id`) ,
   INDEX `task_percentage_fk` (`task_id` ASC) ,
   CONSTRAINT `task_percentage_fk`
-    FOREIGN KEY (`task_id` )
-    REFERENCES `ontarget`.`project_task` (`project_task_id` )
+  FOREIGN KEY (`task_id` )
+  REFERENCES `ontarget`.`project_task` (`project_task_id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+  ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -685,7 +686,7 @@ CREATE  TABLE IF NOT EXISTS `ontarget`.`states` (
   `state_code` CHAR(2) NOT NULL ,
   `state` VARCHAR(45) NOT NULL ,
   PRIMARY KEY (`state_code`) )
-ENGINE = InnoDB;
+  ENGINE = InnoDB;
 
 
 
