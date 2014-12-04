@@ -47,8 +47,8 @@ public class TaskPercentageServiceImpl implements TaskPercentageService {
 
         if(taskPercentageList!=null && taskPercentageList.size() > 0){
             for(TaskPercentage taskPercentage : taskPercentageList){
-                int id = taskPercentageDAO.addTaskPercentageComplete(taskPercentage);
-                if(id <= 0){
+                boolean updated= taskPercentageDAO.updateTaskPercentageComplete(taskPercentage);
+                if(!updated){
                     throw new Exception("Task Percentage could not be updated: "+ taskPercentage);
                 }
             }
