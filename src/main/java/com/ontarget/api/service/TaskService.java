@@ -12,7 +12,7 @@ import java.util.Set;
  */
 public interface TaskService {
 
-    public boolean addTaskService(Task task) throws Exception;
+    public long addTaskService(Task task) throws Exception;
 
     public List<Task> getTask(int projectId) throws Exception;
 

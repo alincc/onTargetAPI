@@ -39,6 +39,7 @@ public class ProjectEndpointImpl implements ProjectEndoint {
             }
 
         } catch (Exception e) {
+
             logger.error("Error while adding project", e);
             response = new OnTargetResponse();
             response.setReturnMessage("Error while creating project");

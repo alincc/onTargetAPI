@@ -36,7 +36,7 @@ public interface OnTargetQuery {
 
     public static final String ADD_ADDRESS = new StringBuilder("INSERT INTO ADDRESS (address1,address2,city,state,zip,country,address_type) values (?,?,?,?,?,?,?)").toString();
 
-    public static  final String ADD_TASK=new StringBuilder("INSERT INTO PROJECT_TASK (PROJECT_ID,TITLE,DESCRIPTION, PARENT_TASK_ID,STATUS,SEVERITY, START_DATE, END_DATE, CREATED_DATE, CREATED_BY, MODIFIED_DATE, MODIFIED_BY) values (?,?,?,?,?,?,?,?,NOW(),'SYSTEM',NOW(),'SYSTEM')").toString();
+    public static  final String ADD_TASK=new StringBuilder("INSERT INTO project_task (project_id,title,description, parent_task_id,status,severity, start_date, end_date, created_date, created_by, modified_date, modified_by) values (?,?,?,?,?,?,?,?,NOW(),'SYSTEM',NOW(),'SYSTEM')").toString();
 
     public static final String GET_PROJECT_TASK=new StringBuilder("SELECT * , if(status='COMPLETED',true,false) as completed FROM PROJECT_TASK WHERE PROJECT_ID=?").toString();
 
