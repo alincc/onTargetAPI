@@ -1,24 +1,32 @@
 package com.ontarget.api.service.impl;
 
-import com.ontarget.api.dao.AuthenticationDAO;
-import com.ontarget.api.service.EmailService;
-import com.ontarget.dto.UserRegistrationRequest;
-import com.ontarget.constant.OnTargetConstant;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+
 import org.apache.log4j.Logger;
 import org.apache.velocity.app.VelocityEngine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.velocity.VelocityEngineUtils;
 
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import com.ontarget.api.dao.AuthenticationDAO;
+import com.ontarget.api.dao.ContactDAO;
+import com.ontarget.api.dao.EmailDAO;
+import com.ontarget.api.service.EmailService;
+import com.ontarget.bean.Document;
+import com.ontarget.bean.Email;
+import com.ontarget.bean.User;
+import com.ontarget.constant.OnTargetConstant;
+import com.ontarget.dto.UserRegistrationRequest;
 
 /**
  * Created by Owner on 11/2/14.
@@ -37,7 +45,13 @@ public class EmailServiceImpl implements EmailService {
     @Autowired
     private AuthenticationDAO authenticationDAO;
 
-
+    
+    @Autowired
+    private ContactDAO contactDAO;
+    
+    @Autowired
+    private EmailDAO emailDAO;
+    
     @Override
     public boolean sendUserRequestEmail(int userRequestId) {
         try {
@@ -124,5 +138,51 @@ public class EmailServiceImpl implements EmailService {
 
         return true;
     }
+
+    @Override
+    public boolean sendUserRegistrationEmail() throws Exception {
+        return false;
+    }
+
+
+    @Override
+	public boolean sendDocumentAssignmentEmails(final Document document, List<User> assignees) {
+		List<User> failures = new ArrayList<>();
+		for(final User assignee : assignees) {
+			try {
+	            MimeMessagePreparator preparator = new MimeMessagePreparator() {
+	                @SuppressWarnings({"rawtypes", "unchecked"})
+	                public void prepare(MimeMessage mimeMessage) throws Exception {
+	                    MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
+
+	                    message.setFrom(new InternetAddress(OnTargetConstant.EmailServiceConstants.DOCUMENT_APPROVAL_FROM));
+	                    message.setSubject(OnTargetConstant.EmailServiceConstants.DOCUMENT_APPROVAL_SUBJECT);
+	                    message.setSentDate(new Date());
+
+//	                    Map<String, Object> contact = contactDAO.getContactDetail(assignee.getUserId());
+//	                    Email email = emailDAO.getByContactId(((Integer)contact.get("contact_id")).intValue());
+//	                    message.setTo(email.getEmailAddress());
+	                    
+	                    message.setTo(assignee.getUsername());
+
+	                    Map model = new HashMap();
+	                    model.put("document", document);
+	                    model.put("assignee", assignee);
+	                    model.put("documentUrl", "http://www.ontarget.com/documents");
+
+	                    String text = VelocityEngineUtils.mergeTemplateIntoString(
+	                            velocityEngine, "template/documentApprovalEmail.vm", "UTF-8", model);
+	                    message.setText(text, true);
+	                }
+	            };
+	            javaMailSender.send(preparator);
+	        } catch(Exception e){
+	        	String errMsg = "Unable to send approval email. user_id is %d and document_id is %d.";
+	            logger.error(String.format(errMsg, assignee.getUserId(), document.getDocumentId()),e);
+	        }
+		}
+		return failures.size() == assignees.size();
+	}
+
 
 }

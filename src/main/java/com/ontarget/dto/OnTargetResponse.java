@@ -8,8 +8,10 @@ import java.util.List;
  */
 public class OnTargetResponse implements Serializable {
 
+
     private String returnVal;
     private String returnMessage;
+    private String responseCode;
 
     private List<ResponseError> errors;
 
@@ -17,7 +19,23 @@ public class OnTargetResponse implements Serializable {
 
     public OnTargetResponse() {
     }
-
+    
+    public OnTargetResponse(String returnMessage){
+    	this.returnMessage=returnMessage;
+    }
+    
+    public OnTargetResponse(String responseCode,String returnMessage){
+    	this.responseCode=responseCode;
+    	this.returnMessage=returnMessage;
+    }
+    
+    public OnTargetResponse(String responseCode,String returnVal,String returnMessage){
+    	this.responseCode=responseCode;
+    	this.returnVal=returnVal;
+    	this.returnMessage=returnMessage;
+    }
+    
+    
     public String getReturnVal() {
         return returnVal;
     }
@@ -49,4 +67,14 @@ public class OnTargetResponse implements Serializable {
     public void setAuthenticated(boolean isAuthenticated) {
         this.isAuthenticated = isAuthenticated;
     }
+
+	public String getResponseCode() {
+		return responseCode;
+	}
+
+	public void setResponseCode(String responseCode) {
+		this.responseCode = responseCode;
+	}
+
+
 }
