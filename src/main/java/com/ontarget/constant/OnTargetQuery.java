@@ -32,9 +32,9 @@ public interface OnTargetQuery {
     public static final String GET_COMPANY = new StringBuilder("SELECT * FROM COMPANY_INFO").toString();
 
 
-    public static final String ADD_PROJECT = new StringBuilder("INSERT INTO  PROJECT (PROJECT_NAME, PROJECT_DESCRIPTION,PROJECT_TYPE_ID, COMPANY_ID, ADDRESS_ID,PROJECT_STATUS,PROJECT_PARENT_ID,project_start_date,project_end_date, CREATED_DATE, CREATED_BY, MODIFIED_DATE,MODIFIED_BY,project_image_path ) VALUES (?,?,?,?,?,?,?,?,?,NOW(),'SYSTEM',NOW(),'SYSTEM',?)").toString();
+    public static final String ADD_PROJECT = new StringBuilder("INSERT INTO  project (project_name, project_description,project_type_id, company_id, address_id,project_status,project_parent_id,project_start_date,project_end_date, created_date, created_by, modified_date,modified_by,project_image_path ) VALUES (?,?,?,?,?,?,?,?,?,NOW(),'SYSTEM',NOW(),'SYSTEM',?)").toString();
 
-    public static final String ADD_ADDRESS = new StringBuilder("INSERT INTO ADDRESS (address1,address2,city,state,zip,country,address_type) values (?,?,?,?,?,?,?)").toString();
+    public static final String ADD_ADDRESS = new StringBuilder("INSERT INTO address (address1,address2,city,state,zip,country,address_type) values (?,?,?,?,?,?,?)").toString();
 
     public static  final String ADD_TASK=new StringBuilder("INSERT INTO project_task (project_id,title,description, parent_task_id,status,severity, start_date, end_date, created_date, created_by, modified_date, modified_by) values (?,?,?,?,?,?,?,?,NOW(),'SYSTEM',NOW(),'SYSTEM')").toString();
 
