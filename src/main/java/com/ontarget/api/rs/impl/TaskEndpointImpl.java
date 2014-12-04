@@ -39,7 +39,7 @@ public class TaskEndpointImpl implements TaskEndpoint {
             if (taskId > 0) { // find some better way. actually not needed as 0 or any issue will give exception not result
                 response.setReturnMessage("Successfully added task");
                 response.setReturnVal(OnTargetConstant.SUCCESS);
-                response.setTaskId(taskId);
+                response.setProjectTaskId(taskId);
             }
         } catch (Exception e) {
             logger.error("Add task failed." + e);
@@ -49,7 +49,6 @@ public class TaskEndpointImpl implements TaskEndpoint {
         }
         return response;
     }
-
 
     @Override
     @GET
