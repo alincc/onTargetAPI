@@ -83,10 +83,9 @@ public class TaskEndpointImpl implements TaskEndpoint {
             response.setReturnMessage("Get task count failed");
             response.setReturnVal(OnTargetConstant.ERROR);
         }
+
         return response;
     }
-
-
 
     @Override
     @POST
@@ -103,6 +102,7 @@ public class TaskEndpointImpl implements TaskEndpoint {
             response.setReturnMessage("Add task comment failed");
             response.setReturnVal(OnTargetConstant.ERROR);
         }
+
         return response;
     }
 
