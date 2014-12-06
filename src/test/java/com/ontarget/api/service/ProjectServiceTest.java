@@ -36,6 +36,8 @@ public class ProjectServiceTest extends BaseTest{
 
             Project project = response.getProjects().get(0);
 
+            System.out.println((project.getTaskList().get(0).getComments().get(0)));
+
             Assert.assertTrue(project!=null && project.getProjects().size() > 0);
 
         } catch (Exception e) {
@@ -49,7 +51,6 @@ public class ProjectServiceTest extends BaseTest{
     @Test
     public void testAddUpdateProject(){
         Project project=new Project();
-
         project.setProjectId(1);
         project.setProjectName("Updated Name");
         project.setProjectDescription("Updated Description");
@@ -60,7 +61,7 @@ public class ProjectServiceTest extends BaseTest{
         project.setProjectTypeId(1);
 
         Address addr = new Address();
-        addr.setAddressId(2);
+        addr.setAddressId(0);
         addr.setAddressType(OnTargetConstant.AddressType.PROJECT_ADDR);
         addr.setAddress1("4750 59th street");
         addr.setAddress2("suite 9C");
