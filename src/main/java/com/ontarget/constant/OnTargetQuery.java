@@ -7,7 +7,7 @@ public interface OnTargetQuery {
 
     public static final String REGISTRATION_REQUEST=new StringBuilder("INSERT INTO REGISTRATION_REQUEST (project_id,NAME,EMAIL,COMPANY_NAME,PHONE_NUMBER, MSG,STATUS) VALUES (?,?,?,?,?,?,?)").toString();
 
-    public static final  String USER_LOGIN=new StringBuilder("SELECT * FROM USER WHERE USER_NAME=? AND PASSWORD=? AND ACCOUNT_STATUS!='LOCKED'").toString();
+    public static final  String USER_LOGIN=new StringBuilder("SELECT * FROM USER WHERE USER_NAME=? and ACCOUNT_STATUS!='LOCKED'").toString();
 
     public static final String EXPIRE_TOKEN = new StringBuilder("UPDATE USER_SESSION_INFO SET EXPIRE_DATE=NOW(),is_expired='1' WHERE USER_ID=(SELECT USER_ID FROM USER WHERE USER_NAME=?) and is_expired='0'").toString();
 

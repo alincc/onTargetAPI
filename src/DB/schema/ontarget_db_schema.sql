@@ -116,17 +116,19 @@ CREATE  TABLE IF NOT EXISTS `ontarget`.`user_type` (
 -- -----------------------------------------------------
 -- Table `ontarget`.`user`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `ontarget`.`user` ;
+DROP TABLE IF EXISTS `ontarget`.`user`;
 
-CREATE  TABLE IF NOT EXISTS `ontarget`.`user` (
-  `user_id` INT(11) NOT NULL AUTO_INCREMENT ,
-  `user_name` VARCHAR(50) NULL DEFAULT NULL ,
-  `user_type_id` INT NULL ,
-  `password` VARCHAR(256) NOT NULL ,
-  `user_status` ENUM('1','0') NULL DEFAULT '0' ,
-  `number_of_login` INT(11) NULL DEFAULT NULL ,
-  `modified_date` DATETIME NULL DEFAULT NULL ,
-  `account_status` VARCHAR(45) NULL DEFAULT NULL ,
+CREATE TABLE IF NOT EXISTS `user` (
+  `user_id` int(11) NOT NULL,
+  `user_name` varchar(50) DEFAULT NULL,
+  `user_type_id` int(11) DEFAULT NULL,
+  `password` text NOT NULL,
+  `salt` text NOT NULL,
+  `user_status` enum('1','0') DEFAULT '0',
+  `discipline` bigint(20) NOT NULL,
+  `number_of_login` int(11) DEFAULT NULL,
+  `modified_date` datetime DEFAULT NULL,
+  `account_status` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`user_id`) ,
   UNIQUE INDEX `user_name_UNIQUE` (`user_name` ASC) ,
   INDEX `fk_user_type_id_idx` (`user_type_id` ASC) ,
@@ -137,6 +139,57 @@ CREATE  TABLE IF NOT EXISTS `ontarget`.`user` (
     ON UPDATE NO ACTION)
   ENGINE = InnoDB
   DEFAULT CHARACTER SET = utf32;
+
+--
+-- Table structure for table `discipline`
+--
+DROP TABLE IF EXISTS `ontarget`.`discipline`;
+
+CREATE TABLE IF NOT EXISTS `discipline` (
+  `id` bigint(20) NOT NULL,
+  `name` varchar(200) NOT NULL,
+  `info` text NOT NULL,
+  `ts_insert` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Indexes for table `discipline`
+--
+ALTER TABLE `discipline`
+ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for table `discipline`
+--
+ALTER TABLE `discipline`
+MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+
+
+--
+-- Table structure for table `user_safety_info`
+--
+DROP TABLE IF EXISTS `ontarget`.`user_safety_info`;
+CREATE TABLE IF NOT EXISTS `user_safety_info` (
+  `id` bigint(20) NOT NULL,
+  `name` varchar(524) NOT NULL,
+  `info` text NOT NULL,
+  `discipline_id` bigint(20) NOT NULL,
+  `ts_create` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=200 ;
+
+
+--
+-- Indexes for table `user_safety_info`
+--
+ALTER TABLE `user_safety_info`
+ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for table `user_safety_info`
+--
+ALTER TABLE `user_safety_info`
+MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=200;
+
 
 
 -- -----------------------------------------------------
@@ -854,7 +907,7 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `ontarget`;
-INSERT INTO `ontarget`.`user` (`user_id`, `user_name`, `user_type_id`, `password`, `user_status`, `number_of_login`, `modified_date`, `account_status`) VALUES (1, 's@s.com', 1, '123456', '1', 1, '2014-11-05 02:30:40', 'ACTIVE');
+INSERT INTO `user` (`user_id`, `user_name`, `user_type_id`, `password`, `salt`, `user_status`, `discipline`, `number_of_login`, `modified_date`, `account_status`) VALUES (1, 's@s.com', 1, '12181283118380180445335585944462131631204182922070938422473264293905395639766447125822477536403010703646002314643700483720602782325437365521667942326009590', '16468408816162761056360314163240453909611518639368113122311522613954727264320999800960119461651792926693894616283890051322500209473979134653470895270221910736053124525230359038613417509020465117643578975099969164265858301330201493161869022298101183775297053607871038563272630740066062165808655461416231531384', '1', 1, 1, '2014-11-05 02:30:40', 'ACTIVE');
 
 COMMIT;
 
@@ -918,5 +971,223 @@ INSERT INTO `ontarget`.`task_status` (`task_status_id`, `status_code`, `status_n
 INSERT INTO `ontarget`.`task_status` (`task_status_id`, `status_code`, `status_name`, `status_description`) VALUES (2, 'ONGOING', 'Ongoing', 'Ongoing Status');
 INSERT INTO `ontarget`.`task_status` (`task_status_id`, `status_code`, `status_name`, `status_description`) VALUES (3, 'COMPLETED', 'Completed', 'Completed Status');
 INSERT INTO `ontarget`.`task_status` (`task_status_id`, `status_code`, `status_name`, `status_description`) VALUES (4, 'PENDING', 'Pending', 'Pending Status');
+
+COMMIT;
+
+
+
+--
+-- Dumping data for table `discipline`
+--
+START TRANSACTION;
+USE `ontarget`;
+INSERT INTO `discipline` (`id`, `name`, `info`, `ts_insert`) VALUES (1, 'painter', 'paints the walls', '2014-12-02 15:32:46');
+commit;
+
+
+--
+-- Dumping data for table `user_safety_info`
+--
+START TRANSACTION;
+USE `ontarget`;
+INSERT INTO `user_safety_info` (`id`, `name`, `info`, `discipline_id`, `ts_create`) VALUES
+  (2, '10 fingers, 10 toes 2 eyes 1 nose…safety counts', '', 1, '2014-12-02 15:41:53'),
+  (3, '10 fingers. 10 toes, If you are not safe Who knows?', '', 1, '2014-12-02 15:41:53'),
+  (4, 'A clean floor everyday keeps lost days away.', '', 1, '2014-12-02 15:41:53'),
+  (5, 'A spill, a slip, a hospital trip', '', 1, '2014-12-02 15:41:53'),
+  (6, 'A tree never hits an automobile except in self defense', '', 1, '2014-12-02 15:41:53'),
+  (7, 'Accidents Big Or Small, Avoid Them All', '', 1, '2014-12-02 15:41:53'),
+  (8, 'Accidents hurt, Safety doesn’t.', '', 1, '2014-12-02 15:41:53'),
+  (9, 'An ounce of prevention is worth a pound of cure', '', 1, '2014-12-02 15:41:53'),
+  (10, 'Are you part of the safety TEAM….(Together Employees Accomplish More)', '', 1, '2014-12-02 15:41:53'),
+  (11, 'Arms work best when attached to the body', '', 1, '2014-12-02 15:41:54'),
+  (12, 'At work at play, let safety lead the way.', '', 1, '2014-12-02 15:41:54'),
+  (13, 'Avoid the worst. Put safety first.', '', 1, '2014-12-02 15:41:54'),
+  (14, 'Be a safety hero – score an accident zero', '', 1, '2014-12-02 15:41:54'),
+  (15, 'Be alert! Accidents hurt.', '', 1, '2014-12-02 15:41:54'),
+  (16, 'Be aware Take care', '', 1, '2014-12-02 15:41:54'),
+  (17, 'Before you do it, take time to think through it.', '', 1, '2014-12-02 15:41:54'),
+  (18, 'Behind the wheel, anger is one letter away from danger.', '', 1, '2014-12-02 15:41:54'),
+  (19, 'Being safe is in your own hands.', '', 1, '2014-12-02 15:41:54'),
+  (20, 'Best gift you can give your family is YOU! Please be safe', '', 1, '2014-12-02 15:41:54'),
+  (21, 'Break the drive and arrive alive.', '', 1, '2014-12-02 15:41:54'),
+  (22, 'Chance takers are accident makers', '', 1, '2014-12-02 15:41:54'),
+  (23, 'Choose safety, for your family.', '', 1, '2014-12-02 15:41:54'),
+  (24, 'Click clack front and back.', '', 1, '2014-12-02 15:41:55'),
+  (25, 'Click it or ticket!', '', 1, '2014-12-02 15:41:55'),
+  (26, 'Computer problems you can avoid, so you don’t have to get paranoid.', '', 1, '2014-12-02 15:41:55'),
+  (27, 'Courtesy and common sense promote safety.', '', 1, '2014-12-02 15:41:55'),
+  (28, 'Courtesy is contagious', '', 1, '2014-12-02 15:41:55'),
+  (29, 'Dare to be aware.', '', 1, '2014-12-02 15:41:55'),
+  (30, 'Do you have eye for safety or are you blinded by bad habits', '', 1, '2014-12-02 15:41:55'),
+  (31, 'Doesn’t matter how far. JUST BELT UP!', '', 1, '2014-12-02 15:41:55'),
+  (32, 'Don’t be a fool, cause safety is cool, so make that your rule.', '', 1, '2014-12-02 15:41:55'),
+  (33, 'Don’t be a fool. Use the proper tool.', '', 1, '2014-12-02 15:41:55'),
+  (34, 'Don’t be hasty when it comes to safety.', '', 1, '2014-12-02 15:41:55'),
+  (35, 'Don’t be safety blinded, be safety minded.', '', 1, '2014-12-02 15:41:55'),
+  (36, 'Don’t learn safety by accident.', '', 1, '2014-12-02 15:41:55'),
+  (37, 'Don’t leave Private information on a public computer screen', '', 1, '2014-12-02 15:41:55'),
+  (38, 'Eyes are priceless, eye protection is cheap.', '', 1, '2014-12-02 15:41:55'),
+  (39, 'Falling objects can be brutal if you don’t protect your noodle.', '', 1, '2014-12-02 15:41:55'),
+  (40, 'Fingers toes, If you are not safe Who knows?', '', 1, '2014-12-02 15:41:55'),
+  (41, 'Forget the nurse with safety first.', '', 1, '2014-12-02 15:41:55'),
+  (42, 'Forgot your hearing protection? Forget about hearing!', '', 1, '2014-12-02 15:41:55'),
+  (43, 'Get in high speed pursuit of safety', '', 1, '2014-12-02 15:41:56'),
+  (44, 'Get smart! Use safety from the start.', '', 1, '2014-12-02 15:41:56'),
+  (45, 'Give them a Brake!', '', 1, '2014-12-02 15:41:56'),
+  (46, 'Got crazy with the lighter? Call a firefighter.', '', 1, '2014-12-02 15:41:56'),
+  (47, 'Hard hats, they’re not just for decoration', '', 1, '2014-12-02 15:41:56'),
+  (48, 'Have another day by being safe today!', '', 1, '2014-12-02 15:41:56'),
+  (49, 'Hearing protection is a sound investment.', '', 1, '2014-12-02 15:41:56'),
+  (50, 'Housekeeping you skip may cause a fall or slip.', '', 1, '2014-12-02 15:41:56'),
+  (51, 'If everything comes your way, you are in the wrong lane.', '', 1, '2014-12-02 15:41:56'),
+  (52, 'If they email you asking for cash, be sure to throw it in the trash.', '', 1, '2014-12-02 15:41:56'),
+  (53, 'If they email you asking for Money, Say no thanks I won’t fall for it honey.', '', 1, '2014-12-02 15:41:56'),
+  (54, 'If you don’t know the sender, it might be a pretender', '', 1, '2014-12-02 15:41:56'),
+  (55, 'If you don’t think it will happen to you, find the person who had it happen to them', '', 1, '2014-12-02 15:41:56'),
+  (56, 'If you mess up, ‘fess up', '', 1, '2014-12-02 15:41:56'),
+  (57, 'Is better to lose one minute in life… than to lose life in a minute.', '', 1, '2014-12-02 15:41:56'),
+  (58, 'It only takes one mistake to bring us all down; don’t let it be yours!', '', 1, '2014-12-02 15:41:57'),
+  (59, 'It’s easier to ask a dumb question than it is to fix a dumb mistake', '', 1, '2014-12-02 15:41:57'),
+  (60, 'Keep a grip on life and protect your hands', '', 1, '2014-12-02 15:41:57'),
+  (61, 'Keep safety in mind. It will save your behind.', '', 1, '2014-12-02 15:41:57'),
+  (62, 'Keeping your work area clean, helps keep hazards from being unseen.', '', 1, '2014-12-02 15:41:57'),
+  (63, 'Knock out…accidents', '', 1, '2014-12-02 15:41:57'),
+  (64, 'Know safety – no pain', '', 1, '2014-12-02 15:41:57'),
+  (65, 'Know safety No Accidents', '', 1, '2014-12-02 15:41:57'),
+  (66, 'Lead the way, safety today.', '', 1, '2014-12-02 15:41:57'),
+  (67, 'Learn from others mistakes, don’t have others learn from you.', '', 1, '2014-12-02 15:41:57'),
+  (68, 'Let’s all keep our heads, and other body parts, together', '', 1, '2014-12-02 15:41:57'),
+  (69, 'Life’s short, don’t rush it', '', 1, '2014-12-02 15:41:57'),
+  (70, 'Light up your tree – not your home', '', 1, '2014-12-02 15:41:57'),
+  (71, 'Make it your mission, not to live in unsafe condition.', '', 1, '2014-12-02 15:41:57'),
+  (72, 'Make safety a reality and don’t be a fatality', '', 1, '2014-12-02 15:41:57'),
+  (73, 'My job provides my paycheck, but safety takes me home.', '', 1, '2014-12-02 15:41:57'),
+  (74, 'Near miss reported today, is the accident that does not happen tomorrow.', '', 1, '2014-12-02 15:41:57'),
+  (75, 'Never drive faster than your guardian angel can fly', '', 1, '2014-12-02 15:41:57'),
+  (76, 'Never give safety a day off', '', 1, '2014-12-02 15:41:57'),
+  (77, 'No Belt. No Brains', '', 1, '2014-12-02 15:41:57'),
+  (78, 'No safety – know pain', '', 1, '2014-12-02 15:41:57'),
+  (79, 'One bad day at the grinder could ruin your whole life', '', 1, '2014-12-02 15:41:57'),
+  (80, 'Only You can prevent forest fires!', '', 1, '2014-12-02 15:41:57'),
+  (81, 'Pencils have erasers–mishaps don’t!', '', 1, '2014-12-02 15:41:58'),
+  (82, 'Prevent a jam, don’t open spam', '', 1, '2014-12-02 15:41:58'),
+  (83, 'Protect your hands, you need them to pick up your pay check', '', 1, '2014-12-02 15:41:58'),
+  (84, 'Quench the thirst – safety first', '', 1, '2014-12-02 15:41:58'),
+  (85, 'Replacing a saw guard is easier than replacing a finger', '', 1, '2014-12-02 15:41:58'),
+  (86, 'Safe crane operation is uplifting', '', 1, '2014-12-02 15:41:58'),
+  (87, 'Safety – A small investment for a rich future', '', 1, '2014-12-02 15:41:58'),
+  (88, 'Safety by Choice, Not by Chance.', '', 1, '2014-12-02 15:41:58'),
+  (89, 'Safety comes in a can, I can, You can, We can be safe.', '', 1, '2014-12-02 15:41:58'),
+  (90, 'Safety doesn’t happen by accident', '', 1, '2014-12-02 15:41:58'),
+  (91, 'Safety first makes us last.', '', 1, '2014-12-02 15:41:58'),
+  (92, 'Safety First, Avoid the Worst.', '', 1, '2014-12-02 15:41:58'),
+  (93, 'Safety first, to last.', '', 1, '2014-12-02 15:41:58'),
+  (94, 'Safety first…because accidents last.', '', 1, '2014-12-02 15:41:58'),
+  (95, 'Safety fits like a glove; Try one on.', '', 1, '2014-12-02 15:41:58'),
+  (96, 'Safety Glasses – All in favor say EYE', '', 1, '2014-12-02 15:41:58'),
+  (97, 'Safety in – we win', '', 1, '2014-12-02 15:41:58'),
+  (98, 'Safety is a cheap and effective insurance policy', '', 1, '2014-12-02 15:41:58'),
+  (99, 'Safety is a continuing journey, not a final destination.', '', 1, '2014-12-02 15:41:58'),
+  (100, 'Safety is a frame of mind – So concentrate on it all the time.', '', 1, '2014-12-02 15:41:59'),
+  (101, 'Safety is a Frame of Mind, Get the Picture.', '', 1, '2014-12-02 15:41:59'),
+  (102, 'Safety is a full time job – don’t make it a part time practice', '', 1, '2014-12-02 15:41:59'),
+  (103, 'Safety is a mission not an intermission', '', 1, '2014-12-02 15:41:59'),
+  (104, 'Safety is about doing the right thing, even if no one is looking.', '', 1, '2014-12-02 15:41:59'),
+  (105, 'Safety is as simple as ABC – Always Be Careful', '', 1, '2014-12-02 15:41:59'),
+  (106, 'Safety is like a lock – But you are the key.', '', 1, '2014-12-02 15:41:59'),
+  (107, 'Safety is no accident', '', 1, '2014-12-02 15:41:59'),
+  (108, 'Safety is success by purpose – Not Accident.', '', 1, '2014-12-02 15:41:59'),
+  (109, 'Safety isn’t a hobby, it’s a living.', '', 1, '2014-12-02 15:41:59'),
+  (110, 'Safety isn’t expensive it’s priceless.', '', 1, '2014-12-02 15:41:59'),
+  (111, 'Safety isn’t just a slogan, it’s a way of life.', '', 1, '2014-12-02 15:41:59'),
+  (112, 'Safety makes good dollars and sense', '', 1, '2014-12-02 15:41:59'),
+  (113, 'Safety rules are there to follow. So take care and we will see you tomorrow.', '', 1, '2014-12-02 15:41:59'),
+  (114, 'Safety rules are your best tools.', '', 1, '2014-12-02 15:41:59'),
+  (115, 'Safety saves, Accidents cost you.', '', 1, '2014-12-02 15:41:59'),
+  (116, 'Safety starts with “S” but begins with “YOU”.', '', 1, '2014-12-02 15:42:00'),
+  (117, 'Safety starts with me.', '', 1, '2014-12-02 15:42:00'),
+  (118, 'Safety: more fun than running with scissors', '', 1, '2014-12-02 15:42:00'),
+  (119, 'Safety… It can charm you, or ALARM you!', '', 1, '2014-12-02 15:42:00'),
+  (120, 'Safety…Did it, done it, doing it tomorrow', '', 1, '2014-12-02 15:42:00'),
+  (121, 'Safety…one habit you never need to break', '', 1, '2014-12-02 15:42:00'),
+  (122, 'Save tomorrow. Think safety today.', '', 1, '2014-12-02 15:42:00'),
+  (123, 'Seat Belts are for kids – Hug them at home – Belt them in the car', '', 1, '2014-12-02 15:42:00'),
+  (124, 'Seatbelts save lives. Buckle up everytime.', '', 1, '2014-12-02 15:42:00'),
+  (125, 'Shortcuts cut life short', '', 1, '2014-12-02 15:42:00'),
+  (126, 'Speed Thrills but Kills.', '', 1, '2014-12-02 15:42:00'),
+  (127, 'Stay safe, someone at home is waiting for you.', '', 1, '2014-12-02 15:42:00'),
+  (128, 'Stop drop & roll', '', 1, '2014-12-02 15:42:00'),
+  (129, 'Success is no accident', '', 1, '2014-12-02 15:42:00'),
+  (130, 'The best car safety device is a rear-view mirror with a cop in it.', '', 1, '2014-12-02 15:42:00'),
+  (131, 'The door to Safety swings on the hinges of common sense', '', 1, '2014-12-02 15:42:00'),
+  (132, 'The only trip you take should be on vacation.', '', 1, '2014-12-02 15:42:00'),
+  (133, 'The safe way is the only way.', '', 1, '2014-12-02 15:42:00'),
+  (134, 'The stupid shall be punished', '', 1, '2014-12-02 15:42:00'),
+  (135, 'Think Safety, Because I Love You Man.', '', 1, '2014-12-02 15:42:00'),
+  (136, 'Think sharp….never handle broken glass with bare hands.', '', 1, '2014-12-02 15:42:00'),
+  (137, 'Think smart before you start.', '', 1, '2014-12-02 15:42:00'),
+  (138, 'Those precious fingers don’t ignore, Or they could end up on the floor.', '', 1, '2014-12-02 15:42:00'),
+  (139, 'Those who work the safest way- live to see another day', '', 1, '2014-12-02 15:42:01'),
+  (140, 'To avoid a scene keep your work place clean.', '', 1, '2014-12-02 15:42:01'),
+  (141, 'To prevent a drastic call, Install a firewall', '', 1, '2014-12-02 15:42:01'),
+  (142, 'Tomorrow: Your reward for working safely today.', '', 1, '2014-12-02 15:42:01'),
+  (143, 'Trying to make up time could cost you your life.', '', 1, '2014-12-02 15:42:01'),
+  (144, 'Unsafe acts will keep you in stitches', '', 1, '2014-12-02 15:42:01'),
+  (145, 'Watch where you walk or you might need a walker.', '', 1, '2014-12-02 15:42:01'),
+  (146, 'Watch your step – it could be your last tomorrow', '', 1, '2014-12-02 15:42:01'),
+  (147, 'whats holding you back?', '', 1, '2014-12-02 15:42:01'),
+  (148, 'When you gamble with safety ..You bet your life.', '', 1, '2014-12-02 15:42:01'),
+  (149, 'While on a ladder, never step back to admire your work', '', 1, '2014-12-02 15:42:01'),
+  (150, 'Wipe Up and avoid a Slip Up!', '', 1, '2014-12-02 15:42:01'),
+  (151, 'Work safe today–heaven can wait.', '', 1, '2014-12-02 15:42:01'),
+  (152, 'Work together…work safely.', '', 1, '2014-12-02 15:42:01'),
+  (153, 'Working safely may get old, but so do those who practice it.', '', 1, '2014-12-02 15:42:01'),
+  (154, 'Your first mistake could be your last', '', 1, '2014-12-02 15:42:01'),
+  (155, 'Your reward for working safely today.', '', 1, '2014-12-02 15:42:01'),
+  (156, 'Your wife will spend your 401K; If you get killed at work today.', '', 1, '2014-12-02 15:42:01'),
+  (157, 'Protect your hands, you need them to pick up your pay check', '', 1, '2014-12-02 15:42:01'),
+  (158, 'Your wife will spend your 401K; If you get killed at work today', '', 1, '2014-12-02 15:42:01'),
+  (159, 'Safety…Did it, done it, doing it tomorrow', '', 1, '2014-12-02 15:42:01'),
+  (160, 'Watch your step - it could be your last tomorrow', '', 1, '2014-12-02 15:42:01'),
+  (161, 'Those precious fingers don’t ignore. . . Or they could end up on the floor', '', 1, '2014-12-02 15:42:01'),
+  (162, 'Your reward for working safely today.', '', 1, '2014-12-02 15:42:02'),
+  (163, 'Those who work the safest way- live to see another day', '', 1, '2014-12-02 15:42:02'),
+  (164, 'Get in high speed pursuit of safety', '', 1, '2014-12-02 15:42:02'),
+  (165, 'Seat Belts are for kids - Hug them at home - Belt them in the car', '', 1, '2014-12-02 15:42:02'),
+  (166, 'Safe crane operation is uplifting', '', 1, '2014-12-02 15:42:02'),
+  (167, 'Pencils have erasers–mishaps don’t!', '', 1, '2014-12-02 15:42:02'),
+  (168, 'Work safe today–heaven can wait.', '', 1, '2014-12-02 15:42:02'),
+  (169, 'Safety is a mission not an intermission', '', 1, '2014-12-02 15:42:02'),
+  (170, 'Safety doesn’t happen by accident', '', 1, '2014-12-02 15:42:02'),
+  (171, 'A spill, a slip, a hospital trip ', '', 1, '2014-12-02 15:42:02'),
+  (172, 'Falling objects can be brutal if you don’t protect your noodle', '', 1, '2014-12-02 15:42:02'),
+  (173, 'Safety glasses: All in favor say “Eye!”', '', 1, '2014-12-02 15:42:02'),
+  (174, 'It’s easier to ask a dumb question than it is to fix a dumb mistake', '', 1, '2014-12-02 15:42:02'),
+  (175, 'Safety isn’t a hobby, it’s a living.', '', 1, '2014-12-02 15:42:02'),
+  (176, 'Safety - A small investment for a rich future', '', 1, '2014-12-02 15:42:02'),
+  (177, 'Safety is no accident', '', 1, '2014-12-02 15:42:02'),
+  (178, 'Safety is a cheap and effective insurance policy', '', 1, '2014-12-02 15:42:02'),
+  (179, 'Let’s all keep our heads, and other body parts, together', '', 1, '2014-12-02 15:42:02'),
+  (180, 'While on a ladder, never step back to admire your work', '', 1, '2014-12-02 15:42:02'),
+  (181, 'Quench the thirst – safety first', '', 1, '2014-12-02 15:42:02'),
+  (182, 'When you gamble with safety you bet your life', '', 1, '2014-12-02 15:42:02'),
+  (183, 'The stupid shall be punished', '', 1, '2014-12-02 15:42:02'),
+  (184, 'Chance takers are accident makers', '', 1, '2014-12-02 15:42:02'),
+  (185, 'Safety is a full time job; don’t make it a part time practice', '', 1, '2014-12-02 15:42:02'),
+  (186, 'The door to Safety swings on the hinges of common sense', '', 1, '2014-12-02 15:42:02'),
+  (187, 'Is better to lose one minute in life… than to lose life in a minute.', '', 1, '2014-12-02 15:42:02'),
+  (188, 'Safety — a small investment for a rich future', '', 1, '2014-12-02 15:42:03'),
+  (189, 'Your first mistake could be your last', '', 1, '2014-12-02 15:42:03'),
+  (190, 'Safety isn’t expensive it’s priceless.', '', 1, '2014-12-02 15:42:03'),
+  (191, 'Safety is as simple as ABC…Always Be Careful', '', 1, '2014-12-02 15:42:03'),
+  (192, 'Unsafe acts will keep you in stitches', '', 1, '2014-12-02 15:42:03'),
+  (193, 'Knock out…accidents', '', 1, '2014-12-02 15:42:03'),
+  (194, 'If you mess up, ‘fess up', '', 1, '2014-12-02 15:42:03'),
+  (195, 'Hard hats, they’re not just for decoration', '', 1, '2014-12-02 15:42:03'),
+  (196, 'If you don’t think it will happen to you, find the person who had it happen to them', '', 1, '2014-12-02 15:42:03'),
+  (197, 'Keep safety in mind. It will save your behind.', '', 1, '2014-12-02 15:42:03'),
+  (198, 'One bad day at the grinder could ruin your whole life', '', 1, '2014-12-02 15:42:03'),
+  (199, 'Shortcuts cut life short', '', 1, '2014-12-02 15:42:03');
 
 COMMIT;
