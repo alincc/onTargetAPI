@@ -1,8 +1,11 @@
 package com.ontarget.api.service;
 
 import com.ontarget.bean.ProjectEarnedValueAnalysisReport;
+import com.ontarget.bean.Task;
+import com.ontarget.bean.TaskInterval;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Owner on 12/3/14.
@@ -10,6 +13,6 @@ import java.util.List;
 public interface ProjectReportService {
 
 
-    public java.util.Map<com.ontarget.bean.TaskInterval, ProjectEarnedValueAnalysisReport> getEarnedValueAnalysisReport(int projectId) throws Exception;
+    public Map<Task,Map<TaskInterval, ProjectEarnedValueAnalysisReport>> getEarnedValueAnalysisReport(int projectId) throws Exception;
 
 }

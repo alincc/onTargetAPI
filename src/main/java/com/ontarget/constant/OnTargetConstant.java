@@ -69,6 +69,7 @@ public interface OnTargetConstant {
     public interface CostType {
         public static final String PLANNED="PLANNED";
         public static final String ACTUAL="ACTUAL";
+        public static final String ESTIMATED = "ESTIMATED";
     }
  
     public interface DocumentStatus {
