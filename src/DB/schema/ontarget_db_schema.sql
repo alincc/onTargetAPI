@@ -162,7 +162,7 @@ ADD PRIMARY KEY (`id`);
 -- AUTO_INCREMENT for table `discipline`
 --
 ALTER TABLE `discipline`
-MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
 
 
 --
@@ -981,7 +981,15 @@ COMMIT;
 --
 START TRANSACTION;
 USE `ontarget`;
-INSERT INTO `discipline` (`id`, `name`, `info`, `ts_insert`) VALUES (1, 'painter', 'paints the walls', '2014-12-02 15:32:46');
+INSERT INTO `discipline` (`id`, `name`, `info`, `ts_insert`) VALUES (1, 'masonry', 'Masonry', now());
+INSERT INTO `discipline` (`id`, `name`, `info`, `ts_insert`) VALUES (2, 'plumbing', 'Plumbing', now());
+INSERT INTO `discipline` (`id`, `name`, `info`, `ts_insert`) VALUES (3, 'electrical', 'Electrical', now());
+INSERT INTO `discipline` (`id`, `name`, `info`, `ts_insert`) VALUES (4, 'mechanical', 'Mechanical', now());
+INSERT INTO `discipline` (`id`, `name`, `info`, `ts_insert`) VALUES (5, 'Interiors', 'Interiors', now());
+INSERT INTO `discipline` (`id`, `name`, `info`, `ts_insert`) VALUES (6, 'landscaping', 'Landscaping', now());
+INSERT INTO `discipline` (`id`, `name`, `info`, `ts_insert`) VALUES (7, 'bridges', 'Bridges', now());
+INSERT INTO `discipline` (`id`, `name`, `info`, `ts_insert`) VALUES (8, 'tunnels', 'Tunnels', now());
+INSERT INTO `discipline` (`id`, `name`, `info`, `ts_insert`) VALUES (9, 'design', 'Design', now());
 commit;
 
 
