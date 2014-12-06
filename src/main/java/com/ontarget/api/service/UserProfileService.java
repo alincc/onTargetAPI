@@ -22,4 +22,6 @@ public interface UserProfileService {
     public Contact getContact(long userId) throws Exception;
 
     public Company getCompanyInfoByUser(int userId) throws Exception;
+
+    public String getRandomSafetyUserInfo(long userId) throws Exception;
 }

@@ -2,6 +2,7 @@ package com.ontarget.api.rs;
 
 import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.bean.User;
+import com.ontarget.dto.SafetyInfoResponse;
 import com.ontarget.dto.UserProfileRequest;
 
 /**
@@ -16,4 +17,6 @@ public interface UserProfile {
     public OnTargetResponse updateUserProfile(UserProfileRequest userProfileRequest);
 
     public OnTargetResponse inviteUserIntoProject(long projectId, String firstName,  String lastName, String email);
+
+    public SafetyInfoResponse getSafetyInfoForUser(long userId);
 }

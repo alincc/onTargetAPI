@@ -1,12 +1,10 @@
 package com.ontarget.api.service.impl;
 
-import com.ontarget.api.dao.AuthenticationDAO;
-import com.ontarget.api.dao.CompanyDAO;
-import com.ontarget.api.dao.ContactDAO;
-import com.ontarget.api.dao.UserRegistrationDAO;
+import com.ontarget.api.dao.*;
 import com.ontarget.api.service.UserProfileService;
 import com.ontarget.bean.Company;
 import com.ontarget.bean.Contact;
+import com.ontarget.bean.User;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.UserProfileRequest;
@@ -40,6 +38,11 @@ public class UserProfileServiceImpl implements UserProfileService {
     @Autowired
     private UserRegistrationDAO userRegistrationDAO;
 
+    @Autowired
+    private UserDAO userDAO;
+
+    @Autowired
+    private UserSafetyInfoDAO userSafetyInfoDAO;
 
     //TODO: separate logic of user profile and company profile.
     @Override
@@ -110,5 +113,14 @@ public class UserProfileServiceImpl implements UserProfileService {
 
     public boolean saveRegistration(long projectId, String firstName, String lastName, String email, String tokenId) throws Exception {
         return userRegistrationDAO.saveRegistrationInvitation(projectId, firstName, lastName, email, tokenId) != 0;
+    }
+
+    public String getRandomSafetyUserInfo(long userId) throws Exception {
+        User user = userDAO.getUser(userId);
+        if(user.getDiscipline() == 0){
+            return null;
+        }
+
+        return userSafetyInfoDAO.getRandomSafetyInfo(user.getDiscipline());
     }
 }

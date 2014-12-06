@@ -161,4 +161,8 @@ public interface OnTargetQuery {
     public static final String GET_TASK_PERCENTAGE_BY_TASK=new StringBuilder("select * from task_percentage_log tpl where tpl.task_id=?").toString();
 
     public static final String GET_TASK_COST_BY_TASK = new StringBuilder("select * from planned_actuals_cost pac where pac.task_id=?").toString();
+
+    public static final String GET_USER = new StringBuilder("SELECT * FROM user WHERE user_id = ?").toString();
+
+    public static final String GET_RANDOM_SAFETY_INFO = new StringBuilder("SELECT name FROM user_safety_info where discipline_id=? ORDER BY RAND() LIMIT 1").toString();
 }

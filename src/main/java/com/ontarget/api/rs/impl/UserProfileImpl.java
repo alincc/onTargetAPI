@@ -8,6 +8,7 @@ import com.ontarget.bean.Contact;
 import com.ontarget.bean.Project;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.OnTargetResponse;
+import com.ontarget.dto.SafetyInfoResponse;
 import com.ontarget.dto.UserProfileRequest;
 import com.ontarget.dto.UserProfileResponse;
 import com.ontarget.util.Security;
@@ -132,6 +133,30 @@ public class UserProfileImpl implements UserProfile {
             response.setReturnMessage("Mandatory field missing");
             response.setReturnVal(OnTargetConstant.ERROR);
         }
+        return response;
+    }
+
+    @Override
+    @GET
+    @Path("/getSafetyInfoForUser")
+    public SafetyInfoResponse getSafetyInfoForUser(@QueryParam("userId") long userId){
+        System.out.println("this is user id " + userId);
+        SafetyInfoResponse response = new SafetyInfoResponse();
+        try {
+            String safetyUserInfo = userProfileService.getRandomSafetyUserInfo(userId);
+            if(safetyUserInfo == null){
+                response.setReturnVal(OnTargetConstant.ERROR);
+                response.setReturnMessage("Null info");
+            }
+            else {
+                response.setSafetyInfo(safetyUserInfo);
+                response.setReturnVal(OnTargetConstant.SUCCESS);
+            }
+        } catch (Exception e) {
+            response.setReturnMessage(e.getMessage());
+            response.setReturnVal(OnTargetConstant.ERROR);
+        }
+
         return response;
     }
 }
