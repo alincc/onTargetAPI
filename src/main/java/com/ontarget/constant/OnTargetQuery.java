@@ -38,13 +38,13 @@ public interface OnTargetQuery {
 
     public static  final String ADD_TASK=new StringBuilder("INSERT INTO PROJECT_TASK (PROJECT_ID,TITLE,DESCRIPTION, PARENT_TASK_ID,STATUS,SEVERITY, START_DATE, END_DATE, CREATED_DATE, CREATED_BY, MODIFIED_DATE, MODIFIED_BY) values (?,?,?,?,?,?,?,?,NOW(),'SYSTEM',NOW(),'SYSTEM')").toString();
 
-    public static final String GET_PROJECT_TASK=new StringBuilder("SELECT * , if(status='COMPLETED',true,false) as completed FROM PROJECT_TASK WHERE PROJECT_ID=?").toString();
+    public static final String GET_PROJECT_TASK=new StringBuilder("SELECT * , if(status='COMPLETED',true,false) as completed FROM project_task WHERE project_id=?").toString();
 
     public final static String GET_PROJECT = new StringBuilder("SELECT * FROM PROJECT WHERE PROJECT_ID=?").toString();
 
-    public static final String GET_ADDRESS = new StringBuilder("SELECT * FROM ADDRESS WHERE ADDRESS_ID=?").toString();
+    public static final String GET_ADDRESS = new StringBuilder("SELECT * FROM address WHERE address_id=?").toString();
 
-    public static final String GET_PROJECT_BY_COMPANY = new StringBuilder("SELECT p.* FROM contact c, PROJECT p")
+    public static final String GET_PROJECT_BY_COMPANY = new StringBuilder("SELECT p.* FROM contact c, project p")
             .append(" where p.company_id=c.contact_company_id and p.company_id=? and c.user_id=? order by p.project_id, p.project_parent_id").toString();
 
     public static final String GET_COMPANY_BY_USER = new StringBuilder("Select * from contact where user_id=?").toString();
