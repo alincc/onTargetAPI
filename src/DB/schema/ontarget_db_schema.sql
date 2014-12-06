@@ -690,6 +690,121 @@ CREATE  TABLE IF NOT EXISTS `ontarget`.`states` (
 
 
 
+
+-- -----------------------------------------------------
+-- Table `ontarget`.`document`
+-- -----------------------------------------------------
+
+DROP TABLE IF EXISTS `ontarget`.`document` ;
+
+CREATE TABLE `document` (
+  `document_id` int(11) NOT NULL AUTO_INCREMENT,
+  `document_template_id` int(11) NOT NULL,
+  `name` varchar(45) NOT NULL,
+  `status` varchar(45) NOT NULL,
+  `created_by` varchar(45) NOT NULL,
+  `created_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `modified_by` varchar(45) NOT NULL,
+  `modified_date` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`document_id`),
+  KEY `document_template_id_idx` (`document_template_id`),
+  CONSTRAINT `document_template_2_document` FOREIGN KEY (`document_template_id`) REFERENCES `document_template` (`document_template_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=latin1;
+
+-- -----------------------------------------------------
+-- Table `ontarget`.`document_attachment`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `ontarget`.`document_attachment` ;
+
+CREATE TABLE `document_attachment` (
+  `document_attachment_id` int(11) NOT NULL AUTO_INCREMENT,
+  `document_id` int(11) NOT NULL,
+  `file_path` varchar(45) NOT NULL,
+  `created_by` varchar(45) NOT NULL,
+  `created_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `modified_by` varchar(45) NOT NULL,
+  `modified_date` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`document_attachment_id`),
+  KEY `document_2_document_attachment_idx` (`document_id`),
+  CONSTRAINT `document_2_document_attachment` FOREIGN KEY (`document_id`) REFERENCES `document` (`document_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+
+
+-- -----------------------------------------------------
+-- Table `ontarget`.`document_grid_key_value`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `ontarget`.`document_grid_key_value` ;
+
+CREATE TABLE `document_grid_key_value` (
+  `document_id` int(11) NOT NULL,
+  `grid_id` varchar(45) NOT NULL,
+  `grid_row_index` int(11) NOT NULL,
+  `key` varchar(45) NOT NULL,
+  `value` text NOT NULL,
+  `created_by` varchar(45) NOT NULL,
+  `created_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `modified_by` varchar(45) NOT NULL,
+  `modified_date` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  KEY `document_2_document_grid_key_value_idx` (`document_id`),
+  CONSTRAINT `document_2_document_grid_key_value` FOREIGN KEY (`document_id`) REFERENCES `document` (`document_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- -----------------------------------------------------
+-- Table `ontarget`.`document_key_value`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `ontarget`.`document_key_value`;
+
+CREATE TABLE `document_key_value` (
+  `document_id` int(11) NOT NULL,
+  `key` varchar(45) NOT NULL,
+  `value` text NOT NULL,
+  `created_by` varchar(45) NOT NULL,
+  `created_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `modified_by` varchar(45) NOT NULL,
+  `modified_date` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  KEY `document_2_document_key_value_idx` (`document_id`),
+  CONSTRAINT `document_2_document_key_value` FOREIGN KEY (`document_id`) REFERENCES `document` (`document_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- -----------------------------------------------------
+-- Table `ontarget`.`document_submittal`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `ontarget`.`document_submittal`;
+
+CREATE TABLE `document_submittal` (
+  `document_submittal_id` int(11) NOT NULL AUTO_INCREMENT,
+  `document_id` int(11) NOT NULL,
+  `assignee_user_id` int(11) DEFAULT NULL,
+  `created_by` varchar(45) DEFAULT NULL,
+  `created_date` timestamp NULL DEFAULT NULL,
+  `modified_by` varchar(45) DEFAULT NULL,
+  `modified_date` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`document_submittal_id`),
+  KEY `document_2_document_submittal_idx` (`document_id`),
+  KEY `user_2_document_submittal_idx` (`assignee_user_id`),
+  CONSTRAINT `document_2_document_submittal` FOREIGN KEY (`document_id`) REFERENCES `document` (`document_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `user_2_document_submittal` FOREIGN KEY (`assignee_user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=latin1;
+
+-- -----------------------------------------------------
+-- Table `ontarget`.`document_template`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `ontarget`.`document_template`;
+
+CREATE TABLE `document_template` (
+  `document_template_id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) NOT NULL,
+  `created_by` varchar(45) NOT NULL,
+  `created_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `modified_by` varchar(45) NOT NULL,
+  `modfied_date` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`document_template_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
+
+
+
+
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
