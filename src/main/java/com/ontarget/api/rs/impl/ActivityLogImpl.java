@@ -30,15 +30,15 @@ public class ActivityLogImpl implements com.ontarget.api.rs.ActivityLog {
     @GET
     @Path("/getLog")
     public ActivityLogResponse getActivityLog(@QueryParam("recentId") long recentId) {
-        System.out.println("activity log called with recentId " + recentId);
+//        System.out.println("activity log called with recentId " + recentId);
         ActivityLogResponse response = new ActivityLogResponse();
         try {
             List<ActivityLog> activityLogs = activityLogService.getActivityLog(recentId);
             if (activityLogs == null || activityLogs.isEmpty()) {
-                System.out.println("empty log returned");
+//                System.out.println("empty log returned");
                 response.setRecentActivityId(recentId);
             } else {
-                System.out.println("non empty log returned");
+//                System.out.println("non empty log returned");
                 response.setLogs(activityLogs);
                 response.setRecentActivityId(activityLogs.get(activityLogs.size() - 1).getId());
             }

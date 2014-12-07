@@ -1,7 +1,6 @@
 package com.ontarget.api.dao.impl;
 
 import com.ontarget.bean.ActivityLog;
-import com.ontarget.bean.ProjectMember;
 import com.ontarget.constant.OnTargetQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -28,14 +27,16 @@ public class ActivityDAOImpl implements Serializable, com.ontarget.api.dao.Activ
         jdbcTemplate.query(OnTargetQuery.GET_ACTIVITY_LOG, new Object[]{recentId}, new RowMapper<ActivityLog>() {
             @Override
             public ActivityLog mapRow(ResultSet resultSet, int i) throws SQLException {
-                ActivityLog projectMember = new ActivityLog();
-                projectMember.setCategory(resultSet.getLong("category"));
-                projectMember.setId(resultSet.getLong("id"));
-                projectMember.setTsInsert(resultSet.getLong("ts_insert"));
-                projectMember.setText(resultSet.getString("text"));
-                return projectMember;
+                ActivityLog activityLog = new ActivityLog();
+                activityLog.setCategory(resultSet.getLong("category"));
+                activityLog.setId(resultSet.getLong("id"));
+                activityLog.setTsInsert(resultSet.getLong("ts_insert"));
+                activityLog.setText(resultSet.getString("text"));
+                activityLogs.add(activityLog);
+                return activityLog;
             }
         });
+        
         return activityLogs;
     }
 }
