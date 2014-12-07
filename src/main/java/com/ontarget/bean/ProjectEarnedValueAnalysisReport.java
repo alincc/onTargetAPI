@@ -13,6 +13,7 @@ public class ProjectEarnedValueAnalysisReport implements Serializable{
     private int year;
 
     private double totalBudgetedCost; // total cost
+    private double totalActualCost; // total actual cost
     private double cumulativePlannedValue; // PV
     private double cumulativeActualCost; // AC
     private double cumulativeEarnedValue; // EV
@@ -128,5 +129,13 @@ public class ProjectEarnedValueAnalysisReport implements Serializable{
                 ", schedulePerformanceIndex=" + schedulePerformanceIndex +
                 ", estimatedCostAtCompletion=" + estimatedCostAtCompletion +
                 '}';
+    }
+
+    public double getTotalActualCost() {
+        return totalActualCost;
+    }
+
+    public void setTotalActualCost(double totalActualCost) {
+        this.totalActualCost = totalActualCost;
     }
 }

@@ -1199,3 +1199,14 @@ INSERT INTO `user_safety_info` (`id`, `name`, `info`, `discipline_id`, `ts_creat
   (199, 'Shortcuts cut life short', '', 1, '2014-12-02 15:42:03');
 
 COMMIT;
+
+-- -----------------------------------------------------
+-- Data for table `ontarget`.`document_template`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `ontarget`;
+insert into `document_template` (`name`, `created_by`, `created_date`, `modified_by`, `modfied_date`) values('Purchase Order', 'SYSTEM', now(), 'SYSTEM', now());
+insert into `document_template` (`name`, `created_by`, `created_date`, `modified_by`, `modfied_date`) values('Change Order', 'SYSTEM', now(), 'SYSTEM', now());
+insert into `document_template` (`name`, `created_by`, `created_date`, `modified_by`, `modfied_date`) values('Request For Information', 'SYSTEM', now(), 'SYSTEM', now());
+insert into `document_template` (`name`, `created_by`, `created_date`, `modified_by`, `modfied_date`) values('Transmittal', 'SYSTEM', now(), 'SYSTEM', now());
+COMMIT;
