@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -36,6 +37,7 @@ public class ActivityLogImpl implements com.ontarget.api.rs.ActivityLog {
             List<ActivityLog> activityLogs = activityLogService.getActivityLog(recentId);
             if (activityLogs == null || activityLogs.isEmpty()) {
 //                System.out.println("empty log returned");
+                response.setLogs(new LinkedList<ActivityLog>());
                 response.setRecentActivityId(recentId);
             } else {
 //                System.out.println("non empty log returned");
