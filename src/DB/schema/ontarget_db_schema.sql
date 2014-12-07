@@ -463,6 +463,9 @@ CREATE  TABLE IF NOT EXISTS `ontarget`.`project_file` (
   ENGINE = InnoDB
   DEFAULT CHARACTER SET = utf8;
 
+ALTER TABLE `ontarget`.`project_file`
+ADD COLUMN `file_type` VARCHAR(45) NOT NULL ;
+
 
 -- -----------------------------------------------------
 -- Table `ontarget`.`project_member`
@@ -678,7 +681,7 @@ CREATE  TABLE IF NOT EXISTS `ontarget`.`task_comment` (
   `task_id` INT NOT NULL ,
   `comment` TEXT NULL ,
   `commented_by` VARCHAR(20) NULL ,
-  `commented_date` VARCHAR(20) NULL ,
+  `commented_date` DATETIME NULL ,
   `comment_status` VARCHAR(15) NULL ,
   PRIMARY KEY (`task_comment_id`) ,
   INDEX `task_comment_fk` (`task_id` ASC) ,
