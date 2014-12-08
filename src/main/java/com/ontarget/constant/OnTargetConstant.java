@@ -25,6 +25,7 @@ public interface OnTargetConstant {
     public static final String REGISTRATION_APPROVAL_REQUEST_SUCCESS = "Registration approval request success";
     public static final String AUTHENTICATION_FAILED = "Authentication Failed";
     public static final String REGSITRATION_REQUEST_APPROVED = "APPROVED";
+    public static final String SIGNUP_URL = "/#/pages/signup";
 
 
     interface AddressType{
@@ -81,5 +82,9 @@ public interface OnTargetConstant {
     public interface PROJECT_STATUS {
         public static final String ACTIVE="1";
         public static final String PENDING="0";
+    }
+
+    public interface MemberStatus {
+        public static final String ACTIVE="ACTIVE";
     }
 }

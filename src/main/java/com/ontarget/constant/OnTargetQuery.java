@@ -96,6 +96,10 @@ public interface OnTargetQuery {
     
     public static final String GET_PROJECT_FILE=new StringBuilder("SELECT * FROM PROJECT_FILE WHERE PROJECT_ID=?").toString();
 
+    public static final String ADD_PROJECT_MEMBER = new StringBuilder("insert into project_member (project_id, user_id,member_status) values (?,?,?)").toString();
+
+    public static final String GET_PROJECT_BY_USER = new StringBuilder("select * from project pt, (select p.project_id from project p,project_member pm where p.project_id=pm.project_id and pm.user_id=?) t where pt.project_id=t.project_id or pt.project_parent_id=t.project_id").toString();
+
 
     interface documentTemplate {
     	String ADD = "insert into document_template (name, created_by, created_date, modified_by, modfied_date) values(?, ?, now(), ?, now())";

@@ -126,7 +126,7 @@ public class UserProfileImpl implements UserProfile {
                 }
             } catch (Exception e) {
                 logger.error(e.getMessage());
-                response.setReturnMessage(e.getMessage());
+                response.setReturnMessage("Error while saving registration request");
                 response.setReturnVal(OnTargetConstant.ERROR);
             }
         } else {

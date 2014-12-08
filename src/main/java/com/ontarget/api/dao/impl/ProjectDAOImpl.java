@@ -3,6 +3,7 @@ package com.ontarget.api.dao.impl;
 import com.ontarget.api.dao.ProjectDAO;
 import com.ontarget.bean.Project;
 import com.ontarget.bean.ProjectMember;
+import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.constant.OnTargetQuery;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -135,6 +136,7 @@ public class ProjectDAOImpl implements ProjectDAO {
         return true;
     }
 
+    @Override
     public List<ProjectMember> getProjectMembers(long projectId) throws Exception {
         List<ProjectMember> projectMemberList = new LinkedList<ProjectMember>();
         jdbcTemplate.query(OnTargetQuery.GET_PROJECT_MEMBERS, new Object[]{projectId}, new RowMapper<ProjectMember>() {
@@ -152,4 +154,33 @@ public class ProjectDAOImpl implements ProjectDAO {
         System.out.println("total read " + projectMemberList.size());
         return projectMemberList;
     }
+
+
+    @Override
+    public int addProjectMember(int projectId, int userId){
+        logger.info("Adding project member for project: " + projectId);
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(
+                new PreparedStatementCreator() {
+                    public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+                        PreparedStatement ps = connection.prepareStatement(OnTargetQuery.ADD_PROJECT_MEMBER, new String[]{"id"});
+                        ps.setInt(1,projectId);
+                        ps.setInt(2, userId);
+                        ps.setString(3, OnTargetConstant.MemberStatus.ACTIVE);
+
+                        return ps;
+                    }
+                },
+                keyHolder);
+        logger.debug("Added address with id: " + keyHolder.getKey().intValue());
+
+        return keyHolder.getKey().intValue();
+    }
+
+    @Override
+    public List<Map<String, Object>> getProjectByUser(int userId) {
+        return jdbcTemplate.queryForList(OnTargetQuery.GET_PROJECT_BY_USER, new Object[]{userId});
+    }
+
+
 }

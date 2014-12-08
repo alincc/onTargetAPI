@@ -12,6 +12,7 @@ import javax.mail.internet.MimeMessage;
 import org.apache.log4j.Logger;
 import org.apache.velocity.app.VelocityEngine;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
@@ -51,6 +52,9 @@ public class EmailServiceImpl implements EmailService {
     
     @Autowired
     private EmailDAO emailDAO;
+
+    @Value("${baseUIUrl}")
+    private String baseUrl;
     
     @Override
     public boolean sendUserRequestEmail(int userRequestId) {
@@ -128,7 +132,7 @@ public class EmailServiceImpl implements EmailService {
                 Map model = new HashMap();
                 model.put("senderName", senderFirstName + " " + senderLastName);
                 model.put("receiverFirstName", receiverFirstName);
-                model.put("url", "http://localhost:8080/");
+                model.put("url", baseUrl+OnTargetConstant.SIGNUP_URL+"?q="+tokenId);
 
                 String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "/template/registrationRequestsApproval.vm", "UTF-8", model);
                 message.setText(text, true);

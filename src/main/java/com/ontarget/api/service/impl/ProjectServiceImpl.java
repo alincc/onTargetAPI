@@ -60,8 +60,13 @@ public class ProjectServiceImpl implements ProjectService {
 
         int projectId = projectDAO.addProject(project);
 
+
+        //add the user to project member;
+        int projectMemberId = projectDAO.addProjectMember(projectId,userId);
+
+
         OnTargetResponse response = new OnTargetResponse();
-        if (projectId > 0) {
+        if (projectId > 0 && projectMemberId > 0) {
             response.setReturnMessage("Successfully created project.");
             response.setReturnVal(OnTargetConstant.SUCCESS);
         } else {
@@ -139,8 +144,19 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public ProjectListResponse getProjectsByCompany(int companyId, int userId) throws Exception {
         List<Map<String, Object>> projects = projectDAO.getProjectByCompany(companyId, userId);
-        List<Project> projectList = new ArrayList<Project>();
+        return this.getProjectResponse(projects);
+
+    }
+
+    @Override
+    public ProjectListResponse getProjectsByUser(int userId) throws Exception {
+        List<Map<String, Object>> projects = projectDAO.getProjectByUser(userId);
+        return this.getProjectResponse(projects);
+    }
+
+    private ProjectListResponse getProjectResponse(List<Map<String, Object>> projects) throws Exception{
         ProjectListResponse response = new ProjectListResponse();
+        List<Project> projectList = new ArrayList<Project>();
         response.setProjects(projectList);
 
         if (projects == null || projects.size() == 0) {
@@ -191,14 +207,6 @@ public class ProjectServiceImpl implements ProjectService {
 
         }
         return response;
-    }
-
-    @Override
-    public ProjectListResponse getProjectsByUser(int userId) throws Exception {
-        Map<String, Object> companyMap=companyDAO.getCompanyByUser(userId);
-        int companyId = (Integer)companyMap.get("contact_company_id");
-        return this.getProjectsByCompany(companyId,userId);
-
     }
 
 

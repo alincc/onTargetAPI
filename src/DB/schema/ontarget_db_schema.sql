@@ -634,12 +634,14 @@ DROP TABLE IF EXISTS `ontarget`.`registration_request` ;
 CREATE  TABLE IF NOT EXISTS `ontarget`.`registration_request` (
   `registration_req_id` INT NULL AUTO_INCREMENT ,
   `project_id` INT NULL ,
-  `name` VARCHAR(100) NULL ,
+  `first_name` VARCHAR(30) NULL ,
+  `last_name` VARCHAR(30) NULL ,
   `email` VARCHAR(45) NULL ,
   `company_name` VARCHAR(45) NULL ,
   `phone_number` VARCHAR(45) NULL ,
   `msg` TEXT NULL ,
   `status` VARCHAR(20) NULL ,
+  `registration_token` text,
   PRIMARY KEY (`registration_req_id`) )
   ENGINE = InnoDB;
 
