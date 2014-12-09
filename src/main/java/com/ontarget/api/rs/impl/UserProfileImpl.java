@@ -83,12 +83,12 @@ public class UserProfileImpl implements UserProfile {
                 response.setReturnVal(OnTargetConstant.SUCCESS);
             } else {
                 logger.error("failed updating password");
-                response.setReturnMessage("Add task failed");
+                response.setReturnMessage("failed updating password");
                 response.setReturnVal(OnTargetConstant.ERROR);
             }
         } catch (Exception e) {
-            logger.error("Add User Profile failed." + e);
-            response.setReturnMessage("Add task failed");
+            logger.error("failed updating password", e);
+            response.setReturnMessage("failed updating password");
             response.setReturnVal(OnTargetConstant.ERROR);
         }
 
