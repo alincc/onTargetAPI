@@ -9,6 +9,10 @@ import java.util.Map;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import com.ontarget.api.dao.AuthenticationDAO;
+import com.ontarget.api.service.EmailService;
+import com.ontarget.constant.OnTargetConstant;
+import com.ontarget.dto.UserRegistrationRequest;
 import org.apache.log4j.Logger;
 import org.apache.velocity.app.VelocityEngine;
 import org.springframework.beans.factory.annotation.Autowired;

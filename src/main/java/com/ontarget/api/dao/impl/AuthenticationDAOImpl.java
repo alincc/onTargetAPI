@@ -2,6 +2,7 @@ package com.ontarget.api.dao.impl;
 
 import com.ontarget.api.dao.AuthenticationDAO;
 import com.ontarget.bean.User;
+import com.ontarget.dto.UserRegistrationRequest;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.constant.OnTargetQuery;
 import com.ontarget.dto.UserRegistrationRequest;

@@ -5,10 +5,7 @@ import com.ontarget.api.rs.TaskEndpoint;
 import com.ontarget.api.service.TaskService;
 import com.ontarget.bean.TaskComment;
 import com.ontarget.constant.OnTargetConstant;
-import com.ontarget.dto.OnTargetResponse;
-import com.ontarget.dto.TaskListResponse;
-import com.ontarget.dto.TaskMemberRequest;
-import com.ontarget.dto.TaskRequest;
+import com.ontarget.dto.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -35,21 +32,23 @@ public class TaskEndpointImpl implements TaskEndpoint {
     @Override
     @Path("/addTask")
     @POST
-    public OnTargetResponse addTask(TaskRequest request) {
-        OnTargetResponse response = new OnTargetResponse();
+    public AddTaskResponse addTask(TaskRequest request) {
+        AddTaskResponse response = new AddTaskResponse();
         try {
-            if (taskService.addTaskService(request.getTask())) {
+            long taskId = taskService.addTaskService(request.getTask());
+            if (taskId > 0) { // find some better way. actually not needed as 0 or any issue will give exception not result
                 response.setReturnMessage("Successfully added task");
                 response.setReturnVal(OnTargetConstant.SUCCESS);
+                response.setProjectTaskId(taskId);
             }
         } catch (Exception e) {
             logger.error("Add task failed." + e);
+            e.printStackTrace();
             response.setReturnMessage("Add task failed");
             response.setReturnVal(OnTargetConstant.ERROR);
         }
         return response;
     }
-
 
     @Override
     @GET
@@ -84,10 +83,9 @@ public class TaskEndpointImpl implements TaskEndpoint {
             response.setReturnMessage("Get task count failed");
             response.setReturnVal(OnTargetConstant.ERROR);
         }
+
         return response;
     }
-
-
 
     @Override
     @POST
@@ -104,6 +102,7 @@ public class TaskEndpointImpl implements TaskEndpoint {
             response.setReturnMessage("Add task comment failed");
             response.setReturnVal(OnTargetConstant.ERROR);
         }
+
         return response;
     }
 

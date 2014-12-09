@@ -31,10 +31,9 @@ public class ProjectEndpointImpl implements ProjectEndoint {
     public OnTargetResponse addProject(ProjectRequest request) {
         OnTargetResponse response = null;
         try {
-
-            if(request.getProject().getProjectId() <= 0) {
+            if (request.getProject().getProjectId() <= 0) {
                 response = projectService.addProject(request);
-            }else{
+            } else {
                 response = projectService.updateProject(request);
             }
 
@@ -70,7 +69,7 @@ public class ProjectEndpointImpl implements ProjectEndoint {
     @GET
     @Path("/getProjectMembers")
     public ProjectMemberListResponse getProjectMembers(@QueryParam("projectId") long projectId) {
-        System.out.println("project id "+projectId);
+        System.out.println("project id " + projectId);
         ProjectMemberListResponse response = new ProjectMemberListResponse();
         try {
             response = projectService.getProjectMembers(projectId);
@@ -86,6 +85,7 @@ public class ProjectEndpointImpl implements ProjectEndoint {
         return response;
     }
 
+
     @Override
     @GET
     @Path("/getProject/company/{companyId}/user/{userId}")
@@ -96,7 +96,7 @@ public class ProjectEndpointImpl implements ProjectEndoint {
             response.setReturnVal(OnTargetConstant.SUCCESS);
             response.setReturnMessage("Successfully retrieved project info");
         } catch (Exception e) {
-            e.printStackTrace();
+
             logger.error("Error while getting project by company", e);
             response.setReturnMessage("Error while getting project by company");
             response.setReturnVal(OnTargetConstant.ERROR);
@@ -107,9 +107,9 @@ public class ProjectEndpointImpl implements ProjectEndoint {
     @Override
     @GET
     @Path("/getProject/user/{userId}")
-    public ProjectListResponse getProjectByUser(@PathParam("userId")int userId) {
+    public ProjectListResponse getProjectByUser(@PathParam("userId") int userId) {
 
-        ProjectListResponse response  =new ProjectListResponse();
+        ProjectListResponse response = new ProjectListResponse();
         try {
             response = projectService.getProjectsByUser(userId);
             response.setReturnVal(OnTargetConstant.SUCCESS);
