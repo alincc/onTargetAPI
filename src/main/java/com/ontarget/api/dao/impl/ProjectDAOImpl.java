@@ -1,8 +1,7 @@
 package com.ontarget.api.dao.impl;
 
 import com.ontarget.api.dao.ProjectDAO;
-import com.ontarget.bean.Project;
-import com.ontarget.bean.ProjectMember;
+import com.ontarget.bean.*;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.constant.OnTargetQuery;
 import org.apache.log4j.Logger;
@@ -147,6 +146,23 @@ public class ProjectDAOImpl implements ProjectDAO {
                 projectMember.setProjectId(projectId);
                 projectMember.setProjectMemberId(resultSet.getLong("project_member_id"));
                 projectMember.setUserId(resultSet.getLong("user_id"));
+
+                Contact contact = new Contact();
+                contact.setFirstName(resultSet.getString("first_name"));
+                contact.setLastName(resultSet.getString("last_name"));
+
+                User user = new User();
+                user.setUserId(resultSet.getInt("user_id"));
+                contact.setUser(user);
+
+                ContactPhone phone = new ContactPhone();
+                phone.setAreaCode(resultSet.getInt("area_code"));
+                phone.setPhoneNumber(resultSet.getInt("phone_number"));
+                phone.setPhoneType(resultSet.getString("phone_type"));
+
+                projectMember.setContact(contact);
+                projectMember.setPhone(phone);
+
                 projectMemberList.add(projectMember);
                 return projectMember;
             }
@@ -181,6 +197,4 @@ public class ProjectDAOImpl implements ProjectDAO {
     public List<Map<String, Object>> getProjectByUser(int userId) {
         return jdbcTemplate.queryForList(OnTargetQuery.GET_PROJECT_BY_USER, new Object[]{userId});
     }
-
-
 }

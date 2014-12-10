@@ -1,0 +1,14 @@
+<html>
+<body>
+<h2>Hi ${name},</h2>
+
+<p> You have been invited to register to OnTarget construction management application. Please click on the link below to register.</p>
+
+<p>${url}</p>
+
+
+<p>thanks<br>
+OnTarget Team
+</p>
+</body>
+</html>

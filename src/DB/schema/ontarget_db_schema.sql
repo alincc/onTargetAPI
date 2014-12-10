@@ -119,7 +119,7 @@ CREATE  TABLE IF NOT EXISTS `ontarget`.`user_type` (
 DROP TABLE IF EXISTS `ontarget`.`user`;
 
 CREATE TABLE IF NOT EXISTS `user` (
-  `user_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL primary key auto_increment ,
   `user_name` varchar(50) DEFAULT NULL,
   `user_type_id` int(11) DEFAULT NULL,
   `password` text NOT NULL,
@@ -292,7 +292,7 @@ CREATE  TABLE IF NOT EXISTS `ontarget`.`email_templates` (
 DROP TABLE IF EXISTS `ontarget`.`phone` ;
 
 CREATE  TABLE IF NOT EXISTS `ontarget`.`phone` (
-  `phone_id` INT(11) NOT NULL ,
+  `phone_id` INT(11) NOT NULL auto_increment  primary key ,
   `contact_id` INT(11) NOT NULL ,
   `area_code` INT(11) NULL DEFAULT NULL ,
   `phone_number` VARCHAR(45) NULL DEFAULT NULL ,
@@ -629,22 +629,24 @@ CREATE  TABLE IF NOT EXISTS `ontarget`.`user_session_info` (
 -- -----------------------------------------------------
 -- Table `ontarget`.`registration_request`
 -- -----------------------------------------------------
+
 DROP TABLE IF EXISTS `ontarget`.`registration_request` ;
 
-CREATE  TABLE IF NOT EXISTS `ontarget`.`registration_request` (
-  `registration_req_id` INT NULL AUTO_INCREMENT ,
-  `project_id` INT NULL ,
-  `first_name` VARCHAR(30) NULL ,
-  `last_name` VARCHAR(30) NULL ,
-  `email` VARCHAR(45) NULL ,
-  `company_name` VARCHAR(45) NULL ,
-  `phone_number` VARCHAR(45) NULL ,
-  `msg` TEXT NULL ,
-  `status` VARCHAR(20) NULL ,
-  `registration_token` text,
-  PRIMARY KEY (`registration_req_id`) )
-  ENGINE = InnoDB;
+CREATE TABLE IF NOT EXISTS `registration_request` (
+  `id` bigint(20) NOT NULL primary key AUTO_INCREMENT,
+  `registration_token` varchar(64) NOT NULL,
+  `project_id` int(11) DEFAULT NULL,
+  `first_name` varchar(45) DEFAULT NULL,
+  `last_name` varchar(45) DEFAULT NULL,
+  `email` varchar(45) DEFAULT NULL,
+  `company_name` varchar(45) DEFAULT NULL,
+  `phone_number` varchar(45) DEFAULT NULL,
+  `msg` text,
+  `status` varchar(20) DEFAULT NULL,
+  `ts_create` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
+alter table registration_request add column user_id bigint(20);
 
 -- -----------------------------------------------------
 -- Table `ontarget`.`planned_actuals_cost`

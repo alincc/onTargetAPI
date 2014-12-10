@@ -38,18 +38,18 @@ public class ContactDAOImpl implements ContactDAO {
 
     @Override
     public Map<String, Object> getContactDetail(int userId) throws Exception {
-        return jdbcTemplate.queryForMap(OnTargetQuery.GET_COMPANY_BY_USER, new Object[]{userId});
+        return jdbcTemplate.queryForMap(OnTargetQuery.GET_CONTACT_BY_USER, new Object[]{userId});
     }
 
     @Override
     public Contact getContact(long userId) throws Exception {
-        Map<String, Object> rs = jdbcTemplate.queryForMap(OnTargetQuery.GET_COMPANY_BY_USER, new Object[]{userId});
+        Map<String, Object> rs = jdbcTemplate.queryForMap(OnTargetQuery.GET_CONTACT_BY_USER, new Object[]{userId});
         Contact contact = new Contact();
+        contact.setContactId((Integer)rs.get("contact_id"));
         contact.setFirstName((String) rs.get("first_name"));
         contact.setLastName((String) rs.get("last_name"));
         contact.setTitle((String) rs.get("title"));
         contact.setUserImagePath((String) rs.get("contact_image"));
-
         return contact;
     }
 

@@ -37,6 +37,9 @@ public class ProjectServiceImpl implements ProjectService {
     @Autowired
     private CompanyDAO companyDAO;
 
+    @Autowired
+    private UserRegistrationDAO userRegistrationDAO;
+
 
     @Override
     @Transactional(rollbackFor = {Exception.class})
@@ -63,6 +66,14 @@ public class ProjectServiceImpl implements ProjectService {
 
         //add the user to project member;
         int projectMemberId = projectDAO.addProjectMember(projectId,userId);
+
+        //activate the account if accountStatus of user is ACCT_NEW
+        if(OnTargetConstant.AccountStatus.ACCT_NEW.equals(request.getUser().getAccountStatus())){
+            int updated = userRegistrationDAO.activateAccount(userId);
+            if(updated == 0){
+                throw new Exception("Error while activating account");
+            }
+        }
 
 
         OnTargetResponse response = new OnTargetResponse();

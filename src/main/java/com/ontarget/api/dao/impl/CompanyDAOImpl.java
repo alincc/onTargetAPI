@@ -61,6 +61,6 @@ public class CompanyDAOImpl implements CompanyDAO {
 
     @Override
     public Map<String, Object> getCompanyByUser(int userId) throws Exception {
-        return jdbcTemplate.queryForMap(OnTargetQuery.GET_COMPANY_BY_USER,new Object[]{userId});
+        return jdbcTemplate.queryForMap(OnTargetQuery.GET_CONTACT_BY_USER,new Object[]{userId});
     }
 }

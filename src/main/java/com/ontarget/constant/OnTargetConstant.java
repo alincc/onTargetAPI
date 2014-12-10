@@ -45,9 +45,10 @@ public interface OnTargetConstant {
         public static final String USER_REGISTRATION_FROM = "dontoreply@ontarget.com";
         public static final String USER_REGISTRATION_REQUEST_APPROVAL_SUBJECT = "OnTarget Registration Approval";
 
-        public String DOCUMENT_APPROVAL_FROM = "dontoreply@ontarget.com";
-        public String DOCUMENT_APPROVAL_SUBJECT = "New document available for approval";
+        public static final String DOCUMENT_APPROVAL_FROM = "dontoreply@ontarget.com";
+        public static final String DOCUMENT_APPROVAL_SUBJECT = "New document available for approval";
         public static final String USER_REGISTRATION_ADMIN_EMAIL = "ontarget@gmail.com";
+        public static final String INVITE_USER_TO_ACCOUNT_SUBJECT = "Invitation to OnTarget";
     }
 
     public interface USER_STATUS {
@@ -57,11 +58,9 @@ public interface OnTargetConstant {
     }
 
     public interface AccountStatus {
-
         public static final String ACTIVE="ACTIVE";
         public static final String LOCKED="LOCKED";
         public static final String ACCOUNT_INVITATION="ACCT_INVITE";
-        public static final String ACCOUNT_INFVITATION = "ACCT_INVITE";
         public static final String ACCT_NEW = "ACCT_NEW";
     }
 
@@ -76,9 +75,9 @@ public interface OnTargetConstant {
     }
 
     public interface DocumentStatus {
-    	String SUBMITTED = "SUBMITTED";
-    	String APPROVED = "APPROVED";
-    	String REJECTED = "REJECTED";
+        public static final String SUBMITTED = "SUBMITTED";
+        public static final String APPROVED = "APPROVED";
+        public static final String REJECTED = "REJECTED";
     }
 
     public interface PROJECT_STATUS {
@@ -88,5 +87,13 @@ public interface OnTargetConstant {
 
     public interface MemberStatus {
         public static final String ACTIVE="ACTIVE";        
+    }
+
+    public interface PhoneType {
+        public static final String CELL="CELL";
+    }
+
+    public interface PhoneStatus {
+        public static final String ACTIVE="ACTIVE";
     }
 }

@@ -10,6 +10,11 @@ public class ProjectMember implements Serializable {
     private long projectId;
     private long userId;
     private String memberStatus;
+    private Contact contact;
+    private ContactPhone phone;
+
+    public ProjectMember() {
+    }
 
     public long getProjectMemberId() {
         return projectMemberId;
@@ -41,5 +46,21 @@ public class ProjectMember implements Serializable {
 
     public void setMemberStatus(String memberStatus) {
         this.memberStatus = memberStatus;
+    }
+
+    public ContactPhone getPhone() {
+        return phone;
+    }
+
+    public void setPhone(ContactPhone phone) {
+        this.phone = phone;
+    }
+
+    public Contact getContact() {
+        return contact;
+    }
+
+    public void setContact(Contact contact) {
+        this.contact = contact;
     }
 }

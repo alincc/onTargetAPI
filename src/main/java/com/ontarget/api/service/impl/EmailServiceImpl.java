@@ -192,5 +192,30 @@ public class EmailServiceImpl implements EmailService {
 		return failures.size() == assignees.size();
 	}
 
+    @Override
+    public boolean sendInviteToAccountEmail(String email, String firstName, String lastName, String tokenId) {
+        MimeMessagePreparator preparator = new MimeMessagePreparator() {
+            @SuppressWarnings({"rawtypes", "unchecked"})
+            public void prepare(MimeMessage mimeMessage) throws Exception {
+                MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
+                message.setTo(email);
+                message.setFrom(new InternetAddress(OnTargetConstant.EmailServiceConstants.USER_REGISTRATION_FROM));
+                message.setSubject(OnTargetConstant.EmailServiceConstants.INVITE_USER_TO_ACCOUNT_SUBJECT);
+                message.setSentDate(new Date());
+
+                Map model = new HashMap();
+                model.put("name", firstName + " " + lastName);
+                model.put("url", baseUrl+OnTargetConstant.SIGNUP_URL+"?q="+tokenId);
+
+                String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "/template/inviteToAccountEmailTemplate.vm", "UTF-8", model);
+                message.setText(text, true);
+            }
+        };
+        javaMailSender.send(preparator);
+
+
+        return false;
+    }
+
 
 }

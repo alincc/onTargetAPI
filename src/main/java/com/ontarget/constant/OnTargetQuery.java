@@ -18,7 +18,7 @@ public interface OnTargetQuery {
     public static final String APPROVE_PENDING_USER_REQUEST= new StringBuilder("UPDATE REGISTRATION_REQUEST SET STATUS=? WHERE REGISTRATION_REQ_ID=?").toString();
 
 
-    public static final String CREATE_NEW_USER = new StringBuilder("INSERT INTO USER (USER_NAME, USER_TYPE_id, PASSWORD, USER_STATUS,NUMBER_OF_LOGIN, MODIFIED_DATE, ACCOUNT_STATUS) VALUES (?,?,?,?,?,NOW(),?)").toString();
+    public static final String CREATE_NEW_USER = new StringBuilder("INSERT INTO USER (USER_NAME, USER_TYPE_id, PASSWORD, salt, discipline, USER_STATUS,NUMBER_OF_LOGIN, MODIFIED_DATE, ACCOUNT_STATUS) VALUES (?,?,?,?,?,?,?,NOW(),?)").toString();
 
     public static final String CHANGE_USER_PASSWORD = new StringBuilder("UPDATE user SET password=? , salt=? WHERE user_id=?").toString();
 
@@ -47,7 +47,7 @@ public interface OnTargetQuery {
     public static final String GET_PROJECT_BY_COMPANY = new StringBuilder("SELECT p.* FROM contact c, project p")
             .append(" where p.company_id=c.contact_company_id and p.company_id=? and c.user_id=? order by p.project_id, p.project_parent_id").toString();
 
-    public static final String GET_COMPANY_BY_USER = new StringBuilder("Select * from contact where user_id=?").toString();
+    public static final String GET_CONTACT_BY_USER = new StringBuilder("Select * from contact where user_id=?").toString();
 
     public static final String GET_PROJECT_TASK_COUNT_BY_STATUS = new StringBuilder("select t.status_name, if(j.count is null,0,j.count) as count from task_status t")
             .append(" left outer join (select p.status, count(p.status) as count from project_task p where project_id in ")
@@ -71,7 +71,9 @@ public interface OnTargetQuery {
 
     public static final String UPDATE_PROJECT = new StringBuilder("update project set project_name=?,project_description=?,project_type_id=?, project_parent_id=?, project_status=?, project_start_date=?,project_end_date=?, modified_by=?, modified_date=now() where project_id=?").toString();
 
-    public static final String GET_PROJECT_MEMBERS = new StringBuilder("SELECT * FROM project_member WHERE project_id=?").toString();
+    public static final String GET_PROJECT_MEMBERS = new StringBuilder("select c.user_id,c.first_name,c.last_name,c.contact_image,cp.area_code,cp.phone_number, cp.phone_type,pm.*  from contact c, project_member pm, project p, phone cp")
+            .append(" where  c.user_id=pm.user_id and  p.project_id=pm.project_id and  c.contact_id=cp.contact_id")
+            .append(" and pm.project_id=?").toString();
 
     public static final String UPDATE_TASK = new StringBuilder("update project_task set title=?,description=?,parent_task_id=?,status=?,start_date=?,end_date=?,percentage_complete=?,severity=?,modified_by=?, modified_date=now() where project_task_id=?").toString();
 
@@ -99,6 +101,12 @@ public interface OnTargetQuery {
     public static final String ADD_PROJECT_MEMBER = new StringBuilder("insert into project_member (project_id, user_id,member_status) values (?,?,?)").toString();
 
     public static final String GET_PROJECT_BY_USER = new StringBuilder("select * from project pt, (select p.project_id from project p,project_member pm where p.project_id=pm.project_id and pm.user_id=?) t where pt.project_id=t.project_id or pt.project_parent_id=t.project_id").toString();
+
+    public static final String UPDATE_REGISRATION_USER_ID = new StringBuilder("update registration_request set user_id=? where registration_token=?").toString();
+
+    public static final String ACTIVATE_USER_ACCOUNT = new StringBuilder("update user set account_status='ACTIVE' where user_id=?").toString();
+
+    public static final String ADD_CONTACT_PHONE = new StringBuilder("insert into phone (contact_id,area_code,phone_number, phone_type, status) values (?,?,?,?,?)").toString();
 
 
     interface documentTemplate {
@@ -155,7 +163,7 @@ public interface OnTargetQuery {
     String GET_USER_BY_ID = "select * from user where user_id=?";
 
 
-    public static final String ADD_REGISTRATION_INVITATION = new StringBuilder("INSERT INTO registration_request (registration_token, first_name, last_name, email, project_id) VALUES (?,?,?,?,?) ").toString();
+    public static final String ADD_REGISTRATION_INVITATION = new StringBuilder("INSERT INTO registration_request (registration_token, first_name, last_name, email, project_id,status) VALUES (?,?,?,?,?,?) ").toString();
 
 
     public static final String GET_TASK_PERCENTAGE = new StringBuilder("select pt.title,pt.project_task_id,pt.project_id,tpl.*  from task_percentage_log tpl, project_task pt, project p")
@@ -165,7 +173,11 @@ public interface OnTargetQuery {
     public static final String GET_TASK_PERCENTAGE_BY_TASK=new StringBuilder("select * from task_percentage_log tpl where tpl.task_id=?").toString();
 
     public static final String GET_TASK_COST_BY_TASK = new StringBuilder("select * from planned_actuals_cost pac where pac.task_id=?").toString();
+
     public static final String GET_REGISTRATION_INVITATION = new StringBuilder("SELECT * FROM registration_request WHERE registration_token=?").toString();
+
+    public static final String GET_REGISTRATION_INVITATION_BY_USER = new StringBuilder("SELECT * FROM registration_request WHERE user_id=?").toString();
+
 
     public static final String GET_USER = new StringBuilder("SELECT * FROM user WHERE user_id = ?").toString();
 

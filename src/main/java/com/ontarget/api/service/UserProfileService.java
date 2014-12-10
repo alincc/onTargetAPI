@@ -18,7 +18,7 @@ public interface UserProfileService {
 
     public boolean changeUserPassword(long userId, String password) throws Exception;
 
-    public boolean saveRegistration(long projectId, String firstName, String lastName, String email, String tokenId) throws Exception;
+    public boolean saveRegistration(long projectId, String firstName, String lastName, String email, String tokenId, String accountStatus) throws Exception;
 
     public Contact getContact(long userId) throws Exception;
 
@@ -27,4 +27,8 @@ public interface UserProfileService {
     public Company getCompanyInfoByUser(int userId) throws Exception;
 
     public String getRandomSafetyUserInfo(long userId) throws Exception;
+
+    boolean createNewUserFromInvitation(UserRegistration registration) throws  Exception;
+
+    boolean activateAccount(int userId) throws Exception;
 }

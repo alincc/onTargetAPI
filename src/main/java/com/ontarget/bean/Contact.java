@@ -7,6 +7,7 @@ import java.io.Serializable;
  */
 public class Contact implements Serializable{
 
+    private int contactId;
     private String firstName;
     private String lastName;
     private String title;
@@ -74,5 +75,13 @@ public class Contact implements Serializable{
 
     public void setUserImagePath(String userImagePath) {
         this.userImagePath = userImagePath;
+    }
+
+    public int getContactId() {
+        return contactId;
+    }
+
+    public void setContactId(int contactId) {
+        this.contactId = contactId;
     }
 }
