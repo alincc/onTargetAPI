@@ -119,7 +119,7 @@ CREATE  TABLE IF NOT EXISTS `ontarget`.`user_type` (
 DROP TABLE IF EXISTS `ontarget`.`user`;
 
 CREATE TABLE IF NOT EXISTS `user` (
-  `user_id` int(11) NOT NULL primary key auto_increment ,
+  `user_id` int(11) NOT NULL auto_increment ,
   `user_name` varchar(50) DEFAULT NULL,
   `user_type_id` int(11) DEFAULT NULL,
   `password` text NOT NULL,
@@ -292,7 +292,7 @@ CREATE  TABLE IF NOT EXISTS `ontarget`.`email_templates` (
 DROP TABLE IF EXISTS `ontarget`.`phone` ;
 
 CREATE  TABLE IF NOT EXISTS `ontarget`.`phone` (
-  `phone_id` INT(11) NOT NULL auto_increment  primary key ,
+  `phone_id` INT(11) NOT NULL auto_increment,
   `contact_id` INT(11) NOT NULL ,
   `area_code` INT(11) NULL DEFAULT NULL ,
   `phone_number` VARCHAR(45) NULL DEFAULT NULL ,
@@ -526,6 +526,7 @@ CREATE  TABLE IF NOT EXISTS `ontarget`.`project_task_files` (
   `task_file_id` INT(11) NOT NULL AUTO_INCREMENT ,
   `project_task_id` INT(11) NOT NULL ,
   `file_name` VARCHAR(255) NOT NULL ,
+  `location` varchar(255) NOT NULL,
   `created_date` DATETIME NOT NULL ,
   `created_by` VARCHAR(20) NOT NULL ,
   PRIMARY KEY (`task_file_id`) ,
@@ -1217,3 +1218,78 @@ insert into `document_template` (`name`, `created_by`, `created_date`, `modified
 insert into `document_template` (`name`, `created_by`, `created_date`, `modified_by`, `modfied_date`) values('Request For Information', 'SYSTEM', now(), 'SYSTEM', now());
 insert into `document_template` (`name`, `created_by`, `created_date`, `modified_by`, `modfied_date`) values('Transmittal', 'SYSTEM', now(), 'SYSTEM', now());
 COMMIT;
+
+
+--
+-- Table structure for table `activity_category`
+--
+DROP TABLE IF EXISTS `ontarget`.`activity_category` ;
+
+CREATE TABLE IF NOT EXISTS `activity_category` (
+  `id` bigint(20) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `description` text NOT NULL,
+  `ts_insert` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `activity_category`
+--
+
+INSERT INTO `activity_category` (`id`, `name`, `description`, `ts_insert`) VALUES
+  (1, 'comment add', 'adding task comment', '2014-12-05 16:44:02'),
+  (2, 'project add', '', '2014-12-06 07:27:01');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `activity_log`
+--
+
+DROP TABLE IF EXISTS `ontarget`.`activity_log` ;
+
+CREATE TABLE IF NOT EXISTS `activity_log` (
+  `id` bigint(20) NOT NULL,
+  `text` text NOT NULL,
+  `category` bigint(20) DEFAULT NULL,
+  `ts_insert` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+
+--
+-- Dumping data for table `activity_log`
+--
+
+INSERT INTO `activity_log` (`id`, `text`, `category`, `ts_insert`) VALUES
+  (4, 'Comment dsfsdfafsd added on task 1 by 2232332', NULL, '2014-12-05 16:40:45'),
+  (5, 'Comment dadfsdasf  added on task 1 by 3434', 1, '2014-12-05 16:45:14');
+
+--
+-- Indexes for table `activity_category`
+--
+ALTER TABLE `activity_category`
+ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `activity_log`
+--
+ALTER TABLE `activity_log`
+ADD PRIMARY KEY (`id`);
+
+
+--
+-- Triggers `project_task_comments`
+--
+DELIMITER //
+CREATE TRIGGER `log_comment_activity` AFTER INSERT ON `project_task_comments`
+FOR EACH ROW INSERT INTO activity_log (text, category) VALUES (CONCAT("Comment ", NEW.comment , " added on task ", NEW.project_task_id, " by ", NEW.comment_by), 1)
+//
+DELIMITER ;
+
+--
+-- Triggers `project`
+--
+DELIMITER //
+CREATE TRIGGER `log_project_add` AFTER INSERT ON `project`
+FOR EACH ROW INSERT INTO activity_log (text, category) VALUES (CONCAT("New project ", NEW.project_id, " of type", New.project_category_id , " added by ", NEW.project_owner_id), 2)
+//
+DELIMITER ;
