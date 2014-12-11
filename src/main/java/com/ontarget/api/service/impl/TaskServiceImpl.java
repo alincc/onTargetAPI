@@ -2,6 +2,7 @@ package com.ontarget.api.service.impl;
 
 import com.ontarget.api.dao.TaskDAO;
 import com.ontarget.api.dao.TaskEstimatedCostDAO;
+import com.ontarget.api.service.EmailService;
 import com.ontarget.api.service.TaskService;
 import com.ontarget.bean.Task;
 import com.ontarget.bean.TaskComment;
@@ -28,6 +29,9 @@ public class TaskServiceImpl implements TaskService {
 
     @Autowired
     private TaskEstimatedCostDAO taskEstimatedCostDAO;
+
+    @Autowired
+    private EmailService emailService;
 
     @Override
     @Transactional(rollbackFor = {Exception.class})
@@ -101,7 +105,13 @@ public class TaskServiceImpl implements TaskService {
     @Override
     @Transactional(rollbackFor = {Exception.class})
     public boolean assignTaskToUser(long taskId, long userId) throws Exception{
-        return taskDAO.assignTaskToUser(taskId, userId);
+        boolean assigned =  taskDAO.assignTaskToUser(taskId, userId);
+
+        if(assigned){
+            emailService.sendTaskAssignmentEmail(taskId,userId);
+        }
+
+        return assigned;
     }
 
 

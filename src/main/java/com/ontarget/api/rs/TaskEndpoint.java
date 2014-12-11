@@ -21,19 +21,13 @@ public interface TaskEndpoint {
 
     public TaskListResponse getTask(int projectId);
 
-    @GET
-    @Path("/getTaskCount/project/{projectId}")
-    TaskListCountResponse getTaskCountByStatus(@PathParam("projectId") int projectId);
+    public TaskListCountResponse getTaskCountByStatus(int projectId);
 
-    @POST
-    @Path("/addComment")
-    OnTargetResponse addUpdateCommentToTask(TaskComment comment);
+    public OnTargetResponse addUpdateCommentToTask(TaskComment comment);
 
     public OnTargetResponse updateTaskStatus(long taskId, String taskStatus);
 
     public OnTargetResponse addTaskMember(TaskMemberRequest taskMemberRequest);
 
-    @Path("/assignUserToTask")
-    @POST
-    OnTargetResponse assignTaskToUser();
+    public OnTargetResponse assignTaskToUser(TaskMemberRequest taskMemberRequest);
 }

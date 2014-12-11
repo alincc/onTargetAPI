@@ -9,8 +9,10 @@ import java.util.Map;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import com.ontarget.api.dao.AuthenticationDAO;
+import com.ontarget.api.dao.*;
+import com.ontarget.api.rs.UserProfile;
 import com.ontarget.api.service.EmailService;
+import com.ontarget.bean.*;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.UserRegistrationRequest;
 import org.apache.log4j.Logger;
@@ -24,12 +26,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.velocity.VelocityEngineUtils;
 
 import com.ontarget.api.dao.AuthenticationDAO;
-import com.ontarget.api.dao.ContactDAO;
-import com.ontarget.api.dao.EmailDAO;
 import com.ontarget.api.service.EmailService;
-import com.ontarget.bean.Document;
-import com.ontarget.bean.Email;
-import com.ontarget.bean.User;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.UserRegistrationRequest;
 
@@ -50,7 +47,7 @@ public class EmailServiceImpl implements EmailService {
     @Autowired
     private AuthenticationDAO authenticationDAO;
 
-    
+
     @Autowired
     private ContactDAO contactDAO;
     
@@ -215,6 +212,39 @@ public class EmailServiceImpl implements EmailService {
 
 
         return false;
+    }
+
+    @Override
+    public void sendTaskAssignmentEmail(long taskId, long userId) throws Exception {
+
+        try {
+            User user = authenticationDAO.getUserInfoById(userId);
+            MimeMessagePreparator preparator = new MimeMessagePreparator() {
+                @SuppressWarnings({"rawtypes", "unchecked"})
+                public void prepare(MimeMessage mimeMessage) throws Exception {
+                    MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
+                    message.setTo(user.getUsername());
+                    message.setFrom(new InternetAddress(OnTargetConstant.EmailServiceConstants.USER_REGISTRATION_FROM));
+                    message.setSubject(OnTargetConstant.EmailServiceConstants.TASK_ASSIGNED_SUBJECT);
+                    message.setSentDate(new Date());
+
+                    Map model = new HashMap();
+                    model.put("msg", "You have been assigned a  task in OnTarget.");
+
+
+                    String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "/template/taskAssignedEmail.vm", "UTF-8", model);
+                    message.setText(text, true);
+                }
+            };
+            javaMailSender.send(preparator);
+        }catch(Exception e){
+            logger.error("Error while sending email for task.");
+        }
+
+
+
+
+
     }
 
 

@@ -572,7 +572,7 @@ DROP TABLE IF EXISTS `ontarget`.`task_assignee` ;
 CREATE  TABLE IF NOT EXISTS `ontarget`.`task_assignee` (
   `task_assignee_id` INT(11) NOT NULL AUTO_INCREMENT ,
   `project_task_id` INT(11) NOT NULL ,
-  `task_asignee` VARCHAR(50) NOT NULL ,
+  `task_assignee` bigint(20) NOT NULL ,
   PRIMARY KEY (`task_assignee_id`) ,
   INDEX `task_assignee_fk` (`project_task_id` ASC) ,
   CONSTRAINT `task_assignee_fk`

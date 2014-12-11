@@ -169,9 +169,22 @@ public class TaskEndpointImpl implements TaskEndpoint {
     @Override
     @Path("/assignUserToTask")
     @POST
-    public OnTargetResponse assignTaskToUser(){
+    public OnTargetResponse assignTaskToUser(TaskMemberRequest taskMemberRequest){
         OnTargetResponse response = new OnTargetResponse();
-        return null;
+        try {
+            if(taskService.assignTaskToUser(taskMemberRequest.getTaskId(), taskMemberRequest.getMembers().get(0).longValue())){
+                response.setReturnMessage("Successfully assigned task");
+                response.setReturnVal(OnTargetConstant.SUCCESS);
+            }else{
+                throw new Exception();
+            }
+        } catch (Exception e) {
+            logger.error("Error while assigning task",e);
+            response.setReturnMessage("Error while assigning task members");
+            response.setReturnVal(OnTargetConstant.ERROR);
+        }
+
+        return response;
     }
 
 
