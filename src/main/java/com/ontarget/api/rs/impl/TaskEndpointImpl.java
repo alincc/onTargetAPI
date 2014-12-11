@@ -165,4 +165,24 @@ public class TaskEndpointImpl implements TaskEndpoint {
 
         return response;
     }
+
+    @Override
+    @GET
+    @Path("/getTaskByUser")
+    public TaskIdListResponse getTaskByUser(@QueryParam("userId") long userId) {
+        TaskIdListResponse response = new TaskIdListResponse();
+        System.out.println("this is user id "+userId);
+        logger.info("Getting all tasks by user: " + userId);
+        try {
+            response.setProjectTaskId(taskService.getTaskByUser(userId));
+            response.setReturnMessage("Successfully retrieved tasks by user");
+            response.setReturnVal(OnTargetConstant.SUCCESS);
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("Get task by user failed." + e);
+            response.setReturnMessage("Get task by user failed");
+            response.setReturnVal(OnTargetConstant.ERROR);
+        }
+        return response;
+    }
 }

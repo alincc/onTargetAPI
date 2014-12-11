@@ -25,4 +25,6 @@ public interface TaskService {
     public Set<Long> getTaskMembers(long taskId) throws Exception;
 
     public boolean addTaskMember(long projectId, long taskId, long memberId) throws Exception;
+
+    public Set<Long> getTaskByUser(long userId) throws Exception;
 }

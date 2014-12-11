@@ -181,4 +181,9 @@ public class TaskDAOImpl implements TaskDAO {
         int row = jdbcTemplate.update(OnTargetQuery.ADD_TASK_MEMBER, new Object[]{taskId, projectId, memberId});
         return row > 0;
     }
+
+    public Set<Long> getTaskByUser(long userId) throws Exception {
+        List<Long> tasks = jdbcTemplate.queryForList(OnTargetQuery.GET_TASK_BY_USER, Long.class, new Object[]{userId});
+        return new HashSet<Long>(tasks);
+    }
 }

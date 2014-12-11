@@ -100,4 +100,6 @@ public interface OnTargetQuery {
     public static final String GET_RANDOM_SAFETY_INFO = new StringBuilder("SELECT name FROM user_safety_info where discipline_id=? ORDER BY RAND() LIMIT 1").toString();
 
     public static final String GET_ACTIVITY_LOG = new StringBuilder("SELECT * FROM activity_log where id > ? order by id").toString();
+
+    public static final String GET_TASK_BY_USER= new StringBuilder("SELECT project_task_id FROM task_assignee WHERE task_assignee_id=?").toString();
 }

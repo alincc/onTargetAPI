@@ -109,4 +109,9 @@ public class TaskServiceImpl implements TaskService {
     public boolean addTaskMember(long projectId, long taskId, long memberId) throws Exception {
         return taskDAO.addTaskMember(projectId, taskId, memberId);
     }
+
+    @Override
+    public Set<Long> getTaskByUser(long userId) throws Exception {
+        return taskDAO.getTaskByUser(userId);
+    }
 }
