@@ -25,4 +25,6 @@ public interface TaskService {
     public Set<Long> getTaskMembers(long taskId) throws Exception;
 
     public boolean addTaskMember(long projectId, long taskId, long memberId) throws Exception;
+
+    public long saveTaskFile(long taskid, long userId, String fileName, String location) throws Exception;
 }

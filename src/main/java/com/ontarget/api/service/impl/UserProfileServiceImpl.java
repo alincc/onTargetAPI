@@ -5,6 +5,7 @@ import com.ontarget.api.service.UserProfileService;
 import com.ontarget.bean.Company;
 import com.ontarget.bean.Contact;
 import com.ontarget.bean.User;
+import com.ontarget.bean.UserRegistration;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.UserProfileRequest;
@@ -113,6 +114,10 @@ public class UserProfileServiceImpl implements UserProfileService {
 
     public boolean saveRegistration(long projectId, String firstName, String lastName, String email, String tokenId) throws Exception {
         return userRegistrationDAO.saveRegistrationInvitation(projectId, firstName, lastName, email, tokenId) != 0;
+    }
+
+    public UserRegistration getRegistration(String token) throws Exception {
+        return userRegistrationDAO.getInvitationRegistration(token);
     }
 
     public String getRandomSafetyUserInfo(long userId) throws Exception {

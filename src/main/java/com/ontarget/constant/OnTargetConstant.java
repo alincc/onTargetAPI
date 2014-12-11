@@ -25,7 +25,9 @@ public interface OnTargetConstant {
     public static final String REGISTRATION_APPROVAL_REQUEST_SUCCESS = "Registration approval request success";
     public static final String AUTHENTICATION_FAILED = "Authentication Failed";
     public static final String REGSITRATION_REQUEST_APPROVED = "APPROVED";
+    public static final int TOKEN_LENGTH = 25;
     public static final String SIGNUP_URL = "/#/pages/signup";
+    public static final long TOKEN_MAX_LIFE = 2l * 24l * 60l * 60l * 1000l;
 
 
     interface AddressType{

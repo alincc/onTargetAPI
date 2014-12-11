@@ -169,4 +169,10 @@ public interface OnTargetQuery {
     public static final String GET_USER = new StringBuilder("SELECT * FROM user WHERE user_id = ?").toString();
 
     public static final String GET_RANDOM_SAFETY_INFO = new StringBuilder("SELECT name FROM user_safety_info where discipline_id=? ORDER BY RAND() LIMIT 1").toString();
+
+    public static final String INSERT_TASK_FILE = new StringBuilder("INSERT INTO project_task_files (project_task_id, file_name, created_by, location) VALUES (?, ?, ?, ?)").toString();
+
+    public static final String GET_REGISTRATION_INVITATION = new StringBuilder("SELECT * FROM registration_request WHERE registration_token=?").toString();
+
+    public static final String GET_ACTIVITY_LOG = new StringBuilder("SELECT * FROM activity_log where id > ? order by id").toString();
 }

@@ -5,10 +5,7 @@ import com.ontarget.api.rs.TaskEndpoint;
 import com.ontarget.api.service.TaskService;
 import com.ontarget.bean.TaskComment;
 import com.ontarget.constant.OnTargetConstant;
-import com.ontarget.dto.OnTargetResponse;
-import com.ontarget.dto.TaskListResponse;
-import com.ontarget.dto.TaskMemberRequest;
-import com.ontarget.dto.TaskRequest;
+import com.ontarget.dto.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -88,7 +85,6 @@ public class TaskEndpointImpl implements TaskEndpoint {
     }
 
 
-
     @Override
     @POST
     @Path("/addComment")
@@ -162,6 +158,29 @@ public class TaskEndpointImpl implements TaskEndpoint {
                 response.setReturnMessage("error while reading task members");
                 response.setReturnVal(OnTargetConstant.ERROR);
             }
+        }
+
+        return response;
+    }
+
+    @Override
+    @GET
+    @Path("/saveTaskFile")
+    public InsertResponse saveTaskFile(@QueryParam("taskid") long taskId, @QueryParam("userid") long userId, @QueryParam("fileName") String fileName, @QueryParam("location") String location) {
+        InsertResponse response = new InsertResponse();
+        try {
+            long id = taskService.saveTaskFile(taskId, userId, fileName, location);
+            if (id > 0) {
+                response.setReturnMessage("Successfully written");
+                response.setReturnVal(OnTargetConstant.SUCCESS);
+            } else {
+                response.setReturnMessage("error while reading task members");
+                response.setReturnVal(OnTargetConstant.ERROR);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.setReturnMessage("error saving task file");
+            response.setReturnVal(OnTargetConstant.ERROR);
         }
 
         return response;
