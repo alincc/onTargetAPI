@@ -2,10 +2,7 @@ package com.ontarget.api.rs;
 
 import com.ontarget.api.response.TaskListCountResponse;
 import com.ontarget.bean.TaskComment;
-import com.ontarget.dto.OnTargetResponse;
-import com.ontarget.dto.TaskListResponse;
-import com.ontarget.dto.TaskMemberRequest;
-import com.ontarget.dto.TaskRequest;
+import com.ontarget.dto.*;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -32,4 +29,6 @@ public interface TaskEndpoint {
     public OnTargetResponse updateTaskStatus(long taskId, String taskStatus);
 
     public OnTargetResponse addTaskMember(TaskMemberRequest taskMemberRequest);
+
+    public TaskIdListResponse getTaskByUser(long userId);
 }
