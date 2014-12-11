@@ -49,7 +49,7 @@ public class UserProfileImpl implements UserProfile {
         try {
             response = userProfileService.addUserProfile(userProfileRequest);
         } catch (Exception e) {
-            logger.error("Add User Profile failed." + e);
+            logger.error("Add User Profile failed.", e);
             response.setReturnMessage("Add task failed");
             response.setReturnVal(OnTargetConstant.ERROR);
         }

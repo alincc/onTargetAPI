@@ -165,4 +165,14 @@ public class TaskEndpointImpl implements TaskEndpoint {
 
         return response;
     }
+
+    @Override
+    @Path("/assignUserToTask")
+    @POST
+    public OnTargetResponse assignTaskToUser(){
+        OnTargetResponse response = new OnTargetResponse();
+        return null;
+    }
+
+
 }

@@ -32,4 +32,8 @@ public interface TaskEndpoint {
     public OnTargetResponse updateTaskStatus(long taskId, String taskStatus);
 
     public OnTargetResponse addTaskMember(TaskMemberRequest taskMemberRequest);
+
+    @Path("/assignUserToTask")
+    @POST
+    OnTargetResponse assignTaskToUser();
 }

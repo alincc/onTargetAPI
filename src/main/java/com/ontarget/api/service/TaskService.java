@@ -2,6 +2,7 @@ package com.ontarget.api.service;
 
 import com.ontarget.bean.Task;
 import com.ontarget.bean.TaskComment;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -25,4 +26,6 @@ public interface TaskService {
     public Set<Long> getTaskMembers(long taskId) throws Exception;
 
     public boolean addTaskMember(long projectId, long taskId, long memberId) throws Exception;
+
+    public boolean assignTaskToUser(long taskId, long userId) throws Exception;
 }
