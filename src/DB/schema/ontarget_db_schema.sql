@@ -473,7 +473,7 @@ ADD COLUMN `file_type` VARCHAR(45) NOT NULL ;
 DROP TABLE IF EXISTS `ontarget`.`project_member` ;
 
 CREATE  TABLE IF NOT EXISTS `ontarget`.`project_member` (
-  `project_member_id` INT(11) NOT NULL ,
+  `project_member_id` INT(11) NOT NULL auto_increment ,
   `project_id` INT(11) NOT NULL ,
   `user_id` INT(11) NULL DEFAULT NULL ,
   `member_status` VARCHAR(45) NULL DEFAULT NULL ,
@@ -572,7 +572,7 @@ DROP TABLE IF EXISTS `ontarget`.`task_assignee` ;
 CREATE  TABLE IF NOT EXISTS `ontarget`.`task_assignee` (
   `task_assignee_id` INT(11) NOT NULL AUTO_INCREMENT ,
   `project_task_id` INT(11) NOT NULL ,
-  `task_asignee` VARCHAR(50) NOT NULL ,
+  `task_assignee` bigint(20) NOT NULL ,
   PRIMARY KEY (`task_assignee_id`) ,
   INDEX `task_assignee_fk` (`project_task_id` ASC) ,
   CONSTRAINT `task_assignee_fk`
@@ -874,7 +874,7 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 START TRANSACTION;
 USE `ontarget`;
 INSERT INTO `ontarget`.`address` (`address_id`, `address1`, `address2`, `city`, `state`, `zip`, `country`, `address_type`) VALUES (1, '4750 59TH ST', '#9C', 'WOODSIDE', 'NY', '11377', 'USA', 'HOME');
-INSERT INTO `ontarget`.`address` (`address_id`, `address1`, `address2`, `city`, `state`, `zip`, `country`, `address_type`) VALUES (2, '23 ST', NULL, 'New York', 'NY', '10001', 'USA', 'PROJECT');
+INSERT INTO `ontarget`.`address` (`address_id`, `address1`, `address2`, `city`, `state`, `zip`, `country`, `address_type`) VALUES (2, '393 West End Ave', NULL, 'New York', 'NY', '10024', 'USA', 'PROJECT');
 
 COMMIT;
 
@@ -915,8 +915,7 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `ontarget`;
-INSERT INTO `user` (`user_id`, `user_name`, `user_type_id`, `password`, `salt`, `user_status`, `discipline`, `number_of_login`, `modified_date`, `account_status`) VALUES (1, 's@s.com', 1, '12181283118380180445335585944462131631204182922070938422473264293905395639766447125822477536403010703646002314643700483720602782325437365521667942326009590', '16468408816162761056360314163240453909611518639368113122311522613954727264320999800960119461651792926693894616283890051322500209473979134653470895270221910736053124525230359038613417509020465117643578975099969164265858301330201493161869022298101183775297053607871038563272630740066062165808655461416231531384', '1', 1, 1, '2014-11-05 02:30:40', 'ACTIVE');
-
+INSERT INTO `user` (`user_id`, `user_name`, `user_type_id`, `password`, `salt`, `user_status`, `discipline`, `number_of_login`, `modified_date`, `account_status`) VALUES (1, 'sanjeev@ontargetcloud.com', 1, '12181283118380180445335585944462131631204182922070938422473264293905395639766447125822477536403010703646002314643700483720602782325437365521667942326009590', '16468408816162761056360314163240453909611518639368113122311522613954727264320999800960119461651792926693894616283890051322500209473979134653470895270221910736053124525230359038613417509020465117643578975099969164265858301330201493161869022298101183775297053607871038563272630740066062165808655461416231531384', '1', 1, 1, '2014-11-05 02:30:40', 'ACTIVE');
 COMMIT;
 
 -- -----------------------------------------------------
@@ -945,9 +944,7 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `ontarget`;
-INSERT INTO `ontarget`.`project` (`project_id`, `project_code`, `project_name`, `project_owner_id`, `project_category_id`, `project_type_id`, `project_parent_id`, `project_assignee`, `project_description`, `project_image`, `project_start_date`, `project_end_date`, `project_status`, `company_id`, `address_id`, `created_date`, `created_by`, `modified_date`, `modified_by`, `delete_flag`, `deleted_date`, `deleted_by`, `project_image_path`) VALUES (1, 'TEST CODE', 'TEST PROJECT', 1, NULL, 1, 0, NULL, 'TEST PROJECT DESCRIPTION', NULL, '2014/11/13', '2014/12/13', 'ACTIVE', 1, 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1169-1ftt0g7.JPG');
-INSERT INTO `ontarget`.`project` (`project_id`, `project_code`, `project_name`, `project_owner_id`, `project_category_id`, `project_type_id`, `project_parent_id`, `project_assignee`, `project_description`, `project_image`, `project_start_date`, `project_end_date`, `project_status`, `company_id`, `address_id`, `created_date`, `created_by`, `modified_date`, `modified_by`, `delete_flag`, `deleted_date`, `deleted_by`, `project_image_path`) VALUES (2, 'TEST SUB CODE', 'TEST SUB PROJECT', 1, NULL, 2, 1, NULL, 'TEST SUB PROJECT', NULL, '2014/11/12', '2014/12/13', 'ACTIVE', 1, 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-
+INSERT INTO `ontarget`.`project` (`project_id`, `project_code`, `project_name`, `project_owner_id`, `project_category_id`, `project_type_id`, `project_parent_id`, `project_assignee`, `project_description`, `project_image`, `project_start_date`, `project_end_date`, `project_status`, `company_id`, `address_id`, `created_date`, `created_by`, `modified_date`, `modified_by`, `delete_flag`, `deleted_date`, `deleted_by`, `project_image_path`) VALUES (1, 'SIM_BARR', 'Simon and Barron WEA Residential',  1, NULL, 1, 0, NULL, 'With objective to develop a comprehensive Model for 200,000 sqft Renovation Project. The challenge was to do a complete survey of the existing system in detail to include in the Model. Our team successfully provided Architecture, Structure, Mechanical , Electrical and Plumbing and identified clashes. We also provided solutions for resolving conflicts and innovative approaches for coordination.', NULL, '2014/01/01', '2014/12/31', 'ACTIVE', 1 , 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '393wea_web.jpg');
 COMMIT;
 
 -- -----------------------------------------------------
@@ -955,10 +952,6 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `ontarget`;
-INSERT INTO `ontarget`.`project_task` (`project_task_id`, `project_id`, `title`, `parent_task_id`, `status`, `percentage_complete`, `start_date`, `end_date`, `created_date`, `created_by`, `modified_date`, `modified_by`, `severity`, `description`) VALUES (1, 1, 'TEST TITLE', 0, 'ACTIVE', 0, '2014/11/12', '2014/12/13', NULL, NULL, NULL, NULL, 'MAJOR', 'TEST TASK');
-INSERT INTO `ontarget`.`project_task` (`project_task_id`, `project_id`, `title`, `parent_task_id`, `status`, `percentage_complete`, `start_date`, `end_date`, `created_date`, `created_by`, `modified_date`, `modified_by`, `severity`, `description`) VALUES (2, 1, 'TEST TITLE 1', 0, 'ACTIVE', 0, '2014/11/12', '2014/12/13', NULL, NULL, NULL, NULL, 'CRITICAL', 'Test Task 1');
-INSERT INTO `ontarget`.`project_task` (`project_task_id`, `project_id`, `title`, `parent_task_id`, `status`, `percentage_complete`, `start_date`, `end_date`, `created_date`, `created_by`, `modified_date`, `modified_by`, `severity`, `description`) VALUES (3, 2, 'test title 2', 0, 'ACTIVE', 0, '2014/11/12', '2014/12/13', NULL, NULL, NULL, NULL, 'MINOR', 'TEST TASK 3');
-
 COMMIT;
 
 -- -----------------------------------------------------
@@ -1276,20 +1269,20 @@ ALTER TABLE `activity_log`
 ADD PRIMARY KEY (`id`);
 
 
---
--- Triggers `project_task_comments`
---
-DELIMITER //
-CREATE TRIGGER `log_comment_activity` AFTER INSERT ON `project_task_comments`
-FOR EACH ROW INSERT INTO activity_log (text, category) VALUES (CONCAT("Comment ", NEW.comment , " added on task ", NEW.project_task_id, " by ", NEW.comment_by), 1)
-//
-DELIMITER ;
-
---
--- Triggers `project`
---
-DELIMITER //
-CREATE TRIGGER `log_project_add` AFTER INSERT ON `project`
-FOR EACH ROW INSERT INTO activity_log (text, category) VALUES (CONCAT("New project ", NEW.project_id, " of type", New.project_category_id , " added by ", NEW.project_owner_id), 2)
-//
-DELIMITER ;
+# --
+# -- Triggers `project_task_comments`
+# --
+# DELIMITER //
+# CREATE TRIGGER `log_comment_activity` AFTER INSERT ON `project_task_comments`
+# FOR EACH ROW INSERT INTO activity_log (text, category) VALUES (CONCAT("Comment ", NEW.comment , " added on task ", NEW.project_task_id, " by ", NEW.comment_by), 1)
+# //
+# DELIMITER ;
+#
+# --
+# -- Triggers `project`
+# --
+# DELIMITER //
+# CREATE TRIGGER `log_project_add` AFTER INSERT ON `project`
+# FOR EACH ROW INSERT INTO activity_log (text, category) VALUES (CONCAT("New project ", NEW.project_id, " of type", New.project_category_id , " added by ", NEW.project_owner_id), 2)
+# //
+# DELIMITER ;

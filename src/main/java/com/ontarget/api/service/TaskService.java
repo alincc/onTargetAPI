@@ -4,7 +4,6 @@ import com.ontarget.bean.Task;
 import com.ontarget.bean.TaskComment;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -27,4 +26,6 @@ public interface TaskService {
     public boolean addTaskMember(long projectId, long taskId, long memberId) throws Exception;
 
     public long saveTaskFile(long taskid, long userId, String fileName, String location) throws Exception;
+
+    public boolean assignTaskToUser(long taskId, long userId) throws Exception;
 }

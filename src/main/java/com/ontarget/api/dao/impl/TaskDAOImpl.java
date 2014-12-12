@@ -183,4 +183,10 @@ public class TaskDAOImpl implements TaskDAO {
         int row = jdbcTemplate.update(OnTargetQuery.ADD_TASK_MEMBER, new Object[]{taskId, projectId, memberId});
         return row > 0;
     }
+
+    @Override
+    public boolean assignTaskToUser(long taskId, long userId) throws Exception {
+        int row = jdbcTemplate.update(OnTargetQuery.ASSIGN_TASK_USER, new Object[]{taskId, userId});
+        return row > 0;
+    }
 }

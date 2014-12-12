@@ -178,8 +178,29 @@ public class TaskEndpointImpl implements TaskEndpoint {
                 response.setReturnVal(OnTargetConstant.ERROR);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Error while saving task file",e);
             response.setReturnMessage("error saving task file");
+            response.setReturnVal(OnTargetConstant.ERROR);
+        }
+
+        return response;
+    }
+
+    @Override
+    @Path("/assignUserToTask")
+    @POST
+    public OnTargetResponse assignTaskToUser(TaskMemberRequest taskMemberRequest){
+        OnTargetResponse response = new OnTargetResponse();
+        try {
+            if(taskService.assignTaskToUser(taskMemberRequest.getTaskId(), taskMemberRequest.getMembers().get(0).longValue())){
+                response.setReturnMessage("Successfully assigned task");
+                response.setReturnVal(OnTargetConstant.SUCCESS);
+            }else{
+                throw new Exception();
+            }
+        } catch (Exception e) {
+            logger.error("Error while assigning task",e);
+            response.setReturnMessage("Error while assigning task members");
             response.setReturnVal(OnTargetConstant.ERROR);
         }
 

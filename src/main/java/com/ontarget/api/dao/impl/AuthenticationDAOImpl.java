@@ -18,6 +18,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Owner on 10/30/14.
@@ -134,5 +135,14 @@ public class AuthenticationDAOImpl implements AuthenticationDAO {
         System.out.println("user " + userId + " password " + password + " salt " + salt);
         int row = jdbcTemplate.update(OnTargetQuery.CHANGE_USER_PASSWORD, new Object[]{password, salt, userId});
         return row > 0;
+    }
+
+    @Override
+    public User getUserInfoById(long userId) throws Exception {
+        Map<String, Object> userInfoMap =  jdbcTemplate.queryForMap(OnTargetQuery.GET_USER_BY_ID, new Object[]{userId});
+        User user = new User();
+        user.setUsername((String)userInfoMap.get("user_name"));
+
+        return user;
     }
 }

@@ -33,7 +33,7 @@ public class ProjectDAOImpl implements ProjectDAO {
 
     @Override
     public int addProject(Project project) throws Exception {
-        logger.info("Adding address: " + project);
+        logger.info("Adding project: " + project);
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(
                 new PreparedStatementCreator() {
@@ -54,7 +54,7 @@ public class ProjectDAOImpl implements ProjectDAO {
                     }
                 },
                 keyHolder);
-        logger.debug("Added address with id: " + keyHolder.getKey().intValue());
+        logger.debug("Added project with id: " + keyHolder.getKey().intValue());
 
         return keyHolder.getKey().intValue();
 

@@ -1,0 +1,11 @@
+<html>
+<body>
+User,
+
+<p>${msg}</p>
+
+<p>thanks<br>
+    OnTarget Team
+</p>
+</body>
+</html>

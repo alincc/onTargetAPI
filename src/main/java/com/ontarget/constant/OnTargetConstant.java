@@ -50,7 +50,7 @@ public interface OnTargetConstant {
         public static final String DOCUMENT_APPROVAL_SUBJECT = "New document available for approval";
         public static final String USER_REGISTRATION_ADMIN_EMAIL = "ontarget@gmail.com";
         public static final String INVITE_USER_TO_ACCOUNT_SUBJECT = "Invitation to OnTarget";
-
+        public static final String TASK_ASSIGNED_SUBJECT = "Task Assigned";
     }
 
     public interface USER_STATUS {

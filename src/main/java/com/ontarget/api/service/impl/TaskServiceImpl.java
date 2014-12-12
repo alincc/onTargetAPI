@@ -3,8 +3,11 @@ package com.ontarget.api.service.impl;
 import com.ontarget.api.dao.ProjectTaskFileDAO;
 import com.ontarget.api.dao.TaskDAO;
 import com.ontarget.api.dao.TaskEstimatedCostDAO;
+import com.ontarget.api.service.EmailService;
 import com.ontarget.api.service.TaskService;
-import com.ontarget.bean.*;
+import com.ontarget.bean.Task;
+import com.ontarget.bean.TaskComment;
+import com.ontarget.bean.TaskStatusCount;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,6 +33,9 @@ public class TaskServiceImpl implements TaskService {
     @Autowired
     private ProjectTaskFileDAO projectTaskFileDAO;
 
+    @Autowired
+    private EmailService emailService;
+
     @Override
     @Transactional(rollbackFor = {Exception.class})
     public boolean addTaskService(Task task) throws Exception {
@@ -37,11 +43,11 @@ public class TaskServiceImpl implements TaskService {
 
         int taskId = task.getProjectTaskId();
 
-        if(taskId <=0){
+        if (taskId <= 0) {
             taskId = taskDAO.addTask(task);
-        }else{
+        } else {
             boolean updated = taskDAO.updateTask(task);
-            if(!updated){
+            if (!updated) {
                 throw new Exception("Add/update task failed.");
             }
         }
@@ -52,7 +58,6 @@ public class TaskServiceImpl implements TaskService {
         }
 
         // add project task assignee.
-
 
 
         return true;
@@ -100,7 +105,22 @@ public class TaskServiceImpl implements TaskService {
         return taskDAO.addTaskMember(projectId, taskId, memberId);
     }
 
+    @Override
     public long saveTaskFile(long taskid, long userId, String fileName, String location) throws Exception {
         return projectTaskFileDAO.saveTaskFile(taskid, fileName, userId, location);
     }
+
+    @Override
+    @Transactional(rollbackFor = {Exception.class})
+    public boolean assignTaskToUser(long taskId, long userId) throws Exception {
+        boolean assigned = taskDAO.assignTaskToUser(taskId, userId);
+
+        if (assigned) {
+            emailService.sendTaskAssignmentEmail(taskId, userId);
+        }
+
+        return assigned;
+    }
+
+
 }

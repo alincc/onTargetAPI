@@ -7,8 +7,14 @@ import com.ontarget.util.Security;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Map;
 
@@ -62,7 +68,31 @@ public class UserRegistrationDAOImpl implements com.ontarget.api.dao.UserRegistr
         String password = registration.getPassword();
         String salt = Security.generateSecureSalt();
         String hashedPassword = Security.encodePassword(password, salt);
-        return jdbcTemplate.update(OnTargetQuery.CREATE_NEW_USER, new Object[]{registration.getEmail(), 1, hashedPassword,salt,registration.getDiscipline(), OnTargetConstant.USER_STATUS.ACTIVE, 1, registration.getStatus()});
+        //return jdbcTemplate.update(OnTargetQuery.CREATE_NEW_USER, new Object[]{registration.getEmail(), 1, hashedPassword,salt,registration.getDiscipline(), OnTargetConstant.USER_STATUS.ACTIVE, 1, registration.getStatus()});
+
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(
+                new PreparedStatementCreator() {
+                    public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+                        PreparedStatement ps =
+                                connection.prepareStatement(OnTargetQuery.CREATE_NEW_USER, new String[]{"id"});
+                        ps.setString(1, registration.getEmail());
+                        ps.setInt(2, 1);
+                        ps.setString(3, hashedPassword);
+                        ps.setString(4, salt);
+                        ps.setString(5, registration.getDiscipline());
+
+                        ps.setString(6,  OnTargetConstant.USER_STATUS.ACTIVE);
+                        ps.setInt(7, 1);
+                        ps.setString(8, registration.getStatus());
+                        return ps;
+                    }
+                },
+                keyHolder);
+        logger.debug("Added user with id: " + keyHolder.getKey().intValue());
+        return keyHolder.getKey().intValue();
+
+
     }
 
     @Override
@@ -73,7 +103,7 @@ public class UserRegistrationDAOImpl implements com.ontarget.api.dao.UserRegistr
 
     @Override
     public int activateAccount(int userId) throws Exception {
-        logger.debug("activating account for token: "+ userId);
+        logger.debug("activating account for token: " + userId);
         return jdbcTemplate.update(OnTargetQuery.ACTIVATE_USER_ACCOUNT, new Object[]{userId});
     }
 

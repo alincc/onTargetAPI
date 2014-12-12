@@ -22,6 +22,8 @@ public interface EmailService {
 
     public boolean sendInviteToAccountEmail(String email, String firstName, String lastName, String tokenId);
 
+    public void  sendTaskAssignmentEmail(long taskId, long userId) throws Exception;
+
     //public boolean sendSubmittalEmailForApproval() throws Exception;
 
 }
