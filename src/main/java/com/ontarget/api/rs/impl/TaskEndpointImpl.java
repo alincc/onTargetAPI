@@ -32,23 +32,21 @@ public class TaskEndpointImpl implements TaskEndpoint {
     @Override
     @Path("/addTask")
     @POST
-    public AddTaskResponse addTask(TaskRequest request) {
-        AddTaskResponse response = new AddTaskResponse();
+    public OnTargetResponse addTask(TaskRequest request) {
+        OnTargetResponse response = new OnTargetResponse();
         try {
-            long taskId = taskService.addTaskService(request.getTask());
-            if (taskId > 0) { // find some better way. actually not needed as 0 or any issue will give exception not result
+            if (taskService.addTaskService(request.getTask())) {
                 response.setReturnMessage("Successfully added task");
                 response.setReturnVal(OnTargetConstant.SUCCESS);
-                response.setProjectTaskId(taskId);
             }
         } catch (Exception e) {
             logger.error("Add task failed." + e);
-            e.printStackTrace();
             response.setReturnMessage("Add task failed");
             response.setReturnVal(OnTargetConstant.ERROR);
         }
         return response;
     }
+
 
     @Override
     @GET
@@ -83,9 +81,9 @@ public class TaskEndpointImpl implements TaskEndpoint {
             response.setReturnMessage("Get task count failed");
             response.setReturnVal(OnTargetConstant.ERROR);
         }
-
         return response;
     }
+
 
     @Override
     @POST
@@ -102,7 +100,6 @@ public class TaskEndpointImpl implements TaskEndpoint {
             response.setReturnMessage("Add task comment failed");
             response.setReturnVal(OnTargetConstant.ERROR);
         }
-
         return response;
     }
 
@@ -161,6 +158,29 @@ public class TaskEndpointImpl implements TaskEndpoint {
                 response.setReturnMessage("error while reading task members");
                 response.setReturnVal(OnTargetConstant.ERROR);
             }
+        }
+
+        return response;
+    }
+
+    @Override
+    @GET
+    @Path("/saveTaskFile")
+    public InsertResponse saveTaskFile(@QueryParam("taskid") long taskId, @QueryParam("userid") long userId, @QueryParam("fileName") String fileName, @QueryParam("location") String location) {
+        InsertResponse response = new InsertResponse();
+        try {
+            long id = taskService.saveTaskFile(taskId, userId, fileName, location);
+            if (id > 0) {
+                response.setReturnMessage("Successfully written");
+                response.setReturnVal(OnTargetConstant.SUCCESS);
+            } else {
+                response.setReturnMessage("error while reading task members");
+                response.setReturnVal(OnTargetConstant.ERROR);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.setReturnMessage("error saving task file");
+            response.setReturnVal(OnTargetConstant.ERROR);
         }
 
         return response;

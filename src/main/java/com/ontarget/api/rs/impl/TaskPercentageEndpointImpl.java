@@ -27,6 +27,7 @@ import java.util.Map;
 @Produces(MediaType.APPLICATION_JSON)
 public class TaskPercentageEndpointImpl implements TaskPercentageEndpoint {
 
+
     private Logger logger = Logger.getLogger(TaskPercentageEndpointImpl.class);
 
     @Autowired
@@ -41,6 +42,7 @@ public class TaskPercentageEndpointImpl implements TaskPercentageEndpoint {
     public OnTargetResponse addTaskPercentageComplete(TaskPercentageRequest request) {
         logger.info("Adding task Percentage");
         OnTargetResponse response = new OnTargetResponse();
+
         try {
             boolean added = taskPercentageService.addTaskPercentage(request.getTaskPercentageList());
             if(added){
@@ -65,6 +67,7 @@ public class TaskPercentageEndpointImpl implements TaskPercentageEndpoint {
     public OnTargetResponse updateTaskPercentageComplete(TaskPercentageRequest request) {
         logger.info("update task Percentage");
         OnTargetResponse response = new OnTargetResponse();
+
         try {
             boolean added = taskPercentageService.updateTaskPercentage(request.getTaskPercentageList());
             if(added){

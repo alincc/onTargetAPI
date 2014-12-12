@@ -1,12 +1,10 @@
 package com.ontarget.api.service.impl;
 
+import com.ontarget.api.dao.ProjectTaskFileDAO;
 import com.ontarget.api.dao.TaskDAO;
 import com.ontarget.api.dao.TaskEstimatedCostDAO;
 import com.ontarget.api.service.TaskService;
-import com.ontarget.bean.Task;
-import com.ontarget.bean.TaskComment;
-import com.ontarget.bean.TaskEstimatedCost;
-import com.ontarget.bean.TaskStatusCount;
+import com.ontarget.bean.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,9 +27,12 @@ public class TaskServiceImpl implements TaskService {
     @Autowired
     private TaskEstimatedCostDAO taskEstimatedCostDAO;
 
+    @Autowired
+    private ProjectTaskFileDAO projectTaskFileDAO;
+
     @Override
     @Transactional(rollbackFor = {Exception.class})
-    public long addTaskService(Task task) throws Exception {
+    public boolean addTaskService(Task task) throws Exception {
         logger.info("Add/Update task: " + task);
 
         int taskId = task.getProjectTaskId();
@@ -45,6 +46,7 @@ public class TaskServiceImpl implements TaskService {
             }
         }
 
+
         if (taskId == 0) {
             throw new Exception("Add/update task failed.");
         }
@@ -53,7 +55,7 @@ public class TaskServiceImpl implements TaskService {
 
 
 
-        return taskId;
+        return true;
     }
 
     @Override
@@ -96,5 +98,9 @@ public class TaskServiceImpl implements TaskService {
     @Transactional(rollbackFor = {Exception.class})
     public boolean addTaskMember(long projectId, long taskId, long memberId) throws Exception {
         return taskDAO.addTaskMember(projectId, taskId, memberId);
+    }
+
+    public long saveTaskFile(long taskid, long userId, String fileName, String location) throws Exception {
+        return projectTaskFileDAO.saveTaskFile(taskid, fileName, userId, location);
     }
 }

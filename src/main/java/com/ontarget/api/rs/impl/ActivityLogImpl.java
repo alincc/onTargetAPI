@@ -31,7 +31,7 @@ public class ActivityLogImpl implements com.ontarget.api.rs.ActivityLog {
     @GET
     @Path("/getLog")
     public ActivityLogResponse getActivityLog(@QueryParam("recentId") long recentId) {
-//        System.out.println("activity log called with recentId " + recentId);
+        System.out.println("activity log called with recentId " + recentId);
         ActivityLogResponse response = new ActivityLogResponse();
         try {
             List<ActivityLog> activityLogs = activityLogService.getActivityLog(recentId);

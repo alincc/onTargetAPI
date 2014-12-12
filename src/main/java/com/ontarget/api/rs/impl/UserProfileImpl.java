@@ -11,6 +11,7 @@ import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.SafetyInfoResponse;
 import com.ontarget.dto.UserProfileRequest;
 import com.ontarget.dto.UserProfileResponse;
+import com.ontarget.util.Security;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -44,12 +45,12 @@ public class UserProfileImpl implements UserProfile {
     @POST
     @Path("/addUserProfile")
     public UserProfileResponse addUserProfile(UserProfileRequest userProfileRequest) {
-        logger.info("Received request to add profile: " + userProfileRequest);
-        UserProfileResponse response = null;
+        logger.info("Received request to add profile: "+ userProfileRequest);
+        UserProfileResponse response=null;
         try {
-            response = userProfileService.addUserProfile(userProfileRequest);
+            response =  userProfileService.addUserProfile(userProfileRequest);
         } catch (Exception e) {
-            logger.error("Add User Profile failed." + e);
+            logger.error("Add User Profile failed."+ e);
             response.setReturnMessage("Add task failed");
             response.setReturnVal(OnTargetConstant.ERROR);
         }
@@ -71,14 +72,13 @@ public class UserProfileImpl implements UserProfile {
             response.setReturnMessage("Update task failed");
             response.setReturnVal(OnTargetConstant.ERROR);
         }
-
         return response;
     }
 
     @Override
     @GET
     @Path("/changeUserPassword")
-    public OnTargetResponse changeUserPassword(@QueryParam("userId") long userId, @QueryParam("password") String password)  {
+    public OnTargetResponse changeUserPassword(@QueryParam("userId") long userId, @QueryParam("password") String password) throws Exception {
         System.out.println("this is user id " + userId + " password " + password);
         OnTargetResponse response = new OnTargetResponse();
         try {
@@ -87,15 +87,52 @@ public class UserProfileImpl implements UserProfile {
                 response.setReturnVal(OnTargetConstant.SUCCESS);
             } else {
                 logger.error("failed updating password");
-                response.setReturnMessage("failed updating password");
+                response.setReturnMessage("Add task failed");
                 response.setReturnVal(OnTargetConstant.ERROR);
             }
         } catch (Exception e) {
-            logger.error("failed updating password", e);
-            response.setReturnMessage("failed updating password");
+            logger.error("Add User Profile failed." + e);
+            response.setReturnMessage("Add task failed");
             response.setReturnVal(OnTargetConstant.ERROR);
         }
 
+        return response;
+    }
+
+    @Override
+    @GET
+    @Path("/inviteUserIntoProject")
+    public OnTargetResponse inviteUserIntoProject(@QueryParam("projectId") long projectId, @QueryParam("firstName") String firstName, @QueryParam("lastName") String lastName, @QueryParam("email") String email) {
+        OnTargetResponse response = new OnTargetResponse();
+        if (projectId > 0) {
+            logger.info("This is first name " + firstName + " last name " + lastName + " and email" + email);
+
+            // generate token id
+            final String tokenId = Security.generateRandomValue(TOKEN_LENGTH);
+            // save into registration table
+            try {
+                if (userProfileService.saveRegistration(projectId, firstName, lastName, email, tokenId, OnTargetConstant.AccountStatus.ACCT_NEW)) {
+                    Project res = projectService.getProject(projectId);
+                    long owner = res.getProjectOwnerId();
+                    Contact c = userProfileService.getContact(owner);
+
+                    // build n send email
+                    emailService.sendUserRegistrationEmail(email, tokenId, firstName, c.getFirstName(), c.getLastName());
+                    response.setReturnMessage("Email sent. Please check mail");
+                    response.setReturnVal(OnTargetConstant.SUCCESS);
+                } else {
+                    response.setReturnMessage("Registration save failed");
+                    response.setReturnVal(OnTargetConstant.ERROR);
+                }
+            } catch (Exception e) {
+                logger.error(e.getMessage());
+                response.setReturnMessage("Error while saving registration request");
+                response.setReturnVal(OnTargetConstant.ERROR);
+            }
+        } else {
+            response.setReturnMessage("Mandatory field missing");
+            response.setReturnVal(OnTargetConstant.ERROR);
+        }
         return response;
     }
 
@@ -122,5 +159,4 @@ public class UserProfileImpl implements UserProfile {
 
         return response;
     }
-
 }

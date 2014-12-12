@@ -5,8 +5,8 @@ package com.ontarget.constant;
  */
 public interface OnTargetConstant {
 
-    public static final String SUCCESS = "SUCCESS";
-    public static final String ERROR = "ERROR";
+    public static  final String SUCCESS="SUCCESS";
+    public static  final String ERROR="ERROR";
 
     public static final String SUCCESS_CODE = "200"; // does not necessary means transaction completed. just when application is aware of the issue
     public static final String INTERNAL_SERVER_ERROR_CODE = "500";
@@ -25,11 +25,12 @@ public interface OnTargetConstant {
     public static final String REGISTRATION_APPROVAL_REQUEST_SUCCESS = "Registration approval request success";
     public static final String AUTHENTICATION_FAILED = "Authentication Failed";
     public static final String REGSITRATION_REQUEST_APPROVED = "APPROVED";
-    public static final String SIGNUP_URL = "/#/pages/signup";
     public static final int TOKEN_LENGTH = 25;
+    public static final String SIGNUP_URL = "/#/pages/signup";
     public static final long TOKEN_MAX_LIFE = 2l * 24l * 60l * 60l * 1000l;
 
-    interface AddressType {
+
+    interface AddressType{
         public static final String PROJECT_ADDR = "PROJECT";
         public static final String COMPANY_ADDR = "COMPANY";
         public static final String CONTACT_ADDR = "CONTACT";
@@ -40,15 +41,16 @@ public interface OnTargetConstant {
      */
 
 
-    interface EmailServiceConstants {
-        public static final String USER_REGISTRATION_SUBJECT = "OnTarget Registration Request";
-        public static final String USER_REGISTRATION_FROM = "dontoreply@ontarget.com";
+    interface EmailServiceConstants{
+        public static final String USER_REGISTRATION_SUBJECT="OnTarget Registration Request";
+        public static final String USER_REGISTRATION_FROM="dontoreply@ontarget.com";
         public static final String USER_REGISTRATION_REQUEST_APPROVAL_SUBJECT = "OnTarget Registration Approval";
 
         public static final String DOCUMENT_APPROVAL_FROM = "dontoreply@ontarget.com";
         public static final String DOCUMENT_APPROVAL_SUBJECT = "New document available for approval";
         public static final String USER_REGISTRATION_ADMIN_EMAIL = "ontarget@gmail.com";
         public static final String INVITE_USER_TO_ACCOUNT_SUBJECT = "Invitation to OnTarget";
+
     }
 
     public interface USER_STATUS {
@@ -56,7 +58,6 @@ public interface OnTargetConstant {
         public static final String PENDING="0";
 
     }
-
     public interface AccountStatus {
         public static final String ACTIVE="ACTIVE";
         public static final String LOCKED="LOCKED";
@@ -65,7 +66,7 @@ public interface OnTargetConstant {
     }
 
     public interface CompanyStatus {
-        public static final String STATUS = "ACTIVE";
+        public static final String STATUS="ACTIVE";
     }
 
     public interface CostType {

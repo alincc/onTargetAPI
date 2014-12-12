@@ -31,6 +31,7 @@ public class ProjectEndpointImpl implements ProjectEndoint {
     public OnTargetResponse addProject(ProjectRequest request) {
         OnTargetResponse response = null;
         try {
+
             if (request.getProject().getProjectId() <= 0) {
                 response = projectService.addProject(request);
             } else {
@@ -89,14 +90,13 @@ public class ProjectEndpointImpl implements ProjectEndoint {
     @Override
     @GET
     @Path("/getProject/company/{companyId}/user/{userId}")
-    public ProjectListResponse getProjectByCompany(@PathParam("companyId") int companyId, @PathParam("userId")int userId) {
+    public ProjectListResponse getProjectByCompany(@PathParam("companyId") int companyId, @PathParam("userId") int userId) {
         ProjectListResponse response = new ProjectListResponse();
         try {
             response = projectService.getProjectsByCompany(companyId, userId);
             response.setReturnVal(OnTargetConstant.SUCCESS);
             response.setReturnMessage("Successfully retrieved project info");
         } catch (Exception e) {
-
             logger.error("Error while getting project by company", e);
             response.setReturnMessage("Error while getting project by company");
             response.setReturnVal(OnTargetConstant.ERROR);

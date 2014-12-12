@@ -2,6 +2,7 @@ package com.ontarget.api.service.impl;
 
 import com.ontarget.api.dao.*;
 import com.ontarget.api.service.UserProfileService;
+
 import com.ontarget.bean.*;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.OnTargetResponse;
@@ -144,7 +145,6 @@ public class UserProfileServiceImpl implements UserProfileService {
         return userRegistrationDAO.saveRegistrationInvitation(projectId, firstName, lastName, email, tokenId, accountStatus) != 0;
     }
 
-    @Override
     public UserRegistration getRegistration(String token) throws Exception {
         return userRegistrationDAO.getInvitationRegistration(token);
     }
