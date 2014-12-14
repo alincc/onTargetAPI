@@ -45,6 +45,9 @@ public class UserProfileServiceImpl implements UserProfileService {
     @Autowired
     private UserSafetyInfoDAO userSafetyInfoDAO;
 
+    @Autowired
+    private UserDisciplineDAO userDisciplineDAO;
+
     //TODO: separate logic of user profile and company profile.
     @Override
     @Transactional(rollbackFor={Exception.class})
@@ -127,5 +130,10 @@ public class UserProfileServiceImpl implements UserProfileService {
         }
 
         return userSafetyInfoDAO.getRandomSafetyInfo(user.getDiscipline());
+    }
+
+    @Override
+    public Set<Long> getDisciplineByUser(long userId) throws Exception {
+        return userDisciplineDAO.getDisciplineByUser(userId);
     }
 }

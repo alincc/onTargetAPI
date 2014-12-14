@@ -3,6 +3,7 @@ package com.ontarget.api.rs;
 import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.bean.User;
 import com.ontarget.dto.SafetyInfoResponse;
+import com.ontarget.dto.UserDisciplineResponse;
 import com.ontarget.dto.UserProfileRequest;
 
 import javax.ws.rs.QueryParam;
@@ -19,4 +20,6 @@ public interface UserProfile {
     public OnTargetResponse updateUserProfile(UserProfileRequest userProfileRequest);
 
     public SafetyInfoResponse getSafetyInfoForUser(long userId);
+
+    public UserDisciplineResponse getDisciplineByUser(long userId);
 }

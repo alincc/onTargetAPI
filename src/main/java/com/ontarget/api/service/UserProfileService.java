@@ -7,6 +7,8 @@ import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.UserProfileRequest;
 import com.ontarget.dto.UserProfileResponse;
 
+import java.util.Set;
+
 /**
  * Created by Owner on 11/4/14.
  */
@@ -27,4 +29,6 @@ public interface UserProfileService {
     public Company getCompanyInfoByUser(int userId) throws Exception;
 
     public String getRandomSafetyUserInfo(long userId) throws Exception;
+
+    public Set<Long> getDisciplineByUser(long userId) throws Exception;
 }

@@ -5,10 +5,7 @@ import com.ontarget.api.service.EmailService;
 import com.ontarget.api.service.ProjectService;
 import com.ontarget.api.service.UserProfileService;
 import com.ontarget.constant.OnTargetConstant;
-import com.ontarget.dto.OnTargetResponse;
-import com.ontarget.dto.SafetyInfoResponse;
-import com.ontarget.dto.UserProfileRequest;
-import com.ontarget.dto.UserProfileResponse;
+import com.ontarget.dto.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -116,6 +113,26 @@ public class UserProfileImpl implements UserProfile {
             response.setReturnVal(OnTargetConstant.ERROR);
         }
 
+        return response;
+    }
+
+    @Override
+    @GET
+    @Path("/getDisciplineByUser")
+    public UserDisciplineResponse getDisciplineByUser(@QueryParam("userId") long userId) {
+        UserDisciplineResponse response = new UserDisciplineResponse();
+        System.out.println("this is user discipline"+userId);
+        logger.info("Getting discipline by user: " + userId);
+        try {
+            response.setDiscipline(userProfileService.getDisciplineByUser(userId));
+            response.setReturnMessage("Successfully retrieved discipline by user");
+            response.setReturnVal(OnTargetConstant.SUCCESS);
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("Get discipline by user failed." + e);
+            response.setReturnMessage("Get discipline by user  failed");
+            response.setReturnVal(OnTargetConstant.ERROR);
+        }
         return response;
     }
 }

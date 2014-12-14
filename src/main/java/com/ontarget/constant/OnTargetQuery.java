@@ -102,4 +102,10 @@ public interface OnTargetQuery {
     public static final String GET_ACTIVITY_LOG = new StringBuilder("SELECT * FROM activity_log where id > ? order by id").toString();
 
     public static final String GET_TASK_BY_USER= new StringBuilder("SELECT project_task_id FROM task_assignee WHERE task_assignee_id=?").toString();
+
+    public static final String GET_STATES_BY_COUNTRY = new StringBuilder("SELECT state_id FROM states where country_id=?").toString();
+
+    public static final String GET_COUNTRY_LIST = new StringBuilder("SELECT country_id FROM countries").toString();
+
+    public static final String GET_DISCIPLINE_BY_USER = new StringBuilder("SELECT discipline FROM user  where user_id=?").toString();
 }
