@@ -31,21 +31,21 @@ public class ProjectReportServiceImpl implements ProjectReportService {
 
     @Override
     public Map<TaskInterval, ProjectEarnedValueAnalysisReport> getEarnedValueAnalysisReport(int projectId) throws Exception {
-        logger.debug("Getting earned value analysis report: "+ projectId);
+        logger.debug("Getting earned value analysis report: " + projectId);
         //task planned cost
-        Map<Task,Map<TaskInterval,TaskEstimatedCost>> taskPlannedCostByMonthAndYear = taskBudgetDAO.getTaskToCostMapByMonthYear(projectId, OnTargetConstant.CostType.ESTIMATED);
+        Map<Task, Map<TaskInterval, TaskEstimatedCost>> taskPlannedCostByMonthAndYear = taskBudgetDAO.getTaskToCostMapByMonthYear(projectId, OnTargetConstant.CostType.ESTIMATED);
 
         //task actual cost
-        Map<Task,Map<TaskInterval,TaskEstimatedCost>> taskActualCostByMonthAndYear = taskBudgetDAO.getTaskToCostMapByMonthYear(projectId, OnTargetConstant.CostType.ACTUAL);
+        Map<Task, Map<TaskInterval, TaskEstimatedCost>> taskActualCostByMonthAndYear = taskBudgetDAO.getTaskToCostMapByMonthYear(projectId, OnTargetConstant.CostType.ACTUAL);
 
         //task percentage
-        Map<Task,Map<TaskInterval,TaskPercentage>> taskPercentageByMonthAndYear=taskPercentageDAO.getTaskPercentageCompletesByMonthYear(projectId);
+        Map<Task, Map<TaskInterval, TaskPercentage>> taskPercentageByMonthAndYear = taskPercentageDAO.getTaskPercentageCompletesByMonthYear(projectId);
 
         //Total budgeted cost
-        Map<Task,Double> totalTaskBudgetCost = new HashMap<>();
+        Map<Task, Double> totalTaskBudgetCost = new HashMap<>();
 
 
-        if(taskPlannedCostByMonthAndYear.isEmpty()){
+        if (taskPlannedCostByMonthAndYear.isEmpty()) {
             return null;
         }
 
@@ -55,7 +55,7 @@ public class ProjectReportServiceImpl implements ProjectReportService {
         Date endDate = project.getEndDate();
         List<TaskInterval> timeInterval = OntargetUtil.getTimeInterval(startDate, endDate);
 
-        if(timeInterval.isEmpty()){
+        if (timeInterval.isEmpty()) {
             return null;
         }
 
@@ -65,20 +65,20 @@ public class ProjectReportServiceImpl implements ProjectReportService {
         /**
          * calculate total estimated cost by month and year
          */
-        for (Map.Entry<Task, Map<TaskInterval,TaskEstimatedCost>> entry : taskPlannedCostByMonthAndYear.entrySet()) {
+        for (Map.Entry<Task, Map<TaskInterval, TaskEstimatedCost>> entry : taskPlannedCostByMonthAndYear.entrySet()) {
             Task task = entry.getKey();
-            Map<TaskInterval,TaskEstimatedCost> monthYearEstimatedCost = entry.getValue();
+            Map<TaskInterval, TaskEstimatedCost> monthYearEstimatedCost = entry.getValue();
 
-            for(TaskInterval ti : timeInterval){
+            for (TaskInterval ti : timeInterval) {
                 TaskEstimatedCost cost = monthYearEstimatedCost.get(ti);
 
                 ProjectEarnedValueAnalysisReport rpt = monthYearEarnedValueReportByTask.get(ti);
-                if(rpt == null){
+                if (rpt == null) {
                     rpt = new ProjectEarnedValueAnalysisReport();
 
                 }
 
-                monthYearEarnedValueReportByTask.put(ti,rpt);
+                monthYearEarnedValueReportByTask.put(ti, rpt);
                 double totalBudgetCost = rpt.getTotalBudgetedCost() + cost.getCost();
                 rpt.setTotalBudgetedCost(totalBudgetCost);
             }
@@ -89,11 +89,11 @@ public class ProjectReportServiceImpl implements ProjectReportService {
              */
 
             double totalTaskCost = 0.0;
-            for(Map.Entry<TaskInterval,TaskEstimatedCost> eachTaskCostByMonthYear : monthYearEstimatedCost.entrySet()){
+            for (Map.Entry<TaskInterval, TaskEstimatedCost> eachTaskCostByMonthYear : monthYearEstimatedCost.entrySet()) {
                 TaskEstimatedCost cost = eachTaskCostByMonthYear.getValue();
-                totalTaskCost+=cost.getCost();
+                totalTaskCost += cost.getCost();
             }
-            totalTaskBudgetCost.put(task,totalTaskCost);
+            totalTaskBudgetCost.put(task, totalTaskCost);
         }
 
 
@@ -101,19 +101,19 @@ public class ProjectReportServiceImpl implements ProjectReportService {
          * calculate total actual cost by month year
          */
 
-        for (Map.Entry<Task, Map<TaskInterval,TaskEstimatedCost>> entry : taskActualCostByMonthAndYear.entrySet()) {
+        for (Map.Entry<Task, Map<TaskInterval, TaskEstimatedCost>> entry : taskActualCostByMonthAndYear.entrySet()) {
             Task task = entry.getKey();
-            Map<TaskInterval,TaskEstimatedCost> monthYearActualCost = entry.getValue();
+            Map<TaskInterval, TaskEstimatedCost> monthYearActualCost = entry.getValue();
 
-            for(TaskInterval ti : timeInterval){
+            for (TaskInterval ti : timeInterval) {
                 TaskEstimatedCost cost = monthYearActualCost.get(ti);
 
                 ProjectEarnedValueAnalysisReport rpt = monthYearEarnedValueReportByTask.get(ti);
-                if(rpt == null){
+                if (rpt == null) {
                     rpt = new ProjectEarnedValueAnalysisReport();
 
                 }
-                monthYearEarnedValueReportByTask.put(ti,rpt);
+                monthYearEarnedValueReportByTask.put(ti, rpt);
                 double totalActualCost = rpt.getTotalActualCost() + cost.getCost();
                 rpt.setTotalActualCost(totalActualCost);
             }
@@ -125,7 +125,7 @@ public class ProjectReportServiceImpl implements ProjectReportService {
          * Calculate cumulative earned value
          */
 
-        calculateCumulativeEarnedValue( monthYearEarnedValueReportByTask ,  taskPercentageByMonthAndYear, totalTaskBudgetCost);
+        calculateCumulativeEarnedValue(monthYearEarnedValueReportByTask, taskPercentageByMonthAndYear, totalTaskBudgetCost);
 
         calculateEarnedValueAnalysisReport(monthYearEarnedValueReportByTask);
 
@@ -139,14 +139,14 @@ public class ProjectReportServiceImpl implements ProjectReportService {
      */
     private void calculateCumulativeEarnedValue(Map<TaskInterval, ProjectEarnedValueAnalysisReport> monthYearEarnedValueReportByTask, Map<Task, Map<TaskInterval, TaskPercentage>> taskPercentageByMonthAndYear, Map<Task, Double> totalTaskBudgetCost) {
 
-        for (Map.Entry<Task, Map<TaskInterval,TaskPercentage>> entry : taskPercentageByMonthAndYear.entrySet()){
+        for (Map.Entry<Task, Map<TaskInterval, TaskPercentage>> entry : taskPercentageByMonthAndYear.entrySet()) {
 
             Task task = entry.getKey();
             Map<TaskInterval, TaskPercentage> monthYearTaskPercentage = entry.getValue();
 
             double totalBudgetCost = totalTaskBudgetCost.get(task);
 
-            for(Map.Entry<TaskInterval,TaskPercentage> taskIntervalTaskPercentageEntry : monthYearTaskPercentage.entrySet()){
+            for (Map.Entry<TaskInterval, TaskPercentage> taskIntervalTaskPercentageEntry : monthYearTaskPercentage.entrySet()) {
                 TaskInterval taskInterval = taskIntervalTaskPercentageEntry.getKey();
                 ProjectEarnedValueAnalysisReport rpt = monthYearEarnedValueReportByTask.get(taskInterval);
                 double cumulativeEV = rpt.getCumulativeEarnedValue() + monthYearTaskPercentage.get(taskInterval).getTaskPercentageComplete() * totalBudgetCost;
@@ -158,23 +158,50 @@ public class ProjectReportServiceImpl implements ProjectReportService {
 
     /**
      * calculate other reports per task;
+     *
      * @param reportMap
      */
-    private void calculateEarnedValueAnalysisReport(Map<TaskInterval,ProjectEarnedValueAnalysisReport> reportMap){
+    private void calculateEarnedValueAnalysisReport(Map<TaskInterval, ProjectEarnedValueAnalysisReport> reportMap) {
         /**
          * calculate cumulative planned value.
          */
-        double cumulativePlannedValue =0.0;
-        double cumulativeActualValue=0.0;
-        for (Map.Entry<TaskInterval,ProjectEarnedValueAnalysisReport> entry : reportMap.entrySet()) {
-            TaskInterval interval=entry.getKey();
+        double cumulativePlannedValue = 0.0;
+        double cumulativeActualValue = 0.0;
+        for (Map.Entry<TaskInterval, ProjectEarnedValueAnalysisReport> entry : reportMap.entrySet()) {
+            TaskInterval interval = entry.getKey();
             ProjectEarnedValueAnalysisReport report = entry.getValue();
 
-            cumulativePlannedValue+=report.getTotalBudgetedCost();
+            cumulativePlannedValue += report.getTotalBudgetedCost();
             report.setCumulativePlannedValue(cumulativePlannedValue);
 
-            cumulativeActualValue+=report.getTotalActualCost();
+            cumulativeActualValue += report.getTotalActualCost();
             report.setCumulativePlannedValue(cumulativeActualValue);
+
+
+            /**
+             * calculate cost variance
+             */
+
+            double costVariance = report.getCumulativeEarnedValue() - report.getCumulativeActualCost();
+            report.setCostVariance(costVariance);
+
+            /**
+             * calculate schedule variance
+             */
+
+        double scheduleVariance = report.getCumulativeEarnedValue() - report.getCumulativePlannedValue();
+            report.setScheduleVariance(scheduleVariance);
+
+            /**
+             * cost performance index
+             */
+
+            double costPerformanceIndex = report.getCumulativeEarnedValue()/report.getCumulativeActualCost();
+            report.setCostPerformanceIndex(costPerformanceIndex);
+
+            double schedulePerformanceIndex = report.getCumulativeEarnedValue()/report.getCumulativeActualCost();
+            report.setCostPerformanceIndex(costPerformanceIndex);
+
         }
     }
 
