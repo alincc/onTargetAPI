@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Timestamp;
 import java.util.Map;
 
 /**
@@ -19,11 +20,11 @@ public class ContactDAOImpl implements ContactDAO {
     private JdbcTemplate jdbcTemplate;
 
     @Override
-    public boolean addContactInfo(Contact contact) throws Exception{
+    public boolean addContactInfo(Contact contact) throws Exception {
 
-        int row = jdbcTemplate.update(OnTargetQuery.CREATE_CONTACT, new Object[]{contact.getUser().getUserId(),contact.getCompany().getCompanyId(),contact.getFirstName(),contact.getLastName(), contact.getTitle(),contact.getUserImagePath()});
+        int row = jdbcTemplate.update(OnTargetQuery.CREATE_CONTACT, new Object[]{contact.getUser().getUserId(), contact.getCompany().getCompanyId(), contact.getFirstName(), contact.getLastName(), contact.getTitle(), contact.getUserImagePath()});
 
-        if(row <= 0){
+        if (row <= 0) {
             throw new Exception("Contact was not created");
         }
 
@@ -45,7 +46,7 @@ public class ContactDAOImpl implements ContactDAO {
     public Contact getContact(long userId) throws Exception {
         Map<String, Object> rs = jdbcTemplate.queryForMap(OnTargetQuery.GET_CONTACT_BY_USER, new Object[]{userId});
         Contact contact = new Contact();
-        contact.setContactId((Integer)rs.get("contact_id"));
+        contact.setContactId((Integer) rs.get("contact_id"));
         contact.setFirstName((String) rs.get("first_name"));
         contact.setLastName((String) rs.get("last_name"));
         contact.setTitle((String) rs.get("title"));
@@ -53,4 +54,8 @@ public class ContactDAOImpl implements ContactDAO {
         return contact;
     }
 
+    public boolean saveUserImagePath(long userId, String path, long modifier) throws Exception {
+        int row = jdbcTemplate.update(OnTargetQuery.UPDATE_USER_IMAGE, new Timestamp(System.currentTimeMillis()), modifier, path, userId);
+        return row > 0;
+    }
 }

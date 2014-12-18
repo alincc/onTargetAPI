@@ -4,6 +4,7 @@ import com.ontarget.bean.Company;
 import com.ontarget.bean.Contact;
 import com.ontarget.bean.UserRegistration;
 import com.ontarget.dto.OnTargetResponse;
+import com.ontarget.dto.UserImageRequest;
 import com.ontarget.dto.UserProfileRequest;
 import com.ontarget.dto.UserProfileResponse;
 
@@ -28,7 +29,9 @@ public interface UserProfileService {
 
     public String getRandomSafetyUserInfo(long userId) throws Exception;
 
-    boolean createNewUserFromInvitation(UserRegistration registration) throws  Exception;
+    boolean createNewUserFromInvitation(UserRegistration registration) throws Exception;
 
     boolean activateAccount(int userId) throws Exception;
+
+    public boolean saveUserImage(UserImageRequest userImageRequest) throws Exception;
 }

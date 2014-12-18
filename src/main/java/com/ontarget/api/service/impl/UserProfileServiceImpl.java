@@ -6,6 +6,7 @@ import com.ontarget.api.service.UserProfileService;
 import com.ontarget.bean.*;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.OnTargetResponse;
+import com.ontarget.dto.UserImageRequest;
 import com.ontarget.dto.UserProfileRequest;
 import com.ontarget.dto.UserProfileResponse;
 import com.ontarget.util.Security;
@@ -169,6 +170,7 @@ public class UserProfileServiceImpl implements UserProfileService {
         if (userId <= 0) {
             throw new Exception("Error while adding user.");
         }
+
         // update registration request user id by token.
         int updated = userRegistrationDAO.updateRegistrationRequestUserId(userId, registration.getRegistrationToken());
         if (updated <= 0)
@@ -176,7 +178,6 @@ public class UserProfileServiceImpl implements UserProfileService {
 
         return true;
     }
-
 
     @Override
     public boolean activateAccount(int userId) throws Exception {
@@ -195,5 +196,8 @@ public class UserProfileServiceImpl implements UserProfileService {
         return true;
     }
 
-
+    @Override
+    public boolean saveUserImage(UserImageRequest userImageRequest) throws Exception{
+        return contactDAO.saveUserImagePath(userImageRequest.getUserId(), userImageRequest.getImagePath(), userImageRequest.getModifyingUser());
+    }
 }

@@ -7,10 +7,7 @@ import com.ontarget.api.service.UserProfileService;
 import com.ontarget.bean.Contact;
 import com.ontarget.bean.Project;
 import com.ontarget.constant.OnTargetConstant;
-import com.ontarget.dto.OnTargetResponse;
-import com.ontarget.dto.SafetyInfoResponse;
-import com.ontarget.dto.UserProfileRequest;
-import com.ontarget.dto.UserProfileResponse;
+import com.ontarget.dto.*;
 import com.ontarget.util.Security;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,10 +42,10 @@ public class UserProfileImpl implements UserProfile {
     @POST
     @Path("/addUserProfile")
     public UserProfileResponse addUserProfile(UserProfileRequest userProfileRequest) {
-        logger.info("Received request to add profile: "+ userProfileRequest);
-        UserProfileResponse response=null;
+        logger.info("Received request to add profile: " + userProfileRequest);
+        UserProfileResponse response = null;
         try {
-            response =  userProfileService.addUserProfile(userProfileRequest);
+            response = userProfileService.addUserProfile(userProfileRequest);
         } catch (Exception e) {
             logger.error("Add User Profile failed.", e);
             response.setReturnMessage("Add task failed");
@@ -133,28 +130,51 @@ public class UserProfileImpl implements UserProfile {
             response.setReturnMessage("Mandatory field missing");
             response.setReturnVal(OnTargetConstant.ERROR);
         }
+
         return response;
     }
 
     @Override
     @GET
     @Path("/getSafetyInfoForUser")
-    public SafetyInfoResponse getSafetyInfoForUser(@QueryParam("userId") long userId){
+    public SafetyInfoResponse getSafetyInfoForUser(@QueryParam("userId") long userId) {
         System.out.println("this is user id " + userId);
         SafetyInfoResponse response = new SafetyInfoResponse();
         try {
             String safetyUserInfo = userProfileService.getRandomSafetyUserInfo(userId);
-            if(safetyUserInfo == null){
+            if (safetyUserInfo == null) {
                 response.setReturnVal(OnTargetConstant.ERROR);
                 response.setReturnMessage("Null info");
-            }
-            else {
+            } else {
                 response.setSafetyInfo(safetyUserInfo);
                 response.setReturnVal(OnTargetConstant.SUCCESS);
             }
         } catch (Exception e) {
             response.setReturnMessage(e.getMessage());
             response.setReturnVal(OnTargetConstant.ERROR);
+        }
+
+        return response;
+    }
+
+    @Override
+    @POST
+    @Path("/saveUserProfileImage")
+    public OnTargetResponse saveUserProfileImage(UserImageRequest userImageRequest) {
+        OnTargetResponse response = new OnTargetResponse();
+        if (userImageRequest == null) {
+            response.setReturnMessage("param are null");
+            response.setReturnVal(OnTargetConstant.ERROR);
+        } else {
+            try {
+                if (userProfileService.saveUserImage(userImageRequest)) {
+                    response.setReturnVal(OnTargetConstant.SUCCESS);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                logger.error(e.getMessage());
+                response.setReturnVal(OnTargetConstant.ERROR);
+            }
         }
 
         return response;
