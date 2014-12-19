@@ -16,6 +16,7 @@ public class Project implements Serializable{
     private long projectOwnerId;
     private String status;
     private int companyId;//TODO: add company object instead of companyId
+    private Company company;
     private int projectParentId;
     private Address projectAddress;
     private List<Task> taskList;
@@ -25,6 +26,14 @@ public class Project implements Serializable{
     private String projectImagePath;
 
     public Project() {
+    }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
     }
 
     public long getProjectOwnerId() {

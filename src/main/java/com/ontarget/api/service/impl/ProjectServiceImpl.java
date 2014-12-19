@@ -78,7 +78,6 @@ public class ProjectServiceImpl implements ProjectService {
             }
         }
 
-
         OnTargetResponse response = new OnTargetResponse();
         if (projectId > 0 && projectMemberId > 0) {
             response.setReturnMessage("Successfully created project.");
@@ -89,7 +88,6 @@ public class ProjectServiceImpl implements ProjectService {
 
         return response;
     }
-
 
     @Override
     @Transactional(rollbackFor = {Exception.class})
@@ -129,7 +127,7 @@ public class ProjectServiceImpl implements ProjectService {
         Project project = projectDAO.getProject(projectId);
         ProjectResponse response = new ProjectResponse();
         response.setProject(project);
-
+        project.setCompany(companyDAO.getCompany(project.getCompanyId()));
         if (project.getProjectId() > 0) {
 
             //set project address
