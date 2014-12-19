@@ -32,7 +32,7 @@ public class CompanyDAOImpl implements CompanyDAO {
                 new PreparedStatementCreator() {
                     public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
                         PreparedStatement ps =
-                                connection.prepareStatement(OnTargetQuery.CREATE_COMPANY, new String[] {"id"});
+                                connection.prepareStatement(OnTargetQuery.CREATE_COMPANY, new String[]{"id"});
                         ps.setString(1, company.getCompanyName());
                         ps.setInt(2, company.getCompanyTypeId());
                         ps.setString(3, company.getAddress().getAddress1());
@@ -49,18 +49,19 @@ public class CompanyDAOImpl implements CompanyDAO {
                 },
                 keyHolder);
 
-
-
         return keyHolder.getKey().intValue();
     }
 
     @Override
     public Company getCompany(int companyId) throws Exception {
-        return null;
+        Map<String, Object> map = jdbcTemplate.queryForMap(OnTargetQuery.GET_COMPANY, companyId);
+        Company company = new Company();
+        company.setCompanyName((String) map.get("company_name"));
+        return company;
     }
 
     @Override
     public Map<String, Object> getCompanyByUser(int userId) throws Exception {
-        return jdbcTemplate.queryForMap(OnTargetQuery.GET_CONTACT_BY_USER,new Object[]{userId});
+        return jdbcTemplate.queryForMap(OnTargetQuery.GET_CONTACT_BY_USER, new Object[]{userId});
     }
 }
