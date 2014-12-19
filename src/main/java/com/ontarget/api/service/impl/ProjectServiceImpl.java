@@ -63,7 +63,6 @@ public class ProjectServiceImpl implements ProjectService {
 
         int projectId = projectDAO.addProject(project);
 
-
         //add the user to project member;
         int projectMemberId=0;
         if(OnTargetConstant.AccountStatus.ACCT_NEW.equals(request.getUser().getAccountStatus())){
