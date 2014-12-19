@@ -31,7 +31,7 @@ public class UserDAOImpl extends BaseGenericDAOImpl<User> implements UserDAO {
 
 	@Override
 	public User read(long userId) {
-		User user = jdbcTemplate.queryForObject(OnTargetQuery.GET_USER_BY_ID, 
+		return jdbcTemplate.queryForObject(OnTargetQuery.GET_USER_BY_ID,
 				new Object[] { (int) userId }, 
 				new RowMapper<User>() {
 					@Override
@@ -43,7 +43,6 @@ public class UserDAOImpl extends BaseGenericDAOImpl<User> implements UserDAO {
 						return user;
 					}
 		});
-		return user;
 	}
 
 	@Override
