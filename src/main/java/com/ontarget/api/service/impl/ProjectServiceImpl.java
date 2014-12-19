@@ -83,7 +83,7 @@ public class ProjectServiceImpl implements ProjectService {
             response.setReturnMessage("Successfully created project.");
             response.setReturnVal(OnTargetConstant.SUCCESS);
         } else {
-            throw new Exception("Error while creating project");
+            throw new Exception("Error while creating project: projectId: "+projectId+" projectMemberId: "+projectMemberId);
         }
 
         return response;
