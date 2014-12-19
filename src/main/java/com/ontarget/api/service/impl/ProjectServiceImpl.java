@@ -127,6 +127,7 @@ public class ProjectServiceImpl implements ProjectService {
         Project project = projectDAO.getProject(projectId);
         ProjectResponse response = new ProjectResponse();
         response.setProject(project);
+
         project.setCompany(companyDAO.getCompany(project.getCompanyId()));
         if (project.getProjectId() > 0) {
 
