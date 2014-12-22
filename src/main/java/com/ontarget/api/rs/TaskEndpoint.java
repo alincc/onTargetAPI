@@ -26,4 +26,6 @@ public interface TaskEndpoint {
     public InsertResponse saveTaskFile(@QueryParam("taskid") long taskId, @QueryParam("userId") long userId, @QueryParam("fileName") String fileName, @QueryParam("location") String location);
 
     public OnTargetResponse assignTaskToUser(TaskMemberRequest taskMemberRequest);
+
+    public GetTaskAttachmentResponse getTaskAttachments( long taskId);
 }

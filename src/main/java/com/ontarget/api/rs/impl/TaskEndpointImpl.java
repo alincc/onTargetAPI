@@ -186,6 +186,23 @@ public class TaskEndpointImpl implements TaskEndpoint {
         return response;
     }
 
+    @GET
+    @Path("/getTaskAttachments")
+    public GetTaskAttachmentResponse getTaskAttachments(@QueryParam("taskId") long taskId){
+        GetTaskAttachmentResponse response = new GetTaskAttachmentResponse();
+        try {
+            response.setTaskAttachments(taskService.getTaskAttachments(taskId));
+            response.setTaskId(taskId);
+            response.setReturnVal(OnTargetConstant.SUCCESS);
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.setReturnMessage("error getting task file");
+            response.setReturnVal(OnTargetConstant.ERROR);
+        }
+
+        return response;
+    }
+
     @Override
     @Path("/assignUserToTask")
     @POST

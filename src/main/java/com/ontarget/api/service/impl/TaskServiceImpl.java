@@ -5,6 +5,7 @@ import com.ontarget.api.dao.TaskDAO;
 import com.ontarget.api.dao.TaskEstimatedCostDAO;
 import com.ontarget.api.service.EmailService;
 import com.ontarget.api.service.TaskService;
+import com.ontarget.bean.FileAttachment;
 import com.ontarget.bean.Task;
 import com.ontarget.bean.TaskComment;
 import com.ontarget.bean.TaskStatusCount;
@@ -124,6 +125,11 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public long saveTaskFile(long taskid, long userId, String fileName, String location) throws Exception {
         return projectTaskFileDAO.saveTaskFile(taskid, fileName, userId, location);
+    }
+
+    @Override
+    public List<FileAttachment> getTaskAttachments(long taskId) throws Exception {
+        return projectTaskFileDAO.getTaskAttachments(taskId);
     }
 
     @Override
