@@ -37,13 +37,14 @@ public class ProjectEndpointImpl implements ProjectEndoint {
             } else {
                 response = projectService.updateProject(request);
             }
-
         } catch (Exception e) {
+            e.printStackTrace();
             logger.error("Error while adding project", e);
             response = new OnTargetResponse();
             response.setReturnMessage("Error while creating project");
             response.setReturnVal(OnTargetConstant.ERROR);
         }
+
         return response;
     }
 
@@ -58,6 +59,7 @@ public class ProjectEndpointImpl implements ProjectEndoint {
             response.setReturnMessage("Successfully retrieved project info");
 
         } catch (Exception e) {
+            e.printStackTrace();
             logger.error("Error while getting project", e);
             response.setReturnMessage("Error while getting project");
             response.setReturnVal(OnTargetConstant.ERROR);

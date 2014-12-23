@@ -7,12 +7,14 @@ import com.ontarget.constant.OnTargetQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Map;
 
@@ -32,7 +34,7 @@ public class CompanyDAOImpl implements CompanyDAO {
                 new PreparedStatementCreator() {
                     public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
                         PreparedStatement ps =
-                                connection.prepareStatement(OnTargetQuery.CREATE_COMPANY, new String[] {"id"});
+                                connection.prepareStatement(OnTargetQuery.CREATE_COMPANY, new String[]{"id"});
                         ps.setString(1, company.getCompanyName());
                         ps.setInt(2, company.getCompanyTypeId());
                         ps.setString(3, company.getAddress().getAddress1());
@@ -49,18 +51,32 @@ public class CompanyDAOImpl implements CompanyDAO {
                 },
                 keyHolder);
 
-
-
         return keyHolder.getKey().intValue();
     }
 
     @Override
     public Company getCompany(int companyId) throws Exception {
-        return null;
+//        Map<String, Object> map = jdbcTemplate.queryForMap(OnTargetQuery.GET_COMPANY, companyId);
+//        Company company = new Company();
+//        company.setCompanyName((String) map.get("company_name"));
+//        return company;
+
+        return jdbcTemplate.queryForObject(OnTargetQuery.GET_COMPANY,
+                new Object[]{companyId},
+                new RowMapper<Company>() {
+                    @Override
+                    public Company mapRow(ResultSet rs, int index)
+                            throws SQLException {
+                        Company company = new Company();
+                        company.setCompanyName(rs.getString("company_name"));
+                        return company;
+
+                    }
+                });
     }
 
     @Override
     public Map<String, Object> getCompanyByUser(int userId) throws Exception {
-        return jdbcTemplate.queryForMap(OnTargetQuery.GET_CONTACT_BY_USER,new Object[]{userId});
+        return jdbcTemplate.queryForMap(OnTargetQuery.GET_CONTACT_BY_USER, new Object[]{userId});
     }
 }

@@ -64,7 +64,6 @@ public class ProjectServiceImpl implements ProjectService {
 
         int projectId = projectDAO.addProject(project);
 
-
         //add the user to project member;
         int projectMemberId=0;
         if(OnTargetConstant.AccountStatus.ACCT_NEW.equals(request.getUser().getAccountStatus())){
@@ -79,18 +78,16 @@ public class ProjectServiceImpl implements ProjectService {
             }
         }
 
-
         OnTargetResponse response = new OnTargetResponse();
         if (projectId > 0 && projectMemberId > 0) {
             response.setReturnMessage("Successfully created project.");
             response.setReturnVal(OnTargetConstant.SUCCESS);
         } else {
-            throw new Exception("Error while creating project");
+            throw new Exception("Error while creating project: projectId: "+projectId+" projectMemberId: "+projectMemberId);
         }
 
         return response;
     }
-
 
     @Override
     @Transactional(rollbackFor = {Exception.class})
@@ -131,6 +128,7 @@ public class ProjectServiceImpl implements ProjectService {
         ProjectResponse response = new ProjectResponse();
         response.setProject(project);
 
+        project.setCompany(companyDAO.getCompany(project.getCompanyId()));
         if (project.getProjectId() > 0) {
 
             //set project address

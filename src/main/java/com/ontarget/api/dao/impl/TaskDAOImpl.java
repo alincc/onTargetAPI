@@ -149,6 +149,7 @@ public class TaskDAOImpl implements TaskDAO {
                 comments.add(comment);
             }
         }
+        
         return comments;
     }
 
@@ -158,6 +159,7 @@ public class TaskDAOImpl implements TaskDAO {
         if (row == 0) {
             throw new Exception("Unable to update task comment");
         }
+
         return true;
     }
 
