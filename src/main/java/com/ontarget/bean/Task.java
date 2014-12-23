@@ -175,14 +175,14 @@ public class Task implements Serializable{
 
         Task task = (Task) o;
 
-        if (Double.compare(task.cost, cost) != 0) return false;
-        if (percentageComplete != task.percentageComplete) return false;
+//        if (Double.compare(task.cost, cost) != 0) return false;
+//        if (percentageComplete != task.percentageComplete) return false;
         if (projectTaskId != task.projectTaskId) return false;
-        if (description != null ? !description.equals(task.description) : task.description != null) return false;
-        if (!endDate.equals(task.endDate)) return false;
-        if (!severity.equals(task.severity)) return false;
-        if (!startDate.equals(task.startDate)) return false;
-        if (!status.equals(task.status)) return false;
+//        if (description != null ? !description.equals(task.description) : task.description != null) return false;
+//        if (!endDate.equals(task.endDate)) return false;
+//        if (!severity.equals(task.severity)) return false;
+//        if (!startDate.equals(task.startDate)) return false;
+//        if (!status.equals(task.status)) return false;
         if (!title.equals(task.title)) return false;
 
         return true;
@@ -194,14 +194,14 @@ public class Task implements Serializable{
         long temp;
         result = projectTaskId;
         result = 31 * result + title.hashCode();
-        result = 31 * result + (description != null ? description.hashCode() : 0);
+        /*result = 31 * result + (description != null ? description.hashCode() : 0);
         result = 31 * result + status.hashCode();
         result = 31 * result + severity.hashCode();
         temp = Double.doubleToLongBits(cost);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         result = 31 * result + percentageComplete;
         result = 31 * result + startDate.hashCode();
-        result = 31 * result + endDate.hashCode();
+        result = 31 * result + endDate.hashCode();*/
         return result;
     }
 

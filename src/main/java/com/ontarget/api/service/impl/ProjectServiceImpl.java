@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -189,6 +190,8 @@ public class ProjectServiceImpl implements ProjectService {
             project.setProjectParentId((Integer) projectDetail.get("PROJECT_PARENT_ID"));
             project.setCompanyId((Integer) projectDetail.get("COMPANY_ID"));
             project.setProjectImagePath((String) projectDetail.get("project_image_path"));
+            project.setStartDate((Date) projectDetail.get("project_start_date"));
+            project.setEndDate((Date) projectDetail.get("project_end_date"));
 
             //set project address
             Address projectAddress = addressDAO.getAddress(((Integer) projectDetail.get("ADDRESS_ID")).intValue());

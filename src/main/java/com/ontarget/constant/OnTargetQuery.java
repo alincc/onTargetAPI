@@ -87,9 +87,9 @@ public interface OnTargetQuery {
             .append(" where pac.task_id=pt.project_task_id and pt.project_id=p.project_id and pac.cost_type=? and p.project_id=?").toString();
 
     public static final String GET_TASK_PLANNED_ESTIMATED_COST_BY_PROJECT = new StringBuilder("select pt.title,pt.project_task_id,pt.project_id,pac.* from planned_actuals_cost pac, project_task pt, project p ")
-            .append(" where pac.task_id=pt.project_task_id and pt.project_id=p.project_id and pac.cost_type=? and p.project_id=? order by pt.project_task_id asc").toString();
+            .append(" where pac.task_id=pt.project_task_id and pt.project_id=p.project_id and pac.cost_type=? and p.project_id in (select project_id from project where p.project_parent_id=?) order by pt.project_task_id asc").toString();
 
-    public static final String ADD_TASK_PERCENTAGE_COMPLETE = new StringBuilder("insert into task_percentage_log (task_id, start_date, end_date, percentage_type, percentage_complete, created_by, created_date, modified_by, modified_date) values (?,?,?,?,?, ?, now(), ?, now())").toString();
+    public static final String ADD_TASK_PERCENTAGE_COMPLETE = new StringBuilder("insert into task_percentage_log (task_id, start_date, end_date, percentage_type, percentage_complete, created_by, created_date, modified_by, modified_date) values (?,now(),'9999/12/31',?,?, ?, now(), ?, now())").toString();
 
     public static final String UPDATE_TASK_PERCENTAGE_COMPLETE = new StringBuilder("update task_percentage_log set percentage_complete=?,modified_by=?,modified_date=now() where task_percentage_log_id=?").toString();
 
@@ -108,6 +108,10 @@ public interface OnTargetQuery {
     public static final String ADD_CONTACT_PHONE = new StringBuilder("insert into phone (contact_id,area_code,phone_number, phone_type, status) values (?,?,?,?,?)").toString();
 
     public static final String ASSIGN_TASK_USER = new StringBuilder("insert into task_assignee (project_task_id, task_assignee) values (?,?)").toString();
+
+    public static final String EXPIRE_TASK_PERCENTAGE_COMPLETE = new StringBuilder("update task_percentage_log set end_date='9999-12-31' where task_percentage_log_id=?").toString();
+
+    public static final String GET_TASK_PERCENTAGE_FOR_THIS_MONTH = new StringBuilder("select * from task_percentage_log tpl where month(tpl.created_by)=month(now()) and end_date='9999-12-31'").toString();
 
 
     interface documentTemplate {
@@ -169,9 +173,9 @@ public interface OnTargetQuery {
 
     public static final String GET_TASK_PERCENTAGE = new StringBuilder("select pt.title,pt.project_task_id,pt.project_id,tpl.*  from task_percentage_log tpl, project_task pt, project p")
                 .append(" where tpl.task_id=pt.project_task_id and pt.project_id=p.project_id")
-                .append(" and tpl.percentage_type='TASK_PERCENTAGE' and p.project_id=? order by pt.project_task_id asc").toString();
+                .append(" and tpl.percentage_type='PERCENTAGE' and p.project_id in (select project_id from project where p.project_parent_id=?) order by pt.project_task_id asc").toString();
 
-    public static final String GET_TASK_PERCENTAGE_BY_TASK=new StringBuilder("select * from task_percentage_log tpl where tpl.task_id=?").toString();
+    public static final String GET_TASK_PERCENTAGE_BY_TASK=new StringBuilder("select * from task_percentage_log tpl where tpl.task_id=? and tpl.end_date='9999-12-31'").toString();
 
     public static final String GET_TASK_COST_BY_TASK = new StringBuilder("select * from planned_actuals_cost pac where pac.task_id=?").toString();
 

@@ -31,6 +31,16 @@ public class TaskPercentageServiceImpl implements TaskPercentageService {
 
         if(taskPercentageList!=null && taskPercentageList.size() > 0){
             for(TaskPercentage taskPercentage : taskPercentageList){
+
+                //figure if the task for the start date of the month already exists. if exists expire and add a new one.
+                TaskPercentage tpFromDatabase = taskPercentageDAO.getExistingTaskPercentageForTheMonth();
+                if(tpFromDatabase.getId() > 0){
+                    boolean expired = taskPercentageDAO.expireTaskPercentage(tpFromDatabase.getId());
+                    if(!expired){
+                        throw new Exception("Error while expiring task percentage.");
+                    }
+                }
+
                 int id = taskPercentageDAO.addTaskPercentageComplete(taskPercentage);
                 if(id <= 0){
                     throw new Exception("Task Percentage could not be added: "+ taskPercentage);

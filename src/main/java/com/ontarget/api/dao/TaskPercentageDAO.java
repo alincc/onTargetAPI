@@ -25,5 +25,9 @@ public interface TaskPercentageDAO {
 
     public boolean updateTaskPercentageComplete(TaskPercentage cost) throws Exception;
 
+    boolean expireTaskPercentage(int taskPercentageLogId) throws Exception;
+
     List<TaskPercentage> getTaskPercentageByTask(int projectTaskId) throws Exception;
+
+    public TaskPercentage getExistingTaskPercentageForTheMonth() throws Exception;
 }

@@ -65,8 +65,8 @@ public class UserRegistrationImpl implements com.ontarget.api.rs.UserRegistratio
                     response.setReturnVal(OnTargetConstant.ERROR);
                 }
             } catch (Exception e) {
-                logger.error(e.getMessage());
-                response.setReturnMessage(e.getMessage());
+                logger.error("Error while inviting user to project.",e);
+                response.setReturnMessage("Error while saving registration request and sending email.");
                 response.setReturnVal(OnTargetConstant.ERROR);
             }
         } else {

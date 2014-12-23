@@ -75,6 +75,8 @@ public class ProjectDAOImpl implements ProjectDAO {
                 project.setProjectParentId(resultSet.getInt("PROJECT_PARENT_ID"));
                 project.setCompanyId(resultSet.getInt("COMPANY_ID"));
                 project.setProjectOwnerId(resultSet.getLong("project_owner_id"));
+                project.setStartDate(resultSet.getDate("project_start_date"));
+                project.setEndDate(resultSet.getDate("project_end_date"));
 
                return project;
            }
