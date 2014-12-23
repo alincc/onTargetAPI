@@ -37,7 +37,6 @@ public class UserProfileImpl implements UserProfile {
     @Autowired
     private ProjectService projectService;
 
-
     @Override
     @POST
     @Path("/addUserProfile")
@@ -69,6 +68,7 @@ public class UserProfileImpl implements UserProfile {
             response.setReturnMessage("Update task failed");
             response.setReturnVal(OnTargetConstant.ERROR);
         }
+
         return response;
     }
 

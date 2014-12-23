@@ -2,7 +2,6 @@ package com.ontarget.api.service.impl;
 
 import com.ontarget.api.dao.*;
 import com.ontarget.api.service.UserProfileService;
-
 import com.ontarget.bean.*;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.OnTargetResponse;
@@ -12,8 +11,11 @@ import com.ontarget.dto.UserProfileResponse;
 import com.ontarget.util.Security;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Random;
 
 /**
  * Created by Owner on 11/4/14.
@@ -25,7 +27,6 @@ public class UserProfileServiceImpl implements UserProfileService {
 
     @Autowired
     private CompanyDAO companyDAO;
-
 
     @Autowired
     private ContactDAO contactDAO;
@@ -47,6 +48,8 @@ public class UserProfileServiceImpl implements UserProfileService {
 
     @Autowired
     private PhoneDAO phoneDAO;
+
+    private Random random = new Random();
 
     //TODO: separate logic of user profile and company profile.
     @Override
@@ -87,9 +90,9 @@ public class UserProfileServiceImpl implements UserProfileService {
 
         //activate the account.
         String accountStatus = request.getUser().getAccountStatus();
-        if(OnTargetConstant.AccountStatus.ACCOUNT_INVITATION.equals(accountStatus)) {
+        if (OnTargetConstant.AccountStatus.ACCOUNT_INVITATION.equals(accountStatus)) {
             boolean updated = this.activateAccount(request.getUser().getUserId());
-            if(!updated){
+            if (!updated) {
                 throw new Exception("Error while activating account");
             }
         }
@@ -164,15 +167,27 @@ public class UserProfileServiceImpl implements UserProfileService {
     @Transactional(rollbackFor = {Exception.class})
     public boolean createNewUserFromInvitation(UserRegistration registration) throws Exception {
         //get token info and create user based on the status: ACCT_NEW or ACCT_INVITE
-        UserRegistration registrationFromDB = userRegistrationDAO.getInvitationRegistration(registration.getRegistrationToken());
-        registration.setStatus(registrationFromDB.getStatus());
-        int userId = userRegistrationDAO.createNewuser(registration);
-        if (userId <= 0) {
-            throw new Exception("Error while adding user.");
-        }
+//        UserRegistration registrationFromDB = userRegistrationDAO.getInvitationRegistration(registration.getRegistrationToken());
+//        registration.setStatus(registrationFromDB.getStatus());
 
+        boolean flag = false;
+        int t = 0;
+        do {
+            t++;
+            registration.setUserId(generateUserId());
+            try {
+                userRegistrationDAO.createNewuser(registration);
+            } catch (DuplicateKeyException e) {
+                flag = true; // re run it
+                logger.info("duplicate key " + e.getMessage());
+            }
+        }
+        while (flag && t < 20);
+        if(flag){ // maximum value encountered i.e. wrong value used
+                throw new Exception("Maximum allowed id generation per user is exhausted. There is serious issue with this system. Please check");
+        }
         // update registration request user id by token.
-        int updated = userRegistrationDAO.updateRegistrationRequestUserId(userId, registration.getRegistrationToken());
+        int updated = userRegistrationDAO.updateRegistrationRequestUserId(registration.getUserId(), registration.getRegistrationToken());
         if (updated <= 0)
             throw new Exception("Error while updating registration request user id");
 
@@ -197,7 +212,12 @@ public class UserProfileServiceImpl implements UserProfileService {
     }
 
     @Override
-    public boolean saveUserImage(UserImageRequest userImageRequest) throws Exception{
+    public boolean saveUserImage(UserImageRequest userImageRequest) throws Exception {
         return contactDAO.saveUserImagePath(userImageRequest.getUserId(), userImageRequest.getImagePath(), userImageRequest.getModifyingUser());
+    }
+
+    @Override
+    public int generateUserId() {
+        return random.nextInt(Integer.MAX_VALUE);
     }
 }

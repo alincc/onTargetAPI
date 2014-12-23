@@ -11,7 +11,7 @@ public interface UserRegistrationDAO {
 
     public UserRegistration getInvitationRegistration(String tokenId) throws Exception;
 
-    public int createNewuser(UserRegistration registration) throws Exception;
+    public void createNewuser(UserRegistration registration) throws Exception;
 
     public int updateRegistrationRequestUserId(int userId, String tokenId) throws Exception;
 

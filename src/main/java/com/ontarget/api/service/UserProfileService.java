@@ -34,4 +34,6 @@ public interface UserProfileService {
     boolean activateAccount(int userId) throws Exception;
 
     public boolean saveUserImage(UserImageRequest userImageRequest) throws Exception;
+
+    int generateUserId();
 }

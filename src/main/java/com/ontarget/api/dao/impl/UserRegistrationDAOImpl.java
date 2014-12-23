@@ -63,8 +63,8 @@ public class UserRegistrationDAOImpl implements com.ontarget.api.dao.UserRegistr
     }
 
     @Override
-    public int createNewuser(UserRegistration registration) throws Exception {
-        logger.info("creating new user based on : "+ registration);
+    public void createNewuser(UserRegistration registration) throws Exception {
+        logger.info("creating new user based on : " + registration);
         String password = registration.getPassword();
         String salt = Security.generateSecureSalt();
         String hashedPassword = Security.encodePassword(password, salt);
@@ -74,30 +74,25 @@ public class UserRegistrationDAOImpl implements com.ontarget.api.dao.UserRegistr
         jdbcTemplate.update(
                 new PreparedStatementCreator() {
                     public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
-                        PreparedStatement ps =
-                                connection.prepareStatement(OnTargetQuery.CREATE_NEW_USER, new String[]{"id"});
+                        PreparedStatement ps = connection.prepareStatement(OnTargetQuery.CREATE_NEW_USER, new String[]{"user_id"});
                         ps.setString(1, registration.getEmail());
                         ps.setInt(2, 1);
                         ps.setString(3, hashedPassword);
                         ps.setString(4, salt);
                         ps.setString(5, registration.getDiscipline());
-
-                        ps.setString(6,  OnTargetConstant.USER_STATUS.ACTIVE);
+                        ps.setString(6, OnTargetConstant.USER_STATUS.ACTIVE);
                         ps.setInt(7, 1);
                         ps.setString(8, registration.getStatus());
+                        ps.setInt(9, registration.getUserId());
                         return ps;
                     }
                 },
                 keyHolder);
-        logger.debug("Added user with id: " + keyHolder.getKey().intValue());
-        return keyHolder.getKey().intValue();
-
-
     }
 
     @Override
-    public int updateRegistrationRequestUserId(int userId,String tokenId) throws Exception {
-        logger.debug("updating user with userId: "+ userId + "and token: "+tokenId);
+    public int updateRegistrationRequestUserId(int userId, String tokenId) throws Exception {
+        logger.debug("updating user with userId: " + userId + "and token: " + tokenId);
         return jdbcTemplate.update(OnTargetQuery.UPDATE_REGISRATION_USER_ID, new Object[]{userId, tokenId});
     }
 
