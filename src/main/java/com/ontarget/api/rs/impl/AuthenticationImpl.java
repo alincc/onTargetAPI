@@ -69,7 +69,6 @@ public class AuthenticationImpl implements Authentication {
         return response;
     }
 
-
     @Override
     @Path("/getPendingUserRegistrationRequests")
     @GET
