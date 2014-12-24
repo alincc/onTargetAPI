@@ -54,7 +54,7 @@ public class ContactDAOImpl implements ContactDAO {
         return contact;
     }
 
-    public boolean saveUserImagePath(long userId, String path, long modifier) throws Exception {
+    public boolean saveUserImagePath(int userId, String path, long modifier) throws Exception {
         int row = jdbcTemplate.update(OnTargetQuery.UPDATE_USER_IMAGE, new Timestamp(System.currentTimeMillis()), modifier, path, userId);
         return row > 0;
     }

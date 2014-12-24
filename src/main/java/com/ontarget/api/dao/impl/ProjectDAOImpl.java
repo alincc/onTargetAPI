@@ -128,7 +128,7 @@ public class ProjectDAOImpl implements ProjectDAO {
     @Override
     //TODO: get user from project task
     public boolean updateProject(Project project) throws Exception {
-        int row = jdbcTemplate.update(OnTargetQuery.UPDATE_PROJECT, new Object[]{project.getProjectName(), project.getProjectDescription(), project.getProjectTypeId(),project.getProjectParentId(), project.getStatus(), project.getStartDate(), project.getEndDate(),"USER",project.getProjectId()});
+        int row = jdbcTemplate.update(OnTargetQuery.UPDATE_PROJECT, new Object[]{project.getProjectName(), project.getProjectDescription(), project.getProjectTypeId(),project.getProjectParentId(), project.getStatus(), project.getStartDate(), project.getEndDate(),"0",project.getProjectId()});
         if (row == 0) {
             throw new Exception("Unable to update project.");
         }

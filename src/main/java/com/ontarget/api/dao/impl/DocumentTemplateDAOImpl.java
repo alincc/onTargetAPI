@@ -30,8 +30,8 @@ public class DocumentTemplateDAOImpl
 				PreparedStatement ps = conn.prepareStatement(OnTargetQuery.documentTemplate.ADD, 
 						new String[] { "document_template_id" });
 		            ps.setString(1, documentTemplate.getName());
-		            ps.setString(2, documentTemplate.getCreatedBy());
-		            ps.setString(3, documentTemplate.getModifiedBy());
+		            ps.setInt(2, documentTemplate.getCreatedBy());
+		            ps.setInt(3, documentTemplate.getModifiedBy());
 		            return ps;
 			}
 			
@@ -55,6 +55,7 @@ public class DocumentTemplateDAOImpl
 					}
 			
 		});
+
 		return documentTemplate;
 	}
 

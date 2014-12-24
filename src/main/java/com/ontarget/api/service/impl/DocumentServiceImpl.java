@@ -68,16 +68,16 @@ public class DocumentServiceImpl implements DocumentService {
 			document.setDocumentTemplate(new DocumentTemplate(request.getDocumentTemplateId()));
 			document.setName(request.getDocumentName());
 			document.setStatus(OnTargetConstant.DocumentStatus.SUBMITTED);
-			document.setCreatedBy(request.getSubmitter().getUsername());
-			document.setModifiedBy(request.getSubmitter().getUsername());
+			document.setCreatedBy(request.getSubmitter().getUserId());
+			document.setModifiedBy(request.getSubmitter().getUserId());
 			document = documentDAO.insert(document);
 			
 			List<DocumentKeyValue> keyValues = request.getKeyValues();
 			if(keyValues != null) {
 				for(DocumentKeyValue keyValue : keyValues) {
 					keyValue.setDocument(document);
-					keyValue.setCreatedBy(request.getSubmitter().getUsername());
-					keyValue.setModifiedBy(request.getSubmitter().getUsername());
+					keyValue.setCreatedBy(request.getSubmitter().getUserId());
+					keyValue.setModifiedBy(request.getSubmitter().getUserId());
 					documentKeyValueDAO.insert(keyValue);
 				}
 			}
@@ -86,8 +86,8 @@ public class DocumentServiceImpl implements DocumentService {
 			if(gridKeyValues != null) {
 				for(DocumentGridKeyValue gridKeyValue : gridKeyValues) {
 					gridKeyValue.setDocument(document);
-					gridKeyValue.setCreatedBy(request.getSubmitter().getUsername());
-					gridKeyValue.setModifiedBy(request.getSubmitter().getUsername());
+					gridKeyValue.setCreatedBy(request.getSubmitter().getUserId());
+					gridKeyValue.setModifiedBy(request.getSubmitter().getUserId());
 					documentGridKeyValueDAO.insert(gridKeyValue);
 				}
 			}
@@ -96,8 +96,8 @@ public class DocumentServiceImpl implements DocumentService {
 				DocumentSubmittal submittal = new DocumentSubmittal();
 				submittal.setDocument(document);
 				submittal.setAssignee(assignee);
-				submittal.setCreatedBy(request.getSubmitter().getUsername());
-				submittal.setModifiedBy(request.getSubmitter().getUsername());
+				submittal.setCreatedBy(request.getSubmitter().getUserId());
+				submittal.setModifiedBy(request.getSubmitter().getUserId());
 				documentSubmittalDAO.insert(submittal);
 			}
 		} catch(Throwable t) {
@@ -132,7 +132,7 @@ public class DocumentServiceImpl implements DocumentService {
 				for(DocumentGridKeyValue gridKeyValue : gridKeyValues) {
 					
 					documentGridKeyValueDAO.updateValue(documentId, gridKeyValue.getGridId(), 
-							gridKeyValue.getGridRowIndex(), gridKeyValue.getKey(), gridKeyValue.getValue(), user.getUsername());
+							gridKeyValue.getGridRowIndex(), gridKeyValue.getKey(), gridKeyValue.getValue(), user.getUserId());
 				}
 			}
 			OnTargetResponse response = new OnTargetResponse(OnTargetConstant.SUCCESS,
@@ -189,7 +189,7 @@ public class DocumentServiceImpl implements DocumentService {
 			Long documentId = request.getDocumentId();
 			String newStatus = request.getNewStatus();
 			User updater = request.getUpdater();
-			boolean updated = documentDAO.updateStatus(documentId, newStatus, updater.getUsername());
+			boolean updated = documentDAO.updateStatus(documentId, newStatus, updater.getUserId());
 			OnTargetResponse response = new OnTargetResponse();
 			if(updated) {
 				response.setReturnVal(OnTargetConstant.SUCCESS);
@@ -230,8 +230,8 @@ public class DocumentServiceImpl implements DocumentService {
 			DocumentAttachment attachment = new DocumentAttachment();
 			attachment.setDocument(new Document(documentId));
 			attachment.setFilePath(filePath);
-			attachment.setCreatedBy(user.getUsername());
-			attachment.setModifiedBy(user.getUsername());
+			attachment.setCreatedBy(user.getUserId());
+			attachment.setModifiedBy(user.getUserId());
 			documentAttachmentDAO.insert(attachment);
 			AddDocumentAttachmentResponse response = new AddDocumentAttachmentResponse();
 			response.setDocumentAttachmentId(attachment.getDocumentAttachmentId());

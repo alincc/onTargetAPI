@@ -6,15 +6,15 @@ import java.io.Serializable;
  * Created by sumit on 12/18/14.
  */
 public class UserImageRequest implements Serializable {
-    private long userId;
+    private int userId;
     private String imagePath;
-    private long modifyingUser;
+    private int modifyingUser;
 
-    public long getUserId() {
+    public int getUserId() {
         return userId;
     }
 
-    public void setUserId(long userId) {
+    public void setUserId(int userId) {
         this.userId = userId;
     }
 
@@ -26,11 +26,11 @@ public class UserImageRequest implements Serializable {
         this.imagePath = imagePath;
     }
 
-    public long getModifyingUser() {
+    public int getModifyingUser() {
         return modifyingUser > 0 ? modifyingUser : userId;
     }
 
-    public void setModifyingUser(long modifyingUser) {
+    public void setModifyingUser(int modifyingUser) {
         this.modifyingUser = modifyingUser;
     }
 }

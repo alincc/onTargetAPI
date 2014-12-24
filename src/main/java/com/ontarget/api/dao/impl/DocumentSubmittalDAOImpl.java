@@ -31,8 +31,8 @@ public class DocumentSubmittalDAOImpl
 						new String[] { "document_submittal_id" });
 		            ps.setLong(1, documentSubmittal.getDocument().getDocumentId());
 		            ps.setLong(2, documentSubmittal.getAssignee().getUserId());
-		            ps.setString(3, documentSubmittal.getCreatedBy());
-		            ps.setString(4, documentSubmittal.getModifiedBy());
+		            ps.setInt(3, documentSubmittal.getCreatedBy());
+		            ps.setInt(4, documentSubmittal.getModifiedBy());
 		            return ps;
 			}
 			

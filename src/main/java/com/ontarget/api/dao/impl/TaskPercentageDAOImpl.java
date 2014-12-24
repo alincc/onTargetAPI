@@ -132,7 +132,6 @@ public class TaskPercentageDAOImpl implements TaskPercentageDAO {
         return taskToPercentageMap;
     }
 
-
     @Override
     public int addTaskPercentageComplete(TaskPercentage taskPercentage) throws Exception{
         logger.info("Adding task percentage: " + taskPercentage);
@@ -147,8 +146,8 @@ public class TaskPercentageDAOImpl implements TaskPercentageDAO {
                         ps.setDate(3, new java.sql.Date(taskPercentage.getToDate().getTime()));
                         ps.setString(4, taskPercentage.getTaskPercentageType());
                         ps.setDouble(5, taskPercentage.getTaskPercentageComplete());
-                        ps.setString(6,"");//get user who added this.
-                        ps.setString(7, "");// get user who modified this.
+                        ps.setString(6,"0");//get user who added this.
+                        ps.setString(7, "0");// get user who modified this.
                         return ps;
                     }
                 },
@@ -159,13 +158,12 @@ public class TaskPercentageDAOImpl implements TaskPercentageDAO {
 
     @Override
     public boolean updateTaskPercentageComplete(TaskPercentage cost) throws Exception {
-        int row = jdbcTemplate.update(OnTargetQuery.UPDATE_TASK_PERCENTAGE_COMPLETE, new Object[]{cost.getTaskPercentageComplete(), "USER", cost.getId()});
+        int row = jdbcTemplate.update(OnTargetQuery.UPDATE_TASK_PERCENTAGE_COMPLETE, new Object[]{cost.getTaskPercentageComplete(), "0", cost.getId()});
         if (row == 0) {
             throw new Exception("Unable to update task estimated and planned cost");
         }
         return true;
     }
-
 
     @Override
     public List<TaskPercentage> getTaskPercentageByTask(int projectTaskId) throws Exception{

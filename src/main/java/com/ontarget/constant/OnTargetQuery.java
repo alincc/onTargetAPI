@@ -22,7 +22,7 @@ public interface OnTargetQuery {
     public static final String CHANGE_USER_PASSWORD = new StringBuilder("UPDATE user SET password=? , salt=? WHERE user_id=?").toString();
 
     //TODO: MOVE ACTIVE TO CONSTANT CLASS. ADD MORE FIELDS TO THIS QUERY.
-    public static final String CREATE_CONTACT = new StringBuilder("INSERT INTO CONTACT (user_id, contact_company_id, first_name,last_name, title, created_date, created_by, modified_date, modified_by, contact_status,contact_image) values (?,?,?,?,?,  NOW(),'SYSTEM', NOW(),'SYSTEM','ACTIVE',?)").toString();
+    public static final String CREATE_CONTACT = new StringBuilder("INSERT INTO CONTACT (user_id, contact_company_id, first_name,last_name, title, created_date, created_by, modified_date, modified_by, contact_status,contact_image) values (?,?,?,?,?,  NOW(),0, NOW(),0,'ACTIVE',?)").toString();
 
     public static final String UPDATE_CONTACT = new StringBuilder("UPDATE contact SET first_name=?,last_name=?, title=?, contact_image=? WHERE user_id=?").toString();
 
@@ -63,7 +63,7 @@ public interface OnTargetQuery {
 
     public static final String SAVE_USER_SESSION_INFO = new StringBuilder("insert into user_session_info (user_id,login_token,created_date,expire_date,is_expired) values (?,?,now(),'9999/12/31','0')").toString();
 
-    public static final String ADD_TASK_PLANNED_ESTIMATED_COST = new StringBuilder("insert into planned_actuals_cost (task_id, from_date,to_date, cost_type, value, expiry_date, created_by, created_date, modified_by, modified_date) values (?,?,?,?,?,'9999-12-31','SYSTEM',NOW(),'SYSTEM',NOW())").toString();
+    public static final String ADD_TASK_PLANNED_ESTIMATED_COST = new StringBuilder("insert into planned_actuals_cost (task_id, from_date,to_date, cost_type, value, expiry_date, created_by, created_date, modified_by, modified_date) values (?,?,?,?,?,'9999-12-31','0',NOW(),'0',NOW())").toString();
 
     public static final String UPDATE_PROJECT_ADDRESS = new StringBuilder("update address set address1=?,address2=?,city=?,state=?,zip=?,country=? where address_id=?").toString();
 
@@ -161,9 +161,7 @@ public interface OnTargetQuery {
     String GET_EMAIL_BY_CONTACT_ID = "select * from email where contact_id = ?";
     String GET_USER_BY_ID = "select * from user where user_id=?";
 
-
     public static final String ADD_REGISTRATION_INVITATION = new StringBuilder("INSERT INTO registration_request (registration_token, first_name, last_name, email, project_id,status) VALUES (?,?,?,?,?,?) ").toString();
-
 
     public static final String GET_TASK_PERCENTAGE = new StringBuilder("select pt.title,pt.project_task_id,pt.project_id,tpl.*  from task_percentage_log tpl, project_task pt, project p")
             .append(" where tpl.task_id=pt.project_task_id and pt.project_id=p.project_id")

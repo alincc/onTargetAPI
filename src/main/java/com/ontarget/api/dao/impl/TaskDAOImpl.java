@@ -154,7 +154,7 @@ public class TaskDAOImpl implements TaskDAO {
 
     @Override
     public boolean updateTask(Task task) throws Exception {
-        int row = jdbcTemplate.update(OnTargetQuery.UPDATE_TASK, new Object[]{task.getTitle(),task.getDescription(),task.getParentTask().getProjectTaskId(),task.getStatus(), task.getStartDate(),task.getEndDate(),task.getPercentageComplete(),task.getSeverity(),"USER",task.getProjectTaskId()});
+        int row = jdbcTemplate.update(OnTargetQuery.UPDATE_TASK, new Object[]{task.getTitle(),task.getDescription(),task.getParentTask().getProjectTaskId(),task.getStatus(), task.getStartDate(),task.getEndDate(),task.getPercentageComplete(),task.getSeverity(),"0",task.getProjectTaskId()});
         if (row == 0) {
             throw new Exception("Unable to update task comment");
         }

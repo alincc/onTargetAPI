@@ -18,5 +18,5 @@ public interface ContactDAO {
 
     public Contact getContact(long userId) throws Exception;
 
-    public boolean saveUserImagePath(long userId, String path, long modifier) throws Exception;
+    public boolean saveUserImagePath(int userId, String path, long modifier) throws Exception;
 }
