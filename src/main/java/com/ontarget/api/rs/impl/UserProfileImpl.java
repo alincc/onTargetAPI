@@ -78,9 +78,9 @@ public class UserProfileImpl implements UserProfile {
     public OnTargetResponse changeUserPassword(ChangeUserPasswordRequest request) throws Exception {
         long userId = request.getUserId();
         String newPassword = request.getNewPassword();
-        String currentPassword= request.getCurrentPassword();
+        String currentPassword = request.getCurrentPassword();
 
-        System.out.println("this is user id " + userId + " password " + newPassword);
+//        System.out.println("this is user id " + userId + " password " + newPassword);
         OnTargetResponse response = new OnTargetResponse();
         try {
             if (userProfileService.changeUserPassword(userId, newPassword, currentPassword)) {
@@ -102,9 +102,13 @@ public class UserProfileImpl implements UserProfile {
     }
 
     @Override
-    @GET
+    @POST
     @Path("/inviteUserIntoProject")
-    public OnTargetResponse inviteUserIntoProject(@QueryParam("projectId") long projectId, @QueryParam("firstName") String firstName, @QueryParam("lastName") String lastName, @QueryParam("email") String email) {
+    public OnTargetResponse inviteUserIntoProject(UserInvitationRequest request) {
+        long projectId = request.getProjectId();
+        String firstName = request.getFirstName();
+        String lastName = request.getLastName();
+        String email = request.getEmail();
         OnTargetResponse response = new OnTargetResponse();
         if (projectId > 0) {
             logger.info("This is first name " + firstName + " last name " + lastName + " and email" + email);

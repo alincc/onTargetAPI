@@ -13,7 +13,7 @@ public interface UserProfile {
 
     public OnTargetResponse updateUserProfile(UserProfileRequest userProfileRequest);
 
-    public OnTargetResponse inviteUserIntoProject(long projectId, String firstName,  String lastName, String email);
+    public OnTargetResponse inviteUserIntoProject(UserInvitationRequest request);
 
     public SafetyInfoResponse getSafetyInfoForUser(long userId);
 
