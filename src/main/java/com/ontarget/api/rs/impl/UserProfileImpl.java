@@ -73,9 +73,13 @@ public class UserProfileImpl implements UserProfile {
     }
 
     @Override
-    @GET
+    @POST
     @Path("/changeUserPassword")
-    public OnTargetResponse changeUserPassword(@QueryParam("userId") long userId, @QueryParam("newPassword") String newPassword, @QueryParam("currentPassword") String currentPassword) throws Exception {
+    public OnTargetResponse changeUserPassword(ChangeUserPasswordRequest request) throws Exception {
+        long userId = request.getUserId();
+        String newPassword = request.getNewPassword();
+        String currentPassword= request.getCurrentPassword();
+
         System.out.println("this is user id " + userId + " password " + newPassword);
         OnTargetResponse response = new OnTargetResponse();
         try {
