@@ -1,6 +1,7 @@
 package com.ontarget.api.service.impl;
 
 import com.ontarget.api.dao.*;
+import com.ontarget.api.service.EmailService;
 import com.ontarget.api.service.UserProfileService;
 
 import com.ontarget.bean.*;
@@ -46,6 +47,11 @@ public class UserProfileServiceImpl implements UserProfileService {
 
     @Autowired
     private PhoneDAO phoneDAO;
+
+    @Autowired
+    private EmailService emailService;
+
+
 
     //TODO: separate logic of user profile and company profile.
     @Override
@@ -193,6 +199,47 @@ public class UserProfileServiceImpl implements UserProfileService {
         }
 
         return true;
+    }
+
+    @Override
+    public boolean forgotPasswordRequest(String emailAddress) throws Exception {
+
+        logger.debug("Adding forgot password request: "+ emailAddress);
+        /**
+         * check userlogin table for email address.
+         */
+        User user=new User();
+        user.setUsername(emailAddress);
+
+        User existingUser = authenticationDAO.getUserInfoByUsername(user);
+        if(existingUser!=null && existingUser.getUserId() > 0){
+            /**
+             * create a entry in forgot password request
+             */
+            // generate token id
+            final String forgotPasswordToken = Security.generateRandomValue(OnTargetConstant.TOKEN_LENGTH);
+            int id = userDAO.saveForgotPasswordRequest(existingUser.getUserId(),forgotPasswordToken);
+            /**
+             * send email
+              */
+            Contact contact = contactDAO.getContact(existingUser.getUserId());
+            if(id > 0){
+                emailService.sendForgotPasswordEmail(emailAddress,contact.getFirstName() + " " +contact.getLastName(), forgotPasswordToken);
+            }
+
+            return true;
+
+        }
+        return false;
+    }
+
+    @Override
+    public boolean validateForgotPasswordToken(String forgotPasswordToken) throws Exception{
+        int count = userDAO.getForgotPasswordRequest(forgotPasswordToken);
+        if(count > 0){
+            return true;
+        }
+        return false;
     }
 
 

@@ -85,53 +85,61 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     public boolean sendUserRequestEmailToAdmin(int userRequestId) {
-        MimeMessagePreparator preparator = new MimeMessagePreparator() {
-            @SuppressWarnings({"rawtypes", "unchecked"})
-            public void prepare(MimeMessage mimeMessage) throws Exception {
-                MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
-                message.setTo(OnTargetConstant.EmailServiceConstants.USER_REGISTRATION_ADMIN_EMAIL);
-                message.setFrom(new InternetAddress(OnTargetConstant.EmailServiceConstants.USER_REGISTRATION_FROM));
-                message.setSubject(OnTargetConstant.EmailServiceConstants.USER_REGISTRATION_REQUEST_APPROVAL_SUBJECT);
-                message.setSentDate(new Date());
+        try {
+            MimeMessagePreparator preparator = new MimeMessagePreparator() {
+                @SuppressWarnings({"rawtypes", "unchecked"})
+                public void prepare(MimeMessage mimeMessage) throws Exception {
+                    MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
+                    message.setTo(OnTargetConstant.EmailServiceConstants.USER_REGISTRATION_ADMIN_EMAIL);
+                    message.setFrom(new InternetAddress(OnTargetConstant.EmailServiceConstants.USER_REGISTRATION_FROM));
+                    message.setSubject(OnTargetConstant.EmailServiceConstants.USER_REGISTRATION_REQUEST_APPROVAL_SUBJECT);
+                    message.setSentDate(new Date());
 
-                //get values from the database.
-                UserRegistrationRequest info = authenticationDAO.getUserRegistrationRequestInfo(userRequestId);
+                    //get values from the database.
+                    UserRegistrationRequest info = authenticationDAO.getUserRegistrationRequestInfo(userRequestId);
 
-                Map model = new HashMap();
-                model.put("userRegistrationInfo", info);
-                model.put("approvalUrl", "");
+                    Map model = new HashMap();
+                    model.put("userRegistrationInfo", info);
+                    model.put("approvalUrl", "");
 
-                String text = VelocityEngineUtils.mergeTemplateIntoString(
-                        velocityEngine, "/template/userRegistrationRequestInfoEmail.vm", "UTF-8", model);
-                message.setText(text, true);
-            }
-        };
-        javaMailSender.send(preparator);
+                    String text = VelocityEngineUtils.mergeTemplateIntoString(
+                            velocityEngine, "/template/userRegistrationRequestInfoEmail.vm", "UTF-8", model);
+                    message.setText(text, true);
+                }
+            };
+            javaMailSender.send(preparator);
+        }catch(Exception e){
+            logger.error("Error while sending user request email to admin",e);
+        }
 
         return true;
     }
 
     @Override
     public boolean sendUserRegistrationEmail(String userEmail, String tokenId, String receiverFirstName, String senderFirstName, String senderLastName) {
-        MimeMessagePreparator preparator = new MimeMessagePreparator() {
-            @SuppressWarnings({"rawtypes", "unchecked"})
-            public void prepare(MimeMessage mimeMessage) throws Exception {
-                MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
-                message.setTo(userEmail);
-                message.setFrom(new InternetAddress(OnTargetConstant.EmailServiceConstants.USER_REGISTRATION_FROM));
-                message.setSubject(OnTargetConstant.EmailServiceConstants.USER_REGISTRATION_REQUEST_APPROVAL_SUBJECT);
-                message.setSentDate(new Date());
+       try {
+           MimeMessagePreparator preparator = new MimeMessagePreparator() {
+               @SuppressWarnings({"rawtypes", "unchecked"})
+               public void prepare(MimeMessage mimeMessage) throws Exception {
+                   MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
+                   message.setTo(userEmail);
+                   message.setFrom(new InternetAddress(OnTargetConstant.EmailServiceConstants.USER_REGISTRATION_FROM));
+                   message.setSubject(OnTargetConstant.EmailServiceConstants.USER_REGISTRATION_REQUEST_APPROVAL_SUBJECT);
+                   message.setSentDate(new Date());
 
-                Map model = new HashMap();
-                model.put("senderName", senderFirstName + " " + senderLastName);
-                model.put("receiverFirstName", receiverFirstName);
-                model.put("url", baseUrl + OnTargetConstant.SIGNUP_URL + "?q=" + tokenId);
+                   Map model = new HashMap();
+                   model.put("senderName", senderFirstName + " " + senderLastName);
+                   model.put("receiverFirstName", receiverFirstName);
+                   model.put("url", baseUrl + OnTargetConstant.URL.SIGNUP_URL + "?q=" + tokenId);
 
-                String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "/template/registrationRequestsApproval.vm", "UTF-8", model);
-                message.setText(text, true);
-            }
-        };
-        javaMailSender.send(preparator);
+                   String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "/template/registrationRequestsApproval.vm", "UTF-8", model);
+                   message.setText(text, true);
+               }
+           };
+           javaMailSender.send(preparator);
+       }catch(Exception e){
+           logger.error("Unable to send user registration email.",e);
+       }
 
         return true;
     }
@@ -183,24 +191,30 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     public boolean sendInviteToAccountEmail(String email, String firstName, String lastName, String tokenId) {
-        MimeMessagePreparator preparator = new MimeMessagePreparator() {
-            @SuppressWarnings({"rawtypes", "unchecked"})
-            public void prepare(MimeMessage mimeMessage) throws Exception {
-                MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
-                message.setTo(email);
-                message.setFrom(new InternetAddress(OnTargetConstant.EmailServiceConstants.USER_REGISTRATION_FROM));
-                message.setSubject(OnTargetConstant.EmailServiceConstants.INVITE_USER_TO_ACCOUNT_SUBJECT);
-                message.setSentDate(new Date());
 
-                Map model = new HashMap();
-                model.put("name", firstName + " " + lastName);
-                model.put("url", baseUrl + OnTargetConstant.SIGNUP_URL + "?q=" + tokenId);
+        try {
 
-                String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "/template/inviteToAccountEmailTemplate.vm", "UTF-8", model);
-                message.setText(text, true);
-            }
-        };
-        javaMailSender.send(preparator);
+            MimeMessagePreparator preparator = new MimeMessagePreparator() {
+                @SuppressWarnings({"rawtypes", "unchecked"})
+                public void prepare(MimeMessage mimeMessage) throws Exception {
+                    MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
+                    message.setTo(email);
+                    message.setFrom(new InternetAddress(OnTargetConstant.EmailServiceConstants.USER_REGISTRATION_FROM));
+                    message.setSubject(OnTargetConstant.EmailServiceConstants.INVITE_USER_TO_ACCOUNT_SUBJECT);
+                    message.setSentDate(new Date());
+
+                    Map model = new HashMap();
+                    model.put("name", firstName + " " + lastName);
+                    model.put("url", baseUrl + OnTargetConstant.URL.SIGNUP_URL + "?q=" + tokenId);
+
+                    String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "/template/inviteToAccountEmailTemplate.vm", "UTF-8", model);
+                    message.setText(text, true);
+                }
+            };
+            javaMailSender.send(preparator);
+        }catch(Exception e){
+            logger.error("Unable to send invitaion email to accoiunt",e);
+        }
 
 
         return false;
@@ -230,9 +244,36 @@ public class EmailServiceImpl implements EmailService {
             };
             javaMailSender.send(preparator);
         } catch (Exception e) {
-            logger.error("Error while sending email for task.");
+            logger.error("Error while sending email for task.",e);
         }
 
+
+    }
+
+    @Override
+    public void sendForgotPasswordEmail(final String emailAddress, final String name, final String forgotPasswordToken) {
+        try {
+            MimeMessagePreparator preparator = new MimeMessagePreparator() {
+                @SuppressWarnings({"rawtypes", "unchecked"})
+                public void prepare(MimeMessage mimeMessage) throws Exception {
+                    MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
+                    message.setTo(emailAddress);
+                    message.setFrom(new InternetAddress(OnTargetConstant.EmailServiceConstants.USER_REGISTRATION_FROM));
+                    message.setSubject(OnTargetConstant.EmailServiceConstants.FORGOT_PASSWORD_SUBJECT);
+                    message.setSentDate(new Date());
+
+                    Map model = new HashMap();
+                    model.put("forgotPasswordEmailUrl", baseUrl + OnTargetConstant.URL.forgotPasswordUrl + "?q="+forgotPasswordToken);
+                    model.put("personName", name);
+
+                    String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "/template/forgotPassword.vm", "UTF-8", model);
+                    message.setText(text, true);
+                }
+            };
+            javaMailSender.send(preparator);
+        } catch (Exception e) {
+            logger.error("Error while sending forgot password email.",e);
+        }
 
     }
 

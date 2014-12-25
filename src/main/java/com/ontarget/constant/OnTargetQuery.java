@@ -113,6 +113,10 @@ public interface OnTargetQuery {
 
     public static final String GET_TASK_PERCENTAGE_FOR_THIS_MONTH = new StringBuilder("select * from task_percentage_log tpl where month(tpl.created_by)=month(now()) and end_date='9999-12-31'").toString();
 
+    public static final String ADD_FORGOT_PASSWORD_REQUEST = new StringBuilder("insert into forgot_password_request (user_id, forgot_password_token,status, ts_expiry) values (?,?,?, now() + INTERVAL 24 HOUR);").toString();
+
+    public static final String GET_FORGOT_PASSWORD_REQUEST = new StringBuilder("select count(id) from forgot_password_request where forgot_password_token=? and status='ACTIVE' and ts_expiry > now()").toString();
+
 
     interface documentTemplate {
     	String ADD = "insert into document_template (name, created_by, created_date, modified_by, modfied_date) values(?, ?, now(), ?, now())";

@@ -26,6 +26,8 @@ public interface AuthenticationDAO {
     
     public User getUserSignInInfo(User user) throws Exception;
 
+    public User getUserInfoByUsername(User user) throws Exception;
+
     public boolean changePassword(long userId, String password, String salt) throws Exception;
 
     public User getUserInfoById(long userId) throws Exception;

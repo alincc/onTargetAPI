@@ -649,6 +649,20 @@ CREATE TABLE IF NOT EXISTS `registration_request` (
 
 alter table registration_request add column user_id bigint(20);
 
+
+-- -----------------------------------------------------
+-- Table `ontarget`.`forgot_password_request`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `ontarget`.`forgot_password_request` ;
+
+CREATE TABLE IF NOT EXISTS `forgot_password_request` (
+  `id` bigint(20) NOT NULL primary key AUTO_INCREMENT,
+  `user_id` bigint(20) NOT NULL,
+  `forgot_password_token` varchar(64) NOT NULL,
+  `ts_create` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `ts_expiry` timestamp NOT NULL
+) ENGINE=InnoDB;
+
 -- -----------------------------------------------------
 -- Table `ontarget`.`planned_actuals_cost`
 -- -----------------------------------------------------

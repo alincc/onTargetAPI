@@ -1,5 +1,8 @@
 package com.ontarget.bean;
 
+import com.ontarget.util.JsonDateSerializer;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
 import java.io.Serializable;
 import java.util.Date;
 

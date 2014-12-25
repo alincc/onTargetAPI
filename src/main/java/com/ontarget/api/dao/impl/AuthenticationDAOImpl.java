@@ -130,6 +130,26 @@ public class AuthenticationDAOImpl implements AuthenticationDAO {
 
     }
 
+
+    @Override
+    public User getUserInfoByUsername(User user) throws Exception {
+        logger.info("Authenticating user: " + user);
+
+        final String password = user.getPassword();
+
+        final User returnUser = new User();
+        jdbcTemplate.query(OnTargetQuery.USER_LOGIN, new Object[]{user.getUsername()}, new RowMapper<User>() {
+            @Override
+            public User mapRow(ResultSet resultSet, int i) throws SQLException {
+                returnUser.setUsername(user.getUsername());
+                returnUser.setUserId(resultSet.getInt("user_id"));
+                return null;
+            }
+        });
+        return returnUser;
+
+    }
+
     @Override
     public boolean changePassword(long userId, String password, String salt) throws Exception {
         System.out.println("user " + userId + " password " + password + " salt " + salt);

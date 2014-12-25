@@ -7,4 +7,8 @@ import com.ontarget.bean.User;
  */
 public interface UserDAO extends GenericDAO<User> {
     User getUser(long userId) throws Exception;
+
+    public int saveForgotPasswordRequest(int userId, String forgotPasswordToken) throws Exception;
+
+    public int getForgotPasswordRequest(String forgotPasswordToken) throws Exception;
 }

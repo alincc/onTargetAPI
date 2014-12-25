@@ -1,5 +1,6 @@
 package com.ontarget.api.rs;
 
+import com.ontarget.api.OnTargetBaseRSTest;
 import com.ontarget.bean.Address;
 import com.ontarget.bean.Company;
 import com.ontarget.bean.Contact;
@@ -9,8 +10,12 @@ import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.test.framework.JerseyTest;
 import com.sun.jersey.test.framework.spi.container.TestContainerException;
+import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
@@ -18,7 +23,9 @@ import java.io.IOException;
 /**
  * Created by Owner on 11/5/14.
  */
-public class UserProfileTest extends JerseyTest{
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"classpath:/applicationContext.xml"})
+public class UserProfileTest extends JerseyTest {
 
     public UserProfileTest() throws TestContainerException {
         super("com.ontarget.api.rs");
@@ -80,6 +87,34 @@ public class UserProfileTest extends JerseyTest{
         System.out.println("Server response .... \n");
         System.out.println(output);
     }
+
+
+    @Test
+    public void forgotPasswordRequestTest() throws IOException {
+
+        ObjectMapper mapper=new ObjectMapper();
+
+        WebResource resource = resource();
+
+        String emailAddress="sanjeev@ontargetcloud.com";
+
+        ClientResponse response = resource.path("/profile/forgotPasswordRequest")
+                //.accept(MediaType.APPLICATION_JSON)
+                .type(MediaType.APPLICATION_JSON)
+                .post(ClientResponse.class,mapper.writeValueAsString(emailAddress));
+
+        if (response.getStatus() != 200) {
+            throw new RuntimeException("Failed : HTTP error code : "
+                    + response.getStatus());
+        }
+
+        String output = response.getEntity(String.class);
+        System.out.println("Server response .... \n");
+        System.out.println(output);
+
+    }
+
+
 
 
 }

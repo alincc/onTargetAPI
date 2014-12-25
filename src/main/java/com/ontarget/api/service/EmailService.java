@@ -24,6 +24,8 @@ public interface EmailService {
 
     public void  sendTaskAssignmentEmail(long taskId, long userId) throws Exception;
 
+    public void sendForgotPasswordEmail(String emailAddress, String name, String forgotPasswordToken);
+
     //public boolean sendSubmittalEmailForApproval() throws Exception;
 
 }

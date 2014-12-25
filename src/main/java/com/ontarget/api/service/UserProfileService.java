@@ -28,7 +28,11 @@ public interface UserProfileService {
 
     public String getRandomSafetyUserInfo(long userId) throws Exception;
 
-    boolean createNewUserFromInvitation(UserRegistration registration) throws  Exception;
+    public boolean createNewUserFromInvitation(UserRegistration registration) throws  Exception;
 
-    boolean activateAccount(int userId) throws Exception;
+    public boolean activateAccount(int userId) throws Exception;
+
+    public boolean forgotPasswordRequest(String emailAddress) throws Exception;
+
+    public boolean validateForgotPasswordToken(String forgotPasswordToken) throws Exception;
 }

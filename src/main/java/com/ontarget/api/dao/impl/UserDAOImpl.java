@@ -1,55 +1,53 @@
 package com.ontarget.api.dao.impl;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.stereotype.Repository;
-
 import com.ontarget.api.dao.UserDAO;
 import com.ontarget.bean.User;
-import com.ontarget.constant.OnTargetQuery;
-
-import com.ontarget.api.dao.UserDAO;
-import com.ontarget.bean.User;
+import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.constant.OnTargetQuery;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Map;
 
 @Repository
 public class UserDAOImpl extends BaseGenericDAOImpl<User> implements UserDAO {
     private Logger logger = Logger.getLogger(UserDAOImpl.class);
-	@Override
-	public User insert(User bean) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
-	@Override
-	public User read(long userId) {
-		return jdbcTemplate.queryForObject(OnTargetQuery.GET_USER_BY_ID,
-				new Object[] { (int) userId }, 
-				new RowMapper<User>() {
-					@Override
-					public User mapRow(ResultSet rs, int index)
-							throws SQLException {
-						User user = new User();
-						user.setUserId(rs.getInt("user_id"));
-						user.setUsername(rs.getString("user_name"));
-						return user;
-					}
-		});
-	}
+    @Override
+    public User insert(User bean) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	@Override
-	public boolean update(User bean) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+    @Override
+    public User read(long userId) {
+        return jdbcTemplate.queryForObject(OnTargetQuery.GET_USER_BY_ID,
+                new Object[]{(int) userId},
+                new RowMapper<User>() {
+                    @Override
+                    public User mapRow(ResultSet rs, int index)
+                            throws SQLException {
+                        User user = new User();
+                        user.setUserId(rs.getInt("user_id"));
+                        user.setUsername(rs.getString("user_name"));
+                        return user;
+                    }
+                });
+    }
+
+    @Override
+    public boolean update(User bean) {
+        // TODO Auto-generated method stub
+        return false;
+    }
 
     @Override
     public User getUser(long userId) throws Exception {
@@ -64,5 +62,30 @@ public class UserDAOImpl extends BaseGenericDAOImpl<User> implements UserDAO {
         user.setDiscipline((long) rs.get("discipline"));
 
         return user;
+    }
+
+    @Override
+    public int saveForgotPasswordRequest(int userId, String forgotPasswordToken) throws Exception{
+        logger.debug("saving fort password request for userId:" + userId);
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(
+                new PreparedStatementCreator() {
+                    public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+                        PreparedStatement ps =
+                                connection.prepareStatement(OnTargetQuery.ADD_FORGOT_PASSWORD_REQUEST, new String[]{"id"});
+                        ps.setInt(1, userId);
+                        ps.setString(2, forgotPasswordToken);
+                        ps.setString(3, OnTargetConstant.FORGOT_PASSWORD.FORGOT_PASSWORD_ACTIVE);
+                        return ps;
+                    }
+                },
+                keyHolder);
+        logger.debug("Added forgot password request with id: " + keyHolder.getKey().intValue());
+        return keyHolder.getKey().intValue();
+    }
+
+    @Override
+    public int getForgotPasswordRequest(String forgotPasswordToken) throws Exception {
+        return  jdbcTemplate.queryForObject(OnTargetQuery.GET_FORGOT_PASSWORD_REQUEST, new Object[]{forgotPasswordToken},Integer.class);
     }
 }

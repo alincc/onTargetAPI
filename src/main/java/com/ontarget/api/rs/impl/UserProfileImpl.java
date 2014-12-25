@@ -146,17 +146,67 @@ public class UserProfileImpl implements UserProfile {
             String safetyUserInfo = userProfileService.getRandomSafetyUserInfo(userId);
             if(safetyUserInfo == null){
                 response.setReturnVal(OnTargetConstant.ERROR);
-                response.setReturnMessage("Null info");
+                response.setReturnMessage("No safety info found");
             }
             else {
                 response.setSafetyInfo(safetyUserInfo);
                 response.setReturnVal(OnTargetConstant.SUCCESS);
             }
         } catch (Exception e) {
-            response.setReturnMessage(e.getMessage());
+            logger.error("Error while getting safety info",e);
+            response.setReturnMessage("Error while getting safety info");
             response.setReturnVal(OnTargetConstant.ERROR);
         }
 
         return response;
     }
+
+
+    @Override
+    @POST
+    @Path("/forgotPasswordRequest")
+    public OnTargetResponse forgotPasswordRequest(String emailAddress){
+        OnTargetResponse response = new OnTargetResponse();
+
+        try{
+            boolean done = userProfileService.forgotPasswordRequest(emailAddress);
+            if(done){
+                response.setReturnMessage("Successfully send forgot password request.");
+                response.setReturnVal(OnTargetConstant.SUCCESS);
+            }else{
+                throw new Exception("Error while adding password request.");
+            }
+
+        }catch(Exception e){
+            logger.error("Error while processing forgot password reqeust",e);
+            response.setReturnMessage("Error while processing forgot password request.");
+            response.setReturnVal(OnTargetConstant.ERROR);
+        }
+        return response;
+    }
+
+
+    @Override
+    @GET
+    @Path("/validateForgotPassword/{forgotPasswordToken}")
+    public OnTargetResponse validateForgotPasswordToken(@PathParam("forgotPasswordToken") String forgotPasswordToken){
+        OnTargetResponse response = new OnTargetResponse();
+        try{
+            boolean validated = userProfileService.validateForgotPasswordToken(forgotPasswordToken);
+            if(validated){
+                response.setReturnMessage("Valid Token");
+                response.setReturnVal(OnTargetConstant.SUCCESS);
+            }else{
+                response.setReturnMessage("Invalid request. Forgot password request expired.");
+                response.setReturnVal(OnTargetConstant.ERROR);
+            }
+
+        }catch(Exception e){
+            logger.error("Error while validating forgot password token",e);
+            response.setReturnMessage("Error while validating forgot password token.");
+            response.setReturnVal(OnTargetConstant.ERROR);
+        }
+        return response;
+    }
+
 }

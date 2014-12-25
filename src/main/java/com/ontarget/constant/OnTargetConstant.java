@@ -26,9 +26,7 @@ public interface OnTargetConstant {
     public static final String AUTHENTICATION_FAILED = "Authentication Failed";
     public static final String REGSITRATION_REQUEST_APPROVED = "APPROVED";
     public static final int TOKEN_LENGTH = 25;
-    public static final String SIGNUP_URL = "/#/pages/signup";
     public static final long TOKEN_MAX_LIFE = 2l * 24l * 60l * 60l * 1000l;
-
 
     interface AddressType{
         public static final String PROJECT_ADDR = "PROJECT";
@@ -51,6 +49,7 @@ public interface OnTargetConstant {
         public static final String USER_REGISTRATION_ADMIN_EMAIL = "ontarget@gmail.com";
         public static final String INVITE_USER_TO_ACCOUNT_SUBJECT = "Invitation to OnTarget";
         public static final String TASK_ASSIGNED_SUBJECT = "Task Assigned";
+        public final String FORGOT_PASSWORD_SUBJECT = "Forgot Password";
     }
 
     public interface USER_STATUS {
@@ -95,5 +94,18 @@ public interface OnTargetConstant {
 
     public interface PhoneStatus {
         public static final String ACTIVE="ACTIVE";
+    }
+
+    public interface URL{
+        public static final String forgotPasswordUrl="/#/pages/forgot-password";
+        public static final String SIGNUP_URL = "/#/pages/signup";
+
+    }
+
+
+    public interface FORGOT_PASSWORD {
+
+        public static final String FORGOT_PASSWORD_ACTIVE = "ACTIVE";
+        public static final String FORGOT_PASSWORD_EXPIRED = "EXPIRED";
     }
 }

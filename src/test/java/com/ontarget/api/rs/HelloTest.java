@@ -3,6 +3,7 @@ package com.ontarget.api.rs;
 import com.ontarget.api.OnTargetBaseRSTest;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.test.framework.JerseyTest;
+import com.sun.jersey.test.framework.spi.container.TestContainerException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -11,6 +12,10 @@ import org.junit.Test;
  */
 public class HelloTest extends OnTargetBaseRSTest{
 
+
+    public HelloTest() throws TestContainerException {
+        super("com.ontarget.api.rs.HelloTest");
+    }
 
     @Test
     public void testHello(){
