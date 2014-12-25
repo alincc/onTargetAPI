@@ -132,10 +132,20 @@ public class UserProfileServiceImpl implements UserProfileService {
 
     @Override
     @Transactional(rollbackFor = {Exception.class})
-    public boolean changeUserPassword(long userId, String password) throws Exception {
-        String salt = Security.generateSecureSalt();
-        String hashedPassword = Security.encodePassword(password, salt);
-        return authenticationDAO.changePassword(userId, hashedPassword, salt);
+    public boolean changeUserPassword(long userId, String newPassword, String currentPassword) throws Exception {
+        User user = userDAO.getUser(userId);
+        if(user == null){
+            throw new Exception("user not found");
+        }
+
+        String currentHashedPassword = Security.encodePassword(currentPassword, user.getSalt());
+        if(!user.getPassword().equals(currentHashedPassword)){
+            throw new Exception("Wrong password provided. User not authenticated to change password");
+        }
+
+        String newSalt = Security.generateSecureSalt();
+        String newHashedPassword = Security.encodePassword(newPassword, newSalt);
+        return authenticationDAO.changePassword(userId, newHashedPassword, newSalt);
     }
 
     @Override

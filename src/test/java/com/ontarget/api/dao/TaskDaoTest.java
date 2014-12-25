@@ -5,6 +5,7 @@ import com.ontarget.bean.Address;
 import com.ontarget.bean.Project;
 import com.ontarget.bean.Task;
 import com.ontarget.constant.OnTargetConstant;
+import com.ontarget.util.Security;
 import junit.framework.Assert;
 import org.apache.log4j.Logger;
 import org.junit.Test;
@@ -85,6 +86,14 @@ public class TaskDaoTest extends BaseTest {
             fail();
         }
 
+    }
+
+    @Test
+    public void testTemp(){
+        String pass = "1234";
+        String salt = "16468408816162761056360314163240453909611518639368113122311522613954727264320999800960119461651792926693894616283890051322500209473979134653470895270221910736053124525230359038613417509020465117643578975099969164265858301330201493161869022298101183775297053607871038563272630740066062165808655461416231531384";
+        String hash = Security.encodePassword(pass, salt);
+        System.out.println(hash);
     }
 
 }

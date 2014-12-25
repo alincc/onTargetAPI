@@ -75,11 +75,11 @@ public class UserProfileImpl implements UserProfile {
     @Override
     @GET
     @Path("/changeUserPassword")
-    public OnTargetResponse changeUserPassword(@QueryParam("userId") long userId, @QueryParam("password") String password) throws Exception {
-        System.out.println("this is user id " + userId + " password " + password);
+    public OnTargetResponse changeUserPassword(@QueryParam("userId") long userId, @QueryParam("newPassword") String newPassword, @QueryParam("currentPassword") String currentPassword) throws Exception {
+        System.out.println("this is user id " + userId + " password " + newPassword);
         OnTargetResponse response = new OnTargetResponse();
         try {
-            if (userProfileService.changeUserPassword(userId, password)) {
+            if (userProfileService.changeUserPassword(userId, newPassword, currentPassword)) {
                 response.setReturnMessage("succesfully updated");
                 response.setReturnVal(OnTargetConstant.SUCCESS);
             } else {
@@ -88,6 +88,7 @@ public class UserProfileImpl implements UserProfile {
                 response.setReturnVal(OnTargetConstant.ERROR);
             }
         } catch (Exception e) {
+//            e.printStackTrace();
             logger.error("Add User Profile failed." + e);
             response.setReturnMessage("Add task failed");
             response.setReturnVal(OnTargetConstant.ERROR);

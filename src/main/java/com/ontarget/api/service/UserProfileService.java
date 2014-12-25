@@ -17,7 +17,7 @@ public interface UserProfileService {
 
     public OnTargetResponse updateUserProfileAndContactInfo(UserProfileRequest request) throws Exception;
 
-    public boolean changeUserPassword(long userId, String password) throws Exception;
+    public boolean changeUserPassword(long userId, String newPassword, String currentPassword) throws Exception;
 
     public boolean saveRegistration(long projectId, String firstName, String lastName, String email, String tokenId, String accountStatus) throws Exception;
 
