@@ -12,9 +12,11 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import java.util.List;
 
 /**
  * Created by Owner on 10/26/14.
@@ -71,7 +73,7 @@ public class AuthenticationImpl implements Authentication {
 
     @Override
     @Path("/getPendingUserRegistrationRequests")
-    @GET
+    @POST
     public UserRegistationApprovalResponse getPendingUserRegistrationRequests() {
         UserRegistationApprovalResponse response = null;
         try {
@@ -86,7 +88,6 @@ public class AuthenticationImpl implements Authentication {
 
         return response;
     }
-
 
     @Override
     @POST

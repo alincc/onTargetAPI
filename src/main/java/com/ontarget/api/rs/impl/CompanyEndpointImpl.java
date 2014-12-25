@@ -6,10 +6,7 @@ import com.ontarget.dto.CompanyListResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
 /**
@@ -26,7 +23,7 @@ public class CompanyEndpointImpl implements com.ontarget.api.rs.CompanyEndpoint 
 
     @Override
     @Path("/getCompanyList")
-    @GET
+    @POST
     public CompanyListResponse getCompanyList() {
         CompanyListResponse response = new CompanyListResponse();
         try {
