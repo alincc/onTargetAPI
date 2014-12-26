@@ -199,4 +199,6 @@ public interface OnTargetQuery {
     public static final String UPDATE_USER_IMAGE = new StringBuilder("UPDATE contact SET modified_date=?, modified_by=?, contact_image=? WHERE user_id=?").toString();
 
     public static final String GET_ALL_COMPANY = new StringBuilder("SELECT * FROM company_info").toString();
+
+    public static final String GET_USER_NOTIFICATION = new StringBuilder("SELECT * FROM user_notification where id > ? order by id").toString();
 }

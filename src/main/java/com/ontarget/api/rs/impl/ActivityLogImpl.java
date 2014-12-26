@@ -48,10 +48,11 @@ public class ActivityLogImpl implements com.ontarget.api.rs.ActivityLog {
             response.setReturnMessage("Activity log read");
         } catch (Exception e) {
             e.printStackTrace();
-            logger.error("Authentication error", e);
-            response.setReturnMessage("Authentication Error");
+            logger.error(e.getMessage());
+            response.setReturnMessage(e.getMessage());
             response.setReturnVal(OnTargetConstant.ERROR);
         }
+
         return response;
     }
 }
