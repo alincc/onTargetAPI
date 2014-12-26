@@ -1,5 +1,6 @@
 package com.ontarget.api.service;
 
+import com.ontarget.bean.FileAttachment;
 import com.ontarget.bean.Task;
 import com.ontarget.bean.TaskComment;
 
@@ -26,6 +27,8 @@ public interface TaskService {
     public boolean addTaskMember(long projectId, long taskId, long memberId) throws Exception;
 
     public long saveTaskFile(long taskid, long userId, String fileName, String location) throws Exception;
+
+    public  List<FileAttachment> getTaskAttachments(long taskId) throws Exception;
 
     public boolean assignTaskToUser(long taskId, long userId) throws Exception;
 }

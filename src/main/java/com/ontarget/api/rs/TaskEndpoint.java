@@ -19,11 +19,13 @@ public interface TaskEndpoint {
 
     public OnTargetResponse addUpdateCommentToTask(TaskComment comment);
 
-    public OnTargetResponse updateTaskStatus(long taskId, String taskStatus);
+    public OnTargetResponse updateTaskStatus(TaskStatusUpdateRequest request);
 
     public OnTargetResponse addTaskMember(TaskMemberRequest taskMemberRequest);
 
-    public InsertResponse saveTaskFile(@QueryParam("taskid") long taskId, @QueryParam("userId") long userId, @QueryParam("fileName") String fileName, @QueryParam("location") String location);
+    public InsertResponse saveTaskFile(TaskFileSaveRequest request);
 
     public OnTargetResponse assignTaskToUser(TaskMemberRequest taskMemberRequest);
+
+    public GetTaskAttachmentResponse getTaskAttachments( long taskId);
 }

@@ -5,6 +5,7 @@ import com.ontarget.api.dao.TaskDAO;
 import com.ontarget.api.dao.TaskEstimatedCostDAO;
 import com.ontarget.api.service.EmailService;
 import com.ontarget.api.service.TaskService;
+import com.ontarget.bean.FileAttachment;
 import com.ontarget.bean.Task;
 import com.ontarget.bean.TaskComment;
 import com.ontarget.bean.TaskStatusCount;
@@ -42,6 +43,23 @@ public class TaskServiceImpl implements TaskService {
         logger.info("Add/Update task: " + task);
 
         int taskId = task.getProjectTaskId();
+        // validate times
+        if (task.getProject() == null) {
+            throw new Exception("task project is null");
+        } else if (task.getStartDate().getTime() < task.getProject().getStartDate().getTime()) {
+            throw new Exception("Task starts before project start date");
+        } else if (task.getEndDate().getTime() > task.getProject().getEndDate().getTime()) {
+            throw new Exception("Task ends after project end date");
+        }
+
+        Task parentTask = task.getParentTask();
+        if (parentTask != null) {
+            if (task.getStartDate().getTime() < parentTask.getStartDate().getTime()) {
+                throw new Exception("Task starts before parent task start date");
+            } else if (task.getEndDate().getTime() > parentTask.getEndDate().getTime()) {
+                throw new Exception("Task ends after parent task end date");
+            }
+        }
 
         if (taskId <= 0) {
             taskId = taskDAO.addTask(task);
@@ -72,7 +90,6 @@ public class TaskServiceImpl implements TaskService {
     public List<TaskStatusCount> getTaskCountByStatus(int projectId) throws Exception {
         return taskDAO.getTaskCountByStatus(projectId);
     }
-
 
     @Override
     public boolean addTaskComment(TaskComment comment) throws Exception {
@@ -108,6 +125,11 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public long saveTaskFile(long taskid, long userId, String fileName, String location) throws Exception {
         return projectTaskFileDAO.saveTaskFile(taskid, fileName, userId, location);
+    }
+
+    @Override
+    public List<FileAttachment> getTaskAttachments(long taskId) throws Exception {
+        return projectTaskFileDAO.getTaskAttachments(taskId);
     }
 
     @Override

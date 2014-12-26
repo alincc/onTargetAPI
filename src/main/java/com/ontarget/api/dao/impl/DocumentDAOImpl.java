@@ -33,8 +33,8 @@ public class DocumentDAOImpl extends BaseGenericDAOImpl<Document> implements Doc
 		            ps.setLong(1, document.getDocumentTemplate().getDocumentTemplateId());
 		            ps.setString(2, document.getName());
 		            ps.setString(3, document.getStatus());
-		            ps.setString(4, document.getCreatedBy());
-		            ps.setString(5, document.getModifiedBy());
+		            ps.setInt(4, document.getCreatedBy());
+		            ps.setInt(5, document.getModifiedBy());
 		            return ps;
 			}
 			
@@ -57,7 +57,7 @@ public class DocumentDAOImpl extends BaseGenericDAOImpl<Document> implements Doc
 	}
 
 	@Override
-	public boolean updateStatus(long documentId, String newStatus, String modified_by) {
+	public boolean updateStatus(long documentId, String newStatus, int modified_by) {
 		int count = jdbcTemplate.update(OnTargetQuery.document.UPDATE_STATUS,
 				new Object[] {newStatus, modified_by, documentId});
 		return (count > 0);

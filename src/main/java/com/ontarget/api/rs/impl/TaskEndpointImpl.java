@@ -40,13 +40,14 @@ public class TaskEndpointImpl implements TaskEndpoint {
                 response.setReturnVal(OnTargetConstant.SUCCESS);
             }
         } catch (Exception e) {
+            e.printStackTrace();
             logger.error("Add task failed." + e);
             response.setReturnMessage("Add task failed");
             response.setReturnVal(OnTargetConstant.ERROR);
         }
+
         return response;
     }
-
 
     @Override
     @GET
@@ -63,6 +64,7 @@ public class TaskEndpointImpl implements TaskEndpoint {
             response.setReturnMessage("Add task failed");
             response.setReturnVal(OnTargetConstant.ERROR);
         }
+
         return response;
     }
 
@@ -81,9 +83,9 @@ public class TaskEndpointImpl implements TaskEndpoint {
             response.setReturnMessage("Get task count failed");
             response.setReturnVal(OnTargetConstant.ERROR);
         }
+
         return response;
     }
-
 
     @Override
     @POST
@@ -100,14 +102,17 @@ public class TaskEndpointImpl implements TaskEndpoint {
             response.setReturnMessage("Add task comment failed");
             response.setReturnVal(OnTargetConstant.ERROR);
         }
+
         return response;
     }
 
     @Override
-    @GET
+    @POST
     @Path("/updateTaskStatus")
-    public OnTargetResponse updateTaskStatus(@QueryParam("taskId") long taskId, @QueryParam("taskStatus") String taskStatus) {
-        System.out.println("these are the requests " + taskId + " and " + taskStatus);
+    public OnTargetResponse updateTaskStatus(TaskStatusUpdateRequest request) {
+        long taskId = request.getTaskId();
+        String taskStatus = request.getTaskStatus();
+//        System.out.println("these are the requests " + taskId + " and " + taskStatus);
         OnTargetResponse response = new OnTargetResponse();
         try {
             if (taskService.updateTaskStatus(taskId, taskStatus)) {
@@ -164,9 +169,13 @@ public class TaskEndpointImpl implements TaskEndpoint {
     }
 
     @Override
-    @GET
+    @POST
     @Path("/saveTaskFile")
-    public InsertResponse saveTaskFile(@QueryParam("taskid") long taskId, @QueryParam("userid") long userId, @QueryParam("fileName") String fileName, @QueryParam("location") String location) {
+    public InsertResponse saveTaskFile(TaskFileSaveRequest request) {
+        long taskId = request.getTaskId();
+        long userId = request.getUserId();
+        String fileName = request.getFileName();
+        String location = request.getLocation();
         InsertResponse response = new InsertResponse();
         try {
             long id = taskService.saveTaskFile(taskId, userId, fileName, location);
@@ -178,8 +187,25 @@ public class TaskEndpointImpl implements TaskEndpoint {
                 response.setReturnVal(OnTargetConstant.ERROR);
             }
         } catch (Exception e) {
-            logger.error("Error while saving task file",e);
+            logger.error("Error while saving task file", e);
             response.setReturnMessage("error saving task file");
+            response.setReturnVal(OnTargetConstant.ERROR);
+        }
+
+        return response;
+    }
+
+    @GET
+    @Path("/getTaskAttachments")
+    public GetTaskAttachmentResponse getTaskAttachments(@QueryParam("taskId") long taskId) {
+        GetTaskAttachmentResponse response = new GetTaskAttachmentResponse();
+        try {
+            response.setTaskAttachments(taskService.getTaskAttachments(taskId));
+            response.setTaskId(taskId);
+            response.setReturnVal(OnTargetConstant.SUCCESS);
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.setReturnMessage("error getting task file");
             response.setReturnVal(OnTargetConstant.ERROR);
         }
 
@@ -189,17 +215,17 @@ public class TaskEndpointImpl implements TaskEndpoint {
     @Override
     @Path("/assignUserToTask")
     @POST
-    public OnTargetResponse assignTaskToUser(TaskMemberRequest taskMemberRequest){
+    public OnTargetResponse assignTaskToUser(TaskMemberRequest taskMemberRequest) {
         OnTargetResponse response = new OnTargetResponse();
         try {
-            if(taskService.assignTaskToUser(taskMemberRequest.getTaskId(), taskMemberRequest.getMembers().get(0).longValue())){
+            if (taskService.assignTaskToUser(taskMemberRequest.getTaskId(), taskMemberRequest.getMembers().get(0).longValue())) {
                 response.setReturnMessage("Successfully assigned task");
                 response.setReturnVal(OnTargetConstant.SUCCESS);
-            }else{
+            } else {
                 throw new Exception();
             }
         } catch (Exception e) {
-            logger.error("Error while assigning task",e);
+            logger.error("Error while assigning task", e);
             response.setReturnMessage("Error while assigning task members");
             response.setReturnVal(OnTargetConstant.ERROR);
         }

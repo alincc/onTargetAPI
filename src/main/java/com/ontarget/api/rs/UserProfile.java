@@ -1,9 +1,6 @@
 package com.ontarget.api.rs;
 
-import com.ontarget.dto.OnTargetResponse;
-import com.ontarget.bean.User;
-import com.ontarget.dto.SafetyInfoResponse;
-import com.ontarget.dto.UserProfileRequest;
+import com.ontarget.dto.*;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -17,15 +14,17 @@ public interface UserProfile {
 
     public OnTargetResponse addUserProfile(UserProfileRequest userProfileRequest);
 
-    public OnTargetResponse changeUserPassword(long userId, String password) throws Exception;
+    public OnTargetResponse changeUserPassword(ChangeUserPasswordRequest request) throws Exception;
 
     public OnTargetResponse updateUserProfile(UserProfileRequest userProfileRequest);
 
-    public OnTargetResponse inviteUserIntoProject(long projectId, String firstName,  String lastName, String email);
+    public OnTargetResponse inviteUserIntoProject(UserInvitationRequest request);
 
     public SafetyInfoResponse getSafetyInfoForUser(long userId);
 
     public OnTargetResponse forgotPasswordRequest(String emailAddress);
 
     public OnTargetResponse validateForgotPasswordToken(String forgotPasswordToken);
+
+    public OnTargetResponse saveUserProfileImage(UserImageRequest userImageRequest);
 }

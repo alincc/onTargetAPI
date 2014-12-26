@@ -8,9 +8,8 @@ import com.ontarget.bean.Project;
 import com.ontarget.bean.UserRegistration;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.OnTargetResponse;
+import com.ontarget.dto.UserInvitationRequest;
 import com.ontarget.dto.UserInviteResponse;
-import com.ontarget.dto.UserProfileRequest;
-import com.ontarget.dto.UserProfileResponse;
 import com.ontarget.util.Security;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,9 +39,13 @@ public class UserRegistrationImpl implements com.ontarget.api.rs.UserRegistratio
     private ProjectService projectService;
 
     @Override
-    @GET
+    @POST
     @Path("/inviteUserIntoProject")
-    public OnTargetResponse inviteUserIntoProject(@QueryParam("projectId") long projectId, @QueryParam("firstName") String firstName, @QueryParam("lastName") String lastName, @QueryParam("email") String email) {
+    public OnTargetResponse inviteUserIntoProject(UserInvitationRequest request) {
+        long projectId = request.getProjectId();
+        String firstName = request.getFirstName();
+        String lastName = request.getLastName();
+        String email = request.getEmail();
         OnTargetResponse response = new OnTargetResponse();
         if (projectId > 0) {
             logger.info("This is first name " + firstName + " last name " + lastName + " and email" + email);
@@ -77,42 +80,39 @@ public class UserRegistrationImpl implements com.ontarget.api.rs.UserRegistratio
         return response;
     }
 
-
-
     @Override
     @POST
     @Path("/inviteToNewAccount")
     public OnTargetResponse inviteUserIntoNewAccount(UserRegistration registration) {
         OnTargetResponse response = new OnTargetResponse();
 
-            logger.info("This is first name " + registration.getFirstName() + " last name " + registration.getLastName() + " and email" + registration.getEmail());
+        logger.info("This is first name " + registration.getFirstName() + " last name " + registration.getLastName() + " and email" + registration.getEmail());
 
-            String firstName = registration.getFirstName();
-            String lastName = registration.getLastName();
-            String email = registration.getEmail();
-            long projectId=registration.getProjectId();
+        String firstName = registration.getFirstName();
+        String lastName = registration.getLastName();
+        String email = registration.getEmail();
+        long projectId = registration.getProjectId();
 
 
-            // generate token id
-            final String tokenId = Security.generateRandomValue(OnTargetConstant.TOKEN_LENGTH);
-            // save into registration table
-            try {
-                if (userProfileService.saveRegistration(registration.getProjectId(), registration.getFirstName(), registration.getLastName(), registration.getEmail(), registration.getRegistrationToken(), OnTargetConstant.AccountStatus.ACCT_NEW)) {
+        // generate token id
+        final String tokenId = Security.generateRandomValue(OnTargetConstant.TOKEN_LENGTH);
+        // save into registration table
+        try {
+            if (userProfileService.saveRegistration(registration.getProjectId(), registration.getFirstName(), registration.getLastName(), registration.getEmail(), registration.getRegistrationToken(), OnTargetConstant.AccountStatus.ACCT_NEW)) {
 
-                    // build n send email
-                    emailService.sendInviteToAccountEmail(email, firstName, lastName, tokenId);
-                    response.setReturnMessage("Email sent. Please check mail");
-                    response.setReturnVal(OnTargetConstant.SUCCESS);
-                } else {
-                    response.setReturnMessage("Registration save failed");
-                    response.setReturnVal(OnTargetConstant.ERROR);
-                }
-            } catch (Exception e) {
-                logger.error(e.getMessage());
-                response.setReturnMessage(e.getMessage());
+                // build n send email
+                emailService.sendInviteToAccountEmail(email, firstName, lastName, tokenId);
+                response.setReturnMessage("Email sent. Please check mail");
+                response.setReturnVal(OnTargetConstant.SUCCESS);
+            } else {
+                response.setReturnMessage("Registration save failed");
                 response.setReturnVal(OnTargetConstant.ERROR);
             }
-
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            response.setReturnMessage(e.getMessage());
+            response.setReturnVal(OnTargetConstant.ERROR);
+        }
 
         return response;
     }
@@ -131,7 +131,7 @@ public class UserRegistrationImpl implements com.ontarget.api.rs.UserRegistratio
         try {
             userRegistration = userProfileService.getRegistration(link);
         } catch (Exception e) {
-            logger.error("Error while getting registration request",e);
+            logger.error("Error while getting registration request", e);
             response.setReturnVal(OnTargetConstant.ERROR);
             response.setReturnMessage("Error while retrieving user registration request");
             return response;
@@ -163,19 +163,20 @@ public class UserRegistrationImpl implements com.ontarget.api.rs.UserRegistratio
     @Override
     @POST
     @Path("/createUser")
-    public OnTargetResponse createNewUser(UserRegistration request){
-        logger.info("Adding new user: "+ request);
-           OnTargetResponse response = new OnTargetResponse();
+    public OnTargetResponse createNewUser(UserRegistration request) {
+        logger.info("Adding new user: " + request);
+        OnTargetResponse response = new OnTargetResponse();
         try {
             boolean created = userProfileService.createNewUserFromInvitation(request);
-            if(created){
+            if (created) {
                 response.setReturnMessage("Successfully created user based on invitation.");
                 response.setReturnVal(OnTargetConstant.SUCCESS);
-            }else{
+            } else {
                 throw new Exception("Error while creating user.");
             }
         } catch (Exception e) {
-            logger.debug("Error while creating user based on invitation",e);
+            e.printStackTrace();
+            logger.debug("Error while creating user based on invitation", e);
             response.setReturnMessage("Error while creating user based on invitation.");
             response.setReturnVal(OnTargetConstant.ERROR);
         }
@@ -183,17 +184,16 @@ public class UserRegistrationImpl implements com.ontarget.api.rs.UserRegistratio
         return response;
     }
 
-
     @Override
     @GET
     @Path("/activateAccount/{userId}")
-    public OnTargetResponse activateAccount(@PathParam("userId") int userId){
+    public OnTargetResponse activateAccount(@PathParam("userId") int userId) {
         OnTargetResponse response = new OnTargetResponse();
         try {
-            if(userProfileService.activateAccount(userId)){
+            if (userProfileService.activateAccount(userId)) {
                 response.setReturnMessage("Successfully activated user");
                 response.setReturnVal(OnTargetConstant.SUCCESS);
-            }else{
+            } else {
                 throw new Exception("Error while activating.");
             }
         } catch (Exception e) {
@@ -204,7 +204,6 @@ public class UserRegistrationImpl implements com.ontarget.api.rs.UserRegistratio
 
         return response;
     }
-
 
 
 }

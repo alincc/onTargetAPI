@@ -34,16 +34,16 @@ public class DocumentDAOTest extends BaseTest {
     public void testInsert() {
     	DocumentTemplate documentTemplate = new DocumentTemplate();
     	documentTemplate.setName("RFI Template");
-    	documentTemplate.setCreatedBy("DocumentDAOTest");
-    	documentTemplate.setModifiedBy("DocumentDAOTest");
+    	documentTemplate.setCreatedBy(0);
+    	documentTemplate.setModifiedBy(0);
     	documentTemplateDAO.insert(documentTemplate);
     	
     	Document document = new Document();
     	document.setDocumentTemplate(documentTemplate);
     	document.setName("RFI Document");
     	document.setStatus(OnTargetConstant.DocumentStatus.SUBMITTED);
-    	document.setCreatedBy("DocumentDAOTest");
-    	document.setModifiedBy("DocumentDAOTest");
+    	document.setCreatedBy(0);
+    	document.setModifiedBy(0);
     	
     	List<DocumentKeyValue> keyValues = new ArrayList<>();
     	keyValues.add(new DocumentKeyValue(document, "name", "Sebastian Praysis"));
@@ -67,16 +67,16 @@ public class DocumentDAOTest extends BaseTest {
     	
     	documentTemplate = new DocumentTemplate();
     	documentTemplate.setName("PO Template");
-    	documentTemplate.setCreatedBy("DocumentDAOTest");
-    	documentTemplate.setModifiedBy("DocumentDAOTest");
+    	documentTemplate.setCreatedBy(0);
+    	documentTemplate.setModifiedBy(0);
     	documentTemplateDAO.insert(documentTemplate);
     	
     	document = new Document();
     	document.setDocumentTemplate(documentTemplate);
     	document.setName("PO Document");
     	document.setStatus(OnTargetConstant.DocumentStatus.SUBMITTED);
-    	document.setCreatedBy("DocumentDAOTest");
-    	document.setModifiedBy("DocumentDAOTest");
+    	document.setCreatedBy(0);
+    	document.setModifiedBy(0);
     	
     	keyValues = new ArrayList<>();
     	keyValues.add(new DocumentKeyValue(document, "name", "Sebastian Praysis"));
@@ -122,31 +122,31 @@ public class DocumentDAOTest extends BaseTest {
     public void testUpdateStatus() {
     	DocumentTemplate documentTemplate = new DocumentTemplate();
     	documentTemplate.setName("RFI Template");
-    	documentTemplate.setCreatedBy("DocumentDAOTest");
-    	documentTemplate.setModifiedBy("DocumentDAOTest");
+    	documentTemplate.setCreatedBy(0);
+    	documentTemplate.setModifiedBy(0);
     	documentTemplateDAO.insert(documentTemplate);
     	
     	Document document = new Document();
     	document.setDocumentTemplate(documentTemplate);
     	document.setName("RFI Document");
     	document.setStatus(OnTargetConstant.DocumentStatus.SUBMITTED);
-    	document.setCreatedBy("DocumentDAOTest");
-    	document.setModifiedBy("DocumentDAOTest");
+    	document.setCreatedBy(0);
+    	document.setModifiedBy(0);
     	documentDAO.insert(document);
     	document = documentDAO.read(document.getDocumentId());
     	
     	Assert.assertTrue(document.getDocumentId() > 0);
     	Assert.assertEquals(OnTargetConstant.DocumentStatus.SUBMITTED, document.getStatus());
     	
-    	documentDAO.updateStatus(document.getDocumentId(), OnTargetConstant.DocumentStatus.APPROVED, "tester");
+    	documentDAO.updateStatus(document.getDocumentId(), OnTargetConstant.DocumentStatus.APPROVED, 0);
     	document = documentDAO.read(document.getDocumentId());
     	Assert.assertEquals(OnTargetConstant.DocumentStatus.APPROVED, document.getStatus());
     	
-    	documentDAO.updateStatus(document.getDocumentId(), OnTargetConstant.DocumentStatus.REJECTED, "tester");
+    	documentDAO.updateStatus(document.getDocumentId(), OnTargetConstant.DocumentStatus.REJECTED, 0);
     	document = documentDAO.read(document.getDocumentId());
     	Assert.assertEquals(OnTargetConstant.DocumentStatus.REJECTED, document.getStatus());
     	
-    	documentDAO.updateStatus(document.getDocumentId(), OnTargetConstant.DocumentStatus.SUBMITTED, "tester");
+    	documentDAO.updateStatus(document.getDocumentId(), OnTargetConstant.DocumentStatus.SUBMITTED, 0);
     	document = documentDAO.read(document.getDocumentId());
     	Assert.assertEquals(OnTargetConstant.DocumentStatus.SUBMITTED, document.getStatus());
     }

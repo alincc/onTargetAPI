@@ -10,10 +10,19 @@ public class User implements Serializable{
     private int userId;
     private String username;
     private String password;
+    private String salt;
     private String designation;
     private String accountStatus;
     private String userStatus;
     private long discipline;
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
 
     public String getAccountStatus() {
         return accountStatus;

@@ -3,17 +3,20 @@ package com.ontarget.api.service.impl;
 import com.ontarget.api.dao.*;
 import com.ontarget.api.service.EmailService;
 import com.ontarget.api.service.UserProfileService;
-
 import com.ontarget.bean.*;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.OnTargetResponse;
+import com.ontarget.dto.UserImageRequest;
 import com.ontarget.dto.UserProfileRequest;
 import com.ontarget.dto.UserProfileResponse;
 import com.ontarget.util.Security;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Random;
 
 /**
  * Created by Owner on 11/4/14.
@@ -25,7 +28,6 @@ public class UserProfileServiceImpl implements UserProfileService {
 
     @Autowired
     private CompanyDAO companyDAO;
-
 
     @Autowired
     private ContactDAO contactDAO;
@@ -52,6 +54,8 @@ public class UserProfileServiceImpl implements UserProfileService {
     private EmailService emailService;
 
 
+
+    private Random random = new Random();
 
     //TODO: separate logic of user profile and company profile.
     @Override
@@ -92,9 +96,9 @@ public class UserProfileServiceImpl implements UserProfileService {
 
         //activate the account.
         String accountStatus = request.getUser().getAccountStatus();
-        if(OnTargetConstant.AccountStatus.ACCOUNT_INVITATION.equals(accountStatus)) {
+        if (OnTargetConstant.AccountStatus.ACCOUNT_INVITATION.equals(accountStatus)) {
             boolean updated = this.activateAccount(request.getUser().getUserId());
-            if(!updated){
+            if (!updated) {
                 throw new Exception("Error while activating account");
             }
         }
@@ -134,10 +138,20 @@ public class UserProfileServiceImpl implements UserProfileService {
 
     @Override
     @Transactional(rollbackFor = {Exception.class})
-    public boolean changeUserPassword(long userId, String password) throws Exception {
-        String salt = Security.generateSecureSalt();
-        String hashedPassword = Security.encodePassword(password, salt);
-        return authenticationDAO.changePassword(userId, hashedPassword, salt);
+    public boolean changeUserPassword(long userId, String newPassword, String currentPassword) throws Exception {
+        User user = userDAO.getUser(userId);
+        if(user == null){
+            throw new Exception("user not found");
+        }
+
+        String currentHashedPassword = Security.encodePassword(currentPassword, user.getSalt());
+        if(!user.getPassword().equals(currentHashedPassword)){
+            throw new Exception("Wrong password provided. User not authenticated to change password");
+        }
+
+        String newSalt = Security.generateSecureSalt();
+        String newHashedPassword = Security.encodePassword(newPassword, newSalt);
+        return authenticationDAO.changePassword(userId, newHashedPassword, newSalt);
     }
 
     @Override
@@ -169,20 +183,32 @@ public class UserProfileServiceImpl implements UserProfileService {
     @Transactional(rollbackFor = {Exception.class})
     public boolean createNewUserFromInvitation(UserRegistration registration) throws Exception {
         //get token info and create user based on the status: ACCT_NEW or ACCT_INVITE
-        UserRegistration registrationFromDB = userRegistrationDAO.getInvitationRegistration(registration.getRegistrationToken());
-        registration.setStatus(registrationFromDB.getStatus());
-        int userId = userRegistrationDAO.createNewuser(registration);
-        if (userId <= 0) {
-            throw new Exception("Error while adding user.");
+//        UserRegistration registrationFromDB = userRegistrationDAO.getInvitationRegistration(registration.getRegistrationToken());
+//        registration.setStatus(registrationFromDB.getStatus());
+
+        boolean flag = false;
+        int t = 0;
+        do {
+            t++;
+            registration.setUserId(generateUserId());
+            try {
+                userRegistrationDAO.createNewuser(registration);
+            } catch (DuplicateKeyException e) {
+                flag = true; // re run it
+                logger.info("duplicate key " + e.getMessage());
+            }
+        }
+        while (flag && t < 20);
+        if(flag){ // maximum value encountered i.e. wrong value used
+                throw new Exception("Maximum allowed id generation per user is exhausted. There is serious issue with this system. Please check");
         }
         // update registration request user id by token.
-        int updated = userRegistrationDAO.updateRegistrationRequestUserId(userId, registration.getRegistrationToken());
+        int updated = userRegistrationDAO.updateRegistrationRequestUserId(registration.getUserId(), registration.getRegistrationToken());
         if (updated <= 0)
             throw new Exception("Error while updating registration request user id");
 
         return true;
     }
-
 
     @Override
     public boolean activateAccount(int userId) throws Exception {
@@ -242,5 +268,13 @@ public class UserProfileServiceImpl implements UserProfileService {
         return false;
     }
 
+    @Override
+    public boolean saveUserImage(UserImageRequest userImageRequest) throws Exception {
+        return contactDAO.saveUserImagePath(userImageRequest.getUserId(), userImageRequest.getImagePath(), userImageRequest.getModifyingUser());
+    }
 
+    @Override
+    public int generateUserId() {
+        return random.nextInt(Integer.MAX_VALUE);
+    }
 }

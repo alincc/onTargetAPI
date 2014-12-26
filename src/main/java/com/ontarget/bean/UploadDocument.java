@@ -21,12 +21,11 @@ public class UploadDocument extends BaseBean{
 	public UploadDocument(UploadDocumentRequest requestData){
 		this.projectId=requestData.getProjectId();
 		this.name=requestData.getName();
-		this.createdBy=requestData.getUser().getUsername();
-		this.modifiedBy=requestData.getUser().getUsername();
+		this.createdBy=requestData.getUser().getUserId();
+		this.modifiedBy=requestData.getUser().getUserId();
 		this.fileType=requestData.getFileType();
 		this.createdDate=new Date();
 		this.modifiedDate=new Date();
-		
 	}
 
 	public int getProjectId() {

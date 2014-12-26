@@ -1,6 +1,7 @@
 package com.ontarget.api.dao.impl;
 
 import com.ontarget.api.dao.CompanyDAO;
+import com.ontarget.bean.Address;
 import com.ontarget.bean.Company;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.constant.OnTargetQuery;
@@ -16,6 +17,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -78,5 +81,32 @@ public class CompanyDAOImpl implements CompanyDAO {
     @Override
     public Map<String, Object> getCompanyByUser(int userId) throws Exception {
         return jdbcTemplate.queryForMap(OnTargetQuery.GET_CONTACT_BY_USER, new Object[]{userId});
+    }
+
+    public List<Company> getCompanyList() throws Exception {
+        List<Map<String, Object>> rs = jdbcTemplate.queryForList(OnTargetQuery.GET_ALL_COMPANY, new Object[]{});
+        List<Company> companies = new ArrayList<>();
+        if (rs != null && rs.size() > 0) {
+            for (Map<String, Object> map : rs) {
+                Company company = new Company();
+                company.setCompanyId((int) map.get("company_id"));
+                company.setCompanyName((String) map.get("company_name"));
+                company.setWebsite((String) map.get("website"));
+                company.setCompanyTypeId((int) map.get("company_type_id"));
+
+                Address address = new Address();
+                address.setAddress1((String) map.get("address1"));
+                address.setAddress2((String) map.get("address2"));
+                address.setCity((String) map.get("city"));
+                address.setCountry((String) map.get("country"));
+                address.setState((String) map.get("state"));
+                address.setZip((String) map.get("zipcode"));
+
+                company.setAddress(address);
+                companies.add(company);
+            }
+        }
+
+        return companies;
     }
 }

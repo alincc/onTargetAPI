@@ -4,6 +4,7 @@ import com.ontarget.bean.Company;
 import com.ontarget.bean.Contact;
 import com.ontarget.bean.UserRegistration;
 import com.ontarget.dto.OnTargetResponse;
+import com.ontarget.dto.UserImageRequest;
 import com.ontarget.dto.UserProfileRequest;
 import com.ontarget.dto.UserProfileResponse;
 
@@ -16,7 +17,7 @@ public interface UserProfileService {
 
     public OnTargetResponse updateUserProfileAndContactInfo(UserProfileRequest request) throws Exception;
 
-    public boolean changeUserPassword(long userId, String password) throws Exception;
+    public boolean changeUserPassword(long userId, String newPassword, String currentPassword) throws Exception;
 
     public boolean saveRegistration(long projectId, String firstName, String lastName, String email, String tokenId, String accountStatus) throws Exception;
 
