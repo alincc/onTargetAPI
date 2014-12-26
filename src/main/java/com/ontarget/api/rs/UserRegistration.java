@@ -1,6 +1,7 @@
 package com.ontarget.api.rs;
 
 import com.ontarget.dto.OnTargetResponse;
+import com.ontarget.dto.UserInvitationRequest;
 import com.ontarget.dto.UserInviteResponse;
 
 import javax.ws.rs.*;
@@ -9,9 +10,8 @@ import javax.ws.rs.*;
  * Created by sumit on 12/1/14.
  */
 public interface UserRegistration {
-    @GET
-    @Path("/inviteUserIntoProject")
-    OnTargetResponse inviteUserIntoProject(@QueryParam("projectId") long projectId, @QueryParam("firstName") String firstName, @QueryParam("lastName") String lastName, @QueryParam("email") String email);
+
+    OnTargetResponse inviteUserIntoProject(UserInvitationRequest request);
 
     @POST
     @Path("/inviteToNewAccount")

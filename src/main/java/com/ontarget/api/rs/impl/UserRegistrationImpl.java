@@ -8,6 +8,7 @@ import com.ontarget.bean.Project;
 import com.ontarget.bean.UserRegistration;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.OnTargetResponse;
+import com.ontarget.dto.UserInvitationRequest;
 import com.ontarget.dto.UserInviteResponse;
 import com.ontarget.util.Security;
 import org.apache.log4j.Logger;
@@ -38,9 +39,13 @@ public class UserRegistrationImpl implements com.ontarget.api.rs.UserRegistratio
     private ProjectService projectService;
 
     @Override
-    @GET
+    @POST
     @Path("/inviteUserIntoProject")
-    public OnTargetResponse inviteUserIntoProject(@QueryParam("projectId") long projectId, @QueryParam("firstName") String firstName, @QueryParam("lastName") String lastName, @QueryParam("email") String email) {
+    public OnTargetResponse inviteUserIntoProject(UserInvitationRequest request) {
+        long projectId = request.getProjectId();
+        String firstName = request.getFirstName();
+        String lastName = request.getLastName();
+        String email = request.getEmail();
         OnTargetResponse response = new OnTargetResponse();
         if (projectId > 0) {
             logger.info("This is first name " + firstName + " last name " + lastName + " and email" + email);
@@ -75,7 +80,6 @@ public class UserRegistrationImpl implements com.ontarget.api.rs.UserRegistratio
         return response;
     }
 
-
     @Override
     @POST
     @Path("/inviteToNewAccount")
@@ -109,7 +113,6 @@ public class UserRegistrationImpl implements com.ontarget.api.rs.UserRegistratio
             response.setReturnMessage(e.getMessage());
             response.setReturnVal(OnTargetConstant.ERROR);
         }
-
 
         return response;
     }
