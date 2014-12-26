@@ -22,7 +22,7 @@ public interface UserProfile {
 
     public SafetyInfoResponse getSafetyInfoForUser(long userId);
 
-    public OnTargetResponse forgotPasswordRequest(String emailAddress);
+    public OnTargetResponse forgotPasswordRequest(ForgotPasswordRequest request);
 
     public OnTargetResponse validateForgotPasswordToken(String forgotPasswordToken);
 

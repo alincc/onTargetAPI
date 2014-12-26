@@ -194,16 +194,17 @@ public class UserProfileImpl implements UserProfile {
     @Override
     @POST
     @Path("/forgotPasswordRequest")
-    public OnTargetResponse forgotPasswordRequest(String emailAddress){
+    public OnTargetResponse forgotPasswordRequest(ForgotPasswordRequest request){
         OnTargetResponse response = new OnTargetResponse();
 
         try{
-            boolean done = userProfileService.forgotPasswordRequest(emailAddress);
+            boolean done = userProfileService.forgotPasswordRequest(request.getEmailAddress());
             if(done){
                 response.setReturnMessage("Successfully send forgot password request.");
                 response.setReturnVal(OnTargetConstant.SUCCESS);
             }else{
-                throw new Exception("Error while adding password request.");
+                response.setReturnMessage("Invalid user.");
+                response.setReturnVal(OnTargetConstant.ERROR);
             }
 
         }catch(Exception e){
