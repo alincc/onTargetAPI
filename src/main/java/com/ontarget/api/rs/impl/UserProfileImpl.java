@@ -191,7 +191,6 @@ public class UserProfileImpl implements UserProfile {
         return response;
     }
 
-
     @Override
     @POST
     @Path("/forgotPasswordRequest")

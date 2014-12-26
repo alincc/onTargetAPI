@@ -36,4 +36,8 @@ public interface UserProfileService {
     public boolean forgotPasswordRequest(String emailAddress) throws Exception;
 
     public boolean validateForgotPasswordToken(String forgotPasswordToken) throws Exception;
+
+    public boolean saveUserImage(UserImageRequest userImageRequest) throws Exception;
+
+    public int generateUserId();
 }

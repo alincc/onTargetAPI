@@ -170,7 +170,9 @@ public interface OnTargetQuery {
     String GET_EMAIL_BY_CONTACT_ID = "select * from email where contact_id = ?";
     String GET_USER_BY_ID = "select * from user where user_id=?";
 
+
     public static final String ADD_REGISTRATION_INVITATION = new StringBuilder("INSERT INTO registration_request (registration_token, first_name, last_name, email, project_id,status) VALUES (?,?,?,?,?,?) ").toString();
+
 
     public static final String GET_TASK_PERCENTAGE = new StringBuilder("select pt.title,pt.project_task_id,pt.project_id,tpl.*  from task_percentage_log tpl, project_task pt, project p")
                 .append(" where tpl.task_id=pt.project_task_id and pt.project_id=p.project_id")
@@ -186,7 +188,6 @@ public interface OnTargetQuery {
     public static final String GET_USER = new StringBuilder("SELECT * FROM user WHERE user_id = ?").toString();
 
     public static final String GET_RANDOM_SAFETY_INFO = new StringBuilder("SELECT name FROM user_safety_info where discipline_id=? ORDER BY RAND() LIMIT 1").toString();
-
     public static final String INSERT_TASK_FILE = new StringBuilder("INSERT INTO project_task_files (project_task_id, file_name, created_by, location) VALUES (?, ?, ?, ?)").toString();
 
     public static final String GET_TASK_FILE = new StringBuilder("SELECT * FROM project_task_files WHERE project_task_id = ?").toString();
