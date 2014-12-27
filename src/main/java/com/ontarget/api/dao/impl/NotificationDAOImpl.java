@@ -32,6 +32,7 @@ public class NotificationDAOImpl implements com.ontarget.api.dao.NotificationDAO
                 notification.setId(resultSet.getLong("id"));
                 notification.setTsInsert(resultSet.getTimestamp("ts_insert").getTime());
                 notification.setText(resultSet.getString("text"));
+                notification.setUserId(resultSet.getInt("user_id"));
                 notifications.add(notification);
                 return notification;
             }
