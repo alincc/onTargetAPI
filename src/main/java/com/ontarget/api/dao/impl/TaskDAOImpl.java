@@ -1,6 +1,7 @@
 package com.ontarget.api.dao.impl;
 
 import com.ontarget.api.dao.TaskDAO;
+import com.ontarget.bean.Project;
 import com.ontarget.bean.Task;
 import com.ontarget.bean.TaskComment;
 import com.ontarget.bean.TaskStatusCount;
@@ -9,15 +10,15 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -76,9 +77,9 @@ public class TaskDAOImpl implements TaskDAO {
                 task.setStatus((String) taskMap.get("status"));
 
                 long status = (Long) taskMap.get("completed");
-                if(status == 0) {
+                if (status == 0) {
                     task.setCompleted(false);
-                }else{
+                } else {
                     task.setCompleted(true);
                 }
                 tasks.add(task);
@@ -91,7 +92,7 @@ public class TaskDAOImpl implements TaskDAO {
     @Override
     public List<TaskStatusCount> getTaskCountByStatus(int projectId) throws Exception {
         List<Map<String, Object>> taskList = jdbcTemplate.queryForList(OnTargetQuery.GET_PROJECT_TASK_COUNT_BY_STATUS, new Object[]{projectId});
-        List<TaskStatusCount> taskCountByStatus=new ArrayList<>();
+        List<TaskStatusCount> taskCountByStatus = new ArrayList<>();
 
         if (taskList != null && taskList.size() > 0) {
             for (Map<String, Object> taskMap : taskList) {
@@ -141,7 +142,7 @@ public class TaskDAOImpl implements TaskDAO {
         if (taskList != null && taskList.size() > 0) {
             for (Map<String, Object> commentMap : taskList) {
                 TaskComment comment = new TaskComment();
-                comment.setTaskCommentId((Integer)commentMap.get("task_comment_id"));
+                comment.setTaskCommentId((Integer) commentMap.get("task_comment_id"));
                 comment.setTaskId((Integer) commentMap.get("task_id"));
                 comment.setComment((String) commentMap.get("comment"));
                 comment.setCommentedBy((String) commentMap.get("commented_by"));
@@ -149,13 +150,13 @@ public class TaskDAOImpl implements TaskDAO {
                 comments.add(comment);
             }
         }
-        
+
         return comments;
     }
 
     @Override
     public boolean updateTask(Task task) throws Exception {
-        int row = jdbcTemplate.update(OnTargetQuery.UPDATE_TASK, new Object[]{task.getTitle(),task.getDescription(),task.getParentTask().getProjectTaskId(),task.getStatus(), task.getStartDate(),task.getEndDate(),task.getPercentageComplete(),task.getSeverity(),"0",task.getProjectTaskId()});
+        int row = jdbcTemplate.update(OnTargetQuery.UPDATE_TASK, new Object[]{task.getTitle(), task.getDescription(), task.getParentTask().getProjectTaskId(), task.getStatus(), task.getStartDate(), task.getEndDate(), task.getPercentageComplete(), task.getSeverity(), "0", task.getProjectTaskId()});
         if (row == 0) {
             throw new Exception("Unable to update task comment");
         }
@@ -191,4 +192,40 @@ public class TaskDAOImpl implements TaskDAO {
         int row = jdbcTemplate.update(OnTargetQuery.ASSIGN_TASK_USER, new Object[]{taskId, userId});
         return row > 0;
     }
+
+    @Override
+    public boolean updateTaskAssignee(long taskId, long userId) throws Exception {
+        int row = jdbcTemplate.update(OnTargetQuery.UPDATE_TASK_USER, new Object[]{taskId, userId});
+        return row > 0;
+    }
+
+    @Override
+    public Long getAssignedUser(long taskId) throws Exception {
+        Long result = jdbcTemplate.queryForObject(OnTargetQuery.GET_TASK_ASSIGNEE, new Object[]{taskId}, Long.class);
+        return result == null ? 0 : result;
+    }
+
+    @Override
+    public Task getTaskDetail(long taskId) throws Exception {
+        Task task = new Task();
+        jdbcTemplate.query(OnTargetQuery.GET_TASK, new Object[]{taskId}, new RowMapper<Void>() {
+            @Override
+            public Void mapRow(ResultSet resultSet, int i) throws SQLException {
+                task.setProjectTaskId(resultSet.getInt("project_task_id"));
+                Project project=new Project();
+                project.setProjectId(resultSet.getInt("project_id"));
+                task.setProject(project);
+                task.setTitle(resultSet.getString("title"));
+                task.setStatus(resultSet.getString("status"));
+                task.setStartDate(resultSet.getDate("start_date"));
+                task.setEndDate(resultSet.getDate("end_date"));
+                task.setDescription(resultSet.getString("description"));
+                task.setSeverity(resultSet.getString("severity"));
+                return null;
+            }
+        });
+        return task;
+    }
+
+
 }

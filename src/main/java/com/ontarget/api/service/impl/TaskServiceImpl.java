@@ -1,14 +1,12 @@
 package com.ontarget.api.service.impl;
 
+import com.ontarget.api.dao.ContactDAO;
 import com.ontarget.api.dao.ProjectTaskFileDAO;
 import com.ontarget.api.dao.TaskDAO;
 import com.ontarget.api.dao.TaskEstimatedCostDAO;
 import com.ontarget.api.service.EmailService;
 import com.ontarget.api.service.TaskService;
-import com.ontarget.bean.FileAttachment;
-import com.ontarget.bean.Task;
-import com.ontarget.bean.TaskComment;
-import com.ontarget.bean.TaskStatusCount;
+import com.ontarget.bean.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,6 +34,9 @@ public class TaskServiceImpl implements TaskService {
 
     @Autowired
     private EmailService emailService;
+
+    @Autowired
+    private ContactDAO contactDAO;
 
     @Override
     @Transactional(rollbackFor = {Exception.class})
@@ -135,10 +136,22 @@ public class TaskServiceImpl implements TaskService {
     @Override
     @Transactional(rollbackFor = {Exception.class})
     public boolean assignTaskToUser(long taskId, long userId) throws Exception {
-        boolean assigned = taskDAO.assignTaskToUser(taskId, userId);
+
+        Long assignedTo = taskDAO.getAssignedUser(taskId);
+        boolean assigned=false;
+        if(assignedTo.longValue() == 0) {
+            assigned = taskDAO.assignTaskToUser(taskId, userId);
+        }else{
+            assigned = taskDAO.updateTaskAssignee(taskId,userId);
+        }
 
         if (assigned) {
-            emailService.sendTaskAssignmentEmail(taskId, userId);
+            // get contact detail by userId
+            Contact contact = contactDAO.getContact(userId);
+            Task task = taskDAO.getTaskDetail(taskId);
+            if(contact!=null){
+                emailService.sendTaskAssignmentEmail(taskId, userId);
+            }
         }
 
         return assigned;

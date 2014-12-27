@@ -96,4 +96,16 @@ public class TaskDaoTest extends BaseTest {
         System.out.println(hash);
     }
 
+    @Test
+    public void getTaskTest(){
+        try {
+            Task task = taskDAO.getTaskDetail(1);
+            System.out.printf("Task: "+ task);
+            Assert.assertTrue(task.getTitle() !=null);
+        } catch (Exception e) {
+            logger.error("Fail to get task", e);
+            fail();
+        }
+    }
+
 }

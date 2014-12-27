@@ -108,6 +108,8 @@ public interface OnTargetQuery {
 
     public static final String ASSIGN_TASK_USER = new StringBuilder("insert into task_assignee (project_task_id, task_assignee) values (?,?)").toString();
 
+    public static final String UPDATE_TASK_USER = new StringBuilder("update task_assignee set task_assignee=? where project_task_id=?").toString();
+
     public static final String EXPIRE_TASK_PERCENTAGE_COMPLETE = new StringBuilder("update task_percentage_log set end_date='9999-12-31' where task_percentage_log_id=?").toString();
 
     public static final String GET_TASK_PERCENTAGE_FOR_THIS_MONTH = new StringBuilder("select * from task_percentage_log tpl where month(tpl.created_by)=month(now()) and end_date='9999-12-31'").toString();
@@ -116,59 +118,62 @@ public interface OnTargetQuery {
 
     public static final String GET_FORGOT_PASSWORD_REQUEST = new StringBuilder("select count(id) from forgot_password_request where forgot_password_token=? and status='ACTIVE' and ts_expiry > now()").toString();
 
+    public static final String GET_TASK_ASSIGNEE = new StringBuilder("select task_assignee from task_assignee where project_task_id=?").toString();
+
+    public static final String GET_TASK = new StringBuilder("select * from project_task where project_task_id=?").toString();
+
 
     interface documentTemplate {
-        String ADD = "insert into document_template (name, created_by, created_date, modified_by, modfied_date) values(?, ?, now(), ?, now())";
-        String UPDATE = "";
-        String DELETE = "";
-        String GET_BY_ID = "select * from document_template where document_template_id = ?";
+        public static final String ADD = "insert into document_template (name, created_by, created_date, modified_by, modfied_date) values(?, ?, now(), ?, now())";
+        public static final String UPDATE = "";
+        public static final String DELETE = "";
+        public static final String GET_BY_ID = "select * from document_template where document_template_id = ?";
     }
 
     interface document {
-        String ADD = "insert into document (document_template_id, name, status, created_by, created_date, modified_by, modified_date) values(?, ?, ?, ?, now(), ?, now())";
-        String UPDATE_STATUS = "update document set status=?, modified_by=?, modified_date=now() where document_id=?";
-        String DELETE = "";
-        String GET_BY_ID = "select * from document where document_id = ?";
-        String GET_BY_TEMPLATE_ID = "select * from document where document_template_id = ?";
-        String GET_BY_CREATED_BY = "select * from document where created_by = ?";
-        String GET_BY_ASSIGNEE_USERNAME = "select doc.* from document doc " +
+        public static final String ADD = "insert into document (document_template_id, name, status, created_by, created_date, modified_by, modified_date) values(?, ?, ?, ?, now(), ?, now())";
+        public static final  String UPDATE_STATUS = "update document set status=?, modified_by=?, modified_date=now() where document_id=?";
+        public static final String DELETE = "";
+        public static final String GET_BY_ID = "select * from document where document_id = ?";
+        public static final String GET_BY_TEMPLATE_ID = "select * from document where document_template_id = ?";
+        public static final String GET_BY_CREATED_BY = "select * from document where created_by = ?";
+        public static final String GET_BY_ASSIGNEE_USERNAME = "select doc.* from document doc " +
                 "inner join document_submittal sub on doc.document_id = sub.document_id " +
                 "inner join user u on u.user_id = sub.assignee_user_id " +
                 "where u.user_name=?";
     }
 
     interface documentKeyValue {
-        String ADD = "insert into document_key_value (document_id,`key`,value,created_by,created_date,modified_by,modified_date) values(?, ?, ?, ?, now(), ?, now())";
-        String UPDATE_VALUE = "update document_key_value set value = ?, modified_by=? where document_id = ? and `key` = ?";
-        String DELETE = "";
-        String GET_BY_DOCUMENT = "select * from document_key_value where document_id = ?";
-        String GET_BY_DOCUMENT_KEY = "select * from document_key_value where document_id = ? and key = ?";
+        public static final String ADD = "insert into document_key_value (document_id,`key`,value,created_by,created_date,modified_by,modified_date) values(?, ?, ?, ?, now(), ?, now())";
+        public static final String UPDATE_VALUE = "update document_key_value set value = ?, modified_by=? where document_id = ? and `key` = ?";
+        public static final String DELETE = "";
+        public static final String GET_BY_DOCUMENT = "select * from document_key_value where document_id = ?";
+        public static final String GET_BY_DOCUMENT_KEY = "select * from document_key_value where document_id = ? and key = ?";
     }
 
     interface documentGridKeyValue {
-        String ADD = "insert into document_grid_key_value (document_id,grid_id,grid_row_index,`key`,value,"
+        public static final String ADD = "insert into document_grid_key_value (document_id,grid_id,grid_row_index,`key`,value,"
                 + "created_by,created_date,modified_by,modified_date) values(?,?,?,?,?,?,now(),?,now())";
-        String UPDATE_VALUE = "update document_grid_key_value set value=?, modified_by=? where document_id=? and grid_id=? and grid_row_index=? and `key`=?";
-        String DELETE = "";
-        String GET_BY_DOCUMENT_GRID = "select * from document_grid_key_value where document_id = ? and grid_id = ?";
-        String GET_BY_DOCUMENT = "select * from document_grid_key_value where document_id = ?";
+        public static final String UPDATE_VALUE = "update document_grid_key_value set value=?, modified_by=? where document_id=? and grid_id=? and grid_row_index=? and `key`=?";
+        public static final String GET_BY_DOCUMENT_GRID = "select * from document_grid_key_value where document_id = ? and grid_id = ?";
+        public static final String GET_BY_DOCUMENT = "select * from document_grid_key_value where document_id = ?";
     }
 
     interface documentSubmittal {
-        String ADD = "insert into document_submittal (document_id, assignee_user_id, created_by, created_date, "
+        public static final String ADD = "insert into document_submittal (document_id, assignee_user_id, created_by, created_date, "
                 + "modified_by, modified_date) values(?,?, ?, now(), ?, now())";
-        String DELETE = "delete from document_submittal where document_submittal_id=?";
-        String GET_BY_ID = "select * from document_submittal where document_submittal_id=?";
+        public static final String DELETE = "delete from document_submittal where document_submittal_id=?";
+        public static final String GET_BY_ID = "select * from document_submittal where document_submittal_id=?";
     }
 
     interface documentAttachment {
-        String ADD = "insert into document_attachment(`document_id`,`file_path`,`created_by`,`created_date`,`modified_by`,`modified_date`) " +
+        public static final String ADD = "insert into document_attachment(`document_id`,`file_path`,`created_by`,`created_date`,`modified_by`,`modified_date`) " +
                 "values (?,?,?,now(),?,now());";
-        String GET_BY_DOCUMENT_ID = "select * from document_attachment where document_id=?";
+        public static final String GET_BY_DOCUMENT_ID = "select * from document_attachment where document_id=?";
     }
 
-    String GET_EMAIL_BY_CONTACT_ID = "select * from email where contact_id = ?";
-    String GET_USER_BY_ID = "select * from user where user_id=?";
+    public static final String GET_EMAIL_BY_CONTACT_ID = "select * from email where contact_id = ?";
+    public static final String GET_USER_BY_ID = "select * from user where user_id=?";
 
 
     public static final String ADD_REGISTRATION_INVITATION = new StringBuilder("INSERT INTO registration_request (registration_token, first_name, last_name, email, project_id,status) VALUES (?,?,?,?,?,?) ").toString();

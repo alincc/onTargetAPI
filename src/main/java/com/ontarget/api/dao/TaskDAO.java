@@ -33,4 +33,10 @@ public interface TaskDAO {
     public boolean addTaskMember(long projectId, long taskId, long memberId) throws Exception;
 
     public boolean assignTaskToUser(long taskId, long userId) throws  Exception;
+
+    boolean updateTaskAssignee(long taskId, long userId) throws Exception;
+
+    Long getAssignedUser(long taskId) throws Exception;
+
+    public Task getTaskDetail(long taskId) throws Exception;
 }
