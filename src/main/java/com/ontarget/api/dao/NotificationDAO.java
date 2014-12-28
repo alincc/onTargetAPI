@@ -8,5 +8,5 @@ import java.util.List;
  * Created by sumit on 12/26/14.
  */
 public interface NotificationDAO {
-    List<Notification> getNotificationSince(long recentId) throws Exception;
+    List<Notification> getNotificationSince(long recentId, int userId) throws Exception;
 }

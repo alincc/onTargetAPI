@@ -22,9 +22,9 @@ public class NotificationDAOImpl implements com.ontarget.api.dao.NotificationDAO
     private JdbcTemplate jdbcTemplate;
 
     @Override
-    public List<Notification> getNotificationSince(long recentId) throws Exception {
+    public List<Notification> getNotificationSince(long recentId, int userId) throws Exception {
         List<Notification> notifications = new LinkedList<>();
-        jdbcTemplate.query(OnTargetQuery.GET_USER_NOTIFICATION, new Object[]{recentId}, new RowMapper<Notification>() {
+        jdbcTemplate.query(OnTargetQuery.GET_USER_NOTIFICATION, new Object[]{recentId, userId}, new RowMapper<Notification>() {
             @Override
             public Notification mapRow(ResultSet resultSet, int i) throws SQLException {
                 Notification notification = new Notification();

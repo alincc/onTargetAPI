@@ -27,10 +27,10 @@ public class NotificationEndpointImpl implements com.ontarget.api.rs.Notificatio
     @Override
     @GET
     @Path("/getNotifications")
-    public NotificationResponse getNotifications(@QueryParam("recentId") long recentId) {
+    public NotificationResponse getNotifications(@QueryParam("recentId") long recentId, @QueryParam("userId") int userId) {
         NotificationResponse response = new NotificationResponse();
         try {
-            List<Notification> notifications = notificationService.getNotifications(recentId);
+            List<Notification> notifications = notificationService.getNotifications(recentId, userId);
             if (notifications == null || notifications.isEmpty()) {
 //                System.out.println("empty result returned");
                 response.setNotificationList(new LinkedList<>());

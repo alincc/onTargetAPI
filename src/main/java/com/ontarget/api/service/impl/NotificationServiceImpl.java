@@ -16,7 +16,7 @@ public class NotificationServiceImpl implements com.ontarget.api.service.Notific
     private NotificationDAO notificationDAO;
 
     @Override
-    public List<Notification> getNotifications(long recentId) throws Exception {
-        return notificationDAO.getNotificationSince(recentId);
+    public List<Notification> getNotifications(long recentId, int userId) throws Exception {
+        return notificationDAO.getNotificationSince(recentId, userId);
     }
 }

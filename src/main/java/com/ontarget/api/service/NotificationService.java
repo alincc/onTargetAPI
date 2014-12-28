@@ -8,5 +8,5 @@ import java.util.List;
  * Created by sumit on 12/26/14.
  */
 public interface NotificationService {
-    List<Notification> getNotifications(long recentId) throws Exception;
+    List<Notification> getNotifications(long recentId, int userId) throws Exception;
 }
