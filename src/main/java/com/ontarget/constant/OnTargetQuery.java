@@ -98,7 +98,7 @@ public interface OnTargetQuery {
 
     public static final String ADD_PROJECT_MEMBER = new StringBuilder("insert into project_member (project_id, user_id,member_status) values (?,?,?)").toString();
 
-    public static final String GET_PROJECT_BY_USER = new StringBuilder("select * from project pt, (select p.project_id from project p,project_member pm where p.project_id=pm.project_id and pm.user_id=?) t where pt.project_id=t.project_id or pt.project_parent_id=t.project_id").toString();
+    public static final String GET_PROJECT_BY_USER = new StringBuilder("select pt.* from project pt, (select p.project_id from project p,project_member pm where p.project_id=pm.project_id and p.project_parent_id=0 and pm.user_id=?) t where pt.project_id=t.project_id or pt.project_parent_id=t.project_id").toString();
 
     public static final String UPDATE_REGISRATION_USER_ID = new StringBuilder("update registration_request set user_id=? where registration_token=?").toString();
 

@@ -68,6 +68,11 @@ public class ProjectServiceImpl implements ProjectService {
         int projectMemberId=0;
         if(OnTargetConstant.AccountStatus.ACCT_NEW.equals(request.getUser().getAccountStatus())){
            projectMemberId = projectDAO.addProjectMember(projectId,userId);
+            if(projectMemberId < 0){
+                throw new Exception("Error while adding the new member: "+ userId);
+            }
+
+
         }
 
         //activate the account if accountStatus of user is ACCT_NEW
@@ -79,11 +84,11 @@ public class ProjectServiceImpl implements ProjectService {
         }
 
         OnTargetResponse response = new OnTargetResponse();
-        if (projectId > 0 && projectMemberId > 0) {
+        if (projectId > 0) {
             response.setReturnMessage("Successfully created project.");
             response.setReturnVal(OnTargetConstant.SUCCESS);
         } else {
-            throw new Exception("Error while creating project: projectId: "+projectId+" projectMemberId: "+projectMemberId);
+            throw new Exception("Error while creating project: projectId: "+projectId);
         }
 
         return response;
@@ -207,12 +212,13 @@ public class ProjectServiceImpl implements ProjectService {
 
                     //get task assigned to
                     Long assignedUserId = taskDAO.getAssignedUser(task.getProjectTaskId());
+                    logger.debug("Getting contact detail for task assignee: "+ assignedUserId);
                     if(assignedUserId > 0) {
                         Contact contact = contactDAO.getContact(assignedUserId);
                         User assignedToUser = new User();
                         assignedToUser.setContact(contact);
+                        task.setAssignedTo(assignedToUser);
                     }
-
                 }
             }
 
