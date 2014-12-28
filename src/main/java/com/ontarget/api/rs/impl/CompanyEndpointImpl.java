@@ -3,6 +3,7 @@ package com.ontarget.api.rs.impl;
 import com.ontarget.api.service.CompanyService;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.CompanyListResponse;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,6 +19,8 @@ import javax.ws.rs.core.MediaType;
 @Produces(MediaType.APPLICATION_JSON)
 public class CompanyEndpointImpl implements com.ontarget.api.rs.CompanyEndpoint {
 
+    private Logger logger = Logger.getLogger(ActivityLogImpl.class);
+
     @Autowired
     private CompanyService companyService;
 
@@ -30,8 +33,8 @@ public class CompanyEndpointImpl implements com.ontarget.api.rs.CompanyEndpoint 
             response.setCompanyList(companyService.getCompanyList());
             response.setReturnVal(OnTargetConstant.SUCCESS);
         } catch (Exception e) {
-            e.printStackTrace();
-            response.setReturnMessage(OnTargetConstant.REGISTRATION_REQUEST_FAILED);
+           logger.error("Error while getting company list",e);
+            response.setReturnMessage("Error while getting company list.");
             response.setReturnVal(OnTargetConstant.ERROR);
         }
 

@@ -183,8 +183,8 @@ public class UserProfileServiceImpl implements UserProfileService {
     @Transactional(rollbackFor = {Exception.class})
     public boolean createNewUserFromInvitation(UserRegistration registration) throws Exception {
         //get token info and create user based on the status: ACCT_NEW or ACCT_INVITE
-//        UserRegistration registrationFromDB = userRegistrationDAO.getInvitationRegistration(registration.getRegistrationToken());
-//        registration.setStatus(registrationFromDB.getStatus());
+        UserRegistration registrationFromDB = userRegistrationDAO.getInvitationRegistration(registration.getRegistrationToken());
+        registration.setStatus(registrationFromDB.getStatus());
 
         boolean flag = false;
         int t = 0;
@@ -195,7 +195,7 @@ public class UserProfileServiceImpl implements UserProfileService {
                 userRegistrationDAO.createNewuser(registration);
             } catch (DuplicateKeyException e) {
                 flag = true; // re run it
-                logger.info("duplicate key " + e.getMessage());
+                logger.info("duplicate key ", e);
             }
         }
         while (flag && t < 20);
