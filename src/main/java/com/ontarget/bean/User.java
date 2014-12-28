@@ -15,6 +15,7 @@ public class User implements Serializable{
     private String accountStatus;
     private String userStatus;
     private long discipline;
+    private Contact contact;
 
     public String getSalt() {
         return salt;
@@ -102,5 +103,13 @@ public class User implements Serializable{
                 ", password='" + password + '\'' +
                 ", designation='" + designation + '\'' +
                 '}';
+    }
+
+    public Contact getContact() {
+        return contact;
+    }
+
+    public void setContact(Contact contact) {
+        this.contact = contact;
     }
 }

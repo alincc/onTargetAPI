@@ -199,11 +199,20 @@ public class ProjectServiceImpl implements ProjectService {
             List<Task> tasks = taskDAO.getTask(project.getProjectId());
             project.setTaskList(tasks);
 
-            //get all the comments in the tasks.
+            //get all the comments in the tasks and assigned to.
             if (tasks != null && tasks.size() > 0) {
                 for (Task task : tasks) {
                     List<TaskComment> comments = taskDAO.getTaskComments(task.getProjectTaskId());
                     task.setComments(comments);
+
+                    //get task assigned to
+                    Long assignedUserId = taskDAO.getAssignedUser(task.getProjectTaskId());
+                    if(assignedUserId > 0) {
+                        Contact contact = contactDAO.getContact(assignedUserId);
+                        User assignedToUser = new User();
+                        assignedToUser.setContact(contact);
+                    }
+
                 }
             }
 

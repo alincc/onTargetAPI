@@ -4,7 +4,9 @@ import com.ontarget.api.dao.AuthenticationDAO;
 import com.ontarget.api.dao.ContactDAO;
 import com.ontarget.api.dao.EmailDAO;
 import com.ontarget.api.service.EmailService;
+import com.ontarget.bean.Contact;
 import com.ontarget.bean.Document;
+import com.ontarget.bean.Task;
 import com.ontarget.bean.User;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.UserRegistrationRequest;
@@ -221,10 +223,10 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public void sendTaskAssignmentEmail(long taskId, long userId) throws Exception {
+    public void sendTaskAssignmentEmail(Task task, Contact contact) throws Exception {
 
         try {
-            User user = authenticationDAO.getUserInfoById(userId);
+            User user = authenticationDAO.getUserInfoById(contact.getUser().getUserId());
             MimeMessagePreparator preparator = new MimeMessagePreparator() {
                 @SuppressWarnings({"rawtypes", "unchecked"})
                 public void prepare(MimeMessage mimeMessage) throws Exception {
@@ -235,7 +237,8 @@ public class EmailServiceImpl implements EmailService {
                     message.setSentDate(new Date());
 
                     Map model = new HashMap();
-                    model.put("msg", "You have been assigned a  task in OnTarget.");
+                    model.put("name", contact.getFirstName() +" "+ contact.getLastName());
+                    model.put("task", task);
 
 
                     String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "/template/taskAssignedEmail.vm", "UTF-8", model);

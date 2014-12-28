@@ -1,10 +1,7 @@
 package com.ontarget.api.dao.impl;
 
 import com.ontarget.api.dao.TaskDAO;
-import com.ontarget.bean.Project;
-import com.ontarget.bean.Task;
-import com.ontarget.bean.TaskComment;
-import com.ontarget.bean.TaskStatusCount;
+import com.ontarget.bean.*;
 import com.ontarget.constant.OnTargetQuery;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -195,14 +192,21 @@ public class TaskDAOImpl implements TaskDAO {
 
     @Override
     public boolean updateTaskAssignee(long taskId, long userId) throws Exception {
-        int row = jdbcTemplate.update(OnTargetQuery.UPDATE_TASK_USER, new Object[]{taskId, userId});
+        int row = jdbcTemplate.update(OnTargetQuery.UPDATE_TASK_USER, new Object[]{userId, taskId});
         return row > 0;
     }
 
     @Override
     public Long getAssignedUser(long taskId) throws Exception {
-        Long result = jdbcTemplate.queryForObject(OnTargetQuery.GET_TASK_ASSIGNEE, new Object[]{taskId}, Long.class);
-        return result == null ? 0 : result;
+        User user = new User();
+       jdbcTemplate.query(OnTargetQuery.GET_TASK_ASSIGNEE, new Object[]{taskId}, new RowMapper<Void>() {
+            @Override
+            public Void mapRow(ResultSet resultSet, int i) throws SQLException {
+                user.setUserId(resultSet.getInt("task_assignee"));
+                return null;
+            }
+        });
+        return new Long(user.getUserId());
     }
 
     @Override

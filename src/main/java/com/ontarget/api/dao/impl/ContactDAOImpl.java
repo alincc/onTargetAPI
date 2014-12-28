@@ -2,6 +2,7 @@ package com.ontarget.api.dao.impl;
 
 import com.ontarget.api.dao.ContactDAO;
 import com.ontarget.bean.Contact;
+import com.ontarget.bean.User;
 import com.ontarget.constant.OnTargetQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -47,6 +48,9 @@ public class ContactDAOImpl implements ContactDAO {
         Map<String, Object> rs = jdbcTemplate.queryForMap(OnTargetQuery.GET_CONTACT_BY_USER, new Object[]{userId});
         Contact contact = new Contact();
         contact.setContactId((Integer) rs.get("contact_id"));
+        User user = new User();
+        user.setUserId((int)userId);
+        contact.setUser(user);
         contact.setFirstName((String) rs.get("first_name"));
         contact.setLastName((String) rs.get("last_name"));
         contact.setTitle((String) rs.get("title"));

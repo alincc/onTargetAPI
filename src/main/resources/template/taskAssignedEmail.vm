@@ -1,8 +1,14 @@
 <html>
 <body>
-User,
+Dear ${name}
 
-<p>${msg}</p>
+<p>You have been assigned the following task. Please login to the application to see the detail.</p>
+
+<pre>
+    <p>Title: ${task.title}</p>
+    <p>Description: ${task.description}</p>
+</pre>
+
 
 <p>thanks<br>
     OnTarget Team

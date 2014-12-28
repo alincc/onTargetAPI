@@ -2,7 +2,9 @@ package com.ontarget.api.service;
 
 import java.util.List;
 
+import com.ontarget.bean.Contact;
 import com.ontarget.bean.Document;
+import com.ontarget.bean.Task;
 import com.ontarget.bean.User;
 
 /**
@@ -22,7 +24,7 @@ public interface EmailService {
 
     public boolean sendInviteToAccountEmail(String email, String firstName, String lastName, String tokenId);
 
-    public void  sendTaskAssignmentEmail(long taskId, long userId) throws Exception;
+    public void sendTaskAssignmentEmail(Task task, Contact contact) throws Exception;
 
     public void sendForgotPasswordEmail(String emailAddress, String name, String forgotPasswordToken);
 

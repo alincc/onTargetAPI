@@ -93,6 +93,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    @Transactional(rollbackFor = {Exception.class})
     public boolean addTaskComment(TaskComment comment) throws Exception {
         if (comment.getTaskCommentId() > 0) {
             return taskDAO.updateComment(comment);
@@ -112,7 +113,6 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    @Transactional(rollbackFor = {Exception.class})
     public Set<Long> getTaskMembers(long taskId) throws Exception {
         return taskDAO.getTaskMembers(taskId);
     }
@@ -124,6 +124,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    @Transactional(rollbackFor = {Exception.class})
     public long saveTaskFile(long taskid, long userId, String fileName, String location) throws Exception {
         return projectTaskFileDAO.saveTaskFile(taskid, fileName, userId, location);
     }
@@ -150,7 +151,7 @@ public class TaskServiceImpl implements TaskService {
             Contact contact = contactDAO.getContact(userId);
             Task task = taskDAO.getTaskDetail(taskId);
             if(contact!=null){
-                emailService.sendTaskAssignmentEmail(taskId, userId);
+                emailService.sendTaskAssignmentEmail(task, contact);
             }
         }
 
