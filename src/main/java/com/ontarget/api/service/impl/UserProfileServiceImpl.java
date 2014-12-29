@@ -155,6 +155,20 @@ public class UserProfileServiceImpl implements UserProfileService {
     }
 
     @Override
+    @Transactional(rollbackFor = {Exception.class})
+    public boolean changeForgotPassword(long userId, String newPassword) throws Exception{
+        User user = userDAO.getUser(userId);
+        if(user == null){
+            throw new Exception("user not found");
+        }
+
+        String newSalt = Security.generateSecureSalt();
+        String newHashedPassword = Security.encodePassword(newPassword, newSalt);
+        return authenticationDAO.changePassword(userId, newHashedPassword, newSalt);
+    }
+
+
+    @Override
     public Company getCompanyInfoByUser(int userId) throws Exception {
         return null;
     }
@@ -277,4 +291,6 @@ public class UserProfileServiceImpl implements UserProfileService {
     public int generateUserId() {
         return random.nextInt(Integer.MAX_VALUE);
     }
+
+
 }

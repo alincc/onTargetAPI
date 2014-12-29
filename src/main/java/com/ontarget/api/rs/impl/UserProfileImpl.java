@@ -64,7 +64,7 @@ public class UserProfileImpl implements UserProfile {
         try {
             response = userProfileService.updateUserProfileAndContactInfo(userProfileRequest);
         } catch (Exception e) {
-            logger.error("Add User Profile failed." + e);
+            logger.error("Add User Profile failed.", e);
             response.setReturnMessage("Update task failed");
             response.setReturnVal(OnTargetConstant.ERROR);
         }
@@ -93,13 +93,43 @@ public class UserProfileImpl implements UserProfile {
             }
         } catch (Exception e) {
 //            e.printStackTrace();
-            logger.error("Add User Profile failed." + e);
+            logger.error("Add User Profile failed.", e);
             response.setReturnMessage("Add task failed");
             response.setReturnVal(OnTargetConstant.ERROR);
         }
 
         return response;
     }
+
+
+    @Override
+    @POST
+    @Path("/changeForgotPassword")
+    public OnTargetResponse changeForgotPassword(ChangeUserPasswordRequest request) throws Exception {
+        long userId = request.getUserId();
+        String newPassword = request.getNewPassword();
+
+//        System.out.println("this is user id " + userId + " password " + newPassword);
+        OnTargetResponse response = new OnTargetResponse();
+        try {
+            if (userProfileService.changeForgotPassword(userId, newPassword)) {
+                response.setReturnMessage("succesfully updated");
+                response.setReturnVal(OnTargetConstant.SUCCESS);
+            } else {
+                logger.error("failed updating password");
+                response.setReturnMessage("Add task failed");
+                response.setReturnVal(OnTargetConstant.ERROR);
+            }
+        } catch (Exception e) {
+//            e.printStackTrace();
+            logger.error("Add User Profile failed.", e);
+            response.setReturnMessage("Add task failed");
+            response.setReturnVal(OnTargetConstant.ERROR);
+        }
+
+        return response;
+    }
+
 
     @Override
     @POST
@@ -200,7 +230,7 @@ public class UserProfileImpl implements UserProfile {
         try{
             boolean done = userProfileService.forgotPasswordRequest(request.getEmailAddress());
             if(done){
-                response.setReturnMessage("Successfully send forgot password request.");
+                response.setReturnMessage("Email has been sent to "+ request.getEmailAddress()+" with password reset instructions.");
                 response.setReturnVal(OnTargetConstant.SUCCESS);
             }else{
                 response.setReturnMessage("Invalid user.");
@@ -208,7 +238,7 @@ public class UserProfileImpl implements UserProfile {
             }
 
         }catch(Exception e){
-            logger.error("Error while processing forgot password reqeust",e);
+            logger.error("Error while processing forgot password request",e);
             response.setReturnMessage("Error while processing forgot password request.");
             response.setReturnVal(OnTargetConstant.ERROR);
         }

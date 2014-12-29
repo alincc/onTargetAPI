@@ -40,4 +40,6 @@ public interface UserProfileService {
     public boolean saveUserImage(UserImageRequest userImageRequest) throws Exception;
 
     public int generateUserId();
+
+    public boolean changeForgotPassword(long userId, String newPassword) throws Exception;
 }

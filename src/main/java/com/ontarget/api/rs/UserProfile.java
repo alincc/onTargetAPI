@@ -18,6 +18,8 @@ public interface UserProfile {
 
     public OnTargetResponse updateUserProfile(UserProfileRequest userProfileRequest);
 
+    public OnTargetResponse changeForgotPassword(ChangeUserPasswordRequest request) throws Exception;
+
     public OnTargetResponse inviteUserIntoProject(UserInvitationRequest request);
 
     public SafetyInfoResponse getSafetyInfoForUser(long userId);
