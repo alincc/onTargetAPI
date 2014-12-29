@@ -49,7 +49,7 @@ public class DocumentEndpointImpl implements DocumentEndpoint {
 	@Override
 	public AddDocumentResponse addDocument(AddDocumentRequest request) {
 		try {
-			System.out.println("documentService is " + documentService);
+//			System.out.println("documentService is " + documentService);
 			AddDocumentResponse response = documentService.addDocument(request);
 			return response;
 		} catch (Throwable t) {

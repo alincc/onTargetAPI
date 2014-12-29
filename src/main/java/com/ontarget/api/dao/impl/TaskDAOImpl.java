@@ -164,9 +164,9 @@ public class TaskDAOImpl implements TaskDAO {
     @Override
     public boolean updateTaskStatus(long taskId, String taskStatus) throws Exception {
         String sql = "UPDATE project_task SET status ='" + taskStatus + "' WHERE project_task_id =" + taskId;
-        System.out.println(sql);
+//        System.out.println(sql);
         int updates = jdbcTemplate.update(sql);
-        System.out.println("updated rows: " + updates);
+//        System.out.println("updated rows: " + updates);
         return updates > 0;
 
 //        int updates = jdbcTemplate.update(OnTargetQuery.UPDATE_TASK_STATUS, new Object[]{String.valueOf(taskId), taskStatus});

@@ -40,7 +40,7 @@ public class TaskEndpointImpl implements TaskEndpoint {
                 response.setReturnVal(OnTargetConstant.SUCCESS);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
             logger.error("Add task failed." + e);
             response.setReturnMessage("Add task failed");
             response.setReturnVal(OnTargetConstant.ERROR);
@@ -116,15 +116,15 @@ public class TaskEndpointImpl implements TaskEndpoint {
         OnTargetResponse response = new OnTargetResponse();
         try {
             if (taskService.updateTaskStatus(taskId, taskStatus)) {
-                System.out.println("succesfully updated");
+//                System.out.println("succesfully updated");
                 response.setReturnMessage("Successfully updated task status");
                 response.setReturnVal(OnTargetConstant.SUCCESS);
             } else {
-                System.out.println("failed...");
+//                System.out.println("failed...");
             }
         } catch (Exception e) {
             // logger.error("update task failed." + e);
-            e.printStackTrace();
+//            e.printStackTrace();
             response.setReturnMessage("update task status failed");
             response.setReturnVal(OnTargetConstant.ERROR);
         }
@@ -204,7 +204,7 @@ public class TaskEndpointImpl implements TaskEndpoint {
             response.setTaskId(taskId);
             response.setReturnVal(OnTargetConstant.SUCCESS);
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
             response.setReturnMessage("error getting task file");
             response.setReturnVal(OnTargetConstant.ERROR);
         }

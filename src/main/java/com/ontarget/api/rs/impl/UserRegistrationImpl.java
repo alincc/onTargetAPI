@@ -109,7 +109,7 @@ public class UserRegistrationImpl implements com.ontarget.api.rs.UserRegistratio
                 response.setReturnVal(OnTargetConstant.ERROR);
             }
         } catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.debug(e.getMessage(), e);
             response.setReturnMessage(e.getMessage());
             response.setReturnVal(OnTargetConstant.ERROR);
         }
@@ -175,7 +175,7 @@ public class UserRegistrationImpl implements com.ontarget.api.rs.UserRegistratio
                 throw new Exception("Error while creating user.");
             }
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
             logger.debug("Error while creating user based on invitation", e);
             response.setReturnMessage("Error while creating user based on invitation.");
             response.setReturnVal(OnTargetConstant.ERROR);

@@ -38,7 +38,7 @@ public class ProjectEndpointImpl implements ProjectEndoint {
                 response = projectService.updateProject(request);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
             logger.error("Error while adding project", e);
             response = new OnTargetResponse();
             response.setReturnMessage("Error while creating project");
@@ -59,7 +59,7 @@ public class ProjectEndpointImpl implements ProjectEndoint {
             response.setReturnMessage("Successfully retrieved project info");
 
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
             logger.error("Error while getting project", e);
             response.setReturnMessage("Error while getting project");
             response.setReturnVal(OnTargetConstant.ERROR);
@@ -72,7 +72,7 @@ public class ProjectEndpointImpl implements ProjectEndoint {
     @GET
     @Path("/getProjectMembers")
     public ProjectMemberListResponse getProjectMembers(@QueryParam("projectId") long projectId) {
-        System.out.println("project id " + projectId);
+//        System.out.println("project id " + projectId);
         ProjectMemberListResponse response = new ProjectMemberListResponse();
         try {
             response = projectService.getProjectMembers(projectId);

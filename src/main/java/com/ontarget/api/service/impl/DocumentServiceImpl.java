@@ -101,7 +101,7 @@ public class DocumentServiceImpl implements DocumentService {
 				documentSubmittalDAO.insert(submittal);
 			}
 		} catch(Throwable t) {
-			t.printStackTrace();
+//			t.printStackTrace();
 			logger.error("Unable to add document!", t);
 			throw new Exception("Unable to create document!");
 		}
