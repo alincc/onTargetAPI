@@ -185,7 +185,7 @@ public interface OnTargetQuery {
 
     public static final String GET_TASK_PERCENTAGE_BY_TASK=new StringBuilder("select * from task_percentage_log tpl where tpl.task_id=? and tpl.end_date='9999-12-31'").toString();
 
-    public static final String GET_TASK_COST_BY_TASK = new StringBuilder("select * from planned_actuals_cost pac where pac.task_id=?").toString();
+    public static final String GET_TASK_COST_BY_TASK = new StringBuilder("select t.project_task_id,t.title, t.description, t.start_date, t.end_date,pac.* from planned_actuals_cost pac,project_task t where t.project_task_id=pac.task_id and pac.task_id=?").toString();
 
     public static final String GET_REGISTRATION_INVITATION_BY_USER = new StringBuilder("SELECT * FROM registration_request WHERE user_id=?").toString();
 

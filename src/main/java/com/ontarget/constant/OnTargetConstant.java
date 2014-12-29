@@ -97,7 +97,7 @@ public interface OnTargetConstant {
     }
 
     public interface URL{
-        public static final String forgotPasswordUrl="/#/pages/forgot-password";
+        public static final String forgotPasswordUrl="/#/pages/reset-password";
         public static final String SIGNUP_URL = "/#/pages/signup";
 
     }

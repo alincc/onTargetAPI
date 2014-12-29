@@ -3,6 +3,7 @@ package com.ontarget.api.service;
 import com.ontarget.api.BaseTest;
 import com.ontarget.bean.Task;
 import com.ontarget.bean.TaskEstimatedCost;
+import com.ontarget.bean.TaskInterval;
 import junit.framework.Assert;
 import org.apache.log4j.Logger;
 import org.junit.Test;
@@ -10,10 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 import static junit.framework.Assert.fail;
 
@@ -130,11 +128,11 @@ public class TaskBudgetTest extends BaseTest {
             Assert.assertTrue(added);
 
 
-            List<TaskEstimatedCost> costs = taskBudgetService.getTaskBudgetByTask(1);
+            Task task1 = taskBudgetService.getTaskBudgetByTask(1);
 
-            Assert.assertTrue(costs.size() > 0);
+            Assert.assertTrue(task1.getCosts().size() > 0);
 
-            boolean updated = taskBudgetService.updateTaskBudget(costs);
+            boolean updated = taskBudgetService.updateTaskBudget(task1.getCosts());
             Assert.assertTrue(updated);
 
 
@@ -192,9 +190,9 @@ public class TaskBudgetTest extends BaseTest {
             Assert.assertTrue(added);
 
 
-            List<TaskEstimatedCost> costs = taskBudgetService.getTaskBudgetByTask(1);
+            Task task1 = taskBudgetService.getTaskBudgetByTask(1);
 
-            Assert.assertTrue(costs.size() > 0);
+            Assert.assertTrue(task1.getCosts().size() > 0);
 
 
         } catch (Exception e) {

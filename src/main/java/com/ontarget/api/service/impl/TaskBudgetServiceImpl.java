@@ -2,7 +2,6 @@ package com.ontarget.api.service.impl;
 
 import com.ontarget.api.dao.TaskBudgetDAO;
 import com.ontarget.api.dao.TaskEstimatedCostDAO;
-import com.ontarget.api.dao.impl.TaskPlannedEstimatedCostDAOImpl;
 import com.ontarget.api.service.TaskBudgetService;
 import com.ontarget.bean.*;
 import com.ontarget.constant.OnTargetConstant;
@@ -99,7 +98,7 @@ public class TaskBudgetServiceImpl implements TaskBudgetService {
     }
 
     @Override
-    public List<TaskEstimatedCost> getTaskBudgetByTask(int taskId) throws Exception{
+    public Task getTaskBudgetByTask(int taskId) throws Exception{
         logger.debug("Getting list of task budget for task: "+ taskId);
         return taskBudgetDAO.getTaskCostByTask(taskId);
     }

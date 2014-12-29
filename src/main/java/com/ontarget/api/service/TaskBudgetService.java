@@ -20,5 +20,5 @@ public interface TaskBudgetService {
 
     public boolean updateTaskBudget(List<TaskEstimatedCost> costs) throws  Exception;
 
-    List<TaskEstimatedCost> getTaskBudgetByTask(int taskId) throws Exception;
+    Task getTaskBudgetByTask(int taskId) throws Exception;
 }
