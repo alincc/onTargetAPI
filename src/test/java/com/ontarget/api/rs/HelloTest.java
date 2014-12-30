@@ -67,7 +67,7 @@ public class HelloTest extends OnTargetBaseRSTest{
         try {
             System.out.println(mapper.writeValueAsString(taskMapMap));
         } catch (IOException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
     }
 

@@ -36,7 +36,7 @@ public class ProjectServiceTest extends BaseTest{
 
             Project project = response.getProjects().get(0);
 
-            System.out.println((project.getTaskList().get(0).getComments().get(0)));
+//            System.out.println((project.getTaskList().get(0).getComments().get(0)));
 
             Assert.assertTrue(project!=null && project.getProjects().size() > 0);
 

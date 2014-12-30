@@ -169,7 +169,7 @@ public class ProjectDAOImpl implements ProjectDAO {
                 return projectMember;
             }
         });
-        System.out.println("total read " + projectMemberList.size());
+//        System.out.println("total read " + projectMemberList.size());
         return projectMemberList;
     }
 

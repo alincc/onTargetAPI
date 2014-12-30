@@ -59,7 +59,7 @@ public class UserProfileImpl implements UserProfile {
     @Path("/updateUserProfile")
     public OnTargetResponse updateUserProfile(UserProfileRequest userProfileRequest) {
         logger.info("Received request to add profile: " + userProfileRequest);
-        System.out.println("Received request to add profile: " + userProfileRequest);
+//        System.out.println("Received request to add profile: " + userProfileRequest);
         OnTargetResponse response = null;
         try {
             response = userProfileService.updateUserProfileAndContactInfo(userProfileRequest);
@@ -160,7 +160,7 @@ public class UserProfileImpl implements UserProfile {
                     response.setReturnVal(OnTargetConstant.ERROR);
                 }
             } catch (Exception e) {
-                logger.error(e.getMessage());
+                logger.debug(e.getMessage(), e);
                 response.setReturnMessage("Error while saving registration request");
                 response.setReturnVal(OnTargetConstant.ERROR);
             }
@@ -176,7 +176,7 @@ public class UserProfileImpl implements UserProfile {
     @GET
     @Path("/getSafetyInfoForUser")
     public SafetyInfoResponse getSafetyInfoForUser(@QueryParam("userId") long userId) {
-        System.out.println("this is user id " + userId);
+//        System.out.println("this is user id " + userId);
         SafetyInfoResponse response = new SafetyInfoResponse();
         try {
             String safetyUserInfo = userProfileService.getRandomSafetyUserInfo(userId);
@@ -211,8 +211,7 @@ public class UserProfileImpl implements UserProfile {
                     response.setReturnVal(OnTargetConstant.SUCCESS);
                 }
             } catch (Exception e) {
-                e.printStackTrace();
-                logger.error(e.getMessage());
+                logger.debug(e.getMessage(), e);
                 response.setReturnVal(OnTargetConstant.ERROR);
             }
         }

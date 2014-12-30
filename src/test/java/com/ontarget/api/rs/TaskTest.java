@@ -33,7 +33,7 @@ public class TaskTest extends JerseyTest {
                     .type(MediaType.APPLICATION_JSON)
                     .post(ClientResponse.class, params);
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
 
         if (response == null) {
@@ -42,7 +42,6 @@ public class TaskTest extends JerseyTest {
             throw new RuntimeException("Failed : HTTP error code : "
                     + response.getStatus());
         }
-
     }
 
     @Test

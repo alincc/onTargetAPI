@@ -75,7 +75,7 @@ public class UserProfileTest extends JerseyTest {
                     .type(MediaType.APPLICATION_JSON)
                     .post(ClientResponse.class, mapper.writeValueAsString(req));
         } catch (IOException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
 
         if (response.getStatus() != 200) {
@@ -87,7 +87,6 @@ public class UserProfileTest extends JerseyTest {
         System.out.println("Server response .... \n");
         System.out.println(output);
     }
-
 
     @Test
     public void forgotPasswordRequestTest() throws IOException {
