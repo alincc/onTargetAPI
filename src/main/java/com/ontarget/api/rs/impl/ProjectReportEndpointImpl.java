@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -34,7 +35,7 @@ public class ProjectReportEndpointImpl implements ProjectReportEndpoint {
         ProjectEarnedValueReportResponse response = new ProjectEarnedValueReportResponse();
 
         try {
-            Map<TaskInterval, ProjectEarnedValueAnalysisReport> report = projectReportService.getEarnedValueAnalysisReport(projectId);
+            List<ProjectEarnedValueAnalysisReport> report = projectReportService.getEarnedValueAnalysisReport(projectId);
             response.setEarnedValueAnalysisReportMap(report);
             response.setReturnMessage("Successfully retrieved report.");
             response.setReturnVal(OnTargetConstant.SUCCESS);

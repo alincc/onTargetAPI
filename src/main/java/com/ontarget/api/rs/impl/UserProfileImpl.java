@@ -105,15 +105,14 @@ public class UserProfileImpl implements UserProfile {
     @Override
     @POST
     @Path("/changeForgotPassword")
-    public OnTargetResponse changeForgotPassword(ChangeUserPasswordRequest request) throws Exception {
-        long userId = request.getUserId();
-        String newPassword = request.getNewPassword();
+    public OnTargetResponse changeForgotPassword(ForgotPasswordRequest request) throws Exception {
+       logger.debug("Changing the forgot password request based on token: "+ request.getForgotPasswordToken());
 
-//        System.out.println("this is user id " + userId + " password " + newPassword);
-        OnTargetResponse response = new OnTargetResponse();
+       String newPassword = request.getNewPassword();
+       OnTargetResponse response = new OnTargetResponse();
         try {
-            if (userProfileService.changeForgotPassword(userId, newPassword)) {
-                response.setReturnMessage("succesfully updated");
+            if (userProfileService.changeForgotPassword(request.getForgotPasswordToken(), newPassword)) {
+                response.setReturnMessage("Forgot Password Succesfully changed");
                 response.setReturnVal(OnTargetConstant.SUCCESS);
             } else {
                 logger.error("failed updating password");

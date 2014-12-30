@@ -16,6 +16,7 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -156,7 +157,16 @@ public class UserProfileServiceImpl implements UserProfileService {
 
     @Override
     @Transactional(rollbackFor = {Exception.class})
-    public boolean changeForgotPassword(long userId, String newPassword) throws Exception{
+    public boolean changeForgotPassword(String token, String newPassword) throws Exception{
+
+       Map<String, Object> forgotPasswordRequest= userDAO.getForgotPasswordRequest(token);
+       if(forgotPasswordRequest == null){
+           throw new Exception("Forgot Password has already expired.");
+       }
+
+        int userId = (int)forgotPasswordRequest.get("user_id");
+
+
         User user = userDAO.getUser(userId);
         if(user == null){
             throw new Exception("user not found");
@@ -275,12 +285,13 @@ public class UserProfileServiceImpl implements UserProfileService {
 
     @Override
     public boolean validateForgotPasswordToken(String forgotPasswordToken) throws Exception{
-        int count = userDAO.getForgotPasswordRequest(forgotPasswordToken);
+        int count = userDAO.getForgotPasswordRequestCount(forgotPasswordToken);
         if(count > 0){
             return true;
         }
         return false;
     }
+
 
     @Override
     public boolean saveUserImage(UserImageRequest userImageRequest) throws Exception {
@@ -288,7 +299,7 @@ public class UserProfileServiceImpl implements UserProfileService {
     }
 
     @Override
-    public int generateUserId() {
+    public int generateUserId() throws Exception{
         return random.nextInt(Integer.MAX_VALUE);
     }
 

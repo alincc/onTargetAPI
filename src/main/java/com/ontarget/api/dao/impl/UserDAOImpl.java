@@ -8,17 +8,13 @@ import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
-import com.ontarget.api.dao.UserDAO;
-import com.ontarget.bean.User;
-import com.ontarget.constant.OnTargetQuery;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.Map;
 
 @Repository
@@ -90,7 +86,21 @@ public class UserDAOImpl extends BaseGenericDAOImpl<User> implements UserDAO {
     }
 
     @Override
-    public int getForgotPasswordRequest(String forgotPasswordToken) throws Exception {
-        return  jdbcTemplate.queryForObject(OnTargetQuery.GET_FORGOT_PASSWORD_REQUEST, new Object[]{forgotPasswordToken},Integer.class);
+    public Map<String, Object> getForgotPasswordRequest(String forgotPasswordToken) throws Exception {
+        return jdbcTemplate.queryForObject(OnTargetQuery.GET_FORGOT_PASSWORD_REQUEST, new Object[]{forgotPasswordToken}, new RowMapper<Map<String, Object>>() {
+            @Override
+            public Map<String, Object> mapRow(ResultSet rs, int index)
+                    throws SQLException {
+                Map<String, Object> forgotPwdMap = new HashMap<>();
+                forgotPwdMap.put("user_id", rs.getInt("user_id"));
+                return forgotPwdMap;
+            }
+        });
+    }
+
+
+    @Override
+    public int getForgotPasswordRequestCount(String forgotPasswordToken) throws Exception {
+        return  jdbcTemplate.queryForObject(OnTargetQuery.GET_FORGOT_PASSWORD_REQUEST_COUNT, new Object[]{forgotPasswordToken},Integer.class);
     }
 }

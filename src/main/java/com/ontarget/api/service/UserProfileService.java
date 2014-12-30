@@ -7,6 +7,7 @@ import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.UserImageRequest;
 import com.ontarget.dto.UserProfileRequest;
 import com.ontarget.dto.UserProfileResponse;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Created by Owner on 11/4/14.
@@ -25,6 +26,8 @@ public interface UserProfileService {
 
     public UserRegistration getRegistration(String token) throws Exception;
 
+    public boolean changeForgotPassword(String token, String newPassword) throws Exception;
+
     public Company getCompanyInfoByUser(int userId) throws Exception;
 
     public String getRandomSafetyUserInfo(long userId) throws Exception;
@@ -39,7 +42,5 @@ public interface UserProfileService {
 
     public boolean saveUserImage(UserImageRequest userImageRequest) throws Exception;
 
-    public int generateUserId();
-
-    public boolean changeForgotPassword(long userId, String newPassword) throws Exception;
+    public int generateUserId() throws Exception;
 }

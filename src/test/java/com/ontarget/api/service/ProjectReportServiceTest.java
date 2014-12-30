@@ -2,13 +2,12 @@ package com.ontarget.api.service;
 
 import com.ontarget.api.BaseTest;
 import com.ontarget.bean.ProjectEarnedValueAnalysisReport;
-import com.ontarget.bean.TaskInterval;
 import junit.framework.Assert;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.Map;
+import java.util.List;
 
 import static junit.framework.Assert.fail;
 
@@ -24,16 +23,16 @@ public class ProjectReportServiceTest extends BaseTest {
 
 
     @Test
-    public void getEarnedValueAnalysisReportTest(){
+    public void getEarnedValueAnalysisReportTest() {
 
         try {
-            Map<TaskInterval, ProjectEarnedValueAnalysisReport> earnedValueReport = projectReportService.getEarnedValueAnalysisReport(1);
+            List<ProjectEarnedValueAnalysisReport> earnedValueReport = projectReportService.getEarnedValueAnalysisReport(1);
 
             Assert.assertTrue(earnedValueReport.size() > 0);
 
 
         } catch (Exception e) {
-            logger.error("Error while getting project report info: ",e);
+            logger.error("Error while getting project report info: ", e);
             fail();
         }
 

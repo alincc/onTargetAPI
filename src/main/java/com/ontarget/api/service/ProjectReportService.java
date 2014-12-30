@@ -13,6 +13,6 @@ import java.util.Map;
 public interface ProjectReportService {
 
 
-    public Map<TaskInterval, ProjectEarnedValueAnalysisReport> getEarnedValueAnalysisReport(int projectId) throws Exception;
+    public List<ProjectEarnedValueAnalysisReport> getEarnedValueAnalysisReport(int projectId) throws Exception;
 
 }

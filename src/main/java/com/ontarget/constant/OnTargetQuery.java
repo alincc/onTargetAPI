@@ -116,7 +116,10 @@ public interface OnTargetQuery {
 
     public static final String ADD_FORGOT_PASSWORD_REQUEST = new StringBuilder("insert into forgot_password_request (user_id, forgot_password_token,status, ts_expiry) values (?,?,?, now() + INTERVAL 24 HOUR);").toString();
 
-    public static final String GET_FORGOT_PASSWORD_REQUEST = new StringBuilder("select count(id) from forgot_password_request where forgot_password_token=? and status='ACTIVE' and ts_expiry > now()").toString();
+    public static final String GET_FORGOT_PASSWORD_REQUEST_COUNT = new StringBuilder("select count(id) from forgot_password_request where forgot_password_token=? and status='ACTIVE' and ts_expiry > now()").toString();
+
+    public static final String GET_FORGOT_PASSWORD_REQUEST = new StringBuilder("select * from forgot_password_request where forgot_password_token=? and status='ACTIVE' and ts_expiry > now()").toString();
+
 
     public static final String GET_TASK_ASSIGNEE = new StringBuilder("select task_assignee from task_assignee where project_task_id=?").toString();
 

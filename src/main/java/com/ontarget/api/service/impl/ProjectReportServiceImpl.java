@@ -32,7 +32,7 @@ public class ProjectReportServiceImpl implements ProjectReportService {
     private ProjectDAO projectDAO;
 
     @Override
-    public Map<TaskInterval, ProjectEarnedValueAnalysisReport> getEarnedValueAnalysisReport(int projectId) throws Exception {
+    public List<ProjectEarnedValueAnalysisReport> getEarnedValueAnalysisReport(int projectId) throws Exception {
         logger.debug("Getting earned value analysis report: " + projectId);
         //task planned cost
         Map<Task, Map<TaskInterval, TaskEstimatedCost>> taskPlannedCostByMonthAndYear = taskBudgetDAO.getTaskToCostMapByMonthYear(projectId, OnTargetConstant.CostType.PLANNED);
@@ -141,10 +141,8 @@ public class ProjectReportServiceImpl implements ProjectReportService {
 
         calculateCumulativeEarnedValue(monthYearEarnedValueReportByTask, taskPercentageByMonthAndYear, totalTaskBudgetCost);
 
-        calculateEarnedValueAnalysisReport(monthYearEarnedValueReportByTask,totalTaskBudgetCost);
+       return  calculateEarnedValueAnalysisReport(monthYearEarnedValueReportByTask,totalTaskBudgetCost);
 
-
-        return monthYearEarnedValueReportByTask;
     }
 
 
@@ -175,7 +173,7 @@ public class ProjectReportServiceImpl implements ProjectReportService {
      *
      * @param reportMap
      */
-    private void calculateEarnedValueAnalysisReport(Map<TaskInterval, ProjectEarnedValueAnalysisReport> reportMap, Map<Task, Double> totalTaskBudgetCost) {
+    private List<ProjectEarnedValueAnalysisReport> calculateEarnedValueAnalysisReport(Map<TaskInterval, ProjectEarnedValueAnalysisReport> reportMap, Map<Task, Double> totalTaskBudgetCost) {
 
         /**
          * total budget cost of all the tasks
@@ -187,6 +185,9 @@ public class ProjectReportServiceImpl implements ProjectReportService {
         }
 
 
+        List<ProjectEarnedValueAnalysisReport> projectEarnedValueAnalysisReports = new LinkedList<>();
+
+
         /**
          * calculate cumulative planned value.
          */
@@ -195,6 +196,9 @@ public class ProjectReportServiceImpl implements ProjectReportService {
         for (Map.Entry<TaskInterval, ProjectEarnedValueAnalysisReport> entry : reportMap.entrySet()) {
             TaskInterval interval = entry.getKey();
             ProjectEarnedValueAnalysisReport report = entry.getValue();
+            projectEarnedValueAnalysisReports.add(report);
+            report.setMonth(interval.getMonth());
+            report.setYear(interval.getYear());
 
             cumulativePlannedValue += report.getTotalBudgetedCost();
             report.setCumulativePlannedValue(cumulativePlannedValue);
@@ -238,9 +242,9 @@ public class ProjectReportServiceImpl implements ProjectReportService {
             double estimatedCostAtCompletion=totalBudgetedCost * (1/costPerformanceIndex);
             report.setEstimatedCostAtCompletion(estimatedCostAtCompletion);
 
-
-
         }
+
+        return projectEarnedValueAnalysisReports;
     }
 
 

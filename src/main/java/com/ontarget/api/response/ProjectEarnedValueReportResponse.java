@@ -5,6 +5,7 @@ import com.ontarget.bean.TaskInterval;
 import com.ontarget.dto.OnTargetResponse;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -12,16 +13,17 @@ import java.util.Map;
  */
 public class ProjectEarnedValueReportResponse extends OnTargetResponse{
 
-    Map<TaskInterval, ProjectEarnedValueAnalysisReport> earnedValueAnalysisReportMap;
+    private List<ProjectEarnedValueAnalysisReport> earnedValueAnalysisReportMap;
 
     public ProjectEarnedValueReportResponse() {
     }
 
-    public Map<TaskInterval, ProjectEarnedValueAnalysisReport> getEarnedValueAnalysisReportMap() {
+
+    public List<ProjectEarnedValueAnalysisReport> getEarnedValueAnalysisReportMap() {
         return earnedValueAnalysisReportMap;
     }
 
-    public void setEarnedValueAnalysisReportMap(Map<TaskInterval, ProjectEarnedValueAnalysisReport> earnedValueAnalysisReportMap) {
+    public void setEarnedValueAnalysisReportMap(List<ProjectEarnedValueAnalysisReport> earnedValueAnalysisReportMap) {
         this.earnedValueAnalysisReportMap = earnedValueAnalysisReportMap;
     }
 }
