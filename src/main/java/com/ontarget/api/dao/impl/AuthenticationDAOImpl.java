@@ -110,16 +110,15 @@ public class AuthenticationDAOImpl implements AuthenticationDAO {
         jdbcTemplate.query(OnTargetQuery.USER_LOGIN, new Object[]{user.getUsername()}, new RowMapper<User>() {
             @Override
             public User mapRow(ResultSet resultSet, int i) throws SQLException {
-                returnUser.setUsername(user.getUsername());
-                returnUser.setUserId(resultSet.getInt("user_id"));
-                returnUser.setAccountStatus(resultSet.getString("account_status"));
-                returnUser.setUserStatus(resultSet.getString("user_status"));
-                returnUser.setUserTypeId(resultSet.getInt("user_type_id"));
-
                 String salt = resultSet.getString("salt");
                 String hashedPassword = Security.encodePassword(password, salt);
 
                 if (hashedPassword.equals(resultSet.getString("password"))) {
+                    returnUser.setUsername(user.getUsername());
+                    returnUser.setUserId(resultSet.getInt("user_id"));
+                    returnUser.setAccountStatus(resultSet.getString("account_status"));
+                    returnUser.setUserStatus(resultSet.getString("user_status"));
+                    returnUser.setUserTypeId(resultSet.getInt("user_type_id"));
                     return returnUser;
                 } else {
                     return null;

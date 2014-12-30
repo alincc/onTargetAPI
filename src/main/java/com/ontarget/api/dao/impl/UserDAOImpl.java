@@ -87,6 +87,7 @@ public class UserDAOImpl extends BaseGenericDAOImpl<User> implements UserDAO {
 
     @Override
     public Map<String, Object> getForgotPasswordRequest(String forgotPasswordToken) throws Exception {
+        logger.debug("Getting forgot password request for token: "+forgotPasswordToken);
         return jdbcTemplate.queryForObject(OnTargetQuery.GET_FORGOT_PASSWORD_REQUEST, new Object[]{forgotPasswordToken}, new RowMapper<Map<String, Object>>() {
             @Override
             public Map<String, Object> mapRow(ResultSet rs, int index)
@@ -102,5 +103,15 @@ public class UserDAOImpl extends BaseGenericDAOImpl<User> implements UserDAO {
     @Override
     public int getForgotPasswordRequestCount(String forgotPasswordToken) throws Exception {
         return  jdbcTemplate.queryForObject(OnTargetQuery.GET_FORGOT_PASSWORD_REQUEST_COUNT, new Object[]{forgotPasswordToken},Integer.class);
+    }
+
+    @Override
+    public boolean expireForgotPasswordRequest(String token) throws Exception {
+        logger.debug("Expiring token: "+ token);
+        int row = jdbcTemplate.update(OnTargetQuery.EXPIRE_FORGOT_PASSWORD_TOKEN, new Object[]{token});
+        if(row == 0){
+            return false;
+        }
+        return true;
     }
 }

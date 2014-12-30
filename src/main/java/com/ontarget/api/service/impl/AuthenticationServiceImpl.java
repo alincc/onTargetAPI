@@ -34,7 +34,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         if (returnUser.getUserId() == 0) {
             response.setReturnMessage(OnTargetConstant.AUTHENTICATION_FAILED);
             response.setAuthenticated(false);
-            response.setAuthenticated(false);
+            response.setReturnVal(OnTargetConstant.ERROR);
             return response;
         }
         String token = TokenUtil.getLoginToken(user.getUsername());

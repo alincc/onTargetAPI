@@ -12,5 +12,7 @@ public interface UserDAO extends GenericDAO<User> {
 
     public java.util.Map<String, Object> getForgotPasswordRequest(String forgotPasswordToken) throws Exception;
 
-    int getForgotPasswordRequestCount(String forgotPasswordToken) throws Exception;
+    public int getForgotPasswordRequestCount(String forgotPasswordToken) throws Exception;
+
+    public boolean expireForgotPasswordRequest(String token) throws Exception;
 }

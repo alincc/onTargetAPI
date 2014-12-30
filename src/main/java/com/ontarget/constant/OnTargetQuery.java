@@ -125,6 +125,8 @@ public interface OnTargetQuery {
 
     public static final String GET_TASK = new StringBuilder("select * from project_task where project_task_id=?").toString();
 
+    public static final String EXPIRE_FORGOT_PASSWORD_TOKEN = new StringBuilder("update forgot_password_request set status='EXPIRED' where forgot_password_token=?").toString();
+
 
     interface documentTemplate {
         public static final String ADD = "insert into document_template (name, created_by, created_date, modified_by, modfied_date) values(?, ?, now(), ?, now())";

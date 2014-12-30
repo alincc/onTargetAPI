@@ -174,7 +174,17 @@ public class UserProfileServiceImpl implements UserProfileService {
 
         String newSalt = Security.generateSecureSalt();
         String newHashedPassword = Security.encodePassword(newPassword, newSalt);
-        return authenticationDAO.changePassword(userId, newHashedPassword, newSalt);
+        boolean changed =  authenticationDAO.changePassword(userId, newHashedPassword, newSalt);
+
+        if(!changed){
+            throw new Exception("Error while changing forgot password");
+        }
+
+
+        /**
+         * after successfully changing the forgot password expire the token
+         */
+        return userDAO.expireForgotPasswordRequest(token);
     }
 
 

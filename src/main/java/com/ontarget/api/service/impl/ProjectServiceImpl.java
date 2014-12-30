@@ -168,6 +168,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public ProjectListResponse getProjectsByUser(int userId) throws Exception {
+
         List<Map<String, Object>> projects = projectDAO.getProjectByUser(userId);
         return this.getProjectResponse(projects);
     }
