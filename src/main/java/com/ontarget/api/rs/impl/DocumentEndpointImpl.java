@@ -23,6 +23,7 @@ import com.ontarget.dto.AddDocumentAttachmentResponse;
 import com.ontarget.dto.AddDocumentRequest;
 import com.ontarget.dto.AddDocumentResponse;
 import com.ontarget.dto.GetDocumentAttachmentsResponse;
+import com.ontarget.dto.GetDocumentResponse;
 import com.ontarget.dto.GetDocumentsResponse;
 import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.UpdateDocumentDataRequest;
@@ -121,6 +122,35 @@ public class DocumentEndpointImpl implements DocumentEndpoint {
 		} catch (Throwable t) {
 			GetDocumentsResponse response = new GetDocumentsResponse(OnTargetConstant.ERROR,
 					t.getMessage());
+			return response;
+		}
+	}
+	
+	/**
+	 * This API returns the data for the document with the document id  as specified as the path parameter. 
+	 * 
+	 * e.g. usage
+	 * /documents/123
+	 * this will return the data for the document which id is 123.
+	 */
+	/* (non-Javadoc)
+	 * @see com.ontarget.api.rs.DocumentEndpoint#getDocument(java.lang.String)
+	 */
+	@GET
+	@Path("/{documentId}")
+	@Override
+	public GetDocumentResponse getDocument(@PathParam("documentId") String documentId) {
+		try {
+			long docId = Long.parseLong(documentId);
+			GetDocumentResponse response = documentService.getDocument(docId);
+			return response;
+		} catch (Throwable t) {
+			String errMsg = t.getMessage();
+			if(t instanceof NumberFormatException) {
+				errMsg = "Invalid document ID specified as path parameter!";
+			}
+			GetDocumentResponse response = new GetDocumentResponse(OnTargetConstant.ERROR,
+					errMsg);
 			return response;
 		}
 	}

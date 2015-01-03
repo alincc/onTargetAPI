@@ -28,6 +28,7 @@ import com.ontarget.dto.AddDocumentAttachmentResponse;
 import com.ontarget.dto.AddDocumentRequest;
 import com.ontarget.dto.AddDocumentResponse;
 import com.ontarget.dto.GetDocumentAttachmentsResponse;
+import com.ontarget.dto.GetDocumentResponse;
 import com.ontarget.dto.GetDocumentsResponse;
 import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.UpdateDocumentDataRequest;
@@ -154,6 +155,7 @@ public class DocumentServiceImpl implements DocumentService {
 			List<Document> submittals = documentDAO.getByCreatedBy(userName);
 			
 			for(Document doc : submittals) {
+				doc.setDocumentTemplate(documentTemplateDAO.getByDocumentId(doc.getDocumentId()));
 				List<DocumentKeyValue> keyValues = documentKeyValueDAO.getByDocumentId(doc.getDocumentId());
 				doc.setKeyValues(keyValues);
 				List<DocumentGridKeyValue> gridKeyValues = documentGridKeyValueDAO.getByDocumentId(doc.getDocumentId());
@@ -163,6 +165,7 @@ public class DocumentServiceImpl implements DocumentService {
 			List<Document> approvals = documentDAO.getByAssigneeUsername(userName);
 			
 			for(Document doc : approvals) {
+				doc.setDocumentTemplate(documentTemplateDAO.getByDocumentId(doc.getDocumentId()));
 				List<DocumentKeyValue> keyValues = documentKeyValueDAO.getByDocumentId(doc.getDocumentId());
 				doc.setKeyValues(keyValues);
 				List<DocumentGridKeyValue> gridKeyValues = documentGridKeyValueDAO.getByDocumentId(doc.getDocumentId());
@@ -241,6 +244,30 @@ public class DocumentServiceImpl implements DocumentService {
 		} catch(Throwable t) {
 			logger.error("Unable to add document attachment", t);
 			throw new Exception("Unable to add document attachment!");
+		}
+	}
+
+	@Override
+	public GetDocumentResponse getDocument(long documentId) throws Exception {
+		try {		
+			Document document = documentDAO.read(documentId);
+			document.setDocumentTemplate(documentTemplateDAO.getByDocumentId(documentId));
+			
+			List<DocumentKeyValue> keyValues = documentKeyValueDAO.getByDocumentId(documentId);
+			document.setKeyValues(keyValues);
+			
+			List<DocumentGridKeyValue> gridKeyValues = documentGridKeyValueDAO.getByDocumentId(documentId);
+			document.setGridKeyValues(gridKeyValues);
+			
+			GetDocumentResponse response = new GetDocumentResponse();
+			response.setDocument(document);
+			response.setReturnVal(OnTargetConstant.SUCCESS);
+			response.setReturnMessage("Success");
+			
+			return response;
+		} catch (Throwable t) {
+			logger.error("Error while getting the documents!", t);
+			throw new Exception("Unable to the documents!");
 		}
 	}
 

@@ -58,6 +58,25 @@ public class DocumentTemplateDAOImpl
 
 		return documentTemplate;
 	}
+	
+	@Override
+	public DocumentTemplate getByDocumentId(long documentId) {
+		DocumentTemplate documentTemplate = jdbcTemplate.queryForObject(OnTargetQuery.documentTemplate.GET_BY_DOCUMENT_ID, 
+				new Object[] { documentId }, 
+				new RowMapper<DocumentTemplate>() {
+					@Override
+					public DocumentTemplate mapRow(ResultSet rs, int arg1)
+							throws SQLException {
+						DocumentTemplate dt = new DocumentTemplate();
+						dt.setDocumentTemplateId(rs.getLong("document_template_id"));
+						dt.setName(rs.getString("name"));
+						return dt;
+					}
+			
+		});
+
+		return documentTemplate;
+	}
 
 	@Override
 	public boolean update(DocumentTemplate bean) {

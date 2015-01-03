@@ -133,6 +133,7 @@ public interface OnTargetQuery {
         public static final String UPDATE = "";
         public static final String DELETE = "";
         public static final String GET_BY_ID = "select * from document_template where document_template_id = ?";
+        String GET_BY_DOCUMENT_ID = "select dt.* from document_template dt, document d where dt.document_template_id = d.document_template_id and document_id = ?";
     }
 
     interface document {
