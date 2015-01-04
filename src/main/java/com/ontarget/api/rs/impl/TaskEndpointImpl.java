@@ -107,6 +107,22 @@ public class TaskEndpointImpl implements TaskEndpoint {
     }
 
     @Override
+    @GET
+    @Path("/{taskId}")
+    public TaskResponse getTaskDetail(@PathParam("taskId") int taskId) {
+        TaskResponse taskResponse = new TaskResponse();
+        try {
+            taskResponse.setTask(taskService.getTaskDetail(taskId));
+            taskResponse.setReturnVal(OnTargetConstant.SUCCESS);
+        } catch (Exception e) {
+            e.printStackTrace();
+            taskResponse.setReturnMessage("Add task comment failed");
+            taskResponse.setReturnVal(OnTargetConstant.ERROR);
+        }
+        return taskResponse;
+    }
+
+    @Override
     @POST
     @Path("/updateTaskStatus")
     public OnTargetResponse updateTaskStatus(TaskStatusUpdateRequest request) {

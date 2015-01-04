@@ -16,6 +16,8 @@ public interface TaskService {
 
     public List<Task> getTask(int projectId) throws Exception;
 
+    public Task getTaskDetail(int taskId) throws Exception;
+
     public List<com.ontarget.bean.TaskStatusCount> getTaskCountByStatus(int projectId) throws Exception;
 
     boolean addTaskComment(TaskComment comment) throws Exception;

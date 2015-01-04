@@ -59,7 +59,7 @@ public class ProjectEndpointImpl implements ProjectEndoint {
             response.setReturnMessage("Successfully retrieved project info");
 
         } catch (Exception e) {
-//            e.printStackTrace();
+            e.printStackTrace();
             logger.error("Error while getting project", e);
             response.setReturnMessage("Error while getting project");
             response.setReturnVal(OnTargetConstant.ERROR);

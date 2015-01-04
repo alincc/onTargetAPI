@@ -38,7 +38,11 @@ public interface OnTargetQuery {
 
     public static final String GET_PROJECT_TASK = new StringBuilder("SELECT * , if(status='COMPLETED',true,false) as completed FROM project_task WHERE project_id=?").toString();
 
-    public final static String GET_PROJECT = new StringBuilder("SELECT * FROM PROJECT WHERE PROJECT_ID=?").toString();
+    public final static String GET_PROJECT = new StringBuilder("SELECT * FROM project WHERE project_id=?").toString();
+
+    public final static String GET_CHILD_PROJECTS = new StringBuilder("SELECT * FROM project WHERE project_parent_id = ? ").toString();
+
+    public final static String GET_CHILD_TASKS = new StringBuilder("SELECT * FROM project_task WHERE parent_task_id = ?").toString();
 
     public static final String GET_ADDRESS = new StringBuilder("SELECT * FROM address WHERE address_id=?").toString();
 

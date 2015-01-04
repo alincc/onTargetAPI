@@ -4,8 +4,6 @@ import com.ontarget.api.response.TaskListCountResponse;
 import com.ontarget.bean.TaskComment;
 import com.ontarget.dto.*;
 
-import javax.ws.rs.QueryParam;
-
 /**
  * Created by Owner on 11/6/14.
  */
@@ -27,5 +25,7 @@ public interface TaskEndpoint {
 
     public OnTargetResponse assignTaskToUser(TaskMemberRequest taskMemberRequest);
 
-    public GetTaskAttachmentResponse getTaskAttachments( long taskId);
+    public GetTaskAttachmentResponse getTaskAttachments(long taskId);
+
+    public TaskResponse getTaskDetail(int taskId);
 }

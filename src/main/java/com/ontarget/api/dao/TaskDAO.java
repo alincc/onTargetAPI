@@ -39,4 +39,6 @@ public interface TaskDAO {
     Long getAssignedUser(long taskId) throws Exception;
 
     public Task getTaskDetail(long taskId) throws Exception;
+
+    public List<Task> getChildTasks(int taskId) throws Exception;
 }

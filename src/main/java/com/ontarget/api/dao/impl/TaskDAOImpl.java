@@ -12,11 +12,9 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.*;
+import java.util.Date;
 
 /**
  * Created by Owner on 11/6/14.
@@ -60,6 +58,34 @@ public class TaskDAOImpl implements TaskDAO {
     @Override
     public List<Task> getTask(int projectId) throws Exception {
         List<Map<String, Object>> taskList = jdbcTemplate.queryForList(OnTargetQuery.GET_PROJECT_TASK, new Object[]{projectId});
+        List<Task> tasks = new ArrayList<>();
+        if (taskList != null && taskList.size() > 0) {
+            for (Map<String, Object> taskMap : taskList) {
+                Task task = new Task();
+                task.setTitle((String) taskMap.get("title"));
+                task.setDescription((String) taskMap.get("description"));
+                task.setStatus((String) taskMap.get("status"));
+                task.setSeverity((String) taskMap.get("severity"));
+                task.setProjectTaskId((Integer) taskMap.get("project_task_id"));
+                task.setStartDate((Date) taskMap.get("start_date"));
+                task.setEndDate((Date) taskMap.get("end_date"));
+                task.setStatus((String) taskMap.get("status"));
+
+                long status = (Long) taskMap.get("completed");
+                if (status == 0) {
+                    task.setCompleted(false);
+                } else {
+                    task.setCompleted(true);
+                }
+                tasks.add(task);
+            }
+        }
+
+        return tasks;
+    }
+
+    public List<Task> getChildTasks(int taskId) throws Exception {
+        List<Map<String, Object>> taskList = jdbcTemplate.queryForList(OnTargetQuery.GET_CHILD_TASKS, new Object[]{taskId});
         List<Task> tasks = new ArrayList<>();
         if (taskList != null && taskList.size() > 0) {
             for (Map<String, Object> taskMap : taskList) {
