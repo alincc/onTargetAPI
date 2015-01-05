@@ -181,5 +181,7 @@ public class TaskServiceImpl implements TaskService {
         return assigned;
     }
 
-
+    public List<Task> getDependentTasks(long taskId) throws Exception {
+        return taskDAO.getDependentTasks(taskId);
+    }
 }

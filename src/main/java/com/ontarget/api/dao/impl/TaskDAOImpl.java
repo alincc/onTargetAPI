@@ -273,8 +273,30 @@ public class TaskDAOImpl implements TaskDAO {
                 return null;
             }
         });
+
         return task;
     }
 
+    @Override
+    public List<Task> getDependentTasks(long taskId) throws Exception {
+        List<Task> tasks = new LinkedList<>();
+        jdbcTemplate.query(OnTargetQuery.DependentTask.GET_DEPENDENT_TASK, new Object[]{taskId}, new RowMapper<Void>() {
+            @Override
+            public Void mapRow(ResultSet resultSet, int i) throws SQLException {
+                Task task = new Task();
+                task.setProjectTaskId(resultSet.getInt("project_task_id"));
+                task.setTitle(resultSet.getString("title"));
+                task.setStatus(resultSet.getString("status"));
+                task.setStartDate(resultSet.getDate("start_date"));
+                task.setEndDate(resultSet.getDate("end_date"));
+                task.setDescription(resultSet.getString("description"));
+                task.setSeverity(resultSet.getString("severity"));
+                tasks.add(task);
 
+                return null;
+            }
+        });
+
+        return tasks;
+    }
 }

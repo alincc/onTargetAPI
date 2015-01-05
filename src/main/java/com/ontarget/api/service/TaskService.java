@@ -33,7 +33,9 @@ public interface TaskService {
 
     public long saveTaskFile(long taskid, long userId, String fileName, String location) throws Exception;
 
-    public  List<FileAttachment> getTaskAttachments(long taskId) throws Exception;
+    public List<FileAttachment> getTaskAttachments(long taskId) throws Exception;
 
     public boolean assignTaskToUser(long taskId, long userId) throws Exception;
+
+    public List<Task> getDependentTasks(long taskId) throws Exception;
 }
