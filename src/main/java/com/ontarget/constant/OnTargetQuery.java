@@ -215,4 +215,8 @@ public interface OnTargetQuery {
     public static final String GET_ALL_COMPANY = new StringBuilder("SELECT * FROM company_info").toString();
 
     public static final String GET_USER_NOTIFICATION = new StringBuilder("SELECT * FROM user_notification where id > ? and user_id = ? order by id").toString();
+
+    interface DependentTask {
+        public static final String ADD_DEPENDENT_TASK = new StringBuilder("INSERT INTO dependent_task (task_id, dependent_task_id, category_id, created_by) VALUES (?,?, ?, ?)").toString();
+    }
 }

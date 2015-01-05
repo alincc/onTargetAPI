@@ -87,6 +87,10 @@ public class TaskServiceImpl implements TaskService {
         return taskDAO.getTask(projectId);
     }
 
+    public int addDependentTask(DependentTask dependentTask) throws Exception {
+        return taskDAO.addDependentTask(dependentTask);
+    }
+
     public Task getTaskDetail(int taskId) throws Exception {
         Task task = taskDAO.getTaskDetail(taskId);
         setTaskLevel(task, 1);

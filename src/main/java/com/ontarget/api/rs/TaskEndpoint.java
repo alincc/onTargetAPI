@@ -25,6 +25,8 @@ public interface TaskEndpoint {
 
     public OnTargetResponse assignTaskToUser(TaskMemberRequest taskMemberRequest);
 
+    public InsertResponse addDependentTask(AddDependentRequest addDependentRequest);
+
     public GetTaskAttachmentResponse getTaskAttachments(long taskId);
 
     public TaskResponse getTaskDetail(int taskId);

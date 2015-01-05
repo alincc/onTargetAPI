@@ -1,5 +1,6 @@
 package com.ontarget.api.service;
 
+import com.ontarget.bean.DependentTask;
 import com.ontarget.bean.FileAttachment;
 import com.ontarget.bean.Task;
 import com.ontarget.bean.TaskComment;
@@ -15,6 +16,8 @@ public interface TaskService {
     public boolean addTaskService(Task task) throws Exception;
 
     public List<Task> getTask(int projectId) throws Exception;
+
+    public int addDependentTask(DependentTask dependentTask) throws Exception;
 
     public Task getTaskDetail(int taskId) throws Exception;
 

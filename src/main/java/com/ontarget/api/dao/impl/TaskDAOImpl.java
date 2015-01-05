@@ -158,6 +158,25 @@ public class TaskDAOImpl implements TaskDAO {
         return keyHolder.getKey().intValue();
     }
 
+    public int addDependentTask(DependentTask dependentTask) throws Exception {
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(
+                new PreparedStatementCreator() {
+                    public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+                        PreparedStatement ps =
+                                connection.prepareStatement(OnTargetQuery.DependentTask.ADD_DEPENDENT_TASK, new String[]{"id"});
+                        ps.setInt(1, dependentTask.getTaskId());
+                        ps.setInt(2, dependentTask.getDependentTaskId());
+                        ps.setInt(3, dependentTask.getCategory_id());
+                        ps.setInt(4, dependentTask.getCreatedBy());
+
+                        return ps;
+                    }
+                },
+                keyHolder);
+        return keyHolder.getKey().intValue();
+    }
+
     @Override
     public List<TaskComment> getTaskComments(int projectTaskId) throws Exception {
         List<Map<String, Object>> taskList = jdbcTemplate.queryForList(OnTargetQuery.GET_TASK_COMMENT, new Object[]{projectTaskId});

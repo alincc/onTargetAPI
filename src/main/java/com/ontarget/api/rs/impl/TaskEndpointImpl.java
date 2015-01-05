@@ -248,4 +248,22 @@ public class TaskEndpointImpl implements TaskEndpoint {
 
         return response;
     }
+
+    // dependent task section
+    @Path("/addDependentTask")
+    @POST
+    public InsertResponse addDependentTask(AddDependentRequest addDependentRequest) {
+        InsertResponse response = new InsertResponse();
+        try {
+            addDependentRequest.getDependentTask().setCreatedBy(addDependentRequest.getUser().getUserId());
+            response.setId(taskService.addDependentTask(addDependentRequest.getDependentTask()));
+            response.setReturnVal(OnTargetConstant.SUCCESS);
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.setReturnMessage("Error while adding dependent task");
+            response.setReturnVal(OnTargetConstant.ERROR);
+        }
+
+        return response;
+    }
 }

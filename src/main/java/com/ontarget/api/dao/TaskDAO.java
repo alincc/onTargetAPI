@@ -1,5 +1,6 @@
 package com.ontarget.api.dao;
 
+import com.ontarget.bean.DependentTask;
 import com.ontarget.bean.Task;
 import com.ontarget.bean.TaskComment;
 
@@ -41,4 +42,6 @@ public interface TaskDAO {
     public Task getTaskDetail(long taskId) throws Exception;
 
     public List<Task> getChildTasks(int taskId) throws Exception;
+
+    public int addDependentTask(DependentTask dependentTask) throws Exception;
 }

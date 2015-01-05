@@ -88,7 +88,6 @@ public class ProjectEndpointImpl implements ProjectEndoint {
         return response;
     }
 
-
     @Override
     @GET
     @Path("/getProject/company/{companyId}/user/{userId}")
