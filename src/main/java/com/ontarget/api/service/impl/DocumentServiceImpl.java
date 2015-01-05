@@ -192,7 +192,7 @@ public class DocumentServiceImpl implements DocumentService {
 			Long documentId = request.getDocumentId();
 			String newStatus = request.getNewStatus();
 			User updater = request.getUpdater();
-			boolean updated = documentDAO.updateStatus(documentId, newStatus, updater.getUserId());
+			boolean updated = documentDAO.updateStatus(documentId, newStatus, updater.getUsername());
 			OnTargetResponse response = new OnTargetResponse();
 			if(updated) {
 				response.setReturnVal(OnTargetConstant.SUCCESS);
