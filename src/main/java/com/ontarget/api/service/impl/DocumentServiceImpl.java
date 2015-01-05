@@ -133,10 +133,10 @@ public class DocumentServiceImpl implements DocumentService {
 				for(DocumentGridKeyValue gridKeyValue : gridKeyValues) {
 					
 					documentGridKeyValueDAO.updateValue(documentId, gridKeyValue.getGridId(), 
-							gridKeyValue.getGridRowIndex(), gridKeyValue.getKey(), gridKeyValue.getValue(), user.getUserId());
+							gridKeyValue.getGridRowIndex(), gridKeyValue.getKey(), gridKeyValue.getValue(), user.getUsername());
 				}
 			}
-			OnTargetResponse response = new OnTargetResponse(OnTargetConstant.SUCCESS,
+			OnTargetResponse response = new OnTargetResponse(null, OnTargetConstant.SUCCESS,
 					"Document data succefully updated.");
 			return response;
 		} catch(Throwable t) {

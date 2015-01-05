@@ -59,7 +59,7 @@ public class DocumentGridKeyValueDAOImpl
 
     @Override
     public boolean updateValue(long documentId, String gridId,
-                               int gridRowIndex, String key, String newValue, int modifiedBy) {
+                               int gridRowIndex, String key, String newValue, String modifiedBy) {
         int count = jdbcTemplate.update(OnTargetQuery.documentGridKeyValue.UPDATE_VALUE,
                 newValue, modifiedBy, documentId, gridId, gridRowIndex, key);
         return (count > 0);
