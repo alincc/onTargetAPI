@@ -189,7 +189,7 @@ public class TaskPercentageDAOImpl implements TaskPercentageDAO {
                 Calendar cal = Calendar.getInstance();
                 cal.setTime(fromDate);
                 year = cal.get(Calendar.YEAR);
-                month = cal.get(Calendar.MONTH);
+                month = cal.get(Calendar.MONTH) + 1;
             }
             percentage.setMonth(month);
             percentage.setYear(year);
