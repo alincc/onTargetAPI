@@ -88,6 +88,19 @@ public class TaskServiceImpl implements TaskService {
     }
 
     public int addDependentTask(DependentTask dependentTask) throws Exception {
+        // check start date and end date
+        Task task = taskDAO.getTaskDetail(dependentTask.getTaskId());
+        Task dTask = taskDAO.getTaskDetail(dependentTask.getDependentTaskId());
+
+        if (task == null || dTask == null)
+            throw new Exception("task are invalid");
+
+        if (dTask.getStartDate().getTime() < task.getStartDate().getTime()) {
+            throw new Exception("Dependent Task starts before task start date");
+        } else if (dTask.getEndDate().getTime() > task.getEndDate().getTime()) {
+            throw new Exception("Task ends after dependent task end date");
+        }
+
         return taskDAO.addDependentTask(dependentTask);
     }
 
@@ -162,18 +175,18 @@ public class TaskServiceImpl implements TaskService {
     public boolean assignTaskToUser(long taskId, long userId) throws Exception {
 
         Long assignedTo = taskDAO.getAssignedUser(taskId);
-        boolean assigned=false;
-        if(assignedTo.longValue() == 0) {
+        boolean assigned = false;
+        if (assignedTo.longValue() == 0) {
             assigned = taskDAO.assignTaskToUser(taskId, userId);
-        }else{
-            assigned = taskDAO.updateTaskAssignee(taskId,userId);
+        } else {
+            assigned = taskDAO.updateTaskAssignee(taskId, userId);
         }
 
         if (assigned) {
             // get contact detail by userId
             Contact contact = contactDAO.getContact(userId);
             Task task = taskDAO.getTaskDetail(taskId);
-            if(contact!=null){
+            if (contact != null) {
                 emailService.sendTaskAssignmentEmail(task, contact);
             }
         }
