@@ -100,7 +100,7 @@ public class TaskPercentageDAOImpl implements TaskPercentageDAO {
                 Calendar cal = Calendar.getInstance();
                 cal.setTime(fromDate);
                 year = cal.get(Calendar.YEAR);
-                month = cal.get(Calendar.MONTH) +1;
+                month = cal.get(Calendar.MONTH) + 1;
             }
             percentage.setMonth(month);
             percentage.setYear(year);
@@ -114,6 +114,27 @@ public class TaskPercentageDAOImpl implements TaskPercentageDAO {
                 percentageMapByMonthYear = new LinkedHashMap<>();
             }
             percentageMapByMonthYear.put(new TaskInterval(month,year), percentage);
+
+
+            /**
+             * if percentage complete is zero for this month year, use the previous month/year
+             */
+            double percentageComplete=percentage.getTaskPercentageComplete();
+            while(percentageComplete == 0) {
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(fromDate);
+                cal.add(Calendar.MONTH,-1);
+
+                year = cal.get(Calendar.YEAR);
+                month = cal.get(Calendar.MONTH) + 1;
+                //set the from date incase the previous month/year is also zero.
+                fromDate=cal.getTime();
+
+                TaskPercentage lastMonthPercentage = percentageMapByMonthYear.get(new TaskInterval(month , year));
+                percentageComplete=lastMonthPercentage.getTaskPercentageComplete();
+            }
+
+            percentage.setTaskPercentageComplete(percentageComplete);
 
             // sorting by month and year using java 8 lambda expression.
             // Comparator<TaskPercentage> byYear = (o1, o2) -> Integer.valueOf(o1.getYear()).compareTo(Integer.valueOf(o2.getYear()));
