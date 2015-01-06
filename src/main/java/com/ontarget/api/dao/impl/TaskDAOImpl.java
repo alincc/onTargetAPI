@@ -12,11 +12,9 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.*;
+import java.util.Date;
 
 /**
  * Created by Owner on 11/6/14.
@@ -86,6 +84,34 @@ public class TaskDAOImpl implements TaskDAO {
         return tasks;
     }
 
+    public List<Task> getChildTasks(int taskId) throws Exception {
+        List<Map<String, Object>> taskList = jdbcTemplate.queryForList(OnTargetQuery.GET_CHILD_TASKS, new Object[]{taskId});
+        List<Task> tasks = new ArrayList<>();
+        if (taskList != null && taskList.size() > 0) {
+            for (Map<String, Object> taskMap : taskList) {
+                Task task = new Task();
+                task.setTitle((String) taskMap.get("title"));
+                task.setDescription((String) taskMap.get("description"));
+                task.setStatus((String) taskMap.get("status"));
+                task.setSeverity((String) taskMap.get("severity"));
+                task.setProjectTaskId((Integer) taskMap.get("project_task_id"));
+                task.setStartDate((Date) taskMap.get("start_date"));
+                task.setEndDate((Date) taskMap.get("end_date"));
+                task.setStatus((String) taskMap.get("status"));
+
+                long status = (Long) taskMap.get("completed");
+                if (status == 0) {
+                    task.setCompleted(false);
+                } else {
+                    task.setCompleted(true);
+                }
+                tasks.add(task);
+            }
+        }
+
+        return tasks;
+    }
+
     @Override
     public List<TaskStatusCount> getTaskCountByStatus(int projectId) throws Exception {
         List<Map<String, Object>> taskList = jdbcTemplate.queryForList(OnTargetQuery.GET_PROJECT_TASK_COUNT_BY_STATUS, new Object[]{projectId});
@@ -129,6 +155,25 @@ public class TaskDAOImpl implements TaskDAO {
                 },
                 keyHolder);
         logger.debug("Added task comment with id: " + keyHolder.getKey().intValue());
+        return keyHolder.getKey().intValue();
+    }
+
+    public int addDependentTask(DependentTask dependentTask) throws Exception {
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(
+                new PreparedStatementCreator() {
+                    public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+                        PreparedStatement ps =
+                                connection.prepareStatement(OnTargetQuery.DependentTask.ADD_DEPENDENT_TASK, new String[]{"id"});
+                        ps.setInt(1, dependentTask.getTaskId());
+                        ps.setInt(2, dependentTask.getDependentTaskId());
+                        ps.setInt(3, dependentTask.getCategory_id());
+                        ps.setInt(4, dependentTask.getCreatedBy());
+
+                        return ps;
+                    }
+                },
+                keyHolder);
         return keyHolder.getKey().intValue();
     }
 
@@ -228,8 +273,30 @@ public class TaskDAOImpl implements TaskDAO {
                 return null;
             }
         });
+
         return task;
     }
 
+    @Override
+    public List<Task> getDependentTasks(long taskId) throws Exception {
+        List<Task> tasks = new LinkedList<>();
+        jdbcTemplate.query(OnTargetQuery.DependentTask.GET_DEPENDENT_TASK, new Object[]{taskId}, new RowMapper<Void>() {
+            @Override
+            public Void mapRow(ResultSet resultSet, int i) throws SQLException {
+                Task task = new Task();
+                task.setProjectTaskId(resultSet.getInt("project_task_id"));
+                task.setTitle(resultSet.getString("title"));
+                task.setStatus(resultSet.getString("status"));
+                task.setStartDate(resultSet.getDate("start_date"));
+                task.setEndDate(resultSet.getDate("end_date"));
+                task.setDescription(resultSet.getString("description"));
+                task.setSeverity(resultSet.getString("severity"));
+                tasks.add(task);
 
+                return null;
+            }
+        });
+
+        return tasks;
+    }
 }

@@ -87,6 +87,29 @@ public class TaskServiceImpl implements TaskService {
         return taskDAO.getTask(projectId);
     }
 
+    public int addDependentTask(DependentTask dependentTask) throws Exception {
+        return taskDAO.addDependentTask(dependentTask);
+    }
+
+    public Task getTaskDetail(int taskId) throws Exception {
+        Task task = taskDAO.getTaskDetail(taskId);
+        setTaskLevel(task, 1);
+        return task;
+    }
+
+    public List<Task> setTaskLevel(Task task, int level) throws Exception {
+        List<Task> childTasks = taskDAO.getChildTasks(task.getProjectTaskId());
+        if (level < 20 && childTasks != null && !childTasks.isEmpty()) {
+            level++;
+            for (Task p : childTasks) {
+                setTaskLevel(p, level);
+            }
+        }
+
+        task.setChildTasks(childTasks);
+        return childTasks;
+    }
+
     @Override
     public List<TaskStatusCount> getTaskCountByStatus(int projectId) throws Exception {
         return taskDAO.getTaskCountByStatus(projectId);
@@ -158,5 +181,7 @@ public class TaskServiceImpl implements TaskService {
         return assigned;
     }
 
-
+    public List<Task> getDependentTasks(long taskId) throws Exception {
+        return taskDAO.getDependentTasks(taskId);
+    }
 }

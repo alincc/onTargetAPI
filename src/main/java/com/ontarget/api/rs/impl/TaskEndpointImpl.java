@@ -107,6 +107,22 @@ public class TaskEndpointImpl implements TaskEndpoint {
     }
 
     @Override
+    @GET
+    @Path("/{taskId}")
+    public TaskResponse getTaskDetail(@PathParam("taskId") int taskId) {
+        TaskResponse taskResponse = new TaskResponse();
+        try {
+            taskResponse.setTask(taskService.getTaskDetail(taskId));
+            taskResponse.setReturnVal(OnTargetConstant.SUCCESS);
+        } catch (Exception e) {
+            e.printStackTrace();
+            taskResponse.setReturnMessage("Add task comment failed");
+            taskResponse.setReturnVal(OnTargetConstant.ERROR);
+        }
+        return taskResponse;
+    }
+
+    @Override
     @POST
     @Path("/updateTaskStatus")
     public OnTargetResponse updateTaskStatus(TaskStatusUpdateRequest request) {
@@ -227,6 +243,40 @@ public class TaskEndpointImpl implements TaskEndpoint {
         } catch (Exception e) {
             logger.error("Error while assigning task", e);
             response.setReturnMessage("Error while assigning task members");
+            response.setReturnVal(OnTargetConstant.ERROR);
+        }
+
+        return response;
+    }
+
+    // dependent task section
+    @Path("/addDependentTask")
+    @POST
+    public InsertResponse addDependentTask(AddDependentRequest addDependentRequest) {
+        InsertResponse response = new InsertResponse();
+        try {
+            addDependentRequest.getDependentTask().setCreatedBy(addDependentRequest.getUser().getUserId());
+            response.setId(taskService.addDependentTask(addDependentRequest.getDependentTask()));
+            response.setReturnVal(OnTargetConstant.SUCCESS);
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.setReturnMessage("Error while adding dependent task");
+            response.setReturnVal(OnTargetConstant.ERROR);
+        }
+
+        return response;
+    }
+
+    @GET
+    @Path("/getDependentTasks")
+    public TaskListResponse getDependentTasks(@QueryParam("taskId") long taskId) {
+        TaskListResponse response = new TaskListResponse();
+        try {
+            response.setTasks(taskService.getDependentTasks(taskId));
+            response.setReturnVal(OnTargetConstant.SUCCESS);
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.setReturnMessage("Error while getting dependent task");
             response.setReturnVal(OnTargetConstant.ERROR);
         }
 

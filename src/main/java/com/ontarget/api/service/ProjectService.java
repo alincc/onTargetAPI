@@ -24,4 +24,6 @@ public interface ProjectService {
     public ProjectMemberListResponse getProjectMembers(long projectId) throws Exception;
 
     public Project getProject(long projectId) throws Exception;
+
+    public Project getProjectTree(long projectId) throws Exception;
 }

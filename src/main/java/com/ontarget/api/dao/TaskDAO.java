@@ -1,10 +1,10 @@
 package com.ontarget.api.dao;
 
+import com.ontarget.bean.DependentTask;
 import com.ontarget.bean.Task;
 import com.ontarget.bean.TaskComment;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -12,7 +12,7 @@ import java.util.Set;
  */
 public interface TaskDAO {
 
-    public int addTask(Task task) throws  Exception;
+    public int addTask(Task task) throws Exception;
 
     public List<Task> getTask(int projectId) throws Exception;
 
@@ -32,11 +32,17 @@ public interface TaskDAO {
 
     public boolean addTaskMember(long projectId, long taskId, long memberId) throws Exception;
 
-    public boolean assignTaskToUser(long taskId, long userId) throws  Exception;
+    public boolean assignTaskToUser(long taskId, long userId) throws Exception;
 
     boolean updateTaskAssignee(long taskId, long userId) throws Exception;
 
     Long getAssignedUser(long taskId) throws Exception;
 
     public Task getTaskDetail(long taskId) throws Exception;
+
+    public List<Task> getChildTasks(int taskId) throws Exception;
+
+    public List<Task> getDependentTasks(long taskId) throws Exception;
+
+    public int addDependentTask(DependentTask dependentTask) throws Exception;
 }

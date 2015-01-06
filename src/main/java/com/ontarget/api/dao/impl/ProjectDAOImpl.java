@@ -13,10 +13,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.*;
 
 /**
@@ -54,10 +51,10 @@ public class ProjectDAOImpl implements ProjectDAO {
                     }
                 },
                 keyHolder);
+
         logger.debug("Added project with id: " + keyHolder.getKey().intValue());
 
         return keyHolder.getKey().intValue();
-
     }
 
     @Override
@@ -78,10 +75,33 @@ public class ProjectDAOImpl implements ProjectDAO {
                 project.setStartDate(resultSet.getDate("project_start_date"));
                 project.setEndDate(resultSet.getDate("project_end_date"));
 
-               return project;
-           }
-       });
+                return project;
+            }
+        });
+
         return project;
+    }
+
+    public List<Project> getChildProjects(int projectId) throws Exception {
+        List<Project> projects = new LinkedList<>();
+        List<Map<String, Object>> rs = jdbcTemplate.queryForList(OnTargetQuery.GET_CHILD_PROJECTS, projectId);
+        if (rs != null)
+            for (Map<String, Object> row : rs) {
+                Project project = new Project();
+                project.setProjectId((int) row.get("project_id"));
+                project.setProjectName((String) row.get("PROJECT_NAME"));
+                project.setProjectDescription((String) row.get("PROJECT_DESCRIPTION"));
+                project.setProjectParentId((int) row.get("PROJECT_PARENT_ID"));
+                project.setCompanyId((int) row.get("COMPANY_ID"));
+                if (row.containsKey("project_owner_id") && row.get("project_owner_id") != null)
+                    project.setProjectOwnerId((int) row.get("project_owner_id"));
+                project.setStartDate((Timestamp) row.get("project_start_date"));
+                project.setEndDate((Timestamp) row.get("project_end_date"));
+
+                projects.add(project);
+            }
+
+        return projects;
     }
 
 
@@ -90,29 +110,29 @@ public class ProjectDAOImpl implements ProjectDAO {
 
         final Project project = new Project();
 
-        Map<Integer, List<Project>> projectToSubProject=new HashMap<>();
+        Map<Integer, List<Project>> projectToSubProject = new HashMap<>();
 
         jdbcTemplate.query(OnTargetQuery.GET_PROJECT_AND_TASKS, new Object[]{projectId}, new RowMapper<Project>() {
             @Override
             public Project mapRow(ResultSet resultSet, int i) throws SQLException {
 
-                int parentProjectId=resultSet.getInt("PROJECT_PARENT_ID");
+                int parentProjectId = resultSet.getInt("PROJECT_PARENT_ID");
                 int projectId = resultSet.getInt("PROJECT_ID");
 
-                Project project1=new Project();
+                Project project1 = new Project();
                 project1.setProjectId(projectId);
-                project1.setProjectName( resultSet.getString("PROJECT_NAME"));
+                project1.setProjectName(resultSet.getString("PROJECT_NAME"));
                 project1.setProjectDescription(resultSet.getString("PROJECT_DESCRIPTION"));
                 project1.setProjectTypeId(resultSet.getInt("PROJECT_TYPE_ID"));
                 project1.setProjectParentId(parentProjectId);
                 project1.setCompanyId(resultSet.getInt("COMPANY_ID"));
 
 
-               if(parentProjectId==0 && projectToSubProject.get(projectId)==null){
-                   List<Project> subProjects = new ArrayList<>();
-                   subProjects.add(project1);
-                   projectToSubProject.put(projectId,subProjects);
-               }
+                if (parentProjectId == 0 && projectToSubProject.get(projectId) == null) {
+                    List<Project> subProjects = new ArrayList<>();
+                    subProjects.add(project1);
+                    projectToSubProject.put(projectId, subProjects);
+                }
 
                 return project;
             }
@@ -121,16 +141,15 @@ public class ProjectDAOImpl implements ProjectDAO {
     }
 
 
-
     @Override
     public List<Map<String, Object>> getProjectByCompany(int companyId, int userId) throws Exception {
-        return jdbcTemplate.queryForList(OnTargetQuery.GET_PROJECT_BY_COMPANY, new Object[]{companyId,userId});
+        return jdbcTemplate.queryForList(OnTargetQuery.GET_PROJECT_BY_COMPANY, new Object[]{companyId, userId});
     }
 
     @Override
     //TODO: get user from project task
     public boolean updateProject(Project project) throws Exception {
-        int row = jdbcTemplate.update(OnTargetQuery.UPDATE_PROJECT, new Object[]{project.getProjectName(), project.getProjectDescription(), project.getProjectTypeId(),project.getProjectParentId(), project.getStatus(), project.getStartDate(), project.getEndDate(),"0",project.getProjectId()});
+        int row = jdbcTemplate.update(OnTargetQuery.UPDATE_PROJECT, new Object[]{project.getProjectName(), project.getProjectDescription(), project.getProjectTypeId(), project.getProjectParentId(), project.getStatus(), project.getStartDate(), project.getEndDate(), "0", project.getProjectId()});
         if (row == 0) {
             throw new Exception("Unable to update project.");
         }
@@ -175,14 +194,14 @@ public class ProjectDAOImpl implements ProjectDAO {
 
 
     @Override
-    public int addProjectMember(int projectId, int userId){
+    public int addProjectMember(int projectId, int userId) {
         logger.info("Adding project member for project: " + projectId);
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(
                 new PreparedStatementCreator() {
                     public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
                         PreparedStatement ps = connection.prepareStatement(OnTargetQuery.ADD_PROJECT_MEMBER, new String[]{"id"});
-                        ps.setInt(1,projectId);
+                        ps.setInt(1, projectId);
                         ps.setInt(2, userId);
                         ps.setString(3, OnTargetConstant.MemberStatus.ACTIVE);
 

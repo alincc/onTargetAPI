@@ -65,20 +65,20 @@ public class ProjectServiceImpl implements ProjectService {
         int projectId = projectDAO.addProject(project);
 
         //add the user to project member;
-        int projectMemberId=0;
-        if(OnTargetConstant.AccountStatus.ACCT_NEW.equals(request.getUser().getAccountStatus())){
-           projectMemberId = projectDAO.addProjectMember(projectId,userId);
-            if(projectMemberId < 0){
-                throw new Exception("Error while adding the new member: "+ userId);
+        int projectMemberId = 0;
+        if (OnTargetConstant.AccountStatus.ACCT_NEW.equals(request.getUser().getAccountStatus())) {
+            projectMemberId = projectDAO.addProjectMember(projectId, userId);
+            if (projectMemberId < 0) {
+                throw new Exception("Error while adding the new member: " + userId);
             }
 
 
         }
 
         //activate the account if accountStatus of user is ACCT_NEW
-        if(OnTargetConstant.AccountStatus.ACCT_NEW.equals(request.getUser().getAccountStatus())){
+        if (OnTargetConstant.AccountStatus.ACCT_NEW.equals(request.getUser().getAccountStatus())) {
             int updated = userRegistrationDAO.activateAccount(userId);
-            if(updated == 0){
+            if (updated == 0) {
                 throw new Exception("Error while activating account");
             }
         }
@@ -88,7 +88,7 @@ public class ProjectServiceImpl implements ProjectService {
             response.setReturnMessage("Successfully created project.");
             response.setReturnVal(OnTargetConstant.SUCCESS);
         } else {
-            throw new Exception("Error while creating project: projectId: "+projectId);
+            throw new Exception("Error while creating project: projectId: " + projectId);
         }
 
         return response;
@@ -124,12 +124,21 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     public Project getProject(long projectId) throws Exception {
-        return projectDAO.getProject((int) projectId);
+        Project project = projectDAO.getProject((int) projectId);
+//        setProjectLevel(project, 1);
+        return project;
+    }
+
+    public Project getProjectTree(long projectId) throws Exception {
+        Project project = projectDAO.getProject((int) projectId);
+        setProjectLevel(project, 1);
+        return project;
     }
 
     @Override
     public ProjectResponse getProjectDetail(int projectId) throws Exception {
-        Project project = projectDAO.getProject(projectId);
+        Project project = getProjectTree(projectId);
+
         ProjectResponse response = new ProjectResponse();
         response.setProject(project);
 
@@ -149,6 +158,19 @@ public class ProjectServiceImpl implements ProjectService {
         return response;
     }
 
+    public List<Project> setProjectLevel(Project project, int level) throws Exception {
+        List<Project> projects = projectDAO.getChildProjects(project.getProjectId());
+        if (level < 20 && projects != null && !projects.isEmpty()) {
+            level++;
+            for (Project p : projects) {
+                setProjectLevel(p, level);
+            }
+        }
+
+        project.setProjects(projects);
+        return projects;
+    }
+
     @Override
     public ProjectMemberListResponse getProjectMembers(long projectId) throws Exception {
         List<ProjectMember> projectMembers = projectDAO.getProjectMembers(projectId);
@@ -163,7 +185,6 @@ public class ProjectServiceImpl implements ProjectService {
     public ProjectListResponse getProjectsByCompany(int companyId, int userId) throws Exception {
         List<Map<String, Object>> projects = projectDAO.getProjectByCompany(companyId, userId);
         return this.getProjectResponse(projects);
-
     }
 
     @Override
@@ -173,7 +194,7 @@ public class ProjectServiceImpl implements ProjectService {
         return this.getProjectResponse(projects);
     }
 
-    private ProjectListResponse getProjectResponse(List<Map<String, Object>> projects) throws Exception{
+    private ProjectListResponse getProjectResponse(List<Map<String, Object>> projects) throws Exception {
         ProjectListResponse response = new ProjectListResponse();
         List<Project> projectList = new ArrayList<Project>();
         response.setProjects(projectList);
@@ -213,8 +234,8 @@ public class ProjectServiceImpl implements ProjectService {
 
                     //get task assigned to
                     Long assignedUserId = taskDAO.getAssignedUser(task.getProjectTaskId());
-                    logger.debug("Getting contact detail for task assignee: "+ assignedUserId);
-                    if(assignedUserId > 0) {
+                    logger.debug("Getting contact detail for task assignee: " + assignedUserId);
+                    if (assignedUserId > 0) {
                         Contact contact = contactDAO.getContact(assignedUserId);
                         User assignedToUser = new User();
                         assignedToUser.setContact(contact);

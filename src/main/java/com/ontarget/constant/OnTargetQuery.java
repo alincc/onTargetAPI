@@ -38,7 +38,11 @@ public interface OnTargetQuery {
 
     public static final String GET_PROJECT_TASK = new StringBuilder("SELECT * , if(status='COMPLETED',true,false) as completed FROM project_task WHERE project_id=?").toString();
 
-    public final static String GET_PROJECT = new StringBuilder("SELECT * FROM PROJECT WHERE PROJECT_ID=?").toString();
+    public final static String GET_PROJECT = new StringBuilder("SELECT * FROM project WHERE project_id=?").toString();
+
+    public final static String GET_CHILD_PROJECTS = new StringBuilder("SELECT * FROM project WHERE project_parent_id = ? ").toString();
+
+    public final static String GET_CHILD_TASKS = new StringBuilder("SELECT * FROM project_task WHERE parent_task_id = ?").toString();
 
     public static final String GET_ADDRESS = new StringBuilder("SELECT * FROM address WHERE address_id=?").toString();
 
@@ -211,4 +215,9 @@ public interface OnTargetQuery {
     public static final String GET_ALL_COMPANY = new StringBuilder("SELECT * FROM company_info").toString();
 
     public static final String GET_USER_NOTIFICATION = new StringBuilder("SELECT * FROM user_notification where id > ? and user_id = ? order by id").toString();
+
+    interface DependentTask {
+        public static final String ADD_DEPENDENT_TASK = new StringBuilder("INSERT INTO dependent_task (task_id, dependent_task_id, category_id, created_by) VALUES (?,?, ?, ?)").toString();
+        public static final String GET_DEPENDENT_TASK = new StringBuilder("SELECT b.project_task_id, b.project_id, b.title, b.parent_task_id, b.status, b.percentage_complete, b.start_date, b.end_date, b.created_date, b.created_by, b.modified_date, b.modified_by, b.severity, b.description FROM dependent_task as a join project_task as b on a.dependent_task_id=b.project_task_id WHERE a.task_id=?").toString();
+    }
 }

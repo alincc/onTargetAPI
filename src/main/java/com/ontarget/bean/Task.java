@@ -27,7 +27,15 @@ public class Task implements Serializable{
     private List<TaskComment> comments;
 
     private List<TaskEstimatedCost> costs;
+    private List<Task> childTasks;
 
+    public List<Task> getChildTasks() {
+        return childTasks;
+    }
+
+    public void setChildTasks(List<Task> childTasks) {
+        this.childTasks = childTasks;
+    }
 
     public int getProjectTaskId() {
         return projectTaskId;

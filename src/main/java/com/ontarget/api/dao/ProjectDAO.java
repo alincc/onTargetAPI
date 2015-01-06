@@ -26,4 +26,6 @@ public interface ProjectDAO {
     public int addProjectMember(int projectId, int userId);
 
     public List<Map<String,Object>> getProjectByUser(int userId);
+
+    public List<Project> getChildProjects(int projectId) throws Exception;
 }
