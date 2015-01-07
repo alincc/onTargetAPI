@@ -41,7 +41,12 @@ public class ContactDAOImpl implements ContactDAO {
 
     @Override
     public Map<String, Object> getContactDetail(int userId) throws Exception {
-        return jdbcTemplate.queryForMap(OnTargetQuery.GET_CONTACT_BY_USER, new Object[]{userId});
+        List<Map<String, Object>> results = jdbcTemplate.queryForList(OnTargetQuery.GET_CONTACT_BY_USER, new Object[]{userId});
+        if(results == null || results.isEmpty()){
+            throw new Exception("User does not exists");
+        }
+
+        return results.get(0);
     }
 
     @Override
