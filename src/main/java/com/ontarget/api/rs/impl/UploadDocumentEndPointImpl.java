@@ -76,7 +76,7 @@ public class UploadDocumentEndPointImpl implements UploadDocumentEndPoint {
 			return ((success)?(new OnTargetResponse(OnTargetConstant.SUCCESS_CODE,OnTargetConstant.SUCCESS, OnTargetConstant.SUCCESS)):response);
 		}
 		catch(Exception ex){
-			ex.printStackTrace();
+//			ex.printStackTrace();
 			logger.error(OnTargetConstant.INTERNAL_SERVER_ERROR_MSG,ex);
 		}
 
