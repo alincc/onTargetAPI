@@ -58,6 +58,7 @@ public class UploadDocumentEndPointImpl implements UploadDocumentEndPoint {
 	 * @return OnTargetResponse 
 	 */
 	@Override
+    @Path("/saveUploadedDocsInfo")
 	@POST
 	public OnTargetResponse saveUploadedDocsInfo(UploadDocumentRequest requestData) {
 		logger.info("Starting document upload call");
@@ -78,6 +79,7 @@ public class UploadDocumentEndPointImpl implements UploadDocumentEndPoint {
 //			ex.printStackTrace();
 			logger.error(OnTargetConstant.INTERNAL_SERVER_ERROR_MSG,ex);
 		}
+
 		return response;
 	}
 	
