@@ -61,7 +61,7 @@ public class UserProfileImpl implements UserProfile {
     public OnTargetResponse updateUserProfile(UserProfileRequest userProfileRequest) {
         logger.info("Received request to add profile: " + userProfileRequest);
 //        System.out.println("Received request to add profile: " + userProfileRequest);
-        OnTargetResponse response = null;
+        OnTargetResponse response = new UserProfileResponse();
         try {
             response = userProfileService.updateUserProfileAndContactInfo(userProfileRequest);
         } catch (Exception e) {
