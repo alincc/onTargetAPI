@@ -313,5 +313,4 @@ public class UserProfileServiceImpl implements UserProfileService {
         return random.nextInt(Integer.MAX_VALUE);
     }
 
-
 }

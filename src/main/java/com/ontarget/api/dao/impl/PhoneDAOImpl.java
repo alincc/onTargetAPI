@@ -38,7 +38,7 @@ public class PhoneDAOImpl implements PhoneDAO {
                                 connection.prepareStatement(OnTargetQuery.ADD_CONTACT_PHONE, new String[] {"id"});
                         ps.setInt(1, contactId);
                         ps.setInt(2, phone.getAreaCode());
-                        ps.setInt(3, phone.getPhoneNumber());
+                        ps.setString(3, phone.getPhoneNumber());
                         ps.setString(4, phone.getPhoneType());
                         ps.setString(5, phone.getStatus());
                         return ps;

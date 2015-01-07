@@ -9,7 +9,7 @@ public class ContactPhone implements Serializable{
 
     private int phoneId;
     private int areaCode;
-    private int phoneNumber;
+    private String phoneNumber;
     private String phoneType;
     private String status;
 
@@ -32,11 +32,11 @@ public class ContactPhone implements Serializable{
         this.areaCode = areaCode;
     }
 
-    public int getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(int phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
