@@ -4,6 +4,7 @@ import com.ontarget.dto.AddDocumentAttachmentRequest;
 import com.ontarget.dto.AddDocumentRequest;
 import com.ontarget.dto.AddDocumentResponse;
 import com.ontarget.dto.GetDocumentAttachmentsResponse;
+import com.ontarget.dto.GetDocumentResponse;
 import com.ontarget.dto.GetDocumentsResponse;
 import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.UpdateDocumentDataRequest;
@@ -14,6 +15,7 @@ public interface DocumentEndpoint {
 	OnTargetResponse updateDocumentData(UpdateDocumentDataRequest request);
 	OnTargetResponse updateDocumentStatus(UpdateDocumentStatusRequest request);
 	GetDocumentsResponse getDocuments(String userName);
+	GetDocumentResponse getDocument(String documentId);
 	OnTargetResponse addDocumentAttachment(AddDocumentAttachmentRequest request);
 	GetDocumentAttachmentsResponse getDocumentAttachments(Long documentId);
 }

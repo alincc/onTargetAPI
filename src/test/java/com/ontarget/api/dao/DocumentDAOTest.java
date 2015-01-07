@@ -138,15 +138,15 @@ public class DocumentDAOTest extends BaseTest {
     	Assert.assertTrue(document.getDocumentId() > 0);
     	Assert.assertEquals(OnTargetConstant.DocumentStatus.SUBMITTED, document.getStatus());
     	
-    	documentDAO.updateStatus(document.getDocumentId(), OnTargetConstant.DocumentStatus.APPROVED, 0);
+    	documentDAO.updateStatus(document.getDocumentId(), OnTargetConstant.DocumentStatus.APPROVED, "tester");
     	document = documentDAO.read(document.getDocumentId());
     	Assert.assertEquals(OnTargetConstant.DocumentStatus.APPROVED, document.getStatus());
     	
-    	documentDAO.updateStatus(document.getDocumentId(), OnTargetConstant.DocumentStatus.REJECTED, 0);
+    	documentDAO.updateStatus(document.getDocumentId(), OnTargetConstant.DocumentStatus.REJECTED, "tester");
     	document = documentDAO.read(document.getDocumentId());
     	Assert.assertEquals(OnTargetConstant.DocumentStatus.REJECTED, document.getStatus());
     	
-    	documentDAO.updateStatus(document.getDocumentId(), OnTargetConstant.DocumentStatus.SUBMITTED, 0);
+    	documentDAO.updateStatus(document.getDocumentId(), OnTargetConstant.DocumentStatus.SUBMITTED, "tester");
     	document = documentDAO.read(document.getDocumentId());
     	Assert.assertEquals(OnTargetConstant.DocumentStatus.SUBMITTED, document.getStatus());
     }

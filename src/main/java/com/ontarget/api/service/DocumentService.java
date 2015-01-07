@@ -5,6 +5,7 @@ import com.ontarget.dto.AddDocumentAttachmentResponse;
 import com.ontarget.dto.AddDocumentRequest;
 import com.ontarget.dto.AddDocumentResponse;
 import com.ontarget.dto.GetDocumentAttachmentsResponse;
+import com.ontarget.dto.GetDocumentResponse;
 import com.ontarget.dto.GetDocumentsResponse;
 import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.UpdateDocumentDataRequest;
@@ -15,6 +16,7 @@ public interface DocumentService {
 	OnTargetResponse updateDocument(UpdateDocumentDataRequest request) throws Exception;
 	OnTargetResponse updateStatus(UpdateDocumentStatusRequest request) throws Exception;
 	GetDocumentsResponse getDocuments(String userName) throws Exception;
+	GetDocumentResponse getDocument(long documentId) throws Exception;
 	AddDocumentAttachmentResponse addDocumentAttachment(AddDocumentAttachmentRequest request) throws Exception;
 	GetDocumentAttachmentsResponse getDocumentAttachments(Long documentId) throws Exception;
 }
