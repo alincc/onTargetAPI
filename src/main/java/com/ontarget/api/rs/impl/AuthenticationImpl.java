@@ -32,6 +32,7 @@ public class AuthenticationImpl implements Authentication {
     @Autowired
     private AuthenticationService authenticationService;
 
+
     @POST
     @Path("/signin")
     public UserResponse signIn(User user) {
