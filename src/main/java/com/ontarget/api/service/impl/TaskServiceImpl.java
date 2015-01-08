@@ -50,13 +50,12 @@ public class TaskServiceImpl implements TaskService {
         Date endDate = task.getEndDate();
         if (task.getProject() == null) {
             throw new Exception("task project is null");
-        }
-        else {
+        } else {
             Date projectStartDate = task.getProject().getStartDate();
             Date projectEndDate = task.getProject().getEndDate();
-            if(projectStartDate == null || projectEndDate == null){
+            if (projectStartDate == null || projectEndDate == null) {
                 Project project = projectDAO.getProject(task.getProject().getProjectId());
-                if(project == null){
+                if (project == null) {
                     throw new Exception("project is invalid for task");
                 }
                 task.setProject(project);
@@ -76,10 +75,23 @@ public class TaskServiceImpl implements TaskService {
 
         Task parentTask = task.getParentTask();
         if (parentTask != null) {
-            if (startDate.getTime() < parentTask.getStartDate().getTime()) {
+            Date parentTaskStartDate = parentTask.getStartDate();
+            Date parentTaskEndDate = parentTask.getEndDate();
+            if (parentTaskStartDate == null || parentTaskEndDate == null) {
+                parentTask = taskDAO.getTaskDetail(parentTask.getProjectTaskId());
+                if (parentTask == null) {
+                    throw new Exception("parent task does not exists");
+                }
+                parentTaskStartDate = parentTask.getStartDate();
+                parentTaskEndDate = parentTask.getEndDate();
+            }
+
+            if (startDate.getTime() < parentTaskStartDate.getTime()) {
                 throw new Exception("Task starts before parent task start date");
-            } else if (endDate.getTime() > parentTask.getEndDate().getTime()) {
-                throw new Exception("Task ends after parent task end date");
+            } else {
+                if (endDate.getTime() > parentTaskEndDate.getTime()) {
+                    throw new Exception("Task ends after parent task end date");
+                }
             }
         }
 
@@ -183,18 +195,18 @@ public class TaskServiceImpl implements TaskService {
     public boolean assignTaskToUser(long taskId, long userId) throws Exception {
 
         Long assignedTo = taskDAO.getAssignedUser(taskId);
-        boolean assigned=false;
-        if(assignedTo.longValue() == 0) {
+        boolean assigned = false;
+        if (assignedTo.longValue() == 0) {
             assigned = taskDAO.assignTaskToUser(taskId, userId);
-        }else{
-            assigned = taskDAO.updateTaskAssignee(taskId,userId);
+        } else {
+            assigned = taskDAO.updateTaskAssignee(taskId, userId);
         }
 
         if (assigned) {
             // get contact detail by userId
             Contact contact = contactDAO.getContact(userId);
             Task task = taskDAO.getTaskDetail(taskId);
-            if(contact!=null){
+            if (contact != null) {
                 emailService.sendTaskAssignmentEmail(task, contact);
             }
         }
