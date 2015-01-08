@@ -46,8 +46,9 @@ public class DocumentEndpointImpl implements DocumentEndpoint {
 	/* (non-Javadoc)
 	 * @see com.ontarget.api.rs.DocumentEndpoint#addDocument(com.ontarget.dto.AddDocumentRequest)
 	 */
-	@PUT
+	@POST
 	@Override
+    @Path("/createnewprojectdocument")
 	public AddDocumentResponse addDocument(AddDocumentRequest request) {
 		try {
 //			System.out.println("documentService is " + documentService);
