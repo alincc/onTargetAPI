@@ -29,6 +29,11 @@ public class Task implements Serializable{
     private List<TaskEstimatedCost> costs;
     private List<Task> childTasks;
 
+
+    private List<TaskEstimatedCostByMonthYear> costsByMonthYear;
+
+
+
     public List<Task> getChildTasks() {
         return childTasks;
     }
@@ -218,5 +223,13 @@ public class Task implements Serializable{
 
     public void setAssignedTo(User assignedTo) {
         this.assignedTo = assignedTo;
+    }
+
+    public List<TaskEstimatedCostByMonthYear> getCostsByMonthYear() {
+        return costsByMonthYear;
+    }
+
+    public void setCostsByMonthYear(List<TaskEstimatedCostByMonthYear> costsByMonthYear) {
+        this.costsByMonthYear = costsByMonthYear;
     }
 }

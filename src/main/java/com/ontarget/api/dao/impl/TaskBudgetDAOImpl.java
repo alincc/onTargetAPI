@@ -208,6 +208,7 @@ public class TaskBudgetDAOImpl implements TaskBudgetDAO {
                     task.setEndDate(resultSet.getDate("end_date"));
                 }
 
+
                 TaskEstimatedCost cost = new TaskEstimatedCost();
                 cost.setId(resultSet.getInt("id"));
                 Date fromDate = resultSet.getDate("from_date");
@@ -235,6 +236,53 @@ public class TaskBudgetDAOImpl implements TaskBudgetDAO {
 
         return task;
     }
+
+
+    @Override
+    public Map<TaskInterval, List<TaskEstimatedCost>> getTaskCostByTaskMonthYear(int projectTaskId) throws Exception{
+        final Map<TaskInterval, List<TaskEstimatedCost>> taskIntervalListMap=new HashMap<>();
+
+        jdbcTemplate.query(OnTargetQuery.GET_TASK_COST_BY_TASK,new Object[]{projectTaskId},new RowMapper<Void>() {
+            @Override
+            public Void mapRow(ResultSet resultSet, int i) throws SQLException {
+
+                TaskEstimatedCost cost = new TaskEstimatedCost();
+                cost.setId(resultSet.getInt("id"));
+                Date fromDate = resultSet.getDate("from_date");
+                cost.setFromDate(fromDate);
+                cost.setToDate(resultSet.getDate("to_date"));
+                cost.setCostType(resultSet.getString("cost_type"));
+                cost.setCost(resultSet.getDouble("value"));
+                cost.setCreatedBy(resultSet.getString("created_by"));
+
+                int year=0;
+                int month=0;
+                if(fromDate!=null) {
+                    Calendar cal = Calendar.getInstance();
+                    cal.setTime(fromDate);
+                    year = cal.get(Calendar.YEAR);
+                    month = cal.get(Calendar.MONTH);
+                }
+                cost.setMonth(month);
+                cost.setYear(year);
+
+                TaskInterval taskInterval = new TaskInterval(month,year);
+                List<TaskEstimatedCost> taskEstimatedCosts = taskIntervalListMap.get(taskInterval);
+                if(taskEstimatedCosts == null){
+                    taskEstimatedCosts = new LinkedList<>();
+                }
+                taskEstimatedCosts.add(cost);
+                taskIntervalListMap.put(taskInterval,taskEstimatedCosts);
+
+                return null;
+            }
+        });
+
+
+        return taskIntervalListMap;
+    }
+
+
 
 
 }

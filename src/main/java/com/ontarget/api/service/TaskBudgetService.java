@@ -12,13 +12,15 @@ import java.util.Map;
  */
 public interface TaskBudgetService {
 
-   public  List<TaskInterval> getTaskIntervals(int projectId) throws Exception;
+    public List<TaskInterval> getTaskIntervals(int projectId) throws Exception;
 
-   public Map<Task, List<TaskEstimatedCost>> getTaskCostByMonthAndYear(int projectId) throws Exception;
+    public Map<Task, List<TaskEstimatedCost>> getTaskCostByMonthAndYear(int projectId) throws Exception;
 
-   public boolean addTaskBudget(List<TaskEstimatedCost> costs) throws  Exception;
+    public boolean addTaskBudget(List<TaskEstimatedCost> costs) throws Exception;
 
-    public boolean updateTaskBudget(List<TaskEstimatedCost> costs) throws  Exception;
+    public boolean updateTaskBudget(List<TaskEstimatedCost> costs) throws Exception;
 
-    Task getTaskBudgetByTask(int taskId) throws Exception;
+    public Task getTaskBudgetByTask(int taskId) throws Exception;
+
+    public Task getTaskBudgetByTaskAndMonthYear(int taskId) throws Exception;
 }

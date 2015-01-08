@@ -111,7 +111,7 @@ public class TaskBudgetEndpointImpl implements TaskBudgetEndpoint {
         TaskBudgetListResponse response = new TaskBudgetListResponse();
 
         try {
-            response.setTask(taskBudgetService.getTaskBudgetByTask(taskId));
+            response.setTask(taskBudgetService.getTaskBudgetByTaskAndMonthYear(taskId));
             response.setReturnMessage("Successfully retrieved task budget cost");
             response.setReturnVal(OnTargetConstant.SUCCESS);
         } catch (Exception e) {

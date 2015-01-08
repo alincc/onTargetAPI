@@ -659,6 +659,7 @@ CREATE TABLE IF NOT EXISTS `forgot_password_request` (
   `id` bigint(20) NOT NULL primary key AUTO_INCREMENT,
   `user_id` bigint(20) NOT NULL,
   `forgot_password_token` varchar(64) NOT NULL,
+  `status` varchar(10) NOT NULL,
   `ts_create` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `ts_expiry` timestamp NOT NULL
 ) ENGINE=InnoDB;
@@ -1283,20 +1284,81 @@ ALTER TABLE `activity_log`
 ADD PRIMARY KEY (`id`);
 
 
-# --
-# -- Triggers `project_task_comments`
-# --
-# DELIMITER //
-# CREATE TRIGGER `log_comment_activity` AFTER INSERT ON `project_task_comments`
-# FOR EACH ROW INSERT INTO activity_log (text, category) VALUES (CONCAT("Comment ", NEW.comment , " added on task ", NEW.project_task_id, " by ", NEW.comment_by), 1)
-# //
-# DELIMITER ;
-#
-# --
-# -- Triggers `project`
-# --
-# DELIMITER //
-# CREATE TRIGGER `log_project_add` AFTER INSERT ON `project`
-# FOR EACH ROW INSERT INTO activity_log (text, category) VALUES (CONCAT("New project ", NEW.project_id, " of type", New.project_category_id , " added by ", NEW.project_owner_id), 2)
-# //
-# DELIMITER ;
+--
+-- Table structure for table `dependent_task`
+--
+
+DROP TABLE IF EXISTS `dependent_task`;
+
+CREATE TABLE IF NOT EXISTS `dependent_task` (
+  `id` bigint(20) NOT NULL,
+  `task_id` int(12) NOT NULL,
+  `dependent_task_id` int(12) NOT NULL,
+  `category_id` int(12) DEFAULT NULL,
+  `created_by` int(12) NOT NULL,
+  `ts_insert` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `dependent_task`
+--
+
+INSERT INTO `dependent_task` (`id`, `task_id`, `dependent_task_id`, `category_id`, `created_by`, `ts_insert`) VALUES
+  (1, 2, 2, NULL, 0, '0000-00-00 00:00:00'),
+  (2, 1, 2, 2, 1, '2015-01-05 09:30:44');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_notification`
+--
+
+DROP TABLE IF EXISTS `user_notification`;
+
+CREATE TABLE IF NOT EXISTS `user_notification` (
+  `id` bigint(20) NOT NULL,
+  `text` text,
+  `category` bigint(20) DEFAULT NULL,
+  `user_id` int(12) NOT NULL,
+  `ts_insert` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+
+--
+-- Dumping data for table `user_notification`
+--
+
+INSERT INTO `user_notification` (`id`, `text`, `category`, `user_id`, `ts_insert`) VALUES
+  (1, 'adfs adsf adsfadsf dafs ', 2323, 0, '2014-12-26 16:49:39'),
+  (2, 'Comment asfasfdsaf adsfdsf added on task 1 by 23223', 1, 23223, '2014-12-27 16:44:05'),
+  (3, 'Comment dfgfdg asgfdg added on task 1 by 1', 1, 1, '2014-12-28 13:58:19');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `dependent_task`
+--
+ALTER TABLE `dependent_task`
+ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `user_notification`
+--
+ALTER TABLE `user_notification`
+ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `dependent_task`
+--
+ALTER TABLE `dependent_task`
+MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT for table `user_notification`
+--
+ALTER TABLE `user_notification`
+MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
