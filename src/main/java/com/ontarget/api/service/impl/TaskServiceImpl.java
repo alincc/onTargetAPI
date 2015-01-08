@@ -4,6 +4,8 @@ import com.ontarget.api.dao.*;
 import com.ontarget.api.service.EmailService;
 import com.ontarget.api.service.TaskService;
 import com.ontarget.bean.*;
+import com.ontarget.exception.DateAfterException;
+import com.ontarget.exception.DateBeforeException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -64,11 +66,13 @@ public class TaskServiceImpl implements TaskService {
             }
 
             if (startDate.getTime() < projectStartDate.getTime()) {
-                throw new Exception("Task starts before project start date");
+//                throw new Exception("Task starts before project start date");
+                throw new DateBeforeException("Task starts before project start date");
             } else {
 
                 if (endDate.getTime() > projectEndDate.getTime()) {
-                    throw new Exception("Task ends after project end date");
+//                    throw new Exception("Task ends after project end date");
+                    throw new DateAfterException("Task ends after project end date");
                 }
             }
         }
@@ -87,10 +91,12 @@ public class TaskServiceImpl implements TaskService {
             }
 
             if (parentTaskStartDate != null && startDate.getTime() < parentTaskStartDate.getTime()) {
-                throw new Exception("Task starts before parent task start date");
+                throw new DateBeforeException("Task starts before parent task start date");
+//                throw new Exception("Task starts before parent task start date");
             } else {
                 if (parentTaskEndDate != null && endDate.getTime() > parentTaskEndDate.getTime()) {
-                    throw new Exception("Task ends after parent task end date");
+                    throw new DateAfterException("Task ends after parent task end date");
+//                    throw new Exception("Task ends after parent task end date");
                 }
             }
         }
