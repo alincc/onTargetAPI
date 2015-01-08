@@ -48,7 +48,6 @@ public class DocumentEndpointImpl implements DocumentEndpoint {
 	 */
 	@POST
 	@Override
-    @Path("/createnewprojectdocument")
 	public AddDocumentResponse addDocument(AddDocumentRequest request) {
 		try {
 //			System.out.println("documentService is " + documentService);
