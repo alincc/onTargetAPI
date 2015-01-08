@@ -1,6 +1,7 @@
 package com.ontarget.api.service.impl;
 
 import com.ontarget.api.dao.AuthenticationDAO;
+import com.ontarget.api.dao.ContactDAO;
 import com.ontarget.api.dao.UserSessionDAO;
 import com.ontarget.api.service.AuthenticationService;
 import com.ontarget.bean.User;
@@ -27,6 +28,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Autowired
     private UserSessionDAO userSessionDAO;
 
+    @Autowired
+    private ContactDAO contactDAO;
+
     @Override
     public UserResponse signIn(User user) throws Exception {
         UserResponse response = new UserResponse();
@@ -42,11 +46,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             response.setReturnVal(OnTargetConstant.ERROR);
             return response;
         }
+
         String token = TokenUtil.getLoginToken(user.getUsername());
         boolean saved = userSessionDAO.saveUserSessionToken(returnUser.getUserId(),token);
         if(!saved){
             throw new Exception("User session token failed");
         }
+
+        returnUser.setContact(contactDAO.getContact(user.getUserId()));
 
         response.setUser(returnUser);
         response.setToken(token);

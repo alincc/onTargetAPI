@@ -39,7 +39,6 @@ public class UploadDocumentEndPointImpl implements UploadDocumentEndPoint {
 	@Autowired
 	private UploadDocumentService documentService;
 
-	
 	/**
 	 * This method receives information related to the document uploaded from
 	 * UI. Required details include JSON object with below signature:	  
@@ -59,6 +58,7 @@ public class UploadDocumentEndPointImpl implements UploadDocumentEndPoint {
 	 * @return OnTargetResponse 
 	 */
 	@Override
+    @Path("/saveUploadedDocsInfo")
 	@POST
 	public OnTargetResponse saveUploadedDocsInfo(UploadDocumentRequest requestData) {
 		logger.info("Starting document upload call");
@@ -73,12 +73,13 @@ public class UploadDocumentEndPointImpl implements UploadDocumentEndPoint {
 		
 		try{
 			Boolean success=documentService.saveUploadedDocsInfo(requestData);
-			return ((success)?(new OnTargetResponse(OnTargetConstant.SUCCESS_CODE,OnTargetConstant.SUCCESS)):response);
+			return ((success)?(new OnTargetResponse(OnTargetConstant.SUCCESS_CODE,OnTargetConstant.SUCCESS, OnTargetConstant.SUCCESS)):response);
 		}
 		catch(Exception ex){
 //			ex.printStackTrace();
 			logger.error(OnTargetConstant.INTERNAL_SERVER_ERROR_MSG,ex);
 		}
+
 		return response;
 	}
 	

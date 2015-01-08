@@ -203,6 +203,7 @@ public class TaskEndpointImpl implements TaskEndpoint {
                 response.setReturnVal(OnTargetConstant.ERROR);
             }
         } catch (Exception e) {
+//            e.printStackTrace();
             logger.error("Error while saving task file", e);
             response.setReturnMessage("error saving task file");
             response.setReturnVal(OnTargetConstant.ERROR);

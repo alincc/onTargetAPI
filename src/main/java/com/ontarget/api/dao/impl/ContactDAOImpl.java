@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -40,12 +41,21 @@ public class ContactDAOImpl implements ContactDAO {
 
     @Override
     public Map<String, Object> getContactDetail(int userId) throws Exception {
-        return jdbcTemplate.queryForMap(OnTargetQuery.GET_CONTACT_BY_USER, new Object[]{userId});
+        List<Map<String, Object>> results = jdbcTemplate.queryForList(OnTargetQuery.GET_CONTACT_BY_USER, new Object[]{userId});
+        if(results == null || results.isEmpty()){
+            throw new Exception("User does not exists");
+        }
+
+        return results.get(0);
     }
 
     @Override
     public Contact getContact(long userId) throws Exception {
-        Map<String, Object> rs = jdbcTemplate.queryForMap(OnTargetQuery.GET_CONTACT_BY_USER, new Object[]{userId});
+        List<Map<String, Object>> results = jdbcTemplate.queryForList(OnTargetQuery.GET_CONTACT_BY_USER, new Object[]{userId});
+        if(results == null || results.isEmpty()){
+            throw new Exception("User does not exists");
+        }
+        Map<String, Object> rs = results.get(0);
         Contact contact = new Contact();
         contact.setContactId((Integer) rs.get("contact_id"));
         User user = new User();

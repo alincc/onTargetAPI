@@ -178,7 +178,7 @@ public class ProjectDAOImpl implements ProjectDAO {
 
                 ContactPhone phone = new ContactPhone();
                 phone.setAreaCode(resultSet.getInt("area_code"));
-                phone.setPhoneNumber(resultSet.getInt("phone_number"));
+                phone.setPhoneNumber(resultSet.getString("phone_number"));
                 phone.setPhoneType(resultSet.getString("phone_type"));
 
                 projectMember.setContact(contact);

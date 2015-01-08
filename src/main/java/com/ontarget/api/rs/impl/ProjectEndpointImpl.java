@@ -2,6 +2,7 @@ package com.ontarget.api.rs.impl;
 
 import com.ontarget.api.rs.ProjectEndoint;
 import com.ontarget.api.service.ProjectService;
+import com.ontarget.api.service.UserProfileService;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.*;
 import org.apache.log4j.Logger;
@@ -25,13 +26,15 @@ public class ProjectEndpointImpl implements ProjectEndoint {
     @Autowired
     private ProjectService projectService;
 
+    @Autowired
+    private UserProfileService userProfileService;
+
     @Override
     @POST
     @Path("/addProject")
     public OnTargetResponse addProject(ProjectRequest request) {
         OnTargetResponse response = null;
         try {
-
             if (request.getProject().getProjectId() <= 0) {
                 response = projectService.addProject(request);
             } else {
