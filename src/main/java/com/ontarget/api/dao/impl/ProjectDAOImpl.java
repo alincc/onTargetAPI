@@ -47,6 +47,7 @@ public class ProjectDAOImpl implements ProjectDAO {
                         ps.setDate(8, new java.sql.Date(project.getStartDate().getTime()));
                         ps.setDate(9, new java.sql.Date(project.getEndDate().getTime()));
                         ps.setString(10, project.getProjectImagePath());
+                        ps.setLong(11, project.getProjectOwnerId());
                         return ps;
                     }
                 },

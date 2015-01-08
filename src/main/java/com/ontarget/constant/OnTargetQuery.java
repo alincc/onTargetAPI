@@ -30,7 +30,7 @@ public interface OnTargetQuery {
 
     public static final String GET_COMPANY = new StringBuilder("SELECT company_name FROM company_info where company_id=?").toString();
 
-    public static final String ADD_PROJECT = new StringBuilder("INSERT INTO  PROJECT (PROJECT_NAME, PROJECT_DESCRIPTION,PROJECT_TYPE_ID, COMPANY_ID, ADDRESS_ID,PROJECT_STATUS,PROJECT_PARENT_ID,project_start_date,project_end_date, CREATED_DATE, CREATED_BY, MODIFIED_DATE,MODIFIED_BY,project_image_path ) VALUES (?,?,?,?,?,?,?,?,?,NOW(),'SYSTEM',NOW(),'SYSTEM',?)").toString();
+    public static final String  ADD_PROJECT = new StringBuilder("INSERT INTO  PROJECT (PROJECT_NAME, PROJECT_DESCRIPTION,PROJECT_TYPE_ID, COMPANY_ID, ADDRESS_ID,PROJECT_STATUS,PROJECT_PARENT_ID,project_start_date,project_end_date, CREATED_DATE, CREATED_BY, MODIFIED_DATE,MODIFIED_BY,project_image_path, project_owner_id ) VALUES (?,?,?,?,?,?,?,?,?,NOW(),'SYSTEM',NOW(),'SYSTEM',?,?)").toString();
 
     public static final String ADD_ADDRESS = new StringBuilder("INSERT INTO ADDRESS (address1,address2,city,state,zip,country,address_type) values (?,?,?,?,?,?,?)").toString();
 
