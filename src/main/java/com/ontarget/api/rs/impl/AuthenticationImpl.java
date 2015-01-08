@@ -41,7 +41,7 @@ public class AuthenticationImpl implements Authentication {
         try {
             response = authenticationService.signIn(user);
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
             logger.error("Authentication error", e);
             response.setReturnMessage("Authentication Error");
             response.setReturnVal(OnTargetConstant.ERROR);
