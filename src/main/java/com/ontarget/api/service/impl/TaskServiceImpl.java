@@ -55,8 +55,15 @@ public class TaskServiceImpl implements TaskService {
             Date projectStartDate = task.getProject().getStartDate();
             Date projectEndDate = task.getProject().getEndDate();
             if(projectStartDate == null || projectEndDate == null){
-                task.setProject(projectDAO.getProject(task.getProject().getProjectId()));
+                Project project = projectDAO.getProject(task.getProject().getProjectId());
+                if(project == null){
+                    throw new Exception("project is invalid for task");
+                }
+                task.setProject(project);
+                projectStartDate = project.getStartDate();
+                projectEndDate = project.getEndDate();
             }
+
             if (startDate.getTime() < projectStartDate.getTime()) {
                 throw new Exception("Task starts before project start date");
             } else {
