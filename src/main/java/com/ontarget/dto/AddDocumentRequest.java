@@ -15,7 +15,7 @@ public class AddDocumentRequest {
 	private List<User> assignees;
 	
 	public AddDocumentRequest() {
-//		super();
+		super();
 	}
 
 	public long getDocumentTemplateId() {

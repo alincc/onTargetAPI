@@ -46,7 +46,7 @@ public class DocumentEndpointImpl implements DocumentEndpoint {
 	/* (non-Javadoc)
 	 * @see com.ontarget.api.rs.DocumentEndpoint#addDocument(com.ontarget.dto.AddDocumentRequest)
 	 */
-	@POST
+	@PUT
 	@Override
 	public AddDocumentResponse addDocument(AddDocumentRequest request) {
 		try {
