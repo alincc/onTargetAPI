@@ -86,10 +86,10 @@ public class TaskServiceImpl implements TaskService {
                 parentTaskEndDate = parentTask.getEndDate();
             }
 
-            if (startDate.getTime() < parentTaskStartDate.getTime()) {
+            if (parentTaskStartDate != null && startDate.getTime() < parentTaskStartDate.getTime()) {
                 throw new Exception("Task starts before parent task start date");
             } else {
-                if (endDate.getTime() > parentTaskEndDate.getTime()) {
+                if (parentTaskEndDate != null && endDate.getTime() > parentTaskEndDate.getTime()) {
                     throw new Exception("Task ends after parent task end date");
                 }
             }
