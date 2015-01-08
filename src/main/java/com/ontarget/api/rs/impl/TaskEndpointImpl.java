@@ -40,7 +40,7 @@ public class TaskEndpointImpl implements TaskEndpoint {
                 response.setReturnVal(OnTargetConstant.SUCCESS);
             }
         } catch (Exception e) {
-//            e.printStackTrace();
+            e.printStackTrace();
             logger.error("Add task failed." + e);
             response.setReturnMessage("Add task failed");
             response.setReturnVal(OnTargetConstant.ERROR);
