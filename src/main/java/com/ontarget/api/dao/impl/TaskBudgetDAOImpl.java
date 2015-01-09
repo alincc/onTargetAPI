@@ -191,22 +191,22 @@ public class TaskBudgetDAOImpl implements TaskBudgetDAO {
 
 
     @Override
-    public Task getTaskCostByTask(int projectTaskId) throws Exception{
+    public Task getTaskCostByTask(Task task) throws Exception{
         final List<TaskEstimatedCost> taskCostList=new ArrayList<>();
-        Task task = new Task();
+//        Task task = new Task();
         task.setCosts(taskCostList);
 
-        jdbcTemplate.query(OnTargetQuery.GET_TASK_COST_BY_TASK,new Object[]{projectTaskId},new RowMapper<Void>() {
+        jdbcTemplate.query(OnTargetQuery.GET_TASK_COST_BY_TASK,new Object[]{task},new RowMapper<Void>() {
             @Override
             public Void mapRow(ResultSet resultSet, int i) throws SQLException {
-
-                if(task.getProjectTaskId() <=0 ){
-                    task.setProjectTaskId(resultSet.getInt("project_task_id"));
-                    task.setTitle(resultSet.getString("title"));
-                    task.setDescription(resultSet.getString("description"));
-                    task.setStartDate(resultSet.getDate("start_date"));
-                    task.setEndDate(resultSet.getDate("end_date"));
-                }
+//
+//                if(task.getProjectTaskId() <=0 ){
+//                    task.setProjectTaskId(resultSet.getInt("project_task_id"));
+//                    task.setTitle(resultSet.getString("title"));
+//                    task.setDescription(resultSet.getString("description"));
+//                    task.setStartDate(resultSet.getDate("start_date"));
+//                    task.setEndDate(resultSet.getDate("end_date"));
+//                }
 
 
                 TaskEstimatedCost cost = new TaskEstimatedCost();

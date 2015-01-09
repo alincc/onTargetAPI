@@ -105,7 +105,8 @@ public class TaskBudgetServiceImpl implements TaskBudgetService {
     @Override
     public Task getTaskBudgetByTask(int taskId) throws Exception {
         logger.debug("Getting list of task budget for task: " + taskId);
-        return taskBudgetDAO.getTaskCostByTask(taskId);
+        Task task = taskDAO.getTaskDetail(taskId);
+        return taskBudgetDAO.getTaskCostByTask(task);
     }
 
     @Override
@@ -125,7 +126,7 @@ public class TaskBudgetServiceImpl implements TaskBudgetService {
 
         }
 
-        return taskBudgetDAO.getTaskCostByTask(taskId);
+        return taskBudgetDAO.getTaskCostByTask(task);
     }
 
 
