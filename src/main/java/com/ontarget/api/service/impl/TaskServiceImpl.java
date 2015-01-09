@@ -65,11 +65,12 @@ public class TaskServiceImpl implements TaskService {
 
             if (startDate.getTime() < projectStartDate.getTime()) {
 //                throw new Exception("Task starts before project start date");
+                logger.info(startDate.toString() + " less than " + projectStartDate.toString());
                 throw new DateBeforeException("Task starts before project start date");
             } else {
-
                 if (endDate.getTime() > projectEndDate.getTime()) {
 //                    throw new Exception("Task ends after project end date");
+                    logger.info(endDate.toString() + " more than " + projectEndDate.toString());
                     throw new DateAfterException("Task ends after project end date");
                 }
             }
@@ -89,10 +90,12 @@ public class TaskServiceImpl implements TaskService {
             }
 
             if (parentTaskStartDate != null && startDate.getTime() < parentTaskStartDate.getTime()) {
+                logger.info(startDate.toString() + " less than " + parentTaskStartDate.toString());
                 throw new DateBeforeException("Task starts before parent task start date");
 //                throw new Exception("Task starts before parent task start date");
             } else {
                 if (parentTaskEndDate != null && endDate.getTime() > parentTaskEndDate.getTime()) {
+                    logger.info(endDate.toString() + " more than " + parentTaskEndDate.toString());
                     throw new DateAfterException("Task ends after parent task end date");
 //                    throw new Exception("Task ends after parent task end date");
                 }
@@ -193,12 +196,11 @@ public class TaskServiceImpl implements TaskService {
     public List<FileAttachment> getTaskAttachments(long taskId) throws Exception {
         List<FileAttachment> taskAttachments = projectTaskFileDAO.getTaskAttachments(taskId);
         Map<Long, Contact> contactSet = new HashMap<>();
-        for(FileAttachment fileAttachment: taskAttachments){
+        for (FileAttachment fileAttachment : taskAttachments) {
             long userId = fileAttachment.getUserId();
-            if(contactSet.containsKey(userId)){
+            if (contactSet.containsKey(userId)) {
                 fileAttachment.setContact(contactSet.get(userId));
-            }
-            else {
+            } else {
                 Contact c = contactDAO.getContact(userId);
                 contactSet.put(userId, c);
                 fileAttachment.setContact(c);
