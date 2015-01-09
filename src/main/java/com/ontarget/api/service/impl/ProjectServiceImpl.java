@@ -61,6 +61,7 @@ public class ProjectServiceImpl implements ProjectService {
 
         Project project = request.getProject();
         project.setCompanyId(companyId);
+        project.setProjectOwnerId(userId);
 
         int projectId = projectDAO.addProject(project);
 

@@ -6,6 +6,8 @@ import com.ontarget.api.service.TaskService;
 import com.ontarget.bean.TaskComment;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.*;
+import com.ontarget.exception.DateAfterException;
+import com.ontarget.exception.DateBeforeException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -39,8 +41,14 @@ public class TaskEndpointImpl implements TaskEndpoint {
                 response.setReturnMessage("Successfully added task");
                 response.setReturnVal(OnTargetConstant.SUCCESS);
             }
+        } catch (DateAfterException e) {
+            response.setReturnMessage(e.getMessage());
+            response.setReturnVal(OnTargetConstant.ERROR);
+        } catch (DateBeforeException e) {
+            response.setReturnMessage(e.getMessage());
+            response.setReturnVal(OnTargetConstant.ERROR);
         } catch (Exception e) {
-//            e.printStackTrace();
+            e.printStackTrace();
             logger.error("Add task failed." + e);
             response.setReturnMessage("Add task failed");
             response.setReturnVal(OnTargetConstant.ERROR);
