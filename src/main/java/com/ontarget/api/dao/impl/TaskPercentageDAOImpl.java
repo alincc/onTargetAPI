@@ -157,12 +157,10 @@ public class TaskPercentageDAOImpl implements TaskPercentageDAO {
                         PreparedStatement ps =
                                 connection.prepareStatement(OnTargetQuery.ADD_TASK_PERCENTAGE_COMPLETE, new String[]{"id"});
                         ps.setInt(1, taskPercentage.getTask().getProjectTaskId());
-                        ps.setDate(2, new java.sql.Date(taskPercentage.getFromDate().getTime()));
-                        ps.setDate(3, new java.sql.Date(taskPercentage.getToDate().getTime()));
-                        ps.setString(4, taskPercentage.getTaskPercentageType());
-                        ps.setDouble(5, taskPercentage.getTaskPercentageComplete());
-                        ps.setString(6,"0");//get user who added this.
-                        ps.setString(7, "0");// get user who modified this.
+                        ps.setString(2, taskPercentage.getTaskPercentageType());
+                        ps.setDouble(3, taskPercentage.getTaskPercentageComplete());
+                        ps.setString(4,"0");//get user who added this.
+                        ps.setString(5, "0");// get user who modified this.
                         return ps;
                     }
                 },
