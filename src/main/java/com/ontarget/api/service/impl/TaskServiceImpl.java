@@ -11,9 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by Owner on 11/6/14.
@@ -193,7 +191,21 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public List<FileAttachment> getTaskAttachments(long taskId) throws Exception {
-        return projectTaskFileDAO.getTaskAttachments(taskId);
+        List<FileAttachment> taskAttachments = projectTaskFileDAO.getTaskAttachments(taskId);
+        Map<Long, Contact> contactSet = new HashMap<>();
+        for(FileAttachment fileAttachment: taskAttachments){
+            long userId = fileAttachment.getUserId();
+            if(contactSet.containsKey(userId)){
+                fileAttachment.setContact(contactSet.get(userId));
+            }
+            else {
+                Contact c = contactDAO.getContact(userId);
+                contactSet.put(userId, c);
+                fileAttachment.setContact(c);
+            }
+        }
+
+        return taskAttachments;
     }
 
     @Override

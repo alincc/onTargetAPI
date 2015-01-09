@@ -9,6 +9,15 @@ public class FileAttachment implements Serializable {
     private long taskId, userId;
     private String fileName;
     private String location;
+    private Contact contact;
+
+    public Contact getContact() {
+        return contact;
+    }
+
+    public void setContact(Contact contact) {
+        this.contact = contact;
+    }
 
     public long getTaskId() {
         return taskId;
