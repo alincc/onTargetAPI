@@ -229,7 +229,7 @@ public class TaskEndpointImpl implements TaskEndpoint {
             response.setTaskId(taskId);
             response.setReturnVal(OnTargetConstant.SUCCESS);
         } catch (Exception e) {
-//            e.printStackTrace();
+            e.printStackTrace();
             response.setReturnMessage("error getting task file");
             response.setReturnVal(OnTargetConstant.ERROR);
         }
