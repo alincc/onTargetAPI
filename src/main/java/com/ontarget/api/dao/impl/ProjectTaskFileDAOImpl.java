@@ -37,6 +37,7 @@ public class ProjectTaskFileDAOImpl implements com.ontarget.api.dao.ProjectTaskF
                 attachment.setFileName((String) commentMap.get("file_name"));
                 attachment.setLocation((String) commentMap.get("location"));
                 attachment.setTaskId((int) commentMap.get("project_task_id"));
+                attachment.setUserId((int) commentMap.get("created_by"));
                 attachments.add(attachment);
             }
         }
