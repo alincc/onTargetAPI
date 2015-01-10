@@ -130,13 +130,14 @@ public class TaskBudgetServiceImpl implements TaskBudgetService {
             TaskEstimatedCostByMonthYear taskEstimatedCostByMonthYear = new TaskEstimatedCostByMonthYear();
             taskEstimatedCostByMonthYear.setTaskInterval(entry.getKey());
             taskEstimatedCostByMonthYear.setCosts(entry.getValue());
+            taskEstimatedCostByMonthYears.add(taskEstimatedCostByMonthYear);
 
         }
 
         /**
          * if no costs found then create month year
          */
-        if(taskIntervalListMap == null || taskIntervalListMap.isEmpty()){
+        if(taskIntervalListMap.isEmpty()){
             List<TaskInterval> intervals = OntargetUtil.getTimeInterval(task.getStartDate(), task.getEndDate());
             for(TaskInterval taskInterval : intervals){
                 TaskEstimatedCostByMonthYear taskEstimatedCostByMonthYear = new TaskEstimatedCostByMonthYear();
