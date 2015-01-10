@@ -8,6 +8,7 @@ import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.TaskBudgetRequest;
 import com.ontarget.dto.TaskListResponse;
+import com.ontarget.exception.NoTaskFoundException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -114,7 +115,11 @@ public class TaskBudgetEndpointImpl implements TaskBudgetEndpoint {
             response.setTask(taskBudgetService.getTaskBudgetByTaskAndMonthYear(taskId));
             response.setReturnMessage("Successfully retrieved task budget cost");
             response.setReturnVal(OnTargetConstant.SUCCESS);
-        } catch (Exception e) {
+        } catch (NoTaskFoundException e) {
+            logger.error("No Task found with id "+ taskId, e);
+            response.setReturnVal(OnTargetConstant.ERROR);
+            response.setReturnMessage("No task found with id "+ taskId);
+        }catch(Exception e){
             logger.error("Error while retrieving task budget cost", e);
             response.setReturnVal(OnTargetConstant.ERROR);
             response.setReturnMessage("Error while retrieving task budget cost");

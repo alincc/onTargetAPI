@@ -9,6 +9,8 @@ import com.ontarget.bean.TaskEstimatedCost;
 import com.ontarget.bean.TaskEstimatedCostByMonthYear;
 import com.ontarget.bean.TaskInterval;
 import com.ontarget.constant.OnTargetConstant;
+import com.ontarget.exception.NoTaskFoundException;
+import com.ontarget.util.OntargetUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -110,10 +112,15 @@ public class TaskBudgetServiceImpl implements TaskBudgetService {
     }
 
     @Override
-    public Task getTaskBudgetByTaskAndMonthYear(int taskId) throws Exception {
+    public Task getTaskBudgetByTaskAndMonthYear(int taskId) throws NoTaskFoundException,Exception {
         logger.debug("Getting list of task budget for task differentiated by month year: " + taskId);
 
         Task task = taskDAO.getTaskDetail(taskId);
+
+        if(task == null || task.getProjectTaskId() == 0){
+            throw new NoTaskFoundException("Task Does not exist with id "+ taskId);
+        }
+
         List<TaskEstimatedCostByMonthYear> taskEstimatedCostByMonthYears = new LinkedList<>();
         task.setCostsByMonthYear(taskEstimatedCostByMonthYears);
 
@@ -123,6 +130,19 @@ public class TaskBudgetServiceImpl implements TaskBudgetService {
             TaskEstimatedCostByMonthYear taskEstimatedCostByMonthYear = new TaskEstimatedCostByMonthYear();
             taskEstimatedCostByMonthYear.setTaskInterval(entry.getKey());
             taskEstimatedCostByMonthYear.setCosts(entry.getValue());
+
+        }
+
+        /**
+         * if no costs found then create month year
+         */
+        if(taskIntervalListMap == null || taskIntervalListMap.isEmpty()){
+            List<TaskInterval> intervals = OntargetUtil.getTimeInterval(task.getStartDate(), task.getEndDate());
+            for(TaskInterval taskInterval : intervals){
+                TaskEstimatedCostByMonthYear taskEstimatedCostByMonthYear = new TaskEstimatedCostByMonthYear();
+                taskEstimatedCostByMonthYear.setTaskInterval(taskInterval);
+                taskEstimatedCostByMonthYear.setCosts(new ArrayList<>());
+            }
 
         }
 
