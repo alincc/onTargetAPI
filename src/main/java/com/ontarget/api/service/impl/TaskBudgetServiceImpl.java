@@ -142,11 +142,11 @@ public class TaskBudgetServiceImpl implements TaskBudgetService {
                 TaskEstimatedCostByMonthYear taskEstimatedCostByMonthYear = new TaskEstimatedCostByMonthYear();
                 taskEstimatedCostByMonthYear.setTaskInterval(taskInterval);
                 taskEstimatedCostByMonthYear.setCosts(new ArrayList<>());
+                taskEstimatedCostByMonthYears.add(taskEstimatedCostByMonthYear);
             }
-
         }
 
-        return taskBudgetDAO.getTaskCostByTask(task);
+        return task;
     }
 
 

@@ -75,16 +75,16 @@ public class OntargetUtil {
     }
 
     public static void main(String args[]) throws Exception {
-        String string = "January 1, 2014";
+        String string = "January 11, 2015";
         DateFormat format = new SimpleDateFormat("MMMM d, yyyy", Locale.ENGLISH);
         Date startdate = format.parse(string);
 
-        string = "January 1, 2015";
+        string = "January 14, 2015";
         Date endDate = format.parse(string);
 
         List<TaskInterval> intervals = getTimeInterval(startdate, endDate);
 
-//        System.out.println(intervals);
+        System.out.println(intervals);
 
     }
 
