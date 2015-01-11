@@ -212,4 +212,21 @@ public interface OnTargetQuery {
     public static final String GET_ALL_COMPANY = new StringBuilder("SELECT * FROM company_info").toString();
 
     public static final String GET_USER_NOTIFICATION = new StringBuilder("SELECT * FROM user_notification where id > ? and user_id = ? order by id").toString();
+
+    interface accidentReport {
+    	String INSERT = "INSERT INTO `ontarget`.`accident_report` "
+    			+ "(`submitted_to`, `supervisor_name`, `witness`, `location`, `brief_of_accident`, `severity`, "
+    			+ "`description`, `body_part_affected`, `date_of_accident`, `time_of_accident`, `injured_visited_doctor`, "
+    			+ "`workers_compensation_filed`, `injured_left_job`, `date_injured_left_job`, `time_injured_left_job`, "
+    			+ "`possible_preventive_measures`, `unsafe_conditions_corrected`, `correction_measures_performed`, "
+    			+ "`correction_measures_to_be_performed`)"
+    			+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+    	String UPDATE = "UPDATE `ontarget`.`accident_report` SET `submitted_to` = ?, `supervisor_name` = ?, `witness` = ?, "
+    			+ "`location` = ?, `brief_of_accident` = ?, `severity` = ?, `description` = ?, `body_part_affected` = ?, "
+    			+ "`date_of_accident` = ?, `time_of_accident` = ?, `injured_visited_doctor` = ?, "
+    			+ "`workers_compensation_filed` = ?, `injured_left_job` = ?, `date_injured_left_job` = ?, "
+    			+ "`time_injured_left_job` = ?, `possible_preventive_measures` = ?, `unsafe_conditions_corrected` = ?, "
+    			+ "`correction_measures_performed` = ?, `correction_measures_to_be_performed` = ? WHERE `accident_report_id` = ?; ";
+    	String GET_BY_PROJECT_ID = "SELECT * FROM accident_report where project_id = ?;";
+    }
 }
