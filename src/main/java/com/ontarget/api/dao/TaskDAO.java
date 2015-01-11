@@ -26,7 +26,7 @@ public interface TaskDAO {
 
     public boolean updateTask(Task task) throws Exception;
 
-    public boolean updateTaskStatus(long taskId, String taskStatus) throws Exception;
+    public boolean updateTaskStatus(long taskId, String taskStatus, int userId) throws Exception;
 
     public Set<Long> getTaskMembers(long taskId) throws Exception;
 

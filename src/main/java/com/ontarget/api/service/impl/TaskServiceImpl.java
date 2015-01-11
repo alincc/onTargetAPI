@@ -171,8 +171,8 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     @Transactional(rollbackFor = {Exception.class})
-    public boolean updateTaskStatus(long taskId, String taskStatus) throws Exception {
-        return taskDAO.updateTaskStatus(taskId, taskStatus);
+    public boolean updateTaskStatus(long taskId, String taskStatus, int userId) throws Exception {
+        return taskDAO.updateTaskStatus(taskId, taskStatus, userId);
     }
 
     @Override
