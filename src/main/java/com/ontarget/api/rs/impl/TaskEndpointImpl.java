@@ -139,7 +139,7 @@ public class TaskEndpointImpl implements TaskEndpoint {
 //        System.out.println("these are the requests " + taskId + " and " + taskStatus);
         OnTargetResponse response = new OnTargetResponse();
         try {
-            if (taskService.updateTaskStatus(taskId, taskStatus)) {
+            if (taskService.updateTaskStatus(taskId, taskStatus, request.getUser().getUserId())) {
 //                System.out.println("succesfully updated");
                 response.setReturnMessage("Successfully updated task status");
                 response.setReturnVal(OnTargetConstant.SUCCESS);

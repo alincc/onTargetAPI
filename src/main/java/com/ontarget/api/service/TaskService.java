@@ -25,7 +25,7 @@ public interface TaskService {
 
     boolean addTaskComment(TaskComment comment) throws Exception;
 
-    public boolean updateTaskStatus(long taskId, String taskStatus) throws Exception;
+    public boolean updateTaskStatus(long taskId, String taskStatus, int userId) throws Exception;
 
     public Set<Long> getTaskMembers(long taskId) throws Exception;
 
