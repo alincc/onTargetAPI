@@ -132,6 +132,8 @@ public interface OnTargetQuery {
     public static final String EXPIRE_FORGOT_PASSWORD_TOKEN = new StringBuilder("update forgot_password_request set status='EXPIRED' where forgot_password_token=?").toString();
 
 
+    public static final String GET_TASK_BY_PROJECT_BY_STATUS = new StringBuilder("select * from project_task t where t.project_id in ( select p.project_id from project p where p.project_id=? or p.project_parent_id=?) and t.status=? and t.modified_date <= t.end_date").toString();
+
     interface documentTemplate {
         public static final String ADD = "insert into document_template (name, created_by, created_date, modified_by, modfied_date) values(?, ?, now(), ?, now())";
         public static final String UPDATE = "";

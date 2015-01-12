@@ -178,6 +178,36 @@ public class TaskDAOImpl implements TaskDAO {
     }
 
     @Override
+    public List<Task> getTask(int projectId, int completed) throws Exception {
+        List<Map<String, Object>> taskList = jdbcTemplate.queryForList(OnTargetQuery.GET_TASK_BY_PROJECT_BY_STATUS, new Object[]{projectId, completed});
+        List<Task> tasks = new ArrayList<>();
+        if (taskList != null && taskList.size() > 0) {
+            for (Map<String, Object> taskMap : taskList) {
+                Task task = new Task();
+                task.setTitle((String) taskMap.get("title"));
+                task.setDescription((String) taskMap.get("description"));
+                task.setStatus((String) taskMap.get("status"));
+                task.setSeverity((String) taskMap.get("severity"));
+                task.setProjectTaskId((Integer) taskMap.get("project_task_id"));
+                task.setStartDate((Date) taskMap.get("start_date"));
+                task.setEndDate((Date) taskMap.get("end_date"));
+                task.setStatus((String) taskMap.get("status"));
+
+                long status = (Long) taskMap.get("completed");
+                if (status == 0) {
+                    task.setCompleted(false);
+                } else {
+                    task.setCompleted(true);
+                }
+                tasks.add(task);
+            }
+        }
+
+        return tasks;
+
+    }
+
+    @Override
     public List<TaskComment> getTaskComments(int projectTaskId) throws Exception {
         List<Map<String, Object>> taskList = jdbcTemplate.queryForList(OnTargetQuery.GET_TASK_COMMENT, new Object[]{projectTaskId});
         List<TaskComment> comments = new ArrayList<>();

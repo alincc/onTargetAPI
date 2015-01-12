@@ -2,10 +2,13 @@ package com.ontarget.api.service.impl;
 
 import com.ontarget.api.dao.ProjectDAO;
 import com.ontarget.api.dao.TaskBudgetDAO;
+import com.ontarget.api.dao.TaskDAO;
 import com.ontarget.api.dao.TaskPercentageDAO;
+import com.ontarget.api.response.BIReportResponse;
 import com.ontarget.api.service.ProjectReportService;
 import com.ontarget.bean.*;
 import com.ontarget.constant.OnTargetConstant;
+import com.ontarget.enums.TaskStatus;
 import com.ontarget.util.OntargetUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +30,9 @@ public class ProjectReportServiceImpl implements ProjectReportService {
 
     @Autowired
     private TaskPercentageDAO taskPercentageDAO;
+
+    @Autowired
+    private TaskDAO taskDAO;
 
     @Autowired
     private ProjectDAO projectDAO;
@@ -143,6 +149,18 @@ public class ProjectReportServiceImpl implements ProjectReportService {
 
        return  calculateEarnedValueAnalysisReport(monthYearEarnedValueReportByTask,totalTaskBudgetCost);
 
+    }
+
+    @Override
+    public BIReportResponse getTimeSaved(int projectId) throws Exception{
+
+        // get all task done within time.
+        List<Task> tasks = taskDAO.getTask(projectId, TaskStatus.COMPLETED.getTaskStatusId());
+
+
+
+
+        return null;
     }
 
 

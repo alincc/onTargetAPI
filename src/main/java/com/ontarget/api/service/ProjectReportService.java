@@ -1,5 +1,6 @@
 package com.ontarget.api.service;
 
+import com.ontarget.api.response.BIReportResponse;
 import com.ontarget.bean.ProjectEarnedValueAnalysisReport;
 import com.ontarget.bean.Task;
 import com.ontarget.bean.TaskInterval;
@@ -15,4 +16,5 @@ public interface ProjectReportService {
 
     public List<ProjectEarnedValueAnalysisReport> getEarnedValueAnalysisReport(int projectId) throws Exception;
 
+    public BIReportResponse getTimeSaved(int projectId) throws Exception;
 }

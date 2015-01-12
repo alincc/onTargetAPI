@@ -1,10 +1,10 @@
 package com.ontarget.api.rs.impl;
 
+import com.ontarget.api.response.BIReportResponse;
 import com.ontarget.api.response.ProjectEarnedValueReportResponse;
 import com.ontarget.api.rs.ProjectReportEndpoint;
 import com.ontarget.api.service.ProjectReportService;
 import com.ontarget.bean.ProjectEarnedValueAnalysisReport;
-import com.ontarget.bean.TaskInterval;
 import com.ontarget.constant.OnTargetConstant;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +13,6 @@ import org.springframework.stereotype.Component;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Owner on 12/23/14.
@@ -32,6 +31,7 @@ public class ProjectReportEndpointImpl implements ProjectReportEndpoint {
     @GET
     @Path("/earnedValueReport/{projectId}")
     public ProjectEarnedValueReportResponse getProjectEarnedValueAnalysis(@PathParam("projectId") int projectId) {
+        logger.debug("Getting earned value report for projectId: " + projectId);
         ProjectEarnedValueReportResponse response = new ProjectEarnedValueReportResponse();
 
         try {
@@ -41,8 +41,28 @@ public class ProjectReportEndpointImpl implements ProjectReportEndpoint {
             response.setReturnVal(OnTargetConstant.SUCCESS);
         } catch (Exception e) {
             logger.error("Exception while retrieving earned value report", e);
-            response.setReturnMessage("Successfully retrieved report.");
+            response.setReturnMessage("Error while  retrieving report.");
+            response.setReturnVal(OnTargetConstant.ERROR);
+        }
+
+        return response;
+    }
+
+
+    @Override
+    @GET
+    @Path("/timesaved/{projectId}")
+    public BIReportResponse getTimeSaved(@PathParam("projectId") int projectId) {
+        BIReportResponse response = new BIReportResponse();
+
+        try {
+            response = projectReportService.getTimeSaved(projectId);
+            response.setReturnMessage("Successfully retrieved BI report.");
             response.setReturnVal(OnTargetConstant.SUCCESS);
+        } catch (Exception e) {
+            logger.error("Exception while retrieving BI report", e);
+            response.setReturnMessage("Error while retrieving BI report.");
+            response.setReturnVal(OnTargetConstant.ERROR);
         }
 
         return response;
