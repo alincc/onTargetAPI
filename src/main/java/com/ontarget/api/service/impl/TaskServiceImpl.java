@@ -41,10 +41,10 @@ public class TaskServiceImpl implements TaskService {
     private ProjectDAO projectDAO;
 
     private static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-    private static final TimeZone utc = TimeZone.getTimeZone("UTC");
+    private static final TimeZone cst = TimeZone.getTimeZone("America/Chicago");
 
     static {
-        format.setTimeZone(utc);
+        format.setTimeZone(cst);
     }
 
     @Override
@@ -55,9 +55,10 @@ public class TaskServiceImpl implements TaskService {
         String startDateText = task.getStartDateText();
         if (startDateText != null && !startDateText.isEmpty()) {
             Date parse = format.parse(startDateText);
-            Calendar calendar = Calendar.getInstance(utc);
+
+            Calendar calendar = Calendar.getInstance(cst);
             calendar.setTimeInMillis(parse.getTime());
-            calendar.setTimeZone(utc);
+            calendar.setTimeZone(cst);
             parse = calendar.getTime();
             logger.info("this is start date " + parse + " parsed from " + startDateText);
             task.setStartDate(parse);
