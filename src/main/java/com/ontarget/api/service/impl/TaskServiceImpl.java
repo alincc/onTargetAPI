@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -39,10 +40,30 @@ public class TaskServiceImpl implements TaskService {
     @Autowired
     private ProjectDAO projectDAO;
 
+    private static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+    private static final TimeZone utc = TimeZone.getTimeZone("UTC");
+    static {
+        format.setTimeZone(utc);
+    }
+
     @Override
     @Transactional(rollbackFor = {Exception.class})
     public boolean addTaskService(Task task, int userId) throws Exception {
         logger.info("Add/Update task: " + task);
+
+        String startDateText = task.getStartDateText();
+        if(startDateText != null && !startDateText.isEmpty()){
+            Date parse = format.parse(startDateText);
+            logger.info("this is start date "+parse);
+            task.setStartDate(parse);
+        }
+
+        String endDateText = task.getEndDateText();
+        if(endDateText != null && !endDateText.isEmpty()){
+            Date parse = format.parse(endDateText);
+            logger.info("this is end date "+parse);
+            task.setEndDate(parse);
+        }
 
         int taskId = task.getProjectTaskId();
         // validate times

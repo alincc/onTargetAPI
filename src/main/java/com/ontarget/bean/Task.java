@@ -17,6 +17,9 @@ public class Task implements Serializable{
     private double cost;
     private int numberOfWorkers;
     private int percentageComplete;
+    private String startDateText;
+    private String endDateText;
+
     private Date startDate;
     private Date endDate;
     private boolean completed;
@@ -29,6 +32,21 @@ public class Task implements Serializable{
     private List<TaskEstimatedCost> costs;
     private List<Task> childTasks;
 
+    public String getStartDateText() {
+        return startDateText;
+    }
+
+    public void setStartDateText(String startDateText) {
+        this.startDateText = startDateText;
+    }
+
+    public String getEndDateText() {
+        return endDateText;
+    }
+
+    public void setEndDateText(String endDateText) {
+        this.endDateText = endDateText;
+    }
 
     private List<TaskEstimatedCostByMonthYear> costsByMonthYear;
 
