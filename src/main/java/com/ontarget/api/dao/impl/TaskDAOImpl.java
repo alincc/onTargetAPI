@@ -152,7 +152,7 @@ public class TaskDAOImpl implements TaskDAO {
                                 connection.prepareStatement(OnTargetQuery.ADD_TASK_COMMENT, new String[]{"id"});
                         ps.setInt(1, comment.getTaskId());
                         ps.setString(2, comment.getComment());
-                        ps.setString(3, comment.getCommentedBy());
+                        ps.setInt(3, comment.getCommentedBy());
 
                         return ps;
                     }
@@ -221,7 +221,7 @@ public class TaskDAOImpl implements TaskDAO {
                 comment.setTaskCommentId((Integer) commentMap.get("task_comment_id"));
                 comment.setTaskId((Integer) commentMap.get("task_id"));
                 comment.setComment((String) commentMap.get("comment"));
-                comment.setCommentedBy((String) commentMap.get("commented_by"));
+                comment.setCommentedBy((Integer)commentMap.get("commented_by"));
                 comment.setCommentedDate((Date) commentMap.get("commented_date"));
                 comments.add(comment);
             }
