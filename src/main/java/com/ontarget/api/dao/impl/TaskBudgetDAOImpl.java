@@ -261,7 +261,7 @@ public class TaskBudgetDAOImpl implements TaskBudgetDAO {
                     Calendar cal = Calendar.getInstance();
                     cal.setTime(fromDate);
                     year = cal.get(Calendar.YEAR);
-                    month = cal.get(Calendar.MONTH);
+                    month = cal.get(Calendar.MONTH) + 1;
                 }
                 cost.setMonth(month);
                 cost.setYear(year);
