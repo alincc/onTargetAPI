@@ -247,6 +247,8 @@ public class Task implements Serializable{
                 ", cost=" + cost +
                 ", numberOfWorkers=" + numberOfWorkers +
                 ", percentageComplete=" + percentageComplete +
+                ", startDateText='" + startDateText + '\'' +
+                ", endDateText='" + endDateText + '\'' +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
                 ", completed=" + completed +
