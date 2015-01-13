@@ -42,6 +42,7 @@ public class TaskServiceImpl implements TaskService {
 
     private static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
     private static final TimeZone utc = TimeZone.getTimeZone("UTC");
+
     static {
         format.setTimeZone(utc);
     }
@@ -52,16 +53,20 @@ public class TaskServiceImpl implements TaskService {
         logger.info("Add/Update task: " + task);
 
         String startDateText = task.getStartDateText();
-        if(startDateText != null && !startDateText.isEmpty()){
+        if (startDateText != null && !startDateText.isEmpty()) {
             Date parse = format.parse(startDateText);
-            logger.info("this is start date "+parse);
+            Calendar calendar = Calendar.getInstance(utc);
+            calendar.setTimeInMillis(parse.getTime());
+            calendar.setTimeZone(utc);
+            parse = calendar.getTime();
+            logger.info("this is start date " + parse + " parsed from " + startDateText);
             task.setStartDate(parse);
         }
 
         String endDateText = task.getEndDateText();
-        if(endDateText != null && !endDateText.isEmpty()){
+        if (endDateText != null && !endDateText.isEmpty()) {
             Date parse = format.parse(endDateText);
-            logger.info("this is end date "+parse);
+            logger.info("this is end date " + parse + " parsed from " + endDateText);
             task.setEndDate(parse);
         }
 
@@ -76,7 +81,7 @@ public class TaskServiceImpl implements TaskService {
             Date projectEndDate = task.getProject().getEndDate();
             if (projectStartDate == null || projectEndDate == null) {
                 Project project = projectDAO.getProject(task.getProject().getProjectId());
-                logger.info("start and end date of project is null so getting new project "+project.toString());
+                logger.info("start and end date of project is null so getting new project " + project.toString());
                 if (project == null) {
                     throw new Exception("project is invalid for task");
                 }
