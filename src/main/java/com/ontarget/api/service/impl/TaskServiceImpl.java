@@ -213,14 +213,14 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     @Transactional(rollbackFor = {Exception.class})
-    public boolean assignTaskToUser(long taskId, long userId) throws Exception {
+    public boolean assignTaskToUser(long taskId, long userId, int assigningUser) throws Exception {
 
         Long assignedTo = taskDAO.getAssignedUser(taskId);
         boolean assigned = false;
         if (assignedTo.longValue() == 0) {
-            assigned = taskDAO.assignTaskToUser(taskId, userId);
+            assigned = taskDAO.assignTaskToUser(taskId, userId, assigningUser);
         } else {
-            assigned = taskDAO.updateTaskAssignee(taskId, userId);
+            assigned = taskDAO.updateTaskAssignee(taskId, userId, assigningUser);
         }
 
         if (assigned) {

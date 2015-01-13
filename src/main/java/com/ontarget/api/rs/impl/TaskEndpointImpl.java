@@ -243,7 +243,7 @@ public class TaskEndpointImpl implements TaskEndpoint {
     public OnTargetResponse assignTaskToUser(TaskMemberRequest taskMemberRequest) {
         OnTargetResponse response = new OnTargetResponse();
         try {
-            if (taskService.assignTaskToUser(taskMemberRequest.getTaskId(), taskMemberRequest.getMembers().get(0).longValue())) {
+            if (taskService.assignTaskToUser(taskMemberRequest.getTaskId(), taskMemberRequest.getMembers().get(0).longValue(), taskMemberRequest.getUser().getUserId())) {
                 response.setReturnMessage("Successfully assigned task");
                 response.setReturnVal(OnTargetConstant.SUCCESS);
             } else {

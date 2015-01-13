@@ -110,9 +110,9 @@ public interface OnTargetQuery {
 
     public static final String ADD_CONTACT_PHONE = new StringBuilder("insert into phone (contact_id,area_code,phone_number, phone_type, status) values (?,?,?,?,?)").toString();
 
-    public static final String ASSIGN_TASK_USER = new StringBuilder("insert into task_assignee (project_task_id, task_assignee) values (?,?)").toString();
+    public static final String ASSIGN_TASK_USER = new StringBuilder("insert into task_assignee (project_task_id, task_assignee, created_by, modified_by, modified_date) values (?,?, ?, ?, now())").toString();
 
-    public static final String UPDATE_TASK_USER = new StringBuilder("update task_assignee set task_assignee=? where project_task_id=?").toString();
+    public static final String UPDATE_TASK_USER = new StringBuilder("update task_assignee set task_assignee=?, modified_by=?, modified_date=now() where project_task_id=?").toString();
 
     public static final String EXPIRE_TASK_PERCENTAGE_COMPLETE = new StringBuilder("update task_percentage_log set end_date='9999-12-31' where task_percentage_log_id=?").toString();
 

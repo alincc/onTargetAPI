@@ -257,14 +257,14 @@ public class TaskDAOImpl implements TaskDAO {
     }
 
     @Override
-    public boolean assignTaskToUser(long taskId, long userId) throws Exception {
-        int row = jdbcTemplate.update(OnTargetQuery.ASSIGN_TASK_USER, new Object[]{taskId, userId});
+    public boolean assignTaskToUser(long taskId, long userId, int assigningUser) throws Exception {
+        int row = jdbcTemplate.update(OnTargetQuery.ASSIGN_TASK_USER, new Object[]{taskId, userId, assigningUser, assigningUser});
         return row > 0;
     }
 
     @Override
-    public boolean updateTaskAssignee(long taskId, long userId) throws Exception {
-        int row = jdbcTemplate.update(OnTargetQuery.UPDATE_TASK_USER, new Object[]{userId, taskId});
+    public boolean updateTaskAssignee(long taskId, long userId, int assigningUser) throws Exception {
+        int row = jdbcTemplate.update(OnTargetQuery.UPDATE_TASK_USER, new Object[]{userId, taskId, assigningUser});
         return row > 0;
     }
 
