@@ -122,15 +122,20 @@ public class Project implements Serializable{
                 "projectId=" + projectId +
                 ", projectName='" + projectName + '\'' +
                 ", projectDescription='" + projectDescription + '\'' +
-                ", projectTypeId='" + projectTypeId + '\'' +
+                ", projectTypeId=" + projectTypeId +
+                ", projectOwnerId=" + projectOwnerId +
                 ", status='" + status + '\'' +
                 ", companyId=" + companyId +
+                ", company=" + company +
                 ", projectParentId=" + projectParentId +
                 ", projectAddress=" + projectAddress +
                 ", taskList=" + taskList +
+                ", projects=" + projects +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", projectImagePath='" + projectImagePath + '\'' +
                 '}';
     }
-
 
     public List<Project> getProjects() {
         return projects;

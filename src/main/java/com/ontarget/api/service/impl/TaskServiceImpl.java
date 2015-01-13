@@ -55,6 +55,7 @@ public class TaskServiceImpl implements TaskService {
             Date projectEndDate = task.getProject().getEndDate();
             if (projectStartDate == null || projectEndDate == null) {
                 Project project = projectDAO.getProject(task.getProject().getProjectId());
+                logger.info("start and end date of project is null so getting new project "+project.toString());
                 if (project == null) {
                     throw new Exception("project is invalid for task");
                 }

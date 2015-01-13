@@ -109,21 +109,6 @@ public class Task implements Serializable{
     public Task() {
     }
 
-
-    @Override
-    public String toString() {
-        return "Task{" +
-                "projectTaskId='" + projectTaskId + '\'' +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", status='" + status + '\'' +
-                ", severity='" + severity + '\'' +
-                ", cost=" + cost +
-                ", numberOfWorkers=" + numberOfWorkers +
-                ", percentageComplete=" + percentageComplete +
-                '}';
-    }
-
     public Project getProject() {
         return project;
     }
@@ -231,5 +216,29 @@ public class Task implements Serializable{
 
     public void setCostsByMonthYear(List<TaskEstimatedCostByMonthYear> costsByMonthYear) {
         this.costsByMonthYear = costsByMonthYear;
+    }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "projectTaskId=" + projectTaskId +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", status='" + status + '\'' +
+                ", severity='" + severity + '\'' +
+                ", cost=" + cost +
+                ", numberOfWorkers=" + numberOfWorkers +
+                ", percentageComplete=" + percentageComplete +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", completed=" + completed +
+                ", assignedTo=" + assignedTo +
+                ", project=" + project +
+                ", parentTask=" + parentTask +
+                ", comments=" + comments +
+                ", costs=" + costs +
+                ", childTasks=" + childTasks +
+                ", costsByMonthYear=" + costsByMonthYear +
+                '}';
     }
 }
