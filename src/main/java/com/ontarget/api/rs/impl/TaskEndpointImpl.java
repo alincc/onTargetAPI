@@ -35,7 +35,6 @@ public class TaskEndpointImpl implements TaskEndpoint {
     @Path("/addTask")
     @POST
     public OnTargetResponse addTask(TaskRequest request) {
-        logger.info("add task request "+request.getTask().toString());
         OnTargetResponse response = new OnTargetResponse();
         try {
             if (taskService.addTaskService(request.getTask(), request.getUser().getUserId())) {

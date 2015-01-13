@@ -12,9 +12,11 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.*;
-import java.util.Date;
 
 /**
  * Created by Owner on 11/6/14.
@@ -221,7 +223,7 @@ public class TaskDAOImpl implements TaskDAO {
                 comment.setTaskCommentId((Integer) commentMap.get("task_comment_id"));
                 comment.setTaskId((Integer) commentMap.get("task_id"));
                 comment.setComment((String) commentMap.get("comment"));
-                comment.setCommentedBy((Integer)commentMap.get("commented_by"));
+                comment.setCommentedBy((Integer) commentMap.get("commented_by"));
                 comment.setCommentedDate((Date) commentMap.get("commented_date"));
                 comments.add(comment);
             }
@@ -232,7 +234,9 @@ public class TaskDAOImpl implements TaskDAO {
 
     @Override
     public boolean updateTask(Task task, int userId) throws Exception {
-        int row = jdbcTemplate.update(OnTargetQuery.UPDATE_TASK, new Object[]{task.getTitle(), task.getDescription(), task.getParentTask().getProjectTaskId(), task.getStatus(), task.getStartDate(), task.getEndDate(), task.getPercentageComplete(), task.getSeverity(), userId, task.getProjectTaskId()});
+        Task parentTask = task.getParentTask();
+        int projectTaskId = parentTask == null ? 0 : parentTask.getProjectTaskId();
+        int row = jdbcTemplate.update(OnTargetQuery.UPDATE_TASK, new Object[]{task.getTitle(), task.getDescription(), projectTaskId, task.getStatus(), task.getStartDate(), task.getEndDate(), task.getPercentageComplete(), task.getSeverity(), userId, task.getProjectTaskId()});
         if (row == 0) {
             throw new Exception("Unable to update task comment");
         }
@@ -271,7 +275,7 @@ public class TaskDAOImpl implements TaskDAO {
     @Override
     public Long getAssignedUser(long taskId) throws Exception {
         User user = new User();
-       jdbcTemplate.query(OnTargetQuery.GET_TASK_ASSIGNEE, new Object[]{taskId}, new RowMapper<Void>() {
+        jdbcTemplate.query(OnTargetQuery.GET_TASK_ASSIGNEE, new Object[]{taskId}, new RowMapper<Void>() {
             @Override
             public Void mapRow(ResultSet resultSet, int i) throws SQLException {
                 user.setUserId(resultSet.getInt("task_assignee"));
@@ -288,7 +292,7 @@ public class TaskDAOImpl implements TaskDAO {
             @Override
             public Void mapRow(ResultSet resultSet, int i) throws SQLException {
                 task.setProjectTaskId(resultSet.getInt("project_task_id"));
-                Project project=new Project();
+                Project project = new Project();
                 project.setProjectId(resultSet.getInt("project_id"));
                 task.setProject(project);
                 task.setTitle(resultSet.getString("title"));
