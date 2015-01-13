@@ -19,7 +19,7 @@ public interface ProjectDAO {
 
     public List<Map<String,Object>> getProjectByCompany(int companyId, int userId) throws Exception;
 
-    public boolean updateProject(Project project) throws Exception;
+    public boolean updateProject(Project project, int updatingUserId) throws Exception;
 
     public List<ProjectMember> getProjectMembers(long projectId) throws Exception;
 
