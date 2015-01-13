@@ -4,6 +4,7 @@ import com.ontarget.api.response.TaskBudgetListResponse;
 import com.ontarget.api.response.TaskBudgetResponse;
 import com.ontarget.api.rs.TaskBudgetEndpoint;
 import com.ontarget.api.service.TaskBudgetService;
+import com.ontarget.bean.TaskEstimatedCost;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.TaskBudgetRequest;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.util.List;
 
 /**
  * Created by Owner on 11/22/14.
@@ -48,6 +50,7 @@ public class TaskBudgetEndpointImpl implements TaskBudgetEndpoint {
             response.setReturnVal(OnTargetConstant.ERROR);
             response.setReturnMessage("Error while retrieving task budget");
         }
+
         return response;
     }
 
@@ -62,7 +65,13 @@ public class TaskBudgetEndpointImpl implements TaskBudgetEndpoint {
         OnTargetResponse response = new OnTargetResponse();
 
         try {
-            boolean added = taskBudgetService.addTaskBudget(request.getCostList());
+            List<TaskEstimatedCost> costList = request.getCostList();
+            int userId = request.getUser().getUserId();
+            for(TaskEstimatedCost cost: costList){
+                cost.setCreatedBy(userId);
+                cost.setModifiedBy(userId);
+            }
+            boolean added = taskBudgetService.addTaskBudget(costList);
             if(added){
                 response.setReturnMessage("Successfully added task budgets.");
                 response.setReturnVal(OnTargetConstant.SUCCESS);
@@ -87,6 +96,12 @@ public class TaskBudgetEndpointImpl implements TaskBudgetEndpoint {
         OnTargetResponse response = new OnTargetResponse();
 
         try {
+            List<TaskEstimatedCost> costList = request.getCostList();
+            int userId = request.getUser().getUserId();
+            for(TaskEstimatedCost cost: costList){
+                cost.setCreatedBy(userId);
+                cost.setModifiedBy(userId);
+            }
             boolean added = taskBudgetService.updateTaskBudget(request.getCostList());
             if(added){
                 response.setReturnMessage("Successfully updated task budgets.");

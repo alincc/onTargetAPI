@@ -41,6 +41,8 @@ public class TaskPlannedEstimatedCostDAOImpl implements TaskEstimatedCostDAO {
                         ps.setDate(3, new java.sql.Date(cost.getToDate().getTime()));
                         ps.setString(4, cost.getCostType());
                         ps.setDouble(5, cost.getCost());
+                        ps.setInt(6, cost.getCreatedBy());
+                        ps.setInt(7, cost.getModifiedBy());
                         return ps;
                     }
                 },
@@ -51,7 +53,7 @@ public class TaskPlannedEstimatedCostDAOImpl implements TaskEstimatedCostDAO {
 
     @Override
     public boolean updatePlannedActualCost(TaskEstimatedCost cost) throws Exception {
-        int row = jdbcTemplate.update(OnTargetQuery.UPDATE_TASK_PLANNED_ESTIMATED_COST, new Object[]{cost.getCost(), "0", cost.getId()});
+        int row = jdbcTemplate.update(OnTargetQuery.UPDATE_TASK_PLANNED_ESTIMATED_COST, new Object[]{cost.getCost(), cost.getModifiedBy(), cost.getId()});
         if (row == 0) {
             return false;
         }
