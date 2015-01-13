@@ -157,6 +157,13 @@ public class ProjectReportServiceImpl implements ProjectReportService {
         // get all task done within time.
         List<Task> tasks = taskDAO.getTask(projectId, TaskStatus.COMPLETED.getTaskStatusId());
 
+        //get all approved documents on time.
+
+
+        //get SPI
+
+
+
 
 
 

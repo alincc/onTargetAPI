@@ -49,7 +49,7 @@ public class OntargetUtil {
             month = startCal.get(Calendar.MONTH);
             year = startCal.get(Calendar.YEAR);
             taskInterval.setYear(year);
-            taskInterval.setMonth(month+1);
+            taskInterval.setMonth(month + 1);
             taskIntervals.add(taskInterval);
 
             startCal.add(Calendar.MONTH, 1);
