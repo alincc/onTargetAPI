@@ -12,7 +12,7 @@ import java.util.Set;
  */
 public interface TaskDAO {
 
-    public int addTask(Task task) throws Exception;
+    public int addTask(Task task, int userId) throws Exception;
 
     public List<Task> getTask(int projectId) throws Exception;
 
@@ -24,7 +24,7 @@ public interface TaskDAO {
 
     public List<TaskComment> getTaskComments(int projectTaskId) throws Exception;
 
-    public boolean updateTask(Task task) throws Exception;
+    public boolean updateTask(Task task, int userId) throws Exception;
 
     public boolean updateTaskStatus(long taskId, String taskStatus, int userId) throws Exception;
 

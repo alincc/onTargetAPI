@@ -28,7 +28,7 @@ public class TaskDAOImpl implements TaskDAO {
     private JdbcTemplate jdbcTemplate;
 
     @Override
-    public int addTask(Task task) throws Exception {
+    public int addTask(Task task, int userId) throws Exception {
 
         logger.info("Adding address: " + task);
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -47,6 +47,10 @@ public class TaskDAOImpl implements TaskDAO {
                         ps.setString(6, task.getSeverity());
                         ps.setDate(7, new java.sql.Date(task.getStartDate().getTime()));
                         ps.setDate(8, new java.sql.Date(task.getEndDate().getTime()));
+
+                        ps.setInt(9, userId);
+                        ps.setInt(10, userId);
+
                         return ps;
                     }
                 },
@@ -227,8 +231,8 @@ public class TaskDAOImpl implements TaskDAO {
     }
 
     @Override
-    public boolean updateTask(Task task) throws Exception {
-        int row = jdbcTemplate.update(OnTargetQuery.UPDATE_TASK, new Object[]{task.getTitle(), task.getDescription(), task.getParentTask().getProjectTaskId(), task.getStatus(), task.getStartDate(), task.getEndDate(), task.getPercentageComplete(), task.getSeverity(), "0", task.getProjectTaskId()});
+    public boolean updateTask(Task task, int userId) throws Exception {
+        int row = jdbcTemplate.update(OnTargetQuery.UPDATE_TASK, new Object[]{task.getTitle(), task.getDescription(), task.getParentTask().getProjectTaskId(), task.getStatus(), task.getStartDate(), task.getEndDate(), task.getPercentageComplete(), task.getSeverity(), userId, task.getProjectTaskId()});
         if (row == 0) {
             throw new Exception("Unable to update task comment");
         }

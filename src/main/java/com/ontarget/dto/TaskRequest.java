@@ -7,7 +7,7 @@ import java.io.Serializable;
 /**
  * Created by Owner on 11/6/14.
  */
-public class TaskRequest implements Serializable {
+public class TaskRequest extends BaseRequest implements Serializable {
 
     private Task task;
 

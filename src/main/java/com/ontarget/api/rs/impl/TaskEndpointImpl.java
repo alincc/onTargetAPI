@@ -37,7 +37,7 @@ public class TaskEndpointImpl implements TaskEndpoint {
     public OnTargetResponse addTask(TaskRequest request) {
         OnTargetResponse response = new OnTargetResponse();
         try {
-            if (taskService.addTaskService(request.getTask())) {
+            if (taskService.addTaskService(request.getTask(), request.getUser().getUserId())) {
                 response.setReturnMessage("Successfully added task");
                 response.setReturnVal(OnTargetConstant.SUCCESS);
             }
