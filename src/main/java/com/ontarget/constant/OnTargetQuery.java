@@ -225,5 +225,25 @@ public interface OnTargetQuery {
     interface DependentTask {
         public static final String ADD_DEPENDENT_TASK = new StringBuilder("INSERT INTO dependent_task (task_id, dependent_task_id, category_id, created_by) VALUES (?,?, ?, ?)").toString();
         public static final String GET_DEPENDENT_TASK = new StringBuilder("SELECT b.project_task_id, b.project_id, b.title, b.parent_task_id, b.status, b.percentage_complete, b.start_date, b.end_date, b.created_date, b.created_by, b.modified_date, b.modified_by, b.severity, b.description FROM dependent_task as a join project_task as b on a.dependent_task_id=b.project_task_id WHERE a.task_id=?").toString();
+
+    }
+
+    interface accidentReport {
+    	public static final String INSERT = new StringBuilder("INSERT INTO `ontarget`.`accident_report` ")
+    			.append("(`submitted_to`, `supervisor_name`, `witness`, `location`, `brief_of_accident`, `severity`, ")
+                .append("`description`, `body_part_affected`, `date_of_accident`, `time_of_accident`, `injured_visited_doctor`, ")
+                .append("`workers_compensation_filed`, `injured_left_job`, `date_injured_left_job`, `time_injured_left_job`, ")
+                .append("`possible_preventive_measures`, `unsafe_conditions_corrected`, `correction_measures_performed`, ")
+                .append("`correction_measures_to_be_performed`)")
+                .append("VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)").toString();
+
+        public static final String UPDATE = new StringBuilder("UPDATE `ontarget`.`accident_report` SET `submitted_to` = ?, `supervisor_name` = ?, `witness` = ?, ")
+                .append("`location` = ?, `brief_of_accident` = ?, `severity` = ?, `description` = ?, `body_part_affected` = ?, ")
+                .append("`date_of_accident` = ?, `time_of_accident` = ?, `injured_visited_doctor` = ?, ")
+                .append("`workers_compensation_filed` = ?, `injured_left_job` = ?, `date_injured_left_job` = ?, ")
+                .append("`time_injured_left_job` = ?, `possible_preventive_measures` = ?, `unsafe_conditions_corrected` = ?, ")
+                .append("`correction_measures_performed` = ?, `correction_measures_to_be_performed` = ? WHERE `accident_report_id` = ?").toString();
+
+        public static final String GET_BY_PROJECT_ID = new StringBuilder("SELECT * FROM accident_report where project_id = ?").toString();
     }
 }
