@@ -111,7 +111,7 @@ public class ProjectServiceImpl implements ProjectService {
         }
 
         Project project = request.getProject();
-        boolean updatedPr = projectDAO.updateProject(project);
+        boolean updatedPr = projectDAO.updateProject(project, request.getUser().getUserId());
 
         OnTargetResponse response = new OnTargetResponse();
         if (updatedPr) {

@@ -12,7 +12,7 @@ public class TaskComment implements Serializable{
     private int taskId;
     private String comment;
     private String commentStatus;
-    private String commentedBy;
+    private int commentedBy;
     private Date commentedDate;
 
     public TaskComment() {
@@ -50,12 +50,11 @@ public class TaskComment implements Serializable{
         this.commentStatus = commentStatus;
     }
 
-
-    public String getCommentedBy() {
+    public int getCommentedBy() {
         return commentedBy;
     }
 
-    public void setCommentedBy(String commentedBy) {
+    public void setCommentedBy(int commentedBy) {
         this.commentedBy = commentedBy;
     }
 

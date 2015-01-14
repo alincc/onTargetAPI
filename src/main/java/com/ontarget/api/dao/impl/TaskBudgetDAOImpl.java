@@ -159,7 +159,7 @@ public class TaskBudgetDAOImpl implements TaskBudgetDAO {
             cost.setToDate(resultSet.getDate("to_date"));
             cost.setCostType(resultSet.getString("cost_type"));
             cost.setCost(resultSet.getDouble("value"));
-            cost.setCreatedBy(resultSet.getString("created_by"));
+            cost.setCreatedBy(resultSet.getInt("created_by"));
 
             int year = 0;
             int month = 0;
@@ -216,7 +216,7 @@ public class TaskBudgetDAOImpl implements TaskBudgetDAO {
                 cost.setToDate(resultSet.getDate("to_date"));
                 cost.setCostType(resultSet.getString("cost_type"));
                 cost.setCost(resultSet.getDouble("value"));
-                cost.setCreatedBy(resultSet.getString("created_by"));
+                cost.setCreatedBy(resultSet.getInt("created_by"));
 
                 int year=0;
                 int month=0;
@@ -253,7 +253,7 @@ public class TaskBudgetDAOImpl implements TaskBudgetDAO {
                 cost.setToDate(resultSet.getDate("to_date"));
                 cost.setCostType(resultSet.getString("cost_type"));
                 cost.setCost(resultSet.getDouble("value"));
-                cost.setCreatedBy(resultSet.getString("created_by"));
+                cost.setCreatedBy(resultSet.getInt("created_by"));
 
                 int year=0;
                 int month=0;

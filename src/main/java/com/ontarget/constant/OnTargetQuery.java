@@ -34,7 +34,7 @@ public interface OnTargetQuery {
 
     public static final String ADD_ADDRESS = new StringBuilder("INSERT INTO ADDRESS (address1,address2,city,state,zip,country,address_type) values (?,?,?,?,?,?,?)").toString();
 
-    public static final String ADD_TASK = new StringBuilder("INSERT INTO PROJECT_TASK (PROJECT_ID,TITLE,DESCRIPTION, PARENT_TASK_ID,STATUS,SEVERITY, START_DATE, END_DATE, CREATED_DATE, CREATED_BY, MODIFIED_DATE, MODIFIED_BY) values (?,?,?,?,?,?,?,?,NOW(),'SYSTEM',NOW(),'SYSTEM')").toString();
+    public static final String ADD_TASK = new StringBuilder("INSERT INTO PROJECT_TASK (PROJECT_ID,TITLE,DESCRIPTION, PARENT_TASK_ID,STATUS,SEVERITY, START_DATE, END_DATE, CREATED_DATE, CREATED_BY, MODIFIED_DATE, MODIFIED_BY) values (?,?,?,?,?,?,?,?,NOW(),?,NOW(),?)").toString();
 
     public static final String GET_PROJECT_TASK = new StringBuilder("SELECT * , if(status='COMPLETED',true,false) as completed FROM project_task WHERE project_id=?").toString();
 
@@ -67,7 +67,7 @@ public interface OnTargetQuery {
 
     public static final String SAVE_USER_SESSION_INFO = new StringBuilder("insert into user_session_info (user_id,login_token,created_date,expire_date,is_expired) values (?,?,now(),'9999/12/31','0')").toString();
 
-    public static final String ADD_TASK_PLANNED_ESTIMATED_COST = new StringBuilder("insert into planned_actuals_cost (task_id, from_date,to_date, cost_type, value, expiry_date, created_by, created_date, modified_by, modified_date) values (?,?,?,?,?,'9999-12-31','0',NOW(),'0',NOW())").toString();
+    public static final String ADD_TASK_PLANNED_ESTIMATED_COST = new StringBuilder("insert into planned_actuals_cost (task_id, from_date,to_date, cost_type, value, expiry_date, created_by, created_date, modified_by, modified_date) values (?,?,?,?,?,'9999-12-31',?,NOW(),?,NOW())").toString();
 
     public static final String UPDATE_PROJECT_ADDRESS = new StringBuilder("update address set address1=?,address2=?,city=?,state=?,zip=?,country=? where address_id=?").toString();
 
@@ -110,9 +110,9 @@ public interface OnTargetQuery {
 
     public static final String ADD_CONTACT_PHONE = new StringBuilder("insert into phone (contact_id,area_code,phone_number, phone_type, status) values (?,?,?,?,?)").toString();
 
-    public static final String ASSIGN_TASK_USER = new StringBuilder("insert into task_assignee (project_task_id, task_assignee) values (?,?)").toString();
+    public static final String ASSIGN_TASK_USER = new StringBuilder("insert into task_assignee (project_task_id, task_assignee, created_by, modified_by, modified_date) values (?,?, ?, ?, now())").toString();
 
-    public static final String UPDATE_TASK_USER = new StringBuilder("update task_assignee set task_assignee=? where project_task_id=?").toString();
+    public static final String UPDATE_TASK_USER = new StringBuilder("update task_assignee set task_assignee=?, modified_by=?, modified_date=now() where project_task_id=?").toString();
 
     public static final String EXPIRE_TASK_PERCENTAGE_COMPLETE = new StringBuilder("update task_percentage_log set end_date='9999-12-31' where task_percentage_log_id=?").toString();
 

@@ -12,9 +12,11 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.*;
-import java.util.Date;
 
 /**
  * Created by Owner on 11/6/14.
@@ -28,7 +30,7 @@ public class TaskDAOImpl implements TaskDAO {
     private JdbcTemplate jdbcTemplate;
 
     @Override
-    public int addTask(Task task) throws Exception {
+    public int addTask(Task task, int userId) throws Exception {
 
         logger.info("Adding address: " + task);
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -47,6 +49,10 @@ public class TaskDAOImpl implements TaskDAO {
                         ps.setString(6, task.getSeverity());
                         ps.setDate(7, new java.sql.Date(task.getStartDate().getTime()));
                         ps.setDate(8, new java.sql.Date(task.getEndDate().getTime()));
+
+                        ps.setInt(9, userId);
+                        ps.setInt(10, userId);
+
                         return ps;
                     }
                 },
@@ -148,7 +154,7 @@ public class TaskDAOImpl implements TaskDAO {
                                 connection.prepareStatement(OnTargetQuery.ADD_TASK_COMMENT, new String[]{"id"});
                         ps.setInt(1, comment.getTaskId());
                         ps.setString(2, comment.getComment());
-                        ps.setString(3, comment.getCommentedBy());
+                        ps.setInt(3, comment.getCommentedBy());
 
                         return ps;
                     }
@@ -217,7 +223,7 @@ public class TaskDAOImpl implements TaskDAO {
                 comment.setTaskCommentId((Integer) commentMap.get("task_comment_id"));
                 comment.setTaskId((Integer) commentMap.get("task_id"));
                 comment.setComment((String) commentMap.get("comment"));
-                comment.setCommentedBy((String) commentMap.get("commented_by"));
+                comment.setCommentedBy((Integer) commentMap.get("commented_by"));
                 comment.setCommentedDate((Date) commentMap.get("commented_date"));
                 comments.add(comment);
             }
@@ -227,8 +233,10 @@ public class TaskDAOImpl implements TaskDAO {
     }
 
     @Override
-    public boolean updateTask(Task task) throws Exception {
-        int row = jdbcTemplate.update(OnTargetQuery.UPDATE_TASK, new Object[]{task.getTitle(), task.getDescription(), task.getParentTask().getProjectTaskId(), task.getStatus(), task.getStartDate(), task.getEndDate(), task.getPercentageComplete(), task.getSeverity(), "0", task.getProjectTaskId()});
+    public boolean updateTask(Task task, int userId) throws Exception {
+        Task parentTask = task.getParentTask();
+        int projectTaskId = parentTask == null ? 0 : parentTask.getProjectTaskId();
+        int row = jdbcTemplate.update(OnTargetQuery.UPDATE_TASK, new Object[]{task.getTitle(), task.getDescription(), projectTaskId, task.getStatus(), task.getStartDate(), task.getEndDate(), task.getPercentageComplete(), task.getSeverity(), userId, task.getProjectTaskId()});
         if (row == 0) {
             throw new Exception("Unable to update task comment");
         }
@@ -253,21 +261,21 @@ public class TaskDAOImpl implements TaskDAO {
     }
 
     @Override
-    public boolean assignTaskToUser(long taskId, long userId) throws Exception {
-        int row = jdbcTemplate.update(OnTargetQuery.ASSIGN_TASK_USER, new Object[]{taskId, userId});
+    public boolean assignTaskToUser(long taskId, long userId, int assigningUser) throws Exception {
+        int row = jdbcTemplate.update(OnTargetQuery.ASSIGN_TASK_USER, new Object[]{taskId, userId, assigningUser, assigningUser});
         return row > 0;
     }
 
     @Override
-    public boolean updateTaskAssignee(long taskId, long userId) throws Exception {
-        int row = jdbcTemplate.update(OnTargetQuery.UPDATE_TASK_USER, new Object[]{userId, taskId});
+    public boolean updateTaskAssignee(long taskId, long userId, int assigningUser) throws Exception {
+        int row = jdbcTemplate.update(OnTargetQuery.UPDATE_TASK_USER, new Object[]{userId, taskId, assigningUser});
         return row > 0;
     }
 
     @Override
     public Long getAssignedUser(long taskId) throws Exception {
         User user = new User();
-       jdbcTemplate.query(OnTargetQuery.GET_TASK_ASSIGNEE, new Object[]{taskId}, new RowMapper<Void>() {
+        jdbcTemplate.query(OnTargetQuery.GET_TASK_ASSIGNEE, new Object[]{taskId}, new RowMapper<Void>() {
             @Override
             public Void mapRow(ResultSet resultSet, int i) throws SQLException {
                 user.setUserId(resultSet.getInt("task_assignee"));
@@ -284,7 +292,7 @@ public class TaskDAOImpl implements TaskDAO {
             @Override
             public Void mapRow(ResultSet resultSet, int i) throws SQLException {
                 task.setProjectTaskId(resultSet.getInt("project_task_id"));
-                Project project=new Project();
+                Project project = new Project();
                 project.setProjectId(resultSet.getInt("project_id"));
                 task.setProject(project);
                 task.setTitle(resultSet.getString("title"));

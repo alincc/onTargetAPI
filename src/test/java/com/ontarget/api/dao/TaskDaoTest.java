@@ -79,7 +79,7 @@ public class TaskDaoTest extends BaseTest {
             task.setParentTask(pTask);
 
 
-            int taskId = taskDAO.addTask(task);
+            int taskId = taskDAO.addTask(task, 1);
             Assert.assertTrue(taskId > 0);
         } catch (Exception e) {
             logger.error("Fail to add task", e);

@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Created by Owner on 11/25/14.
  */
-public class TaskBudgetRequest {
+public class TaskBudgetRequest extends BaseRequest {
 
     public TaskBudgetRequest() {
     }

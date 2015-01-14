@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -39,10 +40,36 @@ public class TaskServiceImpl implements TaskService {
     @Autowired
     private ProjectDAO projectDAO;
 
+    private static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+    private static final TimeZone cst = TimeZone.getTimeZone("America/Chicago");
+
+    static {
+        format.setTimeZone(cst);
+    }
+
     @Override
     @Transactional(rollbackFor = {Exception.class})
-    public boolean addTaskService(Task task) throws Exception {
+    public boolean addTaskService(Task task, int userId) throws Exception {
         logger.info("Add/Update task: " + task);
+
+        String startDateText = task.getStartDateText();
+        if (startDateText != null && !startDateText.isEmpty()) {
+            Date parse = format.parse(startDateText);
+
+            Calendar calendar = Calendar.getInstance(cst);
+            calendar.setTimeInMillis(parse.getTime());
+            calendar.setTimeZone(cst);
+            parse = calendar.getTime();
+            logger.info("this is start date " + parse + " parsed from " + startDateText);
+            task.setStartDate(parse);
+        }
+
+        String endDateText = task.getEndDateText();
+        if (endDateText != null && !endDateText.isEmpty()) {
+            Date parse = format.parse(endDateText);
+            logger.info("this is end date " + parse + " parsed from " + endDateText);
+            task.setEndDate(parse);
+        }
 
         int taskId = task.getProjectTaskId();
         // validate times
@@ -55,7 +82,7 @@ public class TaskServiceImpl implements TaskService {
             Date projectEndDate = task.getProject().getEndDate();
             if (projectStartDate == null || projectEndDate == null) {
                 Project project = projectDAO.getProject(task.getProject().getProjectId());
-                logger.info("start and end date of project is null so getting new project "+project.toString());
+                logger.info("start and end date of project is null so getting new project " + project.toString());
                 if (project == null) {
                     throw new Exception("project is invalid for task");
                 }
@@ -104,9 +131,9 @@ public class TaskServiceImpl implements TaskService {
         }
 
         if (taskId <= 0) {
-            taskId = taskDAO.addTask(task);
+            taskId = taskDAO.addTask(task, userId);
         } else {
-            boolean updated = taskDAO.updateTask(task);
+            boolean updated = taskDAO.updateTask(task, userId);
             if (!updated) {
                 throw new Exception("Add/update task failed.");
             }
@@ -213,14 +240,14 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     @Transactional(rollbackFor = {Exception.class})
-    public boolean assignTaskToUser(long taskId, long userId) throws Exception {
+    public boolean assignTaskToUser(long taskId, long userId, int assigningUser) throws Exception {
 
         Long assignedTo = taskDAO.getAssignedUser(taskId);
         boolean assigned = false;
         if (assignedTo.longValue() == 0) {
-            assigned = taskDAO.assignTaskToUser(taskId, userId);
+            assigned = taskDAO.assignTaskToUser(taskId, userId, assigningUser);
         } else {
-            assigned = taskDAO.updateTaskAssignee(taskId, userId);
+            assigned = taskDAO.updateTaskAssignee(taskId, userId, assigningUser);
         }
 
         if (assigned) {

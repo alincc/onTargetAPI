@@ -22,7 +22,7 @@ public class TaskServiceTest extends BaseTest{
     public void assignTaskToUserTest(){
 
         try {
-            boolean assigned = taskService.assignTaskToUser(1,1);
+            boolean assigned = taskService.assignTaskToUser(1,1, 1);
             Assert.assertTrue(assigned);
         } catch (Exception e) {
            logger.error(e);
