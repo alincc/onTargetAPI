@@ -38,7 +38,7 @@ public class ProjectReportServiceImpl implements ProjectReportService {
     private ProjectDAO projectDAO;
 
     @Override
-    public List<ProjectEarnedValueAnalysisReport> getEarnedValueAnalysisReport(int projectId) throws Exception {
+    public List<ProjectEarnedValueAnalysisReport> getEarnedValueAnalysisReport(long projectId) throws Exception {
         logger.debug("Getting earned value analysis report: " + projectId);
         //task planned cost
         Map<Task, Map<TaskInterval, TaskEstimatedCost>> taskPlannedCostByMonthAndYear = taskBudgetDAO.getTaskToCostMapByMonthYear(projectId, OnTargetConstant.CostType.PLANNED);
@@ -152,22 +152,44 @@ public class ProjectReportServiceImpl implements ProjectReportService {
     }
 
     @Override
-    public BIReportResponse getTimeSaved(int projectId) throws Exception{
+    public TimeSaved getTimeSaved(long projectId) throws Exception{
 
         // get all task done within time.
         List<Task> tasks = taskDAO.getTask(projectId, TaskStatus.COMPLETED.getTaskStatusId());
 
         //get all approved documents on time.
-
+         int approvedDocumentsOnTime = 1;//TODO: get it from bhesh api
 
         //get SPI
+        List<ProjectEarnedValueAnalysisReport> reports = getEarnedValueAnalysisReport(projectId);
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date());
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH) + 1;
+
+        double spi=0.0;
+        for(ProjectEarnedValueAnalysisReport report : reports){
+            if(report.getMonth()== month && report.getYear()==year){
+                spi=report.getSchedulePerformanceIndex();
+            }
+        }
+
+        double timeSavedVal=tasks.size() * approvedDocumentsOnTime * spi;
+
+        TimeSaved timeSaved=new TimeSaved();
+        timeSaved.setTimeSavedValue(timeSavedVal);
+
+        return timeSaved;
+    }
+
+    @Override
+    public TreesSaved getTreesSaved(long projectId) throws Exception{
+        TreesSaved treesSaved=new TreesSaved();
 
 
 
 
-
-
-        return null;
+        return treesSaved;
     }
 
 

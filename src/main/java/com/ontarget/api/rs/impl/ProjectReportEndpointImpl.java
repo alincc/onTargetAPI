@@ -5,6 +5,8 @@ import com.ontarget.api.response.ProjectEarnedValueReportResponse;
 import com.ontarget.api.rs.ProjectReportEndpoint;
 import com.ontarget.api.service.ProjectReportService;
 import com.ontarget.bean.ProjectEarnedValueAnalysisReport;
+import com.ontarget.bean.TimeSaved;
+import com.ontarget.bean.TreesSaved;
 import com.ontarget.constant.OnTargetConstant;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +32,7 @@ public class ProjectReportEndpointImpl implements ProjectReportEndpoint {
     @Override
     @GET
     @Path("/earnedValueReport/{projectId}")
-    public ProjectEarnedValueReportResponse getProjectEarnedValueAnalysis(@PathParam("projectId") int projectId) {
+    public ProjectEarnedValueReportResponse getProjectEarnedValueAnalysis(@PathParam("projectId") long projectId) {
         logger.debug("Getting earned value report for projectId: " + projectId);
         ProjectEarnedValueReportResponse response = new ProjectEarnedValueReportResponse();
 
@@ -51,12 +53,17 @@ public class ProjectReportEndpointImpl implements ProjectReportEndpoint {
 
     @Override
     @GET
-    @Path("/timesaved/{projectId}")
-    public BIReportResponse getTimeSaved(@PathParam("projectId") int projectId) {
+    @Path("/bireport/{projectId}")
+    public BIReportResponse getTimeSaved(@PathParam("projectId") long projectId) {
         BIReportResponse response = new BIReportResponse();
 
         try {
-            response = projectReportService.getTimeSaved(projectId);
+            TimeSaved timeSaved = projectReportService.getTimeSaved(projectId);
+            TreesSaved treesSaved=projectReportService.getTreesSaved(projectId);
+
+            response.setTimeSaved(timeSaved);
+            response.setTreesSaved(treesSaved);
+
             response.setReturnMessage("Successfully retrieved BI report.");
             response.setReturnVal(OnTargetConstant.SUCCESS);
         } catch (Exception e) {

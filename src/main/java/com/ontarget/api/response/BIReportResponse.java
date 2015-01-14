@@ -16,8 +16,19 @@ public class BIReportResponse extends OnTargetResponse{
 
     private TreesSaved treesSaved;
 
+    public TimeSaved getTimeSaved() {
+        return timeSaved;
+    }
 
+    public void setTimeSaved(TimeSaved timeSaved) {
+        this.timeSaved = timeSaved;
+    }
 
+    public TreesSaved getTreesSaved() {
+        return treesSaved;
+    }
 
-
+    public void setTreesSaved(TreesSaved treesSaved) {
+        this.treesSaved = treesSaved;
+    }
 }

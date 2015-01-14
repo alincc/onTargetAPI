@@ -81,7 +81,7 @@ public class TaskPercentageDAOImpl implements TaskPercentageDAO {
 
 
     @Override
-    public Map<Task, Map<TaskInterval,TaskPercentage>> getTaskPercentageCompletesByMonthYear(int projectId) throws Exception {
+    public Map<Task, Map<TaskInterval,TaskPercentage>> getTaskPercentageCompletesByMonthYear(long projectId) throws Exception {
         logger.info("getting percentage for project Id: "+ projectId);
         Map<Task, Map<TaskInterval,TaskPercentage>> taskToPercentageMap = new LinkedHashMap<>();
 

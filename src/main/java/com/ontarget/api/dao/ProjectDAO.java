@@ -13,9 +13,9 @@ public interface ProjectDAO {
 
     public int addProject(Project project) throws Exception;
 
-    public Project getProject(int projectId) throws Exception;
+    public Project getProject(long projectId) throws Exception;
 
-    Project getProjectAndSubProjects(int projectId) throws Exception;
+    public Project getProjectAndSubProjects(int projectId) throws Exception;
 
     public List<Map<String,Object>> getProjectByCompany(int companyId, int userId) throws Exception;
 

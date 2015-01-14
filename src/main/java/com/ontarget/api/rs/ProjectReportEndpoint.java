@@ -11,7 +11,7 @@ import javax.ws.rs.PathParam;
 public interface ProjectReportEndpoint {
 
 
-    public ProjectEarnedValueReportResponse getProjectEarnedValueAnalysis(int projectId);
+    public ProjectEarnedValueReportResponse getProjectEarnedValueAnalysis(long projectId);
 
-    public BIReportResponse getTimeSaved(int projectId);
+    public BIReportResponse getTimeSaved(long projectId);
 }

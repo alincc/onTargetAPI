@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class Project implements Serializable{
 
-    private int projectId;
+    private long projectId;
     private String projectName;
     private String projectDescription;
     private int projectTypeId;
@@ -44,11 +44,11 @@ public class Project implements Serializable{
         this.projectOwnerId = projectOwnerId;
     }
 
-    public int getProjectId() {
+    public long getProjectId() {
         return projectId;
     }
 
-    public void setProjectId(int projectId) {
+    public void setProjectId(long projectId) {
         this.projectId = projectId;
     }
 

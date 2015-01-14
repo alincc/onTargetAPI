@@ -59,7 +59,7 @@ public class ProjectDAOImpl implements ProjectDAO {
     }
 
     @Override
-    public Project getProject(int projectId) throws Exception {
+    public Project getProject(long projectId) throws Exception {
 
         final Project project = new Project();
 

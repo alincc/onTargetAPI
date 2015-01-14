@@ -27,13 +27,13 @@ public class TaskBudgetDAOImpl implements TaskBudgetDAO {
     private JdbcTemplate jdbcTemplate;
 
     @Override
-    public Map<String, Object> getMinStartMaxEndDate(int projectId, String costType) throws Exception {
+    public Map<String, Object> getMinStartMaxEndDate(long projectId, String costType) throws Exception {
         logger.info("Getting min date and max date for projectId " + projectId + " and cost type:" + costType);
         return jdbcTemplate.queryForMap(OnTargetQuery.GET_TASK_COST_MIN_MAX_DATE, new Object[]{costType, projectId});
     }
 
     @Override
-    public Map<Task, List<TaskEstimatedCost>> getTaskToCostMap(int projectId, String costType) throws Exception {
+    public Map<Task, List<TaskEstimatedCost>> getTaskToCostMap(long projectId, String costType) throws Exception {
         logger.info("getting cost for project Id: " + projectId + " and cost type: " + costType);
         Map<Task, List<TaskEstimatedCost>> taskToCostMap = new LinkedHashMap<>();
 
@@ -83,7 +83,7 @@ public class TaskBudgetDAOImpl implements TaskBudgetDAO {
 
 
     @Override
-    public Map<Task, Map<TaskInterval, TaskEstimatedCost>> getTaskToCostMapByMonthYear(int projectId, String costType) throws Exception {
+    public Map<Task, Map<TaskInterval, TaskEstimatedCost>> getTaskToCostMapByMonthYear(long projectId, String costType) throws Exception {
         logger.info("getting cost for project Id: " + projectId + " and cost type: " + costType);
         Map<Task, Map<TaskInterval, TaskEstimatedCost>> taskToCostMap = new LinkedHashMap<>();
 

@@ -1,9 +1,7 @@
 package com.ontarget.api.service;
 
 import com.ontarget.api.response.BIReportResponse;
-import com.ontarget.bean.ProjectEarnedValueAnalysisReport;
-import com.ontarget.bean.Task;
-import com.ontarget.bean.TaskInterval;
+import com.ontarget.bean.*;
 
 import java.util.List;
 import java.util.Map;
@@ -14,7 +12,9 @@ import java.util.Map;
 public interface ProjectReportService {
 
 
-    public List<ProjectEarnedValueAnalysisReport> getEarnedValueAnalysisReport(int projectId) throws Exception;
+    public List<ProjectEarnedValueAnalysisReport> getEarnedValueAnalysisReport(long projectId) throws Exception;
 
-    public BIReportResponse getTimeSaved(int projectId) throws Exception;
+    public TimeSaved getTimeSaved(long projectId) throws Exception;
+
+    TreesSaved getTreesSaved(long projectId) throws Exception;
 }

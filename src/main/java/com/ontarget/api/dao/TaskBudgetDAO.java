@@ -12,13 +12,13 @@ import java.util.Map;
  */
 public interface TaskBudgetDAO {
 
-    public Map<String, Object> getMinStartMaxEndDate(int projectId, String costType) throws Exception;
+    public Map<String, Object> getMinStartMaxEndDate(long projectId, String costType) throws Exception;
 
 
-    public Map<Task,List<TaskEstimatedCost>> getTaskToCostMap(int projectId,String costType) throws Exception;
+    public Map<Task,List<TaskEstimatedCost>> getTaskToCostMap(long projectId,String costType) throws Exception;
 
 
-    Map<Task, Map<TaskInterval,TaskEstimatedCost>> getTaskToCostMapByMonthYear(int projectId, String costType) throws Exception;
+    Map<Task, Map<TaskInterval,TaskEstimatedCost>> getTaskToCostMapByMonthYear(long projectId, String costType) throws Exception;
 
     Map<Task, Map<TaskInterval, List<TaskEstimatedCost>>> getTaskCostMapByTask(int projectTaskId) throws Exception;
 
