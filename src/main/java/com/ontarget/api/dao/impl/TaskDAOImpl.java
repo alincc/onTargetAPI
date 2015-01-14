@@ -39,7 +39,7 @@ public class TaskDAOImpl implements TaskDAO {
                     public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
                         PreparedStatement ps =
                                 connection.prepareStatement(OnTargetQuery.ADD_TASK, new String[]{"id"});
-                        ps.setInt(1, task.getProject().getProjectId());
+                        ps.setLong(1, task.getProject().getProjectId());
                         ps.setString(2, task.getTitle());
                         ps.setString(3, task.getDescription());
                         ps.setInt(4, task.getParentTask().getProjectTaskId());
@@ -62,7 +62,7 @@ public class TaskDAOImpl implements TaskDAO {
     }
 
     @Override
-    public List<Task> getTask(int projectId) throws Exception {
+    public List<Task> getTask(long projectId) throws Exception {
         List<Map<String, Object>> taskList = jdbcTemplate.queryForList(OnTargetQuery.GET_PROJECT_TASK, new Object[]{projectId});
         List<Task> tasks = new ArrayList<>();
         if (taskList != null && taskList.size() > 0) {

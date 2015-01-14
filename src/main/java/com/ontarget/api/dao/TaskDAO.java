@@ -14,7 +14,7 @@ public interface TaskDAO {
 
     public int addTask(Task task, int userId) throws Exception;
 
-    public List<Task> getTask(int projectId) throws Exception;
+    public List<Task> getTask(long projectId) throws Exception;
 
     public List<com.ontarget.bean.TaskStatusCount> getTaskCountByStatus(int projectId) throws Exception;
 
@@ -36,7 +36,7 @@ public interface TaskDAO {
 
     boolean updateTaskAssignee(long taskId, long userId, int assigningUser) throws Exception;
 
-    Long getAssignedUser(long taskId) throws Exception;
+    public Long getAssignedUser(long taskId) throws Exception;
 
     public Task getTaskDetail(long taskId) throws Exception;
 

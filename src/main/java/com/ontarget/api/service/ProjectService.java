@@ -15,7 +15,7 @@ public interface ProjectService {
 
     public OnTargetResponse updateProject(ProjectRequest request) throws Exception;
 
-    public ProjectResponse getProjectDetail(int projectId) throws Exception;
+    public ProjectResponse getProjectDetail(long projectId) throws Exception;
 
     public ProjectListResponse getProjectsByCompany(int companyId, int userId) throws Exception;
 

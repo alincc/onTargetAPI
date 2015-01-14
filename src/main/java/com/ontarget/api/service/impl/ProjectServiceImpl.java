@@ -137,7 +137,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public ProjectResponse getProjectDetail(int projectId) throws Exception {
+    public ProjectResponse getProjectDetail(long projectId) throws Exception {
         Project project = getProjectTree(projectId);
 
         ProjectResponse response = new ProjectResponse();
@@ -147,7 +147,7 @@ public class ProjectServiceImpl implements ProjectService {
         if (project.getProjectId() > 0) {
 
             //set project address
-            Address projectAddress = addressDAO.getAddress(project.getProjectId());
+            Address projectAddress = addressDAO.getAddress(project.getProjectAddress().getAddressId());
             project.setProjectAddress(projectAddress);
 
             //get list of tasks.

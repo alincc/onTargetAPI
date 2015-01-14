@@ -84,7 +84,7 @@ public class ProjectDAOImpl implements ProjectDAO {
         return project;
     }
 
-    public List<Project> getChildProjects(int projectId) throws Exception {
+    public List<Project> getChildProjects(long projectId) throws Exception {
         List<Project> projects = new LinkedList<>();
         List<Map<String, Object>> rs = jdbcTemplate.queryForList(OnTargetQuery.GET_CHILD_PROJECTS, projectId);
         if (rs != null)
@@ -108,7 +108,7 @@ public class ProjectDAOImpl implements ProjectDAO {
 
 
     @Override
-    public Project getProjectAndSubProjects(int projectId) throws Exception {
+    public Project getProjectAndSubProjects(long projectId) throws Exception {
 
         final Project project = new Project();
 
@@ -196,14 +196,14 @@ public class ProjectDAOImpl implements ProjectDAO {
 
 
     @Override
-    public int addProjectMember(int projectId, int userId) {
+    public int addProjectMember(long projectId, int userId) {
         logger.info("Adding project member for project: " + projectId);
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(
                 new PreparedStatementCreator() {
                     public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
                         PreparedStatement ps = connection.prepareStatement(OnTargetQuery.ADD_PROJECT_MEMBER, new String[]{"id"});
-                        ps.setInt(1, projectId);
+                        ps.setLong(1, projectId);
                         ps.setInt(2, userId);
                         ps.setString(3, OnTargetConstant.MemberStatus.ACTIVE);
 
