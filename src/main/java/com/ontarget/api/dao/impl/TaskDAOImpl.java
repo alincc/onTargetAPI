@@ -185,7 +185,7 @@ public class TaskDAOImpl implements TaskDAO {
 
     @Override
     public List<Task> getTask(long projectId, int completed) throws Exception {
-        List<Map<String, Object>> taskList = jdbcTemplate.queryForList(OnTargetQuery.GET_TASK_BY_PROJECT_BY_STATUS, new Object[]{projectId, completed});
+        List<Map<String, Object>> taskList = jdbcTemplate.queryForList(OnTargetQuery.GET_TASK_BY_PROJECT_BY_STATUS, new Object[]{projectId,projectId, completed});
         List<Task> tasks = new ArrayList<>();
         if (taskList != null && taskList.size() > 0) {
             for (Map<String, Object> taskMap : taskList) {

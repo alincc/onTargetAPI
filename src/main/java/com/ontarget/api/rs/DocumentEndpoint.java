@@ -11,11 +11,18 @@ import com.ontarget.dto.UpdateDocumentDataRequest;
 import com.ontarget.dto.UpdateDocumentStatusRequest;
 
 public interface DocumentEndpoint {
-	AddDocumentResponse addDocument(AddDocumentRequest request);
-	OnTargetResponse updateDocumentData(UpdateDocumentDataRequest request);
-	OnTargetResponse updateDocumentStatus(UpdateDocumentStatusRequest request);
-	GetDocumentsResponse getDocuments(String userName);
-	GetDocumentResponse getDocument(String documentId);
-	OnTargetResponse addDocumentAttachment(AddDocumentAttachmentRequest request);
-	GetDocumentAttachmentsResponse getDocumentAttachments(Long documentId);
+
+    public AddDocumentResponse addDocument(AddDocumentRequest request);
+
+    public OnTargetResponse updateDocumentData(UpdateDocumentDataRequest request);
+
+    public OnTargetResponse updateDocumentStatus(UpdateDocumentStatusRequest request);
+
+    public GetDocumentsResponse getDocuments(String userName, long projectId);
+
+    public GetDocumentResponse getDocument(String documentId);
+
+    public OnTargetResponse addDocumentAttachment(AddDocumentAttachmentRequest request);
+
+    public GetDocumentAttachmentsResponse getDocumentAttachments(Long documentId);
 }

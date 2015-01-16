@@ -132,7 +132,7 @@ public interface OnTargetQuery {
     public static final String EXPIRE_FORGOT_PASSWORD_TOKEN = new StringBuilder("update forgot_password_request set status='EXPIRED' where forgot_password_token=?").toString();
 
 
-    public static final String GET_TASK_BY_PROJECT_BY_STATUS = new StringBuilder("select * from project_task t where t.project_id in ( select p.project_id from project p where p.project_id=? or p.project_parent_id=?) and t.status=? and t.modified_date <= t.end_date").toString();
+    public static final String GET_TASK_BY_PROJECT_BY_STATUS = new StringBuilder("select *,if(status='COMPLETED',true,false) as completed from project_task t where t.project_id in ( select p.project_id from project p where p.project_id=? or p.project_parent_id=?) and t.status=? and t.modified_date <= t.end_date").toString();
 
     interface documentTemplate {
         public static final String ADD = "insert into document_template (name, created_by, created_date, modified_by, modfied_date) values(?, ?, now(), ?, now())";
@@ -143,16 +143,24 @@ public interface OnTargetQuery {
     }
 
     interface document {
-        public static final String ADD = "insert into document (document_template_id, name, status, created_by, created_date, modified_by, modified_date) values(?, ?, ?, ?, now(), ?, now())";
+        public static final String ADD = "insert into document (document_template_id, name, status, created_by, created_date, modified_by, modified_date, project_id) values(?, ?, ?, ?, now(), ?, now(),?)";
+
         public static final  String UPDATE_STATUS = "update document set status=?, modified_by=?, modified_date=now() where document_id=?";
+
         public static final String DELETE = "";
+
         public static final String GET_BY_ID = "select * from document where document_id = ?";
+
         public static final String GET_BY_TEMPLATE_ID = "select * from document where document_template_id = ?";
-        public static final String GET_BY_CREATED_BY = "select * from document where created_by = ?";
+
+        public static final String GET_BY_CREATED_BY = "select * from document where created_by = ? and project_id=?";
+
         public static final String GET_BY_ASSIGNEE_USERNAME = "select doc.* from document doc " +
                 "inner join document_submittal sub on doc.document_id = sub.document_id " +
                 "inner join user u on u.user_id = sub.assignee_user_id " +
-                "where u.user_name=?";
+                "where u.user_name=? and doc.project_id=?";
+
+        public static final String GET_DOCUMENTS_BY_PROJECT = new StringBuilder("select * from document where project_id=? and status=?").toString();
     }
 
     interface documentKeyValue {

@@ -787,6 +787,8 @@ CREATE TABLE `document` (
   CONSTRAINT `document_template_2_document` FOREIGN KEY (`document_template_id`) REFERENCES `document_template` (`document_template_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=latin1;
 
+alter table document add project_id integer not null;
+
 -- -----------------------------------------------------
 -- Table `ontarget`.`document_attachment`
 -- -----------------------------------------------------

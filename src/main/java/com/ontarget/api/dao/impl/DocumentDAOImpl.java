@@ -35,6 +35,7 @@ public class DocumentDAOImpl extends BaseGenericDAOImpl<Document> implements Doc
 		            ps.setString(3, document.getStatus());
 		            ps.setInt(4, document.getCreatedBy());
 		            ps.setInt(5, document.getModifiedBy());
+                    ps.setLong(6, document.getProjectId());
 		            return ps;
 			}
 			
@@ -64,22 +65,30 @@ public class DocumentDAOImpl extends BaseGenericDAOImpl<Document> implements Doc
 	}
 
 	@Override
-	public List<Document> getByCreatedBy(String createdBy) {
+	public List<Document> getByCreatedBy(String createdBy, long projectId) {
 		List<Document> documents = jdbcTemplate.query(OnTargetQuery.document.GET_BY_CREATED_BY, 
-				new Object[] { createdBy }, 
+				new Object[] { createdBy , projectId},
 				new DocumentRowMapper());
 		return documents;
 	}
 
 	@Override
-	public List<Document> getByAssigneeUsername(String username) {
+	public List<Document> getByAssigneeUsername(String username, long projectId) {
 		List<Document> documents = jdbcTemplate.query(OnTargetQuery.document.GET_BY_ASSIGNEE_USERNAME, 
-				new Object[] { username }, 
+				new Object[] { username , projectId},
 				new DocumentRowMapper());
 		return documents;
 	}
 
-	static class DocumentRowMapper implements RowMapper<Document> {
+    @Override
+    public List<Document> getDocumentsByProject(long projectId, String approved) throws Exception {
+        List<Document> documents = jdbcTemplate.query(OnTargetQuery.document.GET_DOCUMENTS_BY_PROJECT,
+                new Object[] { projectId , approved},
+                new DocumentRowMapper());
+        return documents;
+    }
+
+    static class DocumentRowMapper implements RowMapper<Document> {
 
 		@Override
 		public Document mapRow(ResultSet rs, int index) throws SQLException {

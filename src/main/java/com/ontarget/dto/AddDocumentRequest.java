@@ -13,6 +13,7 @@ public class AddDocumentRequest {
 	private List<DocumentGridKeyValue> gridKeyValues;
 	private User submitter;
 	private List<User> assignees;
+    private long projectId;
 	
 	public AddDocumentRequest() {
 		super();
@@ -64,5 +65,13 @@ public class AddDocumentRequest {
 
 	public void setAssignees(List<User> assignees) {
 		this.assignees = assignees;
-	}	
+	}
+
+    public long getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(long projectId) {
+        this.projectId = projectId;
+    }
 }

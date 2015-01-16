@@ -13,6 +13,7 @@ public class UpdateDocumentDataRequest implements Serializable {
 	private long documentId;
 	private List<DocumentKeyValue> keyValues;
 	private List<DocumentGridKeyValue> gridKeyValues;
+    private long projectId;
 	
 	private User user;
 
@@ -47,5 +48,12 @@ public class UpdateDocumentDataRequest implements Serializable {
 	public void setUser(User user) {
 		this.user = user;
 	}
-	
+
+    public long getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(long projectId) {
+        this.projectId = projectId;
+    }
 }

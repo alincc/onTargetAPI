@@ -53,8 +53,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             throw new Exception("User session token failed");
         }
 
-        returnUser.setContact(contactDAO.getContact(returnUser.getUserId()));
-
+        if(returnUser.getAccountStatus()!=OnTargetConstant.AccountStatus.ACCT_NEW && returnUser.getAccountStatus()!=OnTargetConstant.AccountStatus.ACCOUNT_INVITATION) {
+            returnUser.setContact(contactDAO.getContact(returnUser.getUserId()));
+        }
+        
         response.setUser(returnUser);
         response.setToken(token);
         response.setReturnMessage(OnTargetConstant.RETURN_MESSAGE_AUTHENTICATION);

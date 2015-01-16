@@ -27,6 +27,7 @@ public interface OnTargetConstant {
     public static final String REGSITRATION_REQUEST_APPROVED = "APPROVED";
     public static final int TOKEN_LENGTH = 25;
     public static final long TOKEN_MAX_LIFE = 2l * 24l * 60l * 60l * 1000l;
+    public static final String APPROVED = "APPROVED";
 
     interface AddressType{
         public static final String PROJECT_ADDR = "PROJECT";
@@ -41,10 +42,10 @@ public interface OnTargetConstant {
 
     interface EmailServiceConstants{
         public static final String USER_REGISTRATION_SUBJECT="OnTarget Registration Request";
-        public static final String USER_REGISTRATION_FROM="dontoreply@ontarget.com";
+        public static final String USER_REGISTRATION_FROM="donotreply@ontarget.com";
         public static final String USER_REGISTRATION_REQUEST_APPROVAL_SUBJECT = "OnTarget Registration Approval";
 
-        public static final String DOCUMENT_APPROVAL_FROM = "dontoreply@ontarget.com";
+        public static final String DOCUMENT_APPROVAL_FROM = "donotreply@ontarget.com";
         public static final String DOCUMENT_APPROVAL_SUBJECT = "New document available for approval";
         public static final String USER_REGISTRATION_ADMIN_EMAIL = "ontarget@gmail.com";
         public static final String INVITE_USER_TO_ACCOUNT_SUBJECT = "Invitation to OnTarget";

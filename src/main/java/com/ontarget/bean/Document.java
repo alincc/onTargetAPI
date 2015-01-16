@@ -10,6 +10,7 @@ public class Document extends BaseBean {
 	private DocumentTemplate documentTemplate;
 	private String name;
 	private String status;
+    private long projectId;
 	
 	
 	
@@ -86,6 +87,13 @@ public class Document extends BaseBean {
 				", gridKeyValues=" + gridKeyValues +
 				"}";
 	}
-	
-	
+
+
+    public long getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(long projectId) {
+        this.projectId = projectId;
+    }
 }

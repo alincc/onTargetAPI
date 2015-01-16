@@ -12,11 +12,17 @@ import com.ontarget.dto.UpdateDocumentDataRequest;
 import com.ontarget.dto.UpdateDocumentStatusRequest;
 
 public interface DocumentService {
-	AddDocumentResponse addDocument(AddDocumentRequest request) throws Exception;
-	OnTargetResponse updateDocument(UpdateDocumentDataRequest request) throws Exception;
-	OnTargetResponse updateStatus(UpdateDocumentStatusRequest request) throws Exception;
-	GetDocumentsResponse getDocuments(String userName) throws Exception;
-	GetDocumentResponse getDocument(long documentId) throws Exception;
-	AddDocumentAttachmentResponse addDocumentAttachment(AddDocumentAttachmentRequest request) throws Exception;
-	GetDocumentAttachmentsResponse getDocumentAttachments(Long documentId) throws Exception;
+	public AddDocumentResponse addDocument(AddDocumentRequest request) throws Exception;
+
+    public OnTargetResponse updateDocument(UpdateDocumentDataRequest request) throws Exception;
+
+    public GetDocumentsResponse getDocuments(String userName, long projectId) throws Exception;
+
+    public OnTargetResponse updateStatus(UpdateDocumentStatusRequest request) throws Exception;
+
+    public GetDocumentResponse getDocument(long documentId) throws Exception;
+
+    public AddDocumentAttachmentResponse addDocumentAttachment(AddDocumentAttachmentRequest request) throws Exception;
+
+    public GetDocumentAttachmentsResponse getDocumentAttachments(Long documentId) throws Exception;
 }

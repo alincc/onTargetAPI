@@ -1,9 +1,6 @@
 package com.ontarget.api.service.impl;
 
-import com.ontarget.api.dao.ProjectDAO;
-import com.ontarget.api.dao.TaskBudgetDAO;
-import com.ontarget.api.dao.TaskDAO;
-import com.ontarget.api.dao.TaskPercentageDAO;
+import com.ontarget.api.dao.*;
 import com.ontarget.api.response.BIReportResponse;
 import com.ontarget.api.service.ProjectReportService;
 import com.ontarget.bean.*;
@@ -36,6 +33,12 @@ public class ProjectReportServiceImpl implements ProjectReportService {
 
     @Autowired
     private ProjectDAO projectDAO;
+
+    @Autowired
+    private DocumentDAO documentDAO;
+
+    @Autowired
+    private ActivityDAO activityDAO;
 
     @Override
     public List<ProjectEarnedValueAnalysisReport> getEarnedValueAnalysisReport(long projectId) throws Exception {
@@ -158,7 +161,11 @@ public class ProjectReportServiceImpl implements ProjectReportService {
         List<Task> tasks = taskDAO.getTask(projectId, TaskStatus.COMPLETED.getTaskStatusId());
 
         //get all approved documents on time.
-         int approvedDocumentsOnTime = 1;//TODO: get it from bhesh api
+
+
+        List<Document> documents = documentDAO.getDocumentsByProject(projectId, OnTargetConstant.APPROVED);
+
+        int approvedDocumentsOnTime = documents.size();
 
         //get SPI
         List<ProjectEarnedValueAnalysisReport> reports = getEarnedValueAnalysisReport(projectId);
@@ -168,9 +175,11 @@ public class ProjectReportServiceImpl implements ProjectReportService {
         int month = cal.get(Calendar.MONTH) + 1;
 
         double spi=0.0;
-        for(ProjectEarnedValueAnalysisReport report : reports){
-            if(report.getMonth()== month && report.getYear()==year){
-                spi=report.getSchedulePerformanceIndex();
+        if(reports!=null && reports.size() > 0) {
+            for (ProjectEarnedValueAnalysisReport report : reports) {
+                if (report.getMonth() == month && report.getYear() == year) {
+                    spi = report.getSchedulePerformanceIndex();
+                }
             }
         }
 
@@ -185,10 +194,8 @@ public class ProjectReportServiceImpl implements ProjectReportService {
     @Override
     public TreesSaved getTreesSaved(long projectId) throws Exception{
         TreesSaved treesSaved=new TreesSaved();
-
-
-
-
+        List<ActivityLog> logs = activityDAO.getActivityLog(0);
+        treesSaved.setTreesSaved(new Double(logs.size()));
         return treesSaved;
     }
 

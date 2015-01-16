@@ -71,6 +71,7 @@ public class DocumentServiceImpl implements DocumentService {
 			document.setStatus(OnTargetConstant.DocumentStatus.SUBMITTED);
 			document.setCreatedBy(request.getSubmitter().getUserId());
 			document.setModifiedBy(request.getSubmitter().getUserId());
+            document.setProjectId(request.getProjectId());
 			document = documentDAO.insert(document);
 			
 			List<DocumentKeyValue> keyValues = request.getKeyValues();
@@ -145,14 +146,13 @@ public class DocumentServiceImpl implements DocumentService {
 		}
 	}
 
-	@Transactional(rollbackFor = {Exception.class})
 	@Override
-	public GetDocumentsResponse getDocuments(String userName) throws Exception {
+	public GetDocumentsResponse getDocuments(String userName, long projectId) throws Exception {
 		if(userName == null || userName.trim().isEmpty()) {
 			throw new Exception("Please specify the userName!");
 		}
 		try {
-			List<Document> submittals = documentDAO.getByCreatedBy(userName);
+			List<Document> submittals = documentDAO.getByCreatedBy(userName, projectId);
 			
 			for(Document doc : submittals) {
 				doc.setDocumentTemplate(documentTemplateDAO.getByDocumentId(doc.getDocumentId()));
@@ -162,7 +162,7 @@ public class DocumentServiceImpl implements DocumentService {
 				doc.setGridKeyValues(gridKeyValues);
 			}
 			
-			List<Document> approvals = documentDAO.getByAssigneeUsername(userName);
+			List<Document> approvals = documentDAO.getByAssigneeUsername(userName, projectId);
 			
 			for(Document doc : approvals) {
 				doc.setDocumentTemplate(documentTemplateDAO.getByDocumentId(doc.getDocumentId()));
