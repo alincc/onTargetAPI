@@ -56,7 +56,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         String accountStatus = returnUser.getAccountStatus();
         logger.debug("Account status: "+ accountStatus);
 
-        if(accountStatus!=OnTargetConstant.AccountStatus.ACCT_NEW && accountStatus!=OnTargetConstant.AccountStatus.ACCOUNT_INVITATION) {
+        if(!accountStatus.equals(OnTargetConstant.AccountStatus.ACCT_NEW) && !accountStatus.equals(OnTargetConstant.AccountStatus.ACCOUNT_INVITATION)) {
             returnUser.setContact(contactDAO.getContact(returnUser.getUserId()));
         }
 
