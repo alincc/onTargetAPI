@@ -130,7 +130,7 @@ public class TaskServiceImpl implements TaskService {
             }
         }
 
-        if (taskId <= 0) {
+        if (isTaskAdd(taskId)) {
             taskId = taskDAO.addTask(task, userId);
         } else {
             boolean updated = taskDAO.updateTask(task, userId);
@@ -148,6 +148,15 @@ public class TaskServiceImpl implements TaskService {
 
 
         return true;
+    }
+
+    public boolean isTaskAdd(Task task) {
+        int taskId = task.getProjectTaskId();
+        return isTaskAdd(taskId);
+    }
+
+    private boolean isTaskAdd(int taskId) {
+        return taskId <= 0;
     }
 
     @Override

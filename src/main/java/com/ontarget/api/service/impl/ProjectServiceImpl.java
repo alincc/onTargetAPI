@@ -115,10 +115,10 @@ public class ProjectServiceImpl implements ProjectService {
 
         OnTargetResponse response = new OnTargetResponse();
         if (updatedPr) {
-            response.setReturnMessage("Successfully created project.");
+            response.setReturnMessage("Successfully updated project.");
             response.setReturnVal(OnTargetConstant.SUCCESS);
         } else {
-            throw new Exception("Error while creating project");
+            throw new Exception("Error while updating project");
         }
 
         return response;

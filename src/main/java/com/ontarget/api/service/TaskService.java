@@ -17,6 +17,8 @@ public interface TaskService {
 
     public List<Task> getTask(int projectId) throws Exception;
 
+    public boolean isTaskAdd(Task task);
+
     public int addDependentTask(DependentTask dependentTask) throws Exception;
 
     public Task getTaskDetail(int taskId) throws Exception;

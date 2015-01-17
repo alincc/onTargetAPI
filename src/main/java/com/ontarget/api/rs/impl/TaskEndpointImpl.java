@@ -3,6 +3,7 @@ package com.ontarget.api.rs.impl;
 import com.ontarget.api.response.TaskListCountResponse;
 import com.ontarget.api.rs.TaskEndpoint;
 import com.ontarget.api.service.TaskService;
+import com.ontarget.bean.Task;
 import com.ontarget.bean.TaskComment;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.*;
@@ -36,9 +37,15 @@ public class TaskEndpointImpl implements TaskEndpoint {
     @POST
     public OnTargetResponse addTask(TaskRequest request) {
         OnTargetResponse response = new OnTargetResponse();
+        Task task = request.getTask();
         try {
-            if (taskService.addTaskService(request.getTask(), request.getUser().getUserId())) {
-                response.setReturnMessage("Successfully added task");
+            if (taskService.addTaskService(task, request.getUser().getUserId())) {
+                if(taskService.isTaskAdd(task)){
+                    response.setReturnMessage("Successfully added task");
+                }
+                else {
+                    response.setReturnMessage("Successfully updated task");
+                }
                 response.setReturnVal(OnTargetConstant.SUCCESS);
             }
         } catch (DateAfterException e) {
@@ -50,7 +57,13 @@ public class TaskEndpointImpl implements TaskEndpoint {
         } catch (Exception e) {
             e.printStackTrace();
             logger.error("Add task failed." + e);
-            response.setReturnMessage("Add task failed");
+            if(taskService.isTaskAdd(task)){
+                response.setReturnMessage("Add task failed");
+            }
+            else {
+                response.setReturnMessage("Update task failed");
+            }
+
             response.setReturnVal(OnTargetConstant.ERROR);
         }
 
