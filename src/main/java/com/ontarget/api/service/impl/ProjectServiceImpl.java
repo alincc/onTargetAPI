@@ -190,7 +190,6 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public ProjectListResponse getProjectsByUser(int userId) throws Exception {
-
         List<Map<String, Object>> projects = projectDAO.getProjectByUser(userId);
         return this.getProjectResponse(projects);
     }
@@ -218,7 +217,7 @@ public class ProjectServiceImpl implements ProjectService {
             project.setProjectImagePath((String) projectDetail.get("project_image_path"));
             project.setStartDate((Date) projectDetail.get("project_start_date"));
             project.setEndDate((Date) projectDetail.get("project_end_date"));
-
+            project.setCompany(companyDAO.getCompany(project.getCompanyId()));
             //set project address
             Address projectAddress = addressDAO.getAddress(((Integer) projectDetail.get("ADDRESS_ID")).intValue());
             project.setProjectAddress(projectAddress);
