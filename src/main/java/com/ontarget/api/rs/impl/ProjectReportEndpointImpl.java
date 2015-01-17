@@ -4,6 +4,7 @@ import com.ontarget.api.response.BIReportResponse;
 import com.ontarget.api.response.ProjectEarnedValueReportResponse;
 import com.ontarget.api.rs.ProjectReportEndpoint;
 import com.ontarget.api.service.ProjectReportService;
+import com.ontarget.bean.NoAccidentReport;
 import com.ontarget.bean.ProjectEarnedValueAnalysisReport;
 import com.ontarget.bean.TimeSaved;
 import com.ontarget.bean.TreesSaved;
@@ -60,9 +61,11 @@ public class ProjectReportEndpointImpl implements ProjectReportEndpoint {
         try {
             TimeSaved timeSaved = projectReportService.getTimeSaved(projectId);
             TreesSaved treesSaved=projectReportService.getTreesSaved(projectId);
+            NoAccidentReport noAccidentReport=projectReportService.getNoAccidentReport(projectId);
 
             response.setTimeSaved(timeSaved);
             response.setTreesSaved(treesSaved);
+            response.setNoAccidentReport(noAccidentReport);
 
             response.setReturnMessage("Successfully retrieved BI report.");
             response.setReturnVal(OnTargetConstant.SUCCESS);

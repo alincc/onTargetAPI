@@ -1,10 +1,11 @@
 package com.ontarget.api.service;
 
-import com.ontarget.api.response.BIReportResponse;
-import com.ontarget.bean.*;
+import com.ontarget.bean.NoAccidentReport;
+import com.ontarget.bean.ProjectEarnedValueAnalysisReport;
+import com.ontarget.bean.TimeSaved;
+import com.ontarget.bean.TreesSaved;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Owner on 12/3/14.
@@ -16,5 +17,7 @@ public interface ProjectReportService {
 
     public TimeSaved getTimeSaved(long projectId) throws Exception;
 
-    TreesSaved getTreesSaved(long projectId) throws Exception;
+    public TreesSaved getTreesSaved(long projectId) throws Exception;
+
+    public NoAccidentReport getNoAccidentReport(long projectId) throws Exception;
 }

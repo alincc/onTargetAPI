@@ -1,7 +1,6 @@
 package com.ontarget.api.service.impl;
 
 import com.ontarget.api.dao.*;
-import com.ontarget.api.response.BIReportResponse;
 import com.ontarget.api.service.ProjectReportService;
 import com.ontarget.bean.*;
 import com.ontarget.constant.OnTargetConstant;
@@ -39,6 +38,9 @@ public class ProjectReportServiceImpl implements ProjectReportService {
 
     @Autowired
     private ActivityDAO activityDAO;
+
+    @Autowired
+    private AccidentReportDAO accidentReportDAO;
 
     @Override
     public List<ProjectEarnedValueAnalysisReport> getEarnedValueAnalysisReport(long projectId) throws Exception {
@@ -83,8 +85,8 @@ public class ProjectReportServiceImpl implements ProjectReportService {
             for (TaskInterval ti : timeInterval) {
                 TaskEstimatedCost cost = monthYearEstimatedCost.get(ti);
                 double monthYearCost = 0.0;
-                if(cost != null){
-                    monthYearCost=cost.getCost();
+                if (cost != null) {
+                    monthYearCost = cost.getCost();
                 }
 
                 ProjectEarnedValueAnalysisReport rpt = monthYearEarnedValueReportByTask.get(ti);
@@ -107,8 +109,8 @@ public class ProjectReportServiceImpl implements ProjectReportService {
             for (Map.Entry<TaskInterval, TaskEstimatedCost> eachTaskCostByMonthYear : monthYearEstimatedCost.entrySet()) {
                 TaskEstimatedCost cost = eachTaskCostByMonthYear.getValue();
                 double monthYearCost = 0.0;
-                if(cost != null){
-                    monthYearCost=cost.getCost();
+                if (cost != null) {
+                    monthYearCost = cost.getCost();
                 }
                 totalTaskCost += monthYearCost;
             }
@@ -127,8 +129,8 @@ public class ProjectReportServiceImpl implements ProjectReportService {
             for (TaskInterval ti : timeInterval) {
                 TaskEstimatedCost cost = monthYearActualCost.get(ti);
                 double monthYearCost = 0.0;
-                if(cost != null){
-                    monthYearCost=cost.getCost();
+                if (cost != null) {
+                    monthYearCost = cost.getCost();
                 }
 
                 ProjectEarnedValueAnalysisReport rpt = monthYearEarnedValueReportByTask.get(ti);
@@ -150,12 +152,12 @@ public class ProjectReportServiceImpl implements ProjectReportService {
 
         calculateCumulativeEarnedValue(monthYearEarnedValueReportByTask, taskPercentageByMonthAndYear, totalTaskBudgetCost);
 
-       return  calculateEarnedValueAnalysisReport(monthYearEarnedValueReportByTask,totalTaskBudgetCost);
+        return calculateEarnedValueAnalysisReport(monthYearEarnedValueReportByTask, totalTaskBudgetCost);
 
     }
 
     @Override
-    public TimeSaved getTimeSaved(long projectId) throws Exception{
+    public TimeSaved getTimeSaved(long projectId) throws Exception {
 
         // get all task done within time.
         List<Task> tasks = taskDAO.getTask(projectId, TaskStatus.COMPLETED.getTaskStatusId());
@@ -174,8 +176,8 @@ public class ProjectReportServiceImpl implements ProjectReportService {
         int year = cal.get(Calendar.YEAR);
         int month = cal.get(Calendar.MONTH) + 1;
 
-        double spi=0.0;
-        if(reports!=null && reports.size() > 0) {
+        double spi = 0.0;
+        if (reports != null && reports.size() > 0) {
             for (ProjectEarnedValueAnalysisReport report : reports) {
                 if (report.getMonth() == month && report.getYear() == year) {
                     spi = report.getSchedulePerformanceIndex();
@@ -183,20 +185,54 @@ public class ProjectReportServiceImpl implements ProjectReportService {
             }
         }
 
-        double timeSavedVal=tasks.size() * approvedDocumentsOnTime * spi;
+        double timeSavedVal = tasks.size() * approvedDocumentsOnTime * spi;
 
-        TimeSaved timeSaved=new TimeSaved();
+        TimeSaved timeSaved = new TimeSaved();
         timeSaved.setTimeSavedValue(timeSavedVal);
 
         return timeSaved;
     }
 
+    /**
+     * get trees saved for this project
+     *
+     * @param projectId
+     * @return
+     * @throws Exception
+     */
     @Override
-    public TreesSaved getTreesSaved(long projectId) throws Exception{
-        TreesSaved treesSaved=new TreesSaved();
+    public TreesSaved getTreesSaved(long projectId) throws Exception {
+        TreesSaved treesSaved = new TreesSaved();
         List<ActivityLog> logs = activityDAO.getActivityLog(0);
         treesSaved.setTreesSaved(new Double(logs.size()));
         return treesSaved;
+    }
+
+
+    /**
+     * Get No accident days for the project.
+     *
+     * @param projectId
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public NoAccidentReport getNoAccidentReport(long projectId) throws Exception {
+        logger.debug("Getting accident report for project: "+ projectId);
+        List<AccidentReport> accidents = accidentReportDAO.getAccidentReportsByProjectId(projectId);
+        Project project = projectDAO.getProject(projectId);
+        Date startDate = project.getStartDate();
+
+        int daysBetweenDates = (int) (new Date().getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24);
+        int numOfAccidents = 0;
+        if (accidents != null && accidents.size() > 0) {
+            numOfAccidents = accidents.size();
+        }
+
+        NoAccidentReport report= new NoAccidentReport();
+        report.setNoAccidentDays(new Double(daysBetweenDates - numOfAccidents));
+
+        return report;
     }
 
 
@@ -233,9 +269,9 @@ public class ProjectReportServiceImpl implements ProjectReportService {
          * total budget cost of all the tasks
          *
          */
-        double totalBudgetedCost=0.0;
+        double totalBudgetedCost = 0.0;
         for (Map.Entry<Task, Double> entry : totalTaskBudgetCost.entrySet()) {
-            totalBudgetedCost+=entry.getValue();
+            totalBudgetedCost += entry.getValue();
         }
 
 
@@ -279,13 +315,13 @@ public class ProjectReportServiceImpl implements ProjectReportService {
              * cost performance index
              */
 
-            double costPerformanceIndex = report.getCumulativeEarnedValue()/report.getCumulativeActualCost();
+            double costPerformanceIndex = report.getCumulativeEarnedValue() / report.getCumulativeActualCost();
             report.setCostPerformanceIndex(costPerformanceIndex);
 
             /**
              * schedule performance index.
              */
-            double schedulePerformanceIndex = report.getCumulativeEarnedValue()/report.getCumulativePlannedValue();
+            double schedulePerformanceIndex = report.getCumulativeEarnedValue() / report.getCumulativePlannedValue();
             report.setCostPerformanceIndex(schedulePerformanceIndex);
 
             /**
@@ -293,7 +329,7 @@ public class ProjectReportServiceImpl implements ProjectReportService {
              *
              */
 
-            double estimatedCostAtCompletion=totalBudgetedCost * (1/costPerformanceIndex);
+            double estimatedCostAtCompletion = totalBudgetedCost * (1 / costPerformanceIndex);
             report.setEstimatedCostAtCompletion(estimatedCostAtCompletion);
 
         }

@@ -252,6 +252,6 @@ public interface OnTargetQuery {
                 .append("`time_injured_left_job` = ?, `possible_preventive_measures` = ?, `unsafe_conditions_corrected` = ?, ")
                 .append("`correction_measures_performed` = ?, `correction_measures_to_be_performed` = ? WHERE `accident_report_id` = ?").toString();
 
-        public static final String GET_BY_PROJECT_ID = new StringBuilder("SELECT * FROM accident_report where project_id = ?").toString();
+        public static final String GET_BY_PROJECT_ID = new StringBuilder("SELECT * FROM accident_report where project_id = ? order by ").toString();
     }
 }
