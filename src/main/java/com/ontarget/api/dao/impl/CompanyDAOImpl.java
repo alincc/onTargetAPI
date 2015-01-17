@@ -65,29 +65,29 @@ public class CompanyDAOImpl implements CompanyDAO {
 //        company.setCompanyName((String) map.get("company_name"));
 //        return company;
 
-//        return jdbcTemplate.queryForObject(OnTargetQuery.GET_COMPANY,
-//                new Object[]{companyId},
-//                new RowMapper<Company>() {
-//                    @Override
-//                    public Company mapRow(ResultSet rs, int index)
-//                            throws SQLException {
-//                        Company company = new Company();
-//                        company.setCompanyName(rs.getString("company_name"));
-//                        return company;
+        return jdbcTemplate.queryForObject(OnTargetQuery.GET_COMPANY,
+                new Object[]{companyId},
+                new RowMapper<Company>() {
+                    @Override
+                    public Company mapRow(ResultSet rs, int index)
+                            throws SQLException {
+                        Company company = new Company();
+                        company.setCompanyName(rs.getString("company_name"));
+                        return company;
+
+                    }
+                });
+
+//        Company company = new Company();
+//        jdbcTemplate.query(OnTargetQuery.GET_PROJECT, new Object[]{companyId}, new RowMapper<Company>() {
+//            @Override
+//            public Company mapRow(ResultSet resultSet, int i) throws SQLException {
+//                company.setCompanyName(resultSet.getString("company_name"));
+//                return company;
+//            }
+//        });
 //
-//                    }
-//                });
-
-        Company company = new Company();
-        jdbcTemplate.query(OnTargetQuery.GET_PROJECT, new Object[]{companyId}, new RowMapper<Company>() {
-            @Override
-            public Company mapRow(ResultSet resultSet, int i) throws SQLException {
-                company.setCompanyName(resultSet.getString("company_name"));
-                return company;
-            }
-        });
-
-        return company;
+//        return company;
     }
 
     @Override
