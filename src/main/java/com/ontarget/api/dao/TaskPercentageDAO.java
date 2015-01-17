@@ -27,5 +27,5 @@ public interface TaskPercentageDAO {
 
     public List<TaskPercentage> getTaskPercentageByTask(int projectTaskId) throws Exception;
 
-    public TaskPercentage getExistingTaskPercentageForTheMonth() throws Exception;
+    public TaskPercentage getExistingTaskPercentageForTheMonth(int taskId) throws Exception;
 }

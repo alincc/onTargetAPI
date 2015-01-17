@@ -36,6 +36,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private ContactDAO contactDAO;
 
     @Override
+    @Transactional(rollbackFor = {Exception.class})
     public UserResponse signIn(User user) throws Exception {
         logger.debug("Signing user: "+ user);
         UserResponse response = new UserResponse();

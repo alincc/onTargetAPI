@@ -944,6 +944,11 @@ INSERT INTO `ontarget`.`contact` (`contact_id`, `user_id`, `contact_company_id`,
 
 COMMIT;
 
+START TRANSACTION;
+USE `ontarget`;
+INSERT INTO `phone` (`phone_id`,`contact_id`,`area_code`,`phone_number`,`phone_type`,`status`) VALUES (2,1,859,'684-7931','CELL','ACTIVE');
+commit;
+
 -- -----------------------------------------------------
 -- Data for table `ontarget`.`project_type`
 -- -----------------------------------------------------

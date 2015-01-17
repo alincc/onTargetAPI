@@ -116,7 +116,7 @@ public interface OnTargetQuery {
 
     public static final String EXPIRE_TASK_PERCENTAGE_COMPLETE = new StringBuilder("update task_percentage_log set end_date='9999-12-31' where task_percentage_log_id=?").toString();
 
-    public static final String GET_TASK_PERCENTAGE_FOR_THIS_MONTH = new StringBuilder("select * from task_percentage_log tpl where month(tpl.created_by)=month(now()) and end_date='9999-12-31'").toString();
+    public static final String GET_TASK_PERCENTAGE_FOR_THIS_MONTH = new StringBuilder("select * from task_percentage_log tpl where month(tpl.created_date)=month(now()) and end_date='9999-12-31' and task_id=?").toString();
 
     public static final String ADD_FORGOT_PASSWORD_REQUEST = new StringBuilder("insert into forgot_password_request (user_id, forgot_password_token,status, ts_expiry) values (?,?,?, now() + INTERVAL 24 HOUR);").toString();
 
