@@ -115,10 +115,10 @@ public class ProjectServiceImpl implements ProjectService {
 
         OnTargetResponse response = new OnTargetResponse();
         if (updatedPr) {
-            response.setReturnMessage("Successfully created project.");
+            response.setReturnMessage("Successfully updated project.");
             response.setReturnVal(OnTargetConstant.SUCCESS);
         } else {
-            throw new Exception("Error while creating project");
+            throw new Exception("Error while updating project");
         }
 
         return response;
@@ -190,7 +190,6 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public ProjectListResponse getProjectsByUser(int userId) throws Exception {
-
         List<Map<String, Object>> projects = projectDAO.getProjectByUser(userId);
         return this.getProjectResponse(projects);
     }
@@ -214,11 +213,13 @@ public class ProjectServiceImpl implements ProjectService {
             project.setProjectDescription((String) projectDetail.get("PROJECT_DESCRIPTION"));
             project.setProjectTypeId((Integer) projectDetail.get("PROJECT_TYPE_ID"));
             project.setProjectParentId((Integer) projectDetail.get("PROJECT_PARENT_ID"));
-            project.setCompanyId((Integer) projectDetail.get("COMPANY_ID"));
+            Integer companyId = (Integer) projectDetail.get("COMPANY_ID");
+            project.setCompanyId(companyId);
             project.setProjectImagePath((String) projectDetail.get("project_image_path"));
             project.setStartDate((Date) projectDetail.get("project_start_date"));
             project.setEndDate((Date) projectDetail.get("project_end_date"));
-
+            Company company = companyDAO.getCompany(companyId);
+            project.setCompany(company);
             //set project address
             Address projectAddress = addressDAO.getAddress(((Integer) projectDetail.get("ADDRESS_ID")).intValue());
             project.setProjectAddress(projectAddress);

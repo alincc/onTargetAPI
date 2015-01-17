@@ -3,6 +3,7 @@ package com.ontarget.api.dao.impl;
 import com.ontarget.api.dao.CompanyDAO;
 import com.ontarget.bean.Address;
 import com.ontarget.bean.Company;
+import com.ontarget.bean.Project;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.constant.OnTargetQuery;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,6 +77,17 @@ public class CompanyDAOImpl implements CompanyDAO {
 
                     }
                 });
+
+//        Company company = new Company();
+//        jdbcTemplate.query(OnTargetQuery.GET_PROJECT, new Object[]{companyId}, new RowMapper<Company>() {
+//            @Override
+//            public Company mapRow(ResultSet resultSet, int i) throws SQLException {
+//                company.setCompanyName(resultSet.getString("company_name"));
+//                return company;
+//            }
+//        });
+//
+//        return company;
     }
 
     @Override

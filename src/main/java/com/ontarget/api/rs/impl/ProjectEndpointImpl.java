@@ -34,18 +34,24 @@ public class ProjectEndpointImpl implements ProjectEndoint {
     @Path("/addProject")
     public OnTargetResponse addProject(ProjectRequest request) {
         OnTargetResponse response = null;
-        try {
-            if (request.getProject().getProjectId() <= 0) {
+        if (request.getProject().getProjectId() <= 0) {
+            try {
                 response = projectService.addProject(request);
-            } else {
-                response = projectService.updateProject(request);
+            } catch (Exception e) {
+                logger.error("Error while adding project", e);
+                response = new OnTargetResponse();
+                response.setReturnMessage("Error while creating project");
+                response.setReturnVal(OnTargetConstant.ERROR);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            logger.error("Error while adding project", e);
-            response = new OnTargetResponse();
-            response.setReturnMessage("Error while creating project");
-            response.setReturnVal(OnTargetConstant.ERROR);
+        } else {
+            try {
+                response = projectService.updateProject(request);
+            } catch (Exception e) {
+                logger.error("Error while updating project", e);
+                response = new OnTargetResponse();
+                response.setReturnMessage("Error while updating project");
+                response.setReturnVal(OnTargetConstant.ERROR);
+            }
         }
 
         return response;
