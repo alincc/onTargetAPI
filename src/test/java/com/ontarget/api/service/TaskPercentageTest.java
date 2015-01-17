@@ -45,7 +45,7 @@ public class TaskPercentageTest extends BaseTest{
             Date date = format.parse(string);
             percentage1.setFromDate(date);
 
-            string = "January 30, 2014";
+            string = "January 15, 2014";
             Date endDate = format.parse(string);
             percentage1.setToDate(endDate);
 
@@ -59,11 +59,11 @@ public class TaskPercentageTest extends BaseTest{
             TaskPercentage percentage2 = new TaskPercentage();
 
             percentage2.setTask(task);
-            string = "February 1, 2014";
+            string = "January 16, 2014";
             date = format.parse(string);
             percentage2.setFromDate(date);
 
-            string = "February 28, 2014";
+            string = "January 28, 2014";
             endDate = format.parse(string);
             percentage2.setToDate(endDate);
 

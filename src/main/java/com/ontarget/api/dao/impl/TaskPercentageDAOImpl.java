@@ -225,7 +225,7 @@ public class TaskPercentageDAOImpl implements TaskPercentageDAO {
         logger.debug("Getting existing task percentage for task Id: "+ taskId);
           TaskPercentage taskPercentage =new TaskPercentage();
          jdbcTemplate.query(OnTargetQuery.GET_TASK_PERCENTAGE_FOR_THIS_MONTH, new Object[]{taskId},(resultSet, i) -> {
-             taskPercentage.setId(resultSet.getInt("id"));
+             taskPercentage.setId(resultSet.getInt("task_percentage_log_id"));
              return null;
          });
 

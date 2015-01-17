@@ -946,7 +946,7 @@ COMMIT;
 
 START TRANSACTION;
 USE `ontarget`;
-INSERT INTO `phone` (`phone_id`,`contact_id`,`area_code`,`phone_number`,`phone_type`,`status`) VALUES (2,1,859,'684-7931','CELL','ACTIVE');
+INSERT INTO `phone` (`phone_id`,`contact_id`,`area_code`,`phone_number`,`phone_type`,`status`) VALUES (1,1,859,'684-7931','CELL','ACTIVE');
 commit;
 
 -- -----------------------------------------------------
