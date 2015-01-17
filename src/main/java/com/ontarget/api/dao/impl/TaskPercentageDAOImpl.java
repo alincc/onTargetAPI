@@ -222,6 +222,7 @@ public class TaskPercentageDAOImpl implements TaskPercentageDAO {
 
     @Override
     public TaskPercentage getExistingTaskPercentageForTheMonth(int taskId) throws Exception {
+        logger.debug("Getting existing task percentage for task Id: "+ taskId);
           TaskPercentage taskPercentage =new TaskPercentage();
          jdbcTemplate.query(OnTargetQuery.GET_TASK_PERCENTAGE_FOR_THIS_MONTH, new Object[]{taskId},(resultSet, i) -> {
              taskPercentage.setId(resultSet.getInt("id"));
