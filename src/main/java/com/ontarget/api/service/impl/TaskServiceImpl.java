@@ -252,12 +252,12 @@ public class TaskServiceImpl implements TaskService {
     public boolean assignTaskToUser(long taskId, long userId, int assigningUser) throws Exception {
         Long assignedTo = taskDAO.getAssignedUser(taskId);
         boolean assigned = false;
-        if (assignedTo == 0) {
-            logger.info("inserting user "+userId+ " for task "+taskId);
-            assigned = taskDAO.assignTaskToUser(taskId, userId, assigningUser);
-        } else {
+        if (assignedTo > 0) {
             logger.info("updating user "+userId+ " for task "+taskId);
             assigned = taskDAO.updateTaskAssignee(taskId, userId, assigningUser);
+        } else {
+            logger.info("inserting user "+userId+ " for task "+taskId);
+            assigned = taskDAO.assignTaskToUser(taskId, userId, assigningUser);
         }
 
         if (assigned) {
