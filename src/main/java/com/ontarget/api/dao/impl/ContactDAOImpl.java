@@ -4,6 +4,7 @@ import com.ontarget.api.dao.ContactDAO;
 import com.ontarget.bean.Contact;
 import com.ontarget.bean.User;
 import com.ontarget.constant.OnTargetQuery;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -17,6 +18,8 @@ import java.util.Map;
  */
 @Repository
 public class ContactDAOImpl implements ContactDAO {
+
+    private Logger logger = Logger.getLogger(ContactDAOImpl.class);
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -51,6 +54,7 @@ public class ContactDAOImpl implements ContactDAO {
 
     @Override
     public Contact getContact(long userId) throws Exception {
+        logger.info("getting contact for user "+ userId);
         List<Map<String, Object>> results = jdbcTemplate.queryForList(OnTargetQuery.GET_CONTACT_BY_USER, new Object[]{userId});
         if(results == null || results.isEmpty()){
             throw new Exception("User does not exists");
