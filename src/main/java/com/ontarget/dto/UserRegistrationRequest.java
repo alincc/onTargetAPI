@@ -15,6 +15,7 @@ public class UserRegistrationRequest implements Serializable {
     private String phoneNumber;
     private String msg;
     private String status;
+    private String tokenId;
 
     public UserRegistrationRequest() {
     }
@@ -80,5 +81,13 @@ public class UserRegistrationRequest implements Serializable {
 
     public void setProjectId(int projectId) {
         this.projectId = projectId;
+    }
+
+    public String getTokenId() {
+        return tokenId;
+    }
+
+    public void setTokenId(String tokenId) {
+        this.tokenId = tokenId;
     }
 }

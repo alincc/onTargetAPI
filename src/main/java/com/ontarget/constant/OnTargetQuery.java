@@ -5,7 +5,7 @@ package com.ontarget.constant;
  */
 public interface OnTargetQuery {
 
-    public static final String REGISTRATION_REQUEST = new StringBuilder("INSERT INTO REGISTRATION_REQUEST (project_id,NAME,EMAIL,COMPANY_NAME,PHONE_NUMBER, MSG,STATUS) VALUES (?,?,?,?,?,?,?)").toString();
+    public static final String REGISTRATION_REQUEST = new StringBuilder("INSERT INTO REGISTRATION_REQUEST (project_id,NAME,EMAIL,COMPANY_NAME,PHONE_NUMBER, MSG,STATUS, registration_token) VALUES (?,?,?,?,?,?,?,?)").toString();
 
     public static final String USER_LOGIN = new StringBuilder("SELECT * FROM USER WHERE USER_NAME=? and ACCOUNT_STATUS!='LOCKED'").toString();
 

@@ -8,6 +8,7 @@ import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.UserRegistationApprovalResponse;
 import com.ontarget.dto.UserRegistrationRequest;
 import com.ontarget.dto.UserResponse;
+import com.ontarget.util.Security;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -60,6 +61,9 @@ public class AuthenticationImpl implements Authentication {
     public OnTargetResponse registrationRequest(UserRegistrationRequest request) {
         OnTargetResponse response = new OnTargetResponse();
         try {
+            // generate token id
+            final String tokenId = Security.generateRandomValue(OnTargetConstant.TOKEN_LENGTH);
+            request.setTokenId(tokenId);
             if (authenticationService.registrationRequest(request)) {
                 response.setReturnVal(OnTargetConstant.SUCCESS);
                 response.setReturnMessage(OnTargetConstant.SUCCESSFULLY_REGISTERED);
