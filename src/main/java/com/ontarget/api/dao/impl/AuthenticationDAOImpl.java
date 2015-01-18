@@ -5,7 +5,6 @@ import com.ontarget.bean.User;
 import com.ontarget.dto.UserRegistrationRequest;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.constant.OnTargetQuery;
-import com.ontarget.dto.UserRegistrationRequest;
 import com.ontarget.util.Security;
 import com.ontarget.util.TokenUtil;
 import org.apache.log4j.Logger;
@@ -65,14 +64,14 @@ public class AuthenticationDAOImpl implements AuthenticationDAO {
     public boolean approvePendingRegistrationRequest(UserRegistrationRequest req) throws Exception {
         // approve the user request.
 
-        boolean approved = this.approveUserRequest(req.getRegistrationReqId());
+        boolean approved = this.approveUserRequest(req.getId());
         if (!approved) {
-            throw new Exception("User cannot be approved for request id: " + req.getRegistrationReqId());
+            throw new Exception("User cannot be approved for request id: " + req.getId());
         }
 
         boolean created = this.createUser(req);
         if (!created) {
-            throw new Exception("User cannot be created for request id: " + req.getRegistrationReqId());
+            throw new Exception("User cannot be created for request id: " + req.getId());
         }
 
 

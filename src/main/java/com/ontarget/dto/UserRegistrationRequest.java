@@ -7,7 +7,7 @@ import java.io.Serializable;
  */
 public class UserRegistrationRequest implements Serializable {
 
-    private int registrationReqId;
+    private int id;
     private int projectId;
     private String name;
     private String email;
@@ -20,11 +20,11 @@ public class UserRegistrationRequest implements Serializable {
     public UserRegistrationRequest() {
     }
 
-    public int getRegistrationReqId() {
-        return registrationReqId;
+    public int getId() {
+        return id;
     }
-    public void setRegistrationReqId(int registrationReqId) {
-        this.registrationReqId = registrationReqId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getStatus() {
