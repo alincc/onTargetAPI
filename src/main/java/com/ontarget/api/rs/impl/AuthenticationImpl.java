@@ -81,7 +81,7 @@ public class AuthenticationImpl implements Authentication {
     @Path("/getPendingUserRegistrationRequests")
     @POST
     public UserRegistationApprovalResponse getPendingUserRegistrationRequests() {
-        UserRegistationApprovalResponse response = null;
+        UserRegistationApprovalResponse response = new UserRegistationApprovalResponse();
         try {
             response = authenticationService.getUserRegistrationPendingRequests();
             response.setReturnVal(OnTargetConstant.SUCCESS);

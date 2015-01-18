@@ -1,6 +1,7 @@
 package com.ontarget.api.dao.impl;
 
 import com.ontarget.api.dao.AuthenticationDAO;
+import com.ontarget.bean.ActivityLog;
 import com.ontarget.bean.User;
 import com.ontarget.dto.UserRegistrationRequest;
 import com.ontarget.constant.OnTargetConstant;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -57,7 +59,27 @@ public class AuthenticationDAOImpl implements AuthenticationDAO {
 
     @Override
     public List<UserRegistrationRequest> getUserRegistrationPendingRequests() throws Exception {
-        return jdbcTemplate.queryForList(OnTargetQuery.GET_USER_REGISTRATION_PENDING_REQUEST, UserRegistrationRequest.class);
+//        return jdbcTemplate.queryForList(OnTargetQuery.GET_USER_REGISTRATION_PENDING_REQUEST, UserRegistrationRequest.class);
+
+        List<UserRegistrationRequest> userRegistrationRequests = new LinkedList<UserRegistrationRequest>();
+        jdbcTemplate.query(OnTargetQuery.GET_USER_REGISTRATION_PENDING_REQUEST, new Object[]{}, new RowMapper<UserRegistrationRequest>() {
+            @Override
+            public UserRegistrationRequest mapRow(ResultSet resultSet, int i) throws SQLException {
+                UserRegistrationRequest registrationRequest = new UserRegistrationRequest();
+                registrationRequest.setStatus(resultSet.getString("status"));
+                registrationRequest.setTokenId(resultSet.getString("registration_token"));
+                registrationRequest.setPhoneNumber(resultSet.getString("phone_number"));
+                registrationRequest.setCompanyName(resultSet.getString("company_name"));
+                registrationRequest.setEmail(resultSet.getString("email"));
+                registrationRequest.setId(resultSet.getInt("id"));
+                registrationRequest.setMsg(resultSet.getString("msg"));
+                registrationRequest.setName(resultSet.getString("name"));
+                userRegistrationRequests.add(registrationRequest);
+                return registrationRequest;
+            }
+        });
+
+        return userRegistrationRequests;
     }
 
     @Override
