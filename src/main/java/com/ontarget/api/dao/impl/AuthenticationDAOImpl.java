@@ -34,7 +34,7 @@ public class AuthenticationDAOImpl implements AuthenticationDAO {
     @Override
     public boolean saveRegistrationRequest(UserRegistrationRequest request) throws Exception {
 
-        int row = jdbcTemplate.update(OnTargetQuery.REGISTRATION_REQUEST, new Object[]{request.getProjectId(), request.getName(), request.getEmail(), request.getCompanyName(), request.getPhoneNumber(), request.getMsg(), OnTargetConstant.REGISTRATION_PENDING});
+        int row = jdbcTemplate.update(OnTargetQuery.REGISTRATION_REQUEST, new Object[]{request.getProjectId(), request.getName(), request.getEmail(), request.getCompanyName(), request.getPhoneNumber(), request.getMsg(), OnTargetConstant.REGISTRATION_PENDING, request.getTokenId()});
         if (row == 0) {
             throw new Exception("Error while inserting registration request.");
         }

@@ -15,6 +15,15 @@ public class UserRegistrationRequest implements Serializable {
     private String phoneNumber;
     private String msg;
     private String status;
+    private String tokenId;
+
+    public String getTokenId() {
+        return tokenId;
+    }
+
+    public void setTokenId(String tokenId) {
+        this.tokenId = tokenId;
+    }
 
     public UserRegistrationRequest() {
     }
