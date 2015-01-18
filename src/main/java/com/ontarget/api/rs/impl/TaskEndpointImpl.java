@@ -263,7 +263,7 @@ public class TaskEndpointImpl implements TaskEndpoint {
                 throw new Exception();
             }
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
             logger.error("Error while assigning task", e);
             response.setReturnMessage("Error while assigning task members");
             response.setReturnVal(OnTargetConstant.ERROR);
