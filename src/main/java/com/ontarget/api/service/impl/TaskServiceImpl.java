@@ -277,14 +277,13 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     @Transactional(rollbackFor = {Exception.class})
-    public boolean assignTaskToUser(long taskId, long userId, int assigningUser) throws Exception {
-        boolean assigned = false;
+    public void assignTaskToUser(long taskId, List<Long> users, int assigningUser) throws Exception {
         logger.info("clearing task assignees");
         taskDAO.deleteAllTaskAssignedUsers(taskId);
-        logger.info("inserting user " + userId + " for task " + taskId);
-        assigned = taskDAO.assignTaskToUser(taskId, userId, assigningUser);
+        for (long userId : users) {
+            logger.info("inserting user " + userId + " for task " + taskId);
+            taskDAO.assignTaskToUser(taskId, userId, assigningUser);
 
-        if (assigned) {
             // get contact detail by userId
             Contact contact = contactDAO.getContact(userId);
             Task task = taskDAO.getTaskDetail(taskId);
@@ -292,8 +291,6 @@ public class TaskServiceImpl implements TaskService {
                 emailService.sendTaskAssignmentEmail(task, contact);
             }
         }
-
-        return assigned;
     }
 
     public List<Task> getDependentTasks(long taskId) throws Exception {

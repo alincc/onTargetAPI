@@ -37,7 +37,7 @@ public interface TaskService {
 
     public List<FileAttachment> getTaskAttachments(long taskId) throws Exception;
 
-    public boolean assignTaskToUser(long taskId, long userId, int assigningUser) throws Exception;
+    public void assignTaskToUser(long taskId, List<Long> users, int assigningUser) throws Exception;
 
     public List<Task> getDependentTasks(long taskId) throws Exception;
 }
