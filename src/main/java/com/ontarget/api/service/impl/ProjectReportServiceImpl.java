@@ -315,22 +315,31 @@ public class ProjectReportServiceImpl implements ProjectReportService {
              * cost performance index
              */
 
-            double costPerformanceIndex = report.getCumulativeEarnedValue() / report.getCumulativeActualCost();
-            report.setCostPerformanceIndex(costPerformanceIndex);
+            double costPerformanceIndex = 0;
+            if (report.getCumulativeActualCost() == 0) {
+                costPerformanceIndex = report.getCumulativeEarnedValue() / report.getCumulativeActualCost();
+                report.setCostPerformanceIndex(costPerformanceIndex);
+            }
 
             /**
              * schedule performance index.
              */
-            double schedulePerformanceIndex = report.getCumulativeEarnedValue() / report.getCumulativePlannedValue();
-            report.setCostPerformanceIndex(schedulePerformanceIndex);
+            double schedulePerformanceIndex=0;
+            if (report.getCumulativePlannedValue() == 0) {
+                schedulePerformanceIndex = report.getCumulativeEarnedValue() / report.getCumulativePlannedValue();
+                report.setCostPerformanceIndex(schedulePerformanceIndex);
+            }
+
 
             /**
              * calculate estimated cost at completion.
              *
              */
-
-            double estimatedCostAtCompletion = totalBudgetedCost * (1 / costPerformanceIndex);
-            report.setEstimatedCostAtCompletion(estimatedCostAtCompletion);
+            double estimatedCostAtCompletion=0;
+            if(costPerformanceIndex==0) {
+                estimatedCostAtCompletion = totalBudgetedCost * (1 / costPerformanceIndex);
+                report.setEstimatedCostAtCompletion(estimatedCostAtCompletion);
+            }
 
         }
 
