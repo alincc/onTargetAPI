@@ -51,7 +51,7 @@ public interface OnTargetQuery {
 
     public static final String GET_CONTACT_BY_USER = new StringBuilder("Select * from contact where user_id=?").toString();
 
-    public static final String GET_COMPANY_BY_PROJECT = "select b.* from project as a join company_info as b on a.company_id=b.company_id where a.project_id=";
+    public static final String GET_COMPANY_BY_PROJECT = "select b.* from project as a join company_info as b on a.company_id=b.company_id where a.project_id=?";
 
     public static final String GET_PROJECT_TASK_COUNT_BY_STATUS = new StringBuilder("select t.status_name, if(j.count is null,0,j.count) as count from task_status t")
             .append(" left outer join (select p.status, count(p.status) as count from project_task p where project_id in ")
