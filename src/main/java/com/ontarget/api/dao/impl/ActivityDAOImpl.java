@@ -32,7 +32,6 @@ public class ActivityDAOImpl implements Serializable, com.ontarget.api.dao.Activ
                 activityLog.setId(resultSet.getLong("id"));
                 activityLog.setTsInsert(resultSet.getTimestamp("ts_insert").getTime());
                 activityLog.setText(resultSet.getString("text"));
-                activityLog.setUserId(resultSet.getInt("user_id"));
                 activityLogs.add(activityLog);
                 return activityLog;
             }

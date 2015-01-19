@@ -10,15 +10,6 @@ public class ActivityLog implements Serializable {
     private String text;
     private long category;
     private long tsInsert;
-    private int userId;
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
 
     public long getId() {
         return id;
