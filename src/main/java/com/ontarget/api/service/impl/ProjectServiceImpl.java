@@ -144,8 +144,14 @@ public class ProjectServiceImpl implements ProjectService {
         if (project.getProjectId() > 0) {
 
             //set project address
-            Address projectAddress = addressDAO.getAddress(project.getProjectAddress().getAddressId());
-            project.setProjectAddress(projectAddress);
+            Address address = project.getProjectAddress();
+            if(address == null){
+                logger.info("address is null for project "+project);
+            }
+            else{
+                Address projectAddress = addressDAO.getAddress(address.getAddressId());
+                project.setProjectAddress(projectAddress);
+            }
 
             //get list of tasks.
             List<Task> tasks = taskDAO.getTask(projectId);
