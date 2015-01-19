@@ -10,10 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Owner on 11/6/14.
@@ -234,15 +231,33 @@ public class ProjectServiceImpl implements ProjectService {
                     List<TaskComment> comments = taskDAO.getTaskComments(task.getProjectTaskId());
                     task.setComments(comments);
 
-                    //get task assigned to
-                    Long assignedUserId = taskDAO.getAssignedUser(task.getProjectTaskId());
-                    logger.debug("Getting contact detail for task assignee: " + assignedUserId);
-                    if (assignedUserId > 0) {
-                        Contact contact = contactDAO.getContact(assignedUserId);
-                        User assignedToUser = new User();
-                        assignedToUser.setContact(contact);
-                        task.setAssignedTo(assignedToUser);
+//                    //get task assigned to
+//                    Long assignedUserId = taskDAO.getAssignedUser(task.getProjectTaskId());
+//                    logger.debug("Getting contact detail for task assignee: " + assignedUserId);
+//                    if (assignedUserId > 0) {
+//                        Contact contact = contactDAO.getContact(assignedUserId);
+//                        User assignedToUser = new User();
+//                        assignedToUser.setContact(contact);
+//                        task.setAssignedTo(assignedToUser);
+//                    }
+
+                    Set<Long> assignees = taskDAO.getTaskMembers(task.getProjectTaskId());
+
+                    List<User> assignedUsers = new ArrayList<>();
+                    task.setAssignee(assignedUsers);
+                    if(assignees !=null && assignees.size() > 0){
+                        for(Long id : assignees){
+                            Contact contact = contactDAO.getContact(id);
+                            User assignedToUser = new User();
+                            assignedToUser.setContact(contact);
+                            assignedToUser.setUserId((id.intValue()));
+                            assignedUsers.add(assignedToUser);
+                        }
+                    }else {
+                        logger.info("task is unassigned");
                     }
+
+
                 }
             }
 

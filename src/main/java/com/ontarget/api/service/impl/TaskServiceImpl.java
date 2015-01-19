@@ -171,14 +171,33 @@ public class TaskServiceImpl implements TaskService {
     public Task getTaskDetail(int taskId) throws Exception {
         Task task = taskDAO.getTaskDetail(taskId);
         Long assignedUserId = taskDAO.getAssignedUser(task.getProjectTaskId());
-        if (assignedUserId > 0) {
-            User assignedToUser = new User();
-            assignedToUser.setUserId(assignedUserId.intValue());
-            task.setAssignedTo(assignedToUser);
-        }
-        else {
+
+        Set<Long> assignees = taskDAO.getTaskMembers(task.getProjectTaskId());
+
+        List<User> assignedUsers = new ArrayList<>();
+        task.setAssignee(assignedUsers);
+        if(assignees !=null && assignees.size() > 0){
+            for(Long id : assignees){
+                Contact contact = contactDAO.getContact(id);
+                User assignedToUser = new User();
+                assignedToUser.setContact(contact);
+                assignedToUser.setUserId(assignedUserId.intValue());
+                assignedUsers.add(assignedToUser);
+            }
+        }else {
             logger.info("task is unassigned");
         }
+
+//
+//
+//        if (assignedUserId > 0) {
+//            User assignedToUser = new User();
+//            assignedToUser.setUserId(assignedUserId.intValue());
+//            task.setAssignedTo(assignedToUser);
+//        }
+//        else {
+//            logger.info("task is unassigned");
+//        }
         setTaskLevel(task, 1);
         return task;
     }

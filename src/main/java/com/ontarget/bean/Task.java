@@ -25,6 +25,8 @@ public class Task implements Serializable{
     private boolean completed;
     private User assignedTo;
 
+    private List<User> assignee;
+
     private Project project;
     private Task parentTask;
     private List<TaskComment> comments;
@@ -260,5 +262,13 @@ public class Task implements Serializable{
                 ", childTasks=" + childTasks +
                 ", costsByMonthYear=" + costsByMonthYear +
                 '}';
+    }
+
+    public List<User> getAssignee() {
+        return assignee;
+    }
+
+    public void setAssignee(List<User> assignee) {
+        this.assignee = assignee;
     }
 }

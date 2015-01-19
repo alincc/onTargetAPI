@@ -79,7 +79,7 @@ public interface OnTargetQuery {
 
     public static final String UPDATE_TASK = new StringBuilder("update project_task set title=?,description=?,parent_task_id=?,status=?,start_date=?,end_date=?,percentage_complete=?,severity=?,modified_by=?, modified_date=now() where project_task_id=?").toString();
 
-    public static final String GET_TASK_MEMBERS = new StringBuilder("SELECT `user_id` FROM `task_member` WHERE `task_id`=? and `status` = 'ACTIVE'").toString();
+    public static final String GET_TASK_MEMBERS = new StringBuilder("SELECT `user_id` FROM `task_assignee` WHERE `task_id`=? and `status` = 'ACTIVE'").toString();
 
     public static final String ADD_TASK_MEMBER = new StringBuilder("INSERT INTO task_member (task_id, project_id, user_id) VALUES (?, ?, ?)").toString();
 
@@ -242,8 +242,8 @@ public interface OnTargetQuery {
                 .append("`description`, `body_part_affected`, `date_of_accident`, `time_of_accident`, `injured_visited_doctor`, ")
                 .append("`workers_compensation_filed`, `injured_left_job`, `date_injured_left_job`, `time_injured_left_job`, ")
                 .append("`possible_preventive_measures`, `unsafe_conditions_corrected`, `correction_measures_performed`, ")
-                .append("`correction_measures_to_be_performed`)")
-                .append("VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)").toString();
+                .append("`correction_measures_to_be_performed`,`project_id`)")
+                .append("VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)").toString();
 
         public static final String UPDATE = new StringBuilder("UPDATE `ontarget`.`accident_report` SET `submitted_to` = ?, `supervisor_name` = ?, `witness` = ?, ")
                 .append("`location` = ?, `brief_of_accident` = ?, `severity` = ?, `description` = ?, `body_part_affected` = ?, ")
@@ -252,6 +252,6 @@ public interface OnTargetQuery {
                 .append("`time_injured_left_job` = ?, `possible_preventive_measures` = ?, `unsafe_conditions_corrected` = ?, ")
                 .append("`correction_measures_performed` = ?, `correction_measures_to_be_performed` = ? WHERE `accident_report_id` = ?").toString();
 
-        public static final String GET_BY_PROJECT_ID = new StringBuilder("SELECT * FROM accident_report where project_id = ? order by ").toString();
+        public static final String GET_BY_PROJECT_ID = new StringBuilder("SELECT * FROM accident_report where project_id = ? order by accident_report_id desc").toString();
     }
 }
