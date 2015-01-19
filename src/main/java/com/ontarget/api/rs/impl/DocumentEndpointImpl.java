@@ -52,6 +52,8 @@ public class DocumentEndpointImpl implements DocumentEndpoint {
 		try {
 //			System.out.println("documentService is " + documentService);
 			AddDocumentResponse response = documentService.addDocument(request);
+            response.setReturnVal(OnTargetConstant.SUCCESS);
+            response.setReturnMessage("sucessfully uploaded");
 			return response;
 		} catch (Throwable t) {
 			logger.error("Error occurred while serving add document request!", t);
