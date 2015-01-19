@@ -38,6 +38,7 @@ public class AccidentReportServiceImpl implements AccidentReportService {
 			response.setReturnMessage("Accident report saved successfully!");
 			response.setAccidentReportId(accidentReport.getAccidentReportId());
 		} catch(Exception ex) {
+            logger.error("Error while saving accident report",ex);
 			throw new Exception("Error occurred while saving accident report", ex);
 		}
 		return response;

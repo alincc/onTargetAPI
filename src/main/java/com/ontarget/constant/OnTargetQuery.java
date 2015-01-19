@@ -242,8 +242,8 @@ public interface OnTargetQuery {
                 .append("`description`, `body_part_affected`, `date_of_accident`, `time_of_accident`, `injured_visited_doctor`, ")
                 .append("`workers_compensation_filed`, `injured_left_job`, `date_injured_left_job`, `time_injured_left_job`, ")
                 .append("`possible_preventive_measures`, `unsafe_conditions_corrected`, `correction_measures_performed`, ")
-                .append("`correction_measures_to_be_performed`)")
-                .append("VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)").toString();
+                .append("`correction_measures_to_be_performed`,`project_id`)")
+                .append("VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)").toString();
 
         public static final String UPDATE = new StringBuilder("UPDATE `ontarget`.`accident_report` SET `submitted_to` = ?, `supervisor_name` = ?, `witness` = ?, ")
                 .append("`location` = ?, `brief_of_accident` = ?, `severity` = ?, `description` = ?, `body_part_affected` = ?, ")
@@ -252,6 +252,6 @@ public interface OnTargetQuery {
                 .append("`time_injured_left_job` = ?, `possible_preventive_measures` = ?, `unsafe_conditions_corrected` = ?, ")
                 .append("`correction_measures_performed` = ?, `correction_measures_to_be_performed` = ? WHERE `accident_report_id` = ?").toString();
 
-        public static final String GET_BY_PROJECT_ID = new StringBuilder("SELECT * FROM accident_report where project_id = ? order by ").toString();
+        public static final String GET_BY_PROJECT_ID = new StringBuilder("SELECT * FROM accident_report where project_id = ? order by accident_report_id desc").toString();
     }
 }

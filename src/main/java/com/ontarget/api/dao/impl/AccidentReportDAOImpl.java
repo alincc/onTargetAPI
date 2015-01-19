@@ -47,6 +47,7 @@ public class AccidentReportDAOImpl extends BaseGenericDAOImpl<AccidentReport> im
 				ps.setString(17, accidentReport.getUnsafeConditionsCorrected());
 				ps.setString(18, accidentReport.getCorrectionMeasuresPerformed());
 				ps.setString(19, accidentReport.getCorrectionMeasuresToBePerformed());
+                ps.setLong(20, accidentReport.getProject().getProjectId());
 		            return ps;
 			}
 			

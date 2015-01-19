@@ -1369,3 +1369,37 @@ MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 ALTER TABLE `user_notification`
 MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+
+-- -----------------------------------------------------
+-- Table `ontarget`.`accident_report`
+-- -----------------------------------------------------
+
+DROP TABLE IF EXISTS `accident_report`;
+
+CREATE TABLE `accident_report` (
+  `accident_report_id` int(11) NOT NULL AUTO_INCREMENT,
+  `project_id` int(11) NOT NULL,
+  `submitted_to` varchar(45) DEFAULT NULL,
+  `supervisor_name` varchar(45) DEFAULT NULL,
+  `witness` varchar(45) DEFAULT NULL,
+  `location` varchar(45) DEFAULT NULL,
+  `brief_of_accident` varchar(45) DEFAULT NULL,
+  `severity` varchar(45) DEFAULT NULL,
+  `description` varchar(45) DEFAULT NULL,
+  `body_part_affected` varchar(45) DEFAULT NULL,
+  `date_of_accident` date DEFAULT NULL,
+  `time_of_accident` varchar(45) DEFAULT NULL,
+  `injured_visited_doctor` varchar(3) DEFAULT NULL,
+  `workers_compensation_filed` varchar(3) DEFAULT NULL,
+  `injured_left_job` varchar(3) DEFAULT NULL,
+  `date_injured_left_job` date DEFAULT NULL,
+  `time_injured_left_job` varchar(45) DEFAULT NULL,
+  `possible_preventive_measures` varchar(45) DEFAULT NULL,
+  `unsafe_conditions_corrected` varchar(3) DEFAULT NULL,
+  `correction_measures_performed` varchar(45) DEFAULT NULL,
+  `correction_measures_to_be_performed` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`accident_report_id`),
+  KEY `project_2_accident_report_idx` (`project_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+-- INSERT INTO `accident_report` VALUES (1,0,'Test Value 1','Test Value 1','Test Value 1','Test Value 1','Test Value 1','LOW','Test Value 1','Test Value 1','2015-01-10','11:30 AM','NO','YES','NO','2015-01-10','12:30 PM','Test Value','YES','Test Value','Test Value');
