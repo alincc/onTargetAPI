@@ -149,6 +149,11 @@ public class ProjectDAOImpl implements ProjectDAO {
     }
 
     @Override
+    public List<Integer> getCompanyByProject(int projectId) throws Exception {
+        return jdbcTemplate.queryForList(OnTargetQuery.GET_COMPANY_BY_PROJECT, new Object[]{projectId}, Integer.class);
+    }
+
+    @Override
     //TODO: get user from project task
     public boolean updateProject(Project project, int updatingUserId) throws Exception {
         int row = jdbcTemplate.update(OnTargetQuery.UPDATE_PROJECT, new Object[]{project.getProjectName(), project.getProjectDescription(), project.getProjectTypeId(), project.getProjectParentId(), project.getStatus(), project.getStartDate(), project.getEndDate(), updatingUserId, project.getProjectId()});

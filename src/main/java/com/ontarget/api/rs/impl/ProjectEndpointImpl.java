@@ -111,6 +111,25 @@ public class ProjectEndpointImpl implements ProjectEndoint {
             response.setReturnMessage("Error while getting project by company");
             response.setReturnVal(OnTargetConstant.ERROR);
         }
+
+        return response;
+    }
+
+    @Override
+    @GET
+    @Path("/getCompanyByProject/{projectId}")
+    public ListResponse<Integer> getCompanyByProject(@PathParam("projectId") int projectId) {
+        ListResponse<Integer> response = new ListResponse<>();
+        try {
+            response.setList(projectService.getCompanyByProject(projectId));
+            response.setReturnVal(OnTargetConstant.SUCCESS);
+            response.setReturnMessage("Successfully retrieved company by project");
+        } catch (Exception e) {
+            logger.error("Error while getting company by project", e);
+            response.setReturnMessage("Error while getting company by project");
+            response.setReturnVal(OnTargetConstant.ERROR);
+        }
+
         return response;
     }
 

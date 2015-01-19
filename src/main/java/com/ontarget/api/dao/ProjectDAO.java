@@ -28,4 +28,6 @@ public interface ProjectDAO {
     public List<Map<String,Object>> getProjectByUser(int userId);
 
     public List<Project> getChildProjects(long projectId) throws Exception;
+
+    public List<Integer> getCompanyByProject(int projectId) throws Exception;
 }

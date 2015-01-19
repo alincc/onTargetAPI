@@ -4,6 +4,7 @@ import com.ontarget.api.dao.*;
 import com.ontarget.api.service.ProjectService;
 import com.ontarget.bean.*;
 import com.ontarget.constant.OnTargetConstant;
+import com.ontarget.constant.OnTargetQuery;
 import com.ontarget.dto.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -189,6 +190,10 @@ public class ProjectServiceImpl implements ProjectService {
     public ProjectListResponse getProjectsByCompany(int companyId, int userId) throws Exception {
         List<Map<String, Object>> projects = projectDAO.getProjectByCompany(companyId, userId);
         return this.getProjectResponse(projects);
+    }
+
+    public List<Integer> getCompanyByProject(int projectId) throws Exception {
+        return projectDAO.getCompanyByProject(projectId);
     }
 
     @Override

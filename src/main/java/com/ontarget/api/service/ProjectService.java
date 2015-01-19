@@ -6,6 +6,8 @@ import com.ontarget.bean.User;
 import com.ontarget.dto.*;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * Created by Owner on 11/6/14.
  */
@@ -18,6 +20,8 @@ public interface ProjectService {
     public ProjectResponse getProjectDetail(long projectId) throws Exception;
 
     public ProjectListResponse getProjectsByCompany(int companyId, int userId) throws Exception;
+
+    public List<Integer> getCompanyByProject(int projectId) throws Exception;
 
     public ProjectListResponse getProjectsByUser(int userId) throws Exception;
 
