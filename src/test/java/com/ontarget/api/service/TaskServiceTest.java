@@ -6,6 +6,9 @@ import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static junit.framework.Assert.fail;
 
 /**
@@ -22,8 +25,10 @@ public class TaskServiceTest extends BaseTest{
     public void assignTaskToUserTest(){
 
         try {
-            boolean assigned = taskService.assignTaskToUser(1,1, 1);
-            Assert.assertTrue(assigned);
+            List<Long> l = new ArrayList<Long>();
+            l.add(1l);
+            taskService.assignTaskToUser(1,l, 1);
+//            Assert.assertTrue(assigned);
         } catch (Exception e) {
            logger.error(e);
             fail();
