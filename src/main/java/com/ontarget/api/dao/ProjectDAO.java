@@ -1,5 +1,6 @@
 package com.ontarget.api.dao;
 
+import com.ontarget.bean.Company;
 import com.ontarget.bean.Project;
 import com.ontarget.bean.ProjectMember;
 
@@ -29,5 +30,5 @@ public interface ProjectDAO {
 
     public List<Project> getChildProjects(long projectId) throws Exception;
 
-    public List<Integer> getCompanyByProject(int projectId) throws Exception;
+    public List<Company> getCompanyByProject(int projectId) throws Exception;
 }

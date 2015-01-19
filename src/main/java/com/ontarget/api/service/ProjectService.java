@@ -21,7 +21,7 @@ public interface ProjectService {
 
     public ProjectListResponse getProjectsByCompany(int companyId, int userId) throws Exception;
 
-    public List<Integer> getCompanyByProject(int projectId) throws Exception;
+    public List<Company> getCompanyByProject(int projectId) throws Exception;
 
     public ProjectListResponse getProjectsByUser(int userId) throws Exception;
 

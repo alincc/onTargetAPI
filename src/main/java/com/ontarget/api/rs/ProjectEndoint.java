@@ -1,5 +1,6 @@
 package com.ontarget.api.rs;
 
+import com.ontarget.bean.Company;
 import com.ontarget.dto.*;
 
 /**
@@ -13,7 +14,7 @@ public interface ProjectEndoint {
 
     public com.ontarget.dto.ProjectListResponse getProjectByCompany(int companyId, int userId);
 
-    public ListResponse<Integer> getCompanyByProject(int projectId);
+    public ListResponse<Company> getCompanyByProject(int projectId);
 
     public ProjectListResponse getProjectByUser(int userId);
 

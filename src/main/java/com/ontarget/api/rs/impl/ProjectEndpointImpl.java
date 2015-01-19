@@ -3,6 +3,7 @@ package com.ontarget.api.rs.impl;
 import com.ontarget.api.rs.ProjectEndoint;
 import com.ontarget.api.service.ProjectService;
 import com.ontarget.api.service.UserProfileService;
+import com.ontarget.bean.Company;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.*;
 import org.apache.log4j.Logger;
@@ -118,8 +119,8 @@ public class ProjectEndpointImpl implements ProjectEndoint {
     @Override
     @GET
     @Path("/getCompanyByProject/{projectId}")
-    public ListResponse<Integer> getCompanyByProject(@PathParam("projectId") int projectId) {
-        ListResponse<Integer> response = new ListResponse<>();
+    public ListResponse<Company> getCompanyByProject(@PathParam("projectId") int projectId) {
+        ListResponse<Company> response = new ListResponse<>();
         try {
             response.setList(projectService.getCompanyByProject(projectId));
             response.setReturnVal(OnTargetConstant.SUCCESS);

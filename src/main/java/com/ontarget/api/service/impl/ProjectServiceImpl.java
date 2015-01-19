@@ -192,7 +192,7 @@ public class ProjectServiceImpl implements ProjectService {
         return this.getProjectResponse(projects);
     }
 
-    public List<Integer> getCompanyByProject(int projectId) throws Exception {
+    public List<Company> getCompanyByProject(int projectId) throws Exception {
         return projectDAO.getCompanyByProject(projectId);
     }
 
