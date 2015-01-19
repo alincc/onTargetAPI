@@ -40,10 +40,9 @@ public class TaskEndpointImpl implements TaskEndpoint {
         Task task = request.getTask();
         try {
             if (taskService.addTaskService(task, request.getUser().getUserId())) {
-                if(taskService.isTaskAdd(task)){
+                if (taskService.isTaskAdd(task)) {
                     response.setReturnMessage("Successfully added task");
-                }
-                else {
+                } else {
                     response.setReturnMessage("Successfully updated task");
                 }
                 response.setReturnVal(OnTargetConstant.SUCCESS);
@@ -57,10 +56,9 @@ public class TaskEndpointImpl implements TaskEndpoint {
         } catch (Exception e) {
             e.printStackTrace();
             logger.error("Add task failed." + e);
-            if(taskService.isTaskAdd(task)){
+            if (taskService.isTaskAdd(task)) {
                 response.setReturnMessage("Add task failed");
-            }
-            else {
+            } else {
                 response.setReturnMessage("Update task failed");
             }
 
@@ -256,12 +254,18 @@ public class TaskEndpointImpl implements TaskEndpoint {
     public OnTargetResponse assignTaskToUser(TaskMemberRequest taskMemberRequest) {
         OnTargetResponse response = new OnTargetResponse();
         try {
-            if (taskService.assignTaskToUser(taskMemberRequest.getTaskId(), taskMemberRequest.getMembers().get(0), taskMemberRequest.getUser().getUserId())) {
-                response.setReturnMessage("Successfully assigned task");
-                response.setReturnVal(OnTargetConstant.SUCCESS);
-            } else {
-                throw new Exception();
-            }
+            List<Long> members = taskMemberRequest.getMembers();
+            int userId = taskMemberRequest.getUser().getUserId();
+            long taskId = taskMemberRequest.getTaskId();
+            taskService.assignTaskToUser(taskId, members, userId);
+            response.setReturnMessage("Successfully assigned task");
+            response.setReturnVal(OnTargetConstant.SUCCESS);
+//            if (taskService.assignTaskToUser(taskId, members.get(0), userId)) {
+//                response.setReturnMessage("Successfully assigned task");
+//                response.setReturnVal(OnTargetConstant.SUCCESS);
+//            } else {
+//                throw new Exception();
+//            }
         } catch (Exception e) {
 //            e.printStackTrace();
             logger.error("Error while assigning task", e);

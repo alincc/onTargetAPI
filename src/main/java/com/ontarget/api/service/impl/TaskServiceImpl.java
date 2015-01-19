@@ -176,15 +176,15 @@ public class TaskServiceImpl implements TaskService {
 
         List<User> assignedUsers = new ArrayList<>();
         task.setAssignee(assignedUsers);
-        if(assignees !=null && assignees.size() > 0){
-            for(Long id : assignees){
+        if (assignees != null && assignees.size() > 0) {
+            for (Long id : assignees) {
                 Contact contact = contactDAO.getContact(id);
                 User assignedToUser = new User();
                 assignedToUser.setContact(contact);
                 assignedToUser.setUserId(assignedUserId.intValue());
                 assignedUsers.add(assignedToUser);
             }
-        }else {
+        } else {
             logger.info("task is unassigned");
         }
 
@@ -277,18 +277,13 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     @Transactional(rollbackFor = {Exception.class})
-    public boolean assignTaskToUser(long taskId, long userId, int assigningUser) throws Exception {
-        Long assignedTo = taskDAO.getAssignedUser(taskId);
-        boolean assigned = false;
-        if (assignedTo > 0) {
-            logger.info("updating user "+userId+ " for task "+taskId);
-            assigned = taskDAO.updateTaskAssignee(taskId, userId, assigningUser);
-        } else {
-            logger.info("inserting user "+userId+ " for task "+taskId);
-            assigned = taskDAO.assignTaskToUser(taskId, userId, assigningUser);
-        }
+    public void assignTaskToUser(long taskId, List<Long> users, int assigningUser) throws Exception {
+        logger.info("clearing task assignees");
+        taskDAO.deleteAllTaskAssignedUsers(taskId);
+        for (long userId : users) {
+            logger.info("inserting user " + userId + " for task " + taskId);
+            taskDAO.assignTaskToUser(taskId, userId, assigningUser);
 
-        if (assigned) {
             // get contact detail by userId
             Contact contact = contactDAO.getContact(userId);
             Task task = taskDAO.getTaskDetail(taskId);
@@ -296,8 +291,6 @@ public class TaskServiceImpl implements TaskService {
                 emailService.sendTaskAssignmentEmail(task, contact);
             }
         }
-
-        return assigned;
     }
 
     public List<Task> getDependentTasks(long taskId) throws Exception {

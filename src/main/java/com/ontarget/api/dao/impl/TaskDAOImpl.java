@@ -260,6 +260,11 @@ public class TaskDAOImpl implements TaskDAO {
         return row > 0;
     }
 
+    public boolean deleteAllTaskAssignedUsers(long taskId) throws Exception {
+        int row = jdbcTemplate.update(OnTargetQuery.DELETE_TASK_USER, new Object[]{taskId});
+        return row > 0;
+    }
+
     @Override
     public boolean assignTaskToUser(long taskId, long userId, int assigningUser) throws Exception {
         int row = jdbcTemplate.update(OnTargetQuery.ASSIGN_TASK_USER, new Object[]{taskId, userId, assigningUser, assigningUser});
@@ -268,7 +273,7 @@ public class TaskDAOImpl implements TaskDAO {
 
     @Override
     public boolean updateTaskAssignee(long taskId, long userId, int assigningUser) throws Exception {
-        int row = jdbcTemplate.update(OnTargetQuery.UPDATE_TASK_USER, new Object[]{userId, assigningUser, taskId });
+        int row = jdbcTemplate.update(OnTargetQuery.UPDATE_TASK_USER, new Object[]{userId, assigningUser, taskId});
         return row > 0;
     }
 

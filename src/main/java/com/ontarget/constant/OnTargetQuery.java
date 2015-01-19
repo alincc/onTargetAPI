@@ -114,6 +114,8 @@ public interface OnTargetQuery {
 
     public static final String UPDATE_TASK_USER = new StringBuilder("update task_assignee set task_assignee=?, modified_by=?, modified_date=now() where project_task_id=?").toString();
 
+    public static final String DELETE_TASK_USER = "DELETE FROM task_assignee WHERE project_task_id =?";
+
     public static final String EXPIRE_TASK_PERCENTAGE_COMPLETE = new StringBuilder("update task_percentage_log set end_date='9999-12-31' where task_percentage_log_id=?").toString();
 
     public static final String GET_TASK_PERCENTAGE_FOR_THIS_MONTH = new StringBuilder("select * from task_percentage_log tpl where month(tpl.created_date)=month(now()) and end_date='9999-12-31' and task_id=?").toString();
