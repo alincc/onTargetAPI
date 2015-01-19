@@ -251,7 +251,7 @@ public class TaskDAOImpl implements TaskDAO {
     }
 
     public Set<Long> getTaskMembers(long taskId) throws Exception {
-        List<Long> users = jdbcTemplate.queryForList(OnTargetQuery.GET_TASK_MEMBERS, Long.class, new Object[]{taskId});
+        List<Long> users = jdbcTemplate.queryForList(OnTargetQuery.GET_TASK_ASSIGNEE, Long.class, new Object[]{taskId});
         return new HashSet<Long>(users);
     }
 
