@@ -70,7 +70,7 @@ public class UploadDocumentDAOImpl implements UploadDocumentDAO {
 	            	 documentDetail.setFileId((Integer) taskMap.get("project_file_id"));
 	            	 documentDetail.setName((String) taskMap.get("file_name"));
 	            	 documentDetail.setFileType((String)taskMap.get("file_type"));
-	            	 documentDetail.setCreatedBy((String) taskMap.get("created_by"));
+	            	 documentDetail.setCreatedBy((Integer) taskMap.get("created_by"));
 	            	 documentDetail.setCreatedDate((Date) taskMap.get("created_date"));
 	                
 	            	 resultList.add(documentDetail);

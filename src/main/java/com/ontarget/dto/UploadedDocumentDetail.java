@@ -1,5 +1,7 @@
 package com.ontarget.dto;
 
+import com.ontarget.bean.Contact;
+
 import java.util.Date;
 
 public class UploadedDocumentDetail{
@@ -7,10 +9,19 @@ public class UploadedDocumentDetail{
 	private int fileId;
 	private String name;
 	private String fileType;
-	private String createdBy;
+	private int createdBy;
 	private Date createdDate;
-	
-	public int getFileId() {
+    private Contact createdByContact;
+
+    public Contact getCreatedByContact() {
+        return createdByContact;
+    }
+
+    public void setCreatedByContact(Contact createdByContact) {
+        this.createdByContact = createdByContact;
+    }
+
+    public int getFileId() {
 		return fileId;
 	}
 	public void setFileId(int fileId) {
@@ -22,13 +33,16 @@ public class UploadedDocumentDetail{
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getCreatedBy() {
-		return createdBy;
-	}
-	public void setCreatedBy(String createdBy) {
-		this.createdBy = createdBy;
-	}
-	public Date getCreatedDate() {
+
+    public int getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(int createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public Date getCreatedDate() {
 		return createdDate;
 	}
 	public void setCreatedDate(Date createdDate) {
@@ -40,8 +54,4 @@ public class UploadedDocumentDetail{
 	public void setFileType(String fileType) {
 		this.fileType = fileType;
 	}
-	
-	
-	
-	
 }

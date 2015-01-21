@@ -11,6 +11,7 @@ public class FileUploadResponse extends OnTargetResponse {
 	public FileUploadResponse(String responseCode,String returnMessage){
 		super(responseCode,returnMessage);
 	}
+
 	public FileUploadResponse(String responseCode,String returnVal,String returnMessage){
 		super(responseCode,returnVal,returnMessage);
 	}
