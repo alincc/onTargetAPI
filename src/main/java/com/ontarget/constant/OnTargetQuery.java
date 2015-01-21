@@ -233,6 +233,7 @@ public interface OnTargetQuery {
     public static final String GET_USER_NOTIFICATION = new StringBuilder("SELECT * FROM user_notification where id > ? and user_id = ? order by id").toString();
 
     public static final String UPDATE_TASK_STATUS = new StringBuilder("UPDATE project_task SET status=?, modified_by=?, modified_date=now() WHERE project_task_id =?" ).toString();
+    public static final String GET_USER_TASKS = "SELECT b.* FROM task_assignee as a join project_task as b on a.project_task_id=b.project_task_id where a.task_assignee=?";
 
     interface DependentTask {
         public static final String ADD_DEPENDENT_TASK = new StringBuilder("INSERT INTO dependent_task (task_id, dependent_task_id, category_id, created_by) VALUES (?,?, ?, ?)").toString();

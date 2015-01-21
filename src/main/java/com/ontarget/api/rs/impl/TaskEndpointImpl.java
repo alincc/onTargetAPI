@@ -309,4 +309,20 @@ public class TaskEndpointImpl implements TaskEndpoint {
 
         return response;
     }
+
+    @GET
+    @Path("/userTasks/{userId}")
+    public TaskListResponse getUserTask(@PathParam("userId") int userId){
+        TaskListResponse response = new TaskListResponse();
+        try {
+            response.setTasks(taskService.getUserTasks(userId));
+            response.setReturnVal(OnTargetConstant.SUCCESS);
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.setReturnMessage("Error while getting dependent task");
+            response.setReturnVal(OnTargetConstant.ERROR);
+        }
+
+        return response;
+    }
 }

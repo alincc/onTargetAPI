@@ -296,4 +296,8 @@ public class TaskServiceImpl implements TaskService {
     public List<Task> getDependentTasks(long taskId) throws Exception {
         return taskDAO.getDependentTasks(taskId);
     }
+
+    public List<Task> getUserTasks(int userId) throws Exception {
+        return taskDAO.getUserTasks(userId);
+    }
 }

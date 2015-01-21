@@ -40,4 +40,6 @@ public interface TaskService {
     public void assignTaskToUser(long taskId, List<Long> users, int assigningUser) throws Exception;
 
     public List<Task> getDependentTasks(long taskId) throws Exception;
+
+    public List<Task> getUserTasks(int userId) throws Exception;
 }
