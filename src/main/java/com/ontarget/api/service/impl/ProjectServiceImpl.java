@@ -235,11 +235,22 @@ public class ProjectServiceImpl implements ProjectService {
             //get list of tasks.
             List<Task> tasks = taskDAO.getTask(project.getProjectId());
             project.setTaskList(tasks);
-
+            Map<Integer, Contact> contactMap = new HashMap<>();
             //get all the comments in the tasks and assigned to.
             if (tasks != null && tasks.size() > 0) {
                 for (Task task : tasks) {
                     List<TaskComment> comments = taskDAO.getTaskComments(task.getProjectTaskId());
+                    for(TaskComment comment: comments){
+                        int commentedBy = comment.getCommentedBy();
+                        if(contactMap.containsKey(commentedBy)){
+                            comment.setCommenterContact(contactMap.get(commentedBy));
+                        }
+                        else {
+                            Contact contact = contactDAO.getContact(commentedBy);
+                            contactMap.put(commentedBy, contact);
+                            comment.setCommenterContact(contact);
+                        }
+                    }
                     task.setComments(comments);
 
 //                    //get task assigned to
