@@ -27,7 +27,7 @@ public class ContactDAOImpl implements ContactDAO {
     @Override
     public boolean addContactInfo(Contact contact) throws Exception {
 
-        int row = jdbcTemplate.update(OnTargetQuery.CREATE_CONTACT, new Object[]{contact.getUser().getUserId(), contact.getCompany().getCompanyId(), contact.getFirstName(), contact.getLastName(), contact.getTitle(), contact.getUserImagePath()});
+        int row = jdbcTemplate.update(OnTargetQuery.CREATE_CONTACT, new Object[]{contact.getUser().getUserId(), contact.getCompany().getCompanyId(), contact.getFirstName(), contact.getLastName(), contact.getTitle(), contact.getUserImagePath(), contact.getEmail(), contact.getEmail()});
 
         if (row <= 0) {
             throw new Exception("Contact was not created");
@@ -57,7 +57,7 @@ public class ContactDAOImpl implements ContactDAO {
         logger.info("getting contact for user "+ userId);
         List<Map<String, Object>> results = jdbcTemplate.queryForList(OnTargetQuery.GET_CONTACT_BY_USER, new Object[]{userId});
         if(results == null || results.isEmpty()){
-            throw new Exception("User "+userId+" does not exists");
+            throw new Exception("User "+userId+" does not exist");
         }
         Map<String, Object> rs = results.get(0);
         Contact contact = new Contact();
@@ -69,6 +69,7 @@ public class ContactDAOImpl implements ContactDAO {
         contact.setLastName((String) rs.get("last_name"));
         contact.setTitle((String) rs.get("title"));
         contact.setUserImagePath((String) rs.get("contact_image"));
+        contact.setEmail((String) rs.get("email"));
         return contact;
     }
 
