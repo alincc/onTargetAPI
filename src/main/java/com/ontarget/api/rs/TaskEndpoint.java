@@ -15,7 +15,7 @@ public interface TaskEndpoint {
 
     public TaskListCountResponse getTaskCountByStatus(int projectId);
 
-    public OnTargetResponse addUpdateCommentToTask(TaskComment comment);
+    public UserResponse addUpdateCommentToTask(TaskComment comment);
 
     public OnTargetResponse updateTaskStatus(TaskStatusUpdateRequest request);
 
