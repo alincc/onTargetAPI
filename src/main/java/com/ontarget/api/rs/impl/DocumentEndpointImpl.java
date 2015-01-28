@@ -97,6 +97,7 @@ public class DocumentEndpointImpl implements DocumentEndpoint {
 			OnTargetResponse response = documentService.updateStatus(request);
 			return response;
 		} catch (Throwable t) {
+            logger.error("error", t);
 			OnTargetResponse response = new OnTargetResponse(OnTargetConstant.ERROR,
 					t.getMessage());
 			return response;
