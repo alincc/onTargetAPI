@@ -148,6 +148,7 @@ public class DocumentServiceImpl implements DocumentService {
 
 	@Override
 	public GetDocumentsResponse getDocuments(String userName, long projectId) throws Exception {
+        logger.info("get doc called");
 		if(userName == null || userName.trim().isEmpty()) {
 			throw new Exception("Please specify the userName!");
 		}
