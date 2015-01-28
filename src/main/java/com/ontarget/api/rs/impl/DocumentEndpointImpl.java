@@ -118,7 +118,8 @@ public class DocumentEndpointImpl implements DocumentEndpoint {
 	@GET
 	@Override
 	public GetDocumentsResponse getDocuments(@QueryParam("userName") String userName, @QueryParam("projectId") long projectId) {
-		try {
+        System.out.println("doc called");
+        try {
 			GetDocumentsResponse response = documentService.getDocuments(userName, projectId);
 			return response;
 		} catch (Throwable t) {
