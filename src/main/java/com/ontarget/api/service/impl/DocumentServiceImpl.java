@@ -163,7 +163,7 @@ public class DocumentServiceImpl implements DocumentService {
 			}
 			
 			List<Document> approvals = documentDAO.getByAssigneeUsername(userName, projectId);
-			
+			logger.info ("total approval "+approvals.size());
 			for(Document doc : approvals) {
 				doc.setDocumentTemplate(documentTemplateDAO.getByDocumentId(doc.getDocumentId()));
 				List<DocumentKeyValue> keyValues = documentKeyValueDAO.getByDocumentId(doc.getDocumentId());
