@@ -162,7 +162,7 @@ public interface OnTargetQuery {
         public static final String GET_BY_ASSIGNEE_USERNAME = "select doc.* from document doc " +
                 "inner join document_submittal sub on doc.document_id = sub.document_id " +
                 "inner join user u on u.user_id = sub.assignee_user_id " +
-                "where u.user_id=? and doc.project_id=?";
+                "where u.user_id=? and doc.project_id=? and doc.status != 'APPROVED' ";
 
         public static final String GET_DOCUMENTS_BY_PROJECT = new StringBuilder("select * from document where project_id=? and status=?").toString();
     }
