@@ -202,7 +202,9 @@ public class DocumentServiceImpl implements DocumentService {
 			}
 			return response;
 		} catch(Throwable t) {
-			logger.error("Error while updating document status!", t);
+            System.out.println(t.getMessage());
+
+            logger.error("Error while updating document status!", t);
 			throw new Exception("Unable to update the document status!");
 		}
 	}
