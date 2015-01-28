@@ -6,7 +6,7 @@ import com.ontarget.bean.Document;
 
 public interface DocumentDAO extends GenericDAO<Document>{
 
-    public boolean updateStatus(long documentId, String newStatus, String modifiedBy);
+    public boolean updateStatus(long documentId, String newStatus, int modifiedBy);
 
     public List<Document> getByCreatedBy(String createdBy, long projectId);
 

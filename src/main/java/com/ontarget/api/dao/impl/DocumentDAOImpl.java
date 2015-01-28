@@ -58,7 +58,7 @@ public class DocumentDAOImpl extends BaseGenericDAOImpl<Document> implements Doc
 	}
 
 	@Override
-	public boolean updateStatus(long documentId, String newStatus, String modifiedBy) {
+	public boolean updateStatus(long documentId, String newStatus, int modifiedBy) {
 		int count = jdbcTemplate.update(OnTargetQuery.document.UPDATE_STATUS,
 				new Object[] {newStatus, modifiedBy, documentId});
 		return (count > 0);

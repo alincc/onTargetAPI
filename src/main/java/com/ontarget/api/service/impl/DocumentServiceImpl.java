@@ -194,7 +194,7 @@ public class DocumentServiceImpl implements DocumentService {
 			Long documentId = request.getDocumentId();
 			String newStatus = request.getNewStatus();
 			User updater = request.getUpdater();
-			boolean updated = documentDAO.updateStatus(documentId, newStatus, updater.getUsername());
+			boolean updated = documentDAO.updateStatus(documentId, newStatus, updater.getUserId());
 			OnTargetResponse response = new OnTargetResponse();
 			if(updated) {
 				response.setReturnVal(OnTargetConstant.SUCCESS);
@@ -203,7 +203,6 @@ public class DocumentServiceImpl implements DocumentService {
 			return response;
 		} catch(Throwable t) {
             System.out.println(t.getMessage());
-
             logger.error("Error while updating document status!", t);
 			throw new Exception("Unable to update the document status!");
 		}
