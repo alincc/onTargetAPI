@@ -789,6 +789,8 @@ CREATE TABLE `document` (
 
 alter table document add project_id integer not null;
 
+alter table document add due_date timestamp not null;
+
 -- -----------------------------------------------------
 -- Table `ontarget`.`document_attachment`
 -- -----------------------------------------------------

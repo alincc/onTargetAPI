@@ -51,7 +51,7 @@ public class DocumentEndpointImpl implements DocumentEndpoint {
 	public AddDocumentResponse addDocument(AddDocumentRequest request) {
 		try {
 //			System.out.println("documentService is " + documentService);
-			AddDocumentResponse response = documentService.addDocument(request);
+            AddDocumentResponse response = documentService.addDocument(request);
             response.setReturnVal(OnTargetConstant.SUCCESS);
             response.setReturnMessage("sucessfully uploaded");
 			return response;

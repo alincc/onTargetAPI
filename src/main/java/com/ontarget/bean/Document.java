@@ -1,5 +1,6 @@
 package com.ontarget.bean;
 
+import java.util.Date;
 import java.util.List;
 
 
