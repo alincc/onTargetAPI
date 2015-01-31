@@ -1,5 +1,6 @@
 package com.ontarget.bean;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -11,8 +12,7 @@ public class Document extends BaseBean {
 	private String name;
 	private String status;
     private long projectId;
-	
-	
+    private Date dueDate;
 	
 	public Document() {
 		super();
@@ -95,5 +95,13 @@ public class Document extends BaseBean {
 
     public void setProjectId(long projectId) {
         this.projectId = projectId;
+    }
+
+    public Date getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(Date dueDate) {
+        this.dueDate = dueDate;
     }
 }

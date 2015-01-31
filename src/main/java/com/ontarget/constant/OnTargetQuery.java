@@ -147,7 +147,7 @@ public interface OnTargetQuery {
     }
 
     interface document {
-        public static final String ADD = "insert into document (document_template_id, name, status, created_by, created_date, modified_by, modified_date, project_id) values(?, ?, ?, ?, now(), ?, now(),?)";
+        public static final String ADD = "insert into document (document_template_id, name, status, created_by, created_date, modified_by, modified_date, project_id, due_date) values(?, ?, ?, ?, now(), ?, now(),?,?)";
 
         public static final  String UPDATE_STATUS = "update document set status=?, modified_by=?, modified_date=now() where document_id=?";
 
@@ -165,6 +165,11 @@ public interface OnTargetQuery {
                 "where u.user_name=? and doc.project_id=?";
 
         public static final String GET_DOCUMENTS_BY_PROJECT = new StringBuilder("select * from document where project_id=? and status=?").toString();
+
+
+        public static final String UPDATE_DUE_DATE = new StringBuilder("update document set due_date=?, modified_by=?,modified_date=now() where document_id=?").toString();
+
+
     }
 
     interface documentKeyValue {

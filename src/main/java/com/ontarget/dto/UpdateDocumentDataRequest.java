@@ -1,6 +1,7 @@
 package com.ontarget.dto;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import com.ontarget.bean.DocumentGridKeyValue;
@@ -14,6 +15,7 @@ public class UpdateDocumentDataRequest implements Serializable {
 	private List<DocumentKeyValue> keyValues;
 	private List<DocumentGridKeyValue> gridKeyValues;
     private long projectId;
+    private Date dueDate;
 	
 	private User user;
 
@@ -55,5 +57,13 @@ public class UpdateDocumentDataRequest implements Serializable {
 
     public void setProjectId(long projectId) {
         this.projectId = projectId;
+    }
+
+    public Date getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(Date dueDate) {
+        this.dueDate = dueDate;
     }
 }

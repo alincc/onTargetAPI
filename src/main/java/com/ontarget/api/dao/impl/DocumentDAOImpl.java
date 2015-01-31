@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -36,6 +37,7 @@ public class DocumentDAOImpl extends BaseGenericDAOImpl<Document> implements Doc
 		            ps.setInt(4, document.getCreatedBy());
 		            ps.setInt(5, document.getModifiedBy());
                     ps.setLong(6, document.getProjectId());
+                    ps.setDate(7, new java.sql.Date(document.getDueDate().getTime()));
 		            return ps;
 			}
 			
@@ -86,6 +88,13 @@ public class DocumentDAOImpl extends BaseGenericDAOImpl<Document> implements Doc
                 new Object[] { projectId , approved},
                 new DocumentRowMapper());
         return documents;
+    }
+
+    @Override
+    public boolean updateDueDate(long documentId, Date dueDate, String modifiedBy) throws Exception {
+        int count = jdbcTemplate.update(OnTargetQuery.document.UPDATE_DUE_DATE,
+                new Object[] {dueDate, modifiedBy, documentId });
+        return (count > 0);
     }
 
     static class DocumentRowMapper implements RowMapper<Document> {

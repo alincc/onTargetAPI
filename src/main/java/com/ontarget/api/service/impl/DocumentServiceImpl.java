@@ -72,6 +72,7 @@ public class DocumentServiceImpl implements DocumentService {
 			document.setCreatedBy(request.getSubmitter().getUserId());
 			document.setModifiedBy(request.getSubmitter().getUserId());
             document.setProjectId(request.getProjectId());
+            document.setDueDate(request.getDueDate());
 			document = documentDAO.insert(document);
 			
 			List<DocumentKeyValue> keyValues = request.getKeyValues();
@@ -121,6 +122,12 @@ public class DocumentServiceImpl implements DocumentService {
 		try {
 			long documentId = request.getDocumentId();
 			User user = request.getUser();
+
+            boolean updated = documentDAO.updateDueDate(request.getDocumentId(),request.getDueDate(), ""+request.getUser().getUserId());
+
+            if(!updated){
+                throw new Exception("Error while updating due date.");
+            }
 			
 			List<DocumentKeyValue> keyValues = request.getKeyValues();
 			if(keyValues != null) {

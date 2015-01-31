@@ -1,5 +1,6 @@
 package com.ontarget.dto;
 
+import java.util.Date;
 import java.util.List;
 
 import com.ontarget.bean.DocumentGridKeyValue;
@@ -14,6 +15,7 @@ public class AddDocumentRequest {
 	private User submitter;
 	private List<User> assignees;
     private long projectId;
+    private Date dueDate;
 	
 	public AddDocumentRequest() {
 		super();
@@ -73,5 +75,13 @@ public class AddDocumentRequest {
 
     public void setProjectId(long projectId) {
         this.projectId = projectId;
+    }
+
+    public Date getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(Date dueDate) {
+        this.dueDate = dueDate;
     }
 }
