@@ -6,11 +6,18 @@ import java.util.Date;
 public class BaseBean implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    protected int createdBy;
+    protected User createdBy;
     protected Date createdDate;
-    protected int modifiedBy;
+    protected User modifiedBy;
     protected Date modifiedDate;
 
+    public User getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(User createdBy) {
+        this.createdBy = createdBy;
+    }
 
     public Date getCreatedDate() {
         return createdDate;
@@ -20,28 +27,19 @@ public class BaseBean implements Serializable {
         this.createdDate = createdDate;
     }
 
-    public Date getModifiedDate() {
-        return modifiedDate;
-    }
-
-    public int getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(int createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public int getModifiedBy() {
+    public User getModifiedBy() {
         return modifiedBy;
     }
 
-    public void setModifiedBy(int modifiedBy) {
+    public void setModifiedBy(User modifiedBy) {
         this.modifiedBy = modifiedBy;
+    }
+
+    public Date getModifiedDate() {
+        return modifiedDate;
     }
 
     public void setModifiedDate(Date modifiedDate) {
         this.modifiedDate = modifiedDate;
     }
-
 }

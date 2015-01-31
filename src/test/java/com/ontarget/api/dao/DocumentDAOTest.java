@@ -34,16 +34,16 @@ public class DocumentDAOTest extends BaseTest {
     public void testInsert() {
     	DocumentTemplate documentTemplate = new DocumentTemplate();
     	documentTemplate.setName("RFI Template");
-    	documentTemplate.setCreatedBy(0);
-    	documentTemplate.setModifiedBy(0);
+    	documentTemplate.setCreatedBy(null);
+    	documentTemplate.setModifiedBy(null);
     	documentTemplateDAO.insert(documentTemplate);
     	
     	Document document = new Document();
     	document.setDocumentTemplate(documentTemplate);
     	document.setName("RFI Document");
     	document.setStatus(OnTargetConstant.DocumentStatus.SUBMITTED);
-    	document.setCreatedBy(0);
-    	document.setModifiedBy(0);
+    	document.setCreatedBy(null);
+    	document.setModifiedBy(null);
     	
     	List<DocumentKeyValue> keyValues = new ArrayList<>();
     	keyValues.add(new DocumentKeyValue(document, "name", "Sebastian Praysis"));
@@ -67,16 +67,16 @@ public class DocumentDAOTest extends BaseTest {
     	
     	documentTemplate = new DocumentTemplate();
     	documentTemplate.setName("PO Template");
-    	documentTemplate.setCreatedBy(0);
-    	documentTemplate.setModifiedBy(0);
+    	documentTemplate.setCreatedBy(null);
+    	documentTemplate.setModifiedBy(null);
     	documentTemplateDAO.insert(documentTemplate);
     	
     	document = new Document();
     	document.setDocumentTemplate(documentTemplate);
     	document.setName("PO Document");
     	document.setStatus(OnTargetConstant.DocumentStatus.SUBMITTED);
-    	document.setCreatedBy(0);
-    	document.setModifiedBy(0);
+    	document.setCreatedBy(null);
+    	document.setModifiedBy(null);
     	
     	keyValues = new ArrayList<>();
     	keyValues.add(new DocumentKeyValue(document, "name", "Sebastian Praysis"));
@@ -122,16 +122,16 @@ public class DocumentDAOTest extends BaseTest {
     public void testUpdateStatus() {
     	DocumentTemplate documentTemplate = new DocumentTemplate();
     	documentTemplate.setName("RFI Template");
-    	documentTemplate.setCreatedBy(0);
-    	documentTemplate.setModifiedBy(0);
+    	documentTemplate.setCreatedBy(null);
+    	documentTemplate.setModifiedBy(null);
     	documentTemplateDAO.insert(documentTemplate);
     	
     	Document document = new Document();
     	document.setDocumentTemplate(documentTemplate);
     	document.setName("RFI Document");
     	document.setStatus(OnTargetConstant.DocumentStatus.SUBMITTED);
-    	document.setCreatedBy(0);
-    	document.setModifiedBy(0);
+    	document.setCreatedBy(null);
+    	document.setModifiedBy(null);
     	documentDAO.insert(document);
     	document = documentDAO.read(document.getDocumentId());
     	

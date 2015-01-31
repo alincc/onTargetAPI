@@ -7,7 +7,13 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
+import com.ontarget.api.dao.ContactDAO;
+import com.ontarget.api.dao.UserDAO;
+import com.ontarget.bean.Contact;
+import com.ontarget.bean.User;
+import com.sun.jersey.api.spring.Autowire;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -22,6 +28,10 @@ import com.ontarget.constant.OnTargetQuery;
 public class DocumentDAOImpl extends BaseGenericDAOImpl<Document> implements DocumentDAO {
 	private static final Logger logger = Logger.getLogger(BaseGenericDAOImpl.class);
 
+    @Autowired
+    private ContactDAO contactDAO;
+
+
 	@Override
 	public Document insert(final Document document) {
 		KeyHolder kh = new GeneratedKeyHolder();
@@ -34,8 +44,8 @@ public class DocumentDAOImpl extends BaseGenericDAOImpl<Document> implements Doc
 		            ps.setLong(1, document.getDocumentTemplate().getDocumentTemplateId());
 		            ps.setString(2, document.getName());
 		            ps.setString(3, document.getStatus());
-		            ps.setInt(4, document.getCreatedBy());
-		            ps.setInt(5, document.getModifiedBy());
+		            ps.setInt(4, document.getCreatedBy().getUserId());
+		            ps.setInt(5, document.getModifiedBy().getUserId());
                     ps.setLong(6, document.getProjectId());
                     ps.setDate(7, new java.sql.Date(document.getDueDate().getTime()));
 		            return ps;
@@ -97,7 +107,7 @@ public class DocumentDAOImpl extends BaseGenericDAOImpl<Document> implements Doc
         return (count > 0);
     }
 
-    static class DocumentRowMapper implements RowMapper<Document> {
+     class DocumentRowMapper implements RowMapper<Document> {
 
 		@Override
 		public Document mapRow(ResultSet rs, int index) throws SQLException {
@@ -106,6 +116,18 @@ public class DocumentDAOImpl extends BaseGenericDAOImpl<Document> implements Doc
 			//doc.setDocumentTemplate(rs.getLong("document_template_id"));
 			doc.setName(rs.getString("name"));
 			doc.setStatus(rs.getString("status"));
+
+            Contact contact = null;
+            try {
+                contact = contactDAO.getContact(rs.getInt("created_by"));
+            } catch (Exception e) {
+                logger.error("Error while getting contact info", e);
+                throw new SQLException();
+            }
+            User createdBy = new User();
+            createdBy.setContact(contact);
+            doc.setCreatedBy(createdBy);
+            doc.setDueDate(rs.getDate("due_date"));
 			return doc;
 		}
 		

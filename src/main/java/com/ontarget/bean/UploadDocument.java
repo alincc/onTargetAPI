@@ -21,8 +21,8 @@ public class UploadDocument extends BaseBean{
 	public UploadDocument(UploadDocumentRequest requestData){
 		this.projectId=requestData.getProjectId();
 		this.name=requestData.getName();
-		this.createdBy=requestData.getUser().getUserId();
-		this.modifiedBy=requestData.getUser().getUserId();
+		this.createdBy=requestData.getUser();
+		this.modifiedBy=requestData.getUser();
 		this.fileType=requestData.getFileType();
 		this.createdDate=new Date();
 		this.modifiedDate=new Date();

@@ -13,7 +13,7 @@ public class Document extends BaseBean {
 	private String status;
     private long projectId;
     private Date dueDate;
-	
+
 	public Document() {
 		super();
 	}
