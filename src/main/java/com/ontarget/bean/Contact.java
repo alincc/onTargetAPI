@@ -14,6 +14,15 @@ public class Contact implements Serializable{
     private Company company;
     private User user;
     private String userImagePath;
+    private String email;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public Contact() {
     }

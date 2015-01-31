@@ -222,16 +222,26 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     @Transactional(rollbackFor = {Exception.class})
-    public boolean addTaskComment(TaskComment comment) throws Exception {
+    public Contact addTaskComment(TaskComment comment) throws Exception {
         if (comment.getTaskCommentId() > 0) {
-            return taskDAO.updateComment(comment);
+            if(taskDAO.updateComment(comment)){
+                Contact contact = contactDAO.getContact(comment.getCommentedBy());
+                return contact;
+            }
+            else
+                throw new Exception("task not updated");
         } else {
             int taskCommentId = taskDAO.addComment(comment);
             if (taskCommentId > 0) {
-                return true;
+                Contact contact = contactDAO.getContact(comment.getCommentedBy());
+                return contact;
+            }
+            else {
+                throw new Exception("Task not added");
             }
         }
-        return false;
+
+
     }
 
     @Override

@@ -1,9 +1,6 @@
 package com.ontarget.api.service;
 
-import com.ontarget.bean.DependentTask;
-import com.ontarget.bean.FileAttachment;
-import com.ontarget.bean.Task;
-import com.ontarget.bean.TaskComment;
+import com.ontarget.bean.*;
 
 import java.util.List;
 import java.util.Set;
@@ -25,7 +22,7 @@ public interface TaskService {
 
     public List<com.ontarget.bean.TaskStatusCount> getTaskCountByStatus(int projectId) throws Exception;
 
-    boolean addTaskComment(TaskComment comment) throws Exception;
+    Contact addTaskComment(TaskComment comment) throws Exception;
 
     public boolean updateTaskStatus(long taskId, String taskStatus, int userId) throws Exception;
 

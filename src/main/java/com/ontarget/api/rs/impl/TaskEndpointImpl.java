@@ -3,8 +3,10 @@ package com.ontarget.api.rs.impl;
 import com.ontarget.api.response.TaskListCountResponse;
 import com.ontarget.api.rs.TaskEndpoint;
 import com.ontarget.api.service.TaskService;
+import com.ontarget.bean.Contact;
 import com.ontarget.bean.Task;
 import com.ontarget.bean.TaskComment;
+import com.ontarget.bean.User;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.*;
 import com.ontarget.exception.DateAfterException;
@@ -31,6 +33,8 @@ public class TaskEndpointImpl implements TaskEndpoint {
 
     @Autowired
     private TaskService taskService;
+
+
 
     @Override
     @Path("/addTask")
@@ -109,10 +113,18 @@ public class TaskEndpointImpl implements TaskEndpoint {
     @Override
     @POST
     @Path("/addComment")
-    public OnTargetResponse addUpdateCommentToTask(TaskComment comment) {
-        OnTargetResponse response = new OnTargetResponse();
+    public UserResponse addUpdateCommentToTask(TaskComment comment) {
+        UserResponse response = new UserResponse();
         try {
-            if (taskService.addTaskComment(comment)) {
+            Contact contact = taskService.addTaskComment(comment);
+            if (contact == null) {
+                response.setReturnMessage("Add task comment failed");
+                response.setReturnVal(OnTargetConstant.ERROR);
+            }
+            else {
+                User user = new User();
+                user.setContact(contact);
+                response.setUser(user);
                 response.setReturnMessage("Successfully added Comment");
                 response.setReturnVal(OnTargetConstant.SUCCESS);
             }

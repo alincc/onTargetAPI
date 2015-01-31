@@ -155,6 +155,7 @@ public class DocumentServiceImpl implements DocumentService {
 
 	@Override
 	public GetDocumentsResponse getDocuments(String userName, long projectId) throws Exception {
+//        logger.info("get doc called");
 		if(userName == null || userName.trim().isEmpty()) {
 			throw new Exception("Please specify the userName!");
 		}
@@ -170,7 +171,8 @@ public class DocumentServiceImpl implements DocumentService {
 			}
 			
 			List<Document> approvals = documentDAO.getByAssigneeUsername(userName, projectId);
-			
+			logger.info ("total approval "+approvals.size());
+//            System.out.println("total approval "+approvals.size());
 			for(Document doc : approvals) {
 				doc.setDocumentTemplate(documentTemplateDAO.getByDocumentId(doc.getDocumentId()));
 				List<DocumentKeyValue> keyValues = documentKeyValueDAO.getByDocumentId(doc.getDocumentId());
@@ -199,7 +201,7 @@ public class DocumentServiceImpl implements DocumentService {
 			Long documentId = request.getDocumentId();
 			String newStatus = request.getNewStatus();
 			User updater = request.getUpdater();
-			boolean updated = documentDAO.updateStatus(documentId, newStatus, updater.getUsername());
+			boolean updated = documentDAO.updateStatus(documentId, newStatus, updater.getUserId());
 			OnTargetResponse response = new OnTargetResponse();
 			if(updated) {
 				response.setReturnVal(OnTargetConstant.SUCCESS);
@@ -207,7 +209,8 @@ public class DocumentServiceImpl implements DocumentService {
 			}
 			return response;
 		} catch(Throwable t) {
-			logger.error("Error while updating document status!", t);
+            System.out.println(t.getMessage());
+            logger.error("Error while updating document status!", t);
 			throw new Exception("Unable to update the document status!");
 		}
 	}
