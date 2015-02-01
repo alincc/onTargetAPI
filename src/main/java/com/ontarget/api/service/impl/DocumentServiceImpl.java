@@ -253,7 +253,7 @@ public class DocumentServiceImpl implements DocumentService {
 			return response;
 		} catch(Throwable t) {
 			logger.error("Unable to add document attachment", t);
-			throw new Exception("Unable to add document attachment!");
+			throw new Exception("Unable to add document attachment");
 		}
 	}
 
