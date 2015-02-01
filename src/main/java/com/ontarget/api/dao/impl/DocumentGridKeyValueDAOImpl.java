@@ -23,8 +23,8 @@ public class DocumentGridKeyValueDAOImpl
                 gridKeyVal.getGridRowIndex(),
                 gridKeyVal.getKey(),
                 gridKeyVal.getValue(),
-                gridKeyVal.getCreatedBy(),
-                gridKeyVal.getModifiedBy());
+                gridKeyVal.getCreatedBy().getUserId(),
+                gridKeyVal.getModifiedBy().getUserId());
         return gridKeyVal;
     }
 
