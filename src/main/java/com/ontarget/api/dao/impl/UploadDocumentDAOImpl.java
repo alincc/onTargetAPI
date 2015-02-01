@@ -45,7 +45,7 @@ public class UploadDocumentDAOImpl implements UploadDocumentDAO {
 	                        ps.setString(1, documentBean.getName());
 	                        ps.setString(2,documentBean.getFileType());
 	                        ps.setInt(3, documentBean.getProjectId());
-	                        ps.setInt(4,documentBean.getCreatedBy());
+	                        ps.setInt(4,documentBean.getCreatedBy().getUserId());
 	                        return ps;
 	                    }
 	                },
