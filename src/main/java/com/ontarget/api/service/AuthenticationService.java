@@ -12,13 +12,18 @@ import java.util.List;
  */
 public interface AuthenticationService {
 
-    public UserResponse signIn(User user) throws Exception;
+	public UserResponse signIn(User user) throws Exception;
 
-    public boolean registrationRequest(UserRegistrationRequest request) throws Exception;
+	public boolean registrationRequest(UserRegistrationRequest request)
+			throws Exception;
 
-    public boolean logout(String username) throws Exception;
+	public boolean logout(String username) throws Exception;
 
-    public UserRegistationApprovalResponse getUserRegistrationPendingRequests() throws Exception;
+	public UserRegistationApprovalResponse getUserRegistrationPendingRequests()
+			throws Exception;
 
-    public boolean approvePendingRegistrationRequest(UserRegistrationRequest requests) throws Exception;
+	public boolean approvePendingRegistrationRequest(
+			UserRegistrationRequest requests) throws Exception;
+
+	
 }

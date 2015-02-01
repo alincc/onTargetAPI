@@ -1,0 +1,14 @@
+<html>
+<body>
+<h2>Dear ${firstName},</h2>
+
+<p> You have been invited to onTarget. To approve click this link</p>
+
+<p>${url}</p>
+
+
+<p>thanks<br>
+    OnTarget team
+</p>
+</body>
+</html>

@@ -27,162 +27,206 @@ import java.util.Map;
 @Repository
 public class AuthenticationDAOImpl implements AuthenticationDAO {
 
-    private Logger logger = Logger.getLogger(AuthenticationDAO.class);
+	private Logger logger = Logger.getLogger(AuthenticationDAO.class);
 
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
 
-    @Override
-    public boolean saveRegistrationRequest(UserRegistrationRequest request) throws Exception {
+	@Override
+	public boolean saveRegistrationRequest(UserRegistrationRequest request)
+			throws Exception {
 
-        int row = jdbcTemplate.update(OnTargetQuery.REGISTRATION_REQUEST, new Object[]{request.getProjectId(), request.getName(), request.getEmail(), request.getCompanyName(), request.getPhoneNumber(), request.getMsg(), OnTargetConstant.REGISTRATION_PENDING, request.getTokenId()});
-        if (row == 0) {
-            throw new Exception("Error while inserting registration request.");
-        }
+		int row = jdbcTemplate.update(
+				OnTargetQuery.REGISTRATION_REQUEST,
+				new Object[] { request.getProjectId(), request.getName(),
+						request.getEmail(), request.getCompanyName(),
+						request.getPhoneNumber(), request.getMsg(),
+						OnTargetConstant.REGISTRATION_PENDING,
+						request.getTokenId() });
+		if (row == 0) {
+			throw new Exception("Error while inserting registration request.");
+		}
 
-        return true;
-    }
+		return true;
+	}
 
-    @Override
-    public boolean logout(String username) throws Exception {
-        int row = jdbcTemplate.update(OnTargetQuery.EXPIRE_TOKEN, new Object[]{username});
-        if (row == 0) {
-            throw new Exception("Error while inserting registration request.");
-        }
-        return true;
-    }
+	@Override
+	public boolean logout(String username) throws Exception {
+		int row = jdbcTemplate.update(OnTargetQuery.EXPIRE_TOKEN,
+				new Object[] { username });
+		if (row == 0) {
+			throw new Exception("Error while inserting registration request.");
+		}
+		return true;
+	}
 
-    @Override
-    public UserRegistrationRequest getUserRegistrationRequestInfo(int userRequestId) throws Exception {
-        return jdbcTemplate.queryForObject(OnTargetQuery.GET_USER_REQUEST_INFO, new Object[]{userRequestId}, new BeanPropertyRowMapper<UserRegistrationRequest>(UserRegistrationRequest.class));
-    }
+	@Override
+	public UserRegistrationRequest getUserRegistrationRequestInfo(
+			int userRequestId) throws Exception {
+		return jdbcTemplate.queryForObject(OnTargetQuery.GET_USER_REQUEST_INFO,
+				new Object[] { userRequestId },
+				new BeanPropertyRowMapper<UserRegistrationRequest>(
+						UserRegistrationRequest.class));
+	}
+	
 
-    @Override
-    public List<UserRegistrationRequest> getUserRegistrationPendingRequests() throws Exception {
-//        return jdbcTemplate.queryForList(OnTargetQuery.GET_USER_REGISTRATION_PENDING_REQUEST, UserRegistrationRequest.class);
+	@Override
+	public List<UserRegistrationRequest> getUserRegistrationPendingRequests()
+			throws Exception {
+		// return
+		// jdbcTemplate.queryForList(OnTargetQuery.GET_USER_REGISTRATION_PENDING_REQUEST,
+		// UserRegistrationRequest.class);
 
-        List<UserRegistrationRequest> userRegistrationRequests = new LinkedList<UserRegistrationRequest>();
-        jdbcTemplate.query(OnTargetQuery.GET_USER_REGISTRATION_PENDING_REQUEST, new Object[]{}, new RowMapper<UserRegistrationRequest>() {
-            @Override
-            public UserRegistrationRequest mapRow(ResultSet resultSet, int i) throws SQLException {
-                UserRegistrationRequest registrationRequest = new UserRegistrationRequest();
-                registrationRequest.setStatus(resultSet.getString("status"));
-                registrationRequest.setTokenId(resultSet.getString("registration_token"));
-                registrationRequest.setPhoneNumber(resultSet.getString("phone_number"));
-                registrationRequest.setCompanyName(resultSet.getString("company_name"));
-                registrationRequest.setEmail(resultSet.getString("email"));
-                registrationRequest.setId(resultSet.getInt("id"));
-                registrationRequest.setMsg(resultSet.getString("msg"));
-                registrationRequest.setName(resultSet.getString("name"));
-                userRegistrationRequests.add(registrationRequest);
-                return registrationRequest;
-            }
-        });
+		List<UserRegistrationRequest> userRegistrationRequests = new LinkedList<UserRegistrationRequest>();
+		jdbcTemplate.query(OnTargetQuery.GET_USER_REGISTRATION_PENDING_REQUEST,
+				new Object[] {}, new RowMapper<UserRegistrationRequest>() {
+					@Override
+					public UserRegistrationRequest mapRow(ResultSet resultSet,
+							int i) throws SQLException {
+						UserRegistrationRequest registrationRequest = new UserRegistrationRequest();
+						registrationRequest.setStatus(resultSet
+								.getString("status"));
+						registrationRequest.setTokenId(resultSet
+								.getString("registration_token"));
+						registrationRequest.setPhoneNumber(resultSet
+								.getString("phone_number"));
+						registrationRequest.setCompanyName(resultSet
+								.getString("company_name"));
+						registrationRequest.setEmail(resultSet
+								.getString("email"));
+						registrationRequest.setId(resultSet.getInt("id"));
+						registrationRequest.setMsg(resultSet.getString("msg"));
+						registrationRequest.setName(resultSet.getString("name"));
+						userRegistrationRequests.add(registrationRequest);
+						return registrationRequest;
+					}
+				});
 
-        return userRegistrationRequests;
-    }
+		return userRegistrationRequests;
+	}
 
-    @Override
-    public boolean approvePendingRegistrationRequest(UserRegistrationRequest req) throws Exception {
-        // approve the user request.
+	@Override
+	public boolean approvePendingRegistrationRequest(UserRegistrationRequest req)
+			throws Exception {
+		// approve the user request.
 
-        boolean approved = this.approveUserRequest(req.getId());
-        if (!approved) {
-            throw new Exception("User cannot be approved for request id: " + req.getId());
-        }
+		boolean approved = this.approveUserRequest(req.getId());
+		if (!approved) {
+			throw new Exception("User cannot be approved for request id: "
+					+ req.getId());
+		}
 
-        boolean created = this.createUser(req);
-        if (!created) {
-            throw new Exception("User cannot be created for request id: " + req.getId());
-        }
+		boolean created = this.createUser(req);
+		if (!created) {
+			throw new Exception("User cannot be created for request id: "
+					+ req.getId());
+		}
 
+		return true;
+	}
 
-        return true;
-    }
+	@Override
+	public boolean approveUserRequest(int userRequestId) throws Exception {
+		int row = jdbcTemplate.update(
+				OnTargetQuery.APPROVE_PENDING_USER_REQUEST, new Object[] {
+						OnTargetConstant.REGSITRATION_REQUEST_APPROVED,
+						userRequestId });
+		if (row > 0) {
+			return true;
+		}
 
+		return false;
+	}
 
-    @Override
-    public boolean approveUserRequest(int userRequestId) throws Exception {
-        int row = jdbcTemplate.update(OnTargetQuery.APPROVE_PENDING_USER_REQUEST, new Object[]{OnTargetConstant.REGSITRATION_REQUEST_APPROVED, userRequestId});
-        if (row > 0) {
-            return true;
-        }
+	@Override
+	public boolean createUser(UserRegistrationRequest request) throws Exception {
+		int row = jdbcTemplate.update(
+				OnTargetQuery.CREATE_NEW_USER,
+				new Object[] { request.getEmail(), 1,
+						TokenUtil.getPasswordToken(),
+						OnTargetConstant.USER_STATUS.PENDING, 1,
+						OnTargetConstant.AccountStatus.ACCT_NEW });
+		if (row > 0) {
+			return true;
+		}
 
-        return false;
-    }
+		return false;
+	}
 
-    @Override
-    public boolean createUser(UserRegistrationRequest request) throws Exception {
-        int row = jdbcTemplate.update(OnTargetQuery.CREATE_NEW_USER, new Object[]{request.getEmail(), 1, TokenUtil.getPasswordToken(), OnTargetConstant.USER_STATUS.PENDING, 1, OnTargetConstant.AccountStatus.ACCT_NEW});
-        if (row > 0) {
-            return true;
-        }
+	@Override
+	public User getUserSignInInfo(User user) throws Exception {
+		logger.info("Authenticating user: " + user);
 
-        return false;
-    }
+		final String password = user.getPassword();
 
-    @Override
-    public User getUserSignInInfo(User user) throws Exception {
-        logger.info("Authenticating user: " + user);
+		final User returnUser = new User();
+		returnUser.setUsername(user.getUsername());
+		jdbcTemplate.query(OnTargetQuery.USER_LOGIN,
+				new Object[] { user.getUsername() }, new RowMapper<User>() {
+					@Override
+					public User mapRow(ResultSet resultSet, int i)
+							throws SQLException {
+						String salt = resultSet.getString("salt");
+						String hashedPassword = Security.encodePassword(
+								password, salt);
 
-        final String password = user.getPassword();
+						if (hashedPassword.equals(resultSet
+								.getString("password"))) {
+							returnUser.setUserId(resultSet.getInt("user_id"));
+							returnUser.setAccountStatus(resultSet
+									.getString("account_status"));
+							returnUser.setUserStatus(resultSet
+									.getString("user_status"));
+							returnUser.setUserTypeId(resultSet
+									.getInt("user_type_id"));
+							return returnUser;
+						} else {
+							return null;
+						}
+					}
+				});
+		return returnUser;
 
-        final User returnUser = new User();
-        jdbcTemplate.query(OnTargetQuery.USER_LOGIN, new Object[]{user.getUsername()}, new RowMapper<User>() {
-            @Override
-            public User mapRow(ResultSet resultSet, int i) throws SQLException {
-                String salt = resultSet.getString("salt");
-                String hashedPassword = Security.encodePassword(password, salt);
+	}
 
-                if (hashedPassword.equals(resultSet.getString("password"))) {
-                    returnUser.setUsername(user.getUsername());
-                    returnUser.setUserId(resultSet.getInt("user_id"));
-                    returnUser.setAccountStatus(resultSet.getString("account_status"));
-                    returnUser.setUserStatus(resultSet.getString("user_status"));
-                    returnUser.setUserTypeId(resultSet.getInt("user_type_id"));
-                    return returnUser;
-                } else {
-                    return null;
-                }
-            }
-        });
-        return returnUser;
+	@Override
+	public User getUserInfoByUsername(User user) throws Exception {
+		logger.info("Authenticating user: " + user);
 
-    }
+		final String password = user.getPassword();
 
+		final User returnUser = new User();
+		jdbcTemplate.query(OnTargetQuery.USER_LOGIN,
+				new Object[] { user.getUsername() }, new RowMapper<User>() {
+					@Override
+					public User mapRow(ResultSet resultSet, int i)
+							throws SQLException {
+						returnUser.setUsername(user.getUsername());
+						returnUser.setUserId(resultSet.getInt("user_id"));
+						return null;
+					}
+				});
+		return returnUser;
 
-    @Override
-    public User getUserInfoByUsername(User user) throws Exception {
-        logger.info("Authenticating user: " + user);
+	}
 
-        final String password = user.getPassword();
+	@Override
+	public boolean changePassword(long userId, String password, String salt)
+			throws Exception {
+		// System.out.println("user " + userId + " password " + password +
+		// " salt " + salt);
+		int row = jdbcTemplate.update(OnTargetQuery.CHANGE_USER_PASSWORD,
+				new Object[] { password, salt, userId });
+		return row > 0;
+	}
 
-        final User returnUser = new User();
-        jdbcTemplate.query(OnTargetQuery.USER_LOGIN, new Object[]{user.getUsername()}, new RowMapper<User>() {
-            @Override
-            public User mapRow(ResultSet resultSet, int i) throws SQLException {
-                returnUser.setUsername(user.getUsername());
-                returnUser.setUserId(resultSet.getInt("user_id"));
-                return null;
-            }
-        });
-        return returnUser;
+	@Override
+	public User getUserInfoById(long userId) throws Exception {
+		Map<String, Object> userInfoMap = jdbcTemplate.queryForMap(
+				OnTargetQuery.GET_USER_BY_ID, new Object[] { userId });
+		User user = new User();
+		user.setUsername((String) userInfoMap.get("user_name"));
 
-    }
-
-    @Override
-    public boolean changePassword(long userId, String password, String salt) throws Exception {
-//        System.out.println("user " + userId + " password " + password + " salt " + salt);
-        int row = jdbcTemplate.update(OnTargetQuery.CHANGE_USER_PASSWORD, new Object[]{password, salt, userId});
-        return row > 0;
-    }
-
-    @Override
-    public User getUserInfoById(long userId) throws Exception {
-        Map<String, Object> userInfoMap =  jdbcTemplate.queryForMap(OnTargetQuery.GET_USER_BY_ID, new Object[]{userId});
-        User user = new User();
-        user.setUsername((String)userInfoMap.get("user_name"));
-
-        return user;
-    }
+		return user;
+	}
 }

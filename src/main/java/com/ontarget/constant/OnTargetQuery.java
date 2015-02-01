@@ -12,6 +12,8 @@ public interface OnTargetQuery {
     public static final String EXPIRE_TOKEN = new StringBuilder("UPDATE USER_SESSION_INFO SET EXPIRE_DATE=NOW(),is_expired='1' WHERE USER_ID=(SELECT USER_ID FROM USER WHERE USER_NAME=?) and is_expired='0'").toString();
 
     public static final String GET_USER_REQUEST_INFO = new StringBuilder("SELECT REGISTRATION_REQ_ID,NAME,EMAIL,COMPANY_NAME,PHONE_NUMBER,MSG,STATUS FROM REGISTRATION_REQUEST WHERE REGISTRATION_REQ_ID=?").toString();
+    
+    public static final String GET_REGISTRATION_REQUEST = new StringBuilder("SELECT id,first_name,last_name,EMAIL,PHONE_NUMBER,MSG,STATUS,registration_token FROM REGISTRATION_REQUEST WHERE id=?").toString();
 
     public static final String GET_USER_REGISTRATION_PENDING_REQUEST = new StringBuilder("SELECT * FROM REGISTRATION_REQUEST WHERE status='PENDING'").toString();
 
@@ -137,6 +139,10 @@ public interface OnTargetQuery {
 
 
     public static final String GET_TASK_BY_PROJECT_BY_STATUS = new StringBuilder("select *,if(status='COMPLETED',true,false) as completed from project_task t where t.project_id in ( select p.project_id from project p where p.project_id=? or p.project_parent_id=?) and t.status=? and t.modified_date <= t.end_date").toString();
+    
+    public static final String NEW_REGISTRATION_REQUEST = new StringBuilder("INSERT INTO REGISTRATION_REQUEST (first_name,last_name,EMAIL,PHONE_NUMBER, MSG,STATUS, registration_token) VALUES (?,?,?,?,?,?,?)").toString();
+    
+    public static final String PENDING_REGISTRATION_REQUEST_LIST = new StringBuilder("SELECT * FROM REGISTRATION_REQUEST WHERE status='PENDING' AND project_id is null").toString();
 
     interface documentTemplate {
         public static final String ADD = "insert into document_template (name, created_by, created_date, modified_by, modfied_date) values(?, ?, now(), ?, now())";
@@ -165,11 +171,7 @@ public interface OnTargetQuery {
                 "where u.user_id=? and doc.project_id=? and doc.status != 'APPROVED' ";
 
         public static final String GET_DOCUMENTS_BY_PROJECT = new StringBuilder("select * from document where project_id=? and status=?").toString();
-
-
         public static final String UPDATE_DUE_DATE = new StringBuilder("update document set due_date=?, modified_by=?,modified_date=now() where document_id=?").toString();
-
-
     }
 
     interface documentKeyValue {
