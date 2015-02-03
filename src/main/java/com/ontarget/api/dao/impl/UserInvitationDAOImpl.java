@@ -134,6 +134,7 @@ public class UserInvitationDAOImpl implements UserInvitationDAO {
 							int index) throws SQLException {
 						UserRegistrationRequest userRegistrationRequest = new UserRegistrationRequest();
 						userRegistrationRequest.setId(rs.getInt("id"));
+						userRegistrationRequest.setStatus(rs.getString("status"));
 						return userRegistrationRequest;
 
 					}
