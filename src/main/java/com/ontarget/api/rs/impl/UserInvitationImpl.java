@@ -117,7 +117,7 @@ public class UserInvitationImpl implements UserInvitation {
 	}
 
 	@Override
-	@POST
+	@GET
 	@Path(WSResourceKeyConstant.VALIDATE_LINK_REQUEST)
 	public OnTargetResponse verifyToken(@QueryParam("q") String token) {
 		OnTargetResponse response = new OnTargetResponse();
