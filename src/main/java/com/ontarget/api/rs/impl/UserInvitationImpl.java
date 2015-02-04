@@ -144,7 +144,7 @@ public class UserInvitationImpl implements UserInvitation {
 			logger.info("status:: " + status);
 			if (status != null
 					&& (status
-							.equals(OnTargetConstant.REGISTRATION_REQUEST_NEW))) {
+							.equalsIgnoreCase(OnTargetConstant.REGISTRATION_REQUEST_NEW))) {
 				if (System.currentTimeMillis() - userRegistration.getTsCreate() > OnTargetConstant.TOKEN_MAX_LIFE) {
 					response.setReturnVal(OnTargetConstant.ERROR);
 					response.setReturnMessage("expired link. Please try with new link");
