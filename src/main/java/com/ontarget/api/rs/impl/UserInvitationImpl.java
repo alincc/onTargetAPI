@@ -142,9 +142,9 @@ public class UserInvitationImpl implements UserInvitation {
 
 			String status = userRegistration.getStatus();
 			logger.info("status:: " + status);
-			if (status != null
-					&& (status
-							.equalsIgnoreCase(OnTargetConstant.REGISTRATION_REQUEST_NEW))) {
+			// if (status != null
+			// && (status
+			// .equals(OnTargetConstant.REGISTRATION_REQUEST_NEW))) {
 				if (System.currentTimeMillis() - userRegistration.getTsCreate() > OnTargetConstant.TOKEN_MAX_LIFE) {
 					response.setReturnVal(OnTargetConstant.ERROR);
 					response.setReturnMessage("expired link. Please try with new link");
@@ -154,10 +154,10 @@ public class UserInvitationImpl implements UserInvitation {
 					response.setReturnMessage(OnTargetConstant.TOKEN_VERIFIED);
 					return response;
 				}
-			} else {
-				response.setReturnVal(OnTargetConstant.ERROR);
-				response.setReturnMessage("Your invitation request is not approved.");
-			}
+//			} else {
+//				response.setReturnVal(OnTargetConstant.ERROR);
+//				response.setReturnMessage("Your invitation request is not approved.");
+//			}
 		} catch (Exception e) {
 			logger.error("Provided token does not match with db.", e);
 			response.setReturnMessage(OnTargetConstant.TOKEN_VERIFICATION_FAILED);
