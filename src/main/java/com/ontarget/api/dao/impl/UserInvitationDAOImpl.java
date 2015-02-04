@@ -7,14 +7,10 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-
 import com.ontarget.api.dao.UserInvitationDAO;
-import com.ontarget.bean.AccidentReport;
-import com.ontarget.bean.Company;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.constant.OnTargetQuery;
 import com.ontarget.dto.UserRegistrationRequest;
@@ -135,6 +131,7 @@ public class UserInvitationDAOImpl implements UserInvitationDAO {
 						UserRegistrationRequest userRegistrationRequest = new UserRegistrationRequest();
 						userRegistrationRequest.setId(rs.getInt("id"));
 						userRegistrationRequest.setStatus(rs.getString("status"));
+						logger.info("Status dao::" +userRegistrationRequest.getStatus());
 						return userRegistrationRequest;
 
 					}

@@ -100,6 +100,7 @@ public class UserInvitationImpl implements UserInvitation {
 			boolean success = userInvitationService.approvePendingRequest(id);
 			logger.info("Approval request status:: " + success);
 			if (success) {
+				emailService.sendInvitationEmailForRegistration(id);
 				response.setReturnVal(OnTargetConstant.SUCCESS);
 				response.setReturnMessage(OnTargetConstant.REGISTRATION_APPROVAL_REQUEST_SUCCESS);
 				logger.info("Approved successfully for id:: " + id);
@@ -140,6 +141,7 @@ public class UserInvitationImpl implements UserInvitation {
 			}
 
 			String status = userRegistration.getStatus();
+			logger.info("status:: " + status);
 			if (status != null
 					&& (status
 							.equals(OnTargetConstant.REGISTRATION_REQUEST_NEW))) {
@@ -148,14 +150,8 @@ public class UserInvitationImpl implements UserInvitation {
 					response.setReturnMessage("expired link. Please try with new link");
 					return response;
 				} else {
-					emailService
-							.sendInvitationEmailForRegistration(userRegistration
-									.getId());
 					response.setReturnVal(OnTargetConstant.SUCCESS);
 					response.setReturnMessage(OnTargetConstant.TOKEN_VERIFIED);
-
-					response.setReturnVal(OnTargetConstant.ERROR);
-					response.setReturnMessage("Deactivated Link. Please try with new link");
 					return response;
 				}
 			} else {
