@@ -54,8 +54,11 @@ public class ProjectServiceImpl implements ProjectService {
 
         int userId = request.getUser().getUserId();
 
-        Map<String, Object> compMap = contactDAO.getContactDetail(userId);
-        int companyId = (Integer) compMap.get("contact_company_id");
+        int companyId = request.getProject().getCompanyId();
+        if(request.getProject().getProjectParentId() == 0) {
+            Map<String, Object> compMap = contactDAO.getContactDetail(userId);
+            companyId = (Integer) compMap.get("contact_company_id");
+        }
 
         Project project = request.getProject();
         project.setCompanyId(companyId);
