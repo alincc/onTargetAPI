@@ -586,7 +586,7 @@ CREATE  TABLE IF NOT EXISTS `ontarget`.`task_assignee` (
 
 alter table task_assignee add created_by integer;
 alter table task_assignee add modified_date timestamp;
-alter table task_assignee add modified_by timestamp;
+alter table task_assignee add modified_by integer;
 
 -- -----------------------------------------------------
 -- Table `ontarget`.`user_groups`
