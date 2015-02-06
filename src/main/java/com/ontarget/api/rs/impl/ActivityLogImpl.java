@@ -22,36 +22,39 @@ import java.util.List;
 @Produces(MediaType.APPLICATION_JSON)
 public class ActivityLogImpl implements com.ontarget.api.rs.ActivityLog {
 
-    private Logger logger = Logger.getLogger(ActivityLogImpl.class);
+	private Logger logger = Logger.getLogger(ActivityLogImpl.class);
 
-    @Autowired
-    private ActivityLogService activityLogService;
+	@Autowired
+	private ActivityLogService activityLogService;
 
-    @Override
-    @GET
-    @Path("/getLog")
-    public ActivityLogResponse getActivityLog(@QueryParam("recentId") long recentId) {
-//        System.out.println("activity log called with recentId " + recentId);
-        ActivityLogResponse response = new ActivityLogResponse();
-        try {
-            List<ActivityLog> activityLogs = activityLogService.getActivityLog(recentId);
-            if (activityLogs == null || activityLogs.isEmpty()) {
-//                System.out.println("empty log returned");
-                response.setLogs(new LinkedList<ActivityLog>());
-                response.setRecentActivityId(recentId);
-            } else {
-//                System.out.println("non empty log returned");
-                response.setLogs(activityLogs);
-                response.setRecentActivityId(activityLogs.get(activityLogs.size() - 1).getId());
-            }
-            response.setReturnVal(OnTargetConstant.SUCCESS);
-            response.setReturnMessage("Activity log read");
-        } catch (Exception e) {
-//            e.printStackTrace();
-            logger.error("Authentication error", e);
-            response.setReturnMessage("Authentication Error");
-            response.setReturnVal(OnTargetConstant.ERROR);
-        }
-        return response;
-    }
+	@Override
+	@POST
+	@Path("/getLog")
+	public ActivityLogResponse getActivityLog(
+			@QueryParam("recentId") long recentId) {
+		// System.out.println("activity log called with recentId " + recentId);
+		ActivityLogResponse response = new ActivityLogResponse();
+		try {
+			List<ActivityLog> activityLogs = activityLogService
+					.getActivityLog(recentId);
+			if (activityLogs == null || activityLogs.isEmpty()) {
+				// System.out.println("empty log returned");
+				response.setLogs(new LinkedList<ActivityLog>());
+				response.setRecentActivityId(recentId);
+			} else {
+				// System.out.println("non empty log returned");
+				response.setLogs(activityLogs);
+				response.setRecentActivityId(activityLogs.get(
+						activityLogs.size() - 1).getId());
+			}
+			response.setReturnVal(OnTargetConstant.SUCCESS);
+			response.setReturnMessage("Activity log read");
+		} catch (Exception e) {
+			// e.printStackTrace();
+			logger.error("Authentication error", e);
+			response.setReturnMessage("Authentication Error");
+			response.setReturnVal(OnTargetConstant.ERROR);
+		}
+		return response;
+	}
 }

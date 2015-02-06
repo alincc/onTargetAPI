@@ -27,7 +27,7 @@ import com.ontarget.dto.SaveAccidentReportResponse;
 @Produces(MediaType.APPLICATION_JSON)
 public class AccidentReportEndpointImpl implements AccidentReportEndpoint {
 	private Logger logger = Logger.getLogger(AccidentReportEndpointImpl.class);
-	
+
 	@Autowired
 	private AccidentReportService accidentReportService;
 
@@ -35,6 +35,7 @@ public class AccidentReportEndpointImpl implements AccidentReportEndpoint {
 	 * API to save new accident report.
 	 *
 	 * (non-Javadoc)
+	 * 
 	 * @see com.ontarget.api.rs.AccidentReportEndpoint#saveAccidentReport(com.ontarget.dto.SaveAccidentReportRequest)
 	 */
 	@PUT
@@ -53,15 +54,18 @@ public class AccidentReportEndpointImpl implements AccidentReportEndpoint {
 		return response;
 	}
 
-	/* 
-	 * API to get accident reports by project ID.
-	 * (non-Javadoc)
-	 * @see com.ontarget.api.rs.AccidentReportEndpoint#getAccidentReports(java.lang.String)
+	/*
+	 * API to get accident reports by project ID. (non-Javadoc)
+	 * 
+	 * @see
+	 * com.ontarget.api.rs.AccidentReportEndpoint#getAccidentReports(java.lang
+	 * .String)
 	 */
 	@Override
-	@GET
+	@POST
 	@Path("/{projectId}")
-	public GetAccidentReportsResponse getAccidentReports(@PathParam("projectId") String projectId) {
+	public GetAccidentReportsResponse getAccidentReports(
+			@PathParam("projectId") String projectId) {
 		GetAccidentReportsResponse response;
 		try {
 			long projId = Long.parseLong(projectId);
@@ -75,10 +79,12 @@ public class AccidentReportEndpointImpl implements AccidentReportEndpoint {
 		return response;
 	}
 
-	/* 
-	 * API to update accident report.
-	 * (non-Javadoc)
-	 * @see com.ontarget.api.rs.AccidentReportEndpoint#updateAccidentReport(com.ontarget.dto.SaveAccidentReportRequest)
+	/*
+	 * API to update accident report. (non-Javadoc)
+	 * 
+	 * @see
+	 * com.ontarget.api.rs.AccidentReportEndpoint#updateAccidentReport(com.ontarget
+	 * .dto.SaveAccidentReportRequest)
 	 */
 	@Override
 	@POST

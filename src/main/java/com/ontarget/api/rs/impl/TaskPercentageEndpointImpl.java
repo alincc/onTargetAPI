@@ -84,7 +84,7 @@ public class TaskPercentageEndpointImpl implements TaskPercentageEndpoint {
     }
 
     @Override
-    @GET
+    @POST
     @Path("/{taskId}")
     /**
      * Get Task percentage by task
@@ -108,7 +108,7 @@ public class TaskPercentageEndpointImpl implements TaskPercentageEndpoint {
 
     @Override
     @Path("/project/{projectId}")
-    @GET
+    @POST
     /**
      * Gets task percentage for all task for the project
      */

@@ -3,43 +3,45 @@ package com.ontarget.bean;
 import java.io.Serializable;
 import java.util.Date;
 
-public class BaseBean implements Serializable {
-    private static final long serialVersionUID = 1L;
+import com.ontarget.dto.BaseRequest;
 
-    protected User createdBy;
-    protected Date createdDate;
-    protected User modifiedBy;
-    protected Date modifiedDate;
+public class BaseBean extends BaseRequest implements Serializable {
+	private static final long serialVersionUID = 1L;
 
-    public User getCreatedBy() {
-        return createdBy;
-    }
+	protected User createdBy;
+	protected Date createdDate;
+	protected User modifiedBy;
+	protected Date modifiedDate;
 
-    public void setCreatedBy(User createdBy) {
-        this.createdBy = createdBy;
-    }
+	public User getCreatedBy() {
+		return createdBy;
+	}
 
-    public Date getCreatedDate() {
-        return createdDate;
-    }
+	public void setCreatedBy(User createdBy) {
+		this.createdBy = createdBy;
+	}
 
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
+	public Date getCreatedDate() {
+		return createdDate;
+	}
 
-    public User getModifiedBy() {
-        return modifiedBy;
-    }
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
 
-    public void setModifiedBy(User modifiedBy) {
-        this.modifiedBy = modifiedBy;
-    }
+	public User getModifiedBy() {
+		return modifiedBy;
+	}
 
-    public Date getModifiedDate() {
-        return modifiedDate;
-    }
+	public void setModifiedBy(User modifiedBy) {
+		this.modifiedBy = modifiedBy;
+	}
 
-    public void setModifiedDate(Date modifiedDate) {
-        this.modifiedDate = modifiedDate;
-    }
+	public Date getModifiedDate() {
+		return modifiedDate;
+	}
+
+	public void setModifiedDate(Date modifiedDate) {
+		this.modifiedDate = modifiedDate;
+	}
 }

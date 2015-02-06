@@ -73,7 +73,7 @@ public class TaskEndpointImpl implements TaskEndpoint {
     }
 
     @Override
-    @GET
+    @POST
     @Path("/project/{projectId}")
     public TaskListResponse getTask(@PathParam("projectId") int projectId) {
         logger.info("Getting all tasks for project: " + projectId);
@@ -92,7 +92,7 @@ public class TaskEndpointImpl implements TaskEndpoint {
     }
 
     @Override
-    @GET
+    @POST
     @Path("/getTaskCount/project/{projectId}")
     public TaskListCountResponse getTaskCountByStatus(@PathParam("projectId") int projectId) {
         TaskListCountResponse response = new TaskListCountResponse();
@@ -138,7 +138,7 @@ public class TaskEndpointImpl implements TaskEndpoint {
     }
 
     @Override
-    @GET
+    @POST
     @Path("/{taskId}")
     public TaskResponse getTaskDetail(@PathParam("taskId") int taskId) {
         TaskResponse taskResponse = new TaskResponse();
@@ -243,7 +243,7 @@ public class TaskEndpointImpl implements TaskEndpoint {
         return response;
     }
 
-    @GET
+    @POST
     @Path("/getTaskAttachments")
     public GetTaskAttachmentResponse getTaskAttachments(@QueryParam("taskId") long taskId) {
         GetTaskAttachmentResponse response = new GetTaskAttachmentResponse();
@@ -306,7 +306,7 @@ public class TaskEndpointImpl implements TaskEndpoint {
         return response;
     }
 
-    @GET
+    @POST
     @Path("/getDependentTasks")
     public TaskListResponse getDependentTasks(@QueryParam("taskId") long taskId) {
         TaskListResponse response = new TaskListResponse();
@@ -322,7 +322,7 @@ public class TaskEndpointImpl implements TaskEndpoint {
         return response;
     }
 
-    @GET
+    @POST
     @Path("/userTasks/{userId}")
     public TaskListResponse getUserTask(@PathParam("userId") int userId){
         TaskListResponse response = new TaskListResponse();

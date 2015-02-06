@@ -3,11 +3,13 @@ package com.ontarget.bean;
 import java.io.Serializable;
 import java.util.Date;
 
-public class AccidentReport implements Serializable {
+import com.ontarget.dto.BaseRequest;
+
+public class AccidentReport extends BaseRequest implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	private Long accidentReportId;
-	private Project project;	
+	private Project project;
 	private String submittedTo;
 	private String supervisorName;
 	private String witness;
@@ -27,8 +29,7 @@ public class AccidentReport implements Serializable {
 	private String unsafeConditionsCorrected;
 	private String correctionMeasuresPerformed;
 	private String correctionMeasuresToBePerformed;
-	
-	
+
 	public Long getAccidentReportId() {
 		return accidentReportId;
 	}
@@ -36,8 +37,6 @@ public class AccidentReport implements Serializable {
 	public void setAccidentReportId(Long accidentReportId) {
 		this.accidentReportId = accidentReportId;
 	}
-	
-	
 
 	public Project getProject() {
 		return project;

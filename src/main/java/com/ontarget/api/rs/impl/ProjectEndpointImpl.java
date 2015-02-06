@@ -59,7 +59,7 @@ public class ProjectEndpointImpl implements ProjectEndoint {
     }
 
     @Override
-    @GET
+    @POST
     @Path("/{projectId}")
     public ProjectResponse getProjectDetail(@PathParam("projectId") int projectId) {
         ProjectResponse response = new ProjectResponse();
@@ -79,7 +79,7 @@ public class ProjectEndpointImpl implements ProjectEndoint {
     }
 
     @Override
-    @GET
+    @POST
     @Path("/getProjectMembers")
     public ProjectMemberListResponse getProjectMembers(@QueryParam("projectId") long projectId) {
 //        System.out.println("project id " + projectId);
@@ -99,7 +99,7 @@ public class ProjectEndpointImpl implements ProjectEndoint {
     }
 
     @Override
-    @GET
+    @POST
     @Path("/getProject/company/{companyId}/user/{userId}")
     public ProjectListResponse getProjectByCompany(@PathParam("companyId") int companyId, @PathParam("userId") int userId) {
         ProjectListResponse response = new ProjectListResponse();
@@ -117,7 +117,7 @@ public class ProjectEndpointImpl implements ProjectEndoint {
     }
 
     @Override
-    @GET
+    @POST
     @Path("/getCompanyByProject/{projectId}")
     public ListResponse<Company> getCompanyByProject(@PathParam("projectId") int projectId) {
         ListResponse<Company> response = new ListResponse<>();
@@ -135,7 +135,7 @@ public class ProjectEndpointImpl implements ProjectEndoint {
     }
 
     @Override
-    @GET
+    @POST
     @Path("/getProject/user/{userId}")
     public ProjectListResponse getProjectByUser(@PathParam("userId") int userId) {
 

@@ -34,7 +34,7 @@ public class TaskBudgetEndpointImpl implements TaskBudgetEndpoint {
 
     @Override
     @Path("/project/{projectId}")
-    @GET
+    @POST
     /**
      * Get list of task estimated cost by project
      */
@@ -117,7 +117,7 @@ public class TaskBudgetEndpointImpl implements TaskBudgetEndpoint {
     }
 
     @Override
-    @GET
+    @POST
     @Path("/{taskId}")
     /**
      * Get task budget by task

@@ -31,7 +31,7 @@ public class ProjectReportEndpointImpl implements ProjectReportEndpoint {
     private Logger logger = Logger.getLogger(ProjectReportEndpointImpl.class);
 
     @Override
-    @GET
+    @POST
     @Path("/earnedValueReport/{projectId}")
     public ProjectEarnedValueReportResponse getProjectEarnedValueAnalysis(@PathParam("projectId") long projectId) {
         logger.debug("Getting earned value report for projectId: " + projectId);
@@ -53,7 +53,7 @@ public class ProjectReportEndpointImpl implements ProjectReportEndpoint {
 
 
     @Override
-    @GET
+    @POST
     @Path("/bireport/{projectId}")
     public BIReportResponse getTimeSaved(@PathParam("projectId") long projectId) {
         BIReportResponse response = new BIReportResponse();

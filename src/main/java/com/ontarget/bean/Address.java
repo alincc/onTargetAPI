@@ -2,10 +2,12 @@ package com.ontarget.bean;
 
 import java.io.Serializable;
 
+import com.ontarget.dto.BaseRequest;
+
 /**
  * Created by Owner on 11/4/14.
  */
-public class Address implements Serializable{
+public class Address extends BaseRequest implements Serializable{
 
     private int addressId;
     private String address1;

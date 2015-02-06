@@ -94,7 +94,7 @@ public class UploadDocumentEndPointImpl implements UploadDocumentEndPoint {
 	 * 
 	 */
 	@Override
-	@GET
+	@POST
 	@Path("/{projectId}")
 	public FileUploadResponse getUploadedFile(@PathParam("projectId") int projectId){
 		logger.info("Starting call to retrieve uploaded document by project id");

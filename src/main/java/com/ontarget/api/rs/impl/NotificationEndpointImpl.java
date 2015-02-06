@@ -25,7 +25,7 @@ public class NotificationEndpointImpl implements com.ontarget.api.rs.Notificatio
     private NotificationService notificationService;
 
     @Override
-    @GET
+    @POST
     @Path("/getNotifications")
     public NotificationResponse getNotifications(@QueryParam("recentId") long recentId, @QueryParam("userId") int userId) {
         NotificationResponse response = new NotificationResponse();
