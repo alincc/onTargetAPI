@@ -584,6 +584,10 @@ CREATE  TABLE IF NOT EXISTS `ontarget`.`task_assignee` (
   DEFAULT CHARACTER SET = utf32;
 
 
+alter table task_assignee add created_by integer;
+alter table task_assignee add modified_date timestamp;
+alter table task_assignee add modified_by timestamp;
+
 -- -----------------------------------------------------
 -- Table `ontarget`.`user_groups`
 -- -----------------------------------------------------
