@@ -7,87 +7,116 @@ import java.io.Serializable;
  */
 public class UserRegistrationRequest implements Serializable {
 
-    private int id;
-    private int projectId;
-    private String name;
-    private String email;
-    private String companyName;
-    private String phoneNumber;
-    private String msg;
-    private String status;
-    private String tokenId;
+	private int id;
+	private int projectId;
+	private String name;
+	private String email;
+	private String companyName;
+	private String phoneNumber;
+	private String msg;
+	private String status;
+	private String tokenId;
+	private String firstName;
+	private String lastName;
+	private long tsCreate = Long.MIN_VALUE;
 
-    public UserRegistrationRequest() {
-    }
+	public UserRegistrationRequest() {
+	}
 
-    public int getId() {
-        return id;
-    }
-    public void setId(int id) {
-        this.id = id;
-    }
+	public int getId() {
+		return id;
+	}
 
-    public String getStatus() {
-        return status;
-    }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
+	public String getStatus() {
+		return status;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public void setStatus(String status) {
+		this.status = status;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public String getEmail() {
-        return email;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	public String getEmail() {
+		return email;
+	}
 
-    public String getCompanyName() {
-        return companyName;
-    }
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
-    }
+	public String getCompanyName() {
+		return companyName;
+	}
 
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
 
-    public String getMsg() {
-        return msg;
-    }
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
 
-    public void setMsg(String msg) {
-        this.msg = msg;
-    }
+	public String getMsg() {
+		return msg;
+	}
 
-    public int getProjectId() {
-        return projectId;
-    }
+	public void setMsg(String msg) {
+		this.msg = msg;
+	}
 
-    public void setProjectId(int projectId) {
-        this.projectId = projectId;
-    }
+	public int getProjectId() {
+		return projectId;
+	}
 
-    public String getTokenId() {
-        return tokenId;
-    }
+	public void setProjectId(int projectId) {
+		this.projectId = projectId;
+	}
 
-    public void setTokenId(String tokenId) {
-        this.tokenId = tokenId;
-    }
+	public String getTokenId() {
+		return tokenId;
+	}
+
+	public void setTokenId(String tokenId) {
+		this.tokenId = tokenId;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public long getTsCreate() {
+		return tsCreate;
+	}
+
+	public void setTsCreate(long tsCreate) {
+		this.tsCreate = tsCreate;
+	}
+
 }

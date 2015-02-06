@@ -14,6 +14,15 @@ public class TaskComment implements Serializable{
     private String commentStatus;
     private int commentedBy;
     private Date commentedDate;
+    private Contact commenterContact;
+
+    public Contact getCommenterContact() {
+        return commenterContact;
+    }
+
+    public void setCommenterContact(Contact commenterContact) {
+        this.commenterContact = commenterContact;
+    }
 
     public TaskComment() {
     }

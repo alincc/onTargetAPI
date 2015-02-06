@@ -1,5 +1,5 @@
 DELIMITER $$
-DROP TRIGGER log_comment_add$$
+DROP TRIGGER IF EXISTS log_comment_add$$
 CREATE TRIGGER log_comment_add AFTER INSERT ON project_task_comments
 FOR EACH ROW BEGIN
 
@@ -13,7 +13,7 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
-DROP TRIGGER log_dependentTask_add$$
+DROP TRIGGER IF EXISTS log_dependentTask_add$$
 CREATE TRIGGER log_dependentTask_add AFTER INSERT ON dependent_task
 FOR EACH ROW BEGIN
   INSERT INTO activity_log (text, category) VALUES
@@ -26,7 +26,7 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
-DROP TRIGGER log_plannedActualCost_add$$
+DROP TRIGGER IF EXISTS log_plannedActualCost_add$$
 CREATE TRIGGER log_plannedActualCost_add AFTER INSERT ON planned_actuals_cost
 FOR EACH ROW BEGIN
   INSERT INTO activity_log (text, category)
@@ -37,7 +37,7 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
-DROP TRIGGER log_plannedActualCost_update$$
+DROP TRIGGER IF EXISTS log_plannedActualCost_update$$
 CREATE TRIGGER log_plannedActualCost_update AFTER UPDATE ON planned_actuals_cost
 FOR EACH ROW BEGIN
   INSERT INTO activity_log (text, category)
@@ -48,7 +48,7 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
-DROP TRIGGER log_project_add$$
+DROP TRIGGER IF EXISTS log_project_add$$
 CREATE TRIGGER log_project_add AFTER INSERT ON project
 FOR EACH ROW BEGIN
   INSERT INTO activity_log (text, category) VALUES
@@ -61,7 +61,7 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
-DROP TRIGGER log_projectMember_add$$
+DROP TRIGGER IF EXISTS log_projectMember_add$$
 CREATE TRIGGER log_projectMember_add AFTER INSERT ON project_member
 FOR EACH ROW BEGIN
   INSERT INTO activity_log (text, category)
@@ -72,7 +72,7 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
-DROP TRIGGER log_projectTaskFile_add$$
+DROP TRIGGER IF EXISTS log_projectTaskFile_add$$
 CREATE TRIGGER log_projectTaskFile_add AFTER INSERT ON project_task_files
 FOR EACH ROW BEGIN
   INSERT INTO activity_log (text, category) VALUES
@@ -84,7 +84,7 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
-DROP TRIGGER log_project_update$$
+DROP TRIGGER IF EXISTS log_project_update$$
 CREATE TRIGGER log_project_update AFTER UPDATE ON project
 FOR EACH ROW BEGIN
   INSERT INTO activity_log (text, category)
@@ -95,7 +95,7 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
-DROP TRIGGER log_task_add$$
+DROP TRIGGER IF EXISTS log_task_add$$
 CREATE TRIGGER log_task_add AFTER INSERT ON project_task
 FOR EACH ROW BEGIN
   INSERT INTO activity_log (text, category)
@@ -106,7 +106,7 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
-DROP TRIGGER log_taskAssignee_add$$
+DROP TRIGGER IF EXISTS log_taskAssignee_add$$
 CREATE TRIGGER log_taskAssignee_add AFTER INSERT ON task_assignee
 FOR EACH ROW BEGIN
   INSERT INTO activity_log (text, category)
@@ -117,7 +117,7 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
-DROP TRIGGER log_task_update$$
+DROP TRIGGER IF EXISTS log_task_update$$
 CREATE TRIGGER log_task_update AFTER UPDATE ON project_task
 FOR EACH ROW BEGIN
   INSERT INTO activity_log (text, category)

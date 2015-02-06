@@ -22,8 +22,8 @@ public class DocumentKeyValueDAOImpl
 					docKeyVal.getDocument().getDocumentId(),
 					docKeyVal.getKey(),
 					docKeyVal.getValue(),
-					docKeyVal.getCreatedBy(),
-					docKeyVal.getModifiedBy());
+					docKeyVal.getCreatedBy().getUserId(),
+					docKeyVal.getModifiedBy().getUserId());
 		return docKeyVal;
 	}
 

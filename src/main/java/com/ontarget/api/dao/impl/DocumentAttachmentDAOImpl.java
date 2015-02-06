@@ -32,8 +32,8 @@ public class DocumentAttachmentDAOImpl
 						new String[] { "document_attachment_id" });
 		            ps.setLong(1, documentAttachment.getDocument().getDocumentId());
 		            ps.setString(2, documentAttachment.getFilePath());
-		            ps.setInt(3, documentAttachment.getCreatedBy());
-		            ps.setInt(4, documentAttachment.getModifiedBy());
+		            ps.setInt(3, documentAttachment.getCreatedBy().getUserId());
+		            ps.setInt(4, documentAttachment.getModifiedBy().getUserId());
 		            return ps;
 			}
 			
