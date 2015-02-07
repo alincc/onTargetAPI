@@ -1,6 +1,7 @@
 package com.ontarget.dto;
 
 import java.io.Serializable;
+import java.security.Timestamp;
 
 /**
  * Created by Owner on 10/30/14.
@@ -19,6 +20,8 @@ public class UserRegistrationRequest implements Serializable {
 	private String firstName;
 	private String lastName;
 	private long tsCreate = Long.MIN_VALUE;
+	
+	
 
 	public UserRegistrationRequest() {
 	}

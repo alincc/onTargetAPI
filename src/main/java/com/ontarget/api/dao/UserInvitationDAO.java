@@ -17,5 +17,7 @@ public interface UserInvitationDAO {
 	public UserRegistrationRequest findRequestByToken(String token) throws Exception;
 
 	public UserRegistrationRequest findRegRequestById(int id) throws Exception;
+	
+	public UserRegistrationRequest findRegRequestByEmail(String email) throws Exception;
 
 }

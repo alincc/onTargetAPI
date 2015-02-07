@@ -241,8 +241,10 @@ public class ProjectServiceImpl implements ProjectService {
             project.setProjectImagePath((String) projectDetail.get("project_image_path"));
             project.setStartDate((Date) projectDetail.get("project_start_date"));
             project.setEndDate((Date) projectDetail.get("project_end_date"));
+            project.setStatus((String) projectDetail.get("project_status"));
             Company company = companyDAO.getCompany(companyId);
             project.setCompany(company);
+            
             //set project address
             Address projectAddress = addressDAO.getAddress(((Integer) projectDetail.get("ADDRESS_ID")).intValue());
             project.setProjectAddress(projectAddress);
