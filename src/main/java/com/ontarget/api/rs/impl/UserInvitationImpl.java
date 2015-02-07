@@ -50,6 +50,27 @@ public class UserInvitationImpl implements UserInvitation {
 					+ request.getEmail() + ", phone no: "
 					+ request.getPhoneNumber() + ", message: "
 					+ request.getMsg());
+
+			UserRegistrationRequest registrationRequest = userInvitationService.getRegistrationRequest(request.getEmail());
+
+			logger.info("registration request:: " + registrationRequest);
+			System.out.println("registration request:: " + registrationRequest);
+
+			if (registrationRequest != null) {
+				logger.info("id:: " + registrationRequest.getId());
+				logger.info("is create:: " + registrationRequest.getTsCreate());
+
+				System.out.println("id:: " + registrationRequest.getId());
+				System.out.println("is create:: "
+						+ registrationRequest.getTsCreate());
+				if (System.currentTimeMillis()
+						- registrationRequest.getTsCreate() <= OnTargetConstant.TOKEN_MAX_LIFE) {
+					response.setReturnVal(OnTargetConstant.ERROR);
+					response.setReturnMessage("You are already invited");
+					return response;
+				}
+			}
+
 			final String tokenId = Security
 					.generateRandomValue(OnTargetConstant.TOKEN_LENGTH);
 			logger.info("Token id:: " + tokenId);
@@ -145,19 +166,19 @@ public class UserInvitationImpl implements UserInvitation {
 			// if (status != null
 			// && (status
 			// .equals(OnTargetConstant.REGISTRATION_REQUEST_NEW))) {
-				if (System.currentTimeMillis() - userRegistration.getTsCreate() > OnTargetConstant.TOKEN_MAX_LIFE) {
-					response.setReturnVal(OnTargetConstant.ERROR);
-					response.setReturnMessage("expired link. Please try with new link");
-					return response;
-				} else {
-					response.setReturnVal(OnTargetConstant.SUCCESS);
-					response.setReturnMessage(OnTargetConstant.TOKEN_VERIFIED);
-					return response;
-				}
-//			} else {
-//				response.setReturnVal(OnTargetConstant.ERROR);
-//				response.setReturnMessage("Your invitation request is not approved.");
-//			}
+			if (System.currentTimeMillis() - userRegistration.getTsCreate() > OnTargetConstant.TOKEN_MAX_LIFE) {
+				response.setReturnVal(OnTargetConstant.ERROR);
+				response.setReturnMessage("expired link. Please try with new link");
+				return response;
+			} else {
+				response.setReturnVal(OnTargetConstant.SUCCESS);
+				response.setReturnMessage(OnTargetConstant.TOKEN_VERIFIED);
+				return response;
+			}
+			// } else {
+			// response.setReturnVal(OnTargetConstant.ERROR);
+			// response.setReturnMessage("Your invitation request is not approved.");
+			// }
 		} catch (Exception e) {
 			logger.error("Provided token does not match with db.", e);
 			response.setReturnMessage(OnTargetConstant.TOKEN_VERIFICATION_FAILED);

@@ -10,10 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+
 import com.ontarget.api.dao.UserInvitationDAO;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.constant.OnTargetQuery;
 import com.ontarget.dto.UserRegistrationRequest;
+import com.ontarget.mapper.UserRegistrationRowMapper;
 
 /**
  * Created by Santosh
@@ -130,12 +132,30 @@ public class UserInvitationDAOImpl implements UserInvitationDAO {
 							int index) throws SQLException {
 						UserRegistrationRequest userRegistrationRequest = new UserRegistrationRequest();
 						userRegistrationRequest.setId(rs.getInt("id"));
-						userRegistrationRequest.setStatus(rs.getString("status"));
-						logger.info("Status dao::" +userRegistrationRequest.getStatus());
+						userRegistrationRequest.setTsCreate(rs.getTimestamp(
+								"ts_create").getTime());
+						logger.info("Status dao::"
+								+ userRegistrationRequest.getStatus());
 						return userRegistrationRequest;
 
 					}
 				});
+	}
+
+	public UserRegistrationRequest findRegRequestByEmail(String email)
+			throws Exception {
+		try {
+			UserRegistrationRequest registrationRequest = (UserRegistrationRequest) jdbcTemplate
+					.queryForObject(
+							OnTargetQuery.GET_REGISTRATION_REQUEST_BY_EMAIL,
+							new Object[] { email },
+							new UserRegistrationRowMapper());
+			return registrationRequest;
+		} catch (Exception e) {
+			logger.error("Exception::" + e);
+			return null;
+		}
+
 	}
 
 }

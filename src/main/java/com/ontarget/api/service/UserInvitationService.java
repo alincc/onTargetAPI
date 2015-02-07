@@ -14,5 +14,7 @@ public interface UserInvitationService {
 	public boolean approvePendingRequest(int id) throws Exception;
 	
 	public UserRegistrationRequest getRequestByToken(String token) throws Exception;
+	
+	public UserRegistrationRequest getRegistrationRequest(String email) throws Exception;
 
 }
