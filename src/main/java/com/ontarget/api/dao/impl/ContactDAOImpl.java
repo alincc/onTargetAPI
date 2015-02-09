@@ -27,7 +27,7 @@ public class ContactDAOImpl implements ContactDAO {
     @Override
     public boolean addContactInfo(Contact contact) throws Exception {
 
-        int row = jdbcTemplate.update(OnTargetQuery.CREATE_CONTACT, new Object[]{contact.getUser().getUserId(), contact.getCompany().getCompanyId(), contact.getFirstName(), contact.getLastName(), contact.getTitle(), contact.getUserImagePath(), contact.getEmail()});
+        int row = jdbcTemplate.update(OnTargetQuery.CREATE_CONTACT, new Object[]{contact.getUser().getUserId(), contact.getCompany().getCompanyId(), contact.getFirstName(), contact.getLastName(), contact.getTitle(), contact.getUserImagePath()});
 
         if (row <= 0) {
             throw new Exception("Contact was not created");

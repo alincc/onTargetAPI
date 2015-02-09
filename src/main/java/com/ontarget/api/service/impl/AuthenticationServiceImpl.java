@@ -60,12 +60,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		String accountStatus = returnUser.getAccountStatus();
 		logger.debug("Account status: " + accountStatus);
 
-		if (!accountStatus.equals(OnTargetConstant.AccountStatus.ACCT_NEW)
-				&& !accountStatus
-						.equals(OnTargetConstant.AccountStatus.ACCOUNT_INVITATION)) {
-			returnUser
-					.setContact(contactDAO.getContact(returnUser.getUserId()));
-		}
+//		if (!accountStatus.equals(OnTargetConstant.AccountStatus.ACCT_NEW)
+//				&& !accountStatus
+//						.equals(OnTargetConstant.AccountStatus.ACCOUNT_INVITATION)) {
+//			returnUser.setContact(contactDAO.getContact(returnUser.getUserId()));
+//		}
+        returnUser.setContact(contactDAO.getContact(returnUser.getUserId()));
 
 		response.setUser(returnUser);
 		response.setToken(token);

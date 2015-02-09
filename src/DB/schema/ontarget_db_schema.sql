@@ -1270,7 +1270,7 @@ INSERT INTO `activity_category` (`id`, `name`, `description`, `ts_insert`) VALUE
 DROP TABLE IF EXISTS `ontarget`.`activity_log` ;
 
 CREATE TABLE IF NOT EXISTS `activity_log` (
-  `id` bigint(20) NOT NULL,
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `text` text NOT NULL,
   `category` bigint(20) DEFAULT NULL,
   `ts_insert` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
