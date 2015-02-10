@@ -57,7 +57,8 @@ public class ContactDAOImpl implements ContactDAO {
         logger.info("getting contact for user "+ userId);
         List<Map<String, Object>> results = jdbcTemplate.queryForList(OnTargetQuery.GET_CONTACT_BY_USER, new Object[]{userId});
         if(results == null || results.isEmpty()){
-            throw new Exception("User "+userId+" does not exist");
+            logger.error("User "+userId+" does not exist");
+            return null;
         }
         Map<String, Object> rs = results.get(0);
         Contact contact = new Contact();

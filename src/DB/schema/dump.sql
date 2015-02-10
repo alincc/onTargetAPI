@@ -1018,8 +1018,6 @@ CREATE TABLE `task_assignee` (
   KEY `task_assignee_fk` (`project_task_id`),
   CONSTRAINT `task_assignee_fk` FOREIGN KEY (`project_task_id`) REFERENCES `project_task` (`project_task_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf32;
-
-
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
