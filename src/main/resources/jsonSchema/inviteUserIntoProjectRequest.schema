@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://jsonschema.net",
+  "type": "object",
+  "properties": {
+    "projectId": {
+      "id": "http://jsonschema.net/projectId",
+      "type": "integer"
+    },
+    "firstName": {
+      "id": "http://jsonschema.net/firstName",
+      "type": "string"
+    },
+    "lastName": {
+      "id": "http://jsonschema.net/lastName",
+      "type": "string"
+    },
+    "email": {
+      "id": "http://jsonschema.net/email",
+      "type": "string"
+    },
+    "registrationToken": {
+      "id": "http://jsonschema.net/registrationToken",
+      "type": "string"
+    }
+  },
+  "required": [
+    "projectId",
+    "firstName",
+    "lastName",
+    "email",
+    "registrationToken"
+  ]
+}

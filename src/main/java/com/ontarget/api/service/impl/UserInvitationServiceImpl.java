@@ -40,7 +40,8 @@ public class UserInvitationServiceImpl implements UserInvitationService {
 	}
 
 	@Override
-	public UserRegistrationRequest getRequestByToken(String token) throws Exception {
+	public UserRegistrationRequest getRequestByToken(String token)
+			throws Exception {
 		return userInvitationDAO.findRequestByToken(token);
 	}
 

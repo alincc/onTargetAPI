@@ -16,11 +16,8 @@ import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import com.google.gson.Gson;
 import com.ontarget.api.service.AuthorizationService;
 import com.ontarget.constant.OnTargetConstant;
-import com.ontarget.dto.BaseRequest;
 import com.sun.jersey.core.util.ReaderWriter;
 import com.sun.jersey.spi.container.ContainerRequest;
 import com.sun.jersey.spi.container.ContainerRequestFilter;
@@ -38,18 +35,13 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 		logger.info("base URI:: " + request.getBaseUri());
 		logger.info(request.getMethod());
 
-		System.out.println("base URI:: " + request.getBaseUri());
-		System.out.println("Method:: " + request.getMethod());
-		System.out.println("Path:: " + request.getPath());
-		System.out.println("Absolute path:: " + request.getAbsolutePath());
-
 		String path = request.getPath();
 
 		logger.info("path:: " + path);
+
 		if (openRestEndPointList().contains(path)) {
 			return request;
 		}
-		System.out.println("Here");
 
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		InputStream in = request.getEntityInputStream();
@@ -84,12 +76,12 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 	private List<String> openRestEndPointList() {
 		String endpointArr[] = OnTargetConstant.OPEN_RS_ENDPOINT.split(",");
 
-		List<String> opendEndPoints = new ArrayList<String>();
+		List<String> openEndPoints = new ArrayList<String>();
 		for (String endpoint : endpointArr) {
-			opendEndPoints.add(endpoint);
+			openEndPoints.add(endpoint);
 		}
-		System.out.println("open end points:: " + opendEndPoints);
-		return opendEndPoints;
+		logger.info("open end points:: " + openEndPoints);
+		return openEndPoints;
 	}
 
 	private Response unauthorizedResponse() {
@@ -105,31 +97,30 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 		if (entity.length == 0)
 			return "";
 		b.append(new String(entity)).append("\n");
-		System.out.println("#### Intercepted Entity ####");
 		return b.toString();
 	}
 
-	private boolean authenticate(String jsonPost) {
+	private boolean authenticate(String jsonData) {
 		try {
-			logger.info("json post:: " + jsonPost);
-			System.out.println("json post string:: " + jsonPost);
+			logger.info("json post:: " + jsonData);
 
-			Gson gson = new Gson();
-			BaseRequest baseRequest = gson
-					.fromJson(jsonPost, BaseRequest.class);
+			JSONObject jsonObject = new JSONObject(jsonData);
+			JSONObject baseRequestObj = (JSONObject) jsonObject
+					.get("baseRequest");
 
-			Integer userId = baseRequest.getUser().getUserId();
-			System.out.println("User ID:: " + userId);
-			Integer projectId = baseRequest.getParentProjectId();
-			System.out.println("Project id:: " + projectId);
+			Integer userId = baseRequestObj.getInt("loggedInUserId");
+			logger.info("userId:: " + userId);
+			Integer projectId = baseRequestObj.getInt("loggedInUserProjectId");
+			logger.info("project id:: " + projectId);
 
 			boolean authorized = authorizationService.validateUserOnProject(
 					userId, projectId);
 			logger.info("Authorized:: " + authorized);
-			System.out.println("Authorized:: " + authorized);
 			if (authorized) {
 				return true;
 			}
+			// authentication not checked for now
+			return true;
 		} catch (JSONException e) {
 			e.printStackTrace();
 			logger.error("Json data invalid");
@@ -137,6 +128,8 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 			e.printStackTrace();
 			logger.error("System error");
 		}
-		return false;
+		// return false;
+		// authentication not checked for now
+		return true;
 	}
 }

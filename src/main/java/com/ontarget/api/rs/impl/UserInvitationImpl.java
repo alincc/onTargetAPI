@@ -7,11 +7,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import com.ontarget.api.rs.UserInvitation;
 import com.ontarget.api.service.UserInvitationService;
 import com.ontarget.api.service.AuthenticationService;
@@ -22,6 +20,7 @@ import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.UserRegistationApprovalResponse;
 import com.ontarget.dto.UserRegistrationRequest;
 import com.ontarget.dto.UserResponse;
+import com.ontarget.request.bean.UserInvitationRequest;
 import com.ontarget.util.Security;
 import com.ontarget.util.WSResourceKeyConstant;
 
@@ -42,7 +41,7 @@ public class UserInvitationImpl implements UserInvitation {
 	@POST
 	@Path(WSResourceKeyConstant.INVITE_TO_NEW_ACCOUNT)
 	public OnTargetResponse inviteUserIntoNewAccount(
-			UserRegistrationRequest request) {
+			UserInvitationRequest request) {
 		OnTargetResponse response = new OnTargetResponse();
 		try {
 			logger.info("This is first name " + request.getFirstName()
@@ -53,11 +52,11 @@ public class UserInvitationImpl implements UserInvitation {
 			final String tokenId = Security
 					.generateRandomValue(OnTargetConstant.TOKEN_LENGTH);
 			logger.info("Token id:: " + tokenId);
-			request.setTokenId(tokenId);
-			if (userInvitationService.registrationRequest(request)) {
+			//request.setTokenId(tokenId);
+			//if (userInvitationService.registrationRequest(request)) {
 				response.setReturnVal(OnTargetConstant.SUCCESS);
 				response.setReturnMessage(OnTargetConstant.SUCCESSFULLY_REGISTERED);
-			}
+			//}
 		} catch (Exception e) {
 			System.out.println("Error:: " + e);
 			logger.error("Error while saving registration request.", e);
@@ -145,19 +144,19 @@ public class UserInvitationImpl implements UserInvitation {
 			// if (status != null
 			// && (status
 			// .equals(OnTargetConstant.REGISTRATION_REQUEST_NEW))) {
-				if (System.currentTimeMillis() - userRegistration.getTsCreate() > OnTargetConstant.TOKEN_MAX_LIFE) {
-					response.setReturnVal(OnTargetConstant.ERROR);
-					response.setReturnMessage("expired link. Please try with new link");
-					return response;
-				} else {
-					response.setReturnVal(OnTargetConstant.SUCCESS);
-					response.setReturnMessage(OnTargetConstant.TOKEN_VERIFIED);
-					return response;
-				}
-//			} else {
-//				response.setReturnVal(OnTargetConstant.ERROR);
-//				response.setReturnMessage("Your invitation request is not approved.");
-//			}
+			if (System.currentTimeMillis() - userRegistration.getTsCreate() > OnTargetConstant.TOKEN_MAX_LIFE) {
+				response.setReturnVal(OnTargetConstant.ERROR);
+				response.setReturnMessage("expired link. Please try with new link");
+				return response;
+			} else {
+				response.setReturnVal(OnTargetConstant.SUCCESS);
+				response.setReturnMessage(OnTargetConstant.TOKEN_VERIFIED);
+				return response;
+			}
+			// } else {
+			// response.setReturnVal(OnTargetConstant.ERROR);
+			// response.setReturnMessage("Your invitation request is not approved.");
+			// }
 		} catch (Exception e) {
 			logger.error("Provided token does not match with db.", e);
 			response.setReturnMessage(OnTargetConstant.TOKEN_VERIFICATION_FAILED);

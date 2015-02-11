@@ -1,6 +1,7 @@
 package com.ontarget.api.rs;
 
 import com.ontarget.dto.*;
+import com.ontarget.request.bean.InviteUserIntoProjectRequest;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -20,7 +21,7 @@ public interface UserProfile {
 
     public OnTargetResponse changeForgotPassword(ForgotPasswordRequest request) throws Exception;
 
-    public OnTargetResponse inviteUserIntoProject(UserInvitationRequest request);
+    public OnTargetResponse inviteUserIntoProject(InviteUserIntoProjectRequest request);
 
     public SafetyInfoResponse getSafetyInfoForUser(long userId);
 

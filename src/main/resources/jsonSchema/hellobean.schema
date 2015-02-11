@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://ontargetcloud.com",
+  "type": "object",
+  "properties": {
+    "username": {
+      "id": "http://ontargetcloud.com/username",
+      "type": "string"
+    },
+    "password": {
+      "id": "http://ontargetcloud.com/password",
+      "type": "string"
+    }
+  },
+  "required": [
+    "username",
+    "password"
+  ]
+}
+
+

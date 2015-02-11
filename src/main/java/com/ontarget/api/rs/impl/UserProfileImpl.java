@@ -8,7 +8,9 @@ import com.ontarget.bean.Contact;
 import com.ontarget.bean.Project;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.*;
+import com.ontarget.request.bean.InviteUserIntoProjectRequest;
 import com.ontarget.util.Security;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -142,8 +144,8 @@ public class UserProfileImpl implements UserProfile {
 	@Override
 	@POST
 	@Path("/inviteUserIntoProject")
-	public OnTargetResponse inviteUserIntoProject(UserInvitationRequest request) {
-		long projectId = request.getProjectId();
+	public OnTargetResponse inviteUserIntoProject(InviteUserIntoProjectRequest request) {
+		int projectId = 0;// request.getBaseRequest().getProjectId();
 		String firstName = request.getFirstName();
 		String lastName = request.getLastName();
 		String email = request.getEmail();

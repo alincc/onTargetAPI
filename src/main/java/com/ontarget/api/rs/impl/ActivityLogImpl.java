@@ -4,12 +4,15 @@ import com.ontarget.api.service.ActivityLogService;
 import com.ontarget.bean.ActivityLog;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.ActivityLogResponse;
+import com.ontarget.request.bean.ActivityLogRequest;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -31,12 +34,13 @@ public class ActivityLogImpl implements com.ontarget.api.rs.ActivityLog {
 	@POST
 	@Path("/getLog")
 	public ActivityLogResponse getActivityLog(
-			@QueryParam("recentId") long recentId) {
-		// System.out.println("activity log called with recentId " + recentId);
+			ActivityLogRequest activityLogRequest) {
+		logger.info("recentId:: " + activityLogRequest.getRecentId());
 		ActivityLogResponse response = new ActivityLogResponse();
 		try {
+			long recentId = activityLogRequest.getRecentId();
 			List<ActivityLog> activityLogs = activityLogService
-					.getActivityLog(recentId);
+					.getActivityLog(activityLogRequest.getRecentId());
 			if (activityLogs == null || activityLogs.isEmpty()) {
 				// System.out.println("empty log returned");
 				response.setLogs(new LinkedList<ActivityLog>());
