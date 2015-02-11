@@ -8,16 +8,13 @@ import com.ontarget.bean.Project;
 import com.ontarget.bean.UserRegistration;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.OnTargetResponse;
-import com.ontarget.dto.UserInvitationRequest;
 import com.ontarget.dto.UserInviteResponse;
 import com.ontarget.request.bean.InviteUserIntoProjectRequest;
 import com.ontarget.request.bean.UserRegistrationRequest;
 import com.ontarget.util.Security;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
@@ -193,7 +190,7 @@ public class UserRegistrationImpl implements
 		OnTargetResponse response = new OnTargetResponse();
 		try {
 			boolean created = userProfileService
-					.createNewUserFromInvitation(request);
+					.createNewUserFromInvitation(userRegistrationRequest);
 			if (created) {
 				response.setReturnMessage("Successfully created user based on invitation.");
 				response.setReturnVal(OnTargetConstant.SUCCESS);

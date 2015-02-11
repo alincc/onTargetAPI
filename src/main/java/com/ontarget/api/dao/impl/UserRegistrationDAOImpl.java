@@ -24,108 +24,125 @@ import java.util.Map;
  * Created by sumit on 11/26/14.
  */
 @Repository
-public class UserRegistrationDAOImpl implements com.ontarget.api.dao.UserRegistrationDAO {
+public class UserRegistrationDAOImpl implements
+		com.ontarget.api.dao.UserRegistrationDAO {
 
-    private Logger logger = Logger.getLogger(UserRegistrationDAOImpl.class);
+	private Logger logger = Logger.getLogger(UserRegistrationDAOImpl.class);
 
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
 
-    @Override
-    public int saveRegistrationInvitation(int projectId, String firstName, String lastName, String email, String tokenId, String accountStatus) throws Exception {
-        jdbcTemplate.update(OnTargetQuery.ADD_REGISTRATION_INVITATION, new Object[]{tokenId, firstName, lastName, email, projectId, accountStatus});
-        return 1;
-    }
+	@Override
+	public int saveRegistrationInvitation(int projectId, String firstName,
+			String lastName, String email, String tokenId, String accountStatus)
+			throws Exception {
+		jdbcTemplate.update(OnTargetQuery.ADD_REGISTRATION_INVITATION,
+				new Object[] { tokenId, firstName, lastName, email, projectId,
+						accountStatus });
+		return 1;
+	}
 
-    @Override
-    public UserRegistration getInvitationRegistration(String tokenId) throws Exception {
-        Map<String, Object> rs = jdbcTemplate.queryForMap(OnTargetQuery.GET_REGISTRATION_INVITATION, new Object[]{tokenId});
-        UserRegistration userRegistration = new UserRegistration();
-        Object d = null;
-        userRegistration.setFirstName((String) rs.get("first_name"));
-        userRegistration.setLastName((String) rs.get("last_name"));
-        userRegistration.setEmail((String) rs.get("email"));
-        userRegistration.setStatus((String) rs.get("status"));
-        userRegistration.setRegistrationToken(tokenId);
-        d = rs.get("project_id");
-        if (d != null) {
-            if (d instanceof Long)
-                userRegistration.setProjectId((Long) d);
-            else if (d instanceof Integer) {
-                userRegistration.setProjectId((Integer) d);
-            } else
-                userRegistration.setProjectId(Long.parseLong((String) d));
-        }
-        d = rs.get("ts_create");
-        if (d != null) {
-            userRegistration.setTsCreate(((Timestamp) d).getTime());
-        }
+	@Override
+	public UserRegistration getInvitationRegistration(String tokenId)
+			throws Exception {
+		Map<String, Object> rs = jdbcTemplate.queryForMap(
+				OnTargetQuery.GET_REGISTRATION_INVITATION,
+				new Object[] { tokenId });
+		UserRegistration userRegistration = new UserRegistration();
+		Object d = null;
+		userRegistration.setFirstName((String) rs.get("first_name"));
+		userRegistration.setLastName((String) rs.get("last_name"));
+		userRegistration.setEmail((String) rs.get("email"));
+		userRegistration.setStatus((String) rs.get("status"));
+		userRegistration.setRegistrationToken(tokenId);
+		d = rs.get("project_id");
+		if (d != null) {
+			if (d instanceof Long)
+				userRegistration.setProjectId((Long) d);
+			else if (d instanceof Integer) {
+				userRegistration.setProjectId((Integer) d);
+			} else
+				userRegistration.setProjectId(Long.parseLong((String) d));
+		}
+		d = rs.get("ts_create");
+		if (d != null) {
+			userRegistration.setTsCreate(((Timestamp) d).getTime());
+		}
 
-        return userRegistration;
-    }
+		return userRegistration;
+	}
 
-    @Override
-    public void createNewuser(UserRegistrationRequest registration,int userId,int status) throws Exception {
-        logger.info("creating new user based on : " + registration);
-        String password = registration.getPassword();
-        String salt = Security.generateSecureSalt();
-        String hashedPassword = Security.encodePassword(password, salt);
-       
-        KeyHolder keyHolder = new GeneratedKeyHolder();
-        jdbcTemplate.update(
-                new PreparedStatementCreator() {
-                    public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
-                        PreparedStatement ps = connection.prepareStatement(OnTargetQuery.CREATE_NEW_USER, new String[]{"user_id"});
-                        ps.setString(1, registration.getEmail());
-                        ps.setInt(2, 1);
-                        ps.setString(3, hashedPassword);
-                        ps.setString(4, salt);
-                        ps.setInt(5, registration.getDiscipline());
-                        ps.setString(6, OnTargetConstant.USER_STATUS.ACTIVE);
-                        ps.setInt(7, 1);
-                        ps.setInt(8, status);
-                        ps.setInt(9, userId);
-                        return ps;
-                    }
-                },
-                keyHolder);
-    }
+	@Override
+	public void createNewuser(UserRegistrationRequest registration,
+			String status, int userId) throws Exception {
+		logger.info("creating new user based on : " + registration);
+		String password = registration.getPassword();
+		String salt = Security.generateSecureSalt();
+		String hashedPassword = Security.encodePassword(password, salt);
 
-    @Override
-    public int updateRegistrationRequestUserId(int userId, String tokenId) throws Exception {
-        logger.debug("updating user with userId: " + userId + "and token: " + tokenId);
-        return jdbcTemplate.update(OnTargetQuery.UPDATE_REGISRATION_USER_ID, new Object[]{userId, tokenId});
-    }
+		KeyHolder keyHolder = new GeneratedKeyHolder();
+		jdbcTemplate.update(new PreparedStatementCreator() {
+			public PreparedStatement createPreparedStatement(
+					Connection connection) throws SQLException {
+				PreparedStatement ps = connection.prepareStatement(
+						OnTargetQuery.CREATE_NEW_USER,
+						new String[] { "user_id" });
+				ps.setString(1, registration.getEmail());
+				ps.setInt(2, 1);
+				ps.setString(3, hashedPassword);
+				ps.setString(4, salt);
+				ps.setInt(5, registration.getDiscipline());
+				ps.setString(6, OnTargetConstant.USER_STATUS.ACTIVE);
+				ps.setInt(7, 1);
+				ps.setString(8, status);
+				ps.setInt(9, userId);
+				return ps;
+			}
+		}, keyHolder);
+	}
 
-    @Override
-    public int activateAccount(int userId) throws Exception {
-        logger.debug("activating account for token: " + userId);
-        return jdbcTemplate.update(OnTargetQuery.ACTIVATE_USER_ACCOUNT, new Object[]{userId});
-    }
+	@Override
+	public int updateRegistrationRequestUserId(int userId, String tokenId)
+			throws Exception {
+		logger.debug("updating user with userId: " + userId + "and token: "
+				+ tokenId);
+		return jdbcTemplate.update(OnTargetQuery.UPDATE_REGISRATION_USER_ID,
+				new Object[] { userId, tokenId });
+	}
 
-    @Override
-    public UserRegistration getInvitationRegistrationByUser(int userId) throws Exception {
-        Map<String, Object> rs = jdbcTemplate.queryForMap(OnTargetQuery.GET_REGISTRATION_INVITATION_BY_USER, new Object[]{userId});
-        UserRegistration userRegistration = new UserRegistration();
-        Object d = null;
-        userRegistration.setFirstName((String) rs.get("first_name"));
-        userRegistration.setLastName((String) rs.get("last_name"));
-        userRegistration.setEmail((String) rs.get("email"));
-        userRegistration.setStatus((String) rs.get("status"));
-        d = rs.get("project_id");
-        if (d != null) {
-            if (d instanceof Long)
-                userRegistration.setProjectId((Long) d);
-            else if (d instanceof Integer) {
-                userRegistration.setProjectId((Integer) d);
-            } else
-                userRegistration.setProjectId(Long.parseLong((String) d));
-        }
-        d = rs.get("ts_create");
-        if (d != null) {
-            userRegistration.setTsCreate(((Timestamp) d).getTime());
-        }
+	@Override
+	public int activateAccount(int userId) throws Exception {
+		logger.debug("activating account for token: " + userId);
+		return jdbcTemplate.update(OnTargetQuery.ACTIVATE_USER_ACCOUNT,
+				new Object[] { userId });
+	}
 
-        return userRegistration;
-    }
+	@Override
+	public UserRegistration getInvitationRegistrationByUser(int userId)
+			throws Exception {
+		Map<String, Object> rs = jdbcTemplate.queryForMap(
+				OnTargetQuery.GET_REGISTRATION_INVITATION_BY_USER,
+				new Object[] { userId });
+		UserRegistration userRegistration = new UserRegistration();
+		Object d = null;
+		userRegistration.setFirstName((String) rs.get("first_name"));
+		userRegistration.setLastName((String) rs.get("last_name"));
+		userRegistration.setEmail((String) rs.get("email"));
+		userRegistration.setStatus((String) rs.get("status"));
+		d = rs.get("project_id");
+		if (d != null) {
+			if (d instanceof Long)
+				userRegistration.setProjectId((Long) d);
+			else if (d instanceof Integer) {
+				userRegistration.setProjectId((Integer) d);
+			} else
+				userRegistration.setProjectId(Long.parseLong((String) d));
+		}
+		d = rs.get("ts_create");
+		if (d != null) {
+			userRegistration.setTsCreate(((Timestamp) d).getTime());
+		}
+
+		return userRegistration;
+	}
 }

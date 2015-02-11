@@ -12,7 +12,7 @@ public class UserRegistration implements Serializable {
 	private String firstName;
 	private String email;
 	private String lastName;
-	private int status;
+	private String status;
 	private String discipline;
 	private long tsCreate = Long.MIN_VALUE;
 
@@ -59,11 +59,11 @@ public class UserRegistration implements Serializable {
 		this.lastName = lastName;
 	}
 
-	public int getStatus() {
+	public String getStatus() {
 		return status;
 	}
 
-	public void setStatus(int status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
 

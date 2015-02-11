@@ -1,11 +1,9 @@
 package com.ontarget.dto;
 
-import com.google.gson.annotations.SerializedName;
 import com.ontarget.bean.User;
 
 public class BaseRequest {
 
-	@SerializedName("userObj")
 	private User user;
 	private int parentProjectId;
 
@@ -24,4 +22,5 @@ public class BaseRequest {
 	public void setParentProjectId(int parentProjectId) {
 		this.parentProjectId = parentProjectId;
 	}
+
 }
