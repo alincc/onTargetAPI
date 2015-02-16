@@ -200,8 +200,7 @@ public class EmailServiceImpl implements EmailService {
 					model.put("senderName", senderFirstName + " "
 							+ senderLastName);
 					model.put("receiverFirstName", receiverFirstName);
-					model.put("url", baseUrl + OnTargetConstant.URL.SIGNUP_URL
-							+ "?q=" + tokenId);
+					model.put("url", baseUrl + OnTargetConstant.URL.SIGNUP_URL+ "?q=" + tokenId);
 
 					String text = VelocityEngineUtils.mergeTemplateIntoString(
 							velocityEngine,
