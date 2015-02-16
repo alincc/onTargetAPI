@@ -3,9 +3,17 @@ package com.ontarget.api.service.impl;
 import com.ontarget.api.dao.*;
 import com.ontarget.api.service.EmailService;
 import com.ontarget.api.service.TaskService;
-import com.ontarget.bean.*;
+import com.ontarget.bean.Contact;
+import com.ontarget.bean.DependentTask;
+import com.ontarget.bean.FileAttachment;
+import com.ontarget.bean.ProjectDTO;
+import com.ontarget.bean.Task;
+import com.ontarget.bean.TaskComment;
+import com.ontarget.bean.TaskStatusCount;
+import com.ontarget.bean.User;
 import com.ontarget.exception.DateAfterException;
 import com.ontarget.exception.DateBeforeException;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -81,7 +89,7 @@ public class TaskServiceImpl implements TaskService {
             Date projectStartDate = task.getProject().getStartDate();
             Date projectEndDate = task.getProject().getEndDate();
             if (projectStartDate == null || projectEndDate == null) {
-                Project project = projectDAO.getProject(task.getProject().getProjectId());
+                ProjectDTO project = projectDAO.getProject(task.getProject().getProjectId());
                 logger.info("start and end date of project is null so getting new project " + project.toString());
                 if (project == null) {
                     throw new Exception("project is invalid for task");
@@ -91,17 +99,17 @@ public class TaskServiceImpl implements TaskService {
                 projectEndDate = project.getEndDate();
             }
 
-            if (startDate.getTime() < projectStartDate.getTime()) {
-//                throw new Exception("Task starts before project start date");
-                logger.info(startDate.toString() + " less than " + projectStartDate.toString());
-                throw new DateBeforeException("Task starts before project start date");
-            } else {
-                if (endDate.getTime() > projectEndDate.getTime()) {
-//                    throw new Exception("Task ends after project end date");
-                    logger.info(endDate.toString() + " more than " + projectEndDate.toString());
-                    throw new DateAfterException("Task ends after project end date");
-                }
-            }
+//            if (startDate.getTime() < projectStartDate.getTime()) {
+////                throw new Exception("Task starts before project start date");
+//                logger.info(startDate.toString() + " less than " + projectStartDate.toString());
+//                throw new DateBeforeException("Task starts before project start date");
+//            } else {
+//                if (endDate.getTime() > projectEndDate.getTime()) {
+////                    throw new Exception("Task ends after project end date");
+//                    logger.info(endDate.toString() + " more than " + projectEndDate.toString());
+//                    throw new DateAfterException("Task ends after project end date");
+//                }
+//            }
         }
 
         Task parentTask = task.getParentTask();
@@ -117,17 +125,17 @@ public class TaskServiceImpl implements TaskService {
                 parentTaskEndDate = parentTask.getEndDate();
             }
 
-            if (parentTaskStartDate != null && startDate.getTime() < parentTaskStartDate.getTime()) {
-                logger.info(startDate.toString() + " less than " + parentTaskStartDate.toString());
-                throw new DateBeforeException("Task starts before parent task start date");
-//                throw new Exception("Task starts before parent task start date");
-            } else {
-                if (parentTaskEndDate != null && endDate.getTime() > parentTaskEndDate.getTime()) {
-                    logger.info(endDate.toString() + " more than " + parentTaskEndDate.toString());
-                    throw new DateAfterException("Task ends after parent task end date");
-//                    throw new Exception("Task ends after parent task end date");
-                }
-            }
+//            if (parentTaskStartDate != null && startDate.getTime() < parentTaskStartDate.getTime()) {
+//                logger.info(startDate.toString() + " less than " + parentTaskStartDate.toString());
+//                throw new DateBeforeException("Task starts before parent task start date");
+////                throw new Exception("Task starts before parent task start date");
+//            } else {
+//                if (parentTaskEndDate != null && endDate.getTime() > parentTaskEndDate.getTime()) {
+//                    logger.info(endDate.toString() + " more than " + parentTaskEndDate.toString());
+//                    throw new DateAfterException("Task ends after parent task end date");
+////                    throw new Exception("Task ends after parent task end date");
+//                }
+//            }
         }
 
         if (isTaskAdd(taskId)) {

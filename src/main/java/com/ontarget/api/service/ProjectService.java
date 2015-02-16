@@ -1,10 +1,9 @@
 package com.ontarget.api.service;
 
 import com.ontarget.bean.Company;
-import com.ontarget.bean.Project;
-import com.ontarget.bean.User;
+import com.ontarget.bean.ProjectDTO;
 import com.ontarget.dto.*;
-import org.springframework.transaction.annotation.Transactional;
+import com.ontarget.request.bean.ProjectRequestBean;
 
 import java.util.List;
 
@@ -13,9 +12,9 @@ import java.util.List;
  */
 public interface ProjectService {
 
-    public OnTargetResponse addProject(ProjectRequest request) throws Exception;
+    public OnTargetResponse addProject(ProjectRequestBean request) throws Exception;
 
-    public OnTargetResponse updateProject(ProjectRequest request) throws Exception;
+    public OnTargetResponse updateProject(ProjectRequestBean request) throws Exception;
 
     public ProjectResponse getProjectDetail(long projectId) throws Exception;
 
@@ -25,9 +24,9 @@ public interface ProjectService {
 
     public ProjectListResponse getProjectsByUser(int userId) throws Exception;
 
-    public ProjectMemberListResponse getProjectMembers(long projectId) throws Exception;
+    public ProjectMemberListResponse getProjectMembers(int projectId) throws Exception;
 
-    public Project getProject(long projectId) throws Exception;
+    public ProjectDTO getProject(long projectId) throws Exception;
 
-    public Project getProjectTree(long projectId) throws Exception;
+    public ProjectDTO getProjectTree(long projectId) throws Exception;
 }

@@ -4,6 +4,7 @@ import com.ontarget.dto.UserRegistationApprovalResponse;
 import com.ontarget.dto.UserResponse;
 import com.ontarget.bean.User;
 import com.ontarget.dto.UserRegistrationRequest;
+import com.ontarget.request.bean.SignInRequestBean;
 
 import java.util.List;
 
@@ -12,7 +13,7 @@ import java.util.List;
  */
 public interface AuthenticationService {
 
-	public UserResponse signIn(User user) throws Exception;
+	public UserResponse signIn(SignInRequestBean signInRequest) throws Exception;
 
 	public boolean registrationRequest(UserRegistrationRequest request)
 			throws Exception;

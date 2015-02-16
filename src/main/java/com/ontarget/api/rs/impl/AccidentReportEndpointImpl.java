@@ -1,11 +1,9 @@
 package com.ontarget.api.rs.impl;
 
 import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
@@ -15,11 +13,14 @@ import org.springframework.stereotype.Component;
 
 import com.ontarget.api.rs.AccidentReportEndpoint;
 import com.ontarget.api.service.AccidentReportService;
+import com.ontarget.bean.AccidentReport;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.GetAccidentReportsResponse;
 import com.ontarget.dto.OnTargetResponse;
-import com.ontarget.dto.SaveAccidentReportRequest;
 import com.ontarget.dto.SaveAccidentReportResponse;
+import com.ontarget.request.bean.AccidentReportInfoRequestBean;
+import com.ontarget.request.bean.AccidentReportRequestBean;
+import com.ontarget.util.ConvertPOJOUtils;
 
 @Component
 @Path("/accidentreports")
@@ -41,11 +42,15 @@ public class AccidentReportEndpointImpl implements AccidentReportEndpoint {
 	@PUT
 	@Override
 	public SaveAccidentReportResponse saveAccidentReport(
-			SaveAccidentReportRequest request) {
+			AccidentReportRequestBean accidentReportRequestBean) {
 		SaveAccidentReportResponse response;
 		try {
-			response = accidentReportService.saveAccidentReport(request);
-		} catch (Throwable t) {
+			AccidentReport accidentReport = ConvertPOJOUtils
+					.convertToAccidentReport(accidentReportRequestBean);
+			logger.info("accident report:: " + accidentReport);
+			response = accidentReportService.saveAccidentReport(accidentReport);
+		} catch (Exception t) {
+			t.printStackTrace();
 			logger.error(t);
 			response = new SaveAccidentReportResponse();
 			response.setReturnVal(OnTargetConstant.ERROR);
@@ -63,13 +68,14 @@ public class AccidentReportEndpointImpl implements AccidentReportEndpoint {
 	 */
 	@Override
 	@POST
-	@Path("/{projectId}")
+	@Path("/getAccidentReportsOfProject")
 	public GetAccidentReportsResponse getAccidentReports(
-			@PathParam("projectId") String projectId) {
+			AccidentReportInfoRequestBean accidentReportInfoRequestBean) {
 		GetAccidentReportsResponse response;
 		try {
-			long projId = Long.parseLong(projectId);
-			response = accidentReportService.getAccidentReports(projId);
+			response = accidentReportService
+					.getAccidentReports(accidentReportInfoRequestBean
+							.getProjectId());
 		} catch (Throwable t) {
 			logger.error(t);
 			response = new GetAccidentReportsResponse();
@@ -89,10 +95,13 @@ public class AccidentReportEndpointImpl implements AccidentReportEndpoint {
 	@Override
 	@POST
 	public OnTargetResponse updateAccidentReport(
-			SaveAccidentReportRequest request) {
+			AccidentReportRequestBean accidentReportRequestBean) {
 		OnTargetResponse response;
 		try {
-			response = accidentReportService.updateAccidentReport(request);
+			AccidentReport accidentReport = ConvertPOJOUtils
+					.convertToAccidentReport(accidentReportRequestBean);
+			response = accidentReportService
+					.updateAccidentReport(accidentReport);
 		} catch (Throwable t) {
 			logger.error(t);
 			response = new OnTargetResponse();

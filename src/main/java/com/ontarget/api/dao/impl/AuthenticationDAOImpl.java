@@ -6,8 +6,10 @@ import com.ontarget.bean.User;
 import com.ontarget.dto.UserRegistrationRequest;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.constant.OnTargetQuery;
+import com.ontarget.request.bean.SignInRequestBean;
 import com.ontarget.util.Security;
 import com.ontarget.util.TokenUtil;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -154,15 +156,15 @@ public class AuthenticationDAOImpl implements AuthenticationDAO {
 	}
 
 	@Override
-	public User getUserSignInInfo(User user) throws Exception {
-		logger.info("Authenticating user: " + user);
+	public User getUserSignInInfo(SignInRequestBean signInRequest) throws Exception {
+		logger.info("Authenticating user: " + signInRequest);
 
-		final String password = user.getPassword();
+		final String password = signInRequest.getPassword();
 
 		final User returnUser = new User();
-		returnUser.setUsername(user.getUsername());
+		returnUser.setUsername(signInRequest.getUsername());
 		jdbcTemplate.query(OnTargetQuery.USER_LOGIN,
-				new Object[] { user.getUsername() }, new RowMapper<User>() {
+				new Object[] { signInRequest.getUsername() }, new RowMapper<User>() {
 					@Override
 					public User mapRow(ResultSet resultSet, int i)
 							throws SQLException {

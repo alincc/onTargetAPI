@@ -9,12 +9,15 @@ import com.ontarget.bean.ProjectEarnedValueAnalysisReport;
 import com.ontarget.bean.TimeSaved;
 import com.ontarget.bean.TreesSaved;
 import com.ontarget.constant.OnTargetConstant;
+import com.ontarget.request.bean.ProjectReportRequestBean;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+
 import java.util.List;
 
 /**
@@ -26,57 +29,63 @@ import java.util.List;
 @Produces(MediaType.APPLICATION_JSON)
 public class ProjectReportEndpointImpl implements ProjectReportEndpoint {
 
-    @Autowired
-    ProjectReportService projectReportService;
-    private Logger logger = Logger.getLogger(ProjectReportEndpointImpl.class);
+	@Autowired
+	ProjectReportService projectReportService;
+	private Logger logger = Logger.getLogger(ProjectReportEndpointImpl.class);
 
-    @Override
-    @POST
-    @Path("/earnedValueReport/{projectId}")
-    public ProjectEarnedValueReportResponse getProjectEarnedValueAnalysis(@PathParam("projectId") long projectId) {
-        logger.debug("Getting earned value report for projectId: " + projectId);
-        ProjectEarnedValueReportResponse response = new ProjectEarnedValueReportResponse();
+	@Override
+	@POST
+	@Path("/earnedValueReport")
+	public ProjectEarnedValueReportResponse getProjectEarnedValueAnalysis(
+			ProjectReportRequestBean projectReportRequest) {
+		logger.debug("Getting earned value report for projectId: "
+				+ projectReportRequest.getProjectId());
+		ProjectEarnedValueReportResponse response = new ProjectEarnedValueReportResponse();
 
-        try {
-            List<ProjectEarnedValueAnalysisReport> report = projectReportService.getEarnedValueAnalysisReport(projectId);
-            response.setEarnedValueAnalysisReportMap(report);
-            response.setReturnMessage("Successfully retrieved report.");
-            response.setReturnVal(OnTargetConstant.SUCCESS);
-        } catch (Exception e) {
-            logger.error("Exception while retrieving earned value report", e);
-            response.setReturnMessage("Error while  retrieving report.");
-            response.setReturnVal(OnTargetConstant.ERROR);
-        }
+		try {
+			List<ProjectEarnedValueAnalysisReport> report = projectReportService
+					.getEarnedValueAnalysisReport(projectReportRequest
+							.getProjectId());
+			response.setEarnedValueAnalysisReportMap(report);
+			response.setReturnMessage("Successfully retrieved report.");
+			response.setReturnVal(OnTargetConstant.SUCCESS);
+		} catch (Exception e) {
+			logger.error("Exception while retrieving earned value report", e);
+			response.setReturnMessage("Error while  retrieving report.");
+			response.setReturnVal(OnTargetConstant.ERROR);
+		}
 
-        return response;
-    }
+		return response;
+	}
 
+	@Override
+	@POST
+	@Path("/bireport")
+	public BIReportResponse getTimeSaved(
+			ProjectReportRequestBean projectReportRequest) {
+		BIReportResponse response = new BIReportResponse();
 
-    @Override
-    @POST
-    @Path("/bireport/{projectId}")
-    public BIReportResponse getTimeSaved(@PathParam("projectId") long projectId) {
-        BIReportResponse response = new BIReportResponse();
+		try {
+			TimeSaved timeSaved = projectReportService
+					.getTimeSaved(projectReportRequest.getProjectId());
+			TreesSaved treesSaved = projectReportService
+					.getTreesSaved(projectReportRequest.getProjectId());
+			NoAccidentReport noAccidentReport = projectReportService
+					.getNoAccidentReport(projectReportRequest.getProjectId());
 
-        try {
-            TimeSaved timeSaved = projectReportService.getTimeSaved(projectId);
-            TreesSaved treesSaved=projectReportService.getTreesSaved(projectId);
-            NoAccidentReport noAccidentReport=projectReportService.getNoAccidentReport(projectId);
+			response.setTimeSaved(timeSaved);
+			response.setTreesSaved(treesSaved);
+			response.setNoAccidentReport(noAccidentReport);
 
-            response.setTimeSaved(timeSaved);
-            response.setTreesSaved(treesSaved);
-            response.setNoAccidentReport(noAccidentReport);
+			response.setReturnMessage("Successfully retrieved BI report.");
+			response.setReturnVal(OnTargetConstant.SUCCESS);
+		} catch (Exception e) {
+			logger.error("Exception while retrieving BI report", e);
+			response.setReturnMessage("Error while retrieving BI report.");
+			response.setReturnVal(OnTargetConstant.ERROR);
+		}
 
-            response.setReturnMessage("Successfully retrieved BI report.");
-            response.setReturnVal(OnTargetConstant.SUCCESS);
-        } catch (Exception e) {
-            logger.error("Exception while retrieving BI report", e);
-            response.setReturnMessage("Error while retrieving BI report.");
-            response.setReturnVal(OnTargetConstant.ERROR);
-        }
-
-        return response;
-    }
-
+		return response;
+	}
 
 }

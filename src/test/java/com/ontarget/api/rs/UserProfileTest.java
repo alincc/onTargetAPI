@@ -1,7 +1,7 @@
 package com.ontarget.api.rs;
 
 import com.ontarget.api.OnTargetBaseRSTest;
-import com.ontarget.bean.Address;
+import com.ontarget.bean.AddressDTO;
 import com.ontarget.bean.Company;
 import com.ontarget.bean.Contact;
 import com.ontarget.bean.User;
@@ -47,7 +47,7 @@ public class UserProfileTest extends JerseyTest {
         comp.setEmail("company@company.com");
         comp.setWebsite("http://www.comp.com");
 
-        Address address=new Address();
+        AddressDTO address=new AddressDTO();
         address.setAddress1("4750 59th street");
         address.setAddress2("Apt #9C");
         address.setCity("Woodside");

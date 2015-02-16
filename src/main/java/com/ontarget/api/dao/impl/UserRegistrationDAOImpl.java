@@ -3,7 +3,7 @@ package com.ontarget.api.dao.impl;
 import com.ontarget.bean.UserRegistration;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.constant.OnTargetQuery;
-import com.ontarget.request.bean.UserRegistrationRequest;
+import com.ontarget.request.bean.UserRegistrationRequestBean;
 import com.ontarget.util.Security;
 
 import org.apache.log4j.Logger;
@@ -73,7 +73,7 @@ public class UserRegistrationDAOImpl implements
 	}
 
 	@Override
-	public void createNewuser(UserRegistrationRequest registration,
+	public void createNewuser(UserRegistrationRequestBean registration,
 			String status, int userId) throws Exception {
 		logger.info("creating new user based on : " + registration);
 		String password = registration.getPassword();

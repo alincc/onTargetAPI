@@ -1,9 +1,8 @@
 package com.ontarget.api.dao.impl;
 
 import com.ontarget.api.dao.CompanyDAO;
-import com.ontarget.bean.Address;
+import com.ontarget.bean.AddressDTO;
 import com.ontarget.bean.Company;
-import com.ontarget.bean.Project;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.constant.OnTargetQuery;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -106,7 +105,7 @@ public class CompanyDAOImpl implements CompanyDAO {
                 company.setWebsite((String) map.get("website"));
                 company.setCompanyTypeId((int) map.get("company_type_id"));
 
-                Address address = new Address();
+                AddressDTO address = new AddressDTO();
                 address.setAddress1((String) map.get("address1"));
                 address.setAddress2((String) map.get("address2"));
                 address.setCity((String) map.get("city"));

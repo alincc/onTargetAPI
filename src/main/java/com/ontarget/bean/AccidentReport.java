@@ -5,11 +5,12 @@ import java.util.Date;
 
 import com.ontarget.dto.BaseRequest;
 
-public class AccidentReport extends BaseRequest implements Serializable {
+public class AccidentReport implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private Long accidentReportId;
-	private Project project;
+	private Integer accidentReportId;
+	//private ProjectDTO project;
+	private Integer projectId;
 	private String submittedTo;
 	private String supervisorName;
 	private String witness;
@@ -29,22 +30,16 @@ public class AccidentReport extends BaseRequest implements Serializable {
 	private String unsafeConditionsCorrected;
 	private String correctionMeasuresPerformed;
 	private String correctionMeasuresToBePerformed;
+	private String username;
+	private Integer userId;
 
-	public Long getAccidentReportId() {
-		return accidentReportId;
-	}
-
-	public void setAccidentReportId(Long accidentReportId) {
-		this.accidentReportId = accidentReportId;
-	}
-
-	public Project getProject() {
-		return project;
-	}
-
-	public void setProject(Project project) {
-		this.project = project;
-	}
+	// public ProjectDTO getProject() {
+	// return project;
+	// }
+	//
+	// public void setProject(ProjectDTO project) {
+	// this.project = project;
+	// }
 
 	public String getSubmittedTo() {
 		return submittedTo;
@@ -198,6 +193,38 @@ public class AccidentReport extends BaseRequest implements Serializable {
 	public void setCorrectionMeasuresToBePerformed(
 			String correctionMeasuresToBePerformed) {
 		this.correctionMeasuresToBePerformed = correctionMeasuresToBePerformed;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public Integer getAccidentReportId() {
+		return accidentReportId;
+	}
+
+	public void setAccidentReportId(Integer accidentReportId) {
+		this.accidentReportId = accidentReportId;
+	}
+
+	public Integer getProjectId() {
+		return projectId;
+	}
+
+	public void setProjectId(Integer projectId) {
+		this.projectId = projectId;
+	}
+
+	public Integer getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
 
 }

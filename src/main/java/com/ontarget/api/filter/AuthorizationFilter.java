@@ -31,7 +31,6 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 
 	@Override
 	public ContainerRequest filter(ContainerRequest request) {
-		logger.info("Container request filter called:::");
 		logger.info("base URI:: " + request.getBaseUri());
 		logger.info(request.getMethod());
 
@@ -39,8 +38,11 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 
 		logger.info("path:: " + path);
 
-		if (openRestEndPointList().contains(path)) {
-			return request;
+		String openEndpointArr[] = OnTargetConstant.OPEN_RS_ENDPOINT.split(",");
+		for (String openEndpoint : openEndpointArr) {
+			if (path.startsWith(openEndpoint)) {
+				return request;
+			}
 		}
 
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -71,17 +73,6 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 
 		throw new WebApplicationException(unauthorizedResponse());
 
-	}
-
-	private List<String> openRestEndPointList() {
-		String endpointArr[] = OnTargetConstant.OPEN_RS_ENDPOINT.split(",");
-
-		List<String> openEndPoints = new ArrayList<String>();
-		for (String endpoint : endpointArr) {
-			openEndPoints.add(endpoint);
-		}
-		logger.info("open end points:: " + openEndPoints);
-		return openEndPoints;
 	}
 
 	private Response unauthorizedResponse() {
@@ -119,8 +110,7 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 			if (authorized) {
 				return true;
 			}
-			// authentication not checked for now
-			return true;
+			return false;
 		} catch (JSONException e) {
 			e.printStackTrace();
 			logger.error("Json data invalid");
@@ -128,8 +118,6 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 			e.printStackTrace();
 			logger.error("System error");
 		}
-		// return false;
-		// authentication not checked for now
-		return true;
+		return false;
 	}
 }

@@ -3,15 +3,15 @@ package com.ontarget.api.rs;
 import javax.ws.rs.QueryParam;
 
 import com.ontarget.dto.OnTargetResponse;
-import com.ontarget.dto.UserRegistationApprovalResponse;
-import com.ontarget.request.bean.UserInvitationRequest;
+import com.ontarget.dto.UserInvitationApprovalResponse;
+import com.ontarget.request.bean.UserInvitationRequestBean;
 
 public interface UserInvitation {
 
 	public OnTargetResponse inviteUserIntoNewAccount(
-			UserInvitationRequest request);
+			UserInvitationRequestBean request);
 
-	public UserRegistationApprovalResponse getPendingRequestList();
+	public UserInvitationApprovalResponse getPendingRequestList();
 
 	public OnTargetResponse approveRequest(@QueryParam("id") int id);
 

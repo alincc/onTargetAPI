@@ -1,18 +1,24 @@
 package com.ontarget.api.service;
 
+import com.ontarget.dto.UserInvitationApprovalResponse;
+import com.ontarget.dto.UserInvitationRequestDTO;
 import com.ontarget.dto.UserRegistationApprovalResponse;
-import com.ontarget.dto.UserRegistrationRequest;
+import com.ontarget.entity.pojo.RegistrationRequestResponseDTO;
+import com.ontarget.request.bean.UserRegistrationRequestBean;
+
 
 public interface UserInvitationService {
 
-	public boolean registrationRequest(UserRegistrationRequest request)
+	public boolean registrationRequest(UserInvitationRequestDTO request)
 			throws Exception;
 
-	public UserRegistationApprovalResponse retrievePendingRegRequestList()
+	public UserInvitationApprovalResponse retrievePendingRegRequestList()
 			throws Exception;
 
 	public boolean approvePendingRequest(int id) throws Exception;
 	
-	public UserRegistrationRequest getRequestByToken(String token) throws Exception;
+	public RegistrationRequestResponseDTO getRequestByToken(String token) throws Exception;
+	
+	public RegistrationRequestResponseDTO getRegistrationRequest(String email) throws Exception;
 
 }

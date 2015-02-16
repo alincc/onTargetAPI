@@ -4,7 +4,7 @@ import com.ontarget.api.service.ActivityLogService;
 import com.ontarget.bean.ActivityLog;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.ActivityLogResponse;
-import com.ontarget.request.bean.ActivityLogRequest;
+import com.ontarget.request.bean.ActivityLogRequestBean;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +34,7 @@ public class ActivityLogImpl implements com.ontarget.api.rs.ActivityLog {
 	@POST
 	@Path("/getLog")
 	public ActivityLogResponse getActivityLog(
-			ActivityLogRequest activityLogRequest) {
+			ActivityLogRequestBean activityLogRequest) {
 		logger.info("recentId:: " + activityLogRequest.getRecentId());
 		ActivityLogResponse response = new ActivityLogResponse();
 		try {

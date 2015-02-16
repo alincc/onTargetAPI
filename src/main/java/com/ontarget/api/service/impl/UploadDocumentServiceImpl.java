@@ -7,6 +7,8 @@ import com.ontarget.bean.Contact;
 import com.ontarget.bean.UploadDocument;
 import com.ontarget.dto.UploadDocumentRequest;
 import com.ontarget.dto.UploadedDocumentDetail;
+import com.ontarget.request.bean.UploadDocumentRequestBean;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,49 +21,54 @@ import java.util.Map;
 @Service
 public class UploadDocumentServiceImpl implements UploadDocumentService {
 
-    private Logger logger = Logger.getLogger(UploadDocumentServiceImpl.class);
+	private Logger logger = Logger.getLogger(UploadDocumentServiceImpl.class);
 
-    @Autowired
-    private UploadDocumentDAO uploadDocumentDAO;
+	@Autowired
+	private UploadDocumentDAO uploadDocumentDAO;
 
-    @Autowired
-    private ContactDAO contactDAO;
+	@Autowired
+	private ContactDAO contactDAO;
 
-    @Override
-    @Transactional(rollbackFor = {Exception.class})
-    public boolean saveUploadedDocsInfo(UploadDocumentRequest documentInfo) throws Exception {
-        logger.info("service call initiated for document upload");
-        UploadDocument documentBean = new UploadDocument(documentInfo);
-        documentBean = uploadDocumentDAO.saveUploadedDocsInfo(documentBean);
+	@Override
+	@Transactional(rollbackFor = { Exception.class })
+	public boolean saveUploadedDocsInfo(UploadDocumentRequestBean documentInfo)
+			throws Exception {
+		logger.info("service call initiated for document upload");
+		UploadDocument documentBean = new UploadDocument(documentInfo);
+		documentBean = uploadDocumentDAO.saveUploadedDocsInfo(documentBean);
 
-        if (documentBean.getProjectFileId() >= 1) {
-            logger.info("Information saved successfully");
-            return Boolean.TRUE;
-        }
-        logger.info("failed to save information");
-        return Boolean.FALSE;
+		if (documentBean.getProjectFileId() >= 1) {
+			logger.info("Information saved successfully");
+			return Boolean.TRUE;
+		}
+		logger.info("failed to save information");
+		return Boolean.FALSE;
 
-        //return ((documentBean.getFileAttachmentId()>=1)?(Boolean.TRUE):(Boolean.FALSE));
-    }
+		// return
+		// ((documentBean.getFileAttachmentId()>=1)?(Boolean.TRUE):(Boolean.FALSE));
+	}
 
-    @Override
-    @Transactional(rollbackFor = {Exception.class})
-    public List<UploadedDocumentDetail> getUploadedFile(int projectId) throws Exception {
-        logger.info("service call initiated to fetch uploaded file for project id" + projectId);
-        List<UploadedDocumentDetail> resultList = uploadDocumentDAO.getFilesByProjectId(projectId);
-        Map<Integer, Contact> contactMap = new HashMap<>();
-        for (UploadedDocumentDetail detail : resultList) {
-            int createdBy = detail.getCreatedBy();
-            if (contactMap.containsKey(createdBy)) {
-                detail.setCreatedByContact(contactMap.get(createdBy));
-            } else {
-                Contact c = contactDAO.getContact(createdBy);
-                contactMap.put(createdBy, c);
-                detail.setCreatedByContact(c);
-            }
-        }
+	@Override
+	@Transactional(rollbackFor = { Exception.class })
+	public List<UploadedDocumentDetail> getUploadedFile(int projectId)
+			throws Exception {
+		logger.info("service call initiated to fetch uploaded file for project id"
+				+ projectId);
+		List<UploadedDocumentDetail> resultList = uploadDocumentDAO
+				.getFilesByProjectId(projectId);
+		Map<Integer, Contact> contactMap = new HashMap<>();
+		for (UploadedDocumentDetail detail : resultList) {
+			int createdBy = detail.getCreatedBy();
+			if (contactMap.containsKey(createdBy)) {
+				detail.setCreatedByContact(contactMap.get(createdBy));
+			} else {
+				Contact c = contactDAO.getContact(createdBy);
+				contactMap.put(createdBy, c);
+				detail.setCreatedByContact(c);
+			}
+		}
 
-        return resultList;
-    }
+		return resultList;
+	}
 
 }

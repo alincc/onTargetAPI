@@ -1,31 +1,34 @@
 package com.ontarget.bean;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import com.ontarget.dto.UploadDocumentRequest;
+import com.ontarget.request.bean.UploadDocumentRequestBean;
 
-public class UploadDocument extends BaseBean{
-	
+public class UploadDocument implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 	private int projectFileId;
-	
+	private int createdBy;
+	private int modifiedBy;
 	private int projectId;
 	private String name;
 	private String fileType;
-	
-	
-	public UploadDocument(){
-		;
+	protected Date createdDate;
+	protected Date modifiedDate;
+
+	public UploadDocument() {
 	}
-	
-	public UploadDocument(UploadDocumentRequest requestData){
-		this.projectId=requestData.getProjectId();
-		this.name=requestData.getName();
-		this.createdBy=requestData.getUser();
-		this.modifiedBy=requestData.getUser();
-		this.fileType=requestData.getFileType();
-		this.createdDate=new Date();
-		this.modifiedDate=new Date();
+
+	public UploadDocument(UploadDocumentRequestBean requestData) {
+		this.projectId = requestData.getProjectId();
+		this.name = requestData.getName();
+		this.createdBy = requestData.getCreatedBy();
+		this.modifiedBy = requestData.getModifiedBy();
+		this.fileType = requestData.getFileType();
+		this.createdDate = new Date();
+		this.modifiedDate = new Date();
 	}
 
 	public int getProjectId() {
@@ -59,8 +62,37 @@ public class UploadDocument extends BaseBean{
 	public void setFileType(String fileType) {
 		this.fileType = fileType;
 	}
-	
-	
 
+	public int getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(int createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public int getModifiedBy() {
+		return modifiedBy;
+	}
+
+	public void setModifiedBy(int modifiedBy) {
+		this.modifiedBy = modifiedBy;
+	}
+
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public Date getModifiedDate() {
+		return modifiedDate;
+	}
+
+	public void setModifiedDate(Date modifiedDate) {
+		this.modifiedDate = modifiedDate;
+	}
 
 }

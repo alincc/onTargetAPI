@@ -8,7 +8,9 @@ import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.UserRegistationApprovalResponse;
 import com.ontarget.dto.UserRegistrationRequest;
 import com.ontarget.dto.UserResponse;
+import com.ontarget.request.bean.SignInRequestBean;
 import com.ontarget.util.Security;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -35,23 +37,18 @@ public class AuthenticationImpl implements Authentication {
 
 	@POST
 	@Path("/signin")
-	public UserResponse signIn(User user) {
-		logger.info("Sign in request: " + user);
+	public UserResponse signIn(SignInRequestBean signInRequest) {
+		logger.info("Sign in request: " + signInRequest);
 		UserResponse response = new UserResponse();
 		try {
-			response = authenticationService.signIn(user);
+			response = authenticationService.signIn(signInRequest);
 		} catch (Exception e) {
-			// e.printStackTrace();
+			e.printStackTrace();
 			logger.error("Authentication error", e);
 			response.setReturnMessage("Authentication Error");
 			response.setReturnVal(OnTargetConstant.ERROR);
 		}
 		return response;
-	}
-
-	@Override
-	public UserResponse register(User user) {
-		return null;
 	}
 
 	@Override

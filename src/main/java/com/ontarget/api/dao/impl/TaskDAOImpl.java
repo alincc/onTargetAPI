@@ -298,7 +298,7 @@ public class TaskDAOImpl implements TaskDAO {
             @Override
             public Void mapRow(ResultSet resultSet, int i) throws SQLException {
                 task.setProjectTaskId(resultSet.getInt("project_task_id"));
-                Project project = new Project();
+                ProjectDTO project = new ProjectDTO();
                 project.setProjectId(resultSet.getInt("project_id"));
                 task.setProject(project);
                 task.setTitle(resultSet.getString("title"));

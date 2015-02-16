@@ -16,13 +16,13 @@ public interface DocumentService {
 
     public OnTargetResponse updateDocument(UpdateDocumentDataRequest request) throws Exception;
 
-    public GetDocumentsResponse getDocuments(String userName, long projectId) throws Exception;
+    public GetDocumentsResponse getDocuments(String userName, int projectId) throws Exception;
 
     public OnTargetResponse updateStatus(UpdateDocumentStatusRequest request) throws Exception;
 
-    public GetDocumentResponse getDocument(long documentId) throws Exception;
+    public GetDocumentResponse getDocument(int documentId) throws Exception;
 
     public AddDocumentAttachmentResponse addDocumentAttachment(AddDocumentAttachmentRequest request) throws Exception;
 
-    public GetDocumentAttachmentsResponse getDocumentAttachments(Long documentId) throws Exception;
+    public GetDocumentAttachmentsResponse getDocumentAttachments(int documentId) throws Exception;
 }

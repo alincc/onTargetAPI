@@ -1,7 +1,7 @@
 package com.ontarget.api.dao;
 
 import com.ontarget.api.BaseTest;
-import com.ontarget.bean.Address;
+import com.ontarget.bean.AddressDTO;
 import com.ontarget.bean.Company;
 import junit.framework.Assert;
 import org.apache.log4j.Logger;
@@ -29,7 +29,7 @@ public class CompanyDAOTest extends BaseTest {
         comp.setEmail("company@company.com");
         comp.setWebsite("http://www.comp.com");
 
-        Address address=new Address();
+        AddressDTO address=new AddressDTO();
         address.setAddress1("4750 59th street");
         address.setAddress2("Apt #9C");
         address.setCity("Woodside");

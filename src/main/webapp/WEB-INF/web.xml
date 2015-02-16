@@ -24,10 +24,10 @@
             <param-name>com.sun.jersey.config.property.packages</param-name>
             <param-value>com.ontarget.api.rs.impl</param-value>
         </init-param>
-        <init-param>
-			<param-name>com.sun.jersey.spi.container.ContainerRequestFilters</param-name>
-			<param-value>com.ontarget.api.filter.AuthorizationFilter</param-value>
-		</init-param> 
+<!--         <init-param> -->
+<!-- 			<param-name>com.sun.jersey.spi.container.ContainerRequestFilters</param-name> -->
+<!-- 			<param-value>com.ontarget.api.filter.AuthorizationFilter</param-value> -->
+<!-- 		</init-param>  -->
         <init-param>
             <param-name>com.sun.jersey.api.json.POJOMappingFeature</param-name>
             <param-value>true</param-value>

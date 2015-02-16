@@ -12,7 +12,7 @@ public class Company extends BaseRequest implements Serializable {
 	private int companyId;
 	private String companyName;
 	private int companyTypeId;
-	private Address address;
+	private AddressDTO address;
 	private String email;
 	private String website;
 
@@ -27,11 +27,11 @@ public class Company extends BaseRequest implements Serializable {
 		this.companyName = companyName;
 	}
 
-	public Address getAddress() {
+	public AddressDTO getAddress() {
 		return address;
 	}
 
-	public void setAddress(Address address) {
+	public void setAddress(AddressDTO address) {
 		this.address = address;
 	}
 

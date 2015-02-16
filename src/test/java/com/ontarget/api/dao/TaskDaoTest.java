@@ -1,12 +1,14 @@
 package com.ontarget.api.dao;
 
 import com.ontarget.api.BaseTest;
-import com.ontarget.bean.Address;
-import com.ontarget.bean.Project;
+import com.ontarget.bean.AddressDTO;
+import com.ontarget.bean.ProjectDTO;
 import com.ontarget.bean.Task;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.util.Security;
+
 import junit.framework.Assert;
+
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +36,7 @@ public class TaskDaoTest extends BaseTest {
     @Test
     public void testAddTask() {
         try {
-            Project project = new Project();
+            ProjectDTO project = new ProjectDTO();
             project.setCompanyId(1);
             project.setProjectName("test project");
             project.setProjectDescription("test project");
@@ -42,7 +44,7 @@ public class TaskDaoTest extends BaseTest {
             project.setProjectTypeId(1);
             project.setStatus("PENDING");
 
-            Address address = new Address();
+            AddressDTO address = new AddressDTO();
             address.setAddress1("4750 59th street");
             address.setAddress2("Apt #9C");
             address.setCity("Woodside");

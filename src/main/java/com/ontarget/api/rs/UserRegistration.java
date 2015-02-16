@@ -3,8 +3,8 @@ package com.ontarget.api.rs;
 import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.UserInvitationRequest;
 import com.ontarget.dto.UserInviteResponse;
-import com.ontarget.request.bean.InviteUserIntoProjectRequest;
-import com.ontarget.request.bean.UserRegistrationRequest;
+import com.ontarget.request.bean.InviteUserIntoProjectRequestBean;
+import com.ontarget.request.bean.UserRegistrationRequestBean;
 
 import javax.ws.rs.*;
 
@@ -13,12 +13,12 @@ import javax.ws.rs.*;
  */
 public interface UserRegistration {
 
-	OnTargetResponse inviteUserIntoProject(InviteUserIntoProjectRequest request);
+	OnTargetResponse inviteUserIntoProject(InviteUserIntoProjectRequestBean request);
 
 	@POST
 	@Path("/inviteToNewAccount")
 	OnTargetResponse inviteUserIntoNewAccount(
-			InviteUserIntoProjectRequest registration);
+			InviteUserIntoProjectRequestBean registration);
 
 	@GET
 	@Path("/validateLink")
@@ -26,7 +26,7 @@ public interface UserRegistration {
 
 	@POST
 	@Path("/createUser")
-	OnTargetResponse createNewUser(UserRegistrationRequest userRegistrationRequest);
+	OnTargetResponse createNewUser(UserRegistrationRequestBean userRegistrationRequest);
 
 	@POST
 	@Path("/activateAccount/{userId}")

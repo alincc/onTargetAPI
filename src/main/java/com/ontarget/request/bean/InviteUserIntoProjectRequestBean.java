@@ -1,11 +1,6 @@
 package com.ontarget.request.bean;
 
-import java.util.HashMap;
-import java.util.Map;
 import javax.annotation.Generated;
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -14,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({ "projectId", "firstName", "lastName", "email",
 		"registrationToken" })
-public class InviteUserIntoProjectRequest {
+public class InviteUserIntoProjectRequestBean {
 
 	@JsonProperty("projectId")
 	private Integer projectId;
@@ -26,8 +21,6 @@ public class InviteUserIntoProjectRequest {
 	private String email;
 	@JsonProperty("registrationToken")
 	private String registrationToken;
-	@JsonIgnore
-	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
 	/**
 	 * 
@@ -122,15 +115,5 @@ public class InviteUserIntoProjectRequest {
 	@JsonProperty("registrationToken")
 	public void setRegistrationToken(String registrationToken) {
 		this.registrationToken = registrationToken;
-	}
-
-	@JsonAnyGetter
-	public Map<String, Object> getAdditionalProperties() {
-		return this.additionalProperties;
-	}
-
-	@JsonAnySetter
-	public void setAdditionalProperty(String name, Object value) {
-		this.additionalProperties.put(name, value);
 	}
 }

@@ -16,6 +16,8 @@ public interface OnTargetQuery {
     public static final String GET_REGISTRATION_REQUEST = new StringBuilder("SELECT id,first_name,last_name,EMAIL,PHONE_NUMBER,MSG,STATUS,registration_token FROM REGISTRATION_REQUEST WHERE id=?").toString();
 
     public static final String GET_USER_REGISTRATION_PENDING_REQUEST = new StringBuilder("SELECT * FROM REGISTRATION_REQUEST WHERE status='PENDING'").toString();
+    
+    public static final String GET_REGISTRATION_REQUEST_BY_EMAIL = new StringBuilder("SELECT id,first_name,last_name,email,phone_number,msg,status,registration_token,ts_create FROM registration_request WHERE email=? ORDER BY id DESC LIMIT 1 ").toString();
 
     public static final String APPROVE_PENDING_USER_REQUEST = new StringBuilder("UPDATE REGISTRATION_REQUEST SET STATUS=? WHERE id=?").toString();
 

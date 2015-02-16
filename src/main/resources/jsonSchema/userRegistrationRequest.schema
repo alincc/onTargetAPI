@@ -23,7 +23,7 @@
       "id": "http://jsonschema.net/registrationToken",
       "type": "string"
     }
-  },
+  },nu
   "required": [
     "username",
     "password",

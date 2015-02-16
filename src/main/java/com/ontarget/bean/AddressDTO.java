@@ -7,7 +7,7 @@ import com.ontarget.dto.BaseRequest;
 /**
  * Created by Owner on 11/4/14.
  */
-public class Address extends BaseRequest implements Serializable{
+public class AddressDTO extends BaseRequest implements Serializable{
 
     private int addressId;
     private String address1;
@@ -16,7 +16,7 @@ public class Address extends BaseRequest implements Serializable{
     private String state;
     private String zip;
 
-    public Address() {
+    public AddressDTO() {
     }
 
     private String country;

@@ -12,6 +12,7 @@ import com.ontarget.bean.Task;
 import com.ontarget.bean.User;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.UserRegistrationRequest;
+import com.ontarget.entity.pojo.RegistrationRequestResponseDTO;
 import com.ontarget.util.EmailConstant;
 
 import org.apache.log4j.Logger;
@@ -114,7 +115,7 @@ public class EmailServiceImpl implements EmailService {
 
 					// get values from the database.
 					logger.info("Reg req id:: " + userRequestId);
-					UserRegistrationRequest info = registrationDAO
+					RegistrationRequestResponseDTO info = registrationDAO
 							.findRegRequestById(userRequestId);
 
 					message.setTo(info.getEmail());
@@ -123,7 +124,7 @@ public class EmailServiceImpl implements EmailService {
 					model.put(EmailConstant.EmailParameter.FIRST_NAME,
 							info.getFirstName());
 					model.put("url", baseUrl + OnTargetConstant.URL.SIGNUP_URL
-							+ "?q=" + info.getTokenId());
+							+ "?q=" + info.getRegistrationToken());
 
 					String text = VelocityEngineUtils
 							.mergeTemplateIntoString(

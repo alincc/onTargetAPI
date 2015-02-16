@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ontarget.api.BaseTest;
+import com.ontarget.dto.UserInvitationRequestDTO;
 import com.ontarget.dto.UserRegistrationRequest;
 
 public class UserInvitationDAOTest extends BaseTest {
@@ -22,7 +23,7 @@ public class UserInvitationDAOTest extends BaseTest {
 
 	@Test
 	public void testSaveRegistrationRequest() {
-		UserRegistrationRequest request = new UserRegistrationRequest();
+		UserInvitationRequestDTO request = new UserInvitationRequestDTO();
 		request.setFirstName("Santosh");
 		request.setLastName("Pun");
 		request.setEmail("email@email.com");
@@ -40,7 +41,7 @@ public class UserInvitationDAOTest extends BaseTest {
 	@Test
 	public void testFetchPendingRequests(){
 		try{
-			List<UserRegistrationRequest> pendingRequests = userInvitationDAO.fetchPendingRequests();
+			
 			
 		}catch(Exception e){
 			logger.error("Error while fetching pending request list",e);

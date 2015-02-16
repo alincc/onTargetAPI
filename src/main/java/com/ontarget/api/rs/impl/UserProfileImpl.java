@@ -5,10 +5,10 @@ import com.ontarget.api.service.EmailService;
 import com.ontarget.api.service.ProjectService;
 import com.ontarget.api.service.UserProfileService;
 import com.ontarget.bean.Contact;
-import com.ontarget.bean.Project;
+import com.ontarget.bean.ProjectDTO;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.*;
-import com.ontarget.request.bean.InviteUserIntoProjectRequest;
+import com.ontarget.request.bean.InviteUserIntoProjectRequestBean;
 import com.ontarget.util.Security;
 
 import org.apache.log4j.Logger;
@@ -144,7 +144,8 @@ public class UserProfileImpl implements UserProfile {
 	@Override
 	@POST
 	@Path("/inviteUserIntoProject")
-	public OnTargetResponse inviteUserIntoProject(InviteUserIntoProjectRequest request) {
+	public OnTargetResponse inviteUserIntoProject(
+			InviteUserIntoProjectRequestBean request) {
 		int projectId = 0;// request.getBaseRequest().getProjectId();
 		String firstName = request.getFirstName();
 		String lastName = request.getLastName();
@@ -161,7 +162,7 @@ public class UserProfileImpl implements UserProfile {
 				if (userProfileService.saveRegistration(projectId, firstName,
 						lastName, email, tokenId,
 						OnTargetConstant.AccountStatus.ACCT_NEW)) {
-					Project res = projectService.getProject(projectId);
+					ProjectDTO res = projectService.getProject(projectId);
 					long owner = res.getProjectOwnerId();
 					Contact c = userProfileService.getContact(owner);
 

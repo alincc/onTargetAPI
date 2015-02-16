@@ -6,6 +6,11 @@ import com.ontarget.api.service.UserProfileService;
 import com.ontarget.bean.Company;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.*;
+import com.ontarget.request.bean.ProjectRequestBean;
+import com.ontarget.request.bean.ProjectCompanyRequestBean;
+import com.ontarget.request.bean.ProjectDetailRequestBean;
+import com.ontarget.request.bean.ProjectUserRequestBean;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -33,9 +38,9 @@ public class ProjectEndpointImpl implements ProjectEndoint {
 	@Override
 	@POST
 	@Path("/addProject")
-	public OnTargetResponse addProject(ProjectRequest request) {
+	public OnTargetResponse addProject(ProjectRequestBean request) {
 		OnTargetResponse response = null;
-		if (request.getProject().getProjectId() <= 0) {
+		if (request.getProject().getProjectParentId() <= 0) {
 			try {
 				response = projectService.addProject(request);
 			} catch (Exception e) {
@@ -54,18 +59,18 @@ public class ProjectEndpointImpl implements ProjectEndoint {
 				response.setReturnVal(OnTargetConstant.ERROR);
 			}
 		}
-
 		return response;
 	}
 
 	@Override
 	@POST
-	@Path("/{projectId}")
+	@Path("/getProject")
 	public ProjectResponse getProjectDetail(
-			@PathParam("projectId") int projectId) {
+			ProjectDetailRequestBean projectDetailRequest) {
 		ProjectResponse response = new ProjectResponse();
 		try {
-			response = projectService.getProjectDetail(projectId);
+			response = projectService.getProjectDetail(projectDetailRequest
+					.getProjectId());
 			response.setReturnVal(OnTargetConstant.SUCCESS);
 			response.setReturnMessage("Successfully retrieved project info");
 
@@ -75,7 +80,6 @@ public class ProjectEndpointImpl implements ProjectEndoint {
 			response.setReturnMessage("Error while getting project");
 			response.setReturnVal(OnTargetConstant.ERROR);
 		}
-
 		return response;
 	}
 
@@ -83,11 +87,11 @@ public class ProjectEndpointImpl implements ProjectEndoint {
 	@POST
 	@Path("/getProjectMembers")
 	public ProjectMemberListResponse getProjectMembers(
-			@QueryParam("projectId") long projectId) {
-		// System.out.println("project id " + projectId);
+			ProjectDetailRequestBean projectDetailRequest) {
 		ProjectMemberListResponse response = new ProjectMemberListResponse();
 		try {
-			response = projectService.getProjectMembers(projectId);
+			response = projectService.getProjectMembers(projectDetailRequest
+					.getProjectId());
 			response.setReturnVal(OnTargetConstant.SUCCESS);
 			response.setReturnMessage("Successfully retrieved project members");
 
@@ -102,13 +106,14 @@ public class ProjectEndpointImpl implements ProjectEndoint {
 
 	@Override
 	@POST
-	@Path("/getProject/company/{companyId}/user/{userId}")
+	@Path("/getProjectsByCompany")
 	public ProjectListResponse getProjectByCompany(
-			@PathParam("companyId") int companyId,
-			@PathParam("userId") int userId) {
+			ProjectCompanyRequestBean projectCompanyRequest) {
 		ProjectListResponse response = new ProjectListResponse();
 		try {
-			response = projectService.getProjectsByCompany(companyId, userId);
+			response = projectService.getProjectsByCompany(
+					projectCompanyRequest.getCompanyId(),
+					projectCompanyRequest.getProjectId());
 			response.setReturnVal(OnTargetConstant.SUCCESS);
 			response.setReturnMessage("Successfully retrieved project info");
 		} catch (Exception e) {
@@ -116,18 +121,18 @@ public class ProjectEndpointImpl implements ProjectEndoint {
 			response.setReturnMessage("Error while getting project by company");
 			response.setReturnVal(OnTargetConstant.ERROR);
 		}
-
 		return response;
 	}
 
 	@Override
 	@POST
-	@Path("/getCompanyByProject/{projectId}")
+	@Path("/getCompanyByProject")
 	public ListResponse<Company> getCompanyByProject(
-			@PathParam("projectId") int projectId) {
+			ProjectDetailRequestBean projectDetailRequest) {
 		ListResponse<Company> response = new ListResponse<>();
 		try {
-			response.setList(projectService.getCompanyByProject(projectId));
+			response.setList(projectService
+					.getCompanyByProject(projectDetailRequest.getProjectId()));
 			response.setReturnVal(OnTargetConstant.SUCCESS);
 			response.setReturnMessage("Successfully retrieved company by project");
 		} catch (Exception e) {
@@ -141,12 +146,14 @@ public class ProjectEndpointImpl implements ProjectEndoint {
 
 	@Override
 	@POST
-	@Path("/getProject/user/{userId}")
-	public ProjectListResponse getProjectByUser(@PathParam("userId") int userId) {
+	@Path("/getProjectsByUser")
+	public ProjectListResponse getProjectByUser(
+			ProjectUserRequestBean projectUserRequest) {
 
 		ProjectListResponse response = new ProjectListResponse();
 		try {
-			response = projectService.getProjectsByUser(userId);
+			response = projectService.getProjectsByUser(projectUserRequest
+					.getUserId());
 			response.setReturnVal(OnTargetConstant.SUCCESS);
 			response.setReturnMessage("Successfully retrieved project info");
 		} catch (Exception e) {

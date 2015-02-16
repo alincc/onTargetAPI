@@ -2,6 +2,7 @@ package com.ontarget.api.rs;
 
 import com.ontarget.api.response.BIReportResponse;
 import com.ontarget.api.response.ProjectEarnedValueReportResponse;
+import com.ontarget.request.bean.ProjectReportRequestBean;
 
 import javax.ws.rs.PathParam;
 
@@ -10,8 +11,9 @@ import javax.ws.rs.PathParam;
  */
 public interface ProjectReportEndpoint {
 
+	public ProjectEarnedValueReportResponse getProjectEarnedValueAnalysis(
+			ProjectReportRequestBean projectReportRequest);
 
-    public ProjectEarnedValueReportResponse getProjectEarnedValueAnalysis(long projectId);
-
-    public BIReportResponse getTimeSaved(long projectId);
+	public BIReportResponse getTimeSaved(
+			ProjectReportRequestBean projectReportRequest);
 }

@@ -18,7 +18,7 @@ public interface TaskBudgetDAO {
     public Map<Task,List<TaskEstimatedCost>> getTaskToCostMap(long projectId,String costType) throws Exception;
 
 
-    Map<Task, Map<TaskInterval,TaskEstimatedCost>> getTaskToCostMapByMonthYear(long projectId, String costType) throws Exception;
+    Map<Task, Map<TaskInterval,TaskEstimatedCost>> getTaskToCostMapByMonthYear(int projectId, String costType) throws Exception;
 
     Map<Task, Map<TaskInterval, List<TaskEstimatedCost>>> getTaskCostMapByTask(int projectTaskId) throws Exception;
 

@@ -11,6 +11,7 @@ import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.UserRegistationApprovalResponse;
 import com.ontarget.dto.UserRegistrationRequest;
 import com.ontarget.dto.UserResponse;
+import com.ontarget.request.bean.SignInRequestBean;
 import com.ontarget.util.TokenUtil;
 
 import org.apache.log4j.Logger;
@@ -39,10 +40,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
-	public UserResponse signIn(User user) throws Exception {
-		logger.debug("Signing user: " + user);
+	public UserResponse signIn(SignInRequestBean signInRequest) throws Exception {
+		logger.debug("Signing user: " + signInRequest);
 		UserResponse response = new UserResponse();
-		User returnUser = authenticationDAO.getUserSignInInfo(user);
+		User returnUser = authenticationDAO.getUserSignInInfo(signInRequest);
 		if (returnUser.getUserId() == 0) {
 			response.setReturnMessage(OnTargetConstant.AUTHENTICATION_FAILED);
 			response.setAuthenticated(false);
@@ -50,7 +51,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			return response;
 		}
 
-		String token = TokenUtil.getLoginToken(user.getUsername());
+		String token = TokenUtil.getLoginToken(signInRequest.getUsername());
 		boolean saved = userSessionDAO.saveUserSessionToken(
 				returnUser.getUserId(), token);
 		if (!saved) {

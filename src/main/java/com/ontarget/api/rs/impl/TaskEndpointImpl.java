@@ -29,312 +29,323 @@ import java.util.Set;
 @Produces(MediaType.APPLICATION_JSON)
 public class TaskEndpointImpl implements TaskEndpoint {
 
-    private Logger logger = Logger.getLogger(TaskEndpointImpl.class);
+	private Logger logger = Logger.getLogger(TaskEndpointImpl.class);
 
-    @Autowired
-    private TaskService taskService;
+	@Autowired
+	private TaskService taskService;
 
+	@Override
+	@Path("/addTask")
+	@POST
+	public OnTargetResponse addTask(TaskRequest request) {
+		OnTargetResponse response = new OnTargetResponse();
+		Task task = request.getTask();
+		try {
+			if (taskService.addTaskService(task, request.getUser().getUserId())) {
+				if (taskService.isTaskAdd(task)) {
+					response.setReturnMessage("Successfully added task");
+				} else {
+					response.setReturnMessage("Successfully updated task");
+				}
+				response.setReturnVal(OnTargetConstant.SUCCESS);
+			}
+		} catch (DateAfterException e) {
+			response.setReturnMessage(e.getMessage());
+			response.setReturnVal(OnTargetConstant.ERROR);
+		} catch (DateBeforeException e) {
+			response.setReturnMessage(e.getMessage());
+			response.setReturnVal(OnTargetConstant.ERROR);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("Add task failed." + e);
+			if (taskService.isTaskAdd(task)) {
+				response.setReturnMessage("Add task failed");
+			} else {
+				response.setReturnMessage("Update task failed");
+			}
 
+			response.setReturnVal(OnTargetConstant.ERROR);
+		}
 
-    @Override
-    @Path("/addTask")
-    @POST
-    public OnTargetResponse addTask(TaskRequest request) {
-        OnTargetResponse response = new OnTargetResponse();
-        Task task = request.getTask();
-        try {
-            if (taskService.addTaskService(task, request.getUser().getUserId())) {
-                if (taskService.isTaskAdd(task)) {
-                    response.setReturnMessage("Successfully added task");
-                } else {
-                    response.setReturnMessage("Successfully updated task");
-                }
-                response.setReturnVal(OnTargetConstant.SUCCESS);
-            }
-        } catch (DateAfterException e) {
-            response.setReturnMessage(e.getMessage());
-            response.setReturnVal(OnTargetConstant.ERROR);
-        } catch (DateBeforeException e) {
-            response.setReturnMessage(e.getMessage());
-            response.setReturnVal(OnTargetConstant.ERROR);
-        } catch (Exception e) {
-            e.printStackTrace();
-            logger.error("Add task failed." + e);
-            if (taskService.isTaskAdd(task)) {
-                response.setReturnMessage("Add task failed");
-            } else {
-                response.setReturnMessage("Update task failed");
-            }
+		return response;
+	}
 
-            response.setReturnVal(OnTargetConstant.ERROR);
-        }
+	@Override
+	@POST
+	@Path("/project/{projectId}")
+	public TaskListResponse getTask(@PathParam("projectId") int projectId) {
+		logger.info("Getting all tasks for project: " + projectId);
+		TaskListResponse response = new TaskListResponse();
+		try {
+			response.setTasks(taskService.getTask(projectId));
+			response.setReturnMessage("Successfully retrieved tasks");
+			response.setReturnVal(OnTargetConstant.SUCCESS);
+		} catch (Exception e) {
+			logger.error("Add task failed." + e);
+			response.setReturnMessage("Add task failed");
+			response.setReturnVal(OnTargetConstant.ERROR);
+		}
 
-        return response;
-    }
+		return response;
+	}
 
-    @Override
-    @POST
-    @Path("/project/{projectId}")
-    public TaskListResponse getTask(@PathParam("projectId") int projectId) {
-        logger.info("Getting all tasks for project: " + projectId);
-        TaskListResponse response = new TaskListResponse();
-        try {
-            response.setTasks(taskService.getTask(projectId));
-            response.setReturnMessage("Successfully retrieved tasks");
-            response.setReturnVal(OnTargetConstant.SUCCESS);
-        } catch (Exception e) {
-            logger.error("Add task failed." + e);
-            response.setReturnMessage("Add task failed");
-            response.setReturnVal(OnTargetConstant.ERROR);
-        }
+	@Override
+	@POST
+	@Path("/getTaskCount/project/{projectId}")
+	public TaskListCountResponse getTaskCountByStatus(
+			@PathParam("projectId") int projectId) {
+		TaskListCountResponse response = new TaskListCountResponse();
+		logger.info("Getting all tasks count for project: " + projectId);
+		try {
+			response.setTaskCountByStatus(taskService
+					.getTaskCountByStatus(projectId));
+			response.setReturnMessage("Successfully retrieved tasks and counts");
+			response.setReturnVal(OnTargetConstant.SUCCESS);
+		} catch (Exception e) {
+			logger.error("Get task count failed." + e);
+			response.setReturnMessage("Get task count failed");
+			response.setReturnVal(OnTargetConstant.ERROR);
+		}
 
-        return response;
-    }
+		return response;
+	}
 
-    @Override
-    @POST
-    @Path("/getTaskCount/project/{projectId}")
-    public TaskListCountResponse getTaskCountByStatus(@PathParam("projectId") int projectId) {
-        TaskListCountResponse response = new TaskListCountResponse();
-        logger.info("Getting all tasks count for project: " + projectId);
-        try {
-            response.setTaskCountByStatus(taskService.getTaskCountByStatus(projectId));
-            response.setReturnMessage("Successfully retrieved tasks and counts");
-            response.setReturnVal(OnTargetConstant.SUCCESS);
-        } catch (Exception e) {
-            logger.error("Get task count failed." + e);
-            response.setReturnMessage("Get task count failed");
-            response.setReturnVal(OnTargetConstant.ERROR);
-        }
+	@Override
+	@POST
+	@Path("/addComment")
+	public UserResponse addUpdateCommentToTask(TaskComment comment) {
+		UserResponse response = new UserResponse();
+		try {
+			Contact contact = taskService.addTaskComment(comment);
+			if (contact == null) {
+				response.setReturnMessage("Add task comment failed");
+				response.setReturnVal(OnTargetConstant.ERROR);
+			} else {
+				User user = new User();
+				user.setContact(contact);
+				response.setUser(user);
+				response.setReturnMessage("Successfully added Comment");
+				response.setReturnVal(OnTargetConstant.SUCCESS);
+			}
+		} catch (Exception e) {
+			logger.error("Add task failed." + e);
+			response.setReturnMessage("Add task comment failed");
+			response.setReturnVal(OnTargetConstant.ERROR);
+		}
 
-        return response;
-    }
+		return response;
+	}
 
-    @Override
-    @POST
-    @Path("/addComment")
-    public UserResponse addUpdateCommentToTask(TaskComment comment) {
-        UserResponse response = new UserResponse();
-        try {
-            Contact contact = taskService.addTaskComment(comment);
-            if (contact == null) {
-                response.setReturnMessage("Add task comment failed");
-                response.setReturnVal(OnTargetConstant.ERROR);
-            }
-            else {
-                User user = new User();
-                user.setContact(contact);
-                response.setUser(user);
-                response.setReturnMessage("Successfully added Comment");
-                response.setReturnVal(OnTargetConstant.SUCCESS);
-            }
-        } catch (Exception e) {
-            logger.error("Add task failed." + e);
-            response.setReturnMessage("Add task comment failed");
-            response.setReturnVal(OnTargetConstant.ERROR);
-        }
+	@Override
+	@POST
+	@Path("/{taskId}")
+	public TaskResponse getTaskDetail(@PathParam("taskId") int taskId) {
+		TaskResponse taskResponse = new TaskResponse();
+		try {
+			taskResponse.setTask(taskService.getTaskDetail(taskId));
+			taskResponse.setReturnVal(OnTargetConstant.SUCCESS);
+		} catch (Exception e) {
+			e.printStackTrace();
+			taskResponse.setReturnMessage("Add task comment failed");
+			taskResponse.setReturnVal(OnTargetConstant.ERROR);
+		}
+		return taskResponse;
+	}
 
-        return response;
-    }
+	@Override
+	@POST
+	@Path("/updateTaskStatus")
+	public OnTargetResponse updateTaskStatus(TaskStatusUpdateRequest request) {
+		long taskId = request.getTaskId();
+		String taskStatus = request.getTaskStatus();
+		// System.out.println("these are the requests " + taskId + " and " +
+		// taskStatus);
+		OnTargetResponse response = new OnTargetResponse();
+		try {
+			if (taskService.updateTaskStatus(taskId, taskStatus, request
+					.getUser().getUserId())) {
+				// System.out.println("succesfully updated");
+				response.setReturnMessage("Successfully updated task status");
+				response.setReturnVal(OnTargetConstant.SUCCESS);
+			} else {
+				// System.out.println("failed...");
+			}
+		} catch (Exception e) {
+			// logger.error("update task failed." + e);
+			// e.printStackTrace();
+			response.setReturnMessage("update task status failed");
+			response.setReturnVal(OnTargetConstant.ERROR);
+		}
+		return response;
+	}
 
-    @Override
-    @POST
-    @Path("/{taskId}")
-    public TaskResponse getTaskDetail(@PathParam("taskId") int taskId) {
-        TaskResponse taskResponse = new TaskResponse();
-        try {
-            taskResponse.setTask(taskService.getTaskDetail(taskId));
-            taskResponse.setReturnVal(OnTargetConstant.SUCCESS);
-        } catch (Exception e) {
-            e.printStackTrace();
-            taskResponse.setReturnMessage("Add task comment failed");
-            taskResponse.setReturnVal(OnTargetConstant.ERROR);
-        }
-        return taskResponse;
-    }
+	@Override
+	@POST
+	@Path("/addTaskMember")
+	public OnTargetResponse addTaskMember(TaskMemberRequest taskMemberRequest) {
+		OnTargetResponse response = new OnTargetResponse();
+		long taskId = taskMemberRequest.getTaskId();
+		long projectId = taskMemberRequest.getProjectId();
+		if (taskId == 0) {
+			response.setReturnMessage("validation error");
+			response.setReturnVal(OnTargetConstant.ERROR);
+		} else {
+			try {
+				Set<Long> members = taskService.getTaskMembers(taskId);
+				List<Long> taskMemberRequestMembers = taskMemberRequest
+						.getMembers();
+				int count = 0;
+				for (long member : taskMemberRequestMembers) {
+					if (!members.contains(member)) {
+						if (taskService
+								.addTaskMember(projectId, taskId, member))
+							count++;
+					}
+				}
+				if (count < taskMemberRequestMembers.size()) {
+					response.setReturnMessage("Out of "
+							+ taskMemberRequestMembers.size() + " only "
+							+ count + " were written");
+					response.setReturnVal(OnTargetConstant.SUCCESS);
+				} else {
+					response.setReturnMessage("Successfully written");
+					response.setReturnVal(OnTargetConstant.SUCCESS);
+				}
+			} catch (Exception e) {
+				response.setReturnMessage("error while reading task members");
+				response.setReturnVal(OnTargetConstant.ERROR);
+			}
+		}
 
-    @Override
-    @POST
-    @Path("/updateTaskStatus")
-    public OnTargetResponse updateTaskStatus(TaskStatusUpdateRequest request) {
-        long taskId = request.getTaskId();
-        String taskStatus = request.getTaskStatus();
-//        System.out.println("these are the requests " + taskId + " and " + taskStatus);
-        OnTargetResponse response = new OnTargetResponse();
-        try {
-            if (taskService.updateTaskStatus(taskId, taskStatus, request.getUser().getUserId())) {
-//                System.out.println("succesfully updated");
-                response.setReturnMessage("Successfully updated task status");
-                response.setReturnVal(OnTargetConstant.SUCCESS);
-            } else {
-//                System.out.println("failed...");
-            }
-        } catch (Exception e) {
-            // logger.error("update task failed." + e);
-//            e.printStackTrace();
-            response.setReturnMessage("update task status failed");
-            response.setReturnVal(OnTargetConstant.ERROR);
-        }
-        return response;
-    }
+		return response;
+	}
 
-    @Override
-    @POST
-    @Path("/addTaskMember")
-    public OnTargetResponse addTaskMember(TaskMemberRequest taskMemberRequest) {
-        OnTargetResponse response = new OnTargetResponse();
-        long taskId = taskMemberRequest.getTaskId();
-        long projectId = taskMemberRequest.getProjectId();
-        if (taskId == 0) {
-            response.setReturnMessage("validation error");
-            response.setReturnVal(OnTargetConstant.ERROR);
-        } else {
-            try {
-                Set<Long> members = taskService.getTaskMembers(taskId);
-                List<Long> taskMemberRequestMembers = taskMemberRequest.getMembers();
-                int count = 0;
-                for (long member : taskMemberRequestMembers) {
-                    if (!members.contains(member)) {
-                        if (taskService.addTaskMember(projectId, taskId, member))
-                            count++;
-                    }
-                }
-                if (count < taskMemberRequestMembers.size()) {
-                    response.setReturnMessage("Out of " + taskMemberRequestMembers.size() + " only " + count + " were written");
-                    response.setReturnVal(OnTargetConstant.SUCCESS);
-                } else {
-                    response.setReturnMessage("Successfully written");
-                    response.setReturnVal(OnTargetConstant.SUCCESS);
-                }
-            } catch (Exception e) {
-                response.setReturnMessage("error while reading task members");
-                response.setReturnVal(OnTargetConstant.ERROR);
-            }
-        }
+	@Override
+	@POST
+	@Path("/saveTaskFile")
+	public InsertResponse saveTaskFile(TaskFileSaveRequest request) {
+		long taskId = request.getTaskId();
+		long userId = request.getUserId();
+		String fileName = request.getFileName();
+		String location = request.getLocation();
+		InsertResponse response = new InsertResponse();
+		try {
+			long id = taskService.saveTaskFile(taskId, userId, fileName,
+					location);
+			if (id > 0) {
+				response.setReturnMessage("Successfully written");
+				response.setReturnVal(OnTargetConstant.SUCCESS);
+			} else {
+				response.setReturnMessage("error while reading task members");
+				response.setReturnVal(OnTargetConstant.ERROR);
+			}
+		} catch (Exception e) {
+			// e.printStackTrace();
+			logger.error("Error while saving task file", e);
+			response.setReturnMessage("error saving task file");
+			response.setReturnVal(OnTargetConstant.ERROR);
+		}
 
-        return response;
-    }
+		return response;
+	}
 
-    @Override
-    @POST
-    @Path("/saveTaskFile")
-    public InsertResponse saveTaskFile(TaskFileSaveRequest request) {
-        long taskId = request.getTaskId();
-        long userId = request.getUserId();
-        String fileName = request.getFileName();
-        String location = request.getLocation();
-        InsertResponse response = new InsertResponse();
-        try {
-            long id = taskService.saveTaskFile(taskId, userId, fileName, location);
-            if (id > 0) {
-                response.setReturnMessage("Successfully written");
-                response.setReturnVal(OnTargetConstant.SUCCESS);
-            } else {
-                response.setReturnMessage("error while reading task members");
-                response.setReturnVal(OnTargetConstant.ERROR);
-            }
-        } catch (Exception e) {
-//            e.printStackTrace();
-            logger.error("Error while saving task file", e);
-            response.setReturnMessage("error saving task file");
-            response.setReturnVal(OnTargetConstant.ERROR);
-        }
+	@POST
+	@Path("/getTaskAttachments")
+	public GetTaskAttachmentResponse getTaskAttachments(
+			@QueryParam("taskId") long taskId) {
+		GetTaskAttachmentResponse response = new GetTaskAttachmentResponse();
+		try {
+			response.setTaskAttachments(taskService.getTaskAttachments(taskId));
+			response.setTaskId(taskId);
+			response.setReturnVal(OnTargetConstant.SUCCESS);
+		} catch (Exception e) {
+			e.printStackTrace();
+			response.setReturnMessage("error getting task file");
+			response.setReturnVal(OnTargetConstant.ERROR);
+		}
 
-        return response;
-    }
+		return response;
+	}
 
-    @POST
-    @Path("/getTaskAttachments")
-    public GetTaskAttachmentResponse getTaskAttachments(@QueryParam("taskId") long taskId) {
-        GetTaskAttachmentResponse response = new GetTaskAttachmentResponse();
-        try {
-            response.setTaskAttachments(taskService.getTaskAttachments(taskId));
-            response.setTaskId(taskId);
-            response.setReturnVal(OnTargetConstant.SUCCESS);
-        } catch (Exception e) {
-            e.printStackTrace();
-            response.setReturnMessage("error getting task file");
-            response.setReturnVal(OnTargetConstant.ERROR);
-        }
+	@Override
+	@Path("/assignUserToTask")
+	@POST
+	public OnTargetResponse assignTaskToUser(TaskMemberRequest taskMemberRequest) {
+		OnTargetResponse response = new OnTargetResponse();
+		try {
+			List<Long> members = taskMemberRequest.getMembers();
+			int userId = taskMemberRequest.getUser().getUserId();
+			long taskId = taskMemberRequest.getTaskId();
+			taskService.assignTaskToUser(taskId, members, userId);
+			response.setReturnMessage("Successfully assigned task");
+			response.setReturnVal(OnTargetConstant.SUCCESS);
+			// if (taskService.assignTaskToUser(taskId, members.get(0), userId))
+			// {
+			// response.setReturnMessage("Successfully assigned task");
+			// response.setReturnVal(OnTargetConstant.SUCCESS);
+			// } else {
+			// throw new Exception();
+			// }
+		} catch (Exception e) {
+			// e.printStackTrace();
+			logger.error("Error while assigning task", e);
+			response.setReturnMessage("Error while assigning task members");
+			response.setReturnVal(OnTargetConstant.ERROR);
+		}
 
-        return response;
-    }
+		return response;
+	}
 
-    @Override
-    @Path("/assignUserToTask")
-    @POST
-    public OnTargetResponse assignTaskToUser(TaskMemberRequest taskMemberRequest) {
-        OnTargetResponse response = new OnTargetResponse();
-        try {
-            List<Long> members = taskMemberRequest.getMembers();
-            int userId = taskMemberRequest.getUser().getUserId();
-            long taskId = taskMemberRequest.getTaskId();
-            taskService.assignTaskToUser(taskId, members, userId);
-            response.setReturnMessage("Successfully assigned task");
-            response.setReturnVal(OnTargetConstant.SUCCESS);
-//            if (taskService.assignTaskToUser(taskId, members.get(0), userId)) {
-//                response.setReturnMessage("Successfully assigned task");
-//                response.setReturnVal(OnTargetConstant.SUCCESS);
-//            } else {
-//                throw new Exception();
-//            }
-        } catch (Exception e) {
-//            e.printStackTrace();
-            logger.error("Error while assigning task", e);
-            response.setReturnMessage("Error while assigning task members");
-            response.setReturnVal(OnTargetConstant.ERROR);
-        }
+	// dependent task section
+	@Path("/addDependentTask")
+	@POST
+	public InsertResponse addDependentTask(
+			AddDependentRequest addDependentRequest) {
+		InsertResponse response = new InsertResponse();
+		try {
+			addDependentRequest.getDependentTask().setCreatedBy(
+					addDependentRequest.getUser().getUserId());
+			response.setId(taskService.addDependentTask(addDependentRequest
+					.getDependentTask()));
+			response.setReturnVal(OnTargetConstant.SUCCESS);
+		} catch (Exception e) {
+			e.printStackTrace();
+			response.setReturnMessage("Error while adding dependent task");
+			response.setReturnVal(OnTargetConstant.ERROR);
+		}
 
-        return response;
-    }
+		return response;
+	}
 
-    // dependent task section
-    @Path("/addDependentTask")
-    @POST
-    public InsertResponse addDependentTask(AddDependentRequest addDependentRequest) {
-        InsertResponse response = new InsertResponse();
-        try {
-            addDependentRequest.getDependentTask().setCreatedBy(addDependentRequest.getUser().getUserId());
-            response.setId(taskService.addDependentTask(addDependentRequest.getDependentTask()));
-            response.setReturnVal(OnTargetConstant.SUCCESS);
-        } catch (Exception e) {
-            e.printStackTrace();
-            response.setReturnMessage("Error while adding dependent task");
-            response.setReturnVal(OnTargetConstant.ERROR);
-        }
+	@POST
+	@Path("/getDependentTasks")
+	public TaskListResponse getDependentTasks(@QueryParam("taskId") long taskId) {
+		TaskListResponse response = new TaskListResponse();
+		try {
+			response.setTasks(taskService.getDependentTasks(taskId));
+			response.setReturnVal(OnTargetConstant.SUCCESS);
+		} catch (Exception e) {
+			e.printStackTrace();
+			response.setReturnMessage("Error while getting dependent task");
+			response.setReturnVal(OnTargetConstant.ERROR);
+		}
 
-        return response;
-    }
+		return response;
+	}
 
-    @POST
-    @Path("/getDependentTasks")
-    public TaskListResponse getDependentTasks(@QueryParam("taskId") long taskId) {
-        TaskListResponse response = new TaskListResponse();
-        try {
-            response.setTasks(taskService.getDependentTasks(taskId));
-            response.setReturnVal(OnTargetConstant.SUCCESS);
-        } catch (Exception e) {
-            e.printStackTrace();
-            response.setReturnMessage("Error while getting dependent task");
-            response.setReturnVal(OnTargetConstant.ERROR);
-        }
+	@POST
+	@Path("/userTasks/{userId}")
+	public TaskListResponse getUserTask(@PathParam("userId") int userId) {
+		TaskListResponse response = new TaskListResponse();
+		try {
+			response.setTasks(taskService.getUserTasks(userId));
+			response.setReturnVal(OnTargetConstant.SUCCESS);
+		} catch (Exception e) {
+			e.printStackTrace();
+			response.setReturnMessage("Error while getting dependent task");
+			response.setReturnVal(OnTargetConstant.ERROR);
+		}
 
-        return response;
-    }
-
-    @POST
-    @Path("/userTasks/{userId}")
-    public TaskListResponse getUserTask(@PathParam("userId") int userId){
-        TaskListResponse response = new TaskListResponse();
-        try {
-            response.setTasks(taskService.getUserTasks(userId));
-            response.setReturnVal(OnTargetConstant.SUCCESS);
-        } catch (Exception e) {
-            e.printStackTrace();
-            response.setReturnMessage("Error while getting dependent task");
-            response.setReturnVal(OnTargetConstant.ERROR);
-        }
-
-        return response;
-    }
+		return response;
+	}
 }

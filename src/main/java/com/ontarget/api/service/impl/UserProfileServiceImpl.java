@@ -9,7 +9,7 @@ import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.UserImageRequest;
 import com.ontarget.dto.UserProfileRequest;
 import com.ontarget.dto.UserProfileResponse;
-import com.ontarget.request.bean.UserRegistrationRequest;
+import com.ontarget.request.bean.UserRegistrationRequestBean;
 import com.ontarget.util.Security;
 
 import org.apache.log4j.Logger;
@@ -230,7 +230,7 @@ public class UserProfileServiceImpl implements UserProfileService {
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
 	public boolean createNewUserFromInvitation(
-			UserRegistrationRequest registration) throws Exception {
+			UserRegistrationRequestBean registration) throws Exception {
 		// get token info and create user based on the status: ACCT_NEW or
 		// ACCT_INVITE
 		UserRegistration registrationFromDB = userRegistrationDAO

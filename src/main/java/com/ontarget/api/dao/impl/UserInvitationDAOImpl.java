@@ -10,10 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+
 import com.ontarget.api.dao.UserInvitationDAO;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.constant.OnTargetQuery;
-import com.ontarget.dto.UserRegistrationRequest;
+import com.ontarget.dto.UserInvitationRequestDTO;
+import com.ontarget.entity.pojo.RegistrationRequestResponseDTO;
 
 /**
  * Created by Santosh
@@ -27,37 +29,38 @@ public class UserInvitationDAOImpl implements UserInvitationDAO {
 	private JdbcTemplate jdbcTemplate;
 
 	@Override
-	public boolean saveRegistrationRequest(UserRegistrationRequest request)
-			throws Exception {
+	public boolean saveRegistrationRequest(
+			UserInvitationRequestDTO userInvitationRequestDTO) throws Exception {
 
-		int row = jdbcTemplate.update(
-				OnTargetQuery.NEW_REGISTRATION_REQUEST,
-				new Object[] { request.getFirstName(), request.getLastName(),
-						request.getEmail(), request.getPhoneNumber(),
-						request.getMsg(),
+		int row = jdbcTemplate.update(OnTargetQuery.NEW_REGISTRATION_REQUEST,
+				new Object[] { userInvitationRequestDTO.getFirstName(),
+						userInvitationRequestDTO.getLastName(),
+						userInvitationRequestDTO.getEmail(),
+						userInvitationRequestDTO.getPhoneNumber(),
+						userInvitationRequestDTO.getMsg(),
 						OnTargetConstant.REGISTRATION_PENDING,
-						request.getTokenId() });
+						userInvitationRequestDTO.getToken() });
 		System.out.println("Inserted in registration request:: " + row);
 		if (row == 0) {
 			throw new Exception("Error while inserting registration request.");
 		}
-
 		return true;
 	}
 
 	@Override
-	public List<UserRegistrationRequest> fetchPendingRequests()
+	public List<RegistrationRequestResponseDTO> fetchPendingRequests()
 			throws Exception {
-		final List<UserRegistrationRequest> userRegistrationRequests = new LinkedList<UserRegistrationRequest>();
+		final List<RegistrationRequestResponseDTO> userRegistrationRequests = new LinkedList<RegistrationRequestResponseDTO>();
 		jdbcTemplate.query(OnTargetQuery.PENDING_REGISTRATION_REQUEST_LIST,
-				new Object[] {}, new RowMapper<UserRegistrationRequest>() {
+				new Object[] {},
+				new RowMapper<RegistrationRequestResponseDTO>() {
 					@Override
-					public UserRegistrationRequest mapRow(ResultSet resultSet,
-							int i) throws SQLException {
-						UserRegistrationRequest registrationRequest = new UserRegistrationRequest();
+					public RegistrationRequestResponseDTO mapRow(
+							ResultSet resultSet, int i) throws SQLException {
+						RegistrationRequestResponseDTO registrationRequest = new RegistrationRequestResponseDTO();
 						registrationRequest.setStatus(resultSet
 								.getString("status"));
-						registrationRequest.setTokenId(resultSet
+						registrationRequest.setRegistrationToken(resultSet
 								.getString("registration_token"));
 						registrationRequest.setPhoneNumber(resultSet
 								.getString("phone_number"));
@@ -91,51 +94,58 @@ public class UserInvitationDAOImpl implements UserInvitationDAO {
 	}
 
 	@Override
-	public UserRegistrationRequest findRegRequestById(int id) throws Exception {
-		return jdbcTemplate.queryForObject(
-				OnTargetQuery.GET_REGISTRATION_REQUEST, new Object[] { id },
-				new RowMapper<UserRegistrationRequest>() {
-					@Override
-					public UserRegistrationRequest mapRow(ResultSet rs,
-							int index) throws SQLException {
-						UserRegistrationRequest userRegistrationRequest = new UserRegistrationRequest();
-						userRegistrationRequest.setId(rs.getInt("id"));
-						userRegistrationRequest.setStatus(rs
-								.getString("status"));
-						userRegistrationRequest.setTokenId(rs
-								.getString("registration_token"));
-						userRegistrationRequest.setPhoneNumber(rs
-								.getString("phone_number"));
-						userRegistrationRequest.setEmail(rs.getString("email"));
-						userRegistrationRequest.setMsg(rs.getString("msg"));
-						userRegistrationRequest.setFirstName(rs
-								.getString("first_name"));
-						userRegistrationRequest.setLastName(rs
-								.getString("last_name"));
-						return userRegistrationRequest;
-
-					}
-				});
+	public RegistrationRequestResponseDTO findRegRequestById(int id)
+			throws Exception {
+		RegistrationRequestResponseDTO registrationRequest = (RegistrationRequestResponseDTO) jdbcTemplate
+				.queryForObject(OnTargetQuery.GET_REGISTRATION_REQUEST,
+						new Object[] { id }, new UserRegistrationRowMapper());
+		return registrationRequest;
 	}
 
 	@Override
-	public UserRegistrationRequest findRequestByToken(String token)
+	public RegistrationRequestResponseDTO findRequestByToken(String token)
 			throws Exception {
 		String sql = "SELECT * FROM REGISTRATION_REQUEST WHERE registration_token = ?";
 
-		return jdbcTemplate.queryForObject(sql, new Object[] { token },
-				new RowMapper<UserRegistrationRequest>() {
-					@Override
-					public UserRegistrationRequest mapRow(ResultSet rs,
-							int index) throws SQLException {
-						UserRegistrationRequest userRegistrationRequest = new UserRegistrationRequest();
-						userRegistrationRequest.setId(rs.getInt("id"));
-						userRegistrationRequest.setStatus(rs.getString("status"));
-						logger.info("Status dao::" +userRegistrationRequest.getStatus());
-						return userRegistrationRequest;
-
-					}
-				});
+		RegistrationRequestResponseDTO registrationRequest = (RegistrationRequestResponseDTO) jdbcTemplate
+				.queryForObject(sql, new Object[] { token },
+						new UserRegistrationRowMapper());
+		return registrationRequest;
 	}
 
+	public RegistrationRequestResponseDTO findRegRequestByEmail(String email)
+			throws Exception {
+		try {
+			RegistrationRequestResponseDTO registrationRequest = (RegistrationRequestResponseDTO) jdbcTemplate
+					.queryForObject(
+							OnTargetQuery.GET_REGISTRATION_REQUEST_BY_EMAIL,
+							new Object[] { email },
+							new UserRegistrationRowMapper());
+			return registrationRequest;
+		} catch (Exception e) {
+			logger.error("Exception::" + e);
+			return null;
+		}
+
+	}
+
+	class UserRegistrationRowMapper implements RowMapper<Object> {
+
+		@Override
+		public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
+			RegistrationRequestResponseDTO registrationRequest = new RegistrationRequestResponseDTO();
+			registrationRequest.setStatus(rs.getString("status"));
+			registrationRequest.setRegistrationToken(rs
+					.getString("registration_token"));
+			registrationRequest.setPhoneNumber(rs.getString("phone_number"));
+			registrationRequest.setEmail(rs.getString("email"));
+			registrationRequest.setId(rs.getInt("id"));
+			registrationRequest.setMsg(rs.getString("msg"));
+			registrationRequest.setFirstName(rs.getString("first_name"));
+			registrationRequest.setLastName(rs.getString("last_name"));
+			registrationRequest.setTsCreate(rs.getTimestamp("ts_create")
+					.getTime());
+			return registrationRequest;
+		}
+	}
 }

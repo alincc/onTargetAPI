@@ -18,11 +18,11 @@ public interface DocumentEndpoint {
 
     public OnTargetResponse updateDocumentStatus(UpdateDocumentStatusRequest request);
 
-    public GetDocumentsResponse getDocuments(String userName, long projectId);
+    public GetDocumentsResponse getDocuments(String userName, int projectId);
 
-    public GetDocumentResponse getDocument(String documentId);
+    public GetDocumentResponse getDocument(int documentId);
 
     public OnTargetResponse addDocumentAttachment(AddDocumentAttachmentRequest request);
 
-    public GetDocumentAttachmentsResponse getDocumentAttachments(Long documentId);
+//    public GetDocumentAttachmentsResponse getDocumentAttachments(int documentId);
 }

@@ -1,19 +1,19 @@
 package com.ontarget.dto;
 
-import com.ontarget.bean.Project;
+import com.ontarget.bean.ProjectDTO;
 
 /**
  * Created by Owner on 11/6/14.
  */
 public class ProjectResponse extends UserResponse {
 
-    private Project project;
+	private ProjectDTO project;
 
-    public Project getProject() {
-        return project;
-    }
+	public ProjectDTO getProject() {
+		return project;
+	}
 
-    public void setProject(Project project) {
-        this.project = project;
-    }
+	public void setProject(ProjectDTO project) {
+		this.project = project;
+	}
 }

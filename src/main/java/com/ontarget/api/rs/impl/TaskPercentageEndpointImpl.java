@@ -1,22 +1,23 @@
 package com.ontarget.api.rs.impl;
 
-import com.ontarget.api.response.TaskPercentageListResponse;
-import com.ontarget.api.response.TaskPercentageResponse;
-import com.ontarget.api.rs.TaskPercentageEndpoint;
-import com.ontarget.api.service.TaskPercentageService;
-import com.ontarget.bean.Task;
-import com.ontarget.bean.TaskPercentage;
-import com.ontarget.constant.OnTargetConstant;
-import com.ontarget.dto.OnTargetResponse;
-import com.ontarget.dto.TaskPercentageRequest;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import java.util.List;
-import java.util.Map;
+import com.ontarget.api.response.TaskPercentageListResponse;
+import com.ontarget.api.response.TaskPercentageResponse;
+import com.ontarget.api.rs.TaskPercentageEndpoint;
+import com.ontarget.api.service.TaskPercentageService;
+import com.ontarget.constant.OnTargetConstant;
+import com.ontarget.dto.OnTargetResponse;
+import com.ontarget.dto.TaskPercentageRequest;
 
 /**
  * Created by Owner on 11/25/14.

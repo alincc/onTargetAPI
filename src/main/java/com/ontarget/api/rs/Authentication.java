@@ -5,6 +5,7 @@ import com.ontarget.dto.UserRegistationApprovalResponse;
 import com.ontarget.dto.UserResponse;
 import com.ontarget.bean.User;
 import com.ontarget.dto.UserRegistrationRequest;
+import com.ontarget.request.bean.SignInRequestBean;
 
 import java.util.List;
 
@@ -13,16 +14,15 @@ import java.util.List;
  */
 public interface Authentication {
 
-    public UserResponse signIn(User user);
+	public UserResponse signIn(SignInRequestBean signInRequest);
 
-    public UserResponse register(User user);
+	public OnTargetResponse registrationRequest(UserRegistrationRequest request);
 
-    public OnTargetResponse registrationRequest(UserRegistrationRequest request);
+	public OnTargetResponse logout(User user);
 
-    public OnTargetResponse logout(User user);
+	public UserRegistationApprovalResponse getPendingUserRegistrationRequests();
 
-    public UserRegistationApprovalResponse getPendingUserRegistrationRequests();
-
-    public OnTargetResponse approvePendingRegistrationRequest(UserRegistrationRequest requests);
+	public OnTargetResponse approvePendingRegistrationRequest(
+			UserRegistrationRequest requests);
 
 }

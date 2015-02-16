@@ -4,17 +4,19 @@ import com.ontarget.api.service.EmailService;
 import com.ontarget.api.service.ProjectService;
 import com.ontarget.api.service.UserProfileService;
 import com.ontarget.bean.Contact;
-import com.ontarget.bean.Project;
+import com.ontarget.bean.ProjectDTO;
 import com.ontarget.bean.UserRegistration;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.UserInviteResponse;
-import com.ontarget.request.bean.InviteUserIntoProjectRequest;
-import com.ontarget.request.bean.UserRegistrationRequest;
+import com.ontarget.request.bean.InviteUserIntoProjectRequestBean;
+import com.ontarget.request.bean.UserRegistrationRequestBean;
 import com.ontarget.util.Security;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
@@ -43,7 +45,7 @@ public class UserRegistrationImpl implements
 	@POST
 	@Path("/inviteUserIntoProject")
 	public OnTargetResponse inviteUserIntoProject(
-			InviteUserIntoProjectRequest inviteUserIntoProjectRequest) {
+			InviteUserIntoProjectRequestBean inviteUserIntoProjectRequest) {
 
 		int projectId = inviteUserIntoProjectRequest.getProjectId();
 		String firstName = inviteUserIntoProjectRequest.getFirstName();
@@ -63,7 +65,7 @@ public class UserRegistrationImpl implements
 				if (userProfileService.saveRegistration(projectId, firstName,
 						lastName, email, tokenId,
 						OnTargetConstant.AccountStatus.ACCOUNT_INVITATION)) {
-					Project res = projectService.getProject(projectId);
+					ProjectDTO res = projectService.getProject(projectId);
 					long owner = res.getProjectOwnerId();
 					Contact c = userProfileService.getContact(owner);
 
@@ -93,7 +95,7 @@ public class UserRegistrationImpl implements
 	@POST
 	@Path("/inviteToNewAccount")
 	public OnTargetResponse inviteUserIntoNewAccount(
-			InviteUserIntoProjectRequest inviteUserIntoProjectRequest) {
+			InviteUserIntoProjectRequestBean inviteUserIntoProjectRequest) {
 		OnTargetResponse response = new OnTargetResponse();
 
 		logger.info("This is first name "
@@ -185,7 +187,7 @@ public class UserRegistrationImpl implements
 	@POST
 	@Path("/createUser")
 	public OnTargetResponse createNewUser(
-			UserRegistrationRequest userRegistrationRequest) {
+			UserRegistrationRequestBean userRegistrationRequest) {
 		logger.info("Adding new user: " + userRegistrationRequest);
 		OnTargetResponse response = new OnTargetResponse();
 		try {

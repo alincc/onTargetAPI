@@ -40,7 +40,7 @@ public class BaseTest extends JerseyTest {
         	ClientResponse response = resource.path(path)
                     .accept(MediaType.APPLICATION_JSON)
                     .type(MediaType.APPLICATION_JSON)
-                    .put(ClientResponse.class, payLoad);
+                    .post(ClientResponse.class, payLoad);
             return response;
         } catch(Throwable t) {
         	throw new RuntimeException(t);

@@ -8,17 +8,17 @@
       "type": "object",
       "properties": {
         "userId": {
-          "id": "http://jsonschema.net/baseRequest/userId",
+          "id": "http://jsonschema.net/baseRequest/loggedInUserId",
           "type": "integer"
         },
         "projectId": {
-          "id": "http://jsonschema.net/baseRequest/projectId",
+          "id": "http://jsonschema.net/baseRequest/loggedInUserProjectId",
           "type": "integer"
         }
       },
       "required": [
-        "userId",
-        "projectId"
+        "loggedInUserId",
+        "loggedInUserProjectId"
       ]
     },
     "recentId": {

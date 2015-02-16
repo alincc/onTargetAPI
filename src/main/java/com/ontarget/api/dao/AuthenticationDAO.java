@@ -2,6 +2,7 @@ package com.ontarget.api.dao;
 
 import com.ontarget.bean.User;
 import com.ontarget.dto.UserRegistrationRequest;
+import com.ontarget.request.bean.SignInRequestBean;
 
 import java.util.List;
 
@@ -24,7 +25,7 @@ public interface AuthenticationDAO {
 
     public boolean createUser(UserRegistrationRequest request) throws Exception;
     
-    public User getUserSignInInfo(User user) throws Exception;
+    public User getUserSignInInfo(SignInRequestBean signInRequest) throws Exception;
 
     public User getUserInfoByUsername(User user) throws Exception;
 

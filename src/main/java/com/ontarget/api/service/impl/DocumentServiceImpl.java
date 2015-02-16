@@ -154,7 +154,7 @@ public class DocumentServiceImpl implements DocumentService {
 	}
 
 	@Override
-	public GetDocumentsResponse getDocuments(String userName, long projectId) throws Exception {
+	public GetDocumentsResponse getDocuments(String userName, int projectId) throws Exception {
 //        logger.info("get doc called");
 		if(userName == null || userName.trim().isEmpty()) {
 			throw new Exception("Please specify the userName!");
@@ -217,8 +217,8 @@ public class DocumentServiceImpl implements DocumentService {
 
 	@Transactional(rollbackFor = {Exception.class})
 	@Override
-	public GetDocumentAttachmentsResponse getDocumentAttachments(Long documentId)  throws Exception {
-		if(documentId == null) {
+	public GetDocumentAttachmentsResponse getDocumentAttachments(int documentId)  throws Exception {
+		if(documentId == 0) {
 			throw new Exception("Please provide a valid documentId!");
 		}
 		try {
@@ -258,7 +258,7 @@ public class DocumentServiceImpl implements DocumentService {
 	}
 
 	@Override
-	public GetDocumentResponse getDocument(long documentId) throws Exception {
+	public GetDocumentResponse getDocument(int documentId) throws Exception {
 		try {		
 			Document document = documentDAO.read(documentId);
 			document.setDocumentTemplate(documentTemplateDAO.getByDocumentId(documentId));

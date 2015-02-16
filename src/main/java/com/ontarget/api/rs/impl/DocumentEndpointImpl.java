@@ -34,7 +34,7 @@ import com.ontarget.dto.UpdateDocumentStatusRequest;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class DocumentEndpointImpl implements DocumentEndpoint {
-	
+
 	private Logger logger = Logger.getLogger(DocumentServiceImpl.class);
 
 	@Autowired
@@ -43,22 +43,26 @@ public class DocumentEndpointImpl implements DocumentEndpoint {
 	/**
 	 * API to add new document.
 	 */
-	/* (non-Javadoc)
-	 * @see com.ontarget.api.rs.DocumentEndpoint#addDocument(com.ontarget.dto.AddDocumentRequest)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.ontarget.api.rs.DocumentEndpoint#addDocument(com.ontarget.dto.
+	 * AddDocumentRequest)
 	 */
 	@PUT
 	@Override
 	public AddDocumentResponse addDocument(AddDocumentRequest request) {
 		try {
-//			System.out.println("documentService is " + documentService);
+			// System.out.println("documentService is " + documentService);
 			AddDocumentResponse response = documentService.addDocument(request);
-            response.setReturnVal(OnTargetConstant.SUCCESS);
-            response.setReturnMessage("sucessfully uploaded");
+			response.setReturnVal(OnTargetConstant.SUCCESS);
+			response.setReturnMessage("sucessfully uploaded");
 			return response;
 		} catch (Throwable t) {
-			logger.error("Error occurred while serving add document request!", t);
-			AddDocumentResponse response = new AddDocumentResponse(OnTargetConstant.ERROR,
-					t.getMessage());
+			logger.error("Error occurred while serving add document request!",
+					t);
+			AddDocumentResponse response = new AddDocumentResponse(
+					OnTargetConstant.ERROR, t.getMessage());
 			return response;
 		}
 	}
@@ -66,8 +70,12 @@ public class DocumentEndpointImpl implements DocumentEndpoint {
 	/**
 	 * Updates the document data.
 	 */
-	/* (non-Javadoc)
-	 * @see com.ontarget.api.rs.DocumentEndpoint#updateDocumentData(com.ontarget.dto.UpdateDocumentDataRequest)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.ontarget.api.rs.DocumentEndpoint#updateDocumentData(com.ontarget.
+	 * dto.UpdateDocumentDataRequest)
 	 */
 	@POST
 	@Override
@@ -76,17 +84,22 @@ public class DocumentEndpointImpl implements DocumentEndpoint {
 			OnTargetResponse response = documentService.updateDocument(request);
 			return response;
 		} catch (Throwable t) {
-			OnTargetResponse response = new OnTargetResponse(OnTargetConstant.ERROR,
-					t.getMessage());
+			OnTargetResponse response = new OnTargetResponse(
+					OnTargetConstant.ERROR, t.getMessage());
 			return response;
 		}
 	}
 
 	/**
-	 * Updates the status of the specified document to the provided status value.
+	 * Updates the status of the specified document to the provided status
+	 * value.
 	 */
-	/* (non-Javadoc)
-	 * @see com.ontarget.api.rs.DocumentEndpoint#updateDocumentStatus(com.ontarget.dto.UpdateDocumentStatusRequest)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.ontarget.api.rs.DocumentEndpoint#updateDocumentStatus(com.ontarget
+	 * .dto.UpdateDocumentStatusRequest)
 	 */
 	@POST
 	@Path("/status")
@@ -97,99 +110,117 @@ public class DocumentEndpointImpl implements DocumentEndpoint {
 			OnTargetResponse response = documentService.updateStatus(request);
 			return response;
 		} catch (Throwable t) {
-            logger.error("error", t);
-			OnTargetResponse response = new OnTargetResponse(OnTargetConstant.ERROR,
-					t.getMessage());
+			logger.error("error", t);
+			OnTargetResponse response = new OnTargetResponse(
+					OnTargetConstant.ERROR, t.getMessage());
 			return response;
 		}
 	}
 
 	/**
-	 * This API returns all the documents submitted/assigned by/to the specified user.
-	 * Parameter userName is required.
+	 * This API returns all the documents submitted/assigned by/to the specified
+	 * user. Parameter userName is required.
 	 * 
-	 * e.g. usage
-	 * /documents?userName=jondoe
-	 * this will return the documents (along with the data) that are submitted/assigned
-	 * to/from jondoe.
+	 * e.g. usage /documents?userName=jondoe this will return the documents
+	 * (along with the data) that are submitted/assigned to/from jondoe.
 	 */
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.ontarget.api.rs.DocumentEndpoint#getDocuments(java.lang.String)
 	 */
 	@GET
 	@Override
-	public GetDocumentsResponse getDocuments(@QueryParam("userName") String userName, @QueryParam("projectId") long projectId) {
-        System.out.println("doc called");
-        try {
-			GetDocumentsResponse response = documentService.getDocuments(userName, projectId);
+	public GetDocumentsResponse getDocuments(
+			@QueryParam("userName") String userName,
+			@QueryParam("projectId") int projectId) {
+		System.out.println("doc called");
+		try {
+			GetDocumentsResponse response = documentService.getDocuments(
+					userName, projectId);
 			return response;
 		} catch (Throwable t) {
-			GetDocumentsResponse response = new GetDocumentsResponse(OnTargetConstant.ERROR,
-					t.getMessage());
+			GetDocumentsResponse response = new GetDocumentsResponse(
+					OnTargetConstant.ERROR, t.getMessage());
 			return response;
 		}
 	}
-	
+
 	/**
-	 * This API returns the data for the document with the document id  as specified as the path parameter. 
+	 * This API returns the data for the document with the document id as
+	 * specified as the path parameter.
 	 * 
-	 * e.g. usage
-	 * /documents/123
-	 * this will return the data for the document which id is 123.
+	 * e.g. usage /documents/123 this will return the data for the document
+	 * which id is 123.
 	 */
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.ontarget.api.rs.DocumentEndpoint#getDocument(java.lang.String)
 	 */
 	@GET
 	@Path("/{documentId}")
 	@Override
-	public GetDocumentResponse getDocument(@PathParam("documentId") String documentId) {
+	public GetDocumentResponse getDocument(
+			@PathParam("documentId") int documentId) {
 		try {
-			long docId = Long.parseLong(documentId);
-			GetDocumentResponse response = documentService.getDocument(docId);
+			// long docId = Long.parseLong(documentId);
+			GetDocumentResponse response = documentService
+					.getDocument(documentId);
 			return response;
 		} catch (Throwable t) {
 			String errMsg = t.getMessage();
-			if(t instanceof NumberFormatException) {
+			if (t instanceof NumberFormatException) {
 				errMsg = "Invalid document ID specified as path parameter!";
 			}
-			GetDocumentResponse response = new GetDocumentResponse(OnTargetConstant.ERROR,
-					errMsg);
+			GetDocumentResponse response = new GetDocumentResponse(
+					OnTargetConstant.ERROR, errMsg);
 			return response;
 		}
 	}
 
 	/**
-	 * Returns the attachments that belongs to the specified document.
-	 * The document id is withing the URL.
+	 * Returns the attachments that belongs to the specified document. The
+	 * document id is withing the URL.
 	 * 
 	 * e.g.
 	 * 
-	 * /1234/attachments
-	 * this will return the attachments that belong to the document with id 1234.
+	 * /1234/attachments this will return the attachments that belong to the
+	 * document with id 1234.
 	 */
-	/* (non-Javadoc)
-	 * @see com.ontarget.api.rs.DocumentEndpoint#getDocumentAttachments(java.lang.Long)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.ontarget.api.rs.DocumentEndpoint#getDocumentAttachments(java.lang
+	 * .Long)
 	 */
-	@GET
-	@Path("/{documentId}/attachments")
-	@Override
-	public GetDocumentAttachmentsResponse getDocumentAttachments(@PathParam("documentId") Long documentId) {
-		try {
-			GetDocumentAttachmentsResponse response = documentService.getDocumentAttachments(documentId);
-			return response;
-		} catch (Throwable t) {
-			GetDocumentAttachmentsResponse response = new GetDocumentAttachmentsResponse(OnTargetConstant.ERROR,
-					t.getMessage());
-			return response;
-		}
-	}
+	// @GET
+	// @Path("/{documentId}/attachments")
+	// @Override
+	// public GetDocumentAttachmentsResponse
+	// getDocumentAttachments(@PathParam("documentId") int documentId) {
+	// try {
+	// GetDocumentAttachmentsResponse response =
+	// documentService.getDocumentAttachments(documentId);
+	// return response;
+	// } catch (Throwable t) {
+	// GetDocumentAttachmentsResponse response = new
+	// GetDocumentAttachmentsResponse(OnTargetConstant.ERROR,
+	// t.getMessage());
+	// return response;
+	// }
+	// }
 
 	/**
 	 * Saves the specified document attachment file.
 	 */
-	/* (non-Javadoc)
-	 * @see com.ontarget.api.rs.DocumentEndpoint#addDocumentAttachment(com.ontarget.dto.AddDocumentAttachmentRequest)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.ontarget.api.rs.DocumentEndpoint#addDocumentAttachment(com.ontarget
+	 * .dto.AddDocumentAttachmentRequest)
 	 */
 	@PUT
 	@Path("/attachments")
@@ -197,7 +228,8 @@ public class DocumentEndpointImpl implements DocumentEndpoint {
 	public AddDocumentAttachmentResponse addDocumentAttachment(
 			AddDocumentAttachmentRequest request) {
 		try {
-			AddDocumentAttachmentResponse response = documentService.addDocumentAttachment(request);
+			AddDocumentAttachmentResponse response = documentService
+					.addDocumentAttachment(request);
 			return response;
 		} catch (Throwable t) {
 			AddDocumentAttachmentResponse response = new AddDocumentAttachmentResponse();
@@ -207,5 +239,4 @@ public class DocumentEndpointImpl implements DocumentEndpoint {
 		}
 	}
 
-	
 }
