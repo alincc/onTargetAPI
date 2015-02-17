@@ -1,6 +1,6 @@
 package com.ontarget.api.response;
 
-import com.ontarget.bean.Task;
+import com.ontarget.bean.TaskDTO;
 import com.ontarget.bean.TaskPercentage;
 import com.ontarget.dto.OnTargetResponse;
 
@@ -12,14 +12,14 @@ import java.util.Map;
  */
 public class TaskPercentageResponse extends OnTargetResponse{
 
-    private Map<Task,List<TaskPercentage>> taskListMap;
+    private Map<TaskDTO,List<TaskPercentage>> taskListMap;
 
 
-    public Map<Task, List<TaskPercentage>> getTaskListMap() {
+    public Map<TaskDTO, List<TaskPercentage>> getTaskListMap() {
         return taskListMap;
     }
 
-    public void setTaskListMap(Map<Task, List<TaskPercentage>> taskListMap) {
+    public void setTaskListMap(Map<TaskDTO, List<TaskPercentage>> taskListMap) {
         this.taskListMap = taskListMap;
     }
 }

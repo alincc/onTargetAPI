@@ -20,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 		"correctionMeasuresToBePerformed" })
 public class AccidentReportRequestBean {
 	@JsonProperty("baseRequest")
-	private BaseRequestBean baseRequest;
+	private BaseRequest baseRequest;
 	@JsonProperty("projectId")
 	private Integer projectId;
 	@JsonProperty("accidentReportId")
@@ -65,12 +65,12 @@ public class AccidentReportRequestBean {
 	private String correctionMeasuresToBePerformed;
 
 	@JsonProperty("baseRequest")
-	public BaseRequestBean getBaseRequest() {
+	public BaseRequest getBaseRequest() {
 		return baseRequest;
 	}
 
 	@JsonProperty("baseRequest")
-	public void setBaseRequest(BaseRequestBean baseRequest) {
+	public void setBaseRequest(BaseRequest baseRequest) {
 		this.baseRequest = baseRequest;
 	}
 

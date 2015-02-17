@@ -16,7 +16,7 @@ public interface ProjectService {
 
     public OnTargetResponse updateProject(ProjectRequestBean request) throws Exception;
 
-    public ProjectResponse getProjectDetail(long projectId) throws Exception;
+    public ProjectResponse getProjectDetail(int projectId) throws Exception;
 
     public ProjectListResponse getProjectsByCompany(int companyId, int userId) throws Exception;
 
@@ -26,7 +26,7 @@ public interface ProjectService {
 
     public ProjectMemberListResponse getProjectMembers(int projectId) throws Exception;
 
-    public ProjectDTO getProject(long projectId) throws Exception;
+    public ProjectDTO getProject(int projectId) throws Exception;
 
-    public ProjectDTO getProjectTree(long projectId) throws Exception;
+    public ProjectDTO getProjectTree(int projectId) throws Exception;
 }

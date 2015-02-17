@@ -2,7 +2,7 @@ package com.ontarget.api.service.impl;
 
 import com.ontarget.api.dao.TaskPercentageDAO;
 import com.ontarget.api.service.TaskPercentageService;
-import com.ontarget.bean.Task;
+import com.ontarget.bean.TaskDTO;
 import com.ontarget.bean.TaskEstimatedCost;
 import com.ontarget.bean.TaskPercentage;
 import org.apache.log4j.Logger;
@@ -75,7 +75,7 @@ public class TaskPercentageServiceImpl implements TaskPercentageService {
 
 
     @Override
-    public Map<Task,List<TaskPercentage>> getTaskPercentageByProject(int projectId) throws Exception{
+    public Map<TaskDTO,List<TaskPercentage>> getTaskPercentageByProject(int projectId) throws Exception{
         logger.debug("Getting list of percentage complete for project: "+ projectId);
         return taskPercentageDAO.getTaskPercentageCompletes(projectId);
     }

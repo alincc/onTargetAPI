@@ -11,15 +11,15 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({ "baseRequest", "projectId" })
 public class UploadedFileDetailBean {
 	@JsonProperty("baseRequest")
-	private BaseRequestBean baseRequest;
+	private BaseRequest baseRequest;
 	@JsonProperty("projectId")
 	private Integer projectId;
 
-	public BaseRequestBean getBaseRequest() {
+	public BaseRequest getBaseRequest() {
 		return baseRequest;
 	}
 
-	public void setBaseRequest(BaseRequestBean baseRequest) {
+	public void setBaseRequest(BaseRequest baseRequest) {
 		this.baseRequest = baseRequest;
 	}
 

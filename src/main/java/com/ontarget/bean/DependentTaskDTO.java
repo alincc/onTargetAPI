@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by sumit on 1/5/15.
  */
-public class DependentTask implements Serializable {
+public class DependentTaskDTO implements Serializable {
     long id;
     int taskId;
     int dependentTaskId;

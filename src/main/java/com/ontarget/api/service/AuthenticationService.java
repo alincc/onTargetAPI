@@ -2,7 +2,7 @@ package com.ontarget.api.service;
 
 import com.ontarget.dto.UserRegistationApprovalResponse;
 import com.ontarget.dto.UserResponse;
-import com.ontarget.bean.User;
+import com.ontarget.bean.UserDTO;
 import com.ontarget.dto.UserRegistrationRequest;
 import com.ontarget.request.bean.SignInRequestBean;
 

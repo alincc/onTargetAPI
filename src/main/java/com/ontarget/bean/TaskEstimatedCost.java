@@ -12,7 +12,7 @@ import java.util.Date;
 public class TaskEstimatedCost implements Serializable{
 
     private int id;
-    private Task task;
+    private TaskDTO task;
     private Date fromDate;
     private Date toDate;
     private String costType; // PLANNED OR ESTIMATED
@@ -57,11 +57,11 @@ public class TaskEstimatedCost implements Serializable{
     public TaskEstimatedCost() {
     }
 
-    public Task getTask() {
+    public TaskDTO getTask() {
         return task;
     }
 
-    public void setTask(Task task) {
+    public void setTask(TaskDTO task) {
         this.task = task;
     }
 

@@ -1,7 +1,7 @@
 package com.ontarget.api.dao.impl;
 
 import com.ontarget.api.dao.TaskBudgetDAO;
-import com.ontarget.bean.Task;
+import com.ontarget.bean.TaskDTO;
 import com.ontarget.bean.TaskEstimatedCost;
 import com.ontarget.bean.TaskInterval;
 import com.ontarget.constant.OnTargetQuery;
@@ -37,11 +37,11 @@ public class TaskBudgetDAOImpl implements TaskBudgetDAO {
 	}
 
 	@Override
-	public Map<Task, List<TaskEstimatedCost>> getTaskToCostMap(long projectId,
+	public Map<TaskDTO, List<TaskEstimatedCost>> getTaskToCostMap(long projectId,
 			String costType) throws Exception {
 		logger.info("getting cost for project Id: " + projectId
 				+ " and cost type: " + costType);
-		Map<Task, List<TaskEstimatedCost>> taskToCostMap = new LinkedHashMap<>();
+		Map<TaskDTO, List<TaskEstimatedCost>> taskToCostMap = new LinkedHashMap<>();
 
 		jdbcTemplate.query(
 				OnTargetQuery.GET_TASK_PLANNED_ESTIMATED_COST_BY_PROJECT,
@@ -65,7 +65,7 @@ public class TaskBudgetDAOImpl implements TaskBudgetDAO {
 					cost.setMonth(month);
 					cost.setYear(year);
 
-					Task task = new Task();
+					TaskDTO task = new TaskDTO();
 					task.setProjectTaskId(resultSet.getInt("project_task_id"));
 					task.setTitle(resultSet.getString("title"));
 					List<TaskEstimatedCost> costList = taskToCostMap.get(task);
@@ -94,11 +94,11 @@ public class TaskBudgetDAOImpl implements TaskBudgetDAO {
 	}
 
 	@Override
-	public Map<Task, Map<TaskInterval, TaskEstimatedCost>> getTaskToCostMapByMonthYear(
+	public Map<TaskDTO, Map<TaskInterval, TaskEstimatedCost>> getTaskToCostMapByMonthYear(
 			int projectId, String costType) throws Exception {
 		logger.info("getting cost for project Id: " + projectId
 				+ " and cost type: " + costType);
-		Map<Task, Map<TaskInterval, TaskEstimatedCost>> taskToCostMap = new LinkedHashMap<>();
+		Map<TaskDTO, Map<TaskInterval, TaskEstimatedCost>> taskToCostMap = new LinkedHashMap<>();
 
 		jdbcTemplate
 				.query(OnTargetQuery.GET_TASK_PLANNED_ESTIMATED_COST_BY_PROJECT,
@@ -123,7 +123,7 @@ public class TaskBudgetDAOImpl implements TaskBudgetDAO {
 							cost.setMonth(month);
 							cost.setYear(year);
 
-							Task task = new Task();
+							TaskDTO task = new TaskDTO();
 							task.setProjectTaskId(resultSet
 									.getInt("project_task_id"));
 							task.setTitle(resultSet.getString("title"));
@@ -154,17 +154,17 @@ public class TaskBudgetDAOImpl implements TaskBudgetDAO {
 	}
 
 	@Override
-	public Map<Task, Map<TaskInterval, List<TaskEstimatedCost>>> getTaskCostMapByTask(
+	public Map<TaskDTO, Map<TaskInterval, List<TaskEstimatedCost>>> getTaskCostMapByTask(
 			int projectTaskId) throws Exception {
 
-		Map<Task, Map<TaskInterval, List<TaskEstimatedCost>>> taskMapMap = new LinkedHashMap<>();
+		Map<TaskDTO, Map<TaskInterval, List<TaskEstimatedCost>>> taskMapMap = new LinkedHashMap<>();
 
 		jdbcTemplate
 				.query(OnTargetQuery.GET_TASK_COST_BY_TASK,
 						new Object[] { projectTaskId },
 						(resultSet, i) -> {
 
-							Task task = new Task();
+							TaskDTO task = new TaskDTO();
 							task.setProjectTaskId(resultSet
 									.getInt("project_task_id"));
 							task.setTitle("title");
@@ -220,7 +220,7 @@ public class TaskBudgetDAOImpl implements TaskBudgetDAO {
 	}
 
 	@Override
-	public Task getTaskCostByTask(Task task) throws Exception {
+	public TaskDTO getTaskCostByTask(TaskDTO task) throws Exception {
 		final List<TaskEstimatedCost> taskCostList = new ArrayList<>();
 		// Task task = new Task();
 		task.setCosts(taskCostList);

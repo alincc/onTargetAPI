@@ -14,9 +14,9 @@ public interface ProjectDAO {
 
 	public int addProject(ProjectDTO project) throws Exception;
 
-	public ProjectDTO getProject(long projectId) throws Exception;
+	public ProjectDTO getProject(int projectId) throws Exception;
 
-	public ProjectDTO getProjectAndSubProjects(long projectId) throws Exception;
+	public ProjectDTO getProjectAndSubProjects(int projectId) throws Exception;
 
 	public List<Map<String, Object>> getProjectByCompany(int companyId,
 			int userId) throws Exception;
@@ -27,11 +27,11 @@ public interface ProjectDAO {
 	public List<ProjectMember> getProjectMembers(int projectId)
 			throws Exception;
 
-	public int addProjectMember(long projectId, int userId);
+	public int addProjectMember(int projectId, int userId);
 
 	public List<Map<String, Object>> getProjectByUser(int userId);
 
-	public List<ProjectDTO> getChildProjects(long projectId) throws Exception;
+	public List<ProjectDTO> getChildProjects(int projectId) throws Exception;
 
 	public List<Company> getCompanyByProject(int projectId) throws Exception;
 }

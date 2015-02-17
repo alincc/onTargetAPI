@@ -1,26 +1,38 @@
 package com.ontarget.api.service.impl;
 
-import com.ontarget.api.dao.*;
-import com.ontarget.api.service.EmailService;
-import com.ontarget.api.service.TaskService;
-import com.ontarget.bean.Contact;
-import com.ontarget.bean.DependentTask;
-import com.ontarget.bean.FileAttachment;
-import com.ontarget.bean.ProjectDTO;
-import com.ontarget.bean.Task;
-import com.ontarget.bean.TaskComment;
-import com.ontarget.bean.TaskStatusCount;
-import com.ontarget.bean.User;
-import com.ontarget.exception.DateAfterException;
-import com.ontarget.exception.DateBeforeException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TimeZone;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.text.SimpleDateFormat;
-import java.util.*;
+import com.ontarget.api.dao.ContactDAO;
+import com.ontarget.api.dao.ProjectDAO;
+import com.ontarget.api.dao.ProjectTaskFileDAO;
+import com.ontarget.api.dao.TaskDAO;
+import com.ontarget.api.dao.TaskEstimatedCostDAO;
+import com.ontarget.api.service.EmailService;
+import com.ontarget.api.service.TaskService;
+import com.ontarget.bean.Contact;
+import com.ontarget.bean.DependentTaskDTO;
+import com.ontarget.bean.FileAttachment;
+import com.ontarget.bean.ProjectDTO;
+import com.ontarget.bean.TaskDTO;
+import com.ontarget.bean.TaskStatusCount;
+import com.ontarget.bean.UserDTO;
+import com.ontarget.request.bean.ParentTask;
+import com.ontarget.request.bean.Project;
+import com.ontarget.request.bean.Task;
+import com.ontarget.request.bean.TaskCommentRequest;
 
 /**
  * Created by Owner on 11/6/14.
@@ -28,294 +40,325 @@ import java.util.*;
 @Service
 public class TaskServiceImpl implements TaskService {
 
-    private Logger logger = Logger.getLogger(TaskServiceImpl.class);
+	private Logger logger = Logger.getLogger(TaskServiceImpl.class);
 
-    @Autowired
-    private TaskDAO taskDAO;
+	@Autowired
+	private TaskDAO taskDAO;
 
-    @Autowired
-    private TaskEstimatedCostDAO taskEstimatedCostDAO;
+	@Autowired
+	private TaskEstimatedCostDAO taskEstimatedCostDAO;
 
-    @Autowired
-    private ProjectTaskFileDAO projectTaskFileDAO;
+	@Autowired
+	private ProjectTaskFileDAO projectTaskFileDAO;
 
-    @Autowired
-    private EmailService emailService;
+	@Autowired
+	private EmailService emailService;
 
-    @Autowired
-    private ContactDAO contactDAO;
+	@Autowired
+	private ContactDAO contactDAO;
 
-    @Autowired
-    private ProjectDAO projectDAO;
+	@Autowired
+	private ProjectDAO projectDAO;
 
-    private static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-    private static final TimeZone cst = TimeZone.getTimeZone("America/Chicago");
+	private static final SimpleDateFormat format = new SimpleDateFormat(
+			"yyyy-MM-dd");
+	private static final TimeZone cst = TimeZone.getTimeZone("America/Chicago");
 
-    static {
-        format.setTimeZone(cst);
-    }
+	static {
+		format.setTimeZone(cst);
+	}
 
-    @Override
-    @Transactional(rollbackFor = {Exception.class})
-    public boolean addTaskService(Task task, int userId) throws Exception {
-        logger.info("Add/Update task: " + task);
+	@Override
+	@Transactional(rollbackFor = { Exception.class })
+	public boolean addTaskService(Task task, int userId) throws Exception {
+		logger.info("Add/Update task: " + task);
 
-        String startDateText = task.getStartDateText();
-        if (startDateText != null && !startDateText.isEmpty()) {
-            Date parse = format.parse(startDateText);
+		String startDateText = task.getStartDateText();
+		if (startDateText != null && !startDateText.isEmpty()) {
+			Date parse = format.parse(startDateText);
 
-            Calendar calendar = Calendar.getInstance(cst);
-            calendar.setTimeInMillis(parse.getTime());
-            calendar.setTimeZone(cst);
-            parse = calendar.getTime();
-            logger.info("this is start date " + parse + " parsed from " + startDateText);
-            task.setStartDate(parse);
-        }
+			Calendar calendar = Calendar.getInstance(cst);
+			calendar.setTimeInMillis(parse.getTime());
+			calendar.setTimeZone(cst);
+			parse = calendar.getTime();
+			logger.info("this is start date " + parse + " parsed from "
+					+ startDateText);
+			task.setStartDate(parse);
+		}
 
-        String endDateText = task.getEndDateText();
-        if (endDateText != null && !endDateText.isEmpty()) {
-            Date parse = format.parse(endDateText);
-            logger.info("this is end date " + parse + " parsed from " + endDateText);
-            task.setEndDate(parse);
-        }
+		String endDateText = task.getEndDateText();
+		if (endDateText != null && !endDateText.isEmpty()) {
+			Date parse = format.parse(endDateText);
+			logger.info("this is end date " + parse + " parsed from "
+					+ endDateText);
+			task.setEndDate(parse);
+		}
 
-        int taskId = task.getProjectTaskId();
-        // validate times
-        Date startDate = task.getStartDate();
-        Date endDate = task.getEndDate();
-        if (task.getProject() == null) {
-            throw new Exception("task project is null");
-        } else {
-            Date projectStartDate = task.getProject().getStartDate();
-            Date projectEndDate = task.getProject().getEndDate();
-            if (projectStartDate == null || projectEndDate == null) {
-                ProjectDTO project = projectDAO.getProject(task.getProject().getProjectId());
-                logger.info("start and end date of project is null so getting new project " + project.toString());
-                if (project == null) {
-                    throw new Exception("project is invalid for task");
-                }
-                task.setProject(project);
-                projectStartDate = project.getStartDate();
-                projectEndDate = project.getEndDate();
-            }
+		int taskId = task.getProjectTaskId();
+		// validate times
+		Date startDate = task.getStartDate();
+		Date endDate = task.getEndDate();
+		if (task.getProject() == null) {
+			throw new Exception("task project is null");
+		} else {
+			Date projectStartDate = task.getProject().getStartDate();
+			Date projectEndDate = task.getProject().getEndDate();
+			if (projectStartDate == null || projectEndDate == null) {
+				ProjectDTO projectDTO = projectDAO.getProject(task.getProject()
+						.getProjectId());
+				logger.info("start and end date of project is null so getting new project "
+						+ projectDTO.toString());
+				if (projectDTO == null) {
+					throw new Exception("project is invalid for task");
+				}
 
-//            if (startDate.getTime() < projectStartDate.getTime()) {
-////                throw new Exception("Task starts before project start date");
-//                logger.info(startDate.toString() + " less than " + projectStartDate.toString());
-//                throw new DateBeforeException("Task starts before project start date");
-//            } else {
-//                if (endDate.getTime() > projectEndDate.getTime()) {
-////                    throw new Exception("Task ends after project end date");
-//                    logger.info(endDate.toString() + " more than " + projectEndDate.toString());
-//                    throw new DateAfterException("Task ends after project end date");
-//                }
-//            }
-        }
+				Project project = new Project();
+				project.setProjectId(projectDTO.getProjectId());
+				project.setStartDate(projectDTO.getStartDate());
+				project.setEndDate(projectDTO.getEndDate());
 
-        Task parentTask = task.getParentTask();
-        if (parentTask != null) {
-            Date parentTaskStartDate = parentTask.getStartDate();
-            Date parentTaskEndDate = parentTask.getEndDate();
-            if (parentTaskStartDate == null || parentTaskEndDate == null) {
-                parentTask = taskDAO.getTaskDetail(parentTask.getProjectTaskId());
-                if (parentTask == null) {
-                    throw new Exception("parent task does not exists");
-                }
-                parentTaskStartDate = parentTask.getStartDate();
-                parentTaskEndDate = parentTask.getEndDate();
-            }
+				task.setProject(project);
+				projectStartDate = project.getStartDate();
+				projectEndDate = project.getEndDate();
+			}
 
-//            if (parentTaskStartDate != null && startDate.getTime() < parentTaskStartDate.getTime()) {
-//                logger.info(startDate.toString() + " less than " + parentTaskStartDate.toString());
-//                throw new DateBeforeException("Task starts before parent task start date");
-////                throw new Exception("Task starts before parent task start date");
-//            } else {
-//                if (parentTaskEndDate != null && endDate.getTime() > parentTaskEndDate.getTime()) {
-//                    logger.info(endDate.toString() + " more than " + parentTaskEndDate.toString());
-//                    throw new DateAfterException("Task ends after parent task end date");
-////                    throw new Exception("Task ends after parent task end date");
-//                }
-//            }
-        }
+			// if (startDate.getTime() < projectStartDate.getTime()) {
+			// logger.info(startDate.toString() + " less than "
+			// + projectStartDate.toString());
+			// throw new DateBeforeException(
+			// "Task starts before project start date");
+			// } else {
+			// if (endDate.getTime() > projectEndDate.getTime()) {
+			// // throw new Exception("Task ends after project end date");
+			// logger.info(endDate.toString() + " more than "
+			// + projectEndDate.toString());
+			// throw new DateAfterException(
+			// "Task ends after project end date");
+			// }
+			// }
+		}
 
-        if (isTaskAdd(taskId)) {
-            taskId = taskDAO.addTask(task, userId);
-        } else {
-            boolean updated = taskDAO.updateTask(task, userId);
-            if (!updated) {
-                throw new Exception("Add/update task failed.");
-            }
-        }
+		ParentTask parentTask = task.getParentTask();
+		if (parentTask != null) {
+			Date parentTaskStartDate = parentTask.getStartDate();
+			Date parentTaskEndDate = parentTask.getEndDate();
+			if (parentTaskStartDate == null || parentTaskEndDate == null) {
+				TaskDTO parentTaskDTO = taskDAO.getTaskDetail(parentTask
+						.getProjectTaskId());
+				if (parentTaskDTO == null) {
+					throw new Exception("parent task does not exists");
+				}
 
+				parentTask.setStartDate(parentTaskDTO.getStartDate());
+				parentTask.setEndDate(parentTaskDTO.getEndDate());
 
-        if (taskId == 0) {
-            throw new Exception("Add/update task failed.");
-        }
+				parentTaskStartDate = parentTask.getStartDate();
+				parentTaskEndDate = parentTask.getEndDate();
+			}
 
-        // add project task assignee.
+			// if (parentTaskStartDate != null
+			// && startDate.getTime() < parentTaskStartDate.getTime()) {
+			// logger.info(startDate.toString() + " less than "
+			// + parentTaskStartDate.toString());
+			// throw new DateBeforeException(
+			// "Task starts before parent task start date");
+			// } else {
+			// if (parentTaskEndDate != null
+			// && endDate.getTime() > parentTaskEndDate.getTime()) {
+			// logger.info(endDate.toString() + " more than "
+			// + parentTaskEndDate.toString());
+			// throw new DateAfterException(
+			// "Task ends after parent task end date");
+			// }
+			// }
+		}
 
+		if (isTaskAdd(taskId)) {
+			taskId = taskDAO.addTask(task, userId);
+		} else {
+			boolean updated = taskDAO.updateTask(task, userId);
+			if (!updated) {
+				throw new Exception("Add/update task failed.");
+			}
+		}
 
-        return true;
-    }
+		if (taskId == 0) {
+			throw new Exception("Add/update task failed.");
+		}
 
-    public boolean isTaskAdd(Task task) {
-        int taskId = task.getProjectTaskId();
-        return isTaskAdd(taskId);
-    }
+		// add project task assignee.
 
-    private boolean isTaskAdd(int taskId) {
-        return taskId <= 0;
-    }
+		return true;
+	}
 
-    @Override
-    public List<Task> getTask(int projectId) throws Exception {
-        return taskDAO.getTask(projectId);
-    }
+	public boolean isTaskAdd(Task task) {
+		int taskId = task.getProjectTaskId();
+		return isTaskAdd(taskId);
+	}
 
-    public int addDependentTask(DependentTask dependentTask) throws Exception {
-        return taskDAO.addDependentTask(dependentTask);
-    }
+	private boolean isTaskAdd(int taskId) {
+		return taskId <= 0;
+	}
 
-    public Task getTaskDetail(int taskId) throws Exception {
-        Task task = taskDAO.getTaskDetail(taskId);
-        Long assignedUserId = taskDAO.getAssignedUser(task.getProjectTaskId());
+	@Override
+	public List<TaskDTO> getTask(int projectId) throws Exception {
+		return taskDAO.getTask(projectId);
+	}
 
-        Set<Long> assignees = taskDAO.getTaskMembers(task.getProjectTaskId());
+	public int addDependentTask(DependentTaskDTO dependentTask)
+			throws Exception {
+		return taskDAO.addDependentTask(dependentTask);
+	}
 
-        List<User> assignedUsers = new ArrayList<>();
-        task.setAssignee(assignedUsers);
-        if (assignees != null && assignees.size() > 0) {
-            for (Long id : assignees) {
-                Contact contact = contactDAO.getContact(id);
-                User assignedToUser = new User();
-                assignedToUser.setContact(contact);
-                assignedToUser.setUserId(assignedUserId.intValue());
-                assignedUsers.add(assignedToUser);
-            }
-        } else {
-            logger.info("task is unassigned");
-        }
+	public TaskDTO getTaskDetail(int taskId) throws Exception {
+		TaskDTO task = taskDAO.getTaskDetail(taskId);
+		int assignedUserId = taskDAO.getAssignedUser(task.getProjectTaskId());
 
-//
-//
-//        if (assignedUserId > 0) {
-//            User assignedToUser = new User();
-//            assignedToUser.setUserId(assignedUserId.intValue());
-//            task.setAssignedTo(assignedToUser);
-//        }
-//        else {
-//            logger.info("task is unassigned");
-//        }
-        setTaskLevel(task, 1);
-        return task;
-    }
+		Set<Integer> assignees = taskDAO
+				.getTaskMembers(task.getProjectTaskId());
 
-    public List<Task> setTaskLevel(Task task, int level) throws Exception {
-        List<Task> childTasks = taskDAO.getChildTasks(task.getProjectTaskId());
-        if (level < 20 && childTasks != null && !childTasks.isEmpty()) {
-            level++;
-            for (Task p : childTasks) {
-                setTaskLevel(p, level);
-            }
-        }
+		List<UserDTO> assignedUsers = new ArrayList<>();
+		task.setAssignee(assignedUsers);
+		if (assignees != null && assignees.size() > 0) {
+			for (Integer id : assignees) {
+				Contact contact = contactDAO.getContact(id);
+				UserDTO assignedToUser = new UserDTO();
+				assignedToUser.setContact(contact);
+				assignedToUser.setUserId(assignedUserId);
+				assignedUsers.add(assignedToUser);
+			}
+		} else {
+			logger.info("task is unassigned");
+		}
 
-        task.setChildTasks(childTasks);
-        return childTasks;
-    }
+		//
+		//
+		// if (assignedUserId > 0) {
+		// User assignedToUser = new User();
+		// assignedToUser.setUserId(assignedUserId.intValue());
+		// task.setAssignedTo(assignedToUser);
+		// }
+		// else {
+		// logger.info("task is unassigned");
+		// }
+		setTaskLevel(task, 1);
+		return task;
+	}
 
-    @Override
-    public List<TaskStatusCount> getTaskCountByStatus(int projectId) throws Exception {
-        return taskDAO.getTaskCountByStatus(projectId);
-    }
+	public List<TaskDTO> setTaskLevel(TaskDTO task, int level) throws Exception {
+		List<TaskDTO> childTasks = taskDAO.getChildTasks(task
+				.getProjectTaskId());
+		if (level < 20 && childTasks != null && !childTasks.isEmpty()) {
+			level++;
+			for (TaskDTO p : childTasks) {
+				setTaskLevel(p, level);
+			}
+		}
 
-    @Override
-    @Transactional(rollbackFor = {Exception.class})
-    public Contact addTaskComment(TaskComment comment) throws Exception {
-        if (comment.getTaskCommentId() > 0) {
-            if(taskDAO.updateComment(comment)){
-                Contact contact = contactDAO.getContact(comment.getCommentedBy());
-                return contact;
-            }
-            else
-                throw new Exception("task not updated");
-        } else {
-            int taskCommentId = taskDAO.addComment(comment);
-            if (taskCommentId > 0) {
-                Contact contact = contactDAO.getContact(comment.getCommentedBy());
-                return contact;
-            }
-            else {
-                throw new Exception("Task not added");
-            }
-        }
+		task.setChildTasks(childTasks);
+		return childTasks;
+	}
 
+	@Override
+	public List<TaskStatusCount> getTaskCountByStatus(int projectId)
+			throws Exception {
+		return taskDAO.getTaskCountByStatus(projectId);
+	}
 
-    }
+	@Override
+	@Transactional(rollbackFor = { Exception.class })
+	public Contact addTaskComment(TaskCommentRequest comment) throws Exception {
+		if (comment.getTaskCommentId() > 0) {
+			if (taskDAO.updateComment(comment)) {
+				Contact contact = contactDAO.getContact(comment
+						.getCommentedBy());
+				return contact;
+			} else
+				throw new Exception("task not updated");
+		} else {
+			int taskCommentId = taskDAO.addComment(comment);
+			if (taskCommentId > 0) {
+				Contact contact = contactDAO.getContact(comment
+						.getCommentedBy());
+				return contact;
+			} else {
+				throw new Exception("Task not added");
+			}
+		}
 
-    @Override
-    @Transactional(rollbackFor = {Exception.class})
-    public boolean updateTaskStatus(long taskId, String taskStatus, int userId) throws Exception {
-        return taskDAO.updateTaskStatus(taskId, taskStatus, userId);
-    }
+	}
 
-    @Override
-    public Set<Long> getTaskMembers(long taskId) throws Exception {
-        return taskDAO.getTaskMembers(taskId);
-    }
+	@Override
+	@Transactional(rollbackFor = { Exception.class })
+	public boolean updateTaskStatus(int taskId, String taskStatus, int userId)
+			throws Exception {
+		return taskDAO.updateTaskStatus(taskId, taskStatus, userId);
+	}
 
-    @Override
-    @Transactional(rollbackFor = {Exception.class})
-    public boolean addTaskMember(long projectId, long taskId, long memberId) throws Exception {
-        return taskDAO.addTaskMember(projectId, taskId, memberId);
-    }
+	@Override
+	public Set<Integer> getTaskMembers(int taskId) throws Exception {
+		return taskDAO.getTaskMembers(taskId);
+	}
 
-    @Override
-    @Transactional(rollbackFor = {Exception.class})
-    public long saveTaskFile(long taskid, long userId, String fileName, String location) throws Exception {
-        return projectTaskFileDAO.saveTaskFile(taskid, fileName, userId, location);
-    }
+	@Override
+	@Transactional(rollbackFor = { Exception.class })
+	public boolean addTaskMember(int projectId, int taskId, int memberId)
+			throws Exception {
+		return taskDAO.addTaskMember(projectId, taskId, memberId);
+	}
 
-    @Override
-    public List<FileAttachment> getTaskAttachments(long taskId) throws Exception {
-        List<FileAttachment> taskAttachments = projectTaskFileDAO.getTaskAttachments(taskId);
-        Map<Long, Contact> contactSet = new HashMap<>();
-        for (FileAttachment fileAttachment : taskAttachments) {
-            long userId = fileAttachment.getUserId();
-            if (contactSet.containsKey(userId)) {
-                fileAttachment.setContact(contactSet.get(userId));
-            } else {
-                Contact c = contactDAO.getContact(userId);
-                contactSet.put(userId, c);
-                fileAttachment.setContact(c);
-            }
-        }
+	@Override
+	@Transactional(rollbackFor = { Exception.class })
+	public long saveTaskFile(int taskid, int userId, String fileName,
+			String location) throws Exception {
+		return projectTaskFileDAO.saveTaskFile(taskid, fileName, userId,
+				location);
+	}
 
-        return taskAttachments;
-    }
+	@Override
+	public List<FileAttachment> getTaskAttachments(int taskId) throws Exception {
+		List<FileAttachment> taskAttachments = projectTaskFileDAO
+				.getTaskAttachments(taskId);
+		Map<Long, Contact> contactSet = new HashMap<>();
+		for (FileAttachment fileAttachment : taskAttachments) {
+			long userId = fileAttachment.getUserId();
+			if (contactSet.containsKey(userId)) {
+				fileAttachment.setContact(contactSet.get(userId));
+			} else {
+				Contact c = contactDAO.getContact(userId);
+				contactSet.put(userId, c);
+				fileAttachment.setContact(c);
+			}
+		}
 
-    @Override
-    @Transactional(rollbackFor = {Exception.class})
-    public void assignTaskToUser(long taskId, List<Long> users, int assigningUser) throws Exception {
-        logger.info("clearing task assignees");
-        taskDAO.deleteAllTaskAssignedUsers(taskId);
-        for (long userId : users) {
-            logger.info("inserting user " + userId + " for task " + taskId);
-            taskDAO.assignTaskToUser(taskId, userId, assigningUser);
+		return taskAttachments;
+	}
 
-            // get contact detail by userId
-            Contact contact = contactDAO.getContact(userId);
-            Task task = taskDAO.getTaskDetail(taskId);
-            if (contact != null) {
-                emailService.sendTaskAssignmentEmail(task, contact);
-            }
-        }
-    }
+	@Override
+	@Transactional(rollbackFor = { Exception.class })
+	public void assignTaskToUser(int taskId, List<Integer> users,
+			int assigningUser) throws Exception {
+		logger.info("clearing task assignees");
+		taskDAO.deleteAllTaskAssignedUsers(taskId);
+		for (Integer userId : users) {
+			logger.info("inserting user " + userId + " for task " + taskId);
+			taskDAO.assignTaskToUser(taskId, userId, assigningUser);
 
-    public List<Task> getDependentTasks(long taskId) throws Exception {
-        return taskDAO.getDependentTasks(taskId);
-    }
+			// get contact detail by userId
+			Contact contact = contactDAO.getContact(userId);
+			TaskDTO task = taskDAO.getTaskDetail(taskId);
+			if (contact != null) {
+				emailService.sendTaskAssignmentEmail(task, contact);
+			}
+		}
+	}
 
-    public List<Task> getUserTasks(int userId) throws Exception {
-        return taskDAO.getUserTasks(userId);
-    }
+	public List<TaskDTO> getDependentTasks(int taskId) throws Exception {
+		return taskDAO.getDependentTasks(taskId);
+	}
+
+	public List<TaskDTO> getUserTasks(int userId) throws Exception {
+		return taskDAO.getUserTasks(userId);
+	}
+
 }

@@ -1,7 +1,7 @@
 package com.ontarget.dto;
 
 import com.ontarget.bean.ProjectDTO;
-import com.ontarget.bean.User;
+import com.ontarget.bean.UserDTO;
 
 import java.io.Serializable;
 
@@ -14,7 +14,7 @@ public class ProjectRequest implements Serializable {
 	}
 
 	private ProjectDTO project;
-	private User user;
+	private UserDTO user;
 
 	public ProjectDTO getProject() {
 		return project;
@@ -24,11 +24,11 @@ public class ProjectRequest implements Serializable {
 		this.project = project;
 	}
 
-	public User getUser() {
+	public UserDTO getUser() {
 		return user;
 	}
 
-	public void setUser(User user) {
+	public void setUser(UserDTO user) {
 		this.user = user;
 	}
 }

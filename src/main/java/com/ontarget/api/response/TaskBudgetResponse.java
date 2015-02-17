@@ -1,6 +1,6 @@
 package com.ontarget.api.response;
 
-import com.ontarget.bean.Task;
+import com.ontarget.bean.TaskDTO;
 import com.ontarget.bean.TaskEstimatedCost;
 import com.ontarget.bean.TaskInterval;
 import com.ontarget.dto.OnTargetResponse;
@@ -18,7 +18,7 @@ public class TaskBudgetResponse extends OnTargetResponse{
 
     private List<TaskInterval> taskIntervals;
 
-    private Map<Task, List<TaskEstimatedCost>> taskCosts;
+    private Map<TaskDTO, List<TaskEstimatedCost>> taskCosts;
 
     public List<TaskInterval> getTaskIntervals() {
         return taskIntervals;
@@ -28,11 +28,11 @@ public class TaskBudgetResponse extends OnTargetResponse{
         this.taskIntervals = taskIntervals;
     }
 
-    public Map<Task, List<TaskEstimatedCost>> getTaskCosts() {
+    public Map<TaskDTO, List<TaskEstimatedCost>> getTaskCosts() {
         return taskCosts;
     }
 
-    public void setTaskCosts(Map<Task, List<TaskEstimatedCost>> taskCosts) {
+    public void setTaskCosts(Map<TaskDTO, List<TaskEstimatedCost>> taskCosts) {
         this.taskCosts = taskCosts;
     }
 }

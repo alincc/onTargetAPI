@@ -1,32 +1,41 @@
 package com.ontarget.api.service.impl;
 
-import com.ontarget.api.dao.*;
-import com.ontarget.api.service.ProjectService;
-import com.ontarget.bean.AddressDTO;
-import com.ontarget.bean.Company;
-import com.ontarget.bean.Contact;
-import com.ontarget.bean.ProjectDTO;
-import com.ontarget.bean.ProjectMember;
-import com.ontarget.bean.Task;
-import com.ontarget.bean.TaskComment;
-import com.ontarget.bean.User;
-import com.ontarget.constant.OnTargetConstant;
-import com.ontarget.constant.OnTargetQuery;
-import com.ontarget.dto.OnTargetResponse;
-import com.ontarget.dto.ProjectListResponse;
-import com.ontarget.dto.ProjectMemberListResponse;
-import com.ontarget.dto.ProjectResponse;
-import com.ontarget.request.bean.ProjectRequestBean;
-import com.ontarget.request.bean.ProjectBean;
-import com.ontarget.request.bean.ProjectAddressBean;
-import com.ontarget.util.ConvertPOJOUtils;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import com.ontarget.api.dao.AddressDAO;
+import com.ontarget.api.dao.CompanyDAO;
+import com.ontarget.api.dao.ContactDAO;
+import com.ontarget.api.dao.ProjectDAO;
+import com.ontarget.api.dao.TaskDAO;
+import com.ontarget.api.dao.UserRegistrationDAO;
+import com.ontarget.api.service.ProjectService;
+import com.ontarget.bean.AddressDTO;
+import com.ontarget.bean.Company;
+import com.ontarget.bean.Contact;
+import com.ontarget.bean.ProjectDTO;
+import com.ontarget.bean.ProjectMember;
+import com.ontarget.bean.TaskComment;
+import com.ontarget.bean.TaskDTO;
+import com.ontarget.bean.UserDTO;
+import com.ontarget.constant.OnTargetConstant;
+import com.ontarget.dto.OnTargetResponse;
+import com.ontarget.dto.ProjectListResponse;
+import com.ontarget.dto.ProjectMemberListResponse;
+import com.ontarget.dto.ProjectResponse;
+import com.ontarget.request.bean.ProjectAddressBean;
+import com.ontarget.request.bean.ProjectBean;
+import com.ontarget.request.bean.ProjectRequestBean;
+import com.ontarget.util.ConvertPOJOUtils;
 
 /**
  * Created by Owner on 11/6/14.
@@ -157,20 +166,20 @@ public class ProjectServiceImpl implements ProjectService {
 		return response;
 	}
 
-	public ProjectDTO getProject(long projectId) throws Exception {
+	public ProjectDTO getProject(int projectId) throws Exception {
 		ProjectDTO project = projectDAO.getProject((int) projectId);
 		setProjectLevel(project, 1);
 		return project;
 	}
 
-	public ProjectDTO getProjectTree(long projectId) throws Exception {
+	public ProjectDTO getProjectTree(int projectId) throws Exception {
 		ProjectDTO project = projectDAO.getProject((int) projectId);
 		setProjectLevel(project, 1);
 		return project;
 	}
 
 	@Override
-	public ProjectResponse getProjectDetail(long projectId) throws Exception {
+	public ProjectResponse getProjectDetail(int projectId) throws Exception {
 		ProjectDTO project = getProjectTree(projectId);
 
 		ProjectResponse response = new ProjectResponse();
@@ -190,7 +199,7 @@ public class ProjectServiceImpl implements ProjectService {
 			}
 
 			// get list of tasks.
-			List<Task> tasks = taskDAO.getTask(projectId);
+			List<TaskDTO> tasks = taskDAO.getTask(projectId);
 			project.setTaskList(tasks);
 		}
 
@@ -295,12 +304,12 @@ public class ProjectServiceImpl implements ProjectService {
 			project.setProjectAddress(projectAddress);
 
 			// get list of tasks.
-			List<Task> tasks = taskDAO.getTask(project.getProjectId());
+			List<TaskDTO> tasks = taskDAO.getTask(project.getProjectId());
 			project.setTaskList(tasks);
 			Map<Integer, Contact> contactMap = new HashMap<>(); //
 			// get all the comments in the tasks and assigned to.
 			if (tasks != null && tasks.size() > 0) {
-				for (Task task : tasks) {
+				for (TaskDTO task : tasks) {
 					List<TaskComment> comments = taskDAO.getTaskComments(task
 							.getProjectTaskId());
 					for (TaskComment comment : comments) {
@@ -329,15 +338,15 @@ public class ProjectServiceImpl implements ProjectService {
 					// task.setAssignedTo(assignedToUser);
 					// }
 
-					Set<Long> assignees = taskDAO.getTaskMembers(task
+					Set<Integer> assignees = taskDAO.getTaskMembers(task
 							.getProjectTaskId());
 
-					List<User> assignedUsers = new ArrayList<>();
+					List<UserDTO> assignedUsers = new ArrayList<>();
 					task.setAssignee(assignedUsers);
 					if (assignees != null && assignees.size() > 0) {
-						for (Long id : assignees) {
+						for (Integer id : assignees) {
 							Contact contact = contactDAO.getContact(id);
-							User assignedToUser = new User();
+							UserDTO assignedToUser = new UserDTO();
 							assignedToUser.setContact(contact);
 							assignedToUser.setUserId((id.intValue()));
 							assignedUsers.add(assignedToUser);

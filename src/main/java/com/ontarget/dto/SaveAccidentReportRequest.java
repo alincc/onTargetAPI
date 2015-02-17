@@ -1,11 +1,11 @@
 package com.ontarget.dto;
 
 import com.ontarget.bean.AccidentReport;
-import com.ontarget.bean.User;
+import com.ontarget.bean.UserDTO;
 
 public class SaveAccidentReportRequest {
 	private AccidentReport accidentReport;
-	private User user;
+	private UserDTO user;
 
 	public AccidentReport getAccidentReport() {
 		return accidentReport;
@@ -15,11 +15,11 @@ public class SaveAccidentReportRequest {
 		this.accidentReport = accidentReport;
 	}
 
-	public User getUser() {
+	public UserDTO getUser() {
 		return user;
 	}
 
-	public void setUser(User user) {
+	public void setUser(UserDTO user) {
 		this.user = user;
 	}
 

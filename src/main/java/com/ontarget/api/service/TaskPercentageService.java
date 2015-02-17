@@ -1,6 +1,6 @@
 package com.ontarget.api.service;
 
-import com.ontarget.bean.Task;
+import com.ontarget.bean.TaskDTO;
 import com.ontarget.bean.TaskPercentage;
 
 import java.util.List;
@@ -17,5 +17,5 @@ public interface TaskPercentageService {
 
     List<TaskPercentage> getTaskPercentageByTask(int taskId) throws Exception;
 
-    Map<Task,List<TaskPercentage>> getTaskPercentageByProject(int projectId) throws Exception;
+    Map<TaskDTO,List<TaskPercentage>> getTaskPercentageByProject(int projectId) throws Exception;
 }

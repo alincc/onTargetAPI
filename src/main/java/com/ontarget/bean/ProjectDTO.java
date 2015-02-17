@@ -6,7 +6,11 @@ import java.util.List;
 
 public class ProjectDTO implements Serializable {
 
-	private long projectId;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8528631105379784034L;
+	private Integer projectId;
 	private String projectName;
 	private String projectDescription;
 	private int projectTypeId;
@@ -16,7 +20,7 @@ public class ProjectDTO implements Serializable {
 	private Company company;
 	private int projectParentId;
 	private AddressDTO projectAddress;
-	private List<Task> taskList;
+	private List<TaskDTO> taskList;
 	private List<ProjectDTO> projects;
 	private Date startDate;
 	private Date endDate;
@@ -41,11 +45,11 @@ public class ProjectDTO implements Serializable {
 		this.projectOwnerId = projectOwnerId;
 	}
 
-	public long getProjectId() {
+	public Integer getProjectId() {
 		return projectId;
 	}
 
-	public void setProjectId(long projectId) {
+	public void setProjectId(Integer projectId) {
 		this.projectId = projectId;
 	}
 
@@ -65,11 +69,11 @@ public class ProjectDTO implements Serializable {
 		this.projectAddress = projectAddress;
 	}
 
-	public List<Task> getTaskList() {
+	public List<TaskDTO> getTaskList() {
 		return taskList;
 	}
 
-	public void setTaskList(List<Task> taskList) {
+	public void setTaskList(List<TaskDTO> taskList) {
 		this.taskList = taskList;
 	}
 

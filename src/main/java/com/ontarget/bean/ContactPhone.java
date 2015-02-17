@@ -2,12 +2,12 @@ package com.ontarget.bean;
 
 import java.io.Serializable;
 
-import com.ontarget.dto.BaseRequest;
+import com.ontarget.dto.BaseRequestDTO;
 
 /**
  * Created by Owner on 12/9/14.
  */
-public class ContactPhone extends BaseRequest implements Serializable {
+public class ContactPhone extends BaseRequestDTO implements Serializable {
 
 	private int phoneId;
 	private int areaCode;

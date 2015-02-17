@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({ "baseRequest", "userId" })
 public class ProjectUserRequestBean {
 	@JsonProperty("baseRequest")
-	private BaseRequestBean baseRequest;
+	private BaseRequest baseRequest;
 	@JsonProperty("userId")
 	private Integer userId;
 
@@ -20,7 +20,7 @@ public class ProjectUserRequestBean {
 	 * @return The baseRequest
 	 */
 	@JsonProperty("baseRequest")
-	public BaseRequestBean getBaseRequest() {
+	public BaseRequest getBaseRequest() {
 		return baseRequest;
 	}
 
@@ -30,7 +30,7 @@ public class ProjectUserRequestBean {
 	 *            The baseRequest
 	 */
 	@JsonProperty("baseRequest")
-	public void setBaseRequest(BaseRequestBean baseRequest) {
+	public void setBaseRequest(BaseRequest baseRequest) {
 		this.baseRequest = baseRequest;
 	}
 

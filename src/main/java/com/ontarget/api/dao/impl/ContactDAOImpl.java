@@ -2,7 +2,7 @@ package com.ontarget.api.dao.impl;
 
 import com.ontarget.api.dao.ContactDAO;
 import com.ontarget.bean.Contact;
-import com.ontarget.bean.User;
+import com.ontarget.bean.UserDTO;
 import com.ontarget.constant.OnTargetQuery;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,7 +62,7 @@ public class ContactDAOImpl implements ContactDAO {
         Map<String, Object> rs = results.get(0);
         Contact contact = new Contact();
         contact.setContactId((Integer) rs.get("contact_id"));
-        User user = new User();
+        UserDTO user = new UserDTO();
         user.setUserId((int)userId);
         contact.setUser(user);
         contact.setFirstName((String) rs.get("first_name"));

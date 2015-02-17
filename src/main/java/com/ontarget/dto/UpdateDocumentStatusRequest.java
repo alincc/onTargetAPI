@@ -1,11 +1,11 @@
 package com.ontarget.dto;
 
-import com.ontarget.bean.User;
+import com.ontarget.bean.UserDTO;
 
 public class UpdateDocumentStatusRequest {
 	private Long documentId;
 	private String newStatus;
-	private User updater;
+	private UserDTO updater;
 
 	
 	public long getDocumentId() {
@@ -24,11 +24,11 @@ public class UpdateDocumentStatusRequest {
 		this.newStatus = newStatus;
 	}
 
-	public User getUpdater() {
+	public UserDTO getUpdater() {
 		return updater;
 	}
 
-	public void setUpdater(User updater) {
+	public void setUpdater(UserDTO updater) {
 		this.updater = updater;
 	}
 	

@@ -87,7 +87,7 @@ public interface OnTargetQuery {
 
     public static final String GET_TASK_MEMBERS = new StringBuilder("SELECT `user_id` FROM `task_assignee` WHERE `task_id`=? and `status` = 'ACTIVE'").toString();
 
-    public static final String ADD_TASK_MEMBER = new StringBuilder("INSERT INTO task_member (task_id, project_id, user_id) VALUES (?, ?, ?)").toString();
+    public static final String ADD_TASK_MEMBER = new StringBuilder("INSERT INTO task_member (task_id, project_id, user_id,status) VALUES (?, ?, ?,'ACTIVE')").toString();
 
     public static final String UPDATE_TASK_PLANNED_ESTIMATED_COST = new StringBuilder("update planned_actuals_cost set value=?,modified_by=?,modified_date=now() where id=?").toString();
 

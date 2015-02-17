@@ -1,6 +1,6 @@
 package com.ontarget.api.response;
 
-import com.ontarget.bean.Task;
+import com.ontarget.bean.TaskDTO;
 import com.ontarget.bean.TaskEstimatedCost;
 import com.ontarget.bean.TaskInterval;
 import com.ontarget.dto.OnTargetResponse;
@@ -16,14 +16,14 @@ public class TaskBudgetListResponse extends OnTargetResponse{
     public TaskBudgetListResponse() {
     }
 
-    private Task task;
+    private TaskDTO task;
 
 
-    public Task getTask() {
+    public TaskDTO getTask() {
         return task;
     }
 
-    public void setTask(Task task) {
+    public void setTask(TaskDTO task) {
         this.task = task;
     }
 }

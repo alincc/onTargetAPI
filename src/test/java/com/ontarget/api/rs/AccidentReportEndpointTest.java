@@ -8,11 +8,11 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.ontarget.bean.AccidentReport;
-import com.ontarget.bean.User;
-import com.ontarget.dto.BaseRequest;
+import com.ontarget.bean.UserDTO;
+import com.ontarget.dto.BaseRequestDTO;
 import com.ontarget.dto.SaveAccidentReportRequest;
 import com.ontarget.request.bean.AccidentReportRequestBean;
-import com.ontarget.request.bean.BaseRequestBean;
+import com.ontarget.request.bean.BaseRequest;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.test.framework.spi.container.TestContainerException;
 
@@ -28,7 +28,7 @@ public class AccidentReportEndpointTest extends BaseTest {
 	public void testSaveAccidentReport() {
 		AccidentReportRequestBean accidentReport = new AccidentReportRequestBean();
 
-		BaseRequestBean baseRequestBean = new BaseRequestBean();
+		BaseRequest baseRequestBean = new BaseRequest();
 		baseRequestBean.setLoggedInUserId(1);
 		baseRequestBean.setLoggedInUserProjectId(1);
 

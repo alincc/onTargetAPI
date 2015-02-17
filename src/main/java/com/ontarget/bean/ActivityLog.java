@@ -2,12 +2,12 @@ package com.ontarget.bean;
 
 import java.io.Serializable;
 
-import com.ontarget.dto.BaseRequest;
+import com.ontarget.dto.BaseRequestDTO;
 
 /**
  * Created by sumit on 12/6/14.
  */
-public class ActivityLog extends BaseRequest implements Serializable {
+public class ActivityLog extends BaseRequestDTO implements Serializable {
 	private long id;
 	private String text;
 	private long category;

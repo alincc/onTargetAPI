@@ -1,0 +1,48 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://jsonschema.net",
+  "type": "object",
+  "properties": {
+    "baseRequest": {
+      "id": "http://jsonschema.net/baseRequest",
+      "type": "object",
+      "properties": {
+        "loggedInUserId": {
+          "id": "http://jsonschema.net/baseRequest/loggedInUserId",
+          "type": "integer"
+        },
+        "loggedInUserProjectId": {
+          "id": "http://jsonschema.net/baseRequest/loggedInUserProjectId",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "loggedInUserId",
+        "loggedInUserProjectId"
+      ]
+    },
+    "taskId": {
+      "id": "http://jsonschema.net/taskId",
+      "type": "integer"
+    },
+    "taskCommentId": {
+      "id": "http://jsonschema.net/taskCommentId",
+      "type": "integer"
+    },
+    "comment": {
+      "id": "http://jsonschema.net/comment",
+      "type": "string"
+    },
+    "commentedBy": {
+      "id": "http://jsonschema.net/commentedBy",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "baseRequest",
+    "taskId",
+    "taskCommentId",
+    "comment",
+    "commentedBy"
+  ]
+}

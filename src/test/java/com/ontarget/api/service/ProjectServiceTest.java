@@ -3,7 +3,7 @@ package com.ontarget.api.service;
 import com.ontarget.api.BaseTest;
 import com.ontarget.bean.AddressDTO;
 import com.ontarget.bean.ProjectDTO;
-import com.ontarget.bean.User;
+import com.ontarget.bean.UserDTO;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.ProjectListResponse;
 import com.ontarget.dto.ProjectRequest;
@@ -72,7 +72,7 @@ public class ProjectServiceTest extends BaseTest {
 		addr.setZip("10101");
 		project.setProjectAddress(addr);
 
-		User user = new User();
+		UserDTO user = new UserDTO();
 		user.setUserId(1);
 
 		ProjectRequest request = new ProjectRequest();

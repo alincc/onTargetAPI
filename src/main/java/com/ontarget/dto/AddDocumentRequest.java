@@ -5,15 +5,15 @@ import java.util.List;
 
 import com.ontarget.bean.DocumentGridKeyValue;
 import com.ontarget.bean.DocumentKeyValue;
-import com.ontarget.bean.User;
+import com.ontarget.bean.UserDTO;
 
 public class AddDocumentRequest {
 	private long documentTemplateId;
 	private String documentName;
 	private List<DocumentKeyValue> keyValues;
 	private List<DocumentGridKeyValue> gridKeyValues;
-	private User submitter;
-	private List<User> assignees;
+	private UserDTO submitter;
+	private List<UserDTO> assignees;
     private long projectId;
     private Date dueDate;
 	
@@ -53,19 +53,19 @@ public class AddDocumentRequest {
 		this.gridKeyValues = gridKeyValues;
 	}
 
-	public User getSubmitter() {
+	public UserDTO getSubmitter() {
 		return submitter;
 	}
 
-	public void setSubmitter(User submitter) {
+	public void setSubmitter(UserDTO submitter) {
 		this.submitter = submitter;
 	}
 
-	public List<User> getAssignees() {
+	public List<UserDTO> getAssignees() {
 		return assignees;
 	}
 
-	public void setAssignees(List<User> assignees) {
+	public void setAssignees(List<UserDTO> assignees) {
 		this.assignees = assignees;
 	}
 

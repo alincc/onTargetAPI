@@ -21,7 +21,7 @@ import com.ontarget.bean.DocumentGridKeyValue;
 import com.ontarget.bean.DocumentKeyValue;
 import com.ontarget.bean.DocumentSubmittal;
 import com.ontarget.bean.DocumentTemplate;
-import com.ontarget.bean.User;
+import com.ontarget.bean.UserDTO;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.AddDocumentAttachmentRequest;
 import com.ontarget.dto.AddDocumentAttachmentResponse;
@@ -64,7 +64,7 @@ public class DocumentServiceImpl implements DocumentService {
 	@Override
 	public AddDocumentResponse addDocument(AddDocumentRequest request) throws Exception {
 		Document document = new Document();
-		List<User> assignees = request.getAssignees();
+		List<UserDTO> assignees = request.getAssignees();
 		try {
 			document.setDocumentTemplate(new DocumentTemplate(request.getDocumentTemplateId()));
 			document.setName(request.getDocumentName());
@@ -95,7 +95,7 @@ public class DocumentServiceImpl implements DocumentService {
 				}
 			}
 			
-			for(User assignee : assignees) {
+			for(UserDTO assignee : assignees) {
 				DocumentSubmittal submittal = new DocumentSubmittal();
 				submittal.setDocument(document);
 				submittal.setAssignee(assignee);
@@ -121,7 +121,7 @@ public class DocumentServiceImpl implements DocumentService {
 	public OnTargetResponse updateDocument(UpdateDocumentDataRequest request) throws Exception {
 		try {
 			long documentId = request.getDocumentId();
-			User user = request.getUser();
+			UserDTO user = request.getUser();
 
             boolean updated = documentDAO.updateDueDate(request.getDocumentId(),request.getDueDate(), ""+request.getUser().getUserId());
 
@@ -200,7 +200,7 @@ public class DocumentServiceImpl implements DocumentService {
 		try {
 			Long documentId = request.getDocumentId();
 			String newStatus = request.getNewStatus();
-			User updater = request.getUpdater();
+			UserDTO updater = request.getUpdater();
 			boolean updated = documentDAO.updateStatus(documentId, newStatus, updater.getUserId());
 			OnTargetResponse response = new OnTargetResponse();
 			if(updated) {
@@ -239,7 +239,7 @@ public class DocumentServiceImpl implements DocumentService {
 		try {
 			String filePath = request.getFilePath();
 			Long documentId = request.getDocumentId();
-			User user = request.getUser();
+			UserDTO user = request.getUser();
 			DocumentAttachment attachment = new DocumentAttachment();
 			attachment.setDocument(new Document(documentId));
 			attachment.setFilePath(filePath);

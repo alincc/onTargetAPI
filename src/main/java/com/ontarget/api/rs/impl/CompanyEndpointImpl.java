@@ -3,7 +3,7 @@ package com.ontarget.api.rs.impl;
 import com.ontarget.api.service.CompanyService;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.CompanyListResponse;
-import com.ontarget.request.bean.BaseRequestBean;
+import com.ontarget.request.bean.BaseRequest;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,7 @@ public class CompanyEndpointImpl implements com.ontarget.api.rs.CompanyEndpoint 
     @Override
     @Path("/getCompanyList")
     @POST
-    public CompanyListResponse getCompanyList(BaseRequestBean baseRequest) {
+    public CompanyListResponse getCompanyList(BaseRequest baseRequest) {
         CompanyListResponse response = new CompanyListResponse();
         try {
             response.setCompanyList(companyService.getCompanyList());

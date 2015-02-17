@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 		"createdBy", "modifiedBy" })
 public class UploadDocumentRequestBean {
 	@JsonProperty("baseRequest")
-	private BaseRequestBean baseRequest;
+	private BaseRequest baseRequest;
 	@JsonProperty("projectId")
 	private Integer projectId;
 	@JsonProperty("name")
@@ -25,12 +25,12 @@ public class UploadDocumentRequestBean {
 	private Integer modifiedBy;
 
 	@JsonProperty("baseRequest")
-	public BaseRequestBean getBaseRequest() {
+	public BaseRequest getBaseRequest() {
 		return baseRequest;
 	}
 
 	@JsonProperty("baseRequest")
-	public void setBaseRequest(BaseRequestBean baseRequest) {
+	public void setBaseRequest(BaseRequest baseRequest) {
 		this.baseRequest = baseRequest;
 	}
 

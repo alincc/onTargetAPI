@@ -1,7 +1,7 @@
 package com.ontarget.api.dao;
 
 import com.ontarget.api.BaseTest;
-import com.ontarget.bean.User;
+import com.ontarget.bean.UserDTO;
 import com.ontarget.dto.UserRegistrationRequest;
 import com.ontarget.request.bean.SignInRequestBean;
 
@@ -88,7 +88,7 @@ public class AuthenticationDAOTest extends BaseTest {
 		signInRequest.setPassword("123456");
 
 		try {
-			User user = authenticationDAO.getUserSignInInfo(signInRequest);
+			UserDTO user = authenticationDAO.getUserSignInInfo(signInRequest);
 			logger.info(user);
 			Assert.assertTrue(user != null);
 		} catch (Exception e) {

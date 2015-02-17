@@ -8,8 +8,8 @@ import com.ontarget.api.rs.UserInvitation;
 import com.ontarget.api.service.EmailService;
 import com.ontarget.bean.Contact;
 import com.ontarget.bean.Document;
-import com.ontarget.bean.Task;
-import com.ontarget.bean.User;
+import com.ontarget.bean.TaskDTO;
+import com.ontarget.bean.UserDTO;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.UserRegistrationRequest;
 import com.ontarget.entity.pojo.RegistrationRequestResponseDTO;
@@ -226,9 +226,9 @@ public class EmailServiceImpl implements EmailService {
 
 	@Override
 	public boolean sendDocumentAssignmentEmails(final Document document,
-			List<User> assignees) {
-		List<User> failures = new ArrayList<>();
-		for (final User assignee : assignees) {
+			List<UserDTO> assignees) {
+		List<UserDTO> failures = new ArrayList<>();
+		for (final UserDTO assignee : assignees) {
 			try {
 				MimeMessagePreparator preparator = new MimeMessagePreparator() {
 					@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -312,11 +312,11 @@ public class EmailServiceImpl implements EmailService {
 	}
 
 	@Override
-	public void sendTaskAssignmentEmail(Task task, Contact contact)
+	public void sendTaskAssignmentEmail(TaskDTO task, Contact contact)
 			throws Exception {
 
 		try {
-			User user = authenticationDAO.getUserInfoById(contact.getUser()
+			UserDTO user = authenticationDAO.getUserInfoById(contact.getUser()
 					.getUserId());
 			MimeMessagePreparator preparator = new MimeMessagePreparator() {
 				@SuppressWarnings({ "rawtypes", "unchecked" })

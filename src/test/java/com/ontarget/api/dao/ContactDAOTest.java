@@ -3,7 +3,7 @@ package com.ontarget.api.dao;
 import com.ontarget.api.BaseTest;
 import com.ontarget.bean.Company;
 import com.ontarget.bean.Contact;
-import com.ontarget.bean.User;
+import com.ontarget.bean.UserDTO;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Test;
@@ -33,7 +33,7 @@ public class ContactDAOTest extends BaseTest {
         Company company = new Company();
         company.setCompanyId(1);
         contact.setCompany(company);
-        User user = new User();
+        UserDTO user = new UserDTO();
         user.setUserId(1);
         contact.setUser(user);
 

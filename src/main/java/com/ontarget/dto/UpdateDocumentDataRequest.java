@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.ontarget.bean.DocumentGridKeyValue;
 import com.ontarget.bean.DocumentKeyValue;
-import com.ontarget.bean.User;
+import com.ontarget.bean.UserDTO;
 
 public class UpdateDocumentDataRequest implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -17,7 +17,7 @@ public class UpdateDocumentDataRequest implements Serializable {
     private long projectId;
     private Date dueDate;
 	
-	private User user;
+	private UserDTO user;
 
 	public long getDocumentId() {
 		return documentId;
@@ -43,11 +43,11 @@ public class UpdateDocumentDataRequest implements Serializable {
 		this.gridKeyValues = gridKeyValues;
 	}
 
-	public User getUser() {
+	public UserDTO getUser() {
 		return user;
 	}
 
-	public void setUser(User user) {
+	public void setUser(UserDTO user) {
 		this.user = user;
 	}
 

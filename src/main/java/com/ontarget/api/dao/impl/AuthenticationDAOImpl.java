@@ -2,7 +2,7 @@ package com.ontarget.api.dao.impl;
 
 import com.ontarget.api.dao.AuthenticationDAO;
 import com.ontarget.bean.ActivityLog;
-import com.ontarget.bean.User;
+import com.ontarget.bean.UserDTO;
 import com.ontarget.dto.UserRegistrationRequest;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.constant.OnTargetQuery;
@@ -156,17 +156,17 @@ public class AuthenticationDAOImpl implements AuthenticationDAO {
 	}
 
 	@Override
-	public User getUserSignInInfo(SignInRequestBean signInRequest) throws Exception {
+	public UserDTO getUserSignInInfo(SignInRequestBean signInRequest) throws Exception {
 		logger.info("Authenticating user: " + signInRequest);
 
 		final String password = signInRequest.getPassword();
 
-		final User returnUser = new User();
+		final UserDTO returnUser = new UserDTO();
 		returnUser.setUsername(signInRequest.getUsername());
 		jdbcTemplate.query(OnTargetQuery.USER_LOGIN,
-				new Object[] { signInRequest.getUsername() }, new RowMapper<User>() {
+				new Object[] { signInRequest.getUsername() }, new RowMapper<UserDTO>() {
 					@Override
-					public User mapRow(ResultSet resultSet, int i)
+					public UserDTO mapRow(ResultSet resultSet, int i)
 							throws SQLException {
 						String salt = resultSet.getString("salt");
 						String hashedPassword = Security.encodePassword(
@@ -192,16 +192,16 @@ public class AuthenticationDAOImpl implements AuthenticationDAO {
 	}
 
 	@Override
-	public User getUserInfoByUsername(User user) throws Exception {
+	public UserDTO getUserInfoByUsername(UserDTO user) throws Exception {
 		logger.info("Authenticating user: " + user);
 
 		final String password = user.getPassword();
 
-		final User returnUser = new User();
+		final UserDTO returnUser = new UserDTO();
 		jdbcTemplate.query(OnTargetQuery.USER_LOGIN,
-				new Object[] { user.getUsername() }, new RowMapper<User>() {
+				new Object[] { user.getUsername() }, new RowMapper<UserDTO>() {
 					@Override
-					public User mapRow(ResultSet resultSet, int i)
+					public UserDTO mapRow(ResultSet resultSet, int i)
 							throws SQLException {
 						returnUser.setUsername(user.getUsername());
 						returnUser.setUserId(resultSet.getInt("user_id"));
@@ -223,10 +223,10 @@ public class AuthenticationDAOImpl implements AuthenticationDAO {
 	}
 
 	@Override
-	public User getUserInfoById(long userId) throws Exception {
+	public UserDTO getUserInfoById(long userId) throws Exception {
 		Map<String, Object> userInfoMap = jdbcTemplate.queryForMap(
 				OnTargetQuery.GET_USER_BY_ID, new Object[] { userId });
-		User user = new User();
+		UserDTO user = new UserDTO();
 		user.setUsername((String) userInfoMap.get("user_name"));
 
 		return user;

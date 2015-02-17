@@ -3,7 +3,7 @@ package com.ontarget.dto;
 import com.ontarget.bean.Company;
 import com.ontarget.bean.Contact;
 import com.ontarget.bean.ContactPhone;
-import com.ontarget.bean.User;
+import com.ontarget.bean.UserDTO;
 
 import java.io.Serializable;
 
@@ -14,7 +14,7 @@ public class UserProfileRequest implements Serializable{
 
     private Contact contact;
     private Company company;
-    private User user;
+    private UserDTO user;
     private ContactPhone contactPhone;
 
     public UserProfileRequest() {
@@ -36,11 +36,11 @@ public class UserProfileRequest implements Serializable{
         this.company = company;
     }
 
-    public User getUser() {
+    public UserDTO getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(UserDTO user) {
         this.user = user;
     }
 

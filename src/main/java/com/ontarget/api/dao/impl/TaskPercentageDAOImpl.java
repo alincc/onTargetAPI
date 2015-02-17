@@ -1,7 +1,7 @@
 package com.ontarget.api.dao.impl;
 
 import com.ontarget.api.dao.TaskPercentageDAO;
-import com.ontarget.bean.Task;
+import com.ontarget.bean.TaskDTO;
 import com.ontarget.bean.TaskEstimatedCost;
 import com.ontarget.bean.TaskInterval;
 import com.ontarget.bean.TaskPercentage;
@@ -33,9 +33,9 @@ public class TaskPercentageDAOImpl implements TaskPercentageDAO {
     private JdbcTemplate jdbcTemplate;
 
     @Override
-    public Map<Task, List<TaskPercentage>> getTaskPercentageCompletes(int projectId) throws Exception {
+    public Map<TaskDTO, List<TaskPercentage>> getTaskPercentageCompletes(int projectId) throws Exception {
         logger.info("getting percentage for project Id: "+ projectId);
-        Map<Task, List<TaskPercentage>> taskToPercentageMap = new LinkedHashMap<>();
+        Map<TaskDTO, List<TaskPercentage>> taskToPercentageMap = new LinkedHashMap<>();
 
         jdbcTemplate.query(OnTargetQuery.GET_TASK_PERCENTAGE,new Object[]{projectId}, (resultSet, i) -> {
             TaskPercentage percentage = new TaskPercentage();
@@ -57,7 +57,7 @@ public class TaskPercentageDAOImpl implements TaskPercentageDAO {
             percentage.setMonth(month);
             percentage.setYear(year);
 
-            Task task = new Task();
+            TaskDTO task = new TaskDTO();
             task.setProjectTaskId(resultSet.getInt("project_task_id"));
             task.setTitle(resultSet.getString("title"));
             List<TaskPercentage> percentageList = taskToPercentageMap.get(task);
@@ -81,9 +81,9 @@ public class TaskPercentageDAOImpl implements TaskPercentageDAO {
 
 
     @Override
-    public Map<Task, Map<TaskInterval,TaskPercentage>> getTaskPercentageCompletesByMonthYear(long projectId) throws Exception {
+    public Map<TaskDTO, Map<TaskInterval,TaskPercentage>> getTaskPercentageCompletesByMonthYear(long projectId) throws Exception {
         logger.info("getting percentage for project Id: "+ projectId);
-        Map<Task, Map<TaskInterval,TaskPercentage>> taskToPercentageMap = new LinkedHashMap<>();
+        Map<TaskDTO, Map<TaskInterval,TaskPercentage>> taskToPercentageMap = new LinkedHashMap<>();
 
         jdbcTemplate.query(OnTargetQuery.GET_TASK_PERCENTAGE,new Object[]{projectId}, (resultSet, i) -> {
             TaskPercentage percentage = new TaskPercentage();
@@ -105,7 +105,7 @@ public class TaskPercentageDAOImpl implements TaskPercentageDAO {
             percentage.setMonth(month);
             percentage.setYear(year);
 
-            Task task = new Task();
+            TaskDTO task = new TaskDTO();
             task.setProjectTaskId(resultSet.getInt("project_task_id"));
             task.setTitle(resultSet.getString("title"));
 

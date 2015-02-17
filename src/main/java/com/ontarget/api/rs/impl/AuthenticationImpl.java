@@ -2,7 +2,7 @@ package com.ontarget.api.rs.impl;
 
 import com.ontarget.api.rs.Authentication;
 import com.ontarget.api.service.AuthenticationService;
-import com.ontarget.bean.User;
+import com.ontarget.bean.UserDTO;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.UserRegistationApprovalResponse;
@@ -116,7 +116,7 @@ public class AuthenticationImpl implements Authentication {
 	@Override
 	@POST
 	@Path("/logout")
-	public OnTargetResponse logout(User user) {
+	public OnTargetResponse logout(UserDTO user) {
 		OnTargetResponse response = new OnTargetResponse();
 		try {
 			if (authenticationService.logout(user.getUsername())) {

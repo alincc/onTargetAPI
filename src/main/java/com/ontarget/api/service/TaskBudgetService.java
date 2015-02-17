@@ -1,6 +1,6 @@
 package com.ontarget.api.service;
 
-import com.ontarget.bean.Task;
+import com.ontarget.bean.TaskDTO;
 import com.ontarget.bean.TaskEstimatedCost;
 import com.ontarget.bean.TaskInterval;
 
@@ -14,13 +14,13 @@ public interface TaskBudgetService {
 
     public List<TaskInterval> getTaskIntervals(int projectId) throws Exception;
 
-    public Map<Task, List<TaskEstimatedCost>> getTaskCostByMonthAndYear(int projectId) throws Exception;
+    public Map<TaskDTO, List<TaskEstimatedCost>> getTaskCostByMonthAndYear(int projectId) throws Exception;
 
     public boolean addTaskBudget(List<TaskEstimatedCost> costs) throws Exception;
 
     public boolean updateTaskBudget(List<TaskEstimatedCost> costs) throws Exception;
 
-    public Task getTaskBudgetByTask(int taskId) throws Exception;
+    public TaskDTO getTaskBudgetByTask(int taskId) throws Exception;
 
-    public Task getTaskBudgetByTaskAndMonthYear(int taskId) throws Exception;
+    public TaskDTO getTaskBudgetByTaskAndMonthYear(int taskId) throws Exception;
 }

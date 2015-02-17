@@ -5,7 +5,7 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.ontarget.request.bean.ActivityLogRequestBean;
-import com.ontarget.request.bean.BaseRequestBean;
+import com.ontarget.request.bean.BaseRequest;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.test.framework.spi.container.TestContainerException;
 
@@ -21,7 +21,7 @@ public class ActivityLogEndpointTest extends BaseTest {
 	public void fetchLogs() {
 		ActivityLogRequestBean activityLogRequestBean = new ActivityLogRequestBean();
 
-		BaseRequestBean baseRequestBean = new BaseRequestBean();
+		BaseRequest baseRequestBean = new BaseRequest();
 		baseRequestBean.setLoggedInUserId(1);
 		baseRequestBean.setLoggedInUserProjectId(1);
 

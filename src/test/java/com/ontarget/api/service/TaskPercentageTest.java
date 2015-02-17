@@ -1,7 +1,7 @@
 package com.ontarget.api.service;
 
 import com.ontarget.api.BaseTest;
-import com.ontarget.bean.Task;
+import com.ontarget.bean.TaskDTO;
 import com.ontarget.bean.TaskEstimatedCost;
 import com.ontarget.bean.TaskPercentage;
 import junit.framework.Assert;
@@ -37,7 +37,7 @@ public class TaskPercentageTest extends BaseTest{
             int i = 1;
 
             TaskPercentage percentage1 = new TaskPercentage();
-            Task task = new Task();
+            TaskDTO task = new TaskDTO();
             task.setProjectTaskId(1);
             percentage1.setTask(task);
             String string = "January 1, 2014";
@@ -93,7 +93,7 @@ public class TaskPercentageTest extends BaseTest{
             int i = 1;
 
             TaskPercentage percentage1 = new TaskPercentage();
-            Task task = new Task();
+            TaskDTO task = new TaskDTO();
             task.setProjectTaskId(1);
             percentage1.setTask(task);
             String string = "January 1, 2014";
@@ -157,7 +157,7 @@ public class TaskPercentageTest extends BaseTest{
             int i = 1;
 
             TaskPercentage percentage1 = new TaskPercentage();
-            Task task = new Task();
+            TaskDTO task = new TaskDTO();
             task.setProjectTaskId(1);
             percentage1.setTask(task);
             String string = "January 1, 2014";

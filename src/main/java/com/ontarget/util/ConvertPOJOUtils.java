@@ -2,9 +2,13 @@ package com.ontarget.util;
 
 import com.ontarget.bean.AccidentReport;
 import com.ontarget.bean.AddressDTO;
+import com.ontarget.bean.DependentTaskDTO;
 import com.ontarget.bean.ProjectDTO;
+import com.ontarget.dto.AddDependentRequest;
 import com.ontarget.dto.UserInvitationRequestDTO;
 import com.ontarget.request.bean.AccidentReportRequestBean;
+import com.ontarget.request.bean.DependentTask;
+import com.ontarget.request.bean.DependentTaskRequest;
 import com.ontarget.request.bean.ProjectBean;
 import com.ontarget.request.bean.ProjectAddressBean;
 import com.ontarget.request.bean.UserInvitationRequestBean;
@@ -98,5 +102,22 @@ public class ConvertPOJOUtils {
 		accidentReport.setWorkersCompensationFiled(accidentReportRequestBean
 				.getWorkersCompensationFiled());
 		return accidentReport;
+	}
+
+	public static AddDependentRequest convertToAddDependentRequest(
+			DependentTaskRequest dependentTaskRequest) {
+		DependentTask dependentTask = dependentTaskRequest.getDependentTask();
+
+		AddDependentRequest addDependentRequest = new AddDependentRequest();
+		DependentTaskDTO dependentTaskDTO = new DependentTaskDTO();
+		dependentTaskDTO.setTaskId(dependentTask.getTaskId());
+		dependentTaskDTO.setDependentTaskId(dependentTask.getDependentTaskId());
+		dependentTaskDTO.setCategory_id(dependentTask.getCategoryId());
+		dependentTaskDTO.setCreatedBy(dependentTaskRequest.getBaseRequest()
+				.getLoggedInUserId());
+
+		addDependentRequest.setDependentTask(dependentTaskDTO);
+
+		return addDependentRequest;
 	}
 }

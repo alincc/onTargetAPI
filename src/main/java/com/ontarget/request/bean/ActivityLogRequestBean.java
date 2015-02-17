@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({ "baseRequest", "recentId" })
 public class ActivityLogRequestBean {
 	@JsonProperty("baseRequest")
-	private BaseRequestBean baseRequest;
+	private BaseRequest baseRequest;
 	@JsonProperty("recentId")
 	private Integer recentId;
 
@@ -19,7 +19,7 @@ public class ActivityLogRequestBean {
 	 * @return The baseRequest
 	 */
 	@JsonProperty("baseRequest")
-	public BaseRequestBean getBaseRequest() {
+	public BaseRequest getBaseRequest() {
 		return baseRequest;
 	}
 
@@ -29,7 +29,7 @@ public class ActivityLogRequestBean {
 	 *            The baseRequest
 	 */
 	@JsonProperty("baseRequest")
-	public void setBaseRequest(BaseRequestBean baseRequest) {
+	public void setBaseRequest(BaseRequest baseRequest) {
 		this.baseRequest = baseRequest;
 	}
 

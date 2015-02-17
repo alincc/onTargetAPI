@@ -3,21 +3,21 @@ package com.ontarget.bean;
 import java.io.Serializable;
 import java.util.Date;
 
-import com.ontarget.dto.BaseRequest;
+import com.ontarget.dto.BaseRequestDTO;
 
-public class BaseBean extends BaseRequest implements Serializable {
+public class BaseBean extends BaseRequestDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	protected User createdBy;
+	protected UserDTO createdBy;
 	protected Date createdDate;
-	protected User modifiedBy;
+	protected UserDTO modifiedBy;
 	protected Date modifiedDate;
 
-	public User getCreatedBy() {
+	public UserDTO getCreatedBy() {
 		return createdBy;
 	}
 
-	public void setCreatedBy(User createdBy) {
+	public void setCreatedBy(UserDTO createdBy) {
 		this.createdBy = createdBy;
 	}
 
@@ -29,11 +29,11 @@ public class BaseBean extends BaseRequest implements Serializable {
 		this.createdDate = createdDate;
 	}
 
-	public User getModifiedBy() {
+	public UserDTO getModifiedBy() {
 		return modifiedBy;
 	}
 
-	public void setModifiedBy(User modifiedBy) {
+	public void setModifiedBy(UserDTO modifiedBy) {
 		this.modifiedBy = modifiedBy;
 	}
 

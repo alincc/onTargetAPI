@@ -1,6 +1,6 @@
 package com.ontarget.api.dao;
 
-import com.ontarget.bean.Task;
+import com.ontarget.bean.TaskDTO;
 import com.ontarget.bean.TaskInterval;
 import com.ontarget.bean.TaskPercentage;
 import org.springframework.stereotype.Repository;
@@ -15,9 +15,9 @@ import java.util.Map;
 public interface TaskPercentageDAO {
 
 
-    public Map<Task, List<TaskPercentage>> getTaskPercentageCompletes(int projectId) throws Exception;
+    public Map<TaskDTO, List<TaskPercentage>> getTaskPercentageCompletes(int projectId) throws Exception;
 
-    public Map<Task, Map<TaskInterval, TaskPercentage>> getTaskPercentageCompletesByMonthYear(long projectId) throws Exception;
+    public Map<TaskDTO, Map<TaskInterval, TaskPercentage>> getTaskPercentageCompletesByMonthYear(long projectId) throws Exception;
 
     public int addTaskPercentageComplete(TaskPercentage taskPercentage) throws Exception;
 

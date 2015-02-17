@@ -8,7 +8,7 @@ import java.util.Date;
 public class TaskPercentage {
 
     private int id;
-    private Task task;
+    private TaskDTO task;
     private Date fromDate;
     private Date toDate;
     private String taskPercentageType; //
@@ -25,11 +25,11 @@ public class TaskPercentage {
         this.id = id;
     }
 
-    public Task getTask() {
+    public TaskDTO getTask() {
         return task;
     }
 
-    public void setTask(Task task) {
+    public void setTask(TaskDTO task) {
         this.task = task;
     }
 

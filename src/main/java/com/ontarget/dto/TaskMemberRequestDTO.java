@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Created by sumit on 11/26/14.
  */
-public class TaskMemberRequest extends BaseRequest implements Serializable {
+public class TaskMemberRequestDTO extends BaseRequestDTO implements Serializable {
     private long projectId;
     private long taskId;
     private List<Long> members;

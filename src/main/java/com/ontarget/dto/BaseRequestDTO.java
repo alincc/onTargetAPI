@@ -1,17 +1,17 @@
 package com.ontarget.dto;
 
-import com.ontarget.bean.User;
+import com.ontarget.bean.UserDTO;
 
-public class BaseRequest {
+public class BaseRequestDTO {
 
-	private User user;
+	private UserDTO user;
 	private int parentProjectId;
 
-	public User getUser() {
+	public UserDTO getUser() {
 		return user;
 	}
 
-	public void setUser(User user) {
+	public void setUser(UserDTO user) {
 		this.user = user;
 	}
 

@@ -4,7 +4,7 @@ import com.ontarget.api.dao.TaskBudgetDAO;
 import com.ontarget.api.dao.TaskDAO;
 import com.ontarget.api.dao.TaskEstimatedCostDAO;
 import com.ontarget.api.service.TaskBudgetService;
-import com.ontarget.bean.Task;
+import com.ontarget.bean.TaskDTO;
 import com.ontarget.bean.TaskEstimatedCost;
 import com.ontarget.bean.TaskEstimatedCostByMonthYear;
 import com.ontarget.bean.TaskInterval;
@@ -69,7 +69,7 @@ public class TaskBudgetServiceImpl implements TaskBudgetService {
     }
 
     @Override
-    public Map<Task, List<TaskEstimatedCost>> getTaskCostByMonthAndYear(int projectId) throws Exception {
+    public Map<TaskDTO, List<TaskEstimatedCost>> getTaskCostByMonthAndYear(int projectId) throws Exception {
         logger.debug("Getting task cost by month and year for project: " + projectId);
         return taskBudgetDAO.getTaskToCostMap(projectId, OnTargetConstant.CostType.PLANNED);
     }
@@ -111,17 +111,17 @@ public class TaskBudgetServiceImpl implements TaskBudgetService {
     }
 
     @Override
-    public Task getTaskBudgetByTask(int taskId) throws Exception {
+    public TaskDTO getTaskBudgetByTask(int taskId) throws Exception {
         logger.debug("Getting list of task budget for task: " + taskId);
-        Task task = taskDAO.getTaskDetail(taskId);
+        TaskDTO task = taskDAO.getTaskDetail(taskId);
         return taskBudgetDAO.getTaskCostByTask(task);
     }
 
     @Override
-    public Task getTaskBudgetByTaskAndMonthYear(int taskId) throws NoTaskFoundException, Exception {
+    public TaskDTO getTaskBudgetByTaskAndMonthYear(int taskId) throws NoTaskFoundException, Exception {
         logger.debug("Getting list of task budget for task differentiated by month year: " + taskId);
 
-        Task task = taskDAO.getTaskDetail(taskId);
+        TaskDTO task = taskDAO.getTaskDetail(taskId);
 
         if (task == null || task.getProjectTaskId() == 0) {
             throw new NoTaskFoundException("Task Does not exist with id " + taskId);

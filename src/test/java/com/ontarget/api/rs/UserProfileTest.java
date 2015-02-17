@@ -4,7 +4,7 @@ import com.ontarget.api.OnTargetBaseRSTest;
 import com.ontarget.bean.AddressDTO;
 import com.ontarget.bean.Company;
 import com.ontarget.bean.Contact;
-import com.ontarget.bean.User;
+import com.ontarget.bean.UserDTO;
 import com.ontarget.dto.UserProfileRequest;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
@@ -57,7 +57,7 @@ public class UserProfileTest extends JerseyTest {
         address.setAddressType("COMPANY");
         comp.setAddress(address);
 
-        User user=new User();
+        UserDTO user=new UserDTO();
         user.setUserId(1);
 
         UserProfileRequest req = new UserProfileRequest();

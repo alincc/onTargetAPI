@@ -1,11 +1,11 @@
 package com.ontarget.dto;
 
-import com.ontarget.bean.User;
+import com.ontarget.bean.UserDTO;
 
 public class AddDocumentAttachmentRequest {
 	private Long documentId;
 	private String filePath;
-	private User user;
+	private UserDTO user;
 	
 	public Long getDocumentId() {
 		return documentId;
@@ -23,11 +23,11 @@ public class AddDocumentAttachmentRequest {
 		this.filePath = filePath;
 	}
 	
-	public User getUser() {
+	public UserDTO getUser() {
 		return user;
 	}
 	
-	public void setUser(User user) {
+	public void setUser(UserDTO user) {
 		this.user = user;
 	}
 }

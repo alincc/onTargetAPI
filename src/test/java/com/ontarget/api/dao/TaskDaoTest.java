@@ -3,8 +3,10 @@ package com.ontarget.api.dao;
 import com.ontarget.api.BaseTest;
 import com.ontarget.bean.AddressDTO;
 import com.ontarget.bean.ProjectDTO;
-import com.ontarget.bean.Task;
+import com.ontarget.bean.TaskDTO;
 import com.ontarget.constant.OnTargetConstant;
+import com.ontarget.request.bean.ParentTask;
+import com.ontarget.request.bean.Task;
 import com.ontarget.util.Security;
 
 import junit.framework.Assert;
@@ -74,9 +76,9 @@ public class TaskDaoTest extends BaseTest {
 
             project.setProjectId(projectId);
 
-            task.setProject(project);
+            //task.setProject(project);
 
-            Task pTask = new Task();
+            ParentTask pTask = new ParentTask();
             pTask.setProjectTaskId(0);
             task.setParentTask(pTask);
 
@@ -101,7 +103,7 @@ public class TaskDaoTest extends BaseTest {
     @Test
     public void getTaskTest(){
         try {
-            Task task = taskDAO.getTaskDetail(1);
+            TaskDTO task = taskDAO.getTaskDetail(1);
             System.out.printf("Task: "+ task);
             Assert.assertTrue(task.getTitle() !=null);
         } catch (Exception e) {

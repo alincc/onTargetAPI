@@ -1,13 +1,13 @@
 package com.ontarget.dto;
 
-import com.ontarget.bean.User;
+import com.ontarget.bean.UserDTO;
 
 /**
  * Created by Owner on 10/29/14.
  */
 public class UserResponse extends OnTargetResponse {
 
-    private User user;
+    private UserDTO user;
     private String token;
 
     public String getToken() {
@@ -18,11 +18,11 @@ public class UserResponse extends OnTargetResponse {
         this.token = token;
     }
 
-    public User getUser() {
+    public UserDTO getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(UserDTO user) {
         this.user = user;
     }
 }

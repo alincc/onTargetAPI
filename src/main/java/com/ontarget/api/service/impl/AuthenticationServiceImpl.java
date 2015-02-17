@@ -6,7 +6,7 @@ import com.ontarget.api.dao.ContactDAO;
 import com.ontarget.api.dao.UserSessionDAO;
 import com.ontarget.api.rs.impl.UserProfileImpl;
 import com.ontarget.api.service.AuthenticationService;
-import com.ontarget.bean.User;
+import com.ontarget.bean.UserDTO;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.UserRegistationApprovalResponse;
 import com.ontarget.dto.UserRegistrationRequest;
@@ -43,7 +43,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	public UserResponse signIn(SignInRequestBean signInRequest) throws Exception {
 		logger.debug("Signing user: " + signInRequest);
 		UserResponse response = new UserResponse();
-		User returnUser = authenticationDAO.getUserSignInInfo(signInRequest);
+		UserDTO returnUser = authenticationDAO.getUserSignInInfo(signInRequest);
 		if (returnUser.getUserId() == 0) {
 			response.setReturnMessage(OnTargetConstant.AUTHENTICATION_FAILED);
 			response.setAuthenticated(false);

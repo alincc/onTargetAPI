@@ -1,6 +1,6 @@
 package com.ontarget.api.dao;
 
-import com.ontarget.bean.User;
+import com.ontarget.bean.UserDTO;
 import com.ontarget.dto.UserRegistrationRequest;
 import com.ontarget.request.bean.SignInRequestBean;
 
@@ -25,11 +25,11 @@ public interface AuthenticationDAO {
 
     public boolean createUser(UserRegistrationRequest request) throws Exception;
     
-    public User getUserSignInInfo(SignInRequestBean signInRequest) throws Exception;
+    public UserDTO getUserSignInInfo(SignInRequestBean signInRequest) throws Exception;
 
-    public User getUserInfoByUsername(User user) throws Exception;
+    public UserDTO getUserInfoByUsername(UserDTO user) throws Exception;
 
     public boolean changePassword(long userId, String password, String salt) throws Exception;
 
-    public User getUserInfoById(long userId) throws Exception;
+    public UserDTO getUserInfoById(long userId) throws Exception;
 }

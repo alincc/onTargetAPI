@@ -146,7 +146,7 @@ public class UserProfileServiceImpl implements UserProfileService {
 	@Transactional(rollbackFor = { Exception.class })
 	public boolean changeUserPassword(long userId, String newPassword,
 			String currentPassword) throws Exception {
-		User user = userDAO.getUser(userId);
+		UserDTO user = userDAO.getUser(userId);
 		if (user == null) {
 			throw new Exception("user not found");
 		}
@@ -178,7 +178,7 @@ public class UserProfileServiceImpl implements UserProfileService {
 
 		int userId = (int) forgotPasswordRequest.get("user_id");
 
-		User user = userDAO.getUser(userId);
+		UserDTO user = userDAO.getUser(userId);
 		if (user == null) {
 			throw new Exception("user not found");
 		}
@@ -219,7 +219,7 @@ public class UserProfileServiceImpl implements UserProfileService {
 
 	@Override
 	public String getRandomSafetyUserInfo(long userId) throws Exception {
-		User user = userDAO.getUser(userId);
+		UserDTO user = userDAO.getUser(userId);
 		if (user.getDiscipline() == 0) {
 			return null;
 		}
@@ -288,10 +288,10 @@ public class UserProfileServiceImpl implements UserProfileService {
 		/**
 		 * check userlogin table for email address.
 		 */
-		User user = new User();
+		UserDTO user = new UserDTO();
 		user.setUsername(emailAddress);
 
-		User existingUser = authenticationDAO.getUserInfoByUsername(user);
+		UserDTO existingUser = authenticationDAO.getUserInfoByUsername(user);
 		if (existingUser != null && existingUser.getUserId() > 0) {
 			/**
 			 * create a entry in forgot password request

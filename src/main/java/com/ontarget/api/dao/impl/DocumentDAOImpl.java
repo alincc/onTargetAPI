@@ -10,7 +10,7 @@ import java.util.List;
 import com.ontarget.api.dao.ContactDAO;
 import com.ontarget.api.dao.UserDAO;
 import com.ontarget.bean.Contact;
-import com.ontarget.bean.User;
+import com.ontarget.bean.UserDTO;
 import com.sun.jersey.api.spring.Autowire;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -131,7 +131,7 @@ public class DocumentDAOImpl extends BaseGenericDAOImpl<Document> implements
 				logger.error("Error while getting contact info", e);
 				throw new SQLException();
 			}
-			User createdBy = new User();
+			UserDTO createdBy = new UserDTO();
 			createdBy.setContact(contact);
 			doc.setCreatedBy(createdBy);
 			doc.setDueDate(rs.getDate("due_date"));

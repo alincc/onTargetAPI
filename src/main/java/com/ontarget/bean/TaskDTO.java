@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Created by Owner on 10/29/14.
  */
-public class Task implements Serializable {
+public class TaskDTO implements Serializable {
 
 	private int projectTaskId;
 	private String title;
@@ -23,16 +23,16 @@ public class Task implements Serializable {
 	private Date startDate;
 	private Date endDate;
 	private boolean completed;
-	private User assignedTo;
+	private UserDTO assignedTo;
 
-	private List<User> assignee;
+	private List<UserDTO> assignee;
 
 	private ProjectDTO project;
-	private Task parentTask;
+	private TaskDTO parentTask;
 	private List<TaskComment> comments;
 
 	private List<TaskEstimatedCost> costs;
-	private List<Task> childTasks;
+	private List<TaskDTO> childTasks;
 
 	public String getStartDateText() {
 		return startDateText;
@@ -52,11 +52,11 @@ public class Task implements Serializable {
 
 	private List<TaskEstimatedCostByMonthYear> costsByMonthYear;
 
-	public List<Task> getChildTasks() {
+	public List<TaskDTO> getChildTasks() {
 		return childTasks;
 	}
 
-	public void setChildTasks(List<Task> childTasks) {
+	public void setChildTasks(List<TaskDTO> childTasks) {
 		this.childTasks = childTasks;
 	}
 
@@ -124,7 +124,7 @@ public class Task implements Serializable {
 		this.percentageComplete = percentageComplete;
 	}
 
-	public Task() {
+	public TaskDTO() {
 	}
 
 	public ProjectDTO getProject() {
@@ -135,11 +135,11 @@ public class Task implements Serializable {
 		this.project = project;
 	}
 
-	public Task getParentTask() {
+	public TaskDTO getParentTask() {
 		return parentTask;
 	}
 
-	public void setParentTask(Task parentTask) {
+	public void setParentTask(TaskDTO parentTask) {
 		this.parentTask = parentTask;
 	}
 
@@ -190,7 +190,7 @@ public class Task implements Serializable {
 		if (o == null || getClass() != o.getClass())
 			return false;
 
-		Task task = (Task) o;
+		TaskDTO task = (TaskDTO) o;
 
 		// if (Double.compare(task.cost, cost) != 0) return false;
 		// if (percentageComplete != task.percentageComplete) return false;
@@ -225,11 +225,11 @@ public class Task implements Serializable {
 		return result;
 	}
 
-	public User getAssignedTo() {
+	public UserDTO getAssignedTo() {
 		return assignedTo;
 	}
 
-	public void setAssignedTo(User assignedTo) {
+	public void setAssignedTo(UserDTO assignedTo) {
 		this.assignedTo = assignedTo;
 	}
 
@@ -258,11 +258,11 @@ public class Task implements Serializable {
 				+ ", costsByMonthYear=" + costsByMonthYear + '}';
 	}
 
-	public List<User> getAssignee() {
+	public List<UserDTO> getAssignee() {
 		return assignee;
 	}
 
-	public void setAssignee(List<User> assignee) {
+	public void setAssignee(List<UserDTO> assignee) {
 		this.assignee = assignee;
 	}
 }

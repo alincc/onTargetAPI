@@ -6,7 +6,7 @@ public class DocumentSubmittal extends BaseBean {
 
 	private long documentSubmittalId;
 	private Document document;
-	private User assignee;
+	private UserDTO assignee;
 	
 	
 	public long getDocumentSubmittalId() {
@@ -22,10 +22,10 @@ public class DocumentSubmittal extends BaseBean {
 		this.document = document;
 	}
 
-	public User getAssignee() {
+	public UserDTO getAssignee() {
 		return assignee;
 	}
-	public void setAssignee(User assignee) {
+	public void setAssignee(UserDTO assignee) {
 		this.assignee = assignee;
 	}
 

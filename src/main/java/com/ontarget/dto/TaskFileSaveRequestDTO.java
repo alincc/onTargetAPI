@@ -5,7 +5,7 @@ import javax.ws.rs.QueryParam;
 /**
  * Created by sumit on 12/25/14.
  */
-public class TaskFileSaveRequest {
+public class TaskFileSaveRequestDTO {
     long taskId;
     long userId;
     String fileName;

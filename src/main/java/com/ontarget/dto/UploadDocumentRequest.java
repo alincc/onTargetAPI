@@ -2,7 +2,7 @@ package com.ontarget.dto;
 
 import java.io.Serializable;
 
-public class UploadDocumentRequest extends BaseRequest implements Serializable{
+public class UploadDocumentRequest extends BaseRequestDTO implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	

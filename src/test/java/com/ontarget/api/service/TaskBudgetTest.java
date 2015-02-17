@@ -1,7 +1,7 @@
 package com.ontarget.api.service;
 
 import com.ontarget.api.BaseTest;
-import com.ontarget.bean.Task;
+import com.ontarget.bean.TaskDTO;
 import com.ontarget.bean.TaskEstimatedCost;
 import com.ontarget.bean.TaskInterval;
 import junit.framework.Assert;
@@ -35,7 +35,7 @@ public class TaskBudgetTest extends BaseTest {
             int i = 1;
 
             TaskEstimatedCost estimatedCost = new TaskEstimatedCost();
-            Task task = new Task();
+            TaskDTO task = new TaskDTO();
             task.setProjectTaskId(1);
             estimatedCost.setTask(task);
             String string = "January 1, 2014";
@@ -88,7 +88,7 @@ public class TaskBudgetTest extends BaseTest {
             int i = 1;
 
             TaskEstimatedCost estimatedCost = new TaskEstimatedCost();
-            Task task = new Task();
+            TaskDTO task = new TaskDTO();
             task.setProjectTaskId(1);
             estimatedCost.setTask(task);
             String string = "January 1, 2014";
@@ -128,7 +128,7 @@ public class TaskBudgetTest extends BaseTest {
             Assert.assertTrue(added);
 
 
-            Task task1 = taskBudgetService.getTaskBudgetByTask(1);
+            TaskDTO task1 = taskBudgetService.getTaskBudgetByTask(1);
 
             Assert.assertTrue(task1.getCosts().size() > 0);
 
@@ -150,7 +150,7 @@ public class TaskBudgetTest extends BaseTest {
             int i = 1;
 
             TaskEstimatedCost estimatedCost = new TaskEstimatedCost();
-            Task task = new Task();
+            TaskDTO task = new TaskDTO();
             task.setProjectTaskId(1);
             estimatedCost.setTask(task);
             String string = "January 1, 2014";
@@ -190,7 +190,7 @@ public class TaskBudgetTest extends BaseTest {
             Assert.assertTrue(added);
 
 
-            Task task1 = taskBudgetService.getTaskBudgetByTask(1);
+            TaskDTO task1 = taskBudgetService.getTaskBudgetByTask(1);
 
             Assert.assertTrue(task1.getCosts().size() > 0);
 

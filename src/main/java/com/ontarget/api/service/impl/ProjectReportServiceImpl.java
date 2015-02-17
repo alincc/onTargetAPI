@@ -46,21 +46,21 @@ public class ProjectReportServiceImpl implements ProjectReportService {
 			int projectId) throws Exception {
 		logger.debug("Getting earned value analysis report: " + projectId);
 		// task planned cost
-		Map<Task, Map<TaskInterval, TaskEstimatedCost>> taskPlannedCostByMonthAndYear = taskBudgetDAO
+		Map<TaskDTO, Map<TaskInterval, TaskEstimatedCost>> taskPlannedCostByMonthAndYear = taskBudgetDAO
 				.getTaskToCostMapByMonthYear(projectId,
 						OnTargetConstant.CostType.PLANNED);
 
 		// task actual cost
-		Map<Task, Map<TaskInterval, TaskEstimatedCost>> taskActualCostByMonthAndYear = taskBudgetDAO
+		Map<TaskDTO, Map<TaskInterval, TaskEstimatedCost>> taskActualCostByMonthAndYear = taskBudgetDAO
 				.getTaskToCostMapByMonthYear(projectId,
 						OnTargetConstant.CostType.ACTUAL);
 
 		// task percentage
-		Map<Task, Map<TaskInterval, TaskPercentage>> taskPercentageByMonthAndYear = taskPercentageDAO
+		Map<TaskDTO, Map<TaskInterval, TaskPercentage>> taskPercentageByMonthAndYear = taskPercentageDAO
 				.getTaskPercentageCompletesByMonthYear(projectId);
 
 		// Total budgeted cost
-		Map<Task, Double> totalTaskBudgetCost = new HashMap<>();
+		Map<TaskDTO, Double> totalTaskBudgetCost = new HashMap<>();
 
 		if (taskPlannedCostByMonthAndYear.isEmpty()) {
 			return null;
@@ -82,9 +82,9 @@ public class ProjectReportServiceImpl implements ProjectReportService {
 		/**
 		 * calculate total estimated cost by month and year
 		 */
-		for (Map.Entry<Task, Map<TaskInterval, TaskEstimatedCost>> entry : taskPlannedCostByMonthAndYear
+		for (Map.Entry<TaskDTO, Map<TaskInterval, TaskEstimatedCost>> entry : taskPlannedCostByMonthAndYear
 				.entrySet()) {
-			Task task = entry.getKey();
+			TaskDTO task = entry.getKey();
 			Map<TaskInterval, TaskEstimatedCost> monthYearEstimatedCost = entry
 					.getValue();
 
@@ -129,9 +129,9 @@ public class ProjectReportServiceImpl implements ProjectReportService {
 		 * calculate total actual cost by month year
 		 */
 
-		for (Map.Entry<Task, Map<TaskInterval, TaskEstimatedCost>> entry : taskActualCostByMonthAndYear
+		for (Map.Entry<TaskDTO, Map<TaskInterval, TaskEstimatedCost>> entry : taskActualCostByMonthAndYear
 				.entrySet()) {
-			Task task = entry.getKey();
+			TaskDTO task = entry.getKey();
 			Map<TaskInterval, TaskEstimatedCost> monthYearActualCost = entry
 					.getValue();
 
@@ -172,7 +172,7 @@ public class ProjectReportServiceImpl implements ProjectReportService {
 	public TimeSaved getTimeSaved(int projectId) throws Exception {
 
 		// get all task done within time.
-		List<Task> tasks = taskDAO.getTask(projectId,
+		List<TaskDTO> tasks = taskDAO.getTask(projectId,
 				TaskStatus.COMPLETED.getTaskStatusId());
 
 		// get all approved documents on time.
@@ -255,13 +255,13 @@ public class ProjectReportServiceImpl implements ProjectReportService {
 	 */
 	private void calculateCumulativeEarnedValue(
 			Map<TaskInterval, ProjectEarnedValueAnalysisReport> monthYearEarnedValueReportByTask,
-			Map<Task, Map<TaskInterval, TaskPercentage>> taskPercentageByMonthAndYear,
-			Map<Task, Double> totalTaskBudgetCost) {
+			Map<TaskDTO, Map<TaskInterval, TaskPercentage>> taskPercentageByMonthAndYear,
+			Map<TaskDTO, Double> totalTaskBudgetCost) {
 
-		for (Map.Entry<Task, Map<TaskInterval, TaskPercentage>> entry : taskPercentageByMonthAndYear
+		for (Map.Entry<TaskDTO, Map<TaskInterval, TaskPercentage>> entry : taskPercentageByMonthAndYear
 				.entrySet()) {
 
-			Task task = entry.getKey();
+			TaskDTO task = entry.getKey();
 			Map<TaskInterval, TaskPercentage> monthYearTaskPercentage = entry
 					.getValue();
 
@@ -288,14 +288,14 @@ public class ProjectReportServiceImpl implements ProjectReportService {
 	 */
 	private List<ProjectEarnedValueAnalysisReport> calculateEarnedValueAnalysisReport(
 			Map<TaskInterval, ProjectEarnedValueAnalysisReport> reportMap,
-			Map<Task, Double> totalTaskBudgetCost) {
+			Map<TaskDTO, Double> totalTaskBudgetCost) {
 
 		/**
 		 * total budget cost of all the tasks
 		 *
 		 */
 		double totalBudgetedCost = 0.0;
-		for (Map.Entry<Task, Double> entry : totalTaskBudgetCost.entrySet()) {
+		for (Map.Entry<TaskDTO, Double> entry : totalTaskBudgetCost.entrySet()) {
 			totalBudgetedCost += entry.getValue();
 		}
 

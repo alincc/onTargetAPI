@@ -1,6 +1,6 @@
 package com.ontarget.dto;
 
-import com.ontarget.bean.Task;
+import com.ontarget.bean.TaskDTO;
 
 import java.util.List;
 
@@ -9,15 +9,15 @@ import java.util.List;
  */
 public class TaskListResponse extends OnTargetResponse {
 
-    public List<Task> getTasks() {
+    public List<TaskDTO> getTasks() {
         return tasks;
     }
 
-    public void setTasks(List<Task> tasks) {
+    public void setTasks(List<TaskDTO> tasks) {
         this.tasks = tasks;
     }
 
-    List<Task> tasks;
+    List<TaskDTO> tasks;
 
     public TaskListResponse() {
     }

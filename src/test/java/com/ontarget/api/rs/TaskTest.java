@@ -1,6 +1,6 @@
 package com.ontarget.api.rs;
 
-import com.ontarget.dto.TaskMemberRequest;
+import com.ontarget.dto.TaskMemberRequestDTO;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.test.framework.JerseyTest;
@@ -46,7 +46,7 @@ public class TaskTest extends JerseyTest {
 
     @Test
     public void testAddTaskMembers(){
-        TaskMemberRequest taskMemberRequest = new TaskMemberRequest();
+        TaskMemberRequestDTO taskMemberRequest = new TaskMemberRequestDTO();
         taskMemberRequest.setProjectId(1);
         taskMemberRequest.setTaskId(1);
         taskMemberRequest.setMembers(new ArrayList<Long>(){{

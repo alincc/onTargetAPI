@@ -5,7 +5,7 @@ import javax.ws.rs.QueryParam;
 /**
  * Created by sumit on 12/25/14.
  */
-public class TaskStatusUpdateRequest extends BaseRequest {
+public class TaskStatusUpdateRequestDTO extends BaseRequestDTO {
     private long taskId;
     private String taskStatus;
 

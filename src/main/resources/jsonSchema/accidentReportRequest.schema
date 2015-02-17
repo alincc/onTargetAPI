@@ -1,0 +1,133 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://jsonschema.net",
+  "type": "object",
+  "properties": {
+    "baseRequest": {
+      "id": "http://jsonschema.net/baseRequest",
+      "type": "object",
+      "properties": {
+        "loggedInUserId": {
+          "id": "http://jsonschema.net/baseRequest/loggedInUserId",
+          "type": "integer"
+        },
+        "loggedInUserProjectId": {
+          "id": "http://jsonschema.net/baseRequest/loggedInUserProjectId",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "loggedInUserId",
+        "loggedInUserProjectId"
+      ]
+    },
+    "projectId": {
+      "id": "http://jsonschema.net/projectId",
+      "type": "integer"
+    },
+    "accidentReportId": {
+      "id": "http://jsonschema.net/accidentReportId",
+      "type": "integer"
+    },
+    "submittedTo": {
+      "id": "http://jsonschema.net/submittedTo",
+      "type": "string"
+    },
+    "supervisorName": {
+      "id": "http://jsonschema.net/supervisorName",
+      "type": "string"
+    },
+    "witness": {
+      "id": "http://jsonschema.net/witness",
+      "type": "string"
+    },
+    "location": {
+      "id": "http://jsonschema.net/location",
+      "type": "string"
+    },
+    "briefOfAccident": {
+      "id": "http://jsonschema.net/briefOfAccident",
+      "type": "string"
+    },
+    "severity": {
+      "id": "http://jsonschema.net/severity",
+      "type": "string"
+    },
+    "description": {
+      "id": "http://jsonschema.net/description",
+      "type": "string"
+    },
+    "bodyPartAffected": {
+      "id": "http://jsonschema.net/bodyPartAffected",
+      "type": "string"
+    },
+    "dateOfAccident": {
+      "id": "http://jsonschema.net/dateOfAccident",
+      "type": "integer"
+    },
+    "timeOfAccident": {
+      "id": "http://jsonschema.net/timeOfAccident",
+      "type": "string"
+    },
+    "injuredVisitedDoctor": {
+      "id": "http://jsonschema.net/injuredVisitedDoctor",
+      "type": "string"
+    },
+    "workersCompensationFiled": {
+      "id": "http://jsonschema.net/workersCompensationFiled",
+      "type": "string"
+    },
+    "injuredLeftJob": {
+      "id": "http://jsonschema.net/injuredLeftJob",
+      "type": "string"
+    },
+    "dateInjuredLeftJob": {
+      "id": "http://jsonschema.net/dateInjuredLeftJob",
+      "type": "integer"
+    },
+    "timeInjuredLeftJob": {
+      "id": "http://jsonschema.net/timeInjuredLeftJob",
+      "type": "string"
+    },
+    "possiblePreventiveMeasures": {
+      "id": "http://jsonschema.net/possiblePreventiveMeasures",
+      "type": "string"
+    },
+    "unsafeConditionsCorrected": {
+      "id": "http://jsonschema.net/unsafeConditionsCorrected",
+      "type": "string"
+    },
+    "correctionMeasuresPerformed": {
+      "id": "http://jsonschema.net/correctionMeasuresPerformed",
+      "type": "string"
+    },
+    "correctionMeasuresToBePerformed": {
+      "id": "http://jsonschema.net/correctionMeasuresToBePerformed",
+      "type": "string"
+    }
+  },
+  "required": [
+    "baseRequest",
+    "projectId",
+    "accidentReportId",
+    "submittedTo",
+    "supervisorName",
+    "witness",
+    "location",
+    "briefOfAccident",
+    "severity",
+    "description",
+    "bodyPartAffected",
+    "dateOfAccident",
+    "timeOfAccident",
+    "injuredVisitedDoctor",
+    "workersCompensationFiled",
+    "injuredLeftJob",
+    "dateInjuredLeftJob",
+    "timeInjuredLeftJob",
+    "possiblePreventiveMeasures",
+    "unsafeConditionsCorrected",
+    "correctionMeasuresPerformed",
+    "correctionMeasuresToBePerformed"
+  ]
+}

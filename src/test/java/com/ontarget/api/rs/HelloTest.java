@@ -1,7 +1,7 @@
 package com.ontarget.api.rs;
 
 import com.ontarget.api.OnTargetBaseRSTest;
-import com.ontarget.bean.Task;
+import com.ontarget.bean.TaskDTO;
 import com.ontarget.bean.TaskEstimatedCost;
 import com.ontarget.bean.TaskInterval;
 import com.sun.jersey.api.client.WebResource;
@@ -38,9 +38,9 @@ public class HelloTest extends OnTargetBaseRSTest{
 
 
     public static void main(String[] args) {
-        Map<Task,Map<TaskInterval,List<TaskEstimatedCost>>> taskMapMap = new LinkedHashMap<>();
+        Map<TaskDTO,Map<TaskInterval,List<TaskEstimatedCost>>> taskMapMap = new LinkedHashMap<>();
 
-        Task task = new Task();
+        TaskDTO task = new TaskDTO();
         task.setProjectTaskId(1);
         task.setTitle("test");
         task.setDescription("description");
