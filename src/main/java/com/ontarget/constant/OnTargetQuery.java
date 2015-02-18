@@ -96,7 +96,7 @@ public interface OnTargetQuery {
             .append(" where pac.task_id=pt.project_task_id and pt.project_id=p.project_id and pac.cost_type=? and p.project_id=?").toString();
 
     public static final String GET_TASK_PLANNED_ESTIMATED_COST_BY_PROJECT = new StringBuilder("select pt.title,pt.project_task_id,pt.project_id,pac.* from planned_actuals_cost pac, project_task pt, project p ")
-            .append(" where pac.task_id=pt.project_task_id and pt.project_id=p.project_id and pac.cost_type=? and p.project_id in (select project_id from project where p.project_parent_id=?) order by pt.project_task_id asc").toString();
+            .append(" where pac.task_id=pt.project_task_id and pt.project_id=p.project_id and pac.cost_type=? and p.project_id in (select project_id from project where project_parent_id=?) order by pt.project_task_id asc").toString();
 
     public static final String ADD_TASK_PERCENTAGE_COMPLETE = new StringBuilder("insert into task_percentage_log (task_id, start_date, end_date, percentage_type, percentage_complete, created_by, created_date, modified_by, modified_date) values (?,now(),'9999/12/31',?,?, ?, now(), ?, now())").toString();
 
@@ -122,7 +122,7 @@ public interface OnTargetQuery {
 
     public static final String DELETE_TASK_USER = "DELETE FROM task_assignee WHERE project_task_id =?";
 
-    public static final String EXPIRE_TASK_PERCENTAGE_COMPLETE = new StringBuilder("update task_percentage_log set end_date='9999-12-31' where task_percentage_log_id=?").toString();
+    public static final String EXPIRE_TASK_PERCENTAGE_COMPLETE = new StringBuilder("update task_percentage_log set end_date=now() where task_percentage_log_id=?").toString();
 
     public static final String GET_TASK_PERCENTAGE_FOR_THIS_MONTH = new StringBuilder("select * from task_percentage_log tpl where month(tpl.created_date)=month(now()) and end_date='9999-12-31' and task_id=?").toString();
 
