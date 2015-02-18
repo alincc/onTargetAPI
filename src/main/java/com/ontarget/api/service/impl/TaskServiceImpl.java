@@ -85,8 +85,8 @@ public class TaskServiceImpl implements TaskService {
 		Date startDate = DateFormater.getFormattedDate(task.getStartDate());
 		Date endDate = DateFormater.getFormattedDate(task.getEndDate());
 
-		logger.info("task start date after formatting:: " + task.getStartDate());
-		logger.info("task end date after formatting:: " + task.getEndDate());
+		logger.info("task start date after formatting:: " + startDate);
+		logger.info("task end date after formatting:: " + endDate);
 
 		if (task.getProject() == null) {
 			throw new Exception("task project is null");
@@ -146,8 +146,8 @@ public class TaskServiceImpl implements TaskService {
 				parentTaskEndDate = parentTask.getEndDate();
 			}
 
-			parentTaskEndDate = DateFormater
-					.getFormattedDate(parentTaskEndDate);
+			parentTaskStartDate = DateFormater
+					.getFormattedDate(parentTaskStartDate);
 			parentTaskEndDate = DateFormater
 					.getFormattedDate(parentTaskEndDate);
 
