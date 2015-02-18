@@ -22,230 +22,267 @@ import java.util.*;
 @Repository
 public class ProjectDAOImpl implements ProjectDAO {
 
-    private Logger logger = Logger.getLogger(ProjectDAOImpl.class);
+	private Logger logger = Logger.getLogger(ProjectDAOImpl.class);
 
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
 
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+	@Override
+	public int addProject(Project project) throws Exception {
+		logger.info("Adding project: " + project);
+		KeyHolder keyHolder = new GeneratedKeyHolder();
+		jdbcTemplate.update(new PreparedStatementCreator() {
+			public PreparedStatement createPreparedStatement(
+					Connection connection) throws SQLException {
+				PreparedStatement ps = connection.prepareStatement(
+						OnTargetQuery.ADD_PROJECT, new String[] { "id" });
+				ps.setString(1, project.getProjectName());
+				ps.setString(2, project.getProjectDescription());
+				ps.setInt(3, project.getProjectTypeId());// TODO: get project
+															// type id and get
+															// it from project
+															// type table.
+				ps.setInt(4, project.getCompanyId());
+				ps.setInt(5, project.getProjectAddress().getAddressId());
+				ps.setString(6, project.getStatus());
+				ps.setInt(7, project.getProjectParentId());
+				ps.setDate(8, new java.sql.Date(project.getStartDate()
+						.getTime()));
+				ps.setDate(9, new java.sql.Date(project.getEndDate().getTime()));
+				ps.setString(10, project.getProjectImagePath());
+				ps.setLong(11, project.getProjectOwnerId());
+				return ps;
+			}
+		}, keyHolder);
 
-    @Override
-    public int addProject(Project project) throws Exception {
-        logger.info("Adding project: " + project);
-        KeyHolder keyHolder = new GeneratedKeyHolder();
-        jdbcTemplate.update(
-                new PreparedStatementCreator() {
-                    public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
-                        PreparedStatement ps =
-                                connection.prepareStatement(OnTargetQuery.ADD_PROJECT, new String[]{"id"});
-                        ps.setString(1, project.getProjectName());
-                        ps.setString(2, project.getProjectDescription());
-                        ps.setInt(3, project.getProjectTypeId());//TODO: get project type id and get it from project type table.
-                        ps.setInt(4, project.getCompanyId());
-                        ps.setInt(5, project.getProjectAddress().getAddressId());
-                        ps.setString(6, project.getStatus());
-                        ps.setInt(7, project.getProjectParentId());
-                        ps.setDate(8, new java.sql.Date(project.getStartDate().getTime()));
-                        ps.setDate(9, new java.sql.Date(project.getEndDate().getTime()));
-                        ps.setString(10, project.getProjectImagePath());
-                        ps.setLong(11, project.getProjectOwnerId());
-                        return ps;
-                    }
-                },
-                keyHolder);
+		logger.debug("Added project with id: " + keyHolder.getKey().intValue());
 
-        logger.debug("Added project with id: " + keyHolder.getKey().intValue());
+		return keyHolder.getKey().intValue();
+	}
 
-        return keyHolder.getKey().intValue();
-    }
+	@Override
+	public Project getProject(long projectId) throws Exception {
 
-    @Override
-    public Project getProject(long projectId) throws Exception {
+		final Project project = new Project();
 
-        final Project project = new Project();
+		jdbcTemplate.query(OnTargetQuery.GET_PROJECT,
+				new Object[] { projectId }, new RowMapper<Project>() {
+					@Override
+					public Project mapRow(ResultSet resultSet, int i)
+							throws SQLException {
+						project.setProjectId(projectId);
+						project.setProjectName(resultSet
+								.getString("PROJECT_NAME"));
+						project.setProjectDescription(resultSet
+								.getString("PROJECT_DESCRIPTION"));
+						project.setProjectTypeId(resultSet
+								.getInt("PROJECT_TYPE_ID"));
+						project.setProjectParentId(resultSet
+								.getInt("PROJECT_PARENT_ID"));
+						project.setCompanyId(resultSet.getInt("COMPANY_ID"));
+						project.setProjectOwnerId(resultSet
+								.getLong("project_owner_id"));
+						// logger.info("this is class of date object "+resultSet.getTime("project_start_date"));
+						project.setStartDate(resultSet
+								.getDate("project_start_date"));
+						project.setEndDate(resultSet
+								.getDate("project_end_date"));
 
-        jdbcTemplate.query(OnTargetQuery.GET_PROJECT, new Object[]{projectId}, new RowMapper<Project>() {
-            @Override
-            public Project mapRow(ResultSet resultSet, int i) throws SQLException {
-                project.setProjectId(projectId);
-                project.setProjectName(resultSet.getString("PROJECT_NAME"));
-                project.setProjectDescription(resultSet.getString("PROJECT_DESCRIPTION"));
-                project.setProjectTypeId(resultSet.getInt("PROJECT_TYPE_ID"));
-                project.setProjectParentId(resultSet.getInt("PROJECT_PARENT_ID"));
-                project.setCompanyId(resultSet.getInt("COMPANY_ID"));
-                project.setProjectOwnerId(resultSet.getLong("project_owner_id"));
-//                logger.info("this is class of date object "+resultSet.getTime("project_start_date"));
-                project.setStartDate(resultSet.getDate("project_start_date"));
-                project.setEndDate(resultSet.getDate("project_end_date"));
+						return project;
+					}
+				});
 
-                return project;
-            }
-        });
+		return project;
+	}
 
-        return project;
-    }
+	public List<Project> getChildProjects(long projectId) throws Exception {
+		List<Project> projects = new LinkedList<>();
+		List<Map<String, Object>> rs = jdbcTemplate.queryForList(
+				OnTargetQuery.GET_CHILD_PROJECTS, projectId);
+		if (rs != null)
+			for (Map<String, Object> row : rs) {
+				Project project = new Project();
+				project.setProjectId((int) row.get("project_id"));
+				project.setProjectName((String) row.get("PROJECT_NAME"));
+				project.setProjectDescription((String) row
+						.get("PROJECT_DESCRIPTION"));
+				project.setProjectParentId((int) row.get("PROJECT_PARENT_ID"));
+				project.setCompanyId((int) row.get("COMPANY_ID"));
+				if (row.containsKey("project_owner_id")
+						&& row.get("project_owner_id") != null)
+					project.setProjectOwnerId((int) row.get("project_owner_id"));
+				project.setStartDate((Timestamp) row.get("project_start_date"));
+				project.setEndDate((Timestamp) row.get("project_end_date"));
 
-    public List<Project> getChildProjects(long projectId) throws Exception {
-        List<Project> projects = new LinkedList<>();
-        List<Map<String, Object>> rs = jdbcTemplate.queryForList(OnTargetQuery.GET_CHILD_PROJECTS, projectId);
-        if (rs != null)
-            for (Map<String, Object> row : rs) {
-                Project project = new Project();
-                project.setProjectId((int) row.get("project_id"));
-                project.setProjectName((String) row.get("PROJECT_NAME"));
-                project.setProjectDescription((String) row.get("PROJECT_DESCRIPTION"));
-                project.setProjectParentId((int) row.get("PROJECT_PARENT_ID"));
-                project.setCompanyId((int) row.get("COMPANY_ID"));
-                if (row.containsKey("project_owner_id") && row.get("project_owner_id") != null)
-                    project.setProjectOwnerId((int) row.get("project_owner_id"));
-                project.setStartDate((Timestamp) row.get("project_start_date"));
-                project.setEndDate((Timestamp) row.get("project_end_date"));
+				projects.add(project);
+			}
 
-                projects.add(project);
-            }
+		return projects;
+	}
 
-        return projects;
-    }
+	@Override
+	public Project getProjectAndSubProjects(long projectId) throws Exception {
 
+		final Project project = new Project();
 
-    @Override
-    public Project getProjectAndSubProjects(long projectId) throws Exception {
+		Map<Integer, List<Project>> projectToSubProject = new HashMap<>();
 
-        final Project project = new Project();
+		jdbcTemplate.query(OnTargetQuery.GET_PROJECT_AND_TASKS,
+				new Object[] { projectId }, new RowMapper<Project>() {
+					@Override
+					public Project mapRow(ResultSet resultSet, int i)
+							throws SQLException {
 
-        Map<Integer, List<Project>> projectToSubProject = new HashMap<>();
+						int parentProjectId = resultSet
+								.getInt("PROJECT_PARENT_ID");
+						int projectId = resultSet.getInt("PROJECT_ID");
 
-        jdbcTemplate.query(OnTargetQuery.GET_PROJECT_AND_TASKS, new Object[]{projectId}, new RowMapper<Project>() {
-            @Override
-            public Project mapRow(ResultSet resultSet, int i) throws SQLException {
+						Project project1 = new Project();
+						project1.setProjectId(projectId);
+						project1.setProjectName(resultSet
+								.getString("PROJECT_NAME"));
+						project1.setProjectDescription(resultSet
+								.getString("PROJECT_DESCRIPTION"));
+						project1.setProjectTypeId(resultSet
+								.getInt("PROJECT_TYPE_ID"));
+						project1.setProjectParentId(parentProjectId);
+						project1.setCompanyId(resultSet.getInt("COMPANY_ID"));
 
-                int parentProjectId = resultSet.getInt("PROJECT_PARENT_ID");
-                int projectId = resultSet.getInt("PROJECT_ID");
+						if (parentProjectId == 0
+								&& projectToSubProject.get(projectId) == null) {
+							List<Project> subProjects = new ArrayList<>();
+							subProjects.add(project1);
+							projectToSubProject.put(projectId, subProjects);
+						}
 
-                Project project1 = new Project();
-                project1.setProjectId(projectId);
-                project1.setProjectName(resultSet.getString("PROJECT_NAME"));
-                project1.setProjectDescription(resultSet.getString("PROJECT_DESCRIPTION"));
-                project1.setProjectTypeId(resultSet.getInt("PROJECT_TYPE_ID"));
-                project1.setProjectParentId(parentProjectId);
-                project1.setCompanyId(resultSet.getInt("COMPANY_ID"));
+						return project;
+					}
+				});
+		return project;
+	}
 
+	@Override
+	public List<Map<String, Object>> getProjectByCompany(int companyId,
+			int userId) throws Exception {
+		return jdbcTemplate.queryForList(OnTargetQuery.GET_PROJECT_BY_COMPANY,
+				new Object[] { companyId, userId });
+	}
 
-                if (parentProjectId == 0 && projectToSubProject.get(projectId) == null) {
-                    List<Project> subProjects = new ArrayList<>();
-                    subProjects.add(project1);
-                    projectToSubProject.put(projectId, subProjects);
-                }
+	@Override
+	public List<Company> getCompanyByProject(int projectId) throws Exception {
+		List<Map<String, Object>> rs = jdbcTemplate.queryForList(
+				OnTargetQuery.GET_COMPANY_BY_PROJECT,
+				new Object[] { projectId });
+		List<Company> companies = new ArrayList<>();
+		if (rs != null && rs.size() > 0) {
+			for (Map<String, Object> map : rs) {
+				Company company = new Company();
+				company.setCompanyId((int) map.get("company_id"));
+				company.setCompanyName((String) map.get("company_name"));
+				company.setWebsite((String) map.get("website"));
+				company.setCompanyTypeId((int) map.get("company_type_id"));
 
-                return project;
-            }
-        });
-        return project;
-    }
+				Address address = new Address();
+				address.setAddress1((String) map.get("address1"));
+				address.setAddress2((String) map.get("address2"));
+				address.setCity((String) map.get("city"));
+				address.setCountry((String) map.get("country"));
+				address.setState((String) map.get("state"));
+				address.setZip((String) map.get("zipcode"));
 
+				company.setAddress(address);
+				companies.add(company);
+			}
+		}
 
-    @Override
-    public List<Map<String, Object>> getProjectByCompany(int companyId, int userId) throws Exception {
-        return jdbcTemplate.queryForList(OnTargetQuery.GET_PROJECT_BY_COMPANY, new Object[]{companyId, userId});
-    }
+		return companies;
+	}
 
-    @Override
-    public List<Company> getCompanyByProject(int projectId) throws Exception {
-        List<Map<String, Object>> rs = jdbcTemplate.queryForList(OnTargetQuery.GET_COMPANY_BY_PROJECT, new Object[]{projectId});
-        List<Company> companies = new ArrayList<>();
-        if (rs != null && rs.size() > 0) {
-            for (Map<String, Object> map : rs) {
-                Company company = new Company();
-                company.setCompanyId((int) map.get("company_id"));
-                company.setCompanyName((String) map.get("company_name"));
-                company.setWebsite((String) map.get("website"));
-                company.setCompanyTypeId((int) map.get("company_type_id"));
+	@Override
+	// TODO: get user from project task
+	public boolean updateProject(Project project, int updatingUserId)
+			throws Exception {
+		int row = jdbcTemplate.update(
+				OnTargetQuery.UPDATE_PROJECT,
+				new Object[] { project.getProjectName(),
+						project.getProjectDescription(),
+						project.getCompanyId(), project.getProjectTypeId(),
+						project.getProjectParentId(), project.getStatus(),
+						project.getStartDate(), project.getEndDate(),
+						updatingUserId, project.getProjectId() });
+		if (row == 0) {
+			throw new Exception("Unable to update project.");
+		}
+		return true;
+	}
 
-                Address address = new Address();
-                address.setAddress1((String) map.get("address1"));
-                address.setAddress2((String) map.get("address2"));
-                address.setCity((String) map.get("city"));
-                address.setCountry((String) map.get("country"));
-                address.setState((String) map.get("state"));
-                address.setZip((String) map.get("zipcode"));
+	@Override
+	public List<ProjectMember> getProjectMembers(long projectId)
+			throws Exception {
+		List<ProjectMember> projectMemberList = new LinkedList<ProjectMember>();
+		jdbcTemplate.query(OnTargetQuery.GET_PROJECT_MEMBERS,
+				new Object[] { projectId }, new RowMapper<ProjectMember>() {
+					@Override
+					public ProjectMember mapRow(ResultSet resultSet, int i)
+							throws SQLException {
+						ProjectMember projectMember = new ProjectMember();
+						projectMember.setMemberStatus(resultSet
+								.getString("member_status"));
+						projectMember.setProjectId(projectId);
+						projectMember.setProjectMemberId(resultSet
+								.getLong("project_member_id"));
+						projectMember.setUserId(resultSet.getLong("user_id"));
 
-                company.setAddress(address);
-                companies.add(company);
-            }
-        }
+						Contact contact = new Contact();
+						contact.setFirstName(resultSet.getString("first_name"));
+						contact.setLastName(resultSet.getString("last_name"));
 
-        return companies;
-    }
+						User user = new User();
+						user.setUserId(resultSet.getInt("user_id"));
+						contact.setUser(user);
 
-    @Override
-    //TODO: get user from project task
-    public boolean updateProject(Project project, int updatingUserId) throws Exception {
-        int row = jdbcTemplate.update(OnTargetQuery.UPDATE_PROJECT, new Object[]{project.getProjectName(), project.getProjectDescription(), project.getProjectTypeId(), project.getProjectParentId(), project.getStatus(), project.getStartDate(), project.getEndDate(), updatingUserId, project.getProjectId()});
-        if (row == 0) {
-            throw new Exception("Unable to update project.");
-        }
-        return true;
-    }
+						ContactPhone phone = new ContactPhone();
+						phone.setAreaCode(resultSet.getInt("area_code"));
+						phone.setPhoneNumber(resultSet
+								.getString("phone_number"));
+						phone.setPhoneType(resultSet.getString("phone_type"));
 
-    @Override
-    public List<ProjectMember> getProjectMembers(long projectId) throws Exception {
-        List<ProjectMember> projectMemberList = new LinkedList<ProjectMember>();
-        jdbcTemplate.query(OnTargetQuery.GET_PROJECT_MEMBERS, new Object[]{projectId}, new RowMapper<ProjectMember>() {
-            @Override
-            public ProjectMember mapRow(ResultSet resultSet, int i) throws SQLException {
-                ProjectMember projectMember = new ProjectMember();
-                projectMember.setMemberStatus(resultSet.getString("member_status"));
-                projectMember.setProjectId(projectId);
-                projectMember.setProjectMemberId(resultSet.getLong("project_member_id"));
-                projectMember.setUserId(resultSet.getLong("user_id"));
+						projectMember.setContact(contact);
+						projectMember.setPhone(phone);
 
-                Contact contact = new Contact();
-                contact.setFirstName(resultSet.getString("first_name"));
-                contact.setLastName(resultSet.getString("last_name"));
+						projectMemberList.add(projectMember);
+						return projectMember;
+					}
+				});
+		// System.out.println("total read " + projectMemberList.size());
+		return projectMemberList;
+	}
 
-                User user = new User();
-                user.setUserId(resultSet.getInt("user_id"));
-                contact.setUser(user);
+	@Override
+	public int addProjectMember(long projectId, int userId) {
+		logger.info("Adding project member for project: " + projectId);
+		KeyHolder keyHolder = new GeneratedKeyHolder();
+		jdbcTemplate.update(new PreparedStatementCreator() {
+			public PreparedStatement createPreparedStatement(
+					Connection connection) throws SQLException {
+				PreparedStatement ps = connection
+						.prepareStatement(OnTargetQuery.ADD_PROJECT_MEMBER,
+								new String[] { "id" });
+				ps.setLong(1, projectId);
+				ps.setInt(2, userId);
+				ps.setString(3, OnTargetConstant.MemberStatus.ACTIVE);
 
-                ContactPhone phone = new ContactPhone();
-                phone.setAreaCode(resultSet.getInt("area_code"));
-                phone.setPhoneNumber(resultSet.getString("phone_number"));
-                phone.setPhoneType(resultSet.getString("phone_type"));
+				return ps;
+			}
+		}, keyHolder);
+		logger.debug("Added address with id: " + keyHolder.getKey().intValue());
 
-                projectMember.setContact(contact);
-                projectMember.setPhone(phone);
+		return keyHolder.getKey().intValue();
+	}
 
-                projectMemberList.add(projectMember);
-                return projectMember;
-            }
-        });
-//        System.out.println("total read " + projectMemberList.size());
-        return projectMemberList;
-    }
-
-
-    @Override
-    public int addProjectMember(long projectId, int userId) {
-        logger.info("Adding project member for project: " + projectId);
-        KeyHolder keyHolder = new GeneratedKeyHolder();
-        jdbcTemplate.update(
-                new PreparedStatementCreator() {
-                    public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
-                        PreparedStatement ps = connection.prepareStatement(OnTargetQuery.ADD_PROJECT_MEMBER, new String[]{"id"});
-                        ps.setLong(1, projectId);
-                        ps.setInt(2, userId);
-                        ps.setString(3, OnTargetConstant.MemberStatus.ACTIVE);
-
-                        return ps;
-                    }
-                },
-                keyHolder);
-        logger.debug("Added address with id: " + keyHolder.getKey().intValue());
-
-        return keyHolder.getKey().intValue();
-    }
-
-    @Override
-    public List<Map<String, Object>> getProjectByUser(int userId) {
-        return jdbcTemplate.queryForList(OnTargetQuery.GET_PROJECT_BY_USER, new Object[]{userId});
-    }
+	@Override
+	public List<Map<String, Object>> getProjectByUser(int userId) {
+		return jdbcTemplate.queryForList(OnTargetQuery.GET_PROJECT_BY_USER,
+				new Object[] { userId });
+	}
 }

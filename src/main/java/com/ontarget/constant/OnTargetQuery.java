@@ -77,7 +77,7 @@ public interface OnTargetQuery {
 
     public static final String UPDATE_PROJECT_ADDRESS = new StringBuilder("update address set address1=?,address2=?,city=?,state=?,zip=?,country=? where address_id=?").toString();
 
-    public static final String UPDATE_PROJECT = new StringBuilder("update project set project_name=?,project_description=?,project_type_id=?, project_parent_id=?, project_status=?, project_start_date=?,project_end_date=?, modified_by=?, modified_date=now() where project_id=?").toString();
+    public static final String UPDATE_PROJECT = new StringBuilder("update project set project_name=?,project_description=?,company_id=?,project_type_id=?, project_parent_id=?, project_status=?, project_start_date=?,project_end_date=?, modified_by=?, modified_date=now() where project_id=?").toString();
 
     public static final String GET_PROJECT_MEMBERS = new StringBuilder("select c.user_id,c.first_name,c.last_name,c.contact_image,cp.area_code,cp.phone_number, cp.phone_type,pm.*  from contact c, project_member pm, project p, phone cp")
             .append(" where  c.user_id=pm.user_id and  p.project_id=pm.project_id and  c.contact_id=cp.contact_id")
