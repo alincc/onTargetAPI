@@ -55,29 +55,6 @@ public class TaskServiceImpl implements TaskService {
 	@Transactional(rollbackFor = { Exception.class })
 	public boolean addTaskService(Task task, int userId) throws Exception {
 		logger.info("Add/Update task: " + task);
-		logger.info("task start date:: " + task.getStartDate());
-		logger.info("task end date:: " + task.getEndDate());
-
-		String startDateText = task.getStartDateText();
-		if (startDateText != null && !startDateText.isEmpty()) {
-			Date parse = format.parse(startDateText);
-
-			// Calendar calendar = Calendar.getInstance(cst);
-			// calendar.setTimeInMillis(parse.getTime());
-			// calendar.setTimeZone(cst);
-			// parse = calendar.getTime();
-			logger.info("this is start date " + parse + " parsed from "
-					+ startDateText);
-			task.setStartDate(parse);
-		}
-
-		String endDateText = task.getEndDateText();
-		if (endDateText != null && !endDateText.isEmpty()) {
-			Date parse = format.parse(endDateText);
-			logger.info("this is end date " + parse + " parsed from "
-					+ endDateText);
-			task.setEndDate(parse);
-		}
 
 		int taskId = task.getProjectTaskId();
 		logger.info("task id:: " + taskId);
@@ -127,7 +104,7 @@ public class TaskServiceImpl implements TaskService {
 			}
 		}
 
-		Task parentTask = task.getParentTask();
+		/*Task parentTask = task.getParentTask();
 		logger.info("parent task:: " + parentTask);
 		if (parentTask != null) {
 			Date parentTaskStartDate = parentTask.getStartDate();
@@ -172,7 +149,7 @@ public class TaskServiceImpl implements TaskService {
 							"Task ends after parent task end date");
 				}
 			}
-		}
+		}*/
 
 		if (isTaskAdd(taskId)) {
 			taskId = taskDAO.addTask(task, userId);
@@ -187,7 +164,6 @@ public class TaskServiceImpl implements TaskService {
 			throw new Exception("Add/update task failed.");
 		}
 
-		// add project task assignee.
 
 		return true;
 	}
