@@ -42,15 +42,6 @@ public class TaskServiceImpl implements TaskService {
 	@Autowired
 	private ProjectDAO projectDAO;
 
-	private static final SimpleDateFormat format = new SimpleDateFormat(
-			"yyyy-MM-dd");
-	// private static final TimeZone cst =
-	// TimeZone.getTimeZone("America/Chicago");
-
-	static {
-		// format.setTimeZone(cst);
-	}
-
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
 	public boolean addTaskService(Task task, int userId) throws Exception {

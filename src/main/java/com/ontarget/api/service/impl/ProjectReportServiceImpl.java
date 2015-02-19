@@ -251,7 +251,7 @@ public class ProjectReportServiceImpl implements ProjectReportService {
             for (Map.Entry<TaskInterval, TaskPercentage> taskIntervalTaskPercentageEntry : monthYearTaskPercentage.entrySet()) {
                 TaskInterval taskInterval = taskIntervalTaskPercentageEntry.getKey();
                 ProjectEarnedValueAnalysisReport rpt = monthYearEarnedValueReportByTask.get(taskInterval);
-                double cumulativeEV = rpt.getCumulativeEarnedValue() + monthYearTaskPercentage.get(taskInterval).getTaskPercentageComplete() * totalBudgetCost;
+                double cumulativeEV = rpt.getCumulativeEarnedValue() + monthYearTaskPercentage.get(taskInterval).getTaskPercentageComplete() * totalBudgetCost / 100;
                 rpt.setCumulativeEarnedValue(cumulativeEV);
             }
         }
@@ -328,7 +328,7 @@ public class ProjectReportServiceImpl implements ProjectReportService {
             if (report.getCumulativePlannedValue() > 0) {
                 schedulePerformanceIndex = report.getCumulativeEarnedValue() / report.getCumulativePlannedValue();
             }
-            report.setCostPerformanceIndex(schedulePerformanceIndex);
+            report.setSchedulePerformanceIndex(schedulePerformanceIndex);
 
 
             /**
