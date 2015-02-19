@@ -34,7 +34,7 @@ public interface OnTargetQuery {
 
     public static final String GET_COMPANY = new StringBuilder("SELECT company_name FROM company_info where company_id=?").toString();
 
-    public static final String  ADD_PROJECT = new StringBuilder("INSERT INTO  PROJECT (PROJECT_NAME, PROJECT_DESCRIPTION,PROJECT_TYPE_ID, COMPANY_ID, ADDRESS_ID,PROJECT_STATUS,PROJECT_PARENT_ID,project_start_date,project_end_date, CREATED_DATE, CREATED_BY, MODIFIED_DATE,MODIFIED_BY,project_image_path, project_owner_id ) VALUES (?,?,?,?,?,?,?,?,?,NOW(),'SYSTEM',NOW(),'SYSTEM',?,?)").toString();
+    public static final String  ADD_PROJECT = new StringBuilder("INSERT INTO  PROJECT (PROJECT_NAME, PROJECT_DESCRIPTION,PROJECT_TYPE_ID, COMPANY_ID, ADDRESS_ID,PROJECT_STATUS,PROJECT_PARENT_ID,project_start_date,project_end_date, CREATED_DATE, CREATED_BY, MODIFIED_DATE,MODIFIED_BY,project_image_path, project_owner_id ) VALUES (?,?,?,?,?,?,?,?,?,NOW(),?,NOW(),?,?,?)").toString();
 
     public static final String ADD_ADDRESS = new StringBuilder("INSERT INTO ADDRESS (address1,address2,city,state,zip,country,address_type) values (?,?,?,?,?,?,?)").toString();
 
@@ -233,7 +233,7 @@ public interface OnTargetQuery {
 
     public static final String GET_REGISTRATION_INVITATION = new StringBuilder("SELECT * FROM registration_request WHERE registration_token=?").toString();
 
-    public static final String GET_ACTIVITY_LOG = new StringBuilder("SELECT * FROM activity_log where id > ? order by id desc limit 200").toString();
+    public static final String GET_ACTIVITY_LOG = new StringBuilder("SELECT * FROM activity_log where project_id=? order by ts_insert desc limit 200").toString();
 
     public static final String UPDATE_USER_IMAGE = new StringBuilder("UPDATE contact SET modified_date=?, modified_by=?, contact_image=? WHERE user_id=?").toString();
 

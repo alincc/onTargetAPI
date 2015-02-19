@@ -52,7 +52,7 @@ public class ProjectDAOTest extends BaseTest {
 
             address.setAddressId(addressId);
 
-            int projectId = projectDAO.addProject(project);
+            int projectId = projectDAO.addProject(project,1);
             Assert.assertTrue(projectId > 0);
         } catch (Exception e) {
             logger.error("Fail to add task",e);

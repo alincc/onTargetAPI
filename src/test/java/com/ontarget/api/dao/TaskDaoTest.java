@@ -58,7 +58,7 @@ public class TaskDaoTest extends BaseTest {
 
             address.setAddressId(addressId);
 
-            int projectId = projectDAO.addProject(project);
+            int projectId = projectDAO.addProject(project,1);
             org.junit.Assert.assertTrue(projectId > 0);
 
 

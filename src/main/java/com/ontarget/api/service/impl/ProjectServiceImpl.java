@@ -64,7 +64,7 @@ public class ProjectServiceImpl implements ProjectService {
         project.setCompanyId(companyId);
         project.setProjectOwnerId(userId);
 
-        int projectId = projectDAO.addProject(project);
+        int projectId = projectDAO.addProject(project,userId);
 
         //add the user to project member;
         int projectMemberId = 0;

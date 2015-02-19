@@ -28,7 +28,7 @@ public class ProjectDAOImpl implements ProjectDAO {
 	private JdbcTemplate jdbcTemplate;
 
 	@Override
-	public int addProject(Project project) throws Exception {
+	public int addProject(Project project, long userId) throws Exception {
 		logger.info("Adding project: " + project);
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		jdbcTemplate.update(new PreparedStatementCreator() {
@@ -38,10 +38,7 @@ public class ProjectDAOImpl implements ProjectDAO {
 						OnTargetQuery.ADD_PROJECT, new String[] { "id" });
 				ps.setString(1, project.getProjectName());
 				ps.setString(2, project.getProjectDescription());
-				ps.setInt(3, project.getProjectTypeId());// TODO: get project
-															// type id and get
-															// it from project
-															// type table.
+				ps.setInt(3, project.getProjectTypeId());
 				ps.setInt(4, project.getCompanyId());
 				ps.setInt(5, project.getProjectAddress().getAddressId());
 				ps.setString(6, project.getStatus());
@@ -49,8 +46,10 @@ public class ProjectDAOImpl implements ProjectDAO {
 				ps.setDate(8, new java.sql.Date(project.getStartDate()
 						.getTime()));
 				ps.setDate(9, new java.sql.Date(project.getEndDate().getTime()));
-				ps.setString(10, project.getProjectImagePath());
-				ps.setLong(11, project.getProjectOwnerId());
+                ps.setLong(10, userId);
+                ps.setLong(11, userId);
+				ps.setString(12, project.getProjectImagePath());
+				ps.setLong(13, project.getProjectOwnerId());
 				return ps;
 			}
 		}, keyHolder);
