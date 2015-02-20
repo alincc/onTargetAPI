@@ -32,13 +32,6 @@ public class AccidentReportEndpointImpl implements AccidentReportEndpoint {
 	@Autowired
 	private AccidentReportService accidentReportService;
 
-	/**
-	 * API to save new accident report.
-	 *
-	 * (non-Javadoc)
-	 * 
-	 * @see com.ontarget.api.rs.AccidentReportEndpoint#saveAccidentReport(com.ontarget.dto.SaveAccidentReportRequest)
-	 */
 	@PUT
 	@Override
 	public SaveAccidentReportResponse saveAccidentReport(
@@ -59,13 +52,6 @@ public class AccidentReportEndpointImpl implements AccidentReportEndpoint {
 		return response;
 	}
 
-	/*
-	 * API to get accident reports by project ID. (non-Javadoc)
-	 * 
-	 * @see
-	 * com.ontarget.api.rs.AccidentReportEndpoint#getAccidentReports(java.lang
-	 * .String)
-	 */
 	@Override
 	@POST
 	@Path("/getAccidentReportsOfProject")
@@ -85,13 +71,6 @@ public class AccidentReportEndpointImpl implements AccidentReportEndpoint {
 		return response;
 	}
 
-	/*
-	 * API to update accident report. (non-Javadoc)
-	 * 
-	 * @see
-	 * com.ontarget.api.rs.AccidentReportEndpoint#updateAccidentReport(com.ontarget
-	 * .dto.SaveAccidentReportRequest)
-	 */
 	@Override
 	@POST
 	public OnTargetResponse updateAccidentReport(

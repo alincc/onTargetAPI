@@ -7,12 +7,13 @@ import com.ontarget.api.dao.EmailDAO;
 import com.ontarget.api.rs.UserInvitation;
 import com.ontarget.api.service.EmailService;
 import com.ontarget.bean.Contact;
-import com.ontarget.bean.Document;
+import com.ontarget.bean.DocumentDTO;
 import com.ontarget.bean.TaskDTO;
 import com.ontarget.bean.UserDTO;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.UserRegistrationRequest;
 import com.ontarget.entity.pojo.RegistrationRequestResponseDTO;
+import com.ontarget.request.bean.Assignee;
 import com.ontarget.util.EmailConstant;
 
 import org.apache.log4j.Logger;
@@ -225,10 +226,10 @@ public class EmailServiceImpl implements EmailService {
 	}
 
 	@Override
-	public boolean sendDocumentAssignmentEmails(final Document document,
-			List<UserDTO> assignees) {
-		List<UserDTO> failures = new ArrayList<>();
-		for (final UserDTO assignee : assignees) {
+	public boolean sendDocumentAssignmentEmails(final DocumentDTO document,
+			List<Assignee> assignees) {
+		List<Assignee> failures = new ArrayList<>();
+		for (final Assignee assignee : assignees) {
 			try {
 				MimeMessagePreparator preparator = new MimeMessagePreparator() {
 					@SuppressWarnings({ "rawtypes", "unchecked" })

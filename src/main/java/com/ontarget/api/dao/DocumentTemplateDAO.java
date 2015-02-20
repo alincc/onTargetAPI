@@ -1,8 +1,8 @@
 package com.ontarget.api.dao;
 
-import com.ontarget.bean.DocumentTemplate;
+import com.ontarget.bean.DocumentTemplateDTO;
 
-public interface DocumentTemplateDAO extends GenericDAO<DocumentTemplate> {
+public interface DocumentTemplateDAO extends GenericDAO<DocumentTemplateDTO> {
 
-	DocumentTemplate getByDocumentId(long documentId);
+	DocumentTemplateDTO getByDocumentId(long documentId);
 }

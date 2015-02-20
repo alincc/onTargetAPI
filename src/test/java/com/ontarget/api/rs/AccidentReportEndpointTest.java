@@ -7,10 +7,6 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.ontarget.bean.AccidentReport;
-import com.ontarget.bean.UserDTO;
-import com.ontarget.dto.BaseRequestDTO;
-import com.ontarget.dto.SaveAccidentReportRequest;
 import com.ontarget.request.bean.AccidentReportRequestBean;
 import com.ontarget.request.bean.BaseRequest;
 import com.sun.jersey.api.client.ClientResponse;

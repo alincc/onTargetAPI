@@ -38,20 +38,6 @@ public class UploadDocumentEndPointImpl implements UploadDocumentEndPoint {
 	@Autowired
 	private UploadDocumentService documentService;
 
-	/**
-	 * This method receives information related to the document uploaded from
-	 * UI. Required details include JSON object with below signature: {
-	 * "projectId": "100", "name": "path/to/file/filename/extension",
-	 * "fileType": "excel", "user": { "userId": "1001", "username": "sbhandari",
-	 * "password": "password", "firstName": "subash", "lastName": "bhandari",
-	 * "designation": "developer" } }
-	 * 
-	 * Upon successfull processing, file details would be saved in database and
-	 * response would be sent with reponseCode=200, returnVal=SUCCESS and
-	 * default success message.
-	 * 
-	 * @return OnTargetResponse
-	 */
 	@Override
 	@Path("/saveUploadedDocsInfo")
 	@POST
@@ -76,24 +62,12 @@ public class UploadDocumentEndPointImpl implements UploadDocumentEndPoint {
 					OnTargetConstant.SUCCESS_CODE, OnTargetConstant.SUCCESS,
 					OnTargetConstant.SUCCESS)) : response);
 		} catch (Exception ex) {
-			// ex.printStackTrace();
 			logger.error(OnTargetConstant.INTERNAL_SERVER_ERROR_MSG, ex);
 		}
 
 		return response;
 	}
 
-	/**
-	 * This method receives project ID and returns response including all the
-	 * files saved for that project
-	 * 
-	 * upon successfull processing, response code would be 200, returnVal would
-	 * be Success and default success message would be set in returnMessage. and
-	 * DocumentDetailList inside the FileUploadResponse will contain 0 or more
-	 * file details based on the availability in database table.
-	 * 
-	 * 
-	 */
 	@Override
 	@POST
 	public FileUploadResponse getUploadedFile(
@@ -114,7 +88,6 @@ public class UploadDocumentEndPointImpl implements UploadDocumentEndPoint {
 			response.setReturnVal(OnTargetConstant.SUCCESS);
 			response.setReturnMessage(OnTargetConstant.DEFAULT_SUCCESS_MESSAGE);
 		} catch (Exception ex) {
-			// ex.printStackTrace();
 			logger.error(OnTargetConstant.INTERNAL_SERVER_ERROR_MSG, ex);
 		}
 

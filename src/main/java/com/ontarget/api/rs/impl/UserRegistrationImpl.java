@@ -1,5 +1,18 @@
 package com.ontarget.api.rs.impl;
 
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.ontarget.api.service.EmailService;
 import com.ontarget.api.service.ProjectService;
 import com.ontarget.api.service.UserProfileService;
@@ -12,13 +25,6 @@ import com.ontarget.dto.UserInviteResponse;
 import com.ontarget.request.bean.InviteUserIntoProjectRequestBean;
 import com.ontarget.request.bean.UserRegistrationRequestBean;
 import com.ontarget.util.Security;
-
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
 
 /**
  * Created by sumit on 12/1/14.
@@ -107,10 +113,8 @@ public class UserRegistrationImpl implements
 		String lastName = inviteUserIntoProjectRequest.getLastName();
 		String email = inviteUserIntoProjectRequest.getEmail();
 
-		// generate token id
 		final String tokenId = Security
 				.generateRandomValue(OnTargetConstant.TOKEN_LENGTH);
-		// save into registration table
 		try {
 			if (userProfileService.saveRegistration(
 					inviteUserIntoProjectRequest.getProjectId(),
@@ -120,7 +124,6 @@ public class UserRegistrationImpl implements
 					inviteUserIntoProjectRequest.getRegistrationToken(),
 					OnTargetConstant.AccountStatus.ACCT_NEW)) {
 
-				// build n send email
 				emailService.sendInviteToAccountEmail(email, firstName,
 						lastName, tokenId);
 				response.setReturnMessage("Email sent. Please check mail");

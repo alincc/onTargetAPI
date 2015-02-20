@@ -5,7 +5,7 @@ import com.ontarget.api.dao.UploadDocumentDAO;
 import com.ontarget.api.service.UploadDocumentService;
 import com.ontarget.bean.Contact;
 import com.ontarget.bean.UploadDocument;
-import com.ontarget.dto.UploadDocumentRequest;
+import com.ontarget.dto.UploadDocumentRequestDTO;
 import com.ontarget.dto.UploadedDocumentDetail;
 import com.ontarget.request.bean.UploadDocumentRequestBean;
 

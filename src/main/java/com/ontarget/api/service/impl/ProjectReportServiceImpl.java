@@ -177,7 +177,7 @@ public class ProjectReportServiceImpl implements ProjectReportService {
 
 		// get all approved documents on time.
 
-		List<Document> documents = documentDAO.getDocumentsByProject(projectId,
+		List<DocumentDTO> documents = documentDAO.getDocumentsByProject(projectId,
 				OnTargetConstant.APPROVED);
 
 		int approvedDocumentsOnTime = documents.size();

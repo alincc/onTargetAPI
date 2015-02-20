@@ -1,11 +1,11 @@
 package com.ontarget.dto;
 
-import com.ontarget.bean.Document;
+import com.ontarget.bean.DocumentDTO;
 
 public class AddDocumentResponse extends OnTargetResponse {
 	private static final long serialVersionUID = 1L;
 	
-	private Document document;
+	private DocumentDTO document;
 	
 	public AddDocumentResponse() {
 		super();
@@ -15,11 +15,11 @@ public class AddDocumentResponse extends OnTargetResponse {
 		super(returnVal, returnMessage);
 	}
 
-	public Document getDocument() {
+	public DocumentDTO getDocument() {
 		return document;
 	}
 
-	public void setDocument(Document document) {
+	public void setDocument(DocumentDTO document) {
 		this.document = document;
 	}
 }

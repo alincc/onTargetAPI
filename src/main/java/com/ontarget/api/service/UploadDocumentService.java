@@ -2,7 +2,7 @@ package com.ontarget.api.service;
 
 import java.util.List;
 
-import com.ontarget.dto.UploadDocumentRequest;
+import com.ontarget.dto.UploadDocumentRequestDTO;
 import com.ontarget.dto.UploadedDocumentDetail;
 import com.ontarget.request.bean.UploadDocumentRequestBean;
 

@@ -32,8 +32,8 @@ import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.ProjectListResponse;
 import com.ontarget.dto.ProjectMemberListResponse;
 import com.ontarget.dto.ProjectResponse;
-import com.ontarget.request.bean.ProjectAddressBean;
-import com.ontarget.request.bean.ProjectBean;
+import com.ontarget.request.bean.ProjectAddressInfo;
+import com.ontarget.request.bean.ProjectDetailInfo;
 import com.ontarget.request.bean.ProjectRequestBean;
 import com.ontarget.util.ConvertPOJOUtils;
 
@@ -71,7 +71,7 @@ public class ProjectServiceImpl implements ProjectService {
 
 		// add project address first.
 
-		ProjectAddressBean projectAdd = request.getProject().getProjectAddress();
+		ProjectAddressInfo projectAdd = request.getProject().getProjectAddress();
 
 		AddressDTO addressDTO = ConvertPOJOUtils
 				.convertToAddressDTO(projectAdd);
@@ -88,7 +88,7 @@ public class ProjectServiceImpl implements ProjectService {
 			companyId = (Integer) compMap.get("contact_company_id");
 		}
 
-		ProjectBean projectObj = request.getProject();
+		ProjectDetailInfo projectObj = request.getProject();
 		ProjectDTO projectDTO = ConvertPOJOUtils.convertToProjectDTO(
 				projectObj, addressDTO);
 
@@ -137,7 +137,7 @@ public class ProjectServiceImpl implements ProjectService {
 		logger.info("Updating project " + request.getProject());
 
 		// add project address first.
-		ProjectAddressBean projectAddress = request.getProject()
+		ProjectAddressInfo projectAddress = request.getProject()
 				.getProjectAddress();
 
 		AddressDTO addressDTO = ConvertPOJOUtils
@@ -149,7 +149,7 @@ public class ProjectServiceImpl implements ProjectService {
 			throw new Exception("Error while updating address");
 		}
 
-		ProjectBean project = request.getProject();
+		ProjectDetailInfo project = request.getProject();
 		ProjectDTO projectDTO = ConvertPOJOUtils.convertToProjectDTO(project,
 				addressDTO);
 		boolean updatedPr = projectDAO.updateProject(projectDTO,

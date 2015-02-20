@@ -1,19 +1,22 @@
 package com.ontarget.api.rs.impl;
 
+import java.util.LinkedList;
+import java.util.List;
+
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.ontarget.api.service.NotificationService;
 import com.ontarget.bean.Notification;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.NotificationResponse;
 import com.ontarget.request.bean.NotificationRequestBean;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Created by sumit on 12/26/14.
@@ -39,12 +42,10 @@ public class NotificationEndpointImpl implements
 					.getNotifications(notificationRequest.getRecentId(),
 							notificationRequest.getUserId());
 			if (notifications == null || notifications.isEmpty()) {
-				// System.out.println("empty result returned");
 				response.setNotificationList(new LinkedList<>());
 				response.setRecentNotificationId(notificationRequest
 						.getRecentId());
 			} else {
-				// System.out.println("non empty result returned");
 				response.setNotificationList(notifications);
 				response.setRecentNotificationId(notifications.get(
 						notifications.size() - 1).getId());

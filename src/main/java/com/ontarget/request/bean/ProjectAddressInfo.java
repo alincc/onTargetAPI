@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({ "address1", "address2", "city", "state", "country", "zip" })
-public class ProjectAddressBean {
+public class ProjectAddressInfo {
 
 	@JsonProperty("address1")
 	private String address1;

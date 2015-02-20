@@ -31,7 +31,7 @@ public class ProjectDAOImpl implements ProjectDAO {
 	@Override
 	public int addProject(ProjectDTO project) throws Exception {
 		logger.info("Adding project: " + project);
-		System.out.println("project type id:: "+project.getProjectTypeId());
+		logger.info("Company id:: " + project.getCompanyId());
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		jdbcTemplate.update(new PreparedStatementCreator() {
 			public PreparedStatement createPreparedStatement(
@@ -256,7 +256,7 @@ public class ProjectDAOImpl implements ProjectDAO {
 						return projectMember;
 					}
 				});
-		 System.out.println("total read " + projectMemberList.size());
+		System.out.println("total read " + projectMemberList.size());
 		return projectMemberList;
 	}
 

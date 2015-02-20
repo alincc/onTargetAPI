@@ -12,7 +12,7 @@ public class ProjectRequestBean {
 	@JsonProperty("baseRequest")
 	private BaseRequest baseRequest;
 	@JsonProperty("project")
-	private ProjectBean project;
+	private ProjectDetailInfo project;
 	@JsonProperty("userId")
 	private Integer userId;
 	@JsonProperty("accountStatus")
@@ -42,7 +42,7 @@ public class ProjectRequestBean {
 	 * @return The project
 	 */
 	@JsonProperty("project")
-	public ProjectBean getProject() {
+	public ProjectDetailInfo getProject() {
 		return project;
 	}
 
@@ -52,7 +52,7 @@ public class ProjectRequestBean {
 	 *            The project
 	 */
 	@JsonProperty("project")
-	public void setProject(ProjectBean project) {
+	public void setProject(ProjectDetailInfo project) {
 		this.project = project;
 	}
 

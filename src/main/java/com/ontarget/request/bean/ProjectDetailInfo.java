@@ -1,14 +1,9 @@
 package com.ontarget.request.bean;
 
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.annotation.Generated;
 
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -18,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({ "projectParentId", "projectTypeId", "projectAddress",
 		"companyId", "projectName", "projectDescription", "status",
 		"startDate", "endDate" })
-public class ProjectBean {
+public class ProjectDetailInfo {
 
 	@JsonProperty("projectId")
 	private Integer projectId;
@@ -27,7 +22,7 @@ public class ProjectBean {
 	@JsonProperty("projectTypeId")
 	private Integer projectTypeId;
 	@JsonProperty("projectAddress")
-	private ProjectAddressBean projectAddress;
+	private ProjectAddressInfo projectAddress;
 	@JsonProperty("companyId")
 	private Integer companyId;
 	@JsonProperty("projectName")
@@ -84,7 +79,7 @@ public class ProjectBean {
 	 * @return The projectAddress
 	 */
 	@JsonProperty("projectAddress")
-	public ProjectAddressBean getProjectAddress() {
+	public ProjectAddressInfo getProjectAddress() {
 		return projectAddress;
 	}
 
@@ -94,7 +89,7 @@ public class ProjectBean {
 	 *            The projectAddress
 	 */
 	@JsonProperty("projectAddress")
-	public void setProjectAddress(ProjectAddressBean projectAddress) {
+	public void setProjectAddress(ProjectAddressInfo projectAddress) {
 		this.projectAddress = projectAddress;
 	}
 

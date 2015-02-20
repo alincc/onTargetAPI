@@ -21,11 +21,11 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import com.ontarget.api.dao.DocumentDAO;
-import com.ontarget.bean.Document;
+import com.ontarget.bean.DocumentDTO;
 import com.ontarget.constant.OnTargetQuery;
 
 @Repository
-public class DocumentDAOImpl extends BaseGenericDAOImpl<Document> implements
+public class DocumentDAOImpl extends BaseGenericDAOImpl<DocumentDTO> implements
 		DocumentDAO {
 	private static final Logger logger = Logger
 			.getLogger(BaseGenericDAOImpl.class);
@@ -34,7 +34,7 @@ public class DocumentDAOImpl extends BaseGenericDAOImpl<Document> implements
 	private ContactDAO contactDAO;
 
 	@Override
-	public Document insert(final Document document) {
+	public DocumentDTO insert(final DocumentDTO document) {
 		KeyHolder kh = new GeneratedKeyHolder();
 		jdbcTemplate.update(new PreparedStatementCreator() {
 			@Override
@@ -47,8 +47,8 @@ public class DocumentDAOImpl extends BaseGenericDAOImpl<Document> implements
 						.getDocumentTemplateId());
 				ps.setString(2, document.getName());
 				ps.setString(3, document.getStatus());
-				ps.setInt(4, document.getCreatedBy().getUserId());
-				ps.setInt(5, document.getModifiedBy().getUserId());
+				ps.setInt(4, document.getCreatedBy());
+				ps.setInt(5, document.getModifiedBy());
 				ps.setLong(6, document.getProjectId());
 				ps.setDate(7,
 						new java.sql.Date(document.getDueDate().getTime()));
@@ -61,15 +61,15 @@ public class DocumentDAOImpl extends BaseGenericDAOImpl<Document> implements
 	}
 
 	@Override
-	public Document read(long id) {
-		Document document = jdbcTemplate.queryForObject(
+	public DocumentDTO read(long id) {
+		DocumentDTO document = jdbcTemplate.queryForObject(
 				OnTargetQuery.document.GET_BY_ID, new Object[] { id },
 				new DocumentRowMapper());
 		return document;
 	}
 
 	@Override
-	public boolean update(Document document) {
+	public boolean update(DocumentDTO document) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -82,25 +82,25 @@ public class DocumentDAOImpl extends BaseGenericDAOImpl<Document> implements
 	}
 
 	@Override
-	public List<Document> getByCreatedBy(String createdBy, int projectId) {
-		List<Document> documents = jdbcTemplate.query(
+	public List<DocumentDTO> getByCreatedBy(String createdBy, int projectId) {
+		List<DocumentDTO> documents = jdbcTemplate.query(
 				OnTargetQuery.document.GET_BY_CREATED_BY, new Object[] {
 						createdBy, projectId }, new DocumentRowMapper());
 		return documents;
 	}
 
 	@Override
-	public List<Document> getByAssigneeUsername(String username, int projectId) {
-		List<Document> documents = jdbcTemplate.query(
+	public List<DocumentDTO> getByAssigneeUsername(String username, int projectId) {
+		List<DocumentDTO> documents = jdbcTemplate.query(
 				OnTargetQuery.document.GET_BY_ASSIGNEE_USERNAME, new Object[] {
 						username, projectId }, new DocumentRowMapper());
 		return documents;
 	}
 
 	@Override
-	public List<Document> getDocumentsByProject(int projectId, String approved)
+	public List<DocumentDTO> getDocumentsByProject(int projectId, String approved)
 			throws Exception {
-		List<Document> documents = jdbcTemplate.query(
+		List<DocumentDTO> documents = jdbcTemplate.query(
 				OnTargetQuery.document.GET_DOCUMENTS_BY_PROJECT, new Object[] {
 						projectId, approved }, new DocumentRowMapper());
 		return documents;
@@ -114,11 +114,11 @@ public class DocumentDAOImpl extends BaseGenericDAOImpl<Document> implements
 		return (count > 0);
 	}
 
-	class DocumentRowMapper implements RowMapper<Document> {
+	class DocumentRowMapper implements RowMapper<DocumentDTO> {
 
 		@Override
-		public Document mapRow(ResultSet rs, int index) throws SQLException {
-			Document doc = new Document();
+		public DocumentDTO mapRow(ResultSet rs, int index) throws SQLException {
+			DocumentDTO doc = new DocumentDTO();
 			doc.setDocumentId(rs.getInt("document_id"));
 			// doc.setDocumentTemplate(rs.getLong("document_template_id"));
 			doc.setName(rs.getString("name"));
@@ -131,9 +131,10 @@ public class DocumentDAOImpl extends BaseGenericDAOImpl<Document> implements
 				logger.error("Error while getting contact info", e);
 				throw new SQLException();
 			}
-			UserDTO createdBy = new UserDTO();
-			createdBy.setContact(contact);
-			doc.setCreatedBy(createdBy);
+			//UserDTO createdBy = new UserDTO();
+			//createdBy.setContact(contact);
+			//doc.setCreatedBy(createdBy);
+			doc.setCreatedBy(rs.getInt("created_by"));
 			doc.setDueDate(rs.getDate("due_date"));
 			return doc;
 		}

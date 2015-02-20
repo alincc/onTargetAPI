@@ -1,5 +1,6 @@
 package com.ontarget.api.rs.impl;
 
+import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -42,7 +43,7 @@ public class UserInvitationImpl implements UserInvitation {
 	@POST
 	@Path(WSResourceKeyConstant.INVITE_TO_NEW_ACCOUNT)
 	public OnTargetResponse inviteUserIntoNewAccount(
-			UserInvitationRequestBean request) {
+			@Valid UserInvitationRequestBean request) {
 
 		OnTargetResponse response = new OnTargetResponse();
 		try {

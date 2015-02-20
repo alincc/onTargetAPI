@@ -3,9 +3,9 @@ package com.ontarget.api.service;
 import java.util.List;
 
 import com.ontarget.bean.Contact;
-import com.ontarget.bean.Document;
+import com.ontarget.bean.DocumentDTO;
 import com.ontarget.bean.TaskDTO;
-import com.ontarget.bean.UserDTO;
+import com.ontarget.request.bean.Assignee;
 
 /**
  * Created by Owner on 11/2/14.
@@ -22,8 +22,8 @@ public interface EmailService {
 
 	public boolean sendUserRegistrationEmail() throws Exception;
 
-	public boolean sendDocumentAssignmentEmails(Document document,
-			List<UserDTO> assignees);
+	public boolean sendDocumentAssignmentEmails(DocumentDTO document,
+			List<Assignee> assignees);
 
 	public boolean sendInviteToAccountEmail(String email, String firstName,
 			String lastName, String tokenId);

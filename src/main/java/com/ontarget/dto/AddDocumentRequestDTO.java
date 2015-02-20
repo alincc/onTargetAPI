@@ -3,21 +3,21 @@ package com.ontarget.dto;
 import java.util.Date;
 import java.util.List;
 
-import com.ontarget.bean.DocumentGridKeyValue;
-import com.ontarget.bean.DocumentKeyValue;
+import com.ontarget.bean.DocumentGridKeyValueDTO;
+import com.ontarget.bean.DocumentKeyValueDTO;
 import com.ontarget.bean.UserDTO;
 
-public class AddDocumentRequest {
+public class AddDocumentRequestDTO {
 	private long documentTemplateId;
 	private String documentName;
-	private List<DocumentKeyValue> keyValues;
-	private List<DocumentGridKeyValue> gridKeyValues;
+	private List<DocumentKeyValueDTO> keyValues;
+	private List<DocumentGridKeyValueDTO> gridKeyValues;
 	private UserDTO submitter;
 	private List<UserDTO> assignees;
     private long projectId;
     private Date dueDate;
 	
-	public AddDocumentRequest() {
+	public AddDocumentRequestDTO() {
 		super();
 	}
 
@@ -37,19 +37,19 @@ public class AddDocumentRequest {
 		this.documentName = documentName;
 	}
 
-	public List<DocumentKeyValue> getKeyValues() {
+	public List<DocumentKeyValueDTO> getKeyValues() {
 		return keyValues;
 	}
 
-	public void setKeyValues(List<DocumentKeyValue> keyValues) {
+	public void setKeyValues(List<DocumentKeyValueDTO> keyValues) {
 		this.keyValues = keyValues;
 	}
 
-	public List<DocumentGridKeyValue> getGridKeyValues() {
+	public List<DocumentGridKeyValueDTO> getGridKeyValues() {
 		return gridKeyValues;
 	}
 
-	public void setGridKeyValues(List<DocumentGridKeyValue> gridKeyValues) {
+	public void setGridKeyValues(List<DocumentGridKeyValueDTO> gridKeyValues) {
 		this.gridKeyValues = gridKeyValues;
 	}
 

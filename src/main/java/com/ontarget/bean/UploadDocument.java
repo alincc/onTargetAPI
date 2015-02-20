@@ -3,7 +3,7 @@ package com.ontarget.bean;
 import java.io.Serializable;
 import java.util.Date;
 
-import com.ontarget.dto.UploadDocumentRequest;
+import com.ontarget.dto.UploadDocumentRequestDTO;
 import com.ontarget.request.bean.UploadDocumentRequestBean;
 
 public class UploadDocument implements Serializable {

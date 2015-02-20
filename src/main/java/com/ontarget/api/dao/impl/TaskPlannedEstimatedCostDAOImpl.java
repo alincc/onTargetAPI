@@ -53,7 +53,8 @@ public class TaskPlannedEstimatedCostDAOImpl implements TaskEstimatedCostDAO {
 
     @Override
     public boolean updatePlannedActualCost(TaskEstimatedCost cost) throws Exception {
-        int row = jdbcTemplate.update(OnTargetQuery.UPDATE_TASK_PLANNED_ESTIMATED_COST, new Object[]{cost.getCost(), cost.getModifiedBy(), cost.getId()});
+        int row = jdbcTemplate.update(OnTargetQuery.UPDATE_TASK_PLANNED_ESTIMATED_COST, new Object[]{cost.getCost(),
+        		cost.getModifiedBy(), cost.getId()});
         if (row == 0) {
             return false;
         }

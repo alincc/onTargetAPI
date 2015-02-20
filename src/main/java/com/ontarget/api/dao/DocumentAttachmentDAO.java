@@ -2,10 +2,10 @@ package com.ontarget.api.dao;
 
 import java.util.List;
 
-import com.ontarget.bean.DocumentAttachment;
+import com.ontarget.bean.DocumentAttachmentDTO;
 
-public interface DocumentAttachmentDAO extends GenericDAO<DocumentAttachment> {
+public interface DocumentAttachmentDAO extends GenericDAO<DocumentAttachmentDTO> {
 	
-	List<DocumentAttachment> getByDocumentId(long documentId);
+	List<DocumentAttachmentDTO> getByDocumentId(long documentId);
 
 }

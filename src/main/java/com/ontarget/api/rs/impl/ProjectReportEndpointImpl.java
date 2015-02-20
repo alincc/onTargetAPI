@@ -9,7 +9,7 @@ import com.ontarget.bean.ProjectEarnedValueAnalysisReport;
 import com.ontarget.bean.TimeSaved;
 import com.ontarget.bean.TreesSaved;
 import com.ontarget.constant.OnTargetConstant;
-import com.ontarget.request.bean.ProjectReportRequestBean;
+import com.ontarget.request.bean.ProjectReportInfo;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +37,7 @@ public class ProjectReportEndpointImpl implements ProjectReportEndpoint {
 	@POST
 	@Path("/earnedValueReport")
 	public ProjectEarnedValueReportResponse getProjectEarnedValueAnalysis(
-			ProjectReportRequestBean projectReportRequest) {
+			ProjectReportInfo projectReportRequest) {
 		logger.debug("Getting earned value report for projectId: "
 				+ projectReportRequest.getProjectId());
 		ProjectEarnedValueReportResponse response = new ProjectEarnedValueReportResponse();
@@ -62,7 +62,7 @@ public class ProjectReportEndpointImpl implements ProjectReportEndpoint {
 	@POST
 	@Path("/bireport")
 	public BIReportResponse getTimeSaved(
-			ProjectReportRequestBean projectReportRequest) {
+			ProjectReportInfo projectReportRequest) {
 		BIReportResponse response = new BIReportResponse();
 
 		try {

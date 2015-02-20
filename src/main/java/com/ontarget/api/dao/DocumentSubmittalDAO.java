@@ -1,7 +1,7 @@
 package com.ontarget.api.dao;
 
-import com.ontarget.bean.DocumentSubmittal;
+import com.ontarget.bean.DocumentSubmittalDTO;
 
-public interface DocumentSubmittalDAO extends GenericDAO<DocumentSubmittal> {
+public interface DocumentSubmittalDAO extends GenericDAO<DocumentSubmittalDTO> {
 	
 }

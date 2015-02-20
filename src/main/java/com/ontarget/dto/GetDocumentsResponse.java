@@ -1,6 +1,6 @@
 package com.ontarget.dto;
 
-import com.ontarget.bean.Document;
+import com.ontarget.bean.DocumentDTO;
 
 import java.util.List;
 
@@ -8,8 +8,8 @@ import java.util.List;
 public class GetDocumentsResponse extends OnTargetResponse {
     private static final long serialVersionUID = 1L;
 
-    private List<Document> submittals;
-    private List<Document> approvals;
+    private List<DocumentDTO> submittals;
+    private List<DocumentDTO> approvals;
     private int totalSubmits, totalApprovals;
 
     public GetDocumentsResponse() {
@@ -20,20 +20,20 @@ public class GetDocumentsResponse extends OnTargetResponse {
         super(returnVal, returnMessage);
     }
 
-    public List<Document> getSubmittals() {
+    public List<DocumentDTO> getSubmittals() {
         return submittals;
     }
 
-    public void setSubmittals(List<Document> submittals) {
+    public void setSubmittals(List<DocumentDTO> submittals) {
         this.submittals = submittals;
         this.totalSubmits = submittals == null ? 0 : submittals.size();
     }
 
-    public List<Document> getApprovals() {
+    public List<DocumentDTO> getApprovals() {
         return approvals;
     }
 
-    public void setApprovals(List<Document> approvals) {
+    public void setApprovals(List<DocumentDTO> approvals) {
         this.approvals = approvals;
         this.totalApprovals = approvals == null ? 0 : approvals.size();
     }

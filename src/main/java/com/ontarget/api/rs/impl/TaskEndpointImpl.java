@@ -6,7 +6,6 @@ import java.util.Set;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
@@ -97,8 +96,6 @@ public class TaskEndpointImpl implements TaskEndpoint {
 	@POST
 	@Path("/getProjectTask")
 	public TaskListResponse getTask(ProjectTaskRequest projectTaskRequest) {
-		logger.info("Getting all tasks for project: "
-				+ projectTaskRequest.getProjectId());
 		TaskListResponse response = new TaskListResponse();
 		try {
 			response.setTasks(taskService.getTask(projectTaskRequest
@@ -210,20 +207,15 @@ public class TaskEndpointImpl implements TaskEndpoint {
 		OnTargetResponse response = new OnTargetResponse();
 		int taskId = taskMemberRequest.getTaskId();
 		int projectId = taskMemberRequest.getProjectId();
-		logger.info("Task id:: " + taskId);
-		logger.info("Project id:: " + projectId);
 		if (taskId == 0) {
 			response.setReturnMessage("validation error");
 			response.setReturnVal(OnTargetConstant.ERROR);
 		} else {
 			try {
 				Set<Integer> members = taskService.getTaskMembers(taskId);
-				logger.info("Already assigned members:: " + members);
 
 				List<Integer> taskMemberRequestMembers = taskMemberRequest
 						.getMembers();
-				logger.info("Assignee requested members:: "
-						+ taskMemberRequestMembers);
 				int count = 0;
 				for (Integer member : taskMemberRequestMembers) {
 					if (!members.contains(member)) {
@@ -274,7 +266,6 @@ public class TaskEndpointImpl implements TaskEndpoint {
 				response.setReturnVal(OnTargetConstant.ERROR);
 			}
 		} catch (Exception e) {
-			// e.printStackTrace();
 			logger.error("Error while saving task file", e);
 			response.setReturnMessage("error saving task file");
 			response.setReturnVal(OnTargetConstant.ERROR);

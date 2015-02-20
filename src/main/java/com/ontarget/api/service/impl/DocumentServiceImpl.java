@@ -15,178 +15,217 @@ import com.ontarget.api.dao.DocumentSubmittalDAO;
 import com.ontarget.api.dao.DocumentTemplateDAO;
 import com.ontarget.api.service.DocumentService;
 import com.ontarget.api.service.EmailService;
-import com.ontarget.bean.Document;
-import com.ontarget.bean.DocumentAttachment;
-import com.ontarget.bean.DocumentGridKeyValue;
-import com.ontarget.bean.DocumentKeyValue;
-import com.ontarget.bean.DocumentSubmittal;
-import com.ontarget.bean.DocumentTemplate;
+import com.ontarget.bean.DocumentAttachmentDTO;
+import com.ontarget.bean.DocumentDTO;
+import com.ontarget.bean.DocumentGridKeyValueDTO;
+import com.ontarget.bean.DocumentKeyValueDTO;
+import com.ontarget.bean.DocumentSubmittalDTO;
+import com.ontarget.bean.DocumentTemplateDTO;
 import com.ontarget.bean.UserDTO;
 import com.ontarget.constant.OnTargetConstant;
-import com.ontarget.dto.AddDocumentAttachmentRequest;
 import com.ontarget.dto.AddDocumentAttachmentResponse;
-import com.ontarget.dto.AddDocumentRequest;
 import com.ontarget.dto.AddDocumentResponse;
 import com.ontarget.dto.GetDocumentAttachmentsResponse;
 import com.ontarget.dto.GetDocumentResponse;
 import com.ontarget.dto.GetDocumentsResponse;
 import com.ontarget.dto.OnTargetResponse;
-import com.ontarget.dto.UpdateDocumentDataRequest;
-import com.ontarget.dto.UpdateDocumentStatusRequest;
+import com.ontarget.request.bean.AddDocumentAttachment;
+import com.ontarget.request.bean.AddDocumentRequest;
+import com.ontarget.request.bean.Assignee;
+import com.ontarget.request.bean.DocumentGridKeyValue;
+import com.ontarget.request.bean.DocumentKeyValue;
+import com.ontarget.request.bean.UpdateDocumentRequest;
+import com.ontarget.request.bean.UpdateDocumentStatus;
 
 @Service
 public class DocumentServiceImpl implements DocumentService {
-	
+
 	private Logger logger = Logger.getLogger(DocumentServiceImpl.class);
-	
+
 	@Autowired
 	private DocumentTemplateDAO documentTemplateDAO;
-	
+
 	@Autowired
 	private DocumentDAO documentDAO;
-	
+
 	@Autowired
 	private DocumentKeyValueDAO documentKeyValueDAO;
-	
+
 	@Autowired
 	private DocumentGridKeyValueDAO documentGridKeyValueDAO;
-	
+
 	@Autowired
 	private DocumentSubmittalDAO documentSubmittalDAO;
-	
+
 	@Autowired
 	private EmailService emailService;
-	
+
 	@Autowired
 	private DocumentAttachmentDAO documentAttachmentDAO;
-	
-	@Transactional(rollbackFor = {Exception.class})
+
+	@Transactional(rollbackFor = { Exception.class })
 	@Override
-	public AddDocumentResponse addDocument(AddDocumentRequest request) throws Exception {
-		Document document = new Document();
-		List<UserDTO> assignees = request.getAssignees();
+	public AddDocumentResponse addDocument(AddDocumentRequest request)
+			throws Exception {
+
+		DocumentDTO document = new DocumentDTO();
+
+		List<Assignee> assignees = request.getAssignees();
 		try {
-			document.setDocumentTemplate(new DocumentTemplate(request.getDocumentTemplateId()));
+
+			document.setDocumentTemplate(new DocumentTemplateDTO(request
+					.getDocumentTemplateId()));
 			document.setName(request.getDocumentName());
 			document.setStatus(OnTargetConstant.DocumentStatus.SUBMITTED);
-			document.setCreatedBy(request.getSubmitter());
-			document.setModifiedBy(request.getSubmitter());
-            document.setProjectId(request.getProjectId());
-            document.setDueDate(request.getDueDate());
+			document.setCreatedBy(request.getSubmittedBy());
+			document.setModifiedBy(request.getSubmittedBy());
+			document.setProjectId(request.getProjectId());
+			document.setDueDate(request.getDueDate());
 			document = documentDAO.insert(document);
-			
+			logger.info("document:: " + document);
+
 			List<DocumentKeyValue> keyValues = request.getKeyValues();
-			if(keyValues != null) {
-				for(DocumentKeyValue keyValue : keyValues) {
-					keyValue.setDocument(document);
-					keyValue.setCreatedBy(request.getSubmitter());
-					keyValue.setModifiedBy(request.getSubmitter());
-					documentKeyValueDAO.insert(keyValue);
+			if (keyValues != null) {
+				for (DocumentKeyValue keyValue : keyValues) {
+					DocumentKeyValueDTO documentKeyValueDTO = new DocumentKeyValueDTO();
+					documentKeyValueDTO.setDocument(document);
+					documentKeyValueDTO.setKey(keyValue.getKey());
+					documentKeyValueDTO.setValue(keyValue.getValue());
+					documentKeyValueDTO.setCreatedBy(request.getSubmittedBy());
+					documentKeyValueDTO.setModifiedBy(request.getSubmittedBy());
+					documentKeyValueDAO.insert(documentKeyValueDTO);
 				}
 			}
-			
-			List<DocumentGridKeyValue> gridKeyValues = request.getGridKeyValues();
-			if(gridKeyValues != null) {
-				for(DocumentGridKeyValue gridKeyValue : gridKeyValues) {
-					gridKeyValue.setDocument(document);
-					gridKeyValue.setCreatedBy(request.getSubmitter());
-					gridKeyValue.setModifiedBy(request.getSubmitter());
-					documentGridKeyValueDAO.insert(gridKeyValue);
+
+			List<DocumentGridKeyValue> gridKeyValues = request
+					.getGridKeyValues();
+			if (gridKeyValues != null) {
+				for (DocumentGridKeyValue gridKeyValue : gridKeyValues) {
+					DocumentGridKeyValueDTO documentGridKeyValueDTO = new DocumentGridKeyValueDTO();
+					documentGridKeyValueDTO.setDocument(document);
+					documentGridKeyValueDTO.setKey(gridKeyValue.getKey());
+					documentGridKeyValueDTO.setValue(gridKeyValue.getValue());
+					documentGridKeyValueDTO.setGridId(gridKeyValue.getGridId());
+					documentGridKeyValueDTO.setGridRowIndex(gridKeyValue
+							.getGridRowIndex());
+					documentGridKeyValueDTO.setCreatedBy(request
+							.getSubmittedBy());
+					documentGridKeyValueDTO.setModifiedBy(request
+							.getSubmittedBy());
+					documentGridKeyValueDAO.insert(documentGridKeyValueDTO);
 				}
 			}
-			
-			for(UserDTO assignee : assignees) {
-				DocumentSubmittal submittal = new DocumentSubmittal();
+
+			for (Assignee assignee : assignees) {
+				DocumentSubmittalDTO submittal = new DocumentSubmittalDTO();
 				submittal.setDocument(document);
-				submittal.setAssignee(assignee);
-				submittal.setCreatedBy(request.getSubmitter());
-				submittal.setModifiedBy(request.getSubmitter());
+				submittal.setAssignedTo(assignee.getUserId());
+				submittal.setCreatedBy(request.getSubmittedBy());
+				submittal.setModifiedBy(request.getSubmittedBy());
 				documentSubmittalDAO.insert(submittal);
 			}
-		} catch(Throwable t) {
-//			t.printStackTrace();
+		} catch (Throwable t) {
 			logger.error("Unable to add document!", t);
 			throw new Exception("Unable to create document!");
 		}
-		
+
 		emailService.sendDocumentAssignmentEmails(document, assignees);
-				
+
 		AddDocumentResponse response = new AddDocumentResponse();
 		response.setDocument(document);
 		return response;
 	}
 
-	@Transactional(rollbackFor = {Exception.class})
+	@Transactional(rollbackFor = { Exception.class })
 	@Override
-	public OnTargetResponse updateDocument(UpdateDocumentDataRequest request) throws Exception {
+	public OnTargetResponse updateDocument(
+			UpdateDocumentRequest updateDocumentRequest) throws Exception {
 		try {
-			long documentId = request.getDocumentId();
-			UserDTO user = request.getUser();
+			long documentId = updateDocumentRequest.getDocumentId();
 
-            boolean updated = documentDAO.updateDueDate(request.getDocumentId(),request.getDueDate(), ""+request.getUser().getUserId());
+			boolean updated = documentDAO.updateDueDate(
+					updateDocumentRequest.getDocumentId(),
+					updateDocumentRequest.getDueDate(), ""
+							+ updateDocumentRequest.getSubmittedBy());
 
-            if(!updated){
-                throw new Exception("Error while updating due date.");
-            }
-			
-			List<DocumentKeyValue> keyValues = request.getKeyValues();
-			if(keyValues != null) {
-				for(DocumentKeyValue keyValue : keyValues) {
-					documentKeyValueDAO.updateValue(documentId, keyValue.getKey(), keyValue.getValue(), user.getUsername());
+			if (!updated) {
+				throw new Exception("Error while updating due date.");
+			}
+
+			List<DocumentKeyValue> keyValues = updateDocumentRequest
+					.getKeyValues();
+			if (keyValues != null) {
+				for (DocumentKeyValue keyValue : keyValues) {
+					documentKeyValueDAO.updateValue(documentId,
+							keyValue.getKey(), keyValue.getValue(),
+							updateDocumentRequest.getSubmittedBy());
 				}
 			}
-			
-			List<DocumentGridKeyValue> gridKeyValues = request.getGridKeyValues();
-			if(gridKeyValues != null) {
-				for(DocumentGridKeyValue gridKeyValue : gridKeyValues) {
-					
-					documentGridKeyValueDAO.updateValue(documentId, gridKeyValue.getGridId(), 
-							gridKeyValue.getGridRowIndex(), gridKeyValue.getKey(), gridKeyValue.getValue(), user.getUsername());
+
+			List<DocumentGridKeyValue> gridKeyValues = updateDocumentRequest
+					.getGridKeyValues();
+			if (gridKeyValues != null) {
+				for (DocumentGridKeyValue gridKeyValue : gridKeyValues) {
+
+					documentGridKeyValueDAO.updateValue(documentId,
+							gridKeyValue.getGridId(),
+							gridKeyValue.getGridRowIndex(),
+							gridKeyValue.getKey(), gridKeyValue.getValue(),
+							updateDocumentRequest.getSubmittedBy());
 				}
 			}
-			OnTargetResponse response = new OnTargetResponse(null, OnTargetConstant.SUCCESS,
+			OnTargetResponse response = new OnTargetResponse(null,
+					OnTargetConstant.SUCCESS,
 					"Document data succefully updated.");
 			return response;
-		} catch(Throwable t) {
+		} catch (Throwable t) {
 			logger.error("Unable to update document data", t);
 			throw new Exception("Unable to update document data!");
 		}
 	}
 
 	@Override
-	public GetDocumentsResponse getDocuments(String userName, int projectId) throws Exception {
-//        logger.info("get doc called");
-		if(userName == null || userName.trim().isEmpty()) {
+	public GetDocumentsResponse getDocuments(String userName, int projectId)
+			throws Exception {
+		if (userName == null || userName.trim().isEmpty()) {
 			throw new Exception("Please specify the userName!");
 		}
 		try {
-			List<Document> submittals = documentDAO.getByCreatedBy(userName, projectId);
-			
-			for(Document doc : submittals) {
-				doc.setDocumentTemplate(documentTemplateDAO.getByDocumentId(doc.getDocumentId()));
-				List<DocumentKeyValue> keyValues = documentKeyValueDAO.getByDocumentId(doc.getDocumentId());
+			List<DocumentDTO> submittals = documentDAO.getByCreatedBy(userName,
+					projectId);
+
+			for (DocumentDTO doc : submittals) {
+				doc.setDocumentTemplate(documentTemplateDAO.getByDocumentId(doc
+						.getDocumentId()));
+				List<DocumentKeyValueDTO> keyValues = documentKeyValueDAO
+						.getByDocumentId(doc.getDocumentId());
 				doc.setKeyValues(keyValues);
-				List<DocumentGridKeyValue> gridKeyValues = documentGridKeyValueDAO.getByDocumentId(doc.getDocumentId());
+				List<DocumentGridKeyValueDTO> gridKeyValues = documentGridKeyValueDAO
+						.getByDocumentId(doc.getDocumentId());
 				doc.setGridKeyValues(gridKeyValues);
 			}
-			
-			List<Document> approvals = documentDAO.getByAssigneeUsername(userName, projectId);
-			logger.info ("total approval "+approvals.size());
-//            System.out.println("total approval "+approvals.size());
-			for(Document doc : approvals) {
-				doc.setDocumentTemplate(documentTemplateDAO.getByDocumentId(doc.getDocumentId()));
-				List<DocumentKeyValue> keyValues = documentKeyValueDAO.getByDocumentId(doc.getDocumentId());
+
+			List<DocumentDTO> approvals = documentDAO.getByAssigneeUsername(
+					userName, projectId);
+			logger.info("total approval " + approvals.size());
+			// System.out.println("total approval "+approvals.size());
+			for (DocumentDTO doc : approvals) {
+				doc.setDocumentTemplate(documentTemplateDAO.getByDocumentId(doc
+						.getDocumentId()));
+				List<DocumentKeyValueDTO> keyValues = documentKeyValueDAO
+						.getByDocumentId(doc.getDocumentId());
 				doc.setKeyValues(keyValues);
-				List<DocumentGridKeyValue> gridKeyValues = documentGridKeyValueDAO.getByDocumentId(doc.getDocumentId());
+				List<DocumentGridKeyValueDTO> gridKeyValues = documentGridKeyValueDAO
+						.getByDocumentId(doc.getDocumentId());
 				doc.setGridKeyValues(gridKeyValues);
 			}
-			
+
 			GetDocumentsResponse response = new GetDocumentsResponse();
 			response.setSubmittals(submittals);
 			response.setApprovals(approvals);
 			response.setReturnVal(OnTargetConstant.SUCCESS);
 			response.setReturnMessage("Success");
-			
+
 			return response;
 		} catch (Throwable t) {
 			logger.error("Error while getting the documents!", t);
@@ -194,40 +233,45 @@ public class DocumentServiceImpl implements DocumentService {
 		}
 	}
 
-	@Transactional(rollbackFor = {Exception.class})
+	@Transactional(rollbackFor = { Exception.class })
 	@Override
-	public OnTargetResponse updateStatus(UpdateDocumentStatusRequest request) throws Exception {
+	public OnTargetResponse updateStatus(UpdateDocumentStatus request)
+			throws Exception {
 		try {
-			Long documentId = request.getDocumentId();
+
+			int documentId = request.getDocumentId();
 			String newStatus = request.getNewStatus();
-			UserDTO updater = request.getUpdater();
-			boolean updated = documentDAO.updateStatus(documentId, newStatus, updater.getUserId());
+			int modifiedBy = request.getModifiedBy();
+			boolean updated = documentDAO.updateStatus(documentId, newStatus,
+					modifiedBy);
 			OnTargetResponse response = new OnTargetResponse();
-			if(updated) {
+			if (updated) {
 				response.setReturnVal(OnTargetConstant.SUCCESS);
 				response.setReturnMessage("Document status successfully updated!");
 			}
 			return response;
-		} catch(Throwable t) {
-            System.out.println(t.getMessage());
-            logger.error("Error while updating document status!", t);
+		} catch (Throwable t) {
+			System.out.println(t.getMessage());
+			logger.error("Error while updating document status!", t);
 			throw new Exception("Unable to update the document status!");
 		}
 	}
 
-	@Transactional(rollbackFor = {Exception.class})
+	@Transactional(rollbackFor = { Exception.class })
 	@Override
-	public GetDocumentAttachmentsResponse getDocumentAttachments(int documentId)  throws Exception {
-		if(documentId == 0) {
+	public GetDocumentAttachmentsResponse getDocumentAttachments(int documentId)
+			throws Exception {
+		if (documentId == 0) {
 			throw new Exception("Please provide a valid documentId!");
 		}
 		try {
-			List<DocumentAttachment> attachments = documentAttachmentDAO.getByDocumentId(documentId);
+			List<DocumentAttachmentDTO> attachments = documentAttachmentDAO
+					.getByDocumentId(documentId);
 			GetDocumentAttachmentsResponse response = new GetDocumentAttachmentsResponse();
 			response.setResponseCode(OnTargetConstant.SUCCESS);
 			response.setAttachments(attachments);
 			return response;
-		} catch(Throwable t) {
+		} catch (Throwable t) {
 			logger.error("Error while getting document attachments!", t);
 			throw new Exception("Unable to get the document attachments!");
 		}
@@ -235,23 +279,23 @@ public class DocumentServiceImpl implements DocumentService {
 
 	@Override
 	public AddDocumentAttachmentResponse addDocumentAttachment(
-			AddDocumentAttachmentRequest request) throws Exception {
+			AddDocumentAttachment request) throws Exception {
 		try {
 			String filePath = request.getFilePath();
-			Long documentId = request.getDocumentId();
-			UserDTO user = request.getUser();
-			DocumentAttachment attachment = new DocumentAttachment();
-			attachment.setDocument(new Document(documentId));
+			int documentId = request.getDocumentId();
+			int addedBy = request.getAddedBy();
+			DocumentAttachmentDTO attachment = new DocumentAttachmentDTO();
+			attachment.setDocument(new DocumentDTO(documentId));
 			attachment.setFilePath(filePath);
-			attachment.setCreatedBy(user);
-			attachment.setModifiedBy(user);
+			attachment.setAddedBy(addedBy);
 			documentAttachmentDAO.insert(attachment);
 			AddDocumentAttachmentResponse response = new AddDocumentAttachmentResponse();
-			response.setDocumentAttachmentId(attachment.getDocumentAttachmentId());
+			response.setDocumentAttachmentId(attachment
+					.getDocumentAttachmentId());
 			response.setReturnVal(OnTargetConstant.SUCCESS);
 			response.setReturnMessage("Document attachment succefully added.");
 			return response;
-		} catch(Throwable t) {
+		} catch (Throwable t) {
 			logger.error("Unable to add document attachment", t);
 			throw new Exception("Unable to add document attachment");
 		}
@@ -259,21 +303,24 @@ public class DocumentServiceImpl implements DocumentService {
 
 	@Override
 	public GetDocumentResponse getDocument(int documentId) throws Exception {
-		try {		
-			Document document = documentDAO.read(documentId);
-			document.setDocumentTemplate(documentTemplateDAO.getByDocumentId(documentId));
-			
-			List<DocumentKeyValue> keyValues = documentKeyValueDAO.getByDocumentId(documentId);
+		try {
+			DocumentDTO document = documentDAO.read(documentId);
+			document.setDocumentTemplate(documentTemplateDAO
+					.getByDocumentId(documentId));
+
+			List<DocumentKeyValueDTO> keyValues = documentKeyValueDAO
+					.getByDocumentId(documentId);
 			document.setKeyValues(keyValues);
-			
-			List<DocumentGridKeyValue> gridKeyValues = documentGridKeyValueDAO.getByDocumentId(documentId);
+
+			List<DocumentGridKeyValueDTO> gridKeyValues = documentGridKeyValueDAO
+					.getByDocumentId(documentId);
 			document.setGridKeyValues(gridKeyValues);
-			
+
 			GetDocumentResponse response = new GetDocumentResponse();
 			response.setDocument(document);
 			response.setReturnVal(OnTargetConstant.SUCCESS);
 			response.setReturnMessage("Success");
-			
+
 			return response;
 		} catch (Throwable t) {
 			logger.error("Error while getting the documents!", t);

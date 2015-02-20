@@ -1,16 +1,24 @@
 package com.ontarget.util;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.ontarget.bean.AccidentReport;
 import com.ontarget.bean.AddressDTO;
 import com.ontarget.bean.DependentTaskDTO;
 import com.ontarget.bean.ProjectDTO;
+import com.ontarget.bean.TaskDTO;
+import com.ontarget.bean.TaskEstimatedCost;
 import com.ontarget.dto.AddDependentRequest;
+import com.ontarget.dto.TaskBudgetRequest;
 import com.ontarget.dto.UserInvitationRequestDTO;
 import com.ontarget.request.bean.AccidentReportRequestBean;
 import com.ontarget.request.bean.DependentTask;
 import com.ontarget.request.bean.DependentTaskRequest;
-import com.ontarget.request.bean.ProjectBean;
-import com.ontarget.request.bean.ProjectAddressBean;
+import com.ontarget.request.bean.ProjectDetailInfo;
+import com.ontarget.request.bean.ProjectAddressInfo;
+import com.ontarget.request.bean.TaskBudget;
+import com.ontarget.request.bean.TaskBudgetEstimate;
 import com.ontarget.request.bean.UserInvitationRequestBean;
 
 public class ConvertPOJOUtils {
@@ -31,7 +39,7 @@ public class ConvertPOJOUtils {
 	}
 
 	public static AddressDTO convertToAddressDTO(
-			ProjectAddressBean projectAddress) {
+			ProjectAddressInfo projectAddress) {
 		AddressDTO addressDTO = new AddressDTO();
 		addressDTO.setAddress1(projectAddress.getAddress1());
 		addressDTO.setAddress2(projectAddress.getAddress2());
@@ -44,7 +52,7 @@ public class ConvertPOJOUtils {
 		return addressDTO;
 	}
 
-	public static ProjectDTO convertToProjectDTO(ProjectBean project,
+	public static ProjectDTO convertToProjectDTO(ProjectDetailInfo project,
 			AddressDTO addressDTO) {
 		ProjectDTO projectDTO = new ProjectDTO();
 		projectDTO.setProjectId(project.getProjectId());
@@ -119,5 +127,36 @@ public class ConvertPOJOUtils {
 		addDependentRequest.setDependentTask(dependentTaskDTO);
 
 		return addDependentRequest;
+	}
+
+	public static TaskBudgetRequest convertToTaskBudgetRequest(
+			TaskBudget taskBudget) {
+		TaskBudgetRequest taskBudgetRequest = new TaskBudgetRequest();
+		List<TaskEstimatedCost> costList = new ArrayList<TaskEstimatedCost>();
+
+		List<TaskBudgetEstimate> taskEstimates = taskBudget
+				.getTaskBudgetEstimates();
+
+		for (TaskBudgetEstimate taskBudgetEstimate : taskEstimates) {
+			TaskEstimatedCost taskEstimatedCost = new TaskEstimatedCost();
+			taskEstimatedCost.setCost(taskBudgetEstimate.getCost());
+			taskEstimatedCost.setCostType(taskBudgetEstimate.getCostType());
+			taskEstimatedCost.setFromDate(taskBudgetEstimate.getFromDate());
+			taskEstimatedCost.setToDate(taskBudgetEstimate.getToDate());
+			taskEstimatedCost.setMonth(taskBudgetEstimate.getMonth());
+			taskEstimatedCost.setYear(taskBudgetEstimate.getYear());
+			taskEstimatedCost.setId(taskBudgetEstimate.getId());
+			taskEstimatedCost.setCreatedBy(taskBudget.getBaseRequest()
+					.getLoggedInUserId());
+			taskEstimatedCost.setModifiedBy(taskBudget.getBaseRequest()
+					.getLoggedInUserId());
+			TaskDTO taskDTO = new TaskDTO();
+			taskDTO.setProjectTaskId(taskBudgetEstimate.getTaskId());
+			taskEstimatedCost.setTask(taskDTO);
+			costList.add(taskEstimatedCost);
+		}
+		taskBudgetRequest.setCostList(costList);
+		return taskBudgetRequest;
+
 	}
 }
