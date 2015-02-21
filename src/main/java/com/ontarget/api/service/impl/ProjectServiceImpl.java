@@ -4,7 +4,6 @@ import com.ontarget.api.dao.*;
 import com.ontarget.api.service.ProjectService;
 import com.ontarget.bean.*;
 import com.ontarget.constant.OnTargetConstant;
-import com.ontarget.constant.OnTargetQuery;
 import com.ontarget.dto.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +54,7 @@ public class ProjectServiceImpl implements ProjectService {
         int userId = request.getUser().getUserId();
 
         int companyId = request.getProject().getCompanyId();
-        if(request.getProject().getProjectParentId() == 0) {
+        if (request.getProject().getProjectParentId() == 0) {
             Map<String, Object> compMap = contactDAO.getContactDetail(userId);
             companyId = (Integer) compMap.get("contact_company_id");
         }
@@ -64,7 +63,7 @@ public class ProjectServiceImpl implements ProjectService {
         project.setCompanyId(companyId);
         project.setProjectOwnerId(userId);
 
-        int projectId = projectDAO.addProject(project,userId);
+        int projectId = projectDAO.addProject(project, userId);
 
         //add the user to project member;
         int projectMemberId = 0;
@@ -149,10 +148,9 @@ public class ProjectServiceImpl implements ProjectService {
 
             //set project address
             Address address = project.getProjectAddress();
-            if(address == null){
-                logger.info("address is null for project "+project);
-            }
-            else{
+            if (address == null) {
+                logger.info("address is null for project " + project);
+            } else {
                 Address projectAddress = addressDAO.getAddress(address.getAddressId());
                 project.setProjectAddress(projectAddress);
             }
@@ -183,12 +181,11 @@ public class ProjectServiceImpl implements ProjectService {
     public ProjectMemberListResponse getProjectMembers(long projectId) throws Exception {
         List<ProjectMember> projectMembers = projectDAO.getProjectMembers(projectId);
         Map<Long, Contact> contactMap = new HashMap<>();
-        for(ProjectMember member: projectMembers){
+        for (ProjectMember member : projectMembers) {
             long userId = member.getUserId();
-            if(contactMap.containsKey(userId)){
+            if (contactMap.containsKey(userId)) {
                 member.setContact(contactMap.get(userId));
-            }
-            else {
+            } else {
                 Contact contact = contactDAO.getContact(userId);
                 contactMap.put(userId, contact);
                 member.setContact(contact);
@@ -244,7 +241,7 @@ public class ProjectServiceImpl implements ProjectService {
             project.setStatus((String) projectDetail.get("project_status"));
             Company company = companyDAO.getCompany(companyId);
             project.setCompany(company);
-            
+
             //set project address
             Address projectAddress = addressDAO.getAddress(((Integer) projectDetail.get("ADDRESS_ID")).intValue());
             project.setProjectAddress(projectAddress);
@@ -257,12 +254,11 @@ public class ProjectServiceImpl implements ProjectService {
             if (tasks != null && tasks.size() > 0) {
                 for (Task task : tasks) {
                     List<TaskComment> comments = taskDAO.getTaskComments(task.getProjectTaskId());
-                    for(TaskComment comment: comments){
+                    for (TaskComment comment : comments) {
                         int commentedBy = comment.getCommentedBy();
-                        if(contactMap.containsKey(commentedBy)){
+                        if (contactMap.containsKey(commentedBy)) {
                             comment.setCommenterContact(contactMap.get(commentedBy));
-                        }
-                        else {
+                        } else {
                             Contact contact = contactDAO.getContact(commentedBy);
                             contactMap.put(commentedBy, contact);
                             comment.setCommenterContact(contact);
@@ -284,15 +280,15 @@ public class ProjectServiceImpl implements ProjectService {
 
                     List<User> assignedUsers = new ArrayList<>();
                     task.setAssignee(assignedUsers);
-                    if(assignees !=null && assignees.size() > 0){
-                        for(Long id : assignees){
+                    if (assignees != null && assignees.size() > 0) {
+                        for (Long id : assignees) {
                             Contact contact = contactDAO.getContact(id);
                             User assignedToUser = new User();
                             assignedToUser.setContact(contact);
                             assignedToUser.setUserId((id.intValue()));
                             assignedUsers.add(assignedToUser);
                         }
-                    }else {
+                    } else {
                         logger.info("task is unassigned");
                     }
 

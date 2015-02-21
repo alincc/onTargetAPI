@@ -1,5 +1,8 @@
 package com.ontarget.bean;
 
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -21,7 +24,9 @@ public class Project implements Serializable{
     private Address projectAddress;
     private List<Task> taskList;
     private List<Project> projects;
+    @JsonProperty("startDate")
     private Date startDate;
+    @JsonProperty("endDate")
     private Date endDate;
     private String projectImagePath;
 
