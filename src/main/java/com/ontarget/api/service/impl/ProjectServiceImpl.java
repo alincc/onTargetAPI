@@ -38,6 +38,9 @@ public class ProjectServiceImpl implements ProjectService {
     @Autowired
     private UserRegistrationDAO userRegistrationDAO;
 
+    @Autowired
+    private TaskPercentageDAO taskPercentageDAO;
+
 
     @Override
     @Transactional(rollbackFor = {Exception.class})
@@ -265,6 +268,14 @@ public class ProjectServiceImpl implements ProjectService {
                         }
                     }
                     task.setComments(comments);
+
+
+                    //getting task percentage latest.
+                    List<TaskPercentage> taskPercentageList = taskPercentageDAO.getTaskPercentageByTask(task.getProjectTaskId());
+                    if(taskPercentageList!=null && taskPercentageList.size() > 0) {
+                        task.setPercentageComplete(taskPercentageList.get(0).getTaskPercentageComplete());
+                    }
+
 
 //                    //get task assigned to
 //                    Long assignedUserId = taskDAO.getAssignedUser(task.getProjectTaskId());

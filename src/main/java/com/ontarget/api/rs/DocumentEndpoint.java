@@ -10,6 +10,10 @@ import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.UpdateDocumentDataRequest;
 import com.ontarget.dto.UpdateDocumentStatusRequest;
 
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+
 public interface DocumentEndpoint {
 
     public AddDocumentResponse addDocument(AddDocumentRequest request);
