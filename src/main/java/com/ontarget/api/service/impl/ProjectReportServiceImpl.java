@@ -185,7 +185,7 @@ public class ProjectReportServiceImpl implements ProjectReportService {
             }
         }
 
-        double timeSavedVal = tasks.size() * approvedDocumentsOnTime * spi;
+        double timeSavedVal = tasks.size() + approvedDocumentsOnTime + spi;
 
         TimeSaved timeSaved = new TimeSaved();
         timeSaved.setTimeSavedValue(timeSavedVal);
@@ -221,12 +221,15 @@ public class ProjectReportServiceImpl implements ProjectReportService {
         logger.debug("Getting accident report for project: "+ projectId);
         List<AccidentReport> accidents = accidentReportDAO.getAccidentReportsByProjectId(projectId);
         Project project = projectDAO.getProject(projectId);
-        Date startDate = project.getStartDate();
-
-        int daysBetweenDates = (int) (new Date().getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24);
+        int daysBetweenDates=0;
         int numOfAccidents = 0;
-        if (accidents != null && accidents.size() > 0) {
-            numOfAccidents = accidents.size();
+        if(project!=null) {
+            Date startDate = project.getStartDate();
+            daysBetweenDates = (int) (new Date().getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24);
+            numOfAccidents = 0;
+            if (accidents != null && accidents.size() > 0) {
+                numOfAccidents = accidents.size();
+            }
         }
 
         NoAccidentReport report= new NoAccidentReport();
