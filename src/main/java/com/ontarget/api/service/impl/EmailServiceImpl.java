@@ -251,8 +251,7 @@ public class EmailServiceImpl implements EmailService {
 						Map model = new HashMap();
 						model.put("document", document);
 						model.put("assignee", assignee);
-						model.put("documentUrl",
-								"http://www.ontarget.com/documents");
+						model.put("documentUrl",baseUrl + "#/pages/onfile");
 
 						String text = VelocityEngineUtils
 								.mergeTemplateIntoString(velocityEngine,

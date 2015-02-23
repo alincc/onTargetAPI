@@ -25,7 +25,7 @@ public class OntargetObjectMapper implements ContextResolver<ObjectMapper> {
     private static ObjectMapper createObjectMapper() {
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, true);
-        mapper.setDateFormat(new SimpleDateFormat("MMM dd, yyyy HH:mm:ss"));
+        //mapper.setDateFormat(new SimpleDateFormat("MMM dd, yyyy HH:mm:ss"));
         mapper.configure(SerializationFeature.INDENT_OUTPUT, true);
         return mapper;
     }

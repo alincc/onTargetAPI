@@ -24,9 +24,9 @@ public class Project implements Serializable{
     private Address projectAddress;
     private List<Task> taskList;
     private List<Project> projects;
-    @JsonProperty("startDate")
+    //@JsonProperty("startDate")
     private Date startDate;
-    @JsonProperty("endDate")
+    //@JsonProperty("endDate")
     private Date endDate;
     private String projectImagePath;
 
