@@ -305,6 +305,12 @@
             </properties>
         </profile>
         <profile>
+            <id>demo</id>
+            <properties>
+                <env>demo</env>
+            </properties>
+        </profile>
+        <profile>
             <id>int</id>
             <properties>
                 <env>integration</env>
