@@ -20,10 +20,10 @@ import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.ProjectListResponse;
 import com.ontarget.dto.ProjectMemberListResponse;
 import com.ontarget.dto.ProjectResponse;
-import com.ontarget.request.bean.ProjectCompanyRequestBean;
-import com.ontarget.request.bean.ProjectDetailRequestBean;
-import com.ontarget.request.bean.ProjectRequestBean;
-import com.ontarget.request.bean.ProjectUserRequestBean;
+import com.ontarget.request.bean.ProjectCompanyRequest;
+import com.ontarget.request.bean.ProjectDetailRequest;
+import com.ontarget.request.bean.ProjectRequest;
+import com.ontarget.request.bean.ProjectUserRequest;
 
 /**
  * Created by Owner on 11/6/14.
@@ -45,7 +45,7 @@ public class ProjectEndpointImpl implements ProjectEndoint {
 	@Override
 	@POST
 	@Path("/addProject")
-	public OnTargetResponse addProject(ProjectRequestBean request) {
+	public OnTargetResponse addProject(ProjectRequest request) {
 		OnTargetResponse response = null;
 		if (request.getProject().getProjectParentId() <= 0) {
 			try {
@@ -73,7 +73,7 @@ public class ProjectEndpointImpl implements ProjectEndoint {
 	@POST
 	@Path("/getProject")
 	public ProjectResponse getProjectDetail(
-			ProjectDetailRequestBean projectDetailRequest) {
+			ProjectDetailRequest projectDetailRequest) {
 		ProjectResponse response = new ProjectResponse();
 		try {
 			response = projectService.getProjectDetail(projectDetailRequest
@@ -94,7 +94,7 @@ public class ProjectEndpointImpl implements ProjectEndoint {
 	@POST
 	@Path("/getProjectMembers")
 	public ProjectMemberListResponse getProjectMembers(
-			ProjectDetailRequestBean projectDetailRequest) {
+			ProjectDetailRequest projectDetailRequest) {
 		ProjectMemberListResponse response = new ProjectMemberListResponse();
 		try {
 			response = projectService.getProjectMembers(projectDetailRequest
@@ -115,7 +115,7 @@ public class ProjectEndpointImpl implements ProjectEndoint {
 	@POST
 	@Path("/getProjectsByCompany")
 	public ProjectListResponse getProjectByCompany(
-			ProjectCompanyRequestBean projectCompanyRequest) {
+			ProjectCompanyRequest projectCompanyRequest) {
 		ProjectListResponse response = new ProjectListResponse();
 		try {
 			response = projectService.getProjectsByCompany(
@@ -135,7 +135,7 @@ public class ProjectEndpointImpl implements ProjectEndoint {
 	@POST
 	@Path("/getCompanyByProject")
 	public ListResponse<Company> getCompanyByProject(
-			ProjectDetailRequestBean projectDetailRequest) {
+			ProjectDetailRequest projectDetailRequest) {
 		ListResponse<Company> response = new ListResponse<>();
 		try {
 			response.setList(projectService
@@ -155,7 +155,7 @@ public class ProjectEndpointImpl implements ProjectEndoint {
 	@POST
 	@Path("/getProjectsByUser")
 	public ProjectListResponse getProjectByUser(
-			ProjectUserRequestBean projectUserRequest) {
+			ProjectUserRequest projectUserRequest) {
 
 		ProjectListResponse response = new ProjectListResponse();
 		try {

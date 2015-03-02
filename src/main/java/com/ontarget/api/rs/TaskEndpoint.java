@@ -1,5 +1,7 @@
 package com.ontarget.api.rs;
 
+import javax.validation.Valid;
+
 import com.ontarget.api.response.TaskListCountResponse;
 import com.ontarget.bean.TaskComment;
 import com.ontarget.dto.*;
@@ -19,30 +21,33 @@ import com.ontarget.request.bean.UserTask;
  */
 public interface TaskEndpoint {
 
-	public OnTargetResponse addTask(TaskRequest request);
+	public OnTargetResponse addTask(@Valid TaskRequest request);
 
-	public TaskListResponse getTask(ProjectTaskRequest projectTaskRequest);
+	public TaskListResponse getTask(@Valid ProjectTaskRequest projectTaskRequest);
 
 	public TaskListCountResponse getTaskCountByStatus(
-			ProjectTaskRequest projectTaskRequest);
+			@Valid ProjectTaskRequest projectTaskRequest);
 
-	public UserResponse addUpdateCommentToTask(TaskCommentRequest comment);
+	public UserResponse addUpdateCommentToTask(@Valid TaskCommentRequest comment);
 
-	public OnTargetResponse updateTaskStatus(TaskStatusUpdateRequest request);
+	public OnTargetResponse updateTaskStatus(
+			@Valid TaskStatusUpdateRequest request);
 
-	public OnTargetResponse addTaskMember(TaskMemberRequest taskMemberRequest);
+	public OnTargetResponse addTaskMember(
+			@Valid TaskMemberRequest taskMemberRequest);
 
-	public InsertResponse saveTaskFile(TaskFileSaveRequest request);
+	public InsertResponse saveTaskFile(@Valid TaskFileSaveRequest request);
 
-	public OnTargetResponse assignTaskToUser(TaskMemberRequest taskMemberRequest);
+	public OnTargetResponse assignTaskToUser(
+			@Valid TaskMemberRequest taskMemberRequest);
 
 	public InsertResponse addDependentTask(
-			DependentTaskRequest dependentTaskRequest);
+			@Valid DependentTaskRequest dependentTaskRequest);
 
 	public GetTaskAttachmentResponse getTaskAttachments(
-			TaskAttachmentRequest taskAttachmentRequest);
+			@Valid TaskAttachmentRequest taskAttachmentRequest);
 
-	public TaskResponse getTaskDetail(TaskDetailRequest taskDetailRequest);
-	
-	public TaskListResponse getUserTask(UserTask userTask);
+	public TaskResponse getTaskDetail(@Valid TaskDetailRequest taskDetailRequest);
+
+	public TaskListResponse getUserTask(@Valid UserTask userTask);
 }

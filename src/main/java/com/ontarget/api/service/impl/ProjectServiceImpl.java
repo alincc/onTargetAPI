@@ -34,7 +34,7 @@ import com.ontarget.dto.ProjectMemberListResponse;
 import com.ontarget.dto.ProjectResponse;
 import com.ontarget.request.bean.ProjectAddressInfo;
 import com.ontarget.request.bean.ProjectDetailInfo;
-import com.ontarget.request.bean.ProjectRequestBean;
+import com.ontarget.request.bean.ProjectRequest;
 import com.ontarget.util.ConvertPOJOUtils;
 
 /**
@@ -65,7 +65,7 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
-	public OnTargetResponse addProject(ProjectRequestBean request)
+	public OnTargetResponse addProject(ProjectRequest request)
 			throws Exception {
 		logger.info("Adding new project " + request.getProject());
 
@@ -132,7 +132,7 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
-	public OnTargetResponse updateProject(ProjectRequestBean request)
+	public OnTargetResponse updateProject(ProjectRequest request)
 			throws Exception {
 		logger.info("Updating project " + request.getProject());
 

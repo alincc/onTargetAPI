@@ -3,8 +3,7 @@ package com.ontarget.bean;
 import java.io.Serializable;
 import java.util.Date;
 
-import com.ontarget.dto.UploadDocumentRequestDTO;
-import com.ontarget.request.bean.UploadDocumentRequestBean;
+import com.ontarget.request.bean.UploadDocumentRequest;
 
 public class UploadDocument implements Serializable {
 
@@ -21,7 +20,7 @@ public class UploadDocument implements Serializable {
 	public UploadDocument() {
 	}
 
-	public UploadDocument(UploadDocumentRequestBean requestData) {
+	public UploadDocument(UploadDocumentRequest requestData) {
 		this.projectId = requestData.getProjectId();
 		this.name = requestData.getName();
 		this.createdBy = requestData.getCreatedBy();

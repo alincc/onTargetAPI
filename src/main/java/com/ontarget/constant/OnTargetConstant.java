@@ -116,7 +116,7 @@ public interface OnTargetConstant {
 		public static final String FORGOT_PASSWORD_EXPIRED = "EXPIRED";
 	}
 
-	public static final String OPEN_RS_ENDPOINT = "register,user,onTargetInvitation";
+	public static final String OPEN_RS_ENDPOINT = "/register,/user,/onTargetInvitation";
 
 	// public Enum TaskStatus{
 	// COMPLETED(3 , "COMPLETED"),ACTIVE(1 , "ACTIVE"),PENDING(1 , "PENDING");

@@ -27,7 +27,7 @@ import com.ontarget.dto.SafetyInfoResponse;
 import com.ontarget.dto.UserImageRequest;
 import com.ontarget.dto.UserProfileRequest;
 import com.ontarget.dto.UserProfileResponse;
-import com.ontarget.request.bean.InviteUserIntoProjectRequestBean;
+import com.ontarget.request.bean.InviteUserIntoProjectRequest;
 import com.ontarget.util.Security;
 
 /**
@@ -152,7 +152,7 @@ public class UserProfileImpl implements UserProfile {
 	@POST
 	@Path("/inviteUserIntoProject")
 	public OnTargetResponse inviteUserIntoProject(
-			InviteUserIntoProjectRequestBean request) {
+			InviteUserIntoProjectRequest request) {
 		int projectId = 0;// request.getBaseRequest().getProjectId();
 		String firstName = request.getFirstName();
 		String lastName = request.getLastName();

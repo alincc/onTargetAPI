@@ -18,8 +18,8 @@ import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.GetAccidentReportsResponse;
 import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.SaveAccidentReportResponse;
-import com.ontarget.request.bean.AccidentReportInfoRequestBean;
-import com.ontarget.request.bean.AccidentReportRequestBean;
+import com.ontarget.request.bean.AccidentReportInfoRequest;
+import com.ontarget.request.bean.AccidentReportRequest;
 import com.ontarget.util.ConvertPOJOUtils;
 
 @Component
@@ -35,7 +35,7 @@ public class AccidentReportEndpointImpl implements AccidentReportEndpoint {
 	@PUT
 	@Override
 	public SaveAccidentReportResponse saveAccidentReport(
-			AccidentReportRequestBean accidentReportRequestBean) {
+			AccidentReportRequest accidentReportRequestBean) {
 		SaveAccidentReportResponse response;
 		try {
 			AccidentReport accidentReport = ConvertPOJOUtils
@@ -56,7 +56,7 @@ public class AccidentReportEndpointImpl implements AccidentReportEndpoint {
 	@POST
 	@Path("/getAccidentReportsOfProject")
 	public GetAccidentReportsResponse getAccidentReports(
-			AccidentReportInfoRequestBean accidentReportInfoRequestBean) {
+			AccidentReportInfoRequest accidentReportInfoRequestBean) {
 		GetAccidentReportsResponse response;
 		try {
 			response = accidentReportService
@@ -74,7 +74,7 @@ public class AccidentReportEndpointImpl implements AccidentReportEndpoint {
 	@Override
 	@POST
 	public OnTargetResponse updateAccidentReport(
-			AccidentReportRequestBean accidentReportRequestBean) {
+			AccidentReportRequest accidentReportRequestBean) {
 		OnTargetResponse response;
 		try {
 			AccidentReport accidentReport = ConvertPOJOUtils

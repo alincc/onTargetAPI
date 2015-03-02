@@ -1,20 +1,19 @@
 package com.ontarget.api.service.impl;
 
-import com.ontarget.api.dao.TaskPercentageDAO;
-import com.ontarget.api.service.TaskPercentageService;
-import com.ontarget.bean.TaskDTO;
-import com.ontarget.bean.TaskEstimatedCost;
-import com.ontarget.bean.TaskPercentage;
-import com.ontarget.request.bean.TaskProgress;
-import com.ontarget.request.bean.TaskProgressInfo;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Map;
+import com.ontarget.api.dao.TaskPercentageDAO;
+import com.ontarget.api.service.TaskPercentageService;
+import com.ontarget.bean.TaskDTO;
+import com.ontarget.bean.TaskPercentage;
+import com.ontarget.request.bean.TaskProgress;
+import com.ontarget.request.bean.TaskProgressInfo;
 
 /**
  * Created by Owner on 11/25/14.

@@ -2,7 +2,6 @@ package com.ontarget.api.service.impl;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -72,27 +71,6 @@ public class TaskServiceImpl implements TaskService {
 	@Transactional(rollbackFor = { Exception.class })
 	public boolean addTaskService(Task task, int userId) throws Exception {
 		logger.info("Add/Update task: " + task);
-
-		String startDateText = task.getStartDateText();
-		if (startDateText != null && !startDateText.isEmpty()) {
-			Date parse = format.parse(startDateText);
-
-			Calendar calendar = Calendar.getInstance(cst);
-			calendar.setTimeInMillis(parse.getTime());
-			calendar.setTimeZone(cst);
-			parse = calendar.getTime();
-			logger.info("this is start date " + parse + " parsed from "
-					+ startDateText);
-			task.setStartDate(parse);
-		}
-
-		String endDateText = task.getEndDateText();
-		if (endDateText != null && !endDateText.isEmpty()) {
-			Date parse = format.parse(endDateText);
-			logger.info("this is end date " + parse + " parsed from "
-					+ endDateText);
-			task.setEndDate(parse);
-		}
 
 		int taskId = task.getProjectTaskId();
 		// validate times

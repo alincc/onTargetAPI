@@ -22,8 +22,8 @@ import com.ontarget.bean.UserRegistration;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.UserInviteResponse;
-import com.ontarget.request.bean.InviteUserIntoProjectRequestBean;
-import com.ontarget.request.bean.UserRegistrationRequestBean;
+import com.ontarget.request.bean.InviteUserIntoProjectRequest;
+import com.ontarget.request.bean.UserRegistrationRequest;
 import com.ontarget.util.Security;
 
 /**
@@ -51,7 +51,7 @@ public class UserRegistrationImpl implements
 	@POST
 	@Path("/inviteUserIntoProject")
 	public OnTargetResponse inviteUserIntoProject(
-			InviteUserIntoProjectRequestBean inviteUserIntoProjectRequest) {
+			InviteUserIntoProjectRequest inviteUserIntoProjectRequest) {
 
 		int projectId = inviteUserIntoProjectRequest.getProjectId();
 		String firstName = inviteUserIntoProjectRequest.getFirstName();
@@ -101,7 +101,7 @@ public class UserRegistrationImpl implements
 	@POST
 	@Path("/inviteToNewAccount")
 	public OnTargetResponse inviteUserIntoNewAccount(
-			InviteUserIntoProjectRequestBean inviteUserIntoProjectRequest) {
+			InviteUserIntoProjectRequest inviteUserIntoProjectRequest) {
 		OnTargetResponse response = new OnTargetResponse();
 
 		logger.info("This is first name "
@@ -190,7 +190,7 @@ public class UserRegistrationImpl implements
 	@POST
 	@Path("/createUser")
 	public OnTargetResponse createNewUser(
-			UserRegistrationRequestBean userRegistrationRequest) {
+			UserRegistrationRequest userRegistrationRequest) {
 		logger.info("Adding new user: " + userRegistrationRequest);
 		OnTargetResponse response = new OnTargetResponse();
 		try {

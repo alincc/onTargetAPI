@@ -8,7 +8,7 @@ import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.UserRegistationApprovalResponse;
 import com.ontarget.dto.UserRegistrationRequest;
 import com.ontarget.dto.UserResponse;
-import com.ontarget.request.bean.SignInRequestBean;
+import com.ontarget.request.bean.SignInRequest;
 import com.ontarget.util.Security;
 
 import org.apache.log4j.Logger;
@@ -37,7 +37,7 @@ public class AuthenticationImpl implements Authentication {
 
 	@POST
 	@Path("/signin")
-	public UserResponse signIn(SignInRequestBean signInRequest) {
+	public UserResponse signIn(SignInRequest signInRequest) {
 		logger.info("Sign in request: " + signInRequest);
 		UserResponse response = new UserResponse();
 		try {

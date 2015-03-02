@@ -1,19 +1,25 @@
 package com.ontarget.api.rs;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.QueryParam;
 
 import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.UserInvitationApprovalResponse;
-import com.ontarget.request.bean.UserInvitationRequestBean;
+import com.ontarget.request.bean.UserInvitationRequest;
 
+//http://docs.jboss.org/hibernate/validator/4.0.1/reference/en/html_single/#validator-defineconstraints-builtin
 public interface UserInvitation {
 
 	public OnTargetResponse inviteUserIntoNewAccount(
-			UserInvitationRequestBean request);
+			@Valid UserInvitationRequest request);
 
 	public UserInvitationApprovalResponse getPendingRequestList();
 
-	public OnTargetResponse approveRequest(@QueryParam("id") int id);
+	public OnTargetResponse approveRequest(
+			@Min(value = 1, message = "{id.required}") @QueryParam("id") int id);
 
-	public OnTargetResponse verifyToken(@QueryParam("token") String token);
+	public OnTargetResponse verifyToken(
+			@NotNull @QueryParam("token") String token);
 }

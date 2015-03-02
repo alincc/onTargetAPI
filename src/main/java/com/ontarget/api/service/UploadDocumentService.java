@@ -2,11 +2,10 @@ package com.ontarget.api.service;
 
 import java.util.List;
 
-import com.ontarget.dto.UploadDocumentRequestDTO;
 import com.ontarget.dto.UploadedDocumentDetail;
-import com.ontarget.request.bean.UploadDocumentRequestBean;
+import com.ontarget.request.bean.UploadDocumentRequest;
 
 public interface UploadDocumentService {
-	 public boolean saveUploadedDocsInfo(UploadDocumentRequestBean documentInfo) throws Exception;
+	 public boolean saveUploadedDocsInfo(UploadDocumentRequest documentInfo) throws Exception;
 	 public List<UploadedDocumentDetail> getUploadedFile(int projectId) throws Exception;
 }

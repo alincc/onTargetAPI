@@ -1,5 +1,7 @@
 package com.ontarget.api.rs;
 
+import javax.validation.Valid;
+
 import com.ontarget.dto.AddDocumentResponse;
 import com.ontarget.dto.GetDocumentResponse;
 import com.ontarget.dto.GetDocumentsResponse;
@@ -13,15 +15,18 @@ import com.ontarget.request.bean.UserDocument;
 
 public interface DocumentEndpoint {
 
-	public AddDocumentResponse addDocument(AddDocumentRequest request);
+	public AddDocumentResponse addDocument(@Valid AddDocumentRequest request);
 
-	public OnTargetResponse updateDocumentData(UpdateDocumentRequest request);
+	public OnTargetResponse updateDocumentData(
+			@Valid UpdateDocumentRequest request);
 
-	public OnTargetResponse updateDocumentStatus(UpdateDocumentStatus request);
+	public OnTargetResponse updateDocumentStatus(
+			@Valid UpdateDocumentStatus request);
 
-	public GetDocumentsResponse getDocuments(UserDocument userDocument);
+	public GetDocumentsResponse getDocuments(@Valid UserDocument userDocument);
 
-	public GetDocumentResponse getDocument(DocumentDetail documentDetail);
+	public GetDocumentResponse getDocument(@Valid DocumentDetail documentDetail);
 
-	public OnTargetResponse addDocumentAttachment(AddDocumentAttachment request);
+	public OnTargetResponse addDocumentAttachment(
+			@Valid AddDocumentAttachment request);
 }

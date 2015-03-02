@@ -1,6 +1,10 @@
 package com.ontarget.request.bean;
 
 import javax.annotation.Generated;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -11,14 +15,19 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({ "baseRequest", "taskId", "taskCommentId", "comment",
 		"commentedBy" })
 public class TaskCommentRequest {
+	@NotNull
+	@Valid
 	@JsonProperty("baseRequest")
 	private BaseRequest baseRequest;
+	@NotNull
 	@JsonProperty("taskId")
 	private Integer taskId;
 	@JsonProperty("taskCommentId")
 	private Integer taskCommentId;
+	@NotEmpty
 	@JsonProperty("comment")
 	private String comment;
+	@NotEmpty
 	@JsonProperty("commentedBy")
 	private Integer commentedBy;
 

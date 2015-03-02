@@ -7,11 +7,6 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
-import com.ontarget.api.dao.ContactDAO;
-import com.ontarget.api.dao.UserDAO;
-import com.ontarget.bean.Contact;
-import com.ontarget.bean.UserDTO;
-import com.sun.jersey.api.spring.Autowire;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -20,7 +15,9 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import com.ontarget.api.dao.ContactDAO;
 import com.ontarget.api.dao.DocumentDAO;
+import com.ontarget.bean.Contact;
 import com.ontarget.bean.DocumentDTO;
 import com.ontarget.constant.OnTargetQuery;
 
@@ -56,7 +53,7 @@ public class DocumentDAOImpl extends BaseGenericDAOImpl<DocumentDTO> implements
 			}
 
 		}, kh);
-		document.setDocumentId(kh.getKey().longValue());
+		document.setDocumentId(kh.getKey().intValue());
 		return document;
 	}
 
@@ -74,8 +71,7 @@ public class DocumentDAOImpl extends BaseGenericDAOImpl<DocumentDTO> implements
 	}
 
 	@Override
-	public boolean updateStatus(long documentId, String newStatus,
-			int modifiedBy) {
+	public boolean updateStatus(int documentId, String newStatus, int modifiedBy) {
 		int count = jdbcTemplate.update(OnTargetQuery.document.UPDATE_STATUS,
 				new Object[] { newStatus, modifiedBy, documentId });
 		return (count > 0);
@@ -90,7 +86,8 @@ public class DocumentDAOImpl extends BaseGenericDAOImpl<DocumentDTO> implements
 	}
 
 	@Override
-	public List<DocumentDTO> getByAssigneeUsername(String username, int projectId) {
+	public List<DocumentDTO> getByAssigneeUsername(String username,
+			int projectId) {
 		List<DocumentDTO> documents = jdbcTemplate.query(
 				OnTargetQuery.document.GET_BY_ASSIGNEE_USERNAME, new Object[] {
 						username, projectId }, new DocumentRowMapper());
@@ -98,8 +95,8 @@ public class DocumentDAOImpl extends BaseGenericDAOImpl<DocumentDTO> implements
 	}
 
 	@Override
-	public List<DocumentDTO> getDocumentsByProject(int projectId, String approved)
-			throws Exception {
+	public List<DocumentDTO> getDocumentsByProject(int projectId,
+			String approved) throws Exception {
 		List<DocumentDTO> documents = jdbcTemplate.query(
 				OnTargetQuery.document.GET_DOCUMENTS_BY_PROJECT, new Object[] {
 						projectId, approved }, new DocumentRowMapper());
@@ -107,8 +104,8 @@ public class DocumentDAOImpl extends BaseGenericDAOImpl<DocumentDTO> implements
 	}
 
 	@Override
-	public boolean updateDueDate(long documentId, Date dueDate,
-			String modifiedBy) throws Exception {
+	public boolean updateDueDate(int documentId, Date dueDate, String modifiedBy)
+			throws Exception {
 		int count = jdbcTemplate.update(OnTargetQuery.document.UPDATE_DUE_DATE,
 				new Object[] { dueDate, modifiedBy, documentId });
 		return (count > 0);
@@ -131,9 +128,9 @@ public class DocumentDAOImpl extends BaseGenericDAOImpl<DocumentDTO> implements
 				logger.error("Error while getting contact info", e);
 				throw new SQLException();
 			}
-			//UserDTO createdBy = new UserDTO();
-			//createdBy.setContact(contact);
-			//doc.setCreatedBy(createdBy);
+			// UserDTO createdBy = new UserDTO();
+			// createdBy.setContact(contact);
+			// doc.setCreatedBy(createdBy);
 			doc.setCreatedBy(rs.getInt("created_by"));
 			doc.setDueDate(rs.getDate("due_date"));
 			return doc;

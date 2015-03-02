@@ -16,7 +16,7 @@ import com.ontarget.api.service.NotificationService;
 import com.ontarget.bean.Notification;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.NotificationResponse;
-import com.ontarget.request.bean.NotificationRequestBean;
+import com.ontarget.request.bean.NotificationRequest;
 
 /**
  * Created by sumit on 12/26/14.
@@ -35,7 +35,7 @@ public class NotificationEndpointImpl implements
 	@POST
 	@Path("/getNotifications")
 	public NotificationResponse getNotifications(
-			NotificationRequestBean notificationRequest) {
+			NotificationRequest notificationRequest) {
 		NotificationResponse response = new NotificationResponse();
 		try {
 			List<Notification> notifications = notificationService

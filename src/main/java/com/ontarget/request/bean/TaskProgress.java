@@ -1,6 +1,9 @@
 package com.ontarget.request.bean;
 
 import javax.annotation.Generated;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -10,15 +13,13 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({ "percentageType", "percentageComplete", "taskId" })
 public class TaskProgress {
-
-	/**
-* 
-*/
-
+	@NotEmpty
 	@JsonProperty("percentageType")
 	private String percentageType;
+	@NotNull
 	@JsonProperty("percentageComplete")
 	private Double percentageComplete;
+	@NotNull
 	@JsonProperty("taskId")
 	private Integer taskId;
 

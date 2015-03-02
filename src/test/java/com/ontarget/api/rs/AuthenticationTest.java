@@ -1,61 +1,34 @@
 package com.ontarget.api.rs;
 
-import java.io.IOException;
+import javax.ws.rs.core.Response;
 
-import com.ontarget.request.bean.SignInRequestBean;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.test.framework.JerseyTest;
-
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import javax.ws.rs.core.MediaType;
+import com.ontarget.request.bean.SignInRequest;
 
 /**
  * Created by Owner on 10/27/14.
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:/applicationContext.xml" })
-public class AuthenticationTest extends JerseyTest {
 
-	public AuthenticationTest() {
-		super("com.ontarget.api.rs");
-	}
+public class AuthenticationTest extends BaseTest {
 
 	@Test
-	public void testSignIn() throws JsonGenerationException,
-			JsonMappingException, IOException {
-		WebResource resource = resource();
+	public void testSignIn() {
 
-		SignInRequestBean signInRequest = new SignInRequestBean();
+		SignInRequest signInRequest = new SignInRequest();
 		signInRequest.setUsername("sanjeev@ontargetcloud.com");
 		signInRequest.setPassword("123456");
 
-		ObjectMapper mapper = new ObjectMapper();
-		String jsonData = mapper.writeValueAsString(signInRequest);
-
-		System.out.println("json data:: " + jsonData);
-
-		ClientResponse response = resource.path("/user/signin")
-				.accept(MediaType.APPLICATION_JSON)
-				.type(MediaType.APPLICATION_JSON)
-				.post(ClientResponse.class, jsonData);
-
+		System.out.println("Client request .... \n");
+		System.out.println(toJsonString(signInRequest, true));
+		Response response = sendRequest("/user/signin", signInRequest);
 		if (response.getStatus() != 200) {
 			throw new RuntimeException("Failed : HTTP error code : "
 					+ response.getStatus());
 		}
-
-		String output = response.getEntity(String.class);
+		String output = response.readEntity(String.class);
 		System.out.println("Server response .... \n");
 		System.out.println(output);
-
 	}
 
 }

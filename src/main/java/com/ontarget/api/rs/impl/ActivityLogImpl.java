@@ -17,7 +17,7 @@ import com.ontarget.api.service.ActivityLogService;
 import com.ontarget.bean.ActivityLog;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.ActivityLogResponse;
-import com.ontarget.request.bean.ActivityLogRequestBean;
+import com.ontarget.request.bean.ActivityLogRequest;
 
 /**
  * Created by sumit on 12/6/14.
@@ -37,7 +37,7 @@ public class ActivityLogImpl implements com.ontarget.api.rs.ActivityLog {
 	@POST
 	@Path("/getLog")
 	public ActivityLogResponse getActivityLog(
-			ActivityLogRequestBean activityLogRequest) {
+			ActivityLogRequest activityLogRequest) {
 		ActivityLogResponse response = new ActivityLogResponse();
 		try {
 			long recentId = activityLogRequest.getRecentId();

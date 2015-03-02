@@ -1,8 +1,10 @@
 package com.ontarget.request.bean;
 
-import java.util.Date;
+import java.sql.Date;
 
 import javax.annotation.Generated;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -17,12 +19,17 @@ public class ProjectDetailInfo {
 
 	@JsonProperty("projectId")
 	private Integer projectId;
+	@NotNull
 	@JsonProperty("projectParentId")
 	private Integer projectParentId;
+	@NotNull
 	@JsonProperty("projectTypeId")
 	private Integer projectTypeId;
+	@NotNull
+	@Valid
 	@JsonProperty("projectAddress")
 	private ProjectAddressInfo projectAddress;
+	@NotNull
 	@JsonProperty("companyId")
 	private Integer companyId;
 	@JsonProperty("projectName")

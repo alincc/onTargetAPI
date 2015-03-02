@@ -7,7 +7,7 @@ import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.UserImageRequest;
 import com.ontarget.dto.UserProfileRequest;
 import com.ontarget.dto.UserProfileResponse;
-import com.ontarget.request.bean.UserRegistrationRequestBean;
+import com.ontarget.request.bean.UserRegistrationRequest;
 
 
 /**
@@ -39,7 +39,7 @@ public interface UserProfileService {
 
 	public String getRandomSafetyUserInfo(long userId) throws Exception;
 
-	public boolean createNewUserFromInvitation(UserRegistrationRequestBean registration)
+	public boolean createNewUserFromInvitation(UserRegistrationRequest registration)
 			throws Exception;
 
 	public boolean activateAccount(int userId) throws Exception;

@@ -12,19 +12,19 @@ import com.ontarget.bean.TaskEstimatedCost;
 import com.ontarget.dto.AddDependentRequest;
 import com.ontarget.dto.TaskBudgetRequest;
 import com.ontarget.dto.UserInvitationRequestDTO;
-import com.ontarget.request.bean.AccidentReportRequestBean;
+import com.ontarget.request.bean.AccidentReportRequest;
 import com.ontarget.request.bean.DependentTask;
 import com.ontarget.request.bean.DependentTaskRequest;
-import com.ontarget.request.bean.ProjectDetailInfo;
 import com.ontarget.request.bean.ProjectAddressInfo;
+import com.ontarget.request.bean.ProjectDetailInfo;
 import com.ontarget.request.bean.TaskBudget;
 import com.ontarget.request.bean.TaskBudgetEstimate;
-import com.ontarget.request.bean.UserInvitationRequestBean;
+import com.ontarget.request.bean.UserInvitationRequest;
 
 public class ConvertPOJOUtils {
 
 	public static UserInvitationRequestDTO convertToUserInvitationDTO(
-			UserInvitationRequestBean userInvitationRequest, String token) {
+			UserInvitationRequest userInvitationRequest, String token) {
 		UserInvitationRequestDTO userInvitationRequestDTO = new UserInvitationRequestDTO();
 		userInvitationRequestDTO.setFirstName(userInvitationRequest
 				.getFirstName());
@@ -68,7 +68,7 @@ public class ConvertPOJOUtils {
 	}
 
 	public static AccidentReport convertToAccidentReport(
-			AccidentReportRequestBean accidentReportRequestBean) {
+			AccidentReportRequest accidentReportRequestBean) {
 		AccidentReport accidentReport = new AccidentReport();
 		accidentReport.setAccidentReportId(accidentReportRequestBean
 				.getAccidentReportId());

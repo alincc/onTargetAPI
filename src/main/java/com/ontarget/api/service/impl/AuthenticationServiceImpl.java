@@ -11,7 +11,7 @@ import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.UserRegistationApprovalResponse;
 import com.ontarget.dto.UserRegistrationRequest;
 import com.ontarget.dto.UserResponse;
-import com.ontarget.request.bean.SignInRequestBean;
+import com.ontarget.request.bean.SignInRequest;
 import com.ontarget.util.TokenUtil;
 
 import org.apache.log4j.Logger;
@@ -40,7 +40,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
-	public UserResponse signIn(SignInRequestBean signInRequest) throws Exception {
+	public UserResponse signIn(SignInRequest signInRequest) throws Exception {
 		logger.debug("Signing user: " + signInRequest);
 		UserResponse response = new UserResponse();
 		UserDTO returnUser = authenticationDAO.getUserSignInInfo(signInRequest);

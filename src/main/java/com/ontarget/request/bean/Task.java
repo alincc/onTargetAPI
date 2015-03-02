@@ -1,6 +1,6 @@
 package com.ontarget.request.bean;
 
-import java.util.Date;
+import java.sql.Date;
 
 import javax.annotation.Generated;
 

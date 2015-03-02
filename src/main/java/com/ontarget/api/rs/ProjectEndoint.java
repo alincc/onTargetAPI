@@ -1,31 +1,33 @@
 package com.ontarget.api.rs;
 
+import javax.validation.Valid;
+
 import com.ontarget.bean.Company;
 import com.ontarget.dto.*;
-import com.ontarget.request.bean.ProjectRequestBean;
-import com.ontarget.request.bean.ProjectCompanyRequestBean;
-import com.ontarget.request.bean.ProjectDetailRequestBean;
-import com.ontarget.request.bean.ProjectUserRequestBean;
+import com.ontarget.request.bean.ProjectRequest;
+import com.ontarget.request.bean.ProjectCompanyRequest;
+import com.ontarget.request.bean.ProjectDetailRequest;
+import com.ontarget.request.bean.ProjectUserRequest;
 
 /**
  * Created by Owner on 11/6/14.
  */
 public interface ProjectEndoint {
 
-	public OnTargetResponse addProject(ProjectRequestBean request);
+	public OnTargetResponse addProject(@Valid ProjectRequest request);
 
 	public ProjectResponse getProjectDetail(
-			ProjectDetailRequestBean projectDetailRequest);
+			ProjectDetailRequest projectDetailRequest);
 
 	public com.ontarget.dto.ProjectListResponse getProjectByCompany(
-			ProjectCompanyRequestBean projectCompanyRequest);
+			ProjectCompanyRequest projectCompanyRequest);
 
 	public ListResponse<Company> getCompanyByProject(
-			ProjectDetailRequestBean projectDetailRequest);
+			ProjectDetailRequest projectDetailRequest);
 
 	public ProjectListResponse getProjectByUser(
-			ProjectUserRequestBean projectUserRequest);
+			ProjectUserRequest projectUserRequest);
 
 	public ProjectMemberListResponse getProjectMembers(
-			ProjectDetailRequestBean projectDetailRequest);
+			ProjectDetailRequest projectDetailRequest);
 }

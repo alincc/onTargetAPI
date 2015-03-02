@@ -1,8 +1,9 @@
 package com.ontarget.request.bean;
 
-import java.util.Date;
+import java.sql.Date;
 
 import javax.annotation.Generated;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,18 +17,25 @@ public class TaskBudgetEstimate {
 
 	@JsonProperty("id")
 	private Integer id;
+	@NotNull
 	@JsonProperty("taskId")
 	private Integer taskId;
+	@NotNull
 	@JsonProperty("fromDate")
 	private Date fromDate;
+	@NotNull
 	@JsonProperty("toDate")
 	private Date toDate;
+	@NotNull
 	@JsonProperty("costType")
 	private String costType;
+	@NotNull
 	@JsonProperty("cost")
 	private Double cost;
+	@NotNull
 	@JsonProperty("month")
 	private Integer month;
+	@NotNull
 	@JsonProperty("year")
 	private Integer year;
 

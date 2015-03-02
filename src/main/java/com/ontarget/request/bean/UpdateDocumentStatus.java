@@ -1,6 +1,10 @@
 package com.ontarget.request.bean;
 
 import javax.annotation.Generated;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -10,12 +14,17 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({ "baseRequest", "documentId", "newStatus", "modifiedBy" })
 public class UpdateDocumentStatus {
+	@NotNull
+	@Valid
 	@JsonProperty("baseRequest")
 	private BaseRequest baseRequest;
+	@NotNull
 	@JsonProperty("documentId")
 	private int documentId;
+	@NotEmpty
 	@JsonProperty("newStatus")
 	private String newStatus;
+	@NotNull
 	@JsonProperty("modifiedBy")
 	private int modifiedBy;
 

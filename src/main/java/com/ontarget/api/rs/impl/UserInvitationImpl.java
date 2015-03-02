@@ -1,6 +1,5 @@
 package com.ontarget.api.rs.impl;
 
-import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -21,7 +20,7 @@ import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.UserInvitationApprovalResponse;
 import com.ontarget.dto.UserInvitationRequestDTO;
 import com.ontarget.entity.pojo.RegistrationRequestResponseDTO;
-import com.ontarget.request.bean.UserInvitationRequestBean;
+import com.ontarget.request.bean.UserInvitationRequest;
 import com.ontarget.util.ConvertPOJOUtils;
 import com.ontarget.util.Security;
 import com.ontarget.util.WSResourceKeyConstant;
@@ -43,24 +42,14 @@ public class UserInvitationImpl implements UserInvitation {
 	@POST
 	@Path(WSResourceKeyConstant.INVITE_TO_NEW_ACCOUNT)
 	public OnTargetResponse inviteUserIntoNewAccount(
-			@Valid UserInvitationRequestBean request) {
+			UserInvitationRequest request) {
 
 		OnTargetResponse response = new OnTargetResponse();
 		try {
-			logger.info("This is first name " + request.getFirstName()
-					+ " last name " + request.getLastName() + " email"
-					+ request.getEmail() + ", phone no: "
-					+ request.getPhoneNumber() + ", message: "
-					+ request.getMsg());
-
 			RegistrationRequestResponseDTO registrationRequest = userInvitationService
 					.getRegistrationRequest(request.getEmail());
 
-			logger.info("registration request:: " + registrationRequest);
-
 			if (registrationRequest != null) {
-				logger.info("id:: " + registrationRequest.getId());
-				logger.info("is create:: " + registrationRequest.getTsCreate());
 
 				if (System.currentTimeMillis()
 						- registrationRequest.getTsCreate() <= OnTargetConstant.TOKEN_MAX_LIFE) {
@@ -72,7 +61,6 @@ public class UserInvitationImpl implements UserInvitation {
 
 			final String tokenId = Security
 					.generateRandomValue(OnTargetConstant.TOKEN_LENGTH);
-			logger.info("Token id:: " + tokenId);
 
 			UserInvitationRequestDTO userInvitationRequestDTO = ConvertPOJOUtils
 					.convertToUserInvitationDTO(request, tokenId);
@@ -99,9 +87,6 @@ public class UserInvitationImpl implements UserInvitation {
 		try {
 			response = userInvitationService.retrievePendingRegRequestList();
 
-			logger.info("Pending registration request list:: "
-					+ response.getApprovalDTOList());
-
 			response.setReturnVal(OnTargetConstant.SUCCESS);
 			response.setReturnMessage(OnTargetConstant.PENDING_REQUEST_RECEIVED);
 		} catch (Exception e) {
@@ -121,7 +106,6 @@ public class UserInvitationImpl implements UserInvitation {
 		OnTargetResponse response = new OnTargetResponse();
 		try {
 			boolean success = userInvitationService.approvePendingRequest(id);
-			logger.info("Approval request status:: " + success);
 			if (success) {
 				emailService.sendInvitationEmailForRegistration(id);
 				response.setReturnVal(OnTargetConstant.SUCCESS);
@@ -164,7 +148,6 @@ public class UserInvitationImpl implements UserInvitation {
 			}
 
 			String status = userRegistration.getStatus();
-			logger.info("status:: " + status);
 			if (status != null
 					&& (status
 							.equals(OnTargetConstant.REGISTRATION_REQUEST_NEW))) {

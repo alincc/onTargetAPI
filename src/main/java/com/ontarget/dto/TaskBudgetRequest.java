@@ -1,13 +1,14 @@
 package com.ontarget.dto;
 
-import com.ontarget.bean.TaskEstimatedCost;
-
 import java.util.List;
+
+import com.ontarget.bean.TaskEstimatedCost;
+import com.ontarget.request.bean.BaseRequest;
 
 /**
  * Created by Owner on 11/25/14.
  */
-public class TaskBudgetRequest extends BaseRequestDTO {
+public class TaskBudgetRequest extends BaseRequest {
 
     public TaskBudgetRequest() {
     }

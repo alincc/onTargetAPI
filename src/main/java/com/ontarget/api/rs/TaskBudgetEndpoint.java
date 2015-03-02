@@ -1,5 +1,7 @@
 package com.ontarget.api.rs;
 
+import javax.validation.Valid;
+
 import com.ontarget.api.response.TaskBudgetListResponse;
 import com.ontarget.api.response.TaskBudgetResponse;
 import com.ontarget.dto.OnTargetResponse;
@@ -13,12 +15,12 @@ import com.ontarget.request.bean.TaskBudgetOfTask;
 public interface TaskBudgetEndpoint {
 
 	public TaskBudgetResponse getTaskBudgetActualsAndEstimated(
-			TaskBudgetEstimationOfProject taskBudgetEstimationOfProject);
+			@Valid TaskBudgetEstimationOfProject taskBudgetEstimationOfProject);
 
-	public OnTargetResponse addTaskBudget(TaskBudget taskBudget);
+	public OnTargetResponse addTaskBudget(@Valid TaskBudget taskBudget);
 
-	public OnTargetResponse updateTaskBudget(TaskBudget taskBudget);
+	public OnTargetResponse updateTaskBudget(@Valid TaskBudget taskBudget);
 
 	public TaskBudgetListResponse getTaskBudgetByTaskId(
-			TaskBudgetOfTask taskBudgetOfTask);
+			@Valid TaskBudgetOfTask taskBudgetOfTask);
 }

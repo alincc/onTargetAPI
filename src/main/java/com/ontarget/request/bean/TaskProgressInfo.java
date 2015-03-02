@@ -1,6 +1,7 @@
 package com.ontarget.request.bean;
 
 import javax.annotation.Generated;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -10,8 +11,10 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({ "taskPercentageLogId", "percentageComplete" })
 public class TaskProgressInfo {
+	@NotNull
 	@JsonProperty("percentageComplete")
 	private Double percentageComplete;
+	@NotNull
 	@JsonProperty("taskPercentageLogId")
 	private Integer taskPercentageLogId;
 

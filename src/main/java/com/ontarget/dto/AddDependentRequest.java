@@ -1,11 +1,12 @@
 package com.ontarget.dto;
 
 import com.ontarget.bean.DependentTaskDTO;
+import com.ontarget.request.bean.BaseRequest;
 
 /**
  * Created by sumit on 1/5/15.
  */
-public class AddDependentRequest extends BaseRequestDTO {
+public class AddDependentRequest extends BaseRequest {
     private DependentTaskDTO dependentTask;
 
     public DependentTaskDTO getDependentTask() {

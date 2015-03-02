@@ -1,6 +1,7 @@
 package com.ontarget.request.bean;
 
 import javax.annotation.Generated;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -10,11 +11,13 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({ "taskId", "dependentTaskId", "categoryId" })
 public class DependentTask {
-
+	@NotNull
 	@JsonProperty("taskId")
 	private Integer taskId;
+	@NotNull
 	@JsonProperty("dependentTaskId")
 	private Integer dependentTaskId;
+	@NotNull
 	@JsonProperty("categoryId")
 	private Integer categoryId;
 

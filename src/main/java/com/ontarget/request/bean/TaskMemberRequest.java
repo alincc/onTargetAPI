@@ -3,6 +3,8 @@ package com.ontarget.request.bean;
 import java.util.List;
 
 import javax.annotation.Generated;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -12,16 +14,17 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({ "baseRequest", "taskId", "projectId" })
 public class TaskMemberRequest {
-
-	/**
-* 
-*/
+	@NotNull
+	@Valid
 	@JsonProperty("baseRequest")
 	private BaseRequest baseRequest;
+	@NotNull
 	@JsonProperty("taskId")
 	private Integer taskId;
+	@NotNull
 	@JsonProperty("projectId")
 	private Integer projectId;
+	@NotNull
 	@JsonProperty("members")
 	private List<Integer> members;
 

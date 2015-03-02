@@ -37,7 +37,7 @@ public class DocumentGridKeyValueDAOImpl extends
 
 	@Override
 	public List<DocumentGridKeyValueDTO> getByDocumentIdAndGridId(
-			long documentId, String gridId) {
+			int documentId, String gridId) {
 		List<DocumentGridKeyValueDTO> gridKeyValues = jdbcTemplate.query(
 				OnTargetQuery.documentGridKeyValue.GET_BY_DOCUMENT_GRID,
 				new Object[] { documentId },
@@ -56,8 +56,8 @@ public class DocumentGridKeyValueDAOImpl extends
 	}
 
 	@Override
-	public boolean updateValue(long documentId, String gridId,
-			int gridRowIndex, String key, String newValue, int modifiedBy) {
+	public boolean updateValue(int documentId, String gridId, int gridRowIndex,
+			String key, String newValue, int modifiedBy) {
 		int count = jdbcTemplate.update(
 				OnTargetQuery.documentGridKeyValue.UPDATE_VALUE, newValue,
 				modifiedBy, documentId, gridId, gridRowIndex, key);
@@ -65,7 +65,7 @@ public class DocumentGridKeyValueDAOImpl extends
 	}
 
 	@Override
-	public List<DocumentGridKeyValueDTO> getByDocumentId(long documentId) {
+	public List<DocumentGridKeyValueDTO> getByDocumentId(int documentId) {
 		List<DocumentGridKeyValueDTO> gridKeyValues = jdbcTemplate.query(
 				OnTargetQuery.documentGridKeyValue.GET_BY_DOCUMENT,
 				new Object[] { documentId },

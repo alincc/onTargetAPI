@@ -37,7 +37,7 @@ public class DocumentKeyValueDAOImpl extends
 	}
 
 	@Override
-	public List<DocumentKeyValueDTO> getByDocumentId(long documentId) {
+	public List<DocumentKeyValueDTO> getByDocumentId(int documentId) {
 		List<DocumentKeyValueDTO> keyValues = jdbcTemplate.query(
 				OnTargetQuery.documentKeyValue.GET_BY_DOCUMENT,
 				new Object[] { documentId },
@@ -57,7 +57,7 @@ public class DocumentKeyValueDAOImpl extends
 	}
 
 	@Override
-	public boolean updateValue(long documentId, String key, String newValue,
+	public boolean updateValue(int documentId, String key, String newValue,
 			int modifiedBy) {
 		int count = jdbcTemplate.update(
 				OnTargetQuery.documentKeyValue.UPDATE_VALUE, newValue,

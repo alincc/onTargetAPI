@@ -18,14 +18,14 @@
 	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 		<property name="host" value="${smtp.mail.host}" />
 		<property name="port" value="${smtp.mail.port}" />
-		<!-- <property name="username" value="${smtp.mail.username}" /> -->
-		<!-- <property name="password" value="${smtp.mail.password}" /> -->
+		<property name="username" value="${smtp.mail.username}" />
+	<property name="password" value="${smtp.mail.password}" />
 
 		<property name="javaMailProperties">
 			<props>
 				<prop key="mail.transport.protocol">smtp</prop>
 				<prop key="mail.smtp.auth">${mail.smtp.auth}</prop>
-				<!-- <prop key="mail.smtp.starttls.enable">${mail.smtp.starttls.enable}</prop> -->
+				<prop key="mail.smtp.starttls.enable">${mail.smtp.starttls.enable}</prop>
 				<prop key="mail.debug">${mail.debug}</prop>
 			</props>
 		</property>
@@ -40,13 +40,5 @@
 			</value>
 		</property>
 	</bean>
-
-
-
-	<!-- <bean id="validator" -->
-	<!-- class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"> -->
-	<!-- </bean> -->
-
-
 
 </beans>

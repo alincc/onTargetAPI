@@ -3,7 +3,7 @@ package com.ontarget.api.service;
 import com.ontarget.bean.Company;
 import com.ontarget.bean.ProjectDTO;
 import com.ontarget.dto.*;
-import com.ontarget.request.bean.ProjectRequestBean;
+import com.ontarget.request.bean.ProjectRequest;
 
 import java.util.List;
 
@@ -12,9 +12,9 @@ import java.util.List;
  */
 public interface ProjectService {
 
-    public OnTargetResponse addProject(ProjectRequestBean request) throws Exception;
+    public OnTargetResponse addProject(ProjectRequest request) throws Exception;
 
-    public OnTargetResponse updateProject(ProjectRequestBean request) throws Exception;
+    public OnTargetResponse updateProject(ProjectRequest request) throws Exception;
 
     public ProjectResponse getProjectDetail(int projectId) throws Exception;
 

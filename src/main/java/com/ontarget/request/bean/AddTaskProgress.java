@@ -3,6 +3,8 @@ package com.ontarget.request.bean;
 import java.util.List;
 
 import javax.annotation.Generated;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -12,8 +14,12 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({ "percentageType", "taskProgressList" })
 public class AddTaskProgress {
+	@NotNull
+	@Valid
 	@JsonProperty("baseRequest")
 	private BaseRequest baseRequest;
+	@NotNull
+	@Valid
 	@JsonProperty("taskProgressList")
 	private List<TaskProgress> taskProgressList;
 

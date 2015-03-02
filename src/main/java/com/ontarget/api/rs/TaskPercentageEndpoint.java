@@ -1,5 +1,7 @@
 package com.ontarget.api.rs;
 
+import javax.validation.Valid;
+
 import com.ontarget.api.response.TaskPercentageListResponse;
 import com.ontarget.api.response.TaskPercentageResponse;
 import com.ontarget.dto.OnTargetResponse;
@@ -14,14 +16,14 @@ import com.ontarget.request.bean.UpdateTaskProgress;
 public interface TaskPercentageEndpoint {
 
 	public OnTargetResponse addTaskPercentageComplete(
-			AddTaskProgress addTaskProgress);
+			@Valid AddTaskProgress addTaskProgress);
 
 	public OnTargetResponse updateTaskPercentageComplete(
-			UpdateTaskProgress request);
+			@Valid UpdateTaskProgress request);
 
 	public TaskPercentageListResponse getTaskPercentagesByTask(
-			TaskPercentageOfTask taskPercentageOfTask);
+			@Valid TaskPercentageOfTask taskPercentageOfTask);
 
 	public TaskPercentageResponse getTaskPercentageByProject(
-			TaskPercentageOfProject taskPercentageOfProject);
+			@Valid TaskPercentageOfProject taskPercentageOfProject);
 }

@@ -18,8 +18,8 @@ import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.FileUploadResponse;
 import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.UploadedDocumentDetail;
-import com.ontarget.request.bean.UploadDocumentRequestBean;
-import com.ontarget.request.bean.UploadedFileDetailBean;
+import com.ontarget.request.bean.UploadDocumentRequest;
+import com.ontarget.request.bean.UploadedFileDetail;
 
 /**
  * This class deals with file upload associated with the project
@@ -42,7 +42,7 @@ public class UploadDocumentEndPointImpl implements UploadDocumentEndPoint {
 	@Path("/saveUploadedDocsInfo")
 	@POST
 	public OnTargetResponse saveUploadedDocsInfo(
-			UploadDocumentRequestBean requestData) {
+			UploadDocumentRequest requestData) {
 		logger.info("Starting document upload call");
 		OnTargetResponse response = new OnTargetResponse(
 				OnTargetConstant.INTERNAL_SERVER_ERROR_CODE,
@@ -71,7 +71,7 @@ public class UploadDocumentEndPointImpl implements UploadDocumentEndPoint {
 	@Override
 	@POST
 	public FileUploadResponse getUploadedFile(
-			UploadedFileDetailBean uploadedFileDetailBean) {
+			UploadedFileDetail uploadedFileDetailBean) {
 		logger.info("Starting call to retrieve uploaded document by project id");
 		FileUploadResponse response = new FileUploadResponse(
 				OnTargetConstant.INTERNAL_SERVER_ERROR_CODE,

@@ -1,16 +1,12 @@
 package com.ontarget.api.rs;
 
-import java.io.IOException;
+import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.map.JsonMappingException;
+import javax.ws.rs.core.Response;
+
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.ontarget.request.bean.BaseRequest;
 import com.ontarget.request.bean.DependentTask;
@@ -28,19 +24,11 @@ import com.ontarget.request.bean.TaskMemberRequest;
 import com.ontarget.request.bean.TaskRequest;
 import com.ontarget.request.bean.TaskStatusUpdateRequest;
 import com.ontarget.request.bean.UserTask;
-import com.sun.jersey.api.client.ClientResponse;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:/applicationContext.xml" })
 public class TaskEndpointTest extends BaseTest {
 
-	public TaskEndpointTest() {
-		super("com.ontarget.api.rs");
-	}
-
 	@Test
-	public void addTask() throws JsonGenerationException, JsonMappingException,
-			IOException {
+	public void addTask() {
 
 		TaskRequest taskRequest = new TaskRequest();
 
@@ -51,16 +39,16 @@ public class TaskEndpointTest extends BaseTest {
 		taskRequest.setBaseRequest(baseRequest);
 
 		Task task = new Task();
-		task.setStartDateText("2014-01-01 15:00:00");
-		task.setEndDateText("2015-01-01 13:00:00");
+		//task.setStartDateText("2014-01-01 15:00:00");
+		//task.setEndDateText("2015-01-01 13:00:00");
 		// update
 		// task.setProjectTaskId(1);
 		task.setPercentageComplete(10);
 		// add
 		task.setProjectTaskId(0);
 
-		task.setStartDate(new Date());
-		task.setEndDate(new Date());
+		task.setStartDate(new Date(new java.util.Date().getTime()));
+		task.setEndDate(new Date(new java.util.Date().getTime()));
 		task.setTitle("task1");
 		task.setDescription("task desc");
 		task.setStatus("1");
@@ -68,18 +56,18 @@ public class TaskEndpointTest extends BaseTest {
 
 		Project project = new Project();
 		project.setProjectId(1);
-		project.setStartDate(new Date());
-		project.setEndDate(new Date());
+		project.setStartDate(new Date(new java.util.Date().getTime()));
+		project.setEndDate(new Date(new java.util.Date().getTime()));
 		task.setProject(project);
 
 		taskRequest.setTask(task);
 
 		ParentTask parentTask = new ParentTask();
-		parentTask.setStartDateText("2014-01-01 15:00:00");
-		parentTask.setEndDateText("2015-01-01 13:00:00");
+		//parentTask.setStartDateText("2014-01-01 15:00:00");
+		//parentTask.setEndDateText("2015-01-01 13:00:00");
 		parentTask.setProjectTaskId(1);
-		parentTask.setStartDate(new Date());
-		parentTask.setEndDate(new Date());
+		parentTask.setStartDate(new Date(new java.util.Date().getTime()));
+		parentTask.setEndDate(new Date(new java.util.Date().getTime()));
 		task.setParentTask(parentTask);
 
 		taskRequest.setTask(task);
@@ -87,20 +75,19 @@ public class TaskEndpointTest extends BaseTest {
 
 		System.out.println("Client request addTask.... \n");
 		System.out.println(toJsonString(taskRequest, true));
-		ClientResponse response = sendRequest("/task/addTask", taskRequest);
+		Response response = sendRequest("/task/addTask", taskRequest);
 		if (response.getStatus() != 200) {
 			throw new RuntimeException("Failed : HTTP error code : "
 					+ response.getStatus());
 		}
-		String output = response.getEntity(String.class);
+		String output = response.readEntity(String.class);
 		System.out.println("Server response .... \n");
 		System.out.println(output);
 
 	}
 
 	@Test
-	public void getTask() throws JsonGenerationException, JsonMappingException,
-			IOException {
+	public void getTask() {
 
 		ProjectTaskRequest projectTaskRequest = new ProjectTaskRequest();
 
@@ -113,21 +100,20 @@ public class TaskEndpointTest extends BaseTest {
 
 		System.out.println("Client request getTask.... \n");
 		System.out.println(toJsonString(projectTaskRequest, true));
-		ClientResponse response = sendRequest("/task/getProjectTask",
+		Response response = sendRequest("/task/getProjectTask",
 				projectTaskRequest);
 		if (response.getStatus() != 200) {
 			throw new RuntimeException("Failed : HTTP error code : "
 					+ response.getStatus());
 		}
-		String output = response.getEntity(String.class);
+		String output = response.readEntity(String.class);
 		System.out.println("Server response .... \n");
 		System.out.println(output);
 
 	}
 
 	@Test
-	public void getTaskCountsOfProject() throws JsonGenerationException,
-			JsonMappingException, IOException {
+	public void getTaskCountsOfProject() {
 
 		ProjectTaskRequest projectTaskRequest = new ProjectTaskRequest();
 
@@ -140,21 +126,20 @@ public class TaskEndpointTest extends BaseTest {
 
 		System.out.println("Client request getTaskCountsOfProject.... \n");
 		System.out.println(toJsonString(projectTaskRequest, true));
-		ClientResponse response = sendRequest("/task/getTaskCountsOfProject",
+		Response response = sendRequest("/task/getTaskCountsOfProject",
 				projectTaskRequest);
 		if (response.getStatus() != 200) {
 			throw new RuntimeException("Failed : HTTP error code : "
 					+ response.getStatus());
 		}
-		String output = response.getEntity(String.class);
+		String output = response.readEntity(String.class);
 		System.out.println("Server response .... \n");
 		System.out.println(output);
 
 	}
 
 	@Test
-	public void getTaskDetail() throws JsonGenerationException,
-			JsonMappingException, IOException {
+	public void getTaskDetail() {
 
 		TaskDetailRequest taskDetailRequest = new TaskDetailRequest();
 
@@ -167,21 +152,20 @@ public class TaskEndpointTest extends BaseTest {
 
 		System.out.println("Client request getTaskDetail.... \n");
 		System.out.println(toJsonString(taskDetailRequest, true));
-		ClientResponse response = sendRequest("/task/getTaskDetail",
+		Response response = sendRequest("/task/getTaskDetail",
 				taskDetailRequest);
 		if (response.getStatus() != 200) {
 			throw new RuntimeException("Failed : HTTP error code : "
 					+ response.getStatus());
 		}
-		String output = response.getEntity(String.class);
+		String output = response.readEntity(String.class);
 		System.out.println("Server response .... \n");
 		System.out.println(output);
 
 	}
 
 	@Test
-	public void updateTaskStatus() throws JsonGenerationException,
-			JsonMappingException, IOException {
+	public void updateTaskStatus() {
 
 		TaskStatusUpdateRequest taskStatusUpdateRequest = new TaskStatusUpdateRequest();
 
@@ -195,21 +179,20 @@ public class TaskEndpointTest extends BaseTest {
 
 		System.out.println("Client request updateTaskStatus.... \n");
 		System.out.println(toJsonString(taskStatusUpdateRequest, true));
-		ClientResponse response = sendRequest("/task/updateTaskStatus",
+		Response response = sendRequest("/task/updateTaskStatus",
 				taskStatusUpdateRequest);
 		if (response.getStatus() != 200) {
 			throw new RuntimeException("Failed : HTTP error code : "
 					+ response.getStatus());
 		}
-		String output = response.getEntity(String.class);
+		String output = response.readEntity(String.class);
 		System.out.println("Server response .... \n");
 		System.out.println(output);
 
 	}
 
 	@Test
-	public void addUpdateCommentToTask() throws JsonGenerationException,
-			JsonMappingException, IOException {
+	public void addUpdateCommentToTask() {
 
 		TaskCommentRequest taskCommentRequest = new TaskCommentRequest();
 
@@ -225,21 +208,19 @@ public class TaskEndpointTest extends BaseTest {
 
 		System.out.println("Client request addUpdateCommentToTask.... \n");
 		System.out.println(toJsonString(taskCommentRequest, true));
-		ClientResponse response = sendRequest("/task/addComment",
-				taskCommentRequest);
+		Response response = sendRequest("/task/addComment", taskCommentRequest);
 		if (response.getStatus() != 200) {
 			throw new RuntimeException("Failed : HTTP error code : "
 					+ response.getStatus());
 		}
-		String output = response.getEntity(String.class);
+		String output = response.readEntity(String.class);
 		System.out.println("Server response .... \n");
 		System.out.println(output);
 
 	}
 
 	@Test
-	public void addTaskMember() throws JsonGenerationException,
-			JsonMappingException, IOException {
+	public void addTaskMember() {
 
 		TaskMemberRequest taskMemberRequest = new TaskMemberRequest();
 
@@ -259,21 +240,20 @@ public class TaskEndpointTest extends BaseTest {
 
 		System.out.println("Client request addTaskMember.... \n");
 		System.out.println(toJsonString(taskMemberRequest, true));
-		ClientResponse response = sendRequest("/task/addTaskMember",
+		Response response = sendRequest("/task/addTaskMember",
 				taskMemberRequest);
 		if (response.getStatus() != 200) {
 			throw new RuntimeException("Failed : HTTP error code : "
 					+ response.getStatus());
 		}
-		String output = response.getEntity(String.class);
+		String output = response.readEntity(String.class);
 		System.out.println("Server response .... \n");
 		System.out.println(output);
 
 	}
 
 	@Test
-	public void saveTaskFile() throws JsonGenerationException,
-			JsonMappingException, IOException {
+	public void saveTaskFile() {
 
 		TaskFileSaveRequest taskFileSaveRequest = new TaskFileSaveRequest();
 
@@ -289,21 +269,20 @@ public class TaskEndpointTest extends BaseTest {
 
 		System.out.println("Client request saveTaskFile.... \n");
 		System.out.println(toJsonString(taskFileSaveRequest, true));
-		ClientResponse response = sendRequest("/task/saveTaskFile",
+		Response response = sendRequest("/task/saveTaskFile",
 				taskFileSaveRequest);
 		if (response.getStatus() != 200) {
 			throw new RuntimeException("Failed : HTTP error code : "
 					+ response.getStatus());
 		}
-		String output = response.getEntity(String.class);
+		String output = response.readEntity(String.class);
 		System.out.println("Server response .... \n");
 		System.out.println(output);
 
 	}
 
 	@Test
-	public void getTaskAttachments() throws JsonGenerationException,
-			JsonMappingException, IOException {
+	public void getTaskAttachments() {
 
 		TaskAttachmentRequest taskAttachmentRequest = new TaskAttachmentRequest();
 
@@ -316,20 +295,19 @@ public class TaskEndpointTest extends BaseTest {
 
 		System.out.println("Client request getTaskAttachments.... \n");
 		System.out.println(toJsonString(taskAttachmentRequest, true));
-		ClientResponse response = sendRequest("/task/getTaskAttachments",
+		Response response = sendRequest("/task/getTaskAttachments",
 				taskAttachmentRequest);
 		if (response.getStatus() != 200) {
 			throw new RuntimeException("Failed : HTTP error code : "
 					+ response.getStatus());
 		}
-		String output = response.getEntity(String.class);
+		String output = response.readEntity(String.class);
 		System.out.println("Server response .... \n");
 		System.out.println(output);
 	}
 
 	@Test
-	public void assignTaskToUser() throws JsonGenerationException,
-			JsonMappingException, IOException {
+	public void assignTaskToUser() {
 
 		TaskMemberRequest taskMemberRequest = new TaskMemberRequest();
 
@@ -347,21 +325,20 @@ public class TaskEndpointTest extends BaseTest {
 
 		System.out.println("Client request assignTaskToUser .... \n");
 		System.out.println(toJsonString(taskMemberRequest, true));
-		ClientResponse response = sendRequest("/task/assignUserToTask",
+		Response response = sendRequest("/task/assignUserToTask",
 				taskMemberRequest);
 		if (response.getStatus() != 200) {
 			throw new RuntimeException("Failed : HTTP error code : "
 					+ response.getStatus());
 		}
-		String output = response.getEntity(String.class);
+		String output = response.readEntity(String.class);
 		System.out.println("Server response .... \n");
 		System.out.println(output);
 
 	}
 
 	@Test
-	public void addDependentTask() throws JsonGenerationException,
-			JsonMappingException, IOException {
+	public void addDependentTask() {
 
 		DependentTaskRequest dependentTaskRequest = new DependentTaskRequest();
 
@@ -380,21 +357,20 @@ public class TaskEndpointTest extends BaseTest {
 
 		System.out.println("Client request addDependentTask .... \n");
 		System.out.println(toJsonString(dependentTaskRequest, true));
-		ClientResponse response = sendRequest("/task/addDependentTask",
+		Response response = sendRequest("/task/addDependentTask",
 				dependentTaskRequest);
 		if (response.getStatus() != 200) {
 			throw new RuntimeException("Failed : HTTP error code : "
 					+ response.getStatus());
 		}
-		String output = response.getEntity(String.class);
+		String output = response.readEntity(String.class);
 		System.out.println("Server response .... \n");
 		System.out.println(output);
 
 	}
 
 	@Test
-	public void getDependentTasks() throws JsonGenerationException,
-			JsonMappingException, IOException {
+	public void getDependentTasks() {
 
 		DependentTaskDetail dependentTaskDetail = new DependentTaskDetail();
 
@@ -407,21 +383,20 @@ public class TaskEndpointTest extends BaseTest {
 
 		System.out.println("Client request getDependentTasks .... \n");
 		System.out.println(toJsonString(dependentTaskDetail, true));
-		ClientResponse response = sendRequest("/task/getDependentTasks",
+		Response response = sendRequest("/task/getDependentTasks",
 				dependentTaskDetail);
 		if (response.getStatus() != 200) {
 			throw new RuntimeException("Failed : HTTP error code : "
 					+ response.getStatus());
 		}
-		String output = response.getEntity(String.class);
+		String output = response.readEntity(String.class);
 		System.out.println("Server response .... \n");
 		System.out.println(output);
 
 	}
 
 	@Test
-	public void getUserTasks() throws JsonGenerationException,
-			JsonMappingException, IOException {
+	public void getUserTasks() {
 
 		UserTask userTask = new UserTask();
 
@@ -434,12 +409,12 @@ public class TaskEndpointTest extends BaseTest {
 
 		System.out.println("Client request getUserTasks .... \n");
 		System.out.println(toJsonString(userTask, true));
-		ClientResponse response = sendRequest("/task/getUserTasks", userTask);
+		Response response = sendRequest("/task/getUserTasks", userTask);
 		if (response.getStatus() != 200) {
 			throw new RuntimeException("Failed : HTTP error code : "
 					+ response.getStatus());
 		}
-		String output = response.getEntity(String.class);
+		String output = response.readEntity(String.class);
 		System.out.println("Server response .... \n");
 		System.out.println(output);
 

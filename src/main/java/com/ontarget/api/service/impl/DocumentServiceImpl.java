@@ -21,7 +21,6 @@ import com.ontarget.bean.DocumentGridKeyValueDTO;
 import com.ontarget.bean.DocumentKeyValueDTO;
 import com.ontarget.bean.DocumentSubmittalDTO;
 import com.ontarget.bean.DocumentTemplateDTO;
-import com.ontarget.bean.UserDTO;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.AddDocumentAttachmentResponse;
 import com.ontarget.dto.AddDocumentResponse;
@@ -141,7 +140,7 @@ public class DocumentServiceImpl implements DocumentService {
 	public OnTargetResponse updateDocument(
 			UpdateDocumentRequest updateDocumentRequest) throws Exception {
 		try {
-			long documentId = updateDocumentRequest.getDocumentId();
+			int documentId = updateDocumentRequest.getDocumentId();
 
 			boolean updated = documentDAO.updateDueDate(
 					updateDocumentRequest.getDocumentId(),

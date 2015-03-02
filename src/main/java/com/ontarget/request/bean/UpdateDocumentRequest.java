@@ -1,9 +1,11 @@
 package com.ontarget.request.bean;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 import javax.annotation.Generated;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -14,18 +16,23 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({ "baseRequest", "keyValues", "gridKeyValues",
 		"submittedBy", "documentId", "projectId", "dueDate" })
 public class UpdateDocumentRequest {
+	@NotNull
+	@Valid
 	@JsonProperty("baseRequest")
 	private BaseRequest baseRequest;
+	@NotNull
 	@JsonProperty("keyValues")
 	private List<DocumentKeyValue> keyValues;
+	@NotNull
 	@JsonProperty("gridKeyValues")
 	private List<DocumentGridKeyValue> gridKeyValues;
-	@JsonProperty("projectId")
-	private Integer projectId;
+	@NotNull
 	@JsonProperty("documentId")
 	private Integer documentId;
+	@NotNull
 	@JsonProperty("dueDate")
 	private Date dueDate;
+	@NotNull
 	@JsonProperty("submittedBy")
 	private Integer submittedBy;
 
@@ -57,16 +64,6 @@ public class UpdateDocumentRequest {
 	@JsonProperty("gridKeyValues")
 	public void setGridKeyValues(List<DocumentGridKeyValue> gridKeyValues) {
 		this.gridKeyValues = gridKeyValues;
-	}
-
-	@JsonProperty("projectId")
-	public Integer getProjectId() {
-		return projectId;
-	}
-
-	@JsonProperty("projectId")
-	public void setProjectId(Integer projectId) {
-		this.projectId = projectId;
 	}
 
 	@JsonProperty("documentId")

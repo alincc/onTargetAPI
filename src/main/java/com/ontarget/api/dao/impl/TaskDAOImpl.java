@@ -174,7 +174,8 @@ public class TaskDAOImpl implements TaskDAO {
 		return keyHolder.getKey().intValue();
 	}
 
-	public int addDependentTask(DependentTaskDTO dependentTask) throws Exception {
+	public int addDependentTask(DependentTaskDTO dependentTask)
+			throws Exception {
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		jdbcTemplate.update(new PreparedStatementCreator() {
 			public PreparedStatement createPreparedStatement(
@@ -194,8 +195,7 @@ public class TaskDAOImpl implements TaskDAO {
 	}
 
 	@Override
-	public List<TaskDTO> getTask(int projectId, int completed)
-			throws Exception {
+	public List<TaskDTO> getTask(int projectId, int completed) throws Exception {
 		List<Map<String, Object>> taskList = jdbcTemplate.queryForList(
 				OnTargetQuery.GET_TASK_BY_PROJECT_BY_STATUS, new Object[] {
 						projectId, projectId, completed });
@@ -304,8 +304,8 @@ public class TaskDAOImpl implements TaskDAO {
 	}
 
 	@Override
-	public boolean updateTaskAssignee(int taskId, int userId,
-			int assigningUser) throws Exception {
+	public boolean updateTaskAssignee(int taskId, int userId, int assigningUser)
+			throws Exception {
 		int row = jdbcTemplate.update(OnTargetQuery.UPDATE_TASK_USER,
 				new Object[] { userId, assigningUser, taskId });
 		return row > 0;

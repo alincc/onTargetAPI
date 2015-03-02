@@ -6,7 +6,7 @@ import com.ontarget.bean.UserDTO;
 import com.ontarget.dto.UserRegistrationRequest;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.constant.OnTargetQuery;
-import com.ontarget.request.bean.SignInRequestBean;
+import com.ontarget.request.bean.SignInRequest;
 import com.ontarget.util.Security;
 import com.ontarget.util.TokenUtil;
 
@@ -156,7 +156,7 @@ public class AuthenticationDAOImpl implements AuthenticationDAO {
 	}
 
 	@Override
-	public UserDTO getUserSignInInfo(SignInRequestBean signInRequest) throws Exception {
+	public UserDTO getUserSignInInfo(SignInRequest signInRequest) throws Exception {
 		logger.info("Authenticating user: " + signInRequest);
 
 		final String password = signInRequest.getPassword();

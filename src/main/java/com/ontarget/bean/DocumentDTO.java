@@ -7,11 +7,11 @@ import java.util.List;
 public class DocumentDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private long documentId;
+	private int documentId;
 	private DocumentTemplateDTO documentTemplate;
 	private String name;
 	private String status;
-	private long projectId;
+	private int projectId;
 	private Date dueDate;
 	private int createdBy;
 	private int modifiedBy;
@@ -22,16 +22,16 @@ public class DocumentDTO implements Serializable {
 		super();
 	}
 
-	public DocumentDTO(long documentId) {
+	public DocumentDTO(int documentId) {
 		super();
 		this.documentId = documentId;
 	}
 
-	public long getDocumentId() {
+	public int getDocumentId() {
 		return documentId;
 	}
 
-	public void setDocumentId(long documentId) {
+	public void setDocumentId(int documentId) {
 		this.documentId = documentId;
 	}
 
@@ -75,11 +75,11 @@ public class DocumentDTO implements Serializable {
 		this.gridKeyValues = gridKeyValues;
 	}
 
-	public long getProjectId() {
+	public int getProjectId() {
 		return projectId;
 	}
 
-	public void setProjectId(long projectId) {
+	public void setProjectId(int projectId) {
 		this.projectId = projectId;
 	}
 

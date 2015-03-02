@@ -5,7 +5,7 @@ import com.ontarget.dto.UserRegistationApprovalResponse;
 import com.ontarget.dto.UserResponse;
 import com.ontarget.bean.UserDTO;
 import com.ontarget.dto.UserRegistrationRequest;
-import com.ontarget.request.bean.SignInRequestBean;
+import com.ontarget.request.bean.SignInRequest;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ import java.util.List;
  */
 public interface Authentication {
 
-	public UserResponse signIn(SignInRequestBean signInRequest);
+	public UserResponse signIn(SignInRequest signInRequest);
 
 	public OnTargetResponse registrationRequest(UserRegistrationRequest request);
 

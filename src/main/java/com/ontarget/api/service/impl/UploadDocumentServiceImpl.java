@@ -1,22 +1,21 @@
 package com.ontarget.api.service.impl;
 
-import com.ontarget.api.dao.ContactDAO;
-import com.ontarget.api.dao.UploadDocumentDAO;
-import com.ontarget.api.service.UploadDocumentService;
-import com.ontarget.bean.Contact;
-import com.ontarget.bean.UploadDocument;
-import com.ontarget.dto.UploadDocumentRequestDTO;
-import com.ontarget.dto.UploadedDocumentDetail;
-import com.ontarget.request.bean.UploadDocumentRequestBean;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.ontarget.api.dao.ContactDAO;
+import com.ontarget.api.dao.UploadDocumentDAO;
+import com.ontarget.api.service.UploadDocumentService;
+import com.ontarget.bean.Contact;
+import com.ontarget.bean.UploadDocument;
+import com.ontarget.dto.UploadedDocumentDetail;
+import com.ontarget.request.bean.UploadDocumentRequest;
 
 @Service
 public class UploadDocumentServiceImpl implements UploadDocumentService {
@@ -31,7 +30,7 @@ public class UploadDocumentServiceImpl implements UploadDocumentService {
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
-	public boolean saveUploadedDocsInfo(UploadDocumentRequestBean documentInfo)
+	public boolean saveUploadedDocsInfo(UploadDocumentRequest documentInfo)
 			throws Exception {
 		logger.info("service call initiated for document upload");
 		UploadDocument documentBean = new UploadDocument(documentInfo);
