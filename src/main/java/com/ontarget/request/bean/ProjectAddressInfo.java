@@ -16,6 +16,7 @@ public class ProjectAddressInfo {
 	@NotEmpty
 	@JsonProperty("address1")
 	private String address1;
+	@NotEmpty
 	@JsonProperty("address2")
 	private String address2;
 	@NotEmpty
@@ -32,8 +33,6 @@ public class ProjectAddressInfo {
 	private String zip;
 	@JsonProperty("addressId")
 	private Integer addressId;
-	@JsonProperty("addressType")
-	private String addressType;
 
 	/**
 	 * 
@@ -157,16 +156,6 @@ public class ProjectAddressInfo {
 	@JsonProperty("addressId")
 	public void setAddressId(Integer addressId) {
 		this.addressId = addressId;
-	}
-
-	@JsonProperty("addressType")
-	public String getAddressType() {
-		return addressType;
-	}
-
-	@JsonProperty("addressType")
-	public void setAddressType(String addressType) {
-		this.addressType = addressType;
 	}
 
 }

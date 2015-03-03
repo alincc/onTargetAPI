@@ -6,6 +6,8 @@ import javax.annotation.Generated;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -32,14 +34,19 @@ public class ProjectDetailInfo {
 	@NotNull
 	@JsonProperty("companyId")
 	private Integer companyId;
+	@NotEmpty
 	@JsonProperty("projectName")
 	private String projectName;
+	@NotEmpty
 	@JsonProperty("projectDescription")
 	private String projectDescription;
+	@NotEmpty
 	@JsonProperty("status")
 	private String status;
+	@NotNull
 	@JsonProperty("startDate")
 	private Date startDate;
+	@NotNull
 	@JsonProperty("endDate")
 	private Date endDate;
 

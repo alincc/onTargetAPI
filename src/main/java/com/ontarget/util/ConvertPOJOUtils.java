@@ -47,7 +47,6 @@ public class ConvertPOJOUtils {
 		addressDTO.setState(projectAddress.getState());
 		addressDTO.setZip(projectAddress.getZip());
 		addressDTO.setCountry(projectAddress.getCountry());
-		addressDTO.setAddressType(projectAddress.getAddressType());
 		addressDTO.setAddressId(projectAddress.getAddressId());
 		return addressDTO;
 	}

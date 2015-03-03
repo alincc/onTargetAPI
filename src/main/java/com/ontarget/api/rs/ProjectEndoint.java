@@ -17,17 +17,17 @@ public interface ProjectEndoint {
 	public OnTargetResponse addProject(@Valid ProjectRequest request);
 
 	public ProjectResponse getProjectDetail(
-			ProjectDetailRequest projectDetailRequest);
+			@Valid ProjectDetailRequest projectDetailRequest);
 
 	public com.ontarget.dto.ProjectListResponse getProjectByCompany(
-			ProjectCompanyRequest projectCompanyRequest);
+			@Valid ProjectCompanyRequest projectCompanyRequest);
 
 	public ListResponse<Company> getCompanyByProject(
-			ProjectDetailRequest projectDetailRequest);
+			@Valid ProjectDetailRequest projectDetailRequest);
 
 	public ProjectListResponse getProjectByUser(
-			ProjectUserRequest projectUserRequest);
+			@Valid ProjectUserRequest projectUserRequest);
 
 	public ProjectMemberListResponse getProjectMembers(
-			ProjectDetailRequest projectDetailRequest);
+			@Valid ProjectDetailRequest projectDetailRequest);
 }
