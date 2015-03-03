@@ -2,11 +2,14 @@ package com.ontarget.api.rs;
 
 import javax.validation.Valid;
 
-import com.ontarget.bean.Company;
-import com.ontarget.dto.*;
-import com.ontarget.request.bean.ProjectRequest;
+import com.ontarget.dto.CompanyListResponse;
+import com.ontarget.dto.OnTargetResponse;
+import com.ontarget.dto.ProjectListResponse;
+import com.ontarget.dto.ProjectMemberListResponse;
+import com.ontarget.dto.ProjectResponse;
 import com.ontarget.request.bean.ProjectCompanyRequest;
 import com.ontarget.request.bean.ProjectDetailRequest;
+import com.ontarget.request.bean.ProjectRequest;
 import com.ontarget.request.bean.ProjectUserRequest;
 
 /**
@@ -22,7 +25,7 @@ public interface ProjectEndoint {
 	public com.ontarget.dto.ProjectListResponse getProjectByCompany(
 			@Valid ProjectCompanyRequest projectCompanyRequest);
 
-	public ListResponse<Company> getCompanyByProject(
+	public CompanyListResponse getCompanyByProject(
 			@Valid ProjectDetailRequest projectDetailRequest);
 
 	public ProjectListResponse getProjectByUser(

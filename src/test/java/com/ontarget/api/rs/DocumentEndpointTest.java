@@ -8,13 +8,16 @@ import javax.ws.rs.core.Response;
 
 import org.junit.Test;
 
+import com.ontarget.request.bean.AddDocumentAttachment;
 import com.ontarget.request.bean.AddDocumentRequest;
 import com.ontarget.request.bean.Assignee;
 import com.ontarget.request.bean.BaseRequest;
+import com.ontarget.request.bean.DocumentDetail;
 import com.ontarget.request.bean.DocumentGridKeyValue;
 import com.ontarget.request.bean.DocumentKeyValue;
 import com.ontarget.request.bean.UpdateDocumentRequest;
 import com.ontarget.request.bean.UpdateDocumentStatus;
+import com.ontarget.request.bean.UserDocument;
 
 public class DocumentEndpointTest extends BaseTest {
 
@@ -133,9 +136,84 @@ public class DocumentEndpointTest extends BaseTest {
 		request.setModifiedBy(1);
 		request.setNewStatus("SUBMITTED");
 
-		System.out.println("Client request....status \n");
+		System.out.println("Client request.... \n");
 		System.out.println(toJsonString(request, true));
 		Response response = sendRequest("/documents/status", request);
+		if (response.getStatus() != 200) {
+			throw new RuntimeException("Failed : HTTP error code : "
+					+ response.getStatus());
+		}
+		String output = response.readEntity(String.class);
+		System.out.println("Server response .... \n");
+		System.out.println(output);
+
+	}
+
+	@Test
+	public void getDocuments() {
+
+		BaseRequest baseRequest = new BaseRequest();
+		baseRequest.setLoggedInUserId(1);
+		baseRequest.setLoggedInUserProjectId(1);
+
+		UserDocument request = new UserDocument();
+		request.setBaseRequest(baseRequest);
+		request.setProjectId(1);
+		request.setUsername("sanjeev@ontargetcloud.com");
+
+		System.out.println("Client request.... \n");
+		System.out.println(toJsonString(request, true));
+		Response response = sendRequest("/documents/getUserDocument", request);
+		if (response.getStatus() != 200) {
+			throw new RuntimeException("Failed : HTTP error code : "
+					+ response.getStatus());
+		}
+		String output = response.readEntity(String.class);
+		System.out.println("Server response .... \n");
+		System.out.println(output);
+
+	}
+
+	@Test
+	public void getDocument() {
+
+		BaseRequest baseRequest = new BaseRequest();
+		baseRequest.setLoggedInUserId(1);
+		baseRequest.setLoggedInUserProjectId(1);
+
+		DocumentDetail request = new DocumentDetail();
+		request.setBaseRequest(baseRequest);
+		request.setDcoumentId(139);
+
+		System.out.println("Client request.... \n");
+		System.out.println(toJsonString(request, true));
+		Response response = sendRequest("/documents/getDocument", request);
+		if (response.getStatus() != 200) {
+			throw new RuntimeException("Failed : HTTP error code : "
+					+ response.getStatus());
+		}
+		String output = response.readEntity(String.class);
+		System.out.println("Server response .... \n");
+		System.out.println(output);
+
+	}
+
+	@Test
+	public void addDocumentAttachment() {
+
+		BaseRequest baseRequest = new BaseRequest();
+		baseRequest.setLoggedInUserId(1);
+		baseRequest.setLoggedInUserProjectId(1);
+
+		AddDocumentAttachment request = new AddDocumentAttachment();
+		request.setBaseRequest(baseRequest);
+		request.setAddedBy(1);
+		request.setDocumentId(139);
+		request.setFilePath("/home/ontargetrs/sa.jpg");
+
+		System.out.println("Client request.... \n");
+		System.out.println(toJsonString(request, true));
+		Response response = sendPutRequest("/documents/attachments", request);
 		if (response.getStatus() != 200) {
 			throw new RuntimeException("Failed : HTTP error code : "
 					+ response.getStatus());

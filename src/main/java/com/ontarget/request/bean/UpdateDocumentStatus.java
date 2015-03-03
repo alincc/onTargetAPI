@@ -20,13 +20,13 @@ public class UpdateDocumentStatus {
 	private BaseRequest baseRequest;
 	@NotNull
 	@JsonProperty("documentId")
-	private int documentId;
+	private Integer documentId;
 	@NotEmpty
 	@JsonProperty("newStatus")
 	private String newStatus;
 	@NotNull
 	@JsonProperty("modifiedBy")
-	private int modifiedBy;
+	private Integer modifiedBy;
 
 	@JsonProperty("baseRequest")
 	public BaseRequest getBaseRequest() {
@@ -39,12 +39,12 @@ public class UpdateDocumentStatus {
 	}
 
 	@JsonProperty("documentId")
-	public int getDocumentId() {
+	public Integer getDocumentId() {
 		return documentId;
 	}
 
 	@JsonProperty("documentId")
-	public void setDocumentId(int documentId) {
+	public void setDocumentId(Integer documentId) {
 		this.documentId = documentId;
 	}
 
@@ -59,12 +59,12 @@ public class UpdateDocumentStatus {
 	}
 
 	@JsonProperty("modifiedBy")
-	public int getModifiedBy() {
+	public Integer getModifiedBy() {
 		return modifiedBy;
 	}
 
 	@JsonProperty("modifiedBy")
-	public void setModifiedBy(int modifiedBy) {
+	public void setModifiedBy(Integer modifiedBy) {
 		this.modifiedBy = modifiedBy;
 	}
 

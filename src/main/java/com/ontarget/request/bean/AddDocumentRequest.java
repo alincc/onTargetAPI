@@ -8,6 +8,8 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -23,6 +25,7 @@ public class AddDocumentRequest {
 	@JsonProperty("baseRequest")
 	private BaseRequest baseRequest;
 	@NotNull
+	@Size(min = 1)
 	@JsonProperty("keyValues")
 	private List<DocumentKeyValue> keyValues;
 	@Valid
@@ -30,7 +33,9 @@ public class AddDocumentRequest {
 	@Size(min = 1)
 	@JsonProperty("gridKeyValues")
 	private List<DocumentGridKeyValue> gridKeyValues;
+	@Valid
 	@NotNull
+	@Size(min = 1)
 	@JsonProperty("assignees")
 	private List<Assignee> assignees;
 	@NotNull
@@ -42,7 +47,7 @@ public class AddDocumentRequest {
 	@NotNull
 	@JsonProperty("projectId")
 	private Integer projectId;
-	@NotNull
+	@NotEmpty
 	@JsonProperty("documentName")
 	private String documentName;
 	@NotNull

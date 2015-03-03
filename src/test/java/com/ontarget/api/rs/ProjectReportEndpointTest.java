@@ -22,7 +22,7 @@ public class ProjectReportEndpointTest extends BaseTest {
 
 		System.out.println("Client request.... \n");
 		System.out.println(toJsonString(request, true));
-		Response response = sendPutRequest("/report/earnedValueReport", request);
+		Response response = sendRequest("/report/earnedValueReport", request);
 		if (response.getStatus() != 200) {
 			throw new RuntimeException("Failed : HTTP error code : "
 					+ response.getStatus());
@@ -46,7 +46,7 @@ public class ProjectReportEndpointTest extends BaseTest {
 
 		System.out.println("Client request.... \n");
 		System.out.println(toJsonString(request, true));
-		Response response = sendPutRequest("/report/bireport", request);
+		Response response = sendRequest("/report/bireport", request);
 		if (response.getStatus() != 200) {
 			throw new RuntimeException("Failed : HTTP error code : "
 					+ response.getStatus());

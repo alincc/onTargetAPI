@@ -23,7 +23,7 @@ public class UserInvitationRequest {
 	@JsonProperty("lastName")
 	private String lastName;
 	@NotEmpty
-	@Email(message = "must be valid email santosh")
+	@Email(message = "must be valid email")
 	@JsonProperty("email")
 	private String email;
 	@NotEmpty

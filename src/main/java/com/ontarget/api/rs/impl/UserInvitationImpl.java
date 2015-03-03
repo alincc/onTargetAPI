@@ -23,10 +23,9 @@ import com.ontarget.entity.pojo.RegistrationRequestResponseDTO;
 import com.ontarget.request.bean.UserInvitationRequest;
 import com.ontarget.util.ConvertPOJOUtils;
 import com.ontarget.util.Security;
-import com.ontarget.util.WSResourceKeyConstant;
 
 @Component
-@Path(WSResourceKeyConstant.ONTARGET_INVITATION)
+@Path("/onTargetInvitation")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class UserInvitationImpl implements UserInvitation {
@@ -40,7 +39,7 @@ public class UserInvitationImpl implements UserInvitation {
 
 	@Override
 	@POST
-	@Path(WSResourceKeyConstant.INVITE_TO_NEW_ACCOUNT)
+	@Path("/inviteToNewAccount")
 	public OnTargetResponse inviteUserIntoNewAccount(
 			UserInvitationRequest request) {
 
@@ -80,7 +79,7 @@ public class UserInvitationImpl implements UserInvitation {
 	}
 
 	@Override
-	@Path(WSResourceKeyConstant.PENDING_REGISTRATION_REQUEST)
+	@Path("/pendingRegistrationRequest")
 	@POST
 	public UserInvitationApprovalResponse getPendingRequestList() {
 		UserInvitationApprovalResponse response = new UserInvitationApprovalResponse();
@@ -101,7 +100,7 @@ public class UserInvitationImpl implements UserInvitation {
 
 	@Override
 	@POST
-	@Path(WSResourceKeyConstant.REGISTRATION_APPROVAL_REQUEST)
+	@Path("/approvalRequest")
 	public OnTargetResponse approveRequest(@QueryParam("id") int id) {
 		OnTargetResponse response = new OnTargetResponse();
 		try {
@@ -126,7 +125,7 @@ public class UserInvitationImpl implements UserInvitation {
 
 	@Override
 	@GET
-	@Path(WSResourceKeyConstant.VALIDATE_LINK_REQUEST)
+	@Path("/validateLink")
 	public OnTargetResponse verifyToken(@QueryParam("q") String token) {
 		OnTargetResponse response = new OnTargetResponse();
 		try {

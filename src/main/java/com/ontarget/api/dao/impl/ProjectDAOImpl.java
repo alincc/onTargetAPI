@@ -175,6 +175,8 @@ public class ProjectDAOImpl implements ProjectDAO {
 		List<Map<String, Object>> rs = jdbcTemplate.queryForList(
 				OnTargetQuery.GET_COMPANY_BY_PROJECT,
 				new Object[] { projectId });
+		logger.info("project id:: " + projectId);
+
 		List<Company> companies = new ArrayList<>();
 		if (rs != null && rs.size() > 0) {
 			for (Map<String, Object> map : rs) {

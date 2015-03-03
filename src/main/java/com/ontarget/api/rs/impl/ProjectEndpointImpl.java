@@ -13,9 +13,8 @@ import org.springframework.stereotype.Component;
 import com.ontarget.api.rs.ProjectEndoint;
 import com.ontarget.api.service.ProjectService;
 import com.ontarget.api.service.UserProfileService;
-import com.ontarget.bean.Company;
 import com.ontarget.constant.OnTargetConstant;
-import com.ontarget.dto.ListResponse;
+import com.ontarget.dto.CompanyListResponse;
 import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.ProjectListResponse;
 import com.ontarget.dto.ProjectMemberListResponse;
@@ -134,15 +133,16 @@ public class ProjectEndpointImpl implements ProjectEndoint {
 	@Override
 	@POST
 	@Path("/getCompanyByProject")
-	public ListResponse<Company> getCompanyByProject(
+	public CompanyListResponse getCompanyByProject(
 			ProjectDetailRequest projectDetailRequest) {
-		ListResponse<Company> response = new ListResponse<>();
+		CompanyListResponse response = new CompanyListResponse();
 		try {
-			response.setList(projectService
+			response.setCompanyList(projectService
 					.getCompanyByProject(projectDetailRequest.getProjectId()));
 			response.setReturnVal(OnTargetConstant.SUCCESS);
 			response.setReturnMessage("Successfully retrieved company by project");
 		} catch (Exception e) {
+			e.printStackTrace();
 			logger.error("Error while getting company by project", e);
 			response.setReturnMessage("Error while getting company by project");
 			response.setReturnVal(OnTargetConstant.ERROR);

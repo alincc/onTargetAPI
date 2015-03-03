@@ -6,6 +6,7 @@ import java.util.List;
 import javax.annotation.Generated;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -20,10 +21,14 @@ public class UpdateDocumentRequest {
 	@Valid
 	@JsonProperty("baseRequest")
 	private BaseRequest baseRequest;
+	@Valid
 	@NotNull
+	@Size(min = 1)
 	@JsonProperty("keyValues")
 	private List<DocumentKeyValue> keyValues;
+	@Valid
 	@NotNull
+	@Size(min = 1)
 	@JsonProperty("gridKeyValues")
 	private List<DocumentGridKeyValue> gridKeyValues;
 	@NotNull

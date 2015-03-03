@@ -20,12 +20,12 @@ public class AddDocumentAttachment {
 	private BaseRequest baseRequest;
 	@NotNull
 	@JsonProperty("documentId")
-	private int documentId;
+	private Integer documentId;
 	@NotEmpty
 	@JsonProperty("filePath")
 	private String filePath;
 	@JsonProperty("addedBy")
-	private int addedBy;
+	private Integer addedBy;
 
 	@JsonProperty("baseRequest")
 	public BaseRequest getBaseRequest() {
@@ -38,12 +38,12 @@ public class AddDocumentAttachment {
 	}
 
 	@JsonProperty("documentId")
-	public int getDocumentId() {
+	public Integer getDocumentId() {
 		return documentId;
 	}
 
 	@JsonProperty("documentId")
-	public void setDocumentId(int documentId) {
+	public void setDocumentId(Integer documentId) {
 		this.documentId = documentId;
 	}
 
@@ -58,12 +58,12 @@ public class AddDocumentAttachment {
 	}
 
 	@JsonProperty("addedBy")
-	public int getAddedBy() {
+	public Integer getAddedBy() {
 		return addedBy;
 	}
 
 	@JsonProperty("addedBy")
-	public void setAddedBy(int addedBy) {
+	public void setAddedBy(Integer addedBy) {
 		this.addedBy = addedBy;
 	}
 

@@ -32,4 +32,45 @@ public class UserInvitationTest extends BaseTest {
 		System.out.println(output);
 	}
 
+	@Test
+	public void getPendingRequestList() {
+		System.out.println("Client request.... \n");
+		Response response = sendRequest(
+				"/onTargetInvitation/pendingRegistrationRequest", "");
+		if (response.getStatus() != 200) {
+			throw new RuntimeException("Failed : HTTP error code : "
+					+ response.getStatus());
+		}
+		String output = response.readEntity(String.class);
+		System.out.println("Server response .... \n");
+		System.out.println(output);
+	}
+
+	@Test
+	public void approveRequest() {
+		System.out.println("Client request.... \n");
+		Response response = sendRequest(
+				"/onTargetInvitation/approvalRequest?id=1", "");
+		if (response.getStatus() != 200) {
+			throw new RuntimeException("Failed : HTTP error code : "
+					+ response.getStatus());
+		}
+		String output = response.readEntity(String.class);
+		System.out.println("Server response .... \n");
+		System.out.println(output);
+	}
+
+	@Test
+	public void verifyToken() {
+		System.out.println("Client request.... \n");
+		Response response = getRequest("/onTargetInvitation/validateLink?q=289491604971351964613053906223968544910802334885836803590542");
+		if (response.getStatus() != 200) {
+			throw new RuntimeException("Failed : HTTP error code : "
+					+ response.getStatus());
+		}
+		String output = response.readEntity(String.class);
+		System.out.println("Server response .... \n");
+		System.out.println(output);
+	}
+
 }
