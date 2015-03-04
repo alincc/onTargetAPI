@@ -1,5 +1,6 @@
 package com.ontarget.api.rs.impl;
 
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -10,6 +11,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import org.apache.log4j.Logger;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -144,7 +146,8 @@ public class UserRegistrationImpl implements
 	@Override
 	@GET
 	@Path("/validateLink")
-	public UserInviteResponse validateLink(@QueryParam("q") String link) {
+	public UserInviteResponse validateLink(
+			@NotEmpty @QueryParam("q") String link) {
 		UserInviteResponse response = new UserInviteResponse();
 		if (link == null || link.isEmpty()) {
 			response.setReturnMessage("No link specified");
@@ -189,8 +192,7 @@ public class UserRegistrationImpl implements
 	@Override
 	@POST
 	@Path("/createUser")
-	public OnTargetResponse createNewUser(
-			UserRegistrationInfo request) {
+	public OnTargetResponse createNewUser(UserRegistrationInfo request) {
 		logger.info("Adding new user: " + request);
 		OnTargetResponse response = new OnTargetResponse();
 		try {
@@ -215,7 +217,8 @@ public class UserRegistrationImpl implements
 	@Override
 	@GET
 	@Path("/activateAccount/{userId}")
-	public OnTargetResponse activateAccount(@PathParam("userId") int userId) {
+	public OnTargetResponse activateAccount(
+			@NotNull @PathParam("userId") Integer userId) {
 		OnTargetResponse response = new OnTargetResponse();
 		try {
 			if (userProfileService.activateAccount(userId)) {
