@@ -1,16 +1,7 @@
 package com.ontarget.api.service.impl;
 
-import com.ontarget.api.dao.*;
-import com.ontarget.api.service.EmailService;
-import com.ontarget.api.service.UserProfileService;
-import com.ontarget.bean.*;
-import com.ontarget.constant.OnTargetConstant;
-import com.ontarget.dto.OnTargetResponse;
-import com.ontarget.dto.UserImageRequest;
-import com.ontarget.dto.UserProfileRequest;
-import com.ontarget.dto.UserProfileResponse;
-import com.ontarget.request.bean.UserRegistrationRequest;
-import com.ontarget.util.Security;
+import java.util.Map;
+import java.util.Random;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +9,28 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Map;
-import java.util.Random;
+import com.ontarget.api.dao.AuthenticationDAO;
+import com.ontarget.api.dao.CompanyDAO;
+import com.ontarget.api.dao.ContactDAO;
+import com.ontarget.api.dao.PhoneDAO;
+import com.ontarget.api.dao.ProjectDAO;
+import com.ontarget.api.dao.UserDAO;
+import com.ontarget.api.dao.UserRegistrationDAO;
+import com.ontarget.api.dao.UserSafetyInfoDAO;
+import com.ontarget.api.service.EmailService;
+import com.ontarget.api.service.UserProfileService;
+import com.ontarget.bean.Company;
+import com.ontarget.bean.Contact;
+import com.ontarget.bean.ContactPhone;
+import com.ontarget.bean.UserDTO;
+import com.ontarget.bean.UserRegistration;
+import com.ontarget.constant.OnTargetConstant;
+import com.ontarget.dto.OnTargetResponse;
+import com.ontarget.dto.UserImageRequest;
+import com.ontarget.dto.UserProfileRequest;
+import com.ontarget.dto.UserProfileResponse;
+import com.ontarget.request.bean.UserRegistrationInfo;
+import com.ontarget.util.Security;
 
 /**
  * Created by Owner on 11/4/14.
@@ -229,11 +240,11 @@ public class UserProfileServiceImpl implements UserProfileService {
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
-	public boolean createNewUserFromInvitation(
-			UserRegistrationRequest registration) throws Exception {
+	public boolean createNewUserFromInvitation(UserRegistrationInfo registration)
+			throws Exception {
 		// get token info and create user based on the status: ACCT_NEW or
 		// ACCT_INVITE
-		UserRegistration registrationFromDB = userRegistrationDAO
+		UserRegistration registrationFrom = userRegistrationDAO
 				.getInvitationRegistration(registration.getRegistrationToken());
 		int userId = generateUserId();
 		boolean flag = false;
@@ -242,7 +253,7 @@ public class UserProfileServiceImpl implements UserProfileService {
 			t++;
 			try {
 				userRegistrationDAO.createNewuser(registration,
-						registrationFromDB.getStatus(), userId);
+						registrationFrom.getStatus(), userId);
 			} catch (DuplicateKeyException e) {
 				flag = true; // re run it
 				logger.info("duplicate key ", e);

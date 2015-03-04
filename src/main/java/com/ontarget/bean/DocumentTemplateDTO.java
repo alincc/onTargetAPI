@@ -1,7 +1,7 @@
 package com.ontarget.bean;
 
 
-public class DocumentTemplateDTO extends BaseBean {
+public class DocumentTemplateDTO extends BaseBean{
 	private static final long serialVersionUID = 1L;
 	
 	private long documentTemplateId;

@@ -9,14 +9,14 @@ import java.util.List;
  */
 public class TaskDTO implements Serializable {
 
-	private int projectTaskId;
+	private Integer projectTaskId;
 	private String title;
 	private String description;
 	private String status;
 	private String severity;
-	private double cost;
-	private int numberOfWorkers;
-	private int percentageComplete;
+	private Double cost;
+	private Integer numberOfWorkers;
+	private Integer percentageComplete;
 	private String startDateText;
 	private String endDateText;
 
@@ -48,6 +48,50 @@ public class TaskDTO implements Serializable {
 
 	public void setEndDateText(String endDateText) {
 		this.endDateText = endDateText;
+	}
+
+	public Double getCost() {
+		return cost;
+	}
+
+	public void setCost(Double cost) {
+		this.cost = cost;
+	}
+
+	public Integer getNumberOfWorkers() {
+		return numberOfWorkers;
+	}
+
+	public void setNumberOfWorkers(Integer numberOfWorkers) {
+		this.numberOfWorkers = numberOfWorkers;
+	}
+
+	public Integer getPercentageComplete() {
+		return percentageComplete;
+	}
+
+	public void setPercentageComplete(Integer percentageComplete) {
+		this.percentageComplete = percentageComplete;
+	}
+
+	public boolean getCompleted() {
+		return completed;
+	}
+
+	public void setCompleted(boolean completed) {
+		this.completed = completed;
+	}
+
+	public List<UserDTO> getAssignee() {
+		return assignee;
+	}
+
+	public void setAssignee(List<UserDTO> assignee) {
+		this.assignee = assignee;
+	}
+
+	public void setProjectTaskId(Integer projectTaskId) {
+		this.projectTaskId = projectTaskId;
 	}
 
 	private List<TaskEstimatedCostByMonthYear> costsByMonthYear;
@@ -100,30 +144,6 @@ public class TaskDTO implements Serializable {
 		this.severity = severity;
 	}
 
-	public double getCost() {
-		return cost;
-	}
-
-	public void setCost(double cost) {
-		this.cost = cost;
-	}
-
-	public int getNumberOfWorkers() {
-		return numberOfWorkers;
-	}
-
-	public void setNumberOfWorkers(int numberOfWorkers) {
-		this.numberOfWorkers = numberOfWorkers;
-	}
-
-	public int getPercentageComplete() {
-		return percentageComplete;
-	}
-
-	public void setPercentageComplete(int percentageComplete) {
-		this.percentageComplete = percentageComplete;
-	}
-
 	public TaskDTO() {
 	}
 
@@ -157,14 +177,6 @@ public class TaskDTO implements Serializable {
 
 	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
-	}
-
-	public boolean getCompleted() {
-		return completed;
-	}
-
-	public void setCompleted(boolean completed) {
-		this.completed = completed;
 	}
 
 	public List<TaskComment> getComments() {
@@ -258,11 +270,4 @@ public class TaskDTO implements Serializable {
 				+ ", costsByMonthYear=" + costsByMonthYear + '}';
 	}
 
-	public List<UserDTO> getAssignee() {
-		return assignee;
-	}
-
-	public void setAssignee(List<UserDTO> assignee) {
-		this.assignee = assignee;
-	}
 }

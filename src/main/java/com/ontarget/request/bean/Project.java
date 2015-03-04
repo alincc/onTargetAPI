@@ -1,14 +1,10 @@
 package com.ontarget.request.bean;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.sql.Date;
 
 import javax.annotation.Generated;
+import javax.validation.constraints.NotNull;
 
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -17,11 +13,13 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({ "projectId", "startDate", "endDate" })
 public class Project {
-
+	@NotNull
 	@JsonProperty("projectId")
 	private Integer projectId;
+	@NotNull
 	@JsonProperty("startDate")
 	private Date startDate;
+	@NotNull
 	@JsonProperty("endDate")
 	private Date endDate;
 

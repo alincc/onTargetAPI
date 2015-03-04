@@ -1,11 +1,16 @@
 package com.ontarget.api.dao.impl;
 
-import com.ontarget.api.dao.TaskDAO;
-import com.ontarget.bean.*;
-import com.ontarget.constant.OnTargetQuery;
-import com.ontarget.request.bean.ParentTask;
-import com.ontarget.request.bean.Task;
-import com.ontarget.request.bean.TaskCommentRequest;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +21,19 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.*;
+import com.ontarget.api.dao.TaskDAO;
+import com.ontarget.bean.DependentTaskDTO;
+import com.ontarget.bean.ProjectDTO;
+import com.ontarget.bean.TaskComment;
+import com.ontarget.bean.TaskDTO;
+import com.ontarget.bean.TaskStatusCount;
+import com.ontarget.bean.UserDTO;
+import com.ontarget.constant.OnTargetQuery;
+import com.ontarget.dto.ProjectTask;
+import com.ontarget.request.bean.ParentTask;
+import com.ontarget.request.bean.ProjectTaskRequest;
+import com.ontarget.request.bean.Task;
+import com.ontarget.request.bean.TaskCommentRequest;
 
 /**
  * Created by Owner on 11/6/14.
@@ -37,6 +50,7 @@ public class TaskDAOImpl implements TaskDAO {
 	public int addTask(Task task, int userId) throws Exception {
 
 		logger.info("Adding address: " + task);
+
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		jdbcTemplate.update(new PreparedStatementCreator() {
 			public PreparedStatement createPreparedStatement(
@@ -51,8 +65,8 @@ public class TaskDAOImpl implements TaskDAO {
 				ps.setInt(4, 0);
 				ps.setString(5, task.getStatus());
 				ps.setString(6, task.getSeverity());
-				ps.setDate(7, new java.sql.Date(task.getStartDate().getTime()));
-				ps.setDate(8, new java.sql.Date(task.getEndDate().getTime()));
+				ps.setDate(7, task.getStartDate());
+				ps.setDate(8, task.getEndDate());
 
 				ps.setInt(9, userId);
 				ps.setInt(10, userId);
@@ -94,13 +108,42 @@ public class TaskDAOImpl implements TaskDAO {
 		return tasks;
 	}
 
-	public List<TaskDTO> getChildTasks(int taskId) throws Exception {
+	@Override
+	public List<ProjectTask> getTasksByProject(int projectId) throws Exception {
 		List<Map<String, Object>> taskList = jdbcTemplate.queryForList(
-				OnTargetQuery.GET_CHILD_TASKS, new Object[] { taskId });
-		List<TaskDTO> tasks = new ArrayList<>();
+				OnTargetQuery.GET_PROJECT_TASK, new Object[] { projectId });
+		List<ProjectTask> tasks = new ArrayList<>();
 		if (taskList != null && taskList.size() > 0) {
 			for (Map<String, Object> taskMap : taskList) {
-				TaskDTO task = new TaskDTO();
+				ProjectTask task = new ProjectTask();
+				task.setTitle((String) taskMap.get("title"));
+				task.setDescription((String) taskMap.get("description"));
+				task.setStatus((String) taskMap.get("status"));
+				task.setSeverity((String) taskMap.get("severity"));
+				task.setProjectTaskId((Integer) taskMap.get("project_task_id"));
+				task.setStartDate((Date) taskMap.get("start_date"));
+				task.setEndDate((Date) taskMap.get("end_date"));
+				task.setStatus((String) taskMap.get("status"));
+
+				long status = (Long) taskMap.get("completed");
+				if (status == 0) {
+					task.setCompleted(false);
+				} else {
+					task.setCompleted(true);
+				}
+				tasks.add(task);
+			}
+		}
+		return tasks;
+	}
+
+	public List<ProjectTask> getChildTasks(int taskId) throws Exception {
+		List<Map<String, Object>> taskList = jdbcTemplate.queryForList(
+				OnTargetQuery.GET_CHILD_TASKS, new Object[] { taskId });
+		List<ProjectTask> tasks = new ArrayList<>();
+		if (taskList != null && taskList.size() > 0) {
+			for (Map<String, Object> taskMap : taskList) {
+				ProjectTask task = new ProjectTask();
 				task.setTitle((String) taskMap.get("title"));
 				task.setDescription((String) taskMap.get("description"));
 				task.setStatus((String) taskMap.get("status"));
@@ -328,7 +371,7 @@ public class TaskDAOImpl implements TaskDAO {
 	}
 
 	@Override
-	public TaskDTO getTaskDetail(int taskId) throws Exception {
+	public TaskDTO getTaskInfo(int taskId) throws Exception {
 		TaskDTO task = new TaskDTO();
 		jdbcTemplate.query(OnTargetQuery.GET_TASK, new Object[] { taskId },
 				new RowMapper<Void>() {
@@ -352,16 +395,42 @@ public class TaskDAOImpl implements TaskDAO {
 
 		return task;
 	}
+	
+	
+	@Override
+	public ProjectTask getTaskDetail(int taskId) throws Exception {
+		ProjectTask task = new ProjectTask();
+		jdbcTemplate.query(OnTargetQuery.GET_TASK, new Object[] { taskId },
+				new RowMapper<Void>() {
+					@Override
+					public Void mapRow(ResultSet resultSet, int i)
+							throws SQLException {
+						task.setProjectTaskId(resultSet
+								.getInt("project_task_id"));
+						ProjectTask project = new ProjectTask();
+						task.setTitle(resultSet.getString("title"));
+						task.setStatus(resultSet.getString("status"));
+						task.setStartDate(resultSet.getDate("start_date"));
+						task.setEndDate(resultSet.getDate("end_date"));
+						task.setDescription(resultSet.getString("description"));
+						task.setSeverity(resultSet.getString("severity"));
+						return null;
+					}
+				});
+
+		return task;
+	}
+
 
 	@Override
-	public List<TaskDTO> getDependentTasks(int taskId) throws Exception {
-		List<TaskDTO> tasks = new LinkedList<>();
+	public List<ProjectTask> getDependentTasks(int taskId) throws Exception {
+		List<ProjectTask> tasks = new LinkedList<>();
 		jdbcTemplate.query(OnTargetQuery.DependentTask.GET_DEPENDENT_TASK,
 				new Object[] { taskId }, new RowMapper<Void>() {
 					@Override
 					public Void mapRow(ResultSet resultSet, int i)
 							throws SQLException {
-						TaskDTO task = new TaskDTO();
+						ProjectTask task = new ProjectTask();
 						task.setProjectTaskId(resultSet
 								.getInt("project_task_id"));
 						task.setTitle(resultSet.getString("title"));
@@ -380,14 +449,14 @@ public class TaskDAOImpl implements TaskDAO {
 	}
 
 	@Override
-	public List<TaskDTO> getUserTasks(int userId) throws Exception {
-		List<TaskDTO> tasks = new LinkedList<>();
+	public List<ProjectTask> getUserTasks(int userId) throws Exception {
+		List<ProjectTask> tasks = new LinkedList<>();
 		jdbcTemplate.query(OnTargetQuery.GET_USER_TASKS,
 				new Object[] { userId }, new RowMapper<Void>() {
 					@Override
 					public Void mapRow(ResultSet resultSet, int i)
 							throws SQLException {
-						TaskDTO task = new TaskDTO();
+						ProjectTask task = new ProjectTask();
 						task.setProjectTaskId(resultSet
 								.getInt("project_task_id"));
 						task.setTitle(resultSet.getString("title"));

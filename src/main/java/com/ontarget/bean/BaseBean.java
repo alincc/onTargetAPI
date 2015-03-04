@@ -3,9 +3,7 @@ package com.ontarget.bean;
 import java.io.Serializable;
 import java.util.Date;
 
-import com.ontarget.dto.BaseRequestDTO;
-
-public class BaseBean extends BaseRequestDTO implements Serializable {
+public class BaseBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	protected UserDTO createdBy;

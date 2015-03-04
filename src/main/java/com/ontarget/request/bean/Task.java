@@ -3,6 +3,10 @@ package com.ontarget.request.bean;
 import java.sql.Date;
 
 import javax.annotation.Generated;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -14,29 +18,40 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 		"severity", "percentageComplete", "startDateText", "endDateText",
 		"startDate", "endDate", "project", "parentTask" })
 public class Task {
-
+	@NotNull
 	@JsonProperty("projectTaskId")
 	private Integer projectTaskId;
+	@NotEmpty
 	@JsonProperty("title")
 	private String title;
+	@NotEmpty
 	@JsonProperty("description")
 	private String description;
+	@NotEmpty
 	@JsonProperty("status")
 	private String status;
+	@NotEmpty
 	@JsonProperty("severity")
 	private String severity;
+	@NotNull
 	@JsonProperty("percentageComplete")
 	private Integer percentageComplete;
 	@JsonProperty("startDateText")
 	private String startDateText;
 	@JsonProperty("endDateText")
 	private String endDateText;
+	@NotNull
 	@JsonProperty("startDate")
 	private Date startDate;
+	@NotNull
 	@JsonProperty("endDate")
 	private Date endDate;
+	@NotNull
+	@Valid
 	@JsonProperty("project")
 	private Project project;
+	@NotNull
+	@Valid
 	@JsonProperty("parentTask")
 	private ParentTask parentTask;
 

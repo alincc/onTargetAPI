@@ -23,138 +23,157 @@ import java.util.*;
 @Service
 public class TaskBudgetServiceImpl implements TaskBudgetService {
 
-    private Logger logger = Logger.getLogger(TaskBudgetServiceImpl.class);
+	private Logger logger = Logger.getLogger(TaskBudgetServiceImpl.class);
 
-    @Autowired
-    private TaskBudgetDAO taskBudgetDAO;
+	@Autowired
+	private TaskBudgetDAO taskBudgetDAO;
 
-    @Autowired
-    private TaskEstimatedCostDAO taskPlannedEstimatedCostDAO;
+	@Autowired
+	private TaskEstimatedCostDAO taskPlannedEstimatedCostDAO;
 
-    @Autowired
-    TaskDAO taskDAO;
+	@Autowired
+	TaskDAO taskDAO;
 
+	@Override
+	public List<TaskInterval> getTaskIntervals(int projectId) throws Exception {
+		logger.info("Getting yearly intervals of task for " + projectId);
+		Map<String, Object> taskIntervalMap = taskBudgetDAO
+				.getMinStartMaxEndDate(projectId,
+						OnTargetConstant.CostType.PLANNED);
+		List<TaskInterval> taskIntervals = new ArrayList<>();
+		if (!taskIntervalMap.isEmpty()) {
 
-    @Override
-    public List<TaskInterval> getTaskIntervals(int projectId) throws Exception {
-        logger.info("Getting yearly intervals of task for " + projectId);
-        Map<String, Object> taskIntervalMap = taskBudgetDAO.getMinStartMaxEndDate(projectId, OnTargetConstant.CostType.PLANNED);
-        List<TaskInterval> taskIntervals = new ArrayList<>();
-        if (!taskIntervalMap.isEmpty()) {
+			Date minDate = (Date) taskIntervalMap.get("min_date");
+			Date maxDate = (Date) taskIntervalMap.get("max_date");
 
-            Date minDate = (Date) taskIntervalMap.get("min_date");
-            Date maxDate = (Date) taskIntervalMap.get("max_date");
+			int minYear = 0;
+			int maxYear = 0;
+			if (minDate != null) {
+				Calendar cal = Calendar.getInstance();
+				cal.setTime(minDate);
+				minYear = cal.get(Calendar.YEAR);
+			}
 
-            int minYear = 0;
-            int maxYear = 0;
-            if (minDate != null) {
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(minDate);
-                minYear = cal.get(Calendar.YEAR);
-            }
+			if (maxDate != null) {
+				Calendar cal = Calendar.getInstance();
+				cal.setTime(maxDate);
+				minYear = cal.get(Calendar.YEAR);
+			}
 
-            if (maxDate != null) {
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(maxDate);
-                minYear = cal.get(Calendar.YEAR);
-            }
+			for (int i = minYear; i <= maxYear; i++) {
+				TaskInterval taskInterval = new TaskInterval();
+				taskInterval.setYear(i);
+				taskIntervals.add(taskInterval);
+			}
+		}
+		return taskIntervals;
+	}
 
-            for (int i = minYear; i <= maxYear; i++) {
-                TaskInterval taskInterval = new TaskInterval();
-                taskInterval.setYear(i);
-                taskIntervals.add(taskInterval);
-            }
-        }
-        return taskIntervals;
-    }
+	@Override
+	public Map<TaskDTO, List<TaskEstimatedCost>> getTaskCostByMonthAndYear(
+			int projectId) throws Exception {
+		logger.debug("Getting task cost by month and year for project: "
+				+ projectId);
+		return taskBudgetDAO.getTaskToCostMap(projectId,
+				OnTargetConstant.CostType.PLANNED);
+	}
 
-    @Override
-    public Map<TaskDTO, List<TaskEstimatedCost>> getTaskCostByMonthAndYear(int projectId) throws Exception {
-        logger.debug("Getting task cost by month and year for project: " + projectId);
-        return taskBudgetDAO.getTaskToCostMap(projectId, OnTargetConstant.CostType.PLANNED);
-    }
+	@Override
+	public boolean addTaskBudget(List<TaskEstimatedCost> costs)
+			throws Exception {
+		logger.debug("Adding task budget: " + costs);
+		if (costs != null && costs.size() > 0) {
+			for (TaskEstimatedCost taskEstimatedCost : costs) {
+				if (taskEstimatedCost.getId() > 0) {
+					boolean updated = taskPlannedEstimatedCostDAO
+							.updatePlannedActualCost(taskEstimatedCost);
+					if (!updated) {
+						throw new Exception(
+								"Error while updating task budget by month"
+										+ taskEstimatedCost);
+					}
+				} else {
+					int id = taskPlannedEstimatedCostDAO
+							.addPlannedAcutalCost(taskEstimatedCost);
+					if (id <= 0) {
+						throw new Exception(
+								"Error while adding task budget by month"
+										+ taskEstimatedCost);
+					}
+				}
+			}
+		}
+		return true;
+	}
 
-    @Override
-    public boolean addTaskBudget(List<TaskEstimatedCost> costs) throws Exception {
-        logger.debug("Adding task budget: " + costs);
-        if (costs != null && costs.size() > 0) {
-            for (TaskEstimatedCost taskEstimatedCost : costs) {
-                if (taskEstimatedCost.getId() > 0) {
-                    boolean updated = taskPlannedEstimatedCostDAO.updatePlannedActualCost(taskEstimatedCost);
-                    if (!updated) {
-                        throw new Exception("Error while updating task budget by month" + taskEstimatedCost);
-                    }
-                } else {
-                    int id = taskPlannedEstimatedCostDAO.addPlannedAcutalCost(taskEstimatedCost);
-                    if (id <= 0) {
-                        throw new Exception("Error while adding task budget by month" + taskEstimatedCost);
-                    }
-                }
-            }
-        }
-        return true;
-    }
+	@Override
+	public boolean updateTaskBudget(List<TaskEstimatedCost> costs)
+			throws Exception {
+		logger.debug("Updating task budget: " + costs);
+		if (costs != null && costs.size() > 0) {
+			for (TaskEstimatedCost taskEstimatedCost : costs) {
+				boolean updated = taskPlannedEstimatedCostDAO
+						.updatePlannedActualCost(taskEstimatedCost);
+				if (!updated) {
+					throw new Exception(
+							"Error while updating task budget by month"
+									+ taskEstimatedCost);
+				}
+			}
+		}
 
-    @Override
-    public boolean updateTaskBudget(List<TaskEstimatedCost> costs) throws Exception {
-        logger.debug("Updating task budget: " + costs);
-        if (costs != null && costs.size() > 0) {
-            for (TaskEstimatedCost taskEstimatedCost : costs) {
-                boolean updated = taskPlannedEstimatedCostDAO.updatePlannedActualCost(taskEstimatedCost);
-                if (!updated) {
-                    throw new Exception("Error while updating task budget by month" + taskEstimatedCost);
-                }
-            }
-        }
+		return true;
+	}
 
-        return true;
-    }
+	@Override
+	public TaskDTO getTaskBudgetByTask(int taskId) throws Exception {
+		logger.debug("Getting list of task budget for task: " + taskId);
+		TaskDTO task = taskDAO.getTaskInfo(taskId);
+		return taskBudgetDAO.getTaskCostByTask(task);
+	}
 
-    @Override
-    public TaskDTO getTaskBudgetByTask(int taskId) throws Exception {
-        logger.debug("Getting list of task budget for task: " + taskId);
-        TaskDTO task = taskDAO.getTaskDetail(taskId);
-        return taskBudgetDAO.getTaskCostByTask(task);
-    }
+	@Override
+	public TaskDTO getTaskBudgetByTaskAndMonthYear(int taskId)
+			throws NoTaskFoundException, Exception {
+		logger.debug("Getting list of task budget for task differentiated by month year: "
+				+ taskId);
 
-    @Override
-    public TaskDTO getTaskBudgetByTaskAndMonthYear(int taskId) throws NoTaskFoundException, Exception {
-        logger.debug("Getting list of task budget for task differentiated by month year: " + taskId);
+		TaskDTO task = taskDAO.getTaskInfo(taskId);
 
-        TaskDTO task = taskDAO.getTaskDetail(taskId);
+		if (task == null || task.getProjectTaskId() == 0) {
+			throw new NoTaskFoundException("Task Does not exist with id "
+					+ taskId);
+		}
 
-        if (task == null || task.getProjectTaskId() == 0) {
-            throw new NoTaskFoundException("Task Does not exist with id " + taskId);
-        }
+		List<TaskEstimatedCostByMonthYear> taskEstimatedCostByMonthYears = new LinkedList<>();
+		task.setCostsByMonthYear(taskEstimatedCostByMonthYears);
 
-        List<TaskEstimatedCostByMonthYear> taskEstimatedCostByMonthYears = new LinkedList<>();
-        task.setCostsByMonthYear(taskEstimatedCostByMonthYears);
+		Map<TaskInterval, List<TaskEstimatedCost>> taskIntervalListMap = taskBudgetDAO
+				.getTaskCostByTaskMonthYear(taskId);
 
-        Map<TaskInterval, List<TaskEstimatedCost>> taskIntervalListMap = taskBudgetDAO.getTaskCostByTaskMonthYear(taskId);
+		for (Map.Entry<TaskInterval, List<TaskEstimatedCost>> entry : taskIntervalListMap
+				.entrySet()) {
+			TaskEstimatedCostByMonthYear taskEstimatedCostByMonthYear = new TaskEstimatedCostByMonthYear();
+			taskEstimatedCostByMonthYear.setTaskInterval(entry.getKey());
+			taskEstimatedCostByMonthYear.setCosts(entry.getValue());
+			taskEstimatedCostByMonthYears.add(taskEstimatedCostByMonthYear);
+		}
 
-        for (Map.Entry<TaskInterval, List<TaskEstimatedCost>> entry : taskIntervalListMap.entrySet()) {
-            TaskEstimatedCostByMonthYear taskEstimatedCostByMonthYear = new TaskEstimatedCostByMonthYear();
-            taskEstimatedCostByMonthYear.setTaskInterval(entry.getKey());
-            taskEstimatedCostByMonthYear.setCosts(entry.getValue());
-            taskEstimatedCostByMonthYears.add(taskEstimatedCostByMonthYear);
-        }
+		/**
+		 * if no costs found then create month year
+		 */
+		List<TaskInterval> intervals = OntargetUtil.getTimeInterval(
+				task.getStartDate(), task.getEndDate());
+		for (TaskInterval taskInterval : intervals) {
+			if (taskIntervalListMap.get(taskInterval) == null) {
+				TaskEstimatedCostByMonthYear taskEstimatedCostByMonthYear = new TaskEstimatedCostByMonthYear();
+				taskEstimatedCostByMonthYear.setTaskInterval(taskInterval);
+				taskEstimatedCostByMonthYear.setCosts(new ArrayList<>());
+				taskEstimatedCostByMonthYears.add(taskEstimatedCostByMonthYear);
+			}
+		}
 
-        /**
-         * if no costs found then create month year
-         */
-        List<TaskInterval> intervals = OntargetUtil.getTimeInterval(task.getStartDate(), task.getEndDate());
-        for (TaskInterval taskInterval : intervals) {
-            if(taskIntervalListMap.get(taskInterval)==null) {
-                TaskEstimatedCostByMonthYear taskEstimatedCostByMonthYear = new TaskEstimatedCostByMonthYear();
-                taskEstimatedCostByMonthYear.setTaskInterval(taskInterval);
-                taskEstimatedCostByMonthYear.setCosts(new ArrayList<>());
-                taskEstimatedCostByMonthYears.add(taskEstimatedCostByMonthYear);
-            }
-        }
-
-
-        return task;
-    }
-
+		return task;
+	}
 
 }

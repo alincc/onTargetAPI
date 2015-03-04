@@ -6,6 +6,7 @@ import java.util.Set;
 import com.ontarget.bean.DependentTaskDTO;
 import com.ontarget.bean.TaskComment;
 import com.ontarget.bean.TaskDTO;
+import com.ontarget.dto.ProjectTask;
 import com.ontarget.request.bean.Task;
 import com.ontarget.request.bean.TaskCommentRequest;
 
@@ -17,6 +18,8 @@ public interface TaskDAO {
     public int addTask(Task task, int userId) throws Exception;
 
     public List<TaskDTO> getTask(int projectId) throws Exception;
+    
+    public List<ProjectTask> getTasksByProject(int projectId) throws Exception;
 
     public List<com.ontarget.bean.TaskStatusCount> getTaskCountByStatus(int projectId) throws Exception;
 
@@ -42,13 +45,15 @@ public interface TaskDAO {
 
     public Integer getAssignedUser(int taskId) throws Exception;
 
-    public TaskDTO getTaskDetail(int taskId) throws Exception;
+    public ProjectTask getTaskDetail(int taskId) throws Exception;
+    
+    public TaskDTO getTaskInfo(int taskId) throws Exception;
 
-    public List<TaskDTO> getChildTasks(int taskId) throws Exception;
+    public List<ProjectTask> getChildTasks(int taskId) throws Exception;
 
-    public List<TaskDTO> getDependentTasks(int taskId) throws Exception;
+    public List<ProjectTask> getDependentTasks(int taskId) throws Exception;
 
-    public List<TaskDTO> getUserTasks(int userId) throws Exception;
+    public List<ProjectTask> getUserTasks(int userId) throws Exception;
 
     public int addDependentTask(DependentTaskDTO dependentTask) throws Exception;
 

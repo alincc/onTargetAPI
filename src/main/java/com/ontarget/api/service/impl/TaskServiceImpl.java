@@ -28,10 +28,12 @@ import com.ontarget.bean.ProjectDTO;
 import com.ontarget.bean.TaskDTO;
 import com.ontarget.bean.TaskStatusCount;
 import com.ontarget.bean.UserDTO;
+import com.ontarget.dto.ProjectTask;
 import com.ontarget.request.bean.ParentTask;
 import com.ontarget.request.bean.Project;
 import com.ontarget.request.bean.Task;
 import com.ontarget.request.bean.TaskCommentRequest;
+import com.ontarget.util.DateConverter;
 
 /**
  * Created by Owner on 11/6/14.
@@ -92,28 +94,16 @@ public class TaskServiceImpl implements TaskService {
 
 				Project project = new Project();
 				project.setProjectId(projectDTO.getProjectId());
-				project.setStartDate(projectDTO.getStartDate());
-				project.setEndDate(projectDTO.getEndDate());
+				project.setStartDate(DateConverter.convertUtilToSql(projectDTO
+						.getStartDate()));
+				project.setEndDate(DateConverter.convertUtilToSql(projectDTO
+						.getEndDate()));
 
 				task.setProject(project);
 				projectStartDate = project.getStartDate();
 				projectEndDate = project.getEndDate();
 			}
 
-			// if (startDate.getTime() < projectStartDate.getTime()) {
-			// logger.info(startDate.toString() + " less than "
-			// + projectStartDate.toString());
-			// throw new DateBeforeException(
-			// "Task starts before project start date");
-			// } else {
-			// if (endDate.getTime() > projectEndDate.getTime()) {
-			// // throw new Exception("Task ends after project end date");
-			// logger.info(endDate.toString() + " more than "
-			// + projectEndDate.toString());
-			// throw new DateAfterException(
-			// "Task ends after project end date");
-			// }
-			// }
 		}
 
 		ParentTask parentTask = task.getParentTask();
@@ -121,34 +111,16 @@ public class TaskServiceImpl implements TaskService {
 			Date parentTaskStartDate = parentTask.getStartDate();
 			Date parentTaskEndDate = parentTask.getEndDate();
 			if (parentTaskStartDate == null || parentTaskEndDate == null) {
-				TaskDTO parentTaskDTO = taskDAO.getTaskDetail(parentTask
+				ProjectTask parentTaskDTO = taskDAO.getTaskDetail(parentTask
 						.getProjectTaskId());
 				if (parentTaskDTO == null) {
 					throw new Exception("parent task does not exists");
 				}
 
-				parentTask.setStartDate(parentTaskDTO.getStartDate());
-				parentTask.setEndDate(parentTaskDTO.getEndDate());
-
-				parentTaskStartDate = parentTask.getStartDate();
-				parentTaskEndDate = parentTask.getEndDate();
+				parentTaskStartDate = parentTaskDTO.getStartDate();
+				parentTaskEndDate = parentTaskDTO.getEndDate();
 			}
 
-			// if (parentTaskStartDate != null
-			// && startDate.getTime() < parentTaskStartDate.getTime()) {
-			// logger.info(startDate.toString() + " less than "
-			// + parentTaskStartDate.toString());
-			// throw new DateBeforeException(
-			// "Task starts before parent task start date");
-			// } else {
-			// if (parentTaskEndDate != null
-			// && endDate.getTime() > parentTaskEndDate.getTime()) {
-			// logger.info(endDate.toString() + " more than "
-			// + parentTaskEndDate.toString());
-			// throw new DateAfterException(
-			// "Task ends after parent task end date");
-			// }
-			// }
 		}
 
 		if (isTaskAdd(taskId)) {
@@ -179,8 +151,14 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public List<TaskDTO> getTask(int projectId) throws Exception {
+	public List<TaskDTO> getTask(Integer projectId) throws Exception {
 		return taskDAO.getTask(projectId);
+	}
+
+	@Override
+	public List<ProjectTask> getTasksByProject(Integer projectId)
+			throws Exception {
+		return taskDAO.getTasksByProject(projectId);
 	}
 
 	public int addDependentTask(DependentTaskDTO dependentTask)
@@ -188,8 +166,8 @@ public class TaskServiceImpl implements TaskService {
 		return taskDAO.addDependentTask(dependentTask);
 	}
 
-	public TaskDTO getTaskDetail(int taskId) throws Exception {
-		TaskDTO task = taskDAO.getTaskDetail(taskId);
+	public ProjectTask getTaskDetail(int taskId) throws Exception {
+		ProjectTask task = taskDAO.getTaskDetail(taskId);
 		int assignedUserId = taskDAO.getAssignedUser(task.getProjectTaskId());
 
 		Set<Integer> assignees = taskDAO
@@ -209,26 +187,16 @@ public class TaskServiceImpl implements TaskService {
 			logger.info("task is unassigned");
 		}
 
-		//
-		//
-		// if (assignedUserId > 0) {
-		// User assignedToUser = new User();
-		// assignedToUser.setUserId(assignedUserId.intValue());
-		// task.setAssignedTo(assignedToUser);
-		// }
-		// else {
-		// logger.info("task is unassigned");
-		// }
 		setTaskLevel(task, 1);
 		return task;
 	}
 
-	public List<TaskDTO> setTaskLevel(TaskDTO task, int level) throws Exception {
-		List<TaskDTO> childTasks = taskDAO.getChildTasks(task
+	public List<ProjectTask> setTaskLevel(ProjectTask task, int level) throws Exception {
+		List<ProjectTask> childTasks = taskDAO.getChildTasks(task
 				.getProjectTaskId());
 		if (level < 20 && childTasks != null && !childTasks.isEmpty()) {
 			level++;
-			for (TaskDTO p : childTasks) {
+			for (ProjectTask p : childTasks) {
 				setTaskLevel(p, level);
 			}
 		}
@@ -324,18 +292,18 @@ public class TaskServiceImpl implements TaskService {
 
 			// get contact detail by userId
 			Contact contact = contactDAO.getContact(userId);
-			TaskDTO task = taskDAO.getTaskDetail(taskId);
+			TaskDTO task = taskDAO.getTaskInfo(taskId);
 			if (contact != null) {
 				emailService.sendTaskAssignmentEmail(task, contact);
 			}
 		}
 	}
 
-	public List<TaskDTO> getDependentTasks(int taskId) throws Exception {
+	public List<ProjectTask> getDependentTasks(int taskId) throws Exception {
 		return taskDAO.getDependentTasks(taskId);
 	}
 
-	public List<TaskDTO> getUserTasks(int userId) throws Exception {
+	public List<ProjectTask> getUserTasks(int userId) throws Exception {
 		return taskDAO.getUserTasks(userId);
 	}
 

@@ -1,28 +1,33 @@
 package com.ontarget.api.rs;
 
+import javax.validation.Valid;
+import javax.ws.rs.QueryParam;
+
+import org.hibernate.validator.constraints.NotEmpty;
+
 import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.UserRegistationApprovalResponse;
 import com.ontarget.dto.UserResponse;
-import com.ontarget.bean.UserDTO;
-import com.ontarget.dto.UserRegistrationRequest;
+import com.ontarget.request.bean.RegistrationApprovalRequest;
 import com.ontarget.request.bean.SignInRequest;
-
-import java.util.List;
+import com.ontarget.request.bean.UserRegistrationRequest;
 
 /**
  * Created by Owner on 10/26/14.
  */
 public interface Authentication {
 
-	public UserResponse signIn(SignInRequest signInRequest);
+	public UserResponse signIn(@Valid SignInRequest signInRequest);
 
-	public OnTargetResponse registrationRequest(UserRegistrationRequest request);
+	public OnTargetResponse registrationRequest(
+			@Valid UserRegistrationRequest request);
 
-	public OnTargetResponse logout(UserDTO user);
+	public OnTargetResponse logout(
+			@NotEmpty @QueryParam("username") String username);
 
 	public UserRegistationApprovalResponse getPendingUserRegistrationRequests();
 
 	public OnTargetResponse approvePendingRegistrationRequest(
-			UserRegistrationRequest requests);
+			@Valid RegistrationApprovalRequest request);
 
 }

@@ -23,8 +23,8 @@ import com.ontarget.dto.AddDependentRequest;
 import com.ontarget.dto.GetTaskAttachmentResponse;
 import com.ontarget.dto.InsertResponse;
 import com.ontarget.dto.OnTargetResponse;
-import com.ontarget.dto.TaskListResponse;
-import com.ontarget.dto.TaskResponse;
+import com.ontarget.dto.ProjectTaskResponse;
+import com.ontarget.dto.TaskDetailResponse;
 import com.ontarget.dto.UserResponse;
 import com.ontarget.exception.DateAfterException;
 import com.ontarget.exception.DateBeforeException;
@@ -95,14 +95,16 @@ public class TaskEndpointImpl implements TaskEndpoint {
 	@Override
 	@POST
 	@Path("/getProjectTask")
-	public TaskListResponse getTask(ProjectTaskRequest projectTaskRequest) {
-		TaskListResponse response = new TaskListResponse();
+	public ProjectTaskResponse getTask(ProjectTaskRequest projectTaskRequest) {
+		ProjectTaskResponse response = new ProjectTaskResponse();
 		try {
-			response.setTasks(taskService.getTask(projectTaskRequest
+
+			response.setTasks(taskService.getTasksByProject(projectTaskRequest
 					.getProjectId()));
 			response.setReturnMessage("Successfully retrieved tasks");
 			response.setReturnVal(OnTargetConstant.SUCCESS);
 		} catch (Exception e) {
+			e.printStackTrace();
 			logger.error("Add task failed." + e);
 			response.setReturnMessage("Add task failed");
 			response.setReturnVal(OnTargetConstant.ERROR);
@@ -161,11 +163,11 @@ public class TaskEndpointImpl implements TaskEndpoint {
 	@Override
 	@POST
 	@Path("/getTaskDetail")
-	public TaskResponse getTaskDetail(TaskDetailRequest taskDetailRequest) {
-		TaskResponse taskResponse = new TaskResponse();
+	public TaskDetailResponse getTaskDetail(TaskDetailRequest taskDetailRequest) {
+		TaskDetailResponse taskResponse = new TaskDetailResponse();
 		try {
-			taskResponse.setTask(taskService.getTaskDetail(taskDetailRequest
-					.getTaskId()));
+			taskResponse.setProjectTask(taskService
+					.getTaskDetail(taskDetailRequest.getTaskId()));
 			taskResponse.setReturnVal(OnTargetConstant.SUCCESS);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -335,9 +337,9 @@ public class TaskEndpointImpl implements TaskEndpoint {
 
 	@POST
 	@Path("/getDependentTasks")
-	public TaskListResponse getDependentTasks(
+	public ProjectTaskResponse getDependentTasks(
 			DependentTaskDetail dependentTaskDetail) {
-		TaskListResponse response = new TaskListResponse();
+		ProjectTaskResponse response = new ProjectTaskResponse();
 		try {
 			response.setTasks(taskService.getDependentTasks(dependentTaskDetail
 					.getTaskId()));
@@ -353,8 +355,8 @@ public class TaskEndpointImpl implements TaskEndpoint {
 
 	@POST
 	@Path("/getUserTasks")
-	public TaskListResponse getUserTask(UserTask userTask) {
-		TaskListResponse response = new TaskListResponse();
+	public ProjectTaskResponse getUserTask(UserTask userTask) {
+		ProjectTaskResponse response = new ProjectTaskResponse();
 		try {
 			response.setTasks(taskService.getUserTasks(userTask.getUserId()));
 			response.setReturnVal(OnTargetConstant.SUCCESS);

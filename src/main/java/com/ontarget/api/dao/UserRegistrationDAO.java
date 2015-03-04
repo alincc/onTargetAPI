@@ -1,7 +1,7 @@
 package com.ontarget.api.dao;
 
 import com.ontarget.bean.UserRegistration;
-import com.ontarget.request.bean.UserRegistrationRequest;
+import com.ontarget.request.bean.UserRegistrationInfo;
 
 /**
  * Created by sumit on 11/26/14.
@@ -15,8 +15,8 @@ public interface UserRegistrationDAO {
 	public UserRegistration getInvitationRegistration(String tokenId)
 			throws Exception;
 
-	public void createNewuser(UserRegistrationRequest registration,
-			String status, int userId) throws Exception;
+	public void createNewuser(UserRegistrationInfo registration, String status,
+			int userId) throws Exception;
 
 	public int updateRegistrationRequestUserId(int userId, String tokenId)
 			throws Exception;

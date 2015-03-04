@@ -2,9 +2,7 @@ package com.ontarget.api.service;
 
 import com.ontarget.dto.UserInvitationApprovalResponse;
 import com.ontarget.dto.UserInvitationRequestDTO;
-import com.ontarget.dto.UserRegistationApprovalResponse;
 import com.ontarget.entity.pojo.RegistrationRequestResponseDTO;
-import com.ontarget.request.bean.UserRegistrationRequest;
 
 
 public interface UserInvitationService {

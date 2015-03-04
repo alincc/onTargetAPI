@@ -1,26 +1,30 @@
 package com.ontarget.api.response;
 
+import java.util.List;
+
 import com.ontarget.bean.TaskStatusCount;
 import com.ontarget.dto.OnTargetResponse;
-
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Owner on 11/12/14.
  */
 public class TaskListCountResponse extends OnTargetResponse {
 
-    public TaskListCountResponse() {
-    }
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
-    List<TaskStatusCount> taskCountByStatus;
+	public TaskListCountResponse() {
+	}
 
-    public List<TaskStatusCount> getTaskCountByStatus() {
-        return taskCountByStatus;
-    }
+	List<TaskStatusCount> taskCountByStatus;
 
-    public void setTaskCountByStatus(List<TaskStatusCount> taskCountByStatus) {
-        this.taskCountByStatus = taskCountByStatus;
-    }
+	public List<TaskStatusCount> getTaskCountByStatus() {
+		return taskCountByStatus;
+	}
+
+	public void setTaskCountByStatus(List<TaskStatusCount> taskCountByStatus) {
+		this.taskCountByStatus = taskCountByStatus;
+	}
 }

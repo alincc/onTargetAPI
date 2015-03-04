@@ -1,6 +1,11 @@
 package com.ontarget.request.bean;
 
 import javax.annotation.Generated;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -10,13 +15,17 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({ "projectId", "firstName", "lastName", "email",
 		"registrationToken" })
 public class InviteUserIntoProjectRequest {
-
+	@NotNull
 	@JsonProperty("projectId")
 	private Integer projectId;
+	@NotEmpty
 	@JsonProperty("firstName")
 	private String firstName;
+	@NotEmpty
 	@JsonProperty("lastName")
 	private String lastName;
+	@NotEmpty
+	@Email
 	@JsonProperty("email")
 	private String email;
 	@JsonProperty("registrationToken")

@@ -24,6 +24,7 @@ import com.ontarget.request.bean.TaskMemberRequest;
 import com.ontarget.request.bean.TaskRequest;
 import com.ontarget.request.bean.TaskStatusUpdateRequest;
 import com.ontarget.request.bean.UserTask;
+import com.ontarget.util.DateConverter;
 
 public class TaskEndpointTest extends BaseTest {
 
@@ -39,8 +40,8 @@ public class TaskEndpointTest extends BaseTest {
 		taskRequest.setBaseRequest(baseRequest);
 
 		Task task = new Task();
-		//task.setStartDateText("2014-01-01 15:00:00");
-		//task.setEndDateText("2015-01-01 13:00:00");
+		// task.setStartDateText("2014-01-01 15:00:00");
+		// task.setEndDateText("2015-01-01 13:00:00");
 		// update
 		// task.setProjectTaskId(1);
 		task.setPercentageComplete(10);
@@ -63,11 +64,13 @@ public class TaskEndpointTest extends BaseTest {
 		taskRequest.setTask(task);
 
 		ParentTask parentTask = new ParentTask();
-		//parentTask.setStartDateText("2014-01-01 15:00:00");
-		//parentTask.setEndDateText("2015-01-01 13:00:00");
+		// parentTask.setStartDateText("2014-01-01 15:00:00");
+		// parentTask.setEndDateText("2015-01-01 13:00:00");
 		parentTask.setProjectTaskId(1);
-		parentTask.setStartDate(new Date(new java.util.Date().getTime()));
-		parentTask.setEndDate(new Date(new java.util.Date().getTime()));
+		parentTask.setStartDate(DateConverter
+				.convertUtilToSql(new java.util.Date()));
+		parentTask.setEndDate(DateConverter
+				.convertUtilToSql(new java.util.Date()));
 		task.setParentTask(parentTask);
 
 		taskRequest.setTask(task);
@@ -317,6 +320,7 @@ public class TaskEndpointTest extends BaseTest {
 
 		taskMemberRequest.setBaseRequest(baseRequest);
 		taskMemberRequest.setTaskId(17);
+		taskMemberRequest.setProjectId(1);
 
 		ArrayList<Integer> members = new ArrayList<>();
 		members.add(1);

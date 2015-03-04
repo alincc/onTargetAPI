@@ -1,10 +1,10 @@
 package com.ontarget.api.dao.impl;
 
-import com.ontarget.bean.UserRegistration;
-import com.ontarget.constant.OnTargetConstant;
-import com.ontarget.constant.OnTargetQuery;
-import com.ontarget.request.bean.UserRegistrationRequest;
-import com.ontarget.util.Security;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +14,11 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.util.Map;
+import com.ontarget.bean.UserRegistration;
+import com.ontarget.constant.OnTargetConstant;
+import com.ontarget.constant.OnTargetQuery;
+import com.ontarget.request.bean.UserRegistrationInfo;
+import com.ontarget.util.Security;
 
 /**
  * Created by sumit on 11/26/14.
@@ -73,7 +73,7 @@ public class UserRegistrationDAOImpl implements
 	}
 
 	@Override
-	public void createNewuser(UserRegistrationRequest registration,
+	public void createNewuser(UserRegistrationInfo registration,
 			String status, int userId) throws Exception {
 		logger.info("creating new user based on : " + registration);
 		String password = registration.getPassword();

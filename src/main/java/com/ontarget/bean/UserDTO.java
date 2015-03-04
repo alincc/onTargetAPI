@@ -7,14 +7,14 @@ import java.io.Serializable;
  */
 public class UserDTO implements Serializable{
 
-    private int userId;
+    private Integer userId;
     private String username;
     private String password;
     private String salt;
     private String designation;
     private String accountStatus;
     private String userStatus;
-    private long discipline;
+    private Long discipline;
     private Contact contact;
 
     public String getSalt() {
@@ -41,15 +41,15 @@ public class UserDTO implements Serializable{
         this.userStatus = userStatus;
     }
 
-    public int getUserTypeId() {
+    public Integer getUserTypeId() {
         return userTypeId;
     }
 
-    public void setUserTypeId(int userTypeId) {
+    public void setUserTypeId(Integer userTypeId) {
         this.userTypeId = userTypeId;
     }
 
-    private int userTypeId;
+    private Integer userTypeId;
 
     public String getDesignation() {
         return designation;
@@ -79,19 +79,19 @@ public class UserDTO implements Serializable{
         this.password = password;
     }
 
-    public int getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
-    public long getDiscipline() {
+    public Long getDiscipline() {
         return discipline;
     }
 
-    public void setDiscipline(long discipline) {
+    public void setDiscipline(Long discipline) {
         this.discipline = discipline;
     }
 

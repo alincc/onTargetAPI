@@ -27,7 +27,7 @@ public class TaskCommentRequest {
 	@NotEmpty
 	@JsonProperty("comment")
 	private String comment;
-	@NotEmpty
+	@NotNull
 	@JsonProperty("commentedBy")
 	private Integer commentedBy;
 

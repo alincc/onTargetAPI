@@ -11,9 +11,9 @@ import com.ontarget.bean.DocumentDTO;
 import com.ontarget.bean.TaskDTO;
 import com.ontarget.bean.UserDTO;
 import com.ontarget.constant.OnTargetConstant;
-import com.ontarget.dto.UserRegistrationRequest;
 import com.ontarget.entity.pojo.RegistrationRequestResponseDTO;
 import com.ontarget.request.bean.Assignee;
+import com.ontarget.request.bean.UserRegistrationRequest;
 import com.ontarget.util.EmailConstant;
 
 import org.apache.log4j.Logger;

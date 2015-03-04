@@ -1,9 +1,15 @@
 package com.ontarget.api.dao.impl;
 
-import com.ontarget.api.dao.ProjectDAO;
-import com.ontarget.bean.*;
-import com.ontarget.constant.OnTargetConstant;
-import com.ontarget.constant.OnTargetQuery;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +20,17 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import java.sql.*;
-import java.util.*;
+import com.ontarget.api.dao.ProjectDAO;
+import com.ontarget.bean.AddressDTO;
+import com.ontarget.bean.Company;
+import com.ontarget.bean.Contact;
+import com.ontarget.bean.ContactPhone;
+import com.ontarget.bean.ProjectDTO;
+import com.ontarget.bean.ProjectMember;
+import com.ontarget.bean.UserDTO;
+import com.ontarget.constant.OnTargetConstant;
+import com.ontarget.constant.OnTargetQuery;
+import com.ontarget.util.DateConverter;
 
 /**
  * Created by Owner on 11/5/14.
@@ -31,7 +46,6 @@ public class ProjectDAOImpl implements ProjectDAO {
 	@Override
 	public int addProject(ProjectDTO project) throws Exception {
 		logger.info("Adding project: " + project);
-		logger.info("Company id:: " + project.getCompanyId());
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		jdbcTemplate.update(new PreparedStatementCreator() {
 			public PreparedStatement createPreparedStatement(
@@ -48,9 +62,8 @@ public class ProjectDAOImpl implements ProjectDAO {
 				ps.setInt(5, project.getProjectAddress().getAddressId());
 				ps.setString(6, project.getStatus());
 				ps.setInt(7, project.getProjectParentId());
-				ps.setDate(8, new java.sql.Date(project.getStartDate()
-						.getTime()));
-				ps.setDate(9, new java.sql.Date(project.getEndDate().getTime()));
+				//ps.setDate(8, project.getStartDate());
+				//ps.setDate(9, project.getEndDate());
 				ps.setString(10, project.getProjectImagePath());
 				ps.setLong(11, project.getProjectOwnerId());
 				return ps;
@@ -83,7 +96,7 @@ public class ProjectDAOImpl implements ProjectDAO {
 								.getInt("PROJECT_PARENT_ID"));
 						project.setCompanyId(resultSet.getInt("COMPANY_ID"));
 						project.setProjectOwnerId(resultSet
-								.getLong("project_owner_id"));
+								.getInt("project_owner_id"));
 						// logger.info("this is class of date object "+resultSet.getTime("project_start_date"));
 						project.setStartDate(resultSet
 								.getDate("project_start_date"));
@@ -113,9 +126,10 @@ public class ProjectDAOImpl implements ProjectDAO {
 				if (row.containsKey("project_owner_id")
 						&& row.get("project_owner_id") != null)
 					project.setProjectOwnerId((int) row.get("project_owner_id"));
-				project.setStartDate((Timestamp) row.get("project_start_date"));
-				project.setEndDate((Timestamp) row.get("project_end_date"));
-
+				Date startDate = (Date) row.get("project_start_date");
+				project.setStartDate(DateConverter.convertUtilToSql(startDate));
+				Date endDate = (Date) row.get("project_end_date");
+				project.setEndDate(DateConverter.convertUtilToSql(endDate));
 				projects.add(project);
 			}
 

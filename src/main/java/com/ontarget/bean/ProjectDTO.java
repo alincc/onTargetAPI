@@ -5,20 +5,16 @@ import java.util.Date;
 import java.util.List;
 
 public class ProjectDTO implements Serializable {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 8528631105379784034L;
 	private Integer projectId;
 	private String projectName;
 	private String projectDescription;
-	private int projectTypeId;
-	private long projectOwnerId;
+	private Integer projectTypeId;
+	private Integer projectOwnerId;
 	private String status;
-	private int companyId;// TODO: add company object instead of companyId
+	private Integer companyId;
 	private Company company;
-	private int projectParentId;
+	private Integer projectParentId;
 	private AddressDTO projectAddress;
 	private List<TaskDTO> taskList;
 	private List<ProjectDTO> projects;
@@ -37,11 +33,11 @@ public class ProjectDTO implements Serializable {
 		this.company = company;
 	}
 
-	public long getProjectOwnerId() {
+	public Integer getProjectOwnerId() {
 		return projectOwnerId;
 	}
 
-	public void setProjectOwnerId(long projectOwnerId) {
+	public void setProjectOwnerId(Integer projectOwnerId) {
 		this.projectOwnerId = projectOwnerId;
 	}
 
@@ -81,23 +77,23 @@ public class ProjectDTO implements Serializable {
 		return projectParentId;
 	}
 
-	public void setProjectParentId(int projectParentId) {
+	public void setProjectParentId(Integer projectParentId) {
 		this.projectParentId = projectParentId;
 	}
 
-	public int getCompanyId() {
+	public Integer getCompanyId() {
 		return companyId;
 	}
 
-	public void setCompanyId(int companyId) {
+	public void setCompanyId(Integer companyId) {
 		this.companyId = companyId;
 	}
 
-	public int getProjectTypeId() {
+	public Integer getProjectTypeId() {
 		return projectTypeId;
 	}
 
-	public void setProjectTypeId(int projectTypeId) {
+	public void setProjectTypeId(Integer projectTypeId) {
 		this.projectTypeId = projectTypeId;
 	}
 

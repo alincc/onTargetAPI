@@ -1,8 +1,9 @@
 package com.ontarget.request.bean;
 
-import java.util.Date;
+import java.sql.Date;
 
 import javax.annotation.Generated;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -13,15 +14,17 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({ "projectTaskId", "startDateText", "endDateText",
 		"startDate", "endDate" })
 public class ParentTask {
-
+	@NotNull
 	@JsonProperty("projectTaskId")
 	private Integer projectTaskId;
 	@JsonProperty("startDateText")
 	private String startDateText;
 	@JsonProperty("endDateText")
 	private String endDateText;
+	@NotNull
 	@JsonProperty("startDate")
 	private Date startDate;
+	@NotNull
 	@JsonProperty("endDate")
 	private Date endDate;
 

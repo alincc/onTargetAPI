@@ -2,41 +2,39 @@ package com.ontarget.dto;
 
 import java.io.Serializable;
 
-/**
- * Created by Owner on 10/30/14.
- */
-public class UserRegistrationRequest implements Serializable {
+public class RegistrationRequestDTO implements Serializable {
 
-	private int id;
-	private int projectId;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private Integer id;
+	private Integer projectId;
 	private String name;
 	private String email;
 	private String companyName;
 	private String phoneNumber;
 	private String msg;
-	private String status;
 	private String tokenId;
 	private String firstName;
 	private String lastName;
+	private String status;
 	private long tsCreate = Long.MIN_VALUE;
 
-	public UserRegistrationRequest() {
-	}
-
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
-	public String getStatus() {
-		return status;
+	public Integer getProjectId() {
+		return projectId;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
+	public void setProjectId(Integer projectId) {
+		this.projectId = projectId;
 	}
 
 	public String getName() {
@@ -79,14 +77,6 @@ public class UserRegistrationRequest implements Serializable {
 		this.msg = msg;
 	}
 
-	public int getProjectId() {
-		return projectId;
-	}
-
-	public void setProjectId(int projectId) {
-		this.projectId = projectId;
-	}
-
 	public String getTokenId() {
 		return tokenId;
 	}
@@ -117,6 +107,14 @@ public class UserRegistrationRequest implements Serializable {
 
 	public void setTsCreate(long tsCreate) {
 		this.tsCreate = tsCreate;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 }

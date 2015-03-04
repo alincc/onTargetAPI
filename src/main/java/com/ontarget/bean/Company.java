@@ -2,12 +2,10 @@ package com.ontarget.bean;
 
 import java.io.Serializable;
 
-import com.ontarget.dto.BaseRequestDTO;
-
 /**
  * Created by Owner on 11/4/14.
  */
-public class Company extends BaseRequestDTO implements Serializable {
+public class Company implements Serializable {
 
 	private int companyId;
 	private String companyName;

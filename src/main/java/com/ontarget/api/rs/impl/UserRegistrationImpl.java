@@ -23,7 +23,7 @@ import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.UserInviteResponse;
 import com.ontarget.request.bean.InviteUserIntoProjectRequest;
-import com.ontarget.request.bean.UserRegistrationRequest;
+import com.ontarget.request.bean.UserRegistrationInfo;
 import com.ontarget.util.Security;
 
 /**
@@ -190,12 +190,12 @@ public class UserRegistrationImpl implements
 	@POST
 	@Path("/createUser")
 	public OnTargetResponse createNewUser(
-			UserRegistrationRequest userRegistrationRequest) {
-		logger.info("Adding new user: " + userRegistrationRequest);
+			UserRegistrationInfo request) {
+		logger.info("Adding new user: " + request);
 		OnTargetResponse response = new OnTargetResponse();
 		try {
 			boolean created = userProfileService
-					.createNewUserFromInvitation(userRegistrationRequest);
+					.createNewUserFromInvitation(request);
 			if (created) {
 				response.setReturnMessage("Successfully created user based on invitation.");
 				response.setReturnVal(OnTargetConstant.SUCCESS);

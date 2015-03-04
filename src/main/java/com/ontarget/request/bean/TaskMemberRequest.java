@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.Generated;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -25,6 +26,7 @@ public class TaskMemberRequest {
 	@JsonProperty("projectId")
 	private Integer projectId;
 	@NotNull
+	@Size(min = 1)
 	@JsonProperty("members")
 	private List<Integer> members;
 

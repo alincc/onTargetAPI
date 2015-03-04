@@ -2,14 +2,12 @@ package com.ontarget.bean;
 
 import java.io.Serializable;
 
-import com.ontarget.dto.BaseRequestDTO;
-
 /**
  * Created by Owner on 11/4/14.
  */
-public class Contact extends BaseRequestDTO implements Serializable {
+public class Contact implements Serializable {
 
-	private int contactId;
+	private Integer contactId;
 	private String firstName;
 	private String lastName;
 	private String title;
@@ -84,11 +82,11 @@ public class Contact extends BaseRequestDTO implements Serializable {
 		this.userImagePath = userImagePath;
 	}
 
-	public int getContactId() {
+	public Integer getContactId() {
 		return contactId;
 	}
 
-	public void setContactId(int contactId) {
+	public void setContactId(Integer contactId) {
 		this.contactId = contactId;
 	}
 }

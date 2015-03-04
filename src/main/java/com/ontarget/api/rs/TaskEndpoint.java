@@ -3,8 +3,15 @@ package com.ontarget.api.rs;
 import javax.validation.Valid;
 
 import com.ontarget.api.response.TaskListCountResponse;
-import com.ontarget.bean.TaskComment;
-import com.ontarget.dto.*;
+import com.ontarget.dto.GetTaskAttachmentResponse;
+import com.ontarget.dto.InsertResponse;
+import com.ontarget.dto.OnTargetResponse;
+import com.ontarget.dto.ProjectTaskResponse;
+import com.ontarget.dto.TaskDetailResponse;
+import com.ontarget.dto.TaskListResponse;
+import com.ontarget.dto.TaskResponse;
+import com.ontarget.dto.UserResponse;
+import com.ontarget.request.bean.DependentTaskDetail;
 import com.ontarget.request.bean.DependentTaskRequest;
 import com.ontarget.request.bean.ProjectTaskRequest;
 import com.ontarget.request.bean.TaskAttachmentRequest;
@@ -23,7 +30,8 @@ public interface TaskEndpoint {
 
 	public OnTargetResponse addTask(@Valid TaskRequest request);
 
-	public TaskListResponse getTask(@Valid ProjectTaskRequest projectTaskRequest);
+	public ProjectTaskResponse getTask(
+			@Valid ProjectTaskRequest projectTaskRequest);
 
 	public TaskListCountResponse getTaskCountByStatus(
 			@Valid ProjectTaskRequest projectTaskRequest);
@@ -44,10 +52,14 @@ public interface TaskEndpoint {
 	public InsertResponse addDependentTask(
 			@Valid DependentTaskRequest dependentTaskRequest);
 
+	public ProjectTaskResponse getDependentTasks(
+			@Valid DependentTaskDetail dependentTaskDetail);
+
 	public GetTaskAttachmentResponse getTaskAttachments(
 			@Valid TaskAttachmentRequest taskAttachmentRequest);
 
-	public TaskResponse getTaskDetail(@Valid TaskDetailRequest taskDetailRequest);
+	public TaskDetailResponse getTaskDetail(
+			@Valid TaskDetailRequest taskDetailRequest);
 
-	public TaskListResponse getUserTask(@Valid UserTask userTask);
+	public ProjectTaskResponse getUserTask(@Valid UserTask userTask);
 }

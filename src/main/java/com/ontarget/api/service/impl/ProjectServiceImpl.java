@@ -36,6 +36,7 @@ import com.ontarget.request.bean.ProjectAddressInfo;
 import com.ontarget.request.bean.ProjectDetailInfo;
 import com.ontarget.request.bean.ProjectRequest;
 import com.ontarget.util.ConvertPOJOUtils;
+import com.ontarget.util.DateConverter;
 
 /**
  * Created by Owner on 11/6/14.
@@ -65,13 +66,13 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
-	public OnTargetResponse addProject(ProjectRequest request)
-			throws Exception {
+	public OnTargetResponse addProject(ProjectRequest request) throws Exception {
 		logger.info("Adding new project " + request.getProject());
 
 		// add project address first.
 
-		ProjectAddressInfo projectAdd = request.getProject().getProjectAddress();
+		ProjectAddressInfo projectAdd = request.getProject()
+				.getProjectAddress();
 
 		AddressDTO addressDTO = ConvertPOJOUtils
 				.convertToAddressDTO(projectAdd);
@@ -293,8 +294,12 @@ public class ProjectServiceImpl implements ProjectService {
 			project.setCompanyId(companyId);
 			project.setProjectImagePath((String) projectDetail
 					.get("project_image_path"));
-			project.setStartDate((Date) projectDetail.get("project_start_date"));
-			project.setEndDate((Date) projectDetail.get("project_end_date"));
+
+			Date startDate = (Date) projectDetail.get("project_start_date");
+			project.setStartDate(DateConverter.convertUtilToSql(startDate));
+			Date endDate = (Date) projectDetail.get("project_end_date");
+			project.setEndDate(DateConverter.convertUtilToSql(endDate));
+
 			Company company = companyDAO.getCompany(companyId);
 			project.setCompany(company);
 			// set project address
@@ -373,5 +378,4 @@ public class ProjectServiceImpl implements ProjectService {
 		}
 		return response;
 	}
-
 }
