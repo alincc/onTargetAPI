@@ -1,5 +1,6 @@
 package com.ontarget.api.rs.impl;
 
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -10,6 +11,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import org.apache.log4j.Logger;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -28,6 +30,7 @@ import com.ontarget.dto.UserImageRequest;
 import com.ontarget.dto.UserProfileRequest;
 import com.ontarget.dto.UserProfileResponse;
 import com.ontarget.request.bean.InviteUserIntoProjectRequest;
+import com.ontarget.request.bean.UpdateUserProfileRequest;
 import com.ontarget.util.Security;
 
 /**
@@ -73,7 +76,7 @@ public class UserProfileImpl implements UserProfile {
 	@POST
 	@Path("/updateUserProfile")
 	public OnTargetResponse updateUserProfile(
-			UserProfileRequest userProfileRequest) {
+			UpdateUserProfileRequest userProfileRequest) {
 		logger.info("Received request to add profile: " + userProfileRequest);
 		OnTargetResponse response = new UserProfileResponse();
 		try {
@@ -93,7 +96,7 @@ public class UserProfileImpl implements UserProfile {
 	@Path("/changeUserPassword")
 	public OnTargetResponse changeUserPassword(ChangeUserPasswordRequest request)
 			throws Exception {
-		long userId = request.getUserId();
+		Integer userId = request.getUserId();
 		String newPassword = request.getNewPassword();
 		String currentPassword = request.getCurrentPassword();
 
@@ -199,7 +202,7 @@ public class UserProfileImpl implements UserProfile {
 	@GET
 	@Path("/getSafetyInfoForUser")
 	public SafetyInfoResponse getSafetyInfoForUser(
-			@QueryParam("userId") long userId) {
+			@NotNull @QueryParam("userId") Integer userId) {
 		// System.out.println("this is user id " + userId);
 		SafetyInfoResponse response = new SafetyInfoResponse();
 		try {
@@ -275,7 +278,7 @@ public class UserProfileImpl implements UserProfile {
 	@GET
 	@Path("/validateForgotPassword/{forgotPasswordToken}")
 	public OnTargetResponse validateForgotPasswordToken(
-			@PathParam("forgotPasswordToken") String forgotPasswordToken) {
+			@NotEmpty @PathParam("forgotPasswordToken") String forgotPasswordToken) {
 		OnTargetResponse response = new OnTargetResponse();
 		try {
 			boolean validated = userProfileService

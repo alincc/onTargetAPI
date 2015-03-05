@@ -2,35 +2,44 @@ package com.ontarget.dto;
 
 import java.io.Serializable;
 
+import javax.annotation.Generated;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
 /**
  * Created by sumit on 12/18/14.
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@Generated("org.jsonschema2pojo")
+@JsonPropertyOrder({ "userId", "newPassword", "currentPassword" })
 public class UserImageRequest implements Serializable {
-    private int userId;
-    private String imagePath;
-    private int modifyingUser;
+	private Integer userId;
+	private String imagePath;
+	private Integer modifyingUser;
 
-    public int getUserId() {
-        return userId;
-    }
+	public Integer getUserId() {
+		return userId;
+	}
 
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
 
-    public String getImagePath() {
-        return imagePath;
-    }
+	public String getImagePath() {
+		return imagePath;
+	}
 
-    public void setImagePath(String imagePath) {
-        this.imagePath = imagePath;
-    }
+	public void setImagePath(String imagePath) {
+		this.imagePath = imagePath;
+	}
 
-    public int getModifyingUser() {
-        return modifyingUser > 0 ? modifyingUser : userId;
-    }
+	public Integer getModifyingUser() {
+		return modifyingUser;
+	}
 
-    public void setModifyingUser(int modifyingUser) {
-        this.modifyingUser = modifyingUser;
-    }
+	public void setModifyingUser(Integer modifyingUser) {
+		this.modifyingUser = modifyingUser;
+	}
+
 }

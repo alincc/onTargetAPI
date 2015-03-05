@@ -1,16 +1,18 @@
 package com.ontarget.api.rs;
 
-import java.io.IOException;
-
 import javax.ws.rs.core.Response;
 
 import org.junit.Test;
 
-import com.ontarget.bean.AddressDTO;
-import com.ontarget.bean.Company;
-import com.ontarget.bean.Contact;
-import com.ontarget.bean.UserDTO;
+import com.ontarget.bean.UserAddressInfo;
+import com.ontarget.dto.ChangeUserPasswordRequest;
+import com.ontarget.dto.ForgotPasswordRequest;
+import com.ontarget.dto.UserImageRequest;
 import com.ontarget.dto.UserProfileRequest;
+import com.ontarget.request.bean.UpdateUserProfileRequest;
+import com.ontarget.request.bean.UserCompanyInfo;
+import com.ontarget.request.bean.UserContactInfo;
+import com.ontarget.request.bean.UserInfo;
 
 /**
  * Created by Owner on 11/5/14.
@@ -21,18 +23,18 @@ public class UserProfileTest extends BaseTest {
 	@Test
 	public void testAddUserProfile() {
 
-		Contact contact = new Contact();
+		UserContactInfo contact = new UserContactInfo();
 		contact.setTitle("Project Manager");
 		contact.setFirstName("firstname");
 		contact.setLastName("lastname");
+		contact.setUserImagePath("");
 
-		Company comp = new Company();
+		UserCompanyInfo comp = new UserCompanyInfo();
 		comp.setCompanyName("The TTG Inc.");
 		comp.setCompanyTypeId(1);
-		comp.setEmail("company@company.com");
 		comp.setWebsite("http://www.comp.com");
 
-		AddressDTO address = new AddressDTO();
+		UserAddressInfo address = new UserAddressInfo();
 		address.setAddress1("4750 59th street");
 		address.setAddress2("Apt #9C");
 		address.setCity("Woodside");
@@ -42,17 +44,18 @@ public class UserProfileTest extends BaseTest {
 		address.setAddressType("COMPANY");
 		comp.setAddress(address);
 
-		UserDTO user = new UserDTO();
+		UserInfo user = new UserInfo();
 		user.setUserId(1);
+		user.setAccountStatus("NEW");
 
-		UserProfileRequest req = new UserProfileRequest();
-		req.setCompany(comp);
-		req.setUser(user);
-		req.setContact(contact);
+		UserProfileRequest request = new UserProfileRequest();
+		request.setCompany(comp);
+		request.setUser(user);
+		request.setContact(contact);
 
 		System.out.println("Client request .... \n");
-		System.out.println(toJsonString(req, true));
-		Response response = sendRequest("/profile/addUserProfile", req);
+		System.out.println(toJsonString(request, true));
+		Response response = sendRequest("/profile/addUserProfile", request);
 		if (response.getStatus() != 200) {
 			throw new RuntimeException("Failed : HTTP error code : "
 					+ response.getStatus());
@@ -63,14 +66,133 @@ public class UserProfileTest extends BaseTest {
 	}
 
 	@Test
-	public void forgotPasswordRequestTest() throws IOException {
+	public void updateUserProfile() {
 
-		String emailAddress = "sanjeev@ontargetcloud.com";
+		UserContactInfo contact = new UserContactInfo();
+		contact.setTitle("Project Manager");
+		contact.setFirstName("firstname");
+		contact.setLastName("lastname");
+		contact.setUserImagePath("");
+
+		UserInfo user = new UserInfo();
+		user.setUserId(1);
+
+		UpdateUserProfileRequest request = new UpdateUserProfileRequest();
+		request.setUser(user);
+		request.setContact(contact);
 
 		System.out.println("Client request .... \n");
-		System.out.println(emailAddress);
+		System.out.println(toJsonString(request, true));
+		Response response = sendRequest("/profile/updateUserProfile", request);
+		if (response.getStatus() != 200) {
+			throw new RuntimeException("Failed : HTTP error code : "
+					+ response.getStatus());
+		}
+		String output = response.readEntity(String.class);
+		System.out.println("Server response .... \n");
+		System.out.println(output);
+	}
+
+	@Test
+	public void forgotPasswordRequest() {
+
+		ForgotPasswordRequest request = new ForgotPasswordRequest();
+		request.setEmailAddress("sanjeev@ontargetcloud.com");
+
+		System.out.println("Client request .... \n");
+		System.out.println(toJsonString(request, true));
 		Response response = sendRequest("/profile/forgotPasswordRequest",
-				emailAddress);
+				request);
+		if (response.getStatus() != 200) {
+			throw new RuntimeException("Failed : HTTP error code : "
+					+ response.getStatus());
+		}
+		String output = response.readEntity(String.class);
+		System.out.println("Server response .... \n");
+		System.out.println(output);
+	}
+
+	@Test
+	public void changeForgotPassword() {
+
+		ForgotPasswordRequest request = new ForgotPasswordRequest();
+		request.setEmailAddress("sanjeev@ontargetcloud.com");
+		request.setForgotPasswordToken("token");
+		request.setNewPassword("123456");
+
+		System.out.println("Client request .... \n");
+		System.out.println(toJsonString(request, true));
+		Response response = sendRequest("/profile/changeForgotPassword",
+				request);
+		if (response.getStatus() != 200) {
+			throw new RuntimeException("Failed : HTTP error code : "
+					+ response.getStatus());
+		}
+		String output = response.readEntity(String.class);
+		System.out.println("Server response .... \n");
+		System.out.println(output);
+	}
+
+	@Test
+	public void changeUserPassword() {
+
+		ChangeUserPasswordRequest request = new ChangeUserPasswordRequest();
+		request.setUserId(1);
+		request.setCurrentPassword("123456");
+		request.setNewPassword("123456");
+
+		System.out.println("Client request .... \n");
+		System.out.println(toJsonString(request, true));
+		Response response = sendRequest("/profile/changeUserPassword", request);
+		if (response.getStatus() != 200) {
+			throw new RuntimeException("Failed : HTTP error code : "
+					+ response.getStatus());
+		}
+		String output = response.readEntity(String.class);
+		System.out.println("Server response .... \n");
+		System.out.println(output);
+	}
+
+	@Test
+	public void getSafetyInfoForUser() {
+
+		System.out.println("Client request .... \n");
+		Response response = getRequest("/profile/getSafetyInfoForUser?userId=1");
+		if (response.getStatus() != 200) {
+			throw new RuntimeException("Failed : HTTP error code : "
+					+ response.getStatus());
+		}
+		String output = response.readEntity(String.class);
+		System.out.println("Server response .... \n");
+		System.out.println(output);
+	}
+
+	@Test
+	public void saveUserProfileImage() {
+
+		UserImageRequest request = new UserImageRequest();
+		request.setImagePath("");
+		request.setModifyingUser(1);
+		request.setUserId(1);
+
+		System.out.println("Client request .... \n");
+		System.out.println(toJsonString(request, true));
+		Response response = sendRequest("/profile/saveUserProfileImage",
+				request);
+		if (response.getStatus() != 200) {
+			throw new RuntimeException("Failed : HTTP error code : "
+					+ response.getStatus());
+		}
+		String output = response.readEntity(String.class);
+		System.out.println("Server response .... \n");
+		System.out.println(output);
+	}
+
+	@Test
+	public void validateForgotPasswordToken() {
+
+		System.out.println("Client request .... \n");
+		Response response = getRequest("/profile/validateForgotPassword/token");
 		if (response.getStatus() != 200) {
 			throw new RuntimeException("Failed : HTTP error code : "
 					+ response.getStatus());

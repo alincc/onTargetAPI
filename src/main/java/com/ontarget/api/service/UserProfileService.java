@@ -7,6 +7,7 @@ import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.UserImageRequest;
 import com.ontarget.dto.UserProfileRequest;
 import com.ontarget.dto.UserProfileResponse;
+import com.ontarget.request.bean.UpdateUserProfileRequest;
 import com.ontarget.request.bean.UserRegistrationInfo;
 
 /**
@@ -18,9 +19,9 @@ public interface UserProfileService {
 			throws Exception;
 
 	public OnTargetResponse updateUserProfileAndContactInfo(
-			UserProfileRequest request) throws Exception;
+			UpdateUserProfileRequest request) throws Exception;
 
-	public boolean changeUserPassword(long userId, String newPassword,
+	public boolean changeUserPassword(Integer userId, String newPassword,
 			String currentPassword) throws Exception;
 
 	public boolean saveRegistration(int projectId, String firstName,
@@ -36,7 +37,7 @@ public interface UserProfileService {
 
 	public Company getCompanyInfoByUser(int userId) throws Exception;
 
-	public String getRandomSafetyUserInfo(long userId) throws Exception;
+	public String getRandomSafetyUserInfo(Integer userId) throws Exception;
 
 	public boolean createNewUserFromInvitation(UserRegistrationInfo registration)
 			throws Exception;

@@ -7,9 +7,9 @@ import java.io.Serializable;
  */
 public class Company implements Serializable {
 
-	private int companyId;
+	private Integer companyId;
 	private String companyName;
-	private int companyTypeId;
+	private Integer companyTypeId;
 	private AddressDTO address;
 	private String email;
 	private String website;
@@ -57,11 +57,11 @@ public class Company implements Serializable {
 		this.companyTypeId = companyTypeId;
 	}
 
-	public int getCompanyId() {
+	public Integer getCompanyId() {
 		return companyId;
 	}
 
-	public void setCompanyId(int companyId) {
+	public void setCompanyId(Integer companyId) {
 		this.companyId = companyId;
 	}
 

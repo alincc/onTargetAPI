@@ -29,7 +29,12 @@ import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.UserImageRequest;
 import com.ontarget.dto.UserProfileRequest;
 import com.ontarget.dto.UserProfileResponse;
+import com.ontarget.request.bean.UpdateUserProfileRequest;
+import com.ontarget.request.bean.UserCompanyInfo;
+import com.ontarget.request.bean.UserContactInfo;
+import com.ontarget.request.bean.UserInfo;
 import com.ontarget.request.bean.UserRegistrationInfo;
+import com.ontarget.util.ConvertPOJOUtils;
 import com.ontarget.util.Security;
 
 /**
@@ -76,41 +81,48 @@ public class UserProfileServiceImpl implements UserProfileService {
 			throws Exception {
 		logger.info("Request to add user profile" + request);
 		UserProfileResponse response = new UserProfileResponse();
-		// add company.
 
-		int companyId = companyDAO.addCompanyInfo(request.getCompany());
+		UserCompanyInfo userCompanyInfo = request.getCompany();
 
-		Contact contact = request.getContact();
+		Company company = ConvertPOJOUtils.convertToCompany(userCompanyInfo);
+		int companyId = companyDAO.addCompanyInfo(company);
 
-		Company company = request.getCompany();
+		UserContactInfo userContactInfo = request.getContact();
+		Contact contact = ConvertPOJOUtils.convertToContact(userContactInfo);
+
 		company.setCompanyId(companyId);
 
 		contact.setCompany(company);
-		contact.setUser(request.getUser());
 
-		boolean saved = contactDAO.addContactInfo(request.getContact());
+		UserInfo userInfo = request.getUser();
+		UserDTO userDTO = new UserDTO();
+		userDTO.setUserId(userInfo.getUserId());
+		userDTO.setAccountStatus(userInfo.getAccountStatus());
+
+		contact.setUser(userDTO);
+
+		boolean saved = contactDAO.addContactInfo(contact);
 		if (!saved) {
 			throw new Exception("Contact not saved.");
 		}
 
-		Contact contactForPhone = contactDAO.getContact(request.getUser()
-				.getUserId());
+		Contact contactForPhone = contactDAO.getContact(userDTO.getUserId());
 		int contactId = contactForPhone.getContactId();
 
 		// phone type should be CELL. THIS NEEDS TO BE COLLECTED FROM UI.
-		ContactPhone phone = request.getContactPhone();
+
+		ContactPhone phone = new ContactPhone();
 		phone.setPhoneType(OnTargetConstant.PhoneType.CELL);
 		phone.setStatus(OnTargetConstant.PhoneStatus.ACTIVE);
 
-		int phoneId = phoneDAO.addContactPhone(contactId,
-				request.getContactPhone());
+		int phoneId = phoneDAO.addContactPhone(contactId, phone);
 
 		if (phoneId <= 0) {
 			throw new Exception("Error while adding phone");
 		}
 
 		// activate the account.
-		String accountStatus = request.getUser().getAccountStatus();
+		String accountStatus = userDTO.getAccountStatus();
 		if (OnTargetConstant.AccountStatus.ACCOUNT_INVITATION
 				.equals(accountStatus)) {
 			boolean updated = this.activateAccount(request.getUser()
@@ -131,13 +143,20 @@ public class UserProfileServiceImpl implements UserProfileService {
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
 	public OnTargetResponse updateUserProfileAndContactInfo(
-			UserProfileRequest request) throws Exception {
+			UpdateUserProfileRequest request) throws Exception {
 		logger.info("Request to add user profile" + request);
 		OnTargetResponse response = new OnTargetResponse();
-		Contact contact = request.getContact();
-		contact.setUser(request.getUser());
 
-		boolean saved = contactDAO.updateContactInfo(request.getContact());
+		UserContactInfo userContactInfo = request.getContact();
+		Contact contact = ConvertPOJOUtils.convertToContact(userContactInfo);
+
+		UserInfo userInfo = request.getUser();
+		UserDTO userDTO = new UserDTO();
+		userDTO.setUserId(userInfo.getUserId());
+
+		contact.setUser(userDTO);
+
+		boolean saved = contactDAO.updateContactInfo(contact);
 		if (saved) {
 			response.setReturnMessage("Successfully created company and user profile");
 			response.setReturnVal(OnTargetConstant.SUCCESS);
@@ -155,7 +174,7 @@ public class UserProfileServiceImpl implements UserProfileService {
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
-	public boolean changeUserPassword(long userId, String newPassword,
+	public boolean changeUserPassword(Integer userId, String newPassword,
 			String currentPassword) throws Exception {
 		UserDTO user = userDAO.getUser(userId);
 		if (user == null) {
@@ -229,7 +248,7 @@ public class UserProfileServiceImpl implements UserProfileService {
 	}
 
 	@Override
-	public String getRandomSafetyUserInfo(long userId) throws Exception {
+	public String getRandomSafetyUserInfo(Integer userId) throws Exception {
 		UserDTO user = userDAO.getUser(userId);
 		if (user.getDiscipline() == 0) {
 			return null;

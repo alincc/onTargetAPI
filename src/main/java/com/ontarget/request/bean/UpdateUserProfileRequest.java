@@ -1,4 +1,4 @@
-package com.ontarget.dto;
+package com.ontarget.request.bean;
 
 import javax.annotation.Generated;
 import javax.validation.Valid;
@@ -7,32 +7,19 @@ import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.ontarget.request.bean.UserCompanyInfo;
-import com.ontarget.request.bean.UserContactInfo;
-import com.ontarget.request.bean.UserInfo;
 
-/**
- * Created by Owner on 11/4/14.
- */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "contact", "company", "user" })
-public class UserProfileRequest {
+@JsonPropertyOrder({ "contact", "user" })
+public class UpdateUserProfileRequest {
 	@NotNull
 	@Valid
 	@JsonProperty("contact")
 	private UserContactInfo contact;
 	@NotNull
 	@Valid
-	@JsonProperty("company")
-	private UserCompanyInfo company;
-	@NotNull
-	@Valid
 	@JsonProperty("user")
 	private UserInfo user;
-
-	public UserProfileRequest() {
-	}
 
 	@JsonProperty("contact")
 	public UserContactInfo getContact() {
@@ -42,16 +29,6 @@ public class UserProfileRequest {
 	@JsonProperty("contact")
 	public void setContact(UserContactInfo contact) {
 		this.contact = contact;
-	}
-
-	@JsonProperty("company")
-	public UserCompanyInfo getCompany() {
-		return company;
-	}
-
-	@JsonProperty("company")
-	public void setCompany(UserCompanyInfo company) {
-		this.company = company;
 	}
 
 	@JsonProperty("user")
@@ -66,7 +43,8 @@ public class UserProfileRequest {
 
 	@Override
 	public String toString() {
-		return "UserProfileRequest{" + "contact=" + contact + ", company="
-				+ company + ", user=" + user + '}';
+		return "UpdateUserProfileRequest{" + "contact=" + contact + ", user="
+				+ user + '}';
 	}
+
 }

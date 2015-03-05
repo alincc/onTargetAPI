@@ -5,10 +5,13 @@ import java.util.List;
 
 import com.ontarget.bean.AccidentReport;
 import com.ontarget.bean.AddressDTO;
+import com.ontarget.bean.Company;
+import com.ontarget.bean.Contact;
 import com.ontarget.bean.DependentTaskDTO;
 import com.ontarget.bean.ProjectDTO;
 import com.ontarget.bean.TaskDTO;
 import com.ontarget.bean.TaskEstimatedCost;
+import com.ontarget.bean.UserAddressInfo;
 import com.ontarget.dto.AddDependentRequest;
 import com.ontarget.dto.TaskBudgetRequest;
 import com.ontarget.dto.UserInvitationRequestDTO;
@@ -19,6 +22,8 @@ import com.ontarget.request.bean.ProjectAddressInfo;
 import com.ontarget.request.bean.ProjectDetailInfo;
 import com.ontarget.request.bean.TaskBudget;
 import com.ontarget.request.bean.TaskBudgetEstimate;
+import com.ontarget.request.bean.UserCompanyInfo;
+import com.ontarget.request.bean.UserContactInfo;
 import com.ontarget.request.bean.UserInvitationRequest;
 
 public class ConvertPOJOUtils {
@@ -36,6 +41,36 @@ public class ConvertPOJOUtils {
 				.getPhoneNumber());
 		userInvitationRequestDTO.setToken(token);
 		return userInvitationRequestDTO;
+	}
+
+	public static Company convertToCompany(UserCompanyInfo userCompanyInfo) {
+		Company company = new Company();
+		company.setCompanyName(userCompanyInfo.getCompanyName());
+		company.setCompanyTypeId(userCompanyInfo.getCompanyTypeId());
+		company.setWebsite(userCompanyInfo.getWebsite());
+
+		AddressDTO addressDTO = new AddressDTO();
+		UserAddressInfo userAddressInfo = userCompanyInfo.getAddress();
+		addressDTO.setAddress1(userAddressInfo.getAddress1());
+		addressDTO.setAddress2(userAddressInfo.getAddress2());
+		addressDTO.setAddressType(userAddressInfo.getAddressType());
+		addressDTO.setCity(userAddressInfo.getCity());
+		addressDTO.setCountry(userAddressInfo.getCountry());
+		addressDTO.setState(userAddressInfo.getState());
+		addressDTO.setZip(userAddressInfo.getZip());
+
+		company.setAddress(addressDTO);
+
+		return company;
+	}
+
+	public static Contact convertToContact(UserContactInfo userContactInfo) {
+		Contact contact = new Contact();
+		contact.setFirstName(userContactInfo.getFirstName());
+		contact.setLastName(userContactInfo.getLastName());
+		contact.setTitle(userContactInfo.getTitle());
+		contact.setUserImagePath(userContactInfo.getUserImagePath());
+		return contact;
 	}
 
 	public static AddressDTO convertToAddressDTO(
