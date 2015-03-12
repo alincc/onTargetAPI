@@ -108,16 +108,15 @@ public class UserProfileImpl implements UserProfile {
 				response.setReturnVal(OnTargetConstant.SUCCESS);
 			} else {
 				logger.error("failed updating password");
-				response.setReturnMessage("Add task failed");
+				response.setReturnMessage("Change user password failed");
 				response.setReturnVal(OnTargetConstant.ERROR);
 			}
 		} catch (Exception e) {
-			// e.printStackTrace();
+			e.printStackTrace();
 			logger.error("Add User Profile failed.", e);
-			response.setReturnMessage("Add task failed");
+			response.setReturnMessage("Error while changing user password");
 			response.setReturnVal(OnTargetConstant.ERROR);
 		}
-
 		return response;
 	}
 
@@ -138,13 +137,13 @@ public class UserProfileImpl implements UserProfile {
 				response.setReturnVal(OnTargetConstant.SUCCESS);
 			} else {
 				logger.error("failed updating password");
-				response.setReturnMessage("Add task failed");
+				response.setReturnMessage("Change forgot password failure");
 				response.setReturnVal(OnTargetConstant.ERROR);
 			}
 		} catch (Exception e) {
 			// e.printStackTrace();
 			logger.error("Add User Profile failed.", e);
-			response.setReturnMessage("Add task failed");
+			response.setReturnMessage("Change forgot password failure");
 			response.setReturnVal(OnTargetConstant.ERROR);
 		}
 
@@ -203,7 +202,6 @@ public class UserProfileImpl implements UserProfile {
 	@Path("/getSafetyInfoForUser")
 	public SafetyInfoResponse getSafetyInfoForUser(
 			@NotNull @QueryParam("userId") Integer userId) {
-		// System.out.println("this is user id " + userId);
 		SafetyInfoResponse response = new SafetyInfoResponse();
 		try {
 			String safetyUserInfo = userProfileService

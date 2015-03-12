@@ -53,7 +53,7 @@ public class UserProfileTest extends BaseTest {
 		request.setUser(user);
 		request.setContact(contact);
 
-		System.out.println("Client request .... \n");
+		System.out.println("Client request ...(/profile/addUserProfile) \n");
 		System.out.println(toJsonString(request, true));
 		Response response = sendRequest("/profile/addUserProfile", request);
 		if (response.getStatus() != 200) {
@@ -61,7 +61,7 @@ public class UserProfileTest extends BaseTest {
 					+ response.getStatus());
 		}
 		String output = response.readEntity(String.class);
-		System.out.println("Server response .... \n");
+		System.out.println("Server response ....(/profile/addUserProfile) \n");
 		System.out.println(output);
 	}
 
@@ -81,7 +81,7 @@ public class UserProfileTest extends BaseTest {
 		request.setUser(user);
 		request.setContact(contact);
 
-		System.out.println("Client request .... \n");
+		System.out.println("Client request ....(/profile/updateUserProfile) \n");
 		System.out.println(toJsonString(request, true));
 		Response response = sendRequest("/profile/updateUserProfile", request);
 		if (response.getStatus() != 200) {
@@ -89,7 +89,7 @@ public class UserProfileTest extends BaseTest {
 					+ response.getStatus());
 		}
 		String output = response.readEntity(String.class);
-		System.out.println("Server response .... \n");
+		System.out.println("Server response ....(/profile/updateUserProfile) \n");
 		System.out.println(output);
 	}
 
@@ -99,7 +99,7 @@ public class UserProfileTest extends BaseTest {
 		ForgotPasswordRequest request = new ForgotPasswordRequest();
 		request.setEmailAddress("sanjeev@ontargetcloud.com");
 
-		System.out.println("Client request .... \n");
+		System.out.println("Client request ....(/profile/forgotPasswordRequest) \n");
 		System.out.println(toJsonString(request, true));
 		Response response = sendRequest("/profile/forgotPasswordRequest",
 				request);
@@ -108,7 +108,7 @@ public class UserProfileTest extends BaseTest {
 					+ response.getStatus());
 		}
 		String output = response.readEntity(String.class);
-		System.out.println("Server response .... \n");
+		System.out.println("Server response ...(/profile/forgotPasswordRequest) \n");
 		System.out.println(output);
 	}
 
@@ -120,7 +120,7 @@ public class UserProfileTest extends BaseTest {
 		request.setForgotPasswordToken("token");
 		request.setNewPassword("123456");
 
-		System.out.println("Client request .... \n");
+		System.out.println("Client request ....(/profile/changeForgotPassword) \n");
 		System.out.println(toJsonString(request, true));
 		Response response = sendRequest("/profile/changeForgotPassword",
 				request);
@@ -129,7 +129,7 @@ public class UserProfileTest extends BaseTest {
 					+ response.getStatus());
 		}
 		String output = response.readEntity(String.class);
-		System.out.println("Server response .... \n");
+		System.out.println("Server response ....(/profile/changeForgotPassword) \n");
 		System.out.println(output);
 	}
 
@@ -141,7 +141,7 @@ public class UserProfileTest extends BaseTest {
 		request.setCurrentPassword("123456");
 		request.setNewPassword("123456");
 
-		System.out.println("Client request .... \n");
+		System.out.println("Client request ....(/profile/changeUserPassword) \n");
 		System.out.println(toJsonString(request, true));
 		Response response = sendRequest("/profile/changeUserPassword", request);
 		if (response.getStatus() != 200) {
@@ -149,21 +149,21 @@ public class UserProfileTest extends BaseTest {
 					+ response.getStatus());
 		}
 		String output = response.readEntity(String.class);
-		System.out.println("Server response .... \n");
+		System.out.println("Server response ....(/profile/changeUserPassword) \n");
 		System.out.println(output);
 	}
 
 	@Test
 	public void getSafetyInfoForUser() {
 
-		System.out.println("Client request .... \n");
+		System.out.println("Client request ....(/profile/getSafetyInfoForUser?userId=1) \n");
 		Response response = getRequest("/profile/getSafetyInfoForUser?userId=1");
 		if (response.getStatus() != 200) {
 			throw new RuntimeException("Failed : HTTP error code : "
 					+ response.getStatus());
 		}
 		String output = response.readEntity(String.class);
-		System.out.println("Server response .... \n");
+		System.out.println("Server response ....(/profile/getSafetyInfoForUser?userId=1) \n");
 		System.out.println(output);
 	}
 
@@ -175,7 +175,7 @@ public class UserProfileTest extends BaseTest {
 		request.setModifyingUser(1);
 		request.setUserId(1);
 
-		System.out.println("Client request .... \n");
+		System.out.println("Client request ....(/profile/saveUserProfileImage) \n");
 		System.out.println(toJsonString(request, true));
 		Response response = sendRequest("/profile/saveUserProfileImage",
 				request);
@@ -184,21 +184,21 @@ public class UserProfileTest extends BaseTest {
 					+ response.getStatus());
 		}
 		String output = response.readEntity(String.class);
-		System.out.println("Server response .... \n");
+		System.out.println("Server response ....(/profile/saveUserProfileImage) \n");
 		System.out.println(output);
 	}
 
 	@Test
 	public void validateForgotPasswordToken() {
 
-		System.out.println("Client request .... \n");
+		System.out.println("Client request ....(/profile/validateForgotPassword/token) \n");
 		Response response = getRequest("/profile/validateForgotPassword/token");
 		if (response.getStatus() != 200) {
 			throw new RuntimeException("Failed : HTTP error code : "
 					+ response.getStatus());
 		}
 		String output = response.readEntity(String.class);
-		System.out.println("Server response .... \n");
+		System.out.println("Server response ....(/profile/validateForgotPassword/token) \n");
 		System.out.println(output);
 	}
 
