@@ -20,7 +20,7 @@ import com.ontarget.api.service.EmailService;
 import com.ontarget.api.service.ProjectService;
 import com.ontarget.api.service.UserProfileService;
 import com.ontarget.bean.Contact;
-import com.ontarget.bean.ProjectDTO;
+import com.ontarget.bean.ProjectInfo;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.ChangeUserPasswordRequest;
 import com.ontarget.dto.ForgotPasswordRequest;
@@ -172,7 +172,7 @@ public class UserProfileImpl implements UserProfile {
 				if (userProfileService.saveRegistration(projectId, firstName,
 						lastName, email, tokenId,
 						OnTargetConstant.AccountStatus.ACCT_NEW)) {
-					ProjectDTO res = projectService.getProject(projectId);
+					ProjectInfo res = projectService.getProject(projectId);
 					long owner = res.getProjectOwnerId();
 					Contact c = userProfileService.getContact(owner);
 

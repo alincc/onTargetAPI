@@ -6,7 +6,7 @@ import java.util.Set;
 import com.ontarget.bean.Contact;
 import com.ontarget.bean.DependentTaskDTO;
 import com.ontarget.bean.FileAttachment;
-import com.ontarget.bean.TaskDTO;
+import com.ontarget.bean.TaskInfo;
 import com.ontarget.dto.ProjectTask;
 import com.ontarget.request.bean.Task;
 import com.ontarget.request.bean.TaskCommentRequest;
@@ -18,7 +18,7 @@ public interface TaskService {
 
 	public boolean addTaskService(Task task, int userId) throws Exception;
 
-	public List<TaskDTO> getTask(Integer projectId) throws Exception;
+	public List<TaskInfo> getTask(Integer projectId) throws Exception;
 
 	public List<ProjectTask> getTasksByProject(Integer projectId)
 			throws Exception;

@@ -8,7 +8,8 @@ import com.ontarget.api.rs.UserInvitation;
 import com.ontarget.api.service.EmailService;
 import com.ontarget.bean.Contact;
 import com.ontarget.bean.DocumentDTO;
-import com.ontarget.bean.TaskDTO;
+import com.ontarget.bean.ProjectTaskInfo;
+import com.ontarget.bean.TaskInfo;
 import com.ontarget.bean.UserDTO;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.entity.pojo.RegistrationRequestResponseDTO;
@@ -313,7 +314,7 @@ public class EmailServiceImpl implements EmailService {
 	}
 
 	@Override
-	public void sendTaskAssignmentEmail(TaskDTO task, Contact contact)
+	public void sendTaskAssignmentEmail(ProjectTaskInfo task, Contact contact)
 			throws Exception {
 
 		try {

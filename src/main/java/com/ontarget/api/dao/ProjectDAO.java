@@ -2,6 +2,7 @@ package com.ontarget.api.dao;
 
 import com.ontarget.bean.Company;
 import com.ontarget.bean.ProjectDTO;
+import com.ontarget.bean.ProjectInfo;
 import com.ontarget.bean.ProjectMember;
 
 import java.util.List;
@@ -12,9 +13,11 @@ import java.util.Map;
  */
 public interface ProjectDAO {
 
-	public int addProject(ProjectDTO project) throws Exception;
+	public int addProject(ProjectDTO project,int userId) throws Exception;
 
 	public ProjectDTO getProject(int projectId) throws Exception;
+	
+	public ProjectInfo getProjectInfo(int projectId) throws Exception;
 
 	public ProjectDTO getProjectAndSubProjects(int projectId) throws Exception;
 
@@ -31,7 +34,7 @@ public interface ProjectDAO {
 
 	public List<Map<String, Object>> getProjectByUser(int userId);
 
-	public List<ProjectDTO> getChildProjects(int projectId) throws Exception;
+	public List<ProjectInfo> getChildProjects(int projectId) throws Exception;
 
 	public List<Company> getCompanyByProject(int projectId) throws Exception;
 }

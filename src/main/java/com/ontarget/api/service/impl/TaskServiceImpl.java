@@ -25,7 +25,8 @@ import com.ontarget.bean.Contact;
 import com.ontarget.bean.DependentTaskDTO;
 import com.ontarget.bean.FileAttachment;
 import com.ontarget.bean.ProjectDTO;
-import com.ontarget.bean.TaskDTO;
+import com.ontarget.bean.ProjectTaskInfo;
+import com.ontarget.bean.TaskInfo;
 import com.ontarget.bean.TaskStatusCount;
 import com.ontarget.bean.UserDTO;
 import com.ontarget.dto.ProjectTask;
@@ -151,7 +152,7 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public List<TaskDTO> getTask(Integer projectId) throws Exception {
+	public List<TaskInfo> getTask(Integer projectId) throws Exception {
 		return taskDAO.getTask(projectId);
 	}
 
@@ -292,7 +293,7 @@ public class TaskServiceImpl implements TaskService {
 
 			// get contact detail by userId
 			Contact contact = contactDAO.getContact(userId);
-			TaskDTO task = taskDAO.getTaskInfo(taskId);
+			ProjectTaskInfo task = taskDAO.getTaskInfo(taskId);
 			if (contact != null) {
 				emailService.sendTaskAssignmentEmail(task, contact);
 			}

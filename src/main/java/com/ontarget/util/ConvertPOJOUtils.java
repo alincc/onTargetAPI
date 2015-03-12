@@ -9,7 +9,6 @@ import com.ontarget.bean.Company;
 import com.ontarget.bean.Contact;
 import com.ontarget.bean.DependentTaskDTO;
 import com.ontarget.bean.ProjectDTO;
-import com.ontarget.bean.TaskDTO;
 import com.ontarget.bean.TaskEstimatedCost;
 import com.ontarget.bean.UserAddressInfo;
 import com.ontarget.dto.AddDependentRequest;
@@ -46,7 +45,9 @@ public class ConvertPOJOUtils {
 	public static Company convertToCompany(UserCompanyInfo userCompanyInfo) {
 		Company company = new Company();
 		company.setCompanyName(userCompanyInfo.getCompanyName());
-		company.setCompanyTypeId(userCompanyInfo.getCompanyTypeId());
+		if (userCompanyInfo.getCompanyTypeId() != null) {
+			company.setCompanyTypeId(userCompanyInfo.getCompanyTypeId());
+		}
 		company.setWebsite(userCompanyInfo.getWebsite());
 
 		AddressDTO addressDTO = new AddressDTO();
@@ -82,7 +83,9 @@ public class ConvertPOJOUtils {
 		addressDTO.setState(projectAddress.getState());
 		addressDTO.setZip(projectAddress.getZip());
 		addressDTO.setCountry(projectAddress.getCountry());
-		addressDTO.setAddressId(projectAddress.getAddressId());
+		if (projectAddress.getAddressId() != null) {
+			addressDTO.setAddressId(projectAddress.getAddressId());
+		}
 		return addressDTO;
 	}
 
@@ -104,8 +107,6 @@ public class ConvertPOJOUtils {
 	public static AccidentReport convertToAccidentReport(
 			AccidentReportRequest accidentReportRequestBean) {
 		AccidentReport accidentReport = new AccidentReport();
-		accidentReport.setAccidentReportId(accidentReportRequestBean
-				.getAccidentReportId());
 		accidentReport.setProjectId(accidentReportRequestBean.getProjectId());
 		accidentReport.setBodyPartAffected(accidentReportRequestBean
 				.getBodyPartAffected());
@@ -152,9 +153,16 @@ public class ConvertPOJOUtils {
 
 		AddDependentRequest addDependentRequest = new AddDependentRequest();
 		DependentTaskDTO dependentTaskDTO = new DependentTaskDTO();
-		dependentTaskDTO.setTaskId(dependentTask.getTaskId());
-		dependentTaskDTO.setDependentTaskId(dependentTask.getDependentTaskId());
-		dependentTaskDTO.setCategory_id(dependentTask.getCategoryId());
+		if (dependentTask.getTaskId() != null) {
+			dependentTaskDTO.setTaskId(dependentTask.getTaskId());
+		}
+		if (dependentTask.getDependentTaskId() != null) {
+			dependentTaskDTO.setDependentTaskId(dependentTask
+					.getDependentTaskId());
+		}
+		if (dependentTask.getCategoryId() != null) {
+			dependentTaskDTO.setCategory_id(dependentTask.getCategoryId());
+		}
 		dependentTaskDTO.setCreatedBy(dependentTaskRequest.getBaseRequest()
 				.getLoggedInUserId());
 
@@ -184,9 +192,7 @@ public class ConvertPOJOUtils {
 					.getLoggedInUserId());
 			taskEstimatedCost.setModifiedBy(taskBudget.getBaseRequest()
 					.getLoggedInUserId());
-			TaskDTO taskDTO = new TaskDTO();
-			taskDTO.setProjectTaskId(taskBudgetEstimate.getTaskId());
-			taskEstimatedCost.setTask(taskDTO);
+			taskEstimatedCost.setTaskId(taskBudgetEstimate.getTaskId());
 			costList.add(taskEstimatedCost);
 		}
 		taskBudgetRequest.setCostList(costList);

@@ -31,25 +31,25 @@ public class TaskInterval implements Serializable {
         this.year = year;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof TaskInterval)) return false;
-
-        TaskInterval that = (TaskInterval) o;
-
-        if (month != that.month) return false;
-        if (year != that.year) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = month;
-        result = 31 * result + year;
-        return result;
-    }
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (!(o instanceof TaskInterval)) return false;
+//
+//        TaskInterval that = (TaskInterval) o;
+//
+//        if (month != that.month) return false;
+//        if (year != that.year) return false;
+//
+//        return true;
+//    }
+//
+//    @Override
+//    public int hashCode() {
+//        int result = month;
+//        result = 31 * result + year;
+//        return result;
+//    }
 
     @Override
     public String toString() {

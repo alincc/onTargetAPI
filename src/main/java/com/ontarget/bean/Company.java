@@ -25,6 +25,22 @@ public class Company implements Serializable {
 		this.companyName = companyName;
 	}
 
+	public Integer getCompanyId() {
+		return companyId;
+	}
+
+	public void setCompanyId(Integer companyId) {
+		this.companyId = companyId;
+	}
+
+	public Integer getCompanyTypeId() {
+		return companyTypeId;
+	}
+
+	public void setCompanyTypeId(Integer companyTypeId) {
+		this.companyTypeId = companyTypeId;
+	}
+
 	public AddressDTO getAddress() {
 		return address;
 	}
@@ -47,22 +63,6 @@ public class Company implements Serializable {
 
 	public void setWebsite(String website) {
 		this.website = website;
-	}
-
-	public int getCompanyTypeId() {
-		return companyTypeId;
-	}
-
-	public void setCompanyTypeId(int companyTypeId) {
-		this.companyTypeId = companyTypeId;
-	}
-
-	public Integer getCompanyId() {
-		return companyId;
-	}
-
-	public void setCompanyId(Integer companyId) {
-		this.companyId = companyId;
 	}
 
 	@Override

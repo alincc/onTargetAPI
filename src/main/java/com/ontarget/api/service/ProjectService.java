@@ -2,6 +2,7 @@ package com.ontarget.api.service;
 
 import com.ontarget.bean.Company;
 import com.ontarget.bean.ProjectDTO;
+import com.ontarget.bean.ProjectInfo;
 import com.ontarget.dto.*;
 import com.ontarget.request.bean.ProjectRequest;
 
@@ -26,7 +27,7 @@ public interface ProjectService {
 
     public ProjectMemberListResponse getProjectMembers(int projectId) throws Exception;
 
-    public ProjectDTO getProject(int projectId) throws Exception;
+    public ProjectInfo getProject(int projectId) throws Exception;
 
-    public ProjectDTO getProjectTree(int projectId) throws Exception;
+    public ProjectInfo getProjectTree(int projectId) throws Exception;
 }

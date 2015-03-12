@@ -1,16 +1,40 @@
 package com.ontarget.api.service.impl;
 
-import com.ontarget.api.dao.*;
-import com.ontarget.api.service.ProjectReportService;
-import com.ontarget.bean.*;
-import com.ontarget.constant.OnTargetConstant;
-import com.ontarget.enums.TaskStatus;
-import com.ontarget.util.OntargetUtil;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import com.ontarget.api.dao.AccidentReportDAO;
+import com.ontarget.api.dao.ActivityDAO;
+import com.ontarget.api.dao.DocumentDAO;
+import com.ontarget.api.dao.ProjectDAO;
+import com.ontarget.api.dao.TaskBudgetDAO;
+import com.ontarget.api.dao.TaskDAO;
+import com.ontarget.api.dao.TaskPercentageDAO;
+import com.ontarget.api.service.ProjectReportService;
+import com.ontarget.bean.AccidentReport;
+import com.ontarget.bean.ActivityLog;
+import com.ontarget.bean.DocumentDTO;
+import com.ontarget.bean.NoAccidentReport;
+import com.ontarget.bean.ProjectDTO;
+import com.ontarget.bean.ProjectEarnedValueAnalysisReport;
+import com.ontarget.bean.TaskEstimatedCost;
+import com.ontarget.bean.TaskInfo;
+import com.ontarget.bean.TaskInterval;
+import com.ontarget.bean.TaskPercentage;
+import com.ontarget.bean.TimeSaved;
+import com.ontarget.bean.TreesSaved;
+import com.ontarget.constant.OnTargetConstant;
+import com.ontarget.enums.TaskStatus;
+import com.ontarget.util.OntargetUtil;
 
 /**
  * Created by Owner on 12/3/14.
@@ -46,21 +70,21 @@ public class ProjectReportServiceImpl implements ProjectReportService {
 			int projectId) throws Exception {
 		logger.debug("Getting earned value analysis report: " + projectId);
 		// task planned cost
-		Map<TaskDTO, Map<TaskInterval, TaskEstimatedCost>> taskPlannedCostByMonthAndYear = taskBudgetDAO
+		Map<TaskInfo, Map<TaskInterval, TaskEstimatedCost>> taskPlannedCostByMonthAndYear = taskBudgetDAO
 				.getTaskToCostMapByMonthYear(projectId,
 						OnTargetConstant.CostType.PLANNED);
 
 		// task actual cost
-		Map<TaskDTO, Map<TaskInterval, TaskEstimatedCost>> taskActualCostByMonthAndYear = taskBudgetDAO
+		Map<TaskInfo, Map<TaskInterval, TaskEstimatedCost>> taskActualCostByMonthAndYear = taskBudgetDAO
 				.getTaskToCostMapByMonthYear(projectId,
 						OnTargetConstant.CostType.ACTUAL);
 
 		// task percentage
-		Map<TaskDTO, Map<TaskInterval, TaskPercentage>> taskPercentageByMonthAndYear = taskPercentageDAO
+		Map<TaskInfo, Map<TaskInterval, TaskPercentage>> taskPercentageByMonthAndYear = taskPercentageDAO
 				.getTaskPercentageCompletesByMonthYear(projectId);
 
 		// Total budgeted cost
-		Map<TaskDTO, Double> totalTaskBudgetCost = new HashMap<>();
+		Map<TaskInfo, Double> totalTaskBudgetCost = new HashMap<>();
 
 		if (taskPlannedCostByMonthAndYear.isEmpty()) {
 			return null;
@@ -82,9 +106,9 @@ public class ProjectReportServiceImpl implements ProjectReportService {
 		/**
 		 * calculate total estimated cost by month and year
 		 */
-		for (Map.Entry<TaskDTO, Map<TaskInterval, TaskEstimatedCost>> entry : taskPlannedCostByMonthAndYear
+		for (Map.Entry<TaskInfo, Map<TaskInterval, TaskEstimatedCost>> entry : taskPlannedCostByMonthAndYear
 				.entrySet()) {
-			TaskDTO task = entry.getKey();
+			TaskInfo task = entry.getKey();
 			Map<TaskInterval, TaskEstimatedCost> monthYearEstimatedCost = entry
 					.getValue();
 
@@ -129,9 +153,9 @@ public class ProjectReportServiceImpl implements ProjectReportService {
 		 * calculate total actual cost by month year
 		 */
 
-		for (Map.Entry<TaskDTO, Map<TaskInterval, TaskEstimatedCost>> entry : taskActualCostByMonthAndYear
+		for (Map.Entry<TaskInfo, Map<TaskInterval, TaskEstimatedCost>> entry : taskActualCostByMonthAndYear
 				.entrySet()) {
-			TaskDTO task = entry.getKey();
+			TaskInfo task = entry.getKey();
 			Map<TaskInterval, TaskEstimatedCost> monthYearActualCost = entry
 					.getValue();
 
@@ -172,7 +196,7 @@ public class ProjectReportServiceImpl implements ProjectReportService {
 	public TimeSaved getTimeSaved(int projectId) throws Exception {
 
 		// get all task done within time.
-		List<TaskDTO> tasks = taskDAO.getTask(projectId,
+		List<TaskInfo> tasks = taskDAO.getTask(projectId,
 				TaskStatus.COMPLETED.getTaskStatusId());
 
 		// get all approved documents on time.
@@ -255,13 +279,13 @@ public class ProjectReportServiceImpl implements ProjectReportService {
 	 */
 	private void calculateCumulativeEarnedValue(
 			Map<TaskInterval, ProjectEarnedValueAnalysisReport> monthYearEarnedValueReportByTask,
-			Map<TaskDTO, Map<TaskInterval, TaskPercentage>> taskPercentageByMonthAndYear,
-			Map<TaskDTO, Double> totalTaskBudgetCost) {
+			Map<TaskInfo, Map<TaskInterval, TaskPercentage>> taskPercentageByMonthAndYear,
+			Map<TaskInfo, Double> totalTaskBudgetCost) {
 
-		for (Map.Entry<TaskDTO, Map<TaskInterval, TaskPercentage>> entry : taskPercentageByMonthAndYear
+		for (Map.Entry<TaskInfo, Map<TaskInterval, TaskPercentage>> entry : taskPercentageByMonthAndYear
 				.entrySet()) {
 
-			TaskDTO task = entry.getKey();
+			TaskInfo task = entry.getKey();
 			Map<TaskInterval, TaskPercentage> monthYearTaskPercentage = entry
 					.getValue();
 
@@ -288,14 +312,14 @@ public class ProjectReportServiceImpl implements ProjectReportService {
 	 */
 	private List<ProjectEarnedValueAnalysisReport> calculateEarnedValueAnalysisReport(
 			Map<TaskInterval, ProjectEarnedValueAnalysisReport> reportMap,
-			Map<TaskDTO, Double> totalTaskBudgetCost) {
+			Map<TaskInfo, Double> totalTaskBudgetCost) {
 
 		/**
 		 * total budget cost of all the tasks
 		 *
 		 */
 		double totalBudgetedCost = 0.0;
-		for (Map.Entry<TaskDTO, Double> entry : totalTaskBudgetCost.entrySet()) {
+		for (Map.Entry<TaskInfo, Double> entry : totalTaskBudgetCost.entrySet()) {
 			totalBudgetedCost += entry.getValue();
 		}
 

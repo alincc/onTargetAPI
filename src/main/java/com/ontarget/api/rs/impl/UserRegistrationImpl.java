@@ -20,6 +20,7 @@ import com.ontarget.api.service.ProjectService;
 import com.ontarget.api.service.UserProfileService;
 import com.ontarget.bean.Contact;
 import com.ontarget.bean.ProjectDTO;
+import com.ontarget.bean.ProjectInfo;
 import com.ontarget.bean.UserRegistration;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.OnTargetResponse;
@@ -73,7 +74,7 @@ public class UserRegistrationImpl implements
 				if (userProfileService.saveRegistration(projectId, firstName,
 						lastName, email, tokenId,
 						OnTargetConstant.AccountStatus.ACCOUNT_INVITATION)) {
-					ProjectDTO res = projectService.getProject(projectId);
+					ProjectInfo res = projectService.getProject(projectId);
 					long owner = res.getProjectOwnerId();
 					Contact c = userProfileService.getContact(owner);
 

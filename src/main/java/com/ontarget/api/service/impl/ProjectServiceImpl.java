@@ -23,9 +23,11 @@ import com.ontarget.bean.AddressDTO;
 import com.ontarget.bean.Company;
 import com.ontarget.bean.Contact;
 import com.ontarget.bean.ProjectDTO;
+import com.ontarget.bean.ProjectInfo;
 import com.ontarget.bean.ProjectMember;
 import com.ontarget.bean.TaskComment;
-import com.ontarget.bean.TaskDTO;
+import com.ontarget.bean.TaskInfo;
+import com.ontarget.bean.TaskObj;
 import com.ontarget.bean.UserDTO;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.OnTargetResponse;
@@ -96,7 +98,7 @@ public class ProjectServiceImpl implements ProjectService {
 		projectDTO.setCompanyId(companyId);
 		projectDTO.setProjectOwnerId(userId);
 
-		int projectId = projectDAO.addProject(projectDTO);
+		int projectId = projectDAO.addProject(projectDTO, userId);
 
 		// add the user to project member;
 		int projectMemberId = 0;
@@ -167,58 +169,60 @@ public class ProjectServiceImpl implements ProjectService {
 		return response;
 	}
 
-	public ProjectDTO getProject(int projectId) throws Exception {
-		ProjectDTO project = projectDAO.getProject((int) projectId);
-		setProjectLevel(project, 1);
-		return project;
-	}
-
-	public ProjectDTO getProjectTree(int projectId) throws Exception {
-		ProjectDTO project = projectDAO.getProject((int) projectId);
+	@Override
+	public ProjectInfo getProject(int projectId) throws Exception {
+		ProjectInfo project = projectDAO.getProjectInfo(projectId);
 		setProjectLevel(project, 1);
 		return project;
 	}
 
 	@Override
-	public ProjectResponse getProjectDetail(int projectId) throws Exception {
-		ProjectDTO project = getProjectTree(projectId);
-
-		ProjectResponse response = new ProjectResponse();
-		response.setProject(project);
-
-		project.setCompany(companyDAO.getCompany(project.getCompanyId()));
-		if (project.getProjectId() > 0) {
-
-			// set project address
-			AddressDTO address = project.getProjectAddress();
-			if (address == null) {
-				logger.info("address is null for project " + project);
-			} else {
-				AddressDTO projectAddress = addressDAO.getAddress(address
-						.getAddressId());
-				project.setProjectAddress(projectAddress);
-			}
-
-			// get list of tasks.
-			List<TaskDTO> tasks = taskDAO.getTask(projectId);
-			project.setTaskList(tasks);
-		}
-
-		response.setProject(project);
-		return response;
+	public ProjectInfo getProjectTree(int projectId) throws Exception {
+		ProjectInfo project = projectDAO.getProjectInfo(projectId);
+		setProjectLevel(project, 1);
+		return project;
 	}
 
-	public List<ProjectDTO> setProjectLevel(ProjectDTO project, int level)
+	@Override
+	public ProjectResponse getProjectDetail(int projectId) {
+		try {
+			ProjectInfo project = getProjectTree(projectId);
+			
+			ProjectResponse response = new ProjectResponse();
+			response.setProject(project);
+
+			project.setCompany(companyDAO.getCompany(project.getCompanyId()));
+			if (project.getProjectId() > 0) {
+				AddressDTO address = project.getProjectAddress();
+				if (address == null) {
+					logger.info("address is null for project " + project);
+				} else {
+					AddressDTO projectAddress = addressDAO.getAddress(address
+							.getAddressId());
+					project.setProjectAddress(projectAddress);
+				}
+				List<TaskObj> tasks = taskDAO.getTaskObjList(projectId);
+				project.setTaskObjList(tasks);
+			}
+			response.setProject(project);
+			return response;
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.info("error: " + e);
+			return null;
+		}
+	}
+
+	public List<ProjectInfo> setProjectLevel(ProjectInfo project, int level)
 			throws Exception {
-		List<ProjectDTO> projects = projectDAO.getChildProjects(project
+		List<ProjectInfo> projects = projectDAO.getChildProjects(project
 				.getProjectId());
 		if (level < 20 && projects != null && !projects.isEmpty()) {
 			level++;
-			for (ProjectDTO p : projects) {
+			for (ProjectInfo p : projects) {
 				setProjectLevel(p, level);
 			}
 		}
-
 		project.setProjects(projects);
 		return projects;
 	}
@@ -309,12 +313,12 @@ public class ProjectServiceImpl implements ProjectService {
 			project.setProjectAddress(projectAddress);
 
 			// get list of tasks.
-			List<TaskDTO> tasks = taskDAO.getTask(project.getProjectId());
+			List<TaskInfo> tasks = taskDAO.getTask(project.getProjectId());
 			project.setTaskList(tasks);
 			Map<Integer, Contact> contactMap = new HashMap<>(); //
 			// get all the comments in the tasks and assigned to.
 			if (tasks != null && tasks.size() > 0) {
-				for (TaskDTO task : tasks) {
+				for (TaskInfo task : tasks) {
 					List<TaskComment> comments = taskDAO.getTaskComments(task
 							.getProjectTaskId());
 					for (TaskComment comment : comments) {
@@ -331,21 +335,9 @@ public class ProjectServiceImpl implements ProjectService {
 					}
 					task.setComments(comments);
 
-					// //get task assigned to
-					// Long assignedUserId =
-					// taskDAO.getAssignedUser(task.getProjectTaskId());
-					// logger.debug("Getting contact detail for task assignee: "
-					// + assignedUserId);
-					// if (assignedUserId > 0) {
-					// Contact contact = contactDAO.getContact(assignedUserId);
-					// User assignedToUser = new User();
-					// assignedToUser.setContact(contact);
-					// task.setAssignedTo(assignedToUser);
-					// }
-
 					Set<Integer> assignees = taskDAO.getTaskMembers(task
 							.getProjectTaskId());
-
+					// TODO:
 					List<UserDTO> assignedUsers = new ArrayList<>();
 					task.setAssignee(assignedUsers);
 					if (assignees != null && assignees.size() > 0) {

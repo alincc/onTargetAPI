@@ -4,8 +4,10 @@ import java.util.List;
 import java.util.Set;
 
 import com.ontarget.bean.DependentTaskDTO;
+import com.ontarget.bean.ProjectTaskInfo;
 import com.ontarget.bean.TaskComment;
-import com.ontarget.bean.TaskDTO;
+import com.ontarget.bean.TaskInfo;
+import com.ontarget.bean.TaskObj;
 import com.ontarget.dto.ProjectTask;
 import com.ontarget.request.bean.Task;
 import com.ontarget.request.bean.TaskCommentRequest;
@@ -17,7 +19,9 @@ public interface TaskDAO {
 
     public int addTask(Task task, int userId) throws Exception;
 
-    public List<TaskDTO> getTask(int projectId) throws Exception;
+    public List<TaskInfo> getTask(int projectId) throws Exception;
+    
+    public List<TaskObj> getTaskObjList(int projectId) throws Exception;
     
     public List<ProjectTask> getTasksByProject(int projectId) throws Exception;
 
@@ -47,7 +51,7 @@ public interface TaskDAO {
 
     public ProjectTask getTaskDetail(int taskId) throws Exception;
     
-    public TaskDTO getTaskInfo(int taskId) throws Exception;
+    public ProjectTaskInfo getTaskInfo(int taskId) throws Exception;
 
     public List<ProjectTask> getChildTasks(int taskId) throws Exception;
 
@@ -57,5 +61,5 @@ public interface TaskDAO {
 
     public int addDependentTask(DependentTaskDTO dependentTask) throws Exception;
 
-    public List<TaskDTO> getTask(int projectId, int completed) throws Exception;
+    public List<TaskInfo> getTask(int projectId, int completed) throws Exception;
 }

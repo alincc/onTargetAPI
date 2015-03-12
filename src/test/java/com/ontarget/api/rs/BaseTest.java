@@ -95,6 +95,8 @@ public class BaseTest extends AbstractTransactionalJUnit4SpringContextTests {
 			client.register(JerseyResourceInitializer.class);
 			config = new ClientConfig();
 			client = ClientBuilder.newClient(config);
+			String fullUri = BASE_URI + path;
+			System.out.println(fullUri);
 			target = client.target(BASE_URI).path(path);
 			response = target.request(MediaType.APPLICATION_JSON).get();
 			return response;

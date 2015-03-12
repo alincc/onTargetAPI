@@ -1,107 +1,92 @@
 package com.ontarget.bean;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by Owner on 11/24/14.
  */
-public class TaskPercentage {
+public class TaskPercentage implements Serializable{
 
-    private int id;
-    private TaskDTO task;
-    private Date fromDate;
-    private Date toDate;
-    private String taskPercentageType; //
-    private Double taskPercentageComplete;
-    private int month;
-    private int year;
-    private String createdBy;
+	private int id;
+	private Date fromDate;
+	private Date toDate;
+	private String taskPercentageType;
+	private Double taskPercentageComplete;
+	private int month;
+	private int year;
+	private String createdBy;
 
-    public int getId() {
-        return id;
-    }
+	public int getId() {
+		return id;
+	}
 
-    public void setId(int id) {
-        this.id = id;
-    }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-    public TaskDTO getTask() {
-        return task;
-    }
+	public Date getFromDate() {
+		return fromDate;
+	}
 
-    public void setTask(TaskDTO task) {
-        this.task = task;
-    }
+	public void setFromDate(Date fromDate) {
+		this.fromDate = fromDate;
+	}
 
-    public Date getFromDate() {
-        return fromDate;
-    }
+	public Date getToDate() {
+		return toDate;
+	}
 
-    public void setFromDate(Date fromDate) {
-        this.fromDate = fromDate;
-    }
+	public void setToDate(Date toDate) {
+		this.toDate = toDate;
+	}
 
-    public Date getToDate() {
-        return toDate;
-    }
+	public String getTaskPercentageType() {
+		return taskPercentageType;
+	}
 
-    public void setToDate(Date toDate) {
-        this.toDate = toDate;
-    }
+	public void setTaskPercentageType(String taskPercentageType) {
+		this.taskPercentageType = taskPercentageType;
+	}
 
-    public String getTaskPercentageType() {
-        return taskPercentageType;
-    }
+	public Double getTaskPercentageComplete() {
+		return taskPercentageComplete;
+	}
 
-    public void setTaskPercentageType(String taskPercentageType) {
-        this.taskPercentageType = taskPercentageType;
-    }
+	public void setTaskPercentageComplete(Double taskPercentageComplete) {
+		this.taskPercentageComplete = taskPercentageComplete;
+	}
 
-    public Double getTaskPercentageComplete() {
-        return taskPercentageComplete;
-    }
+	public int getMonth() {
+		return month;
+	}
 
-    public void setTaskPercentageComplete(Double taskPercentageComplete) {
-        this.taskPercentageComplete = taskPercentageComplete;
-    }
+	public void setMonth(int month) {
+		this.month = month;
+	}
 
-    public int getMonth() {
-        return month;
-    }
+	public int getYear() {
+		return year;
+	}
 
-    public void setMonth(int month) {
-        this.month = month;
-    }
+	public void setYear(int year) {
+		this.year = year;
+	}
 
-    public int getYear() {
-        return year;
-    }
+	@Override
+	public String toString() {
+		return "TaskPercentage{" + "id=" + id + ", fromDate=" + fromDate
+				+ ", toDate=" + toDate + ", taskPercentageType='"
+				+ taskPercentageType + '\'' + ", taskPercentageComplete="
+				+ taskPercentageComplete + ", month=" + month + ", year="
+				+ year + '}';
+	}
 
-    public void setYear(int year) {
-        this.year = year;
-    }
+	public String getCreatedBy() {
+		return createdBy;
+	}
 
-
-    @Override
-    public String toString() {
-        return "TaskPercentage{" +
-                "id=" + id +
-                ", task=" + task +
-                ", fromDate=" + fromDate +
-                ", toDate=" + toDate +
-                ", taskPercentageType='" + taskPercentageType + '\'' +
-                ", taskPercentageComplete=" + taskPercentageComplete +
-                ", month=" + month +
-                ", year=" + year +
-                '}';
-    }
-
-
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
 }

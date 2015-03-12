@@ -49,7 +49,7 @@ public class ProjectEndpointTest extends BaseTest {
 
 		request.setProject(projectDetailInfo);
 
-		System.out.println("Client request .... \n");
+		System.out.println("Client request .... addProject\n");
 		System.out.println(toJsonString(request, true));
 		Response response = sendRequest("/project/addProject", request);
 		if (response.getStatus() != 200) {
@@ -98,7 +98,7 @@ public class ProjectEndpointTest extends BaseTest {
 
 		request.setProject(projectDetailInfo);
 
-		System.out.println("Client request .... \n");
+		System.out.println("Client request ....updateProject \n");
 		System.out.println(toJsonString(request, true));
 		Response response = sendRequest("/project/addProject", request);
 		if (response.getStatus() != 200) {
@@ -121,7 +121,7 @@ public class ProjectEndpointTest extends BaseTest {
 		request.setBaseRequest(baseRequest);
 		request.setProjectId(47);
 
-		System.out.println("Client request .... \n");
+		System.out.println("Client request ....getProjectDetail \n");
 		System.out.println(toJsonString(request, true));
 		Response response = sendRequest("/project/getProject", request);
 		if (response.getStatus() != 200) {
@@ -144,7 +144,7 @@ public class ProjectEndpointTest extends BaseTest {
 		request.setBaseRequest(baseRequest);
 		request.setProjectId(47);
 
-		System.out.println("Client request .... \n");
+		System.out.println("Client request ....getProjectMembers \n");
 		System.out.println(toJsonString(request, true));
 		Response response = sendRequest("/project/getProjectMembers", request);
 		if (response.getStatus() != 200) {
@@ -168,7 +168,7 @@ public class ProjectEndpointTest extends BaseTest {
 		request.setCompanyId(1);
 		request.setProjectId(47);
 
-		System.out.println("Client request .... \n");
+		System.out.println("Client request ....getProjectsByCompany \n");
 		System.out.println(toJsonString(request, true));
 		Response response = sendRequest("/project/getProjectsByCompany",
 				request);
@@ -192,7 +192,7 @@ public class ProjectEndpointTest extends BaseTest {
 		request.setBaseRequest(baseRequest);
 		request.setProjectId(47);
 
-		System.out.println("Client request .... \n");
+		System.out.println("Client request ....getCompanyByProject \n");
 		System.out.println(toJsonString(request, true));
 		Response response = sendRequest("/project/getCompanyByProject", request);
 		if (response.getStatus() != 200) {
@@ -215,7 +215,7 @@ public class ProjectEndpointTest extends BaseTest {
 		request.setBaseRequest(baseRequest);
 		request.setUserId(1);
 
-		System.out.println("Client request .... \n");
+		System.out.println("Client request ....getProjectByUser \n");
 		System.out.println(toJsonString(request, true));
 		Response response = sendRequest("/project/getProjectsByUser", request);
 		if (response.getStatus() != 200) {

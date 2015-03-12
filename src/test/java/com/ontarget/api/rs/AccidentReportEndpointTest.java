@@ -35,7 +35,8 @@ public class AccidentReportEndpointTest extends BaseTest {
 		accidentReport.setInjuredVisitedDoctor("Test Value");
 		accidentReport.setWorkersCompensationFiled("Test Value");
 		accidentReport.setInjuredLeftJob("Test Value");
-		accidentReport.setDateInjuredLeftJob(new Date(new java.util.Date().getTime()));
+		accidentReport.setDateInjuredLeftJob(new Date(new java.util.Date()
+				.getTime()));
 		accidentReport.setTimeInjuredLeftJob("Test Value");
 		accidentReport.setPossiblePreventiveMeasures("Test Value");
 		accidentReport.setUnsafeConditionsCorrected("Test Value");
@@ -44,7 +45,7 @@ public class AccidentReportEndpointTest extends BaseTest {
 
 		System.out.println("Client request .... \n");
 		System.out.println(toJsonString(accidentReport, true));
-		Response response = sendRequest("/accidentreports", accidentReport);
+		Response response = sendPutRequest("/accidentreports", accidentReport);
 		if (response.getStatus() != 200) {
 			throw new RuntimeException("Failed : HTTP error code : "
 					+ response.getStatus());

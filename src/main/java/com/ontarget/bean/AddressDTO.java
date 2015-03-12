@@ -7,7 +7,7 @@ import java.io.Serializable;
  */
 public class AddressDTO implements Serializable {
 
-	private Integer addressId;
+	private int addressId;
 	private String address1;
 	private String address2;
 	private String city;
@@ -20,11 +20,11 @@ public class AddressDTO implements Serializable {
 	private String country;
 	private String addressType;
 
-	public Integer getAddressId() {
+	public int getAddressId() {
 		return addressId;
 	}
 
-	public void setAddressId(Integer addressId) {
+	public void setAddressId(int addressId) {
 		this.addressId = addressId;
 	}
 

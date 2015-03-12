@@ -26,11 +26,11 @@ import com.ontarget.bean.Company;
 import com.ontarget.bean.Contact;
 import com.ontarget.bean.ContactPhone;
 import com.ontarget.bean.ProjectDTO;
+import com.ontarget.bean.ProjectInfo;
 import com.ontarget.bean.ProjectMember;
 import com.ontarget.bean.UserDTO;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.constant.OnTargetQuery;
-import com.ontarget.util.DateConverter;
 
 /**
  * Created by Owner on 11/5/14.
@@ -44,7 +44,7 @@ public class ProjectDAOImpl implements ProjectDAO {
 	private JdbcTemplate jdbcTemplate;
 
 	@Override
-	public int addProject(ProjectDTO project) throws Exception {
+	public int addProject(ProjectDTO project, int userId) throws Exception {
 		logger.info("Adding project: " + project);
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		jdbcTemplate.update(new PreparedStatementCreator() {
@@ -54,16 +54,16 @@ public class ProjectDAOImpl implements ProjectDAO {
 						OnTargetQuery.ADD_PROJECT, new String[] { "id" });
 				ps.setString(1, project.getProjectName());
 				ps.setString(2, project.getProjectDescription());
-				ps.setInt(3, project.getProjectTypeId());// TODO: get project
-															// type id and get
-															// it from project
-															// type table.
+				ps.setInt(3, project.getProjectTypeId());
 				ps.setInt(4, project.getCompanyId());
 				ps.setInt(5, project.getProjectAddress().getAddressId());
 				ps.setString(6, project.getStatus());
 				ps.setInt(7, project.getProjectParentId());
-				//ps.setDate(8, project.getStartDate());
-				//ps.setDate(9, project.getEndDate());
+				ps.setDate(8, new java.sql.Date(project.getStartDate()
+						.getTime()));
+				ps.setDate(9, new java.sql.Date(project.getEndDate().getTime()));
+				ps.setLong(10, userId);
+				ps.setLong(11, userId);
 				ps.setString(10, project.getProjectImagePath());
 				ps.setLong(11, project.getProjectOwnerId());
 				return ps;
@@ -109,14 +109,53 @@ public class ProjectDAOImpl implements ProjectDAO {
 
 		return project;
 	}
+	
+	
+	@Override
+	public ProjectInfo getProjectInfo(int projectId) throws Exception {
 
-	public List<ProjectDTO> getChildProjects(int projectId) throws Exception {
-		List<ProjectDTO> projects = new LinkedList<>();
+		final ProjectInfo project = new ProjectInfo();
+
+		jdbcTemplate.query(OnTargetQuery.GET_PROJECT,
+				new Object[] { projectId }, new RowMapper<ProjectInfo>() {
+					@Override
+					public ProjectInfo mapRow(ResultSet resultSet, int i)
+							throws SQLException {
+						project.setProjectId(projectId);
+						project.setProjectName(resultSet
+								.getString("PROJECT_NAME"));
+						project.setProjectDescription(resultSet
+								.getString("PROJECT_DESCRIPTION"));
+						project.setProjectTypeId(resultSet
+								.getInt("PROJECT_TYPE_ID"));
+						project.setProjectParentId(resultSet
+								.getInt("PROJECT_PARENT_ID"));
+						project.setCompanyId(resultSet.getInt("COMPANY_ID"));
+						project.setProjectOwnerId(resultSet
+								.getInt("project_owner_id"));
+						// logger.info("this is class of date object "+resultSet.getTime("project_start_date"));
+						project.setStartDate(resultSet
+								.getDate("project_start_date"));
+						project.setEndDate(resultSet
+								.getDate("project_end_date"));
+
+						return project;
+					}
+				});
+
+		return project;
+	}
+
+	
+	
+
+	public List<ProjectInfo> getChildProjects(int projectId) throws Exception {
+		List<ProjectInfo> projects = new LinkedList<>();
 		List<Map<String, Object>> rs = jdbcTemplate.queryForList(
 				OnTargetQuery.GET_CHILD_PROJECTS, projectId);
 		if (rs != null)
 			for (Map<String, Object> row : rs) {
-				ProjectDTO project = new ProjectDTO();
+				ProjectInfo project = new ProjectInfo();
 				project.setProjectId((int) row.get("project_id"));
 				project.setProjectName((String) row.get("PROJECT_NAME"));
 				project.setProjectDescription((String) row
@@ -127,9 +166,9 @@ public class ProjectDAOImpl implements ProjectDAO {
 						&& row.get("project_owner_id") != null)
 					project.setProjectOwnerId((int) row.get("project_owner_id"));
 				Date startDate = (Date) row.get("project_start_date");
-				project.setStartDate(DateConverter.convertUtilToSql(startDate));
+				project.setStartDate(startDate);
 				Date endDate = (Date) row.get("project_end_date");
-				project.setEndDate(DateConverter.convertUtilToSql(endDate));
+				project.setEndDate(endDate);
 				projects.add(project);
 			}
 

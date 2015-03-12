@@ -10,7 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ontarget.api.dao.TaskPercentageDAO;
 import com.ontarget.api.service.TaskPercentageService;
-import com.ontarget.bean.TaskDTO;
+import com.ontarget.bean.ProjectTaskInfo;
+import com.ontarget.bean.TaskInfo;
+import com.ontarget.bean.TaskObj;
 import com.ontarget.bean.TaskPercentage;
 import com.ontarget.request.bean.TaskProgress;
 import com.ontarget.request.bean.TaskProgressInfo;
@@ -90,7 +92,7 @@ public class TaskPercentageServiceImpl implements TaskPercentageService {
 	}
 
 	@Override
-	public Map<TaskDTO, List<TaskPercentage>> getTaskPercentageByProject(
+	public Map<ProjectTaskInfo, List<TaskPercentage>> getTaskPercentageByProject(
 			int projectId) throws Exception {
 		logger.debug("Getting list of percentage complete for project: "
 				+ projectId);

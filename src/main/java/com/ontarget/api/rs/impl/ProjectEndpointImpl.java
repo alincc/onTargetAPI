@@ -46,7 +46,7 @@ public class ProjectEndpointImpl implements ProjectEndoint {
 	@Path("/addProject")
 	public OnTargetResponse addProject(ProjectRequest request) {
 		OnTargetResponse response = null;
-		if (request.getProject().getProjectParentId() <= 0) {
+		if (request.getProject().getProjectId() == null) {
 			try {
 				response = projectService.addProject(request);
 			} catch (Exception e) {

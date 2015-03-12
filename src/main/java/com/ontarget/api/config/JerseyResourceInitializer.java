@@ -17,7 +17,7 @@ public class JerseyResourceInitializer extends ResourceConfig {
 		register(AuthorizationFilter.class);
 		register(ValidationConfigurationContextResolver.class);
 		register(ValidationExceptionMapper.class);
-		register(OntargetObjectMapper.class);
+		// register(OntargetObjectMapper.class);
 
 		property(ServerProperties.BV_SEND_ERROR_IN_RESPONSE, true);
 		property(ServerProperties.TRACING, true);

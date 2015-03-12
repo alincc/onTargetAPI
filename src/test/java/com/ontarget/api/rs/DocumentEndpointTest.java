@@ -34,7 +34,7 @@ public class DocumentEndpointTest extends BaseTest {
 		documentRequest.setDocumentTemplateId(20);
 		documentRequest.setDocumentName("test doc");
 		documentRequest.setDueDate(new java.sql.Date(new Date().getTime()));
-		documentRequest.setProjectId(0);
+		documentRequest.setProjectId(1);
 
 		List<Assignee> assignees = new ArrayList<>();
 		Assignee assignee = new Assignee();

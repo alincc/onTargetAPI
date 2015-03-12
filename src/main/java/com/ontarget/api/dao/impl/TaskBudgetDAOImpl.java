@@ -1,19 +1,29 @@
 package com.ontarget.api.dao.impl;
 
-import com.ontarget.api.dao.TaskBudgetDAO;
-import com.ontarget.bean.TaskDTO;
-import com.ontarget.bean.TaskEstimatedCost;
-import com.ontarget.bean.TaskInterval;
-import com.ontarget.constant.OnTargetQuery;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.*;
+import com.ontarget.api.dao.TaskBudgetDAO;
+import com.ontarget.bean.ProjectTaskInfo;
+import com.ontarget.bean.TaskEstimatedCost;
+import com.ontarget.bean.TaskInfo;
+import com.ontarget.bean.TaskInterval;
+import com.ontarget.constant.OnTargetQuery;
 
 /**
  * Created by Owner on 11/22/14.
@@ -37,11 +47,11 @@ public class TaskBudgetDAOImpl implements TaskBudgetDAO {
 	}
 
 	@Override
-	public Map<TaskDTO, List<TaskEstimatedCost>> getTaskToCostMap(long projectId,
+	public Map<ProjectTaskInfo, List<TaskEstimatedCost>> getTaskToCostMap(long projectId,
 			String costType) throws Exception {
 		logger.info("getting cost for project Id: " + projectId
 				+ " and cost type: " + costType);
-		Map<TaskDTO, List<TaskEstimatedCost>> taskToCostMap = new LinkedHashMap<>();
+		Map<ProjectTaskInfo, List<TaskEstimatedCost>> taskToCostMap = new LinkedHashMap<>();
 
 		jdbcTemplate.query(
 				OnTargetQuery.GET_TASK_PLANNED_ESTIMATED_COST_BY_PROJECT,
@@ -65,7 +75,7 @@ public class TaskBudgetDAOImpl implements TaskBudgetDAO {
 					cost.setMonth(month);
 					cost.setYear(year);
 
-					TaskDTO task = new TaskDTO();
+					ProjectTaskInfo task = new ProjectTaskInfo();
 					task.setProjectTaskId(resultSet.getInt("project_task_id"));
 					task.setTitle(resultSet.getString("title"));
 					List<TaskEstimatedCost> costList = taskToCostMap.get(task);
@@ -94,11 +104,11 @@ public class TaskBudgetDAOImpl implements TaskBudgetDAO {
 	}
 
 	@Override
-	public Map<TaskDTO, Map<TaskInterval, TaskEstimatedCost>> getTaskToCostMapByMonthYear(
+	public Map<TaskInfo, Map<TaskInterval, TaskEstimatedCost>> getTaskToCostMapByMonthYear(
 			int projectId, String costType) throws Exception {
 		logger.info("getting cost for project Id: " + projectId
 				+ " and cost type: " + costType);
-		Map<TaskDTO, Map<TaskInterval, TaskEstimatedCost>> taskToCostMap = new LinkedHashMap<>();
+		Map<TaskInfo, Map<TaskInterval, TaskEstimatedCost>> taskToCostMap = new LinkedHashMap<>();
 
 		jdbcTemplate
 				.query(OnTargetQuery.GET_TASK_PLANNED_ESTIMATED_COST_BY_PROJECT,
@@ -123,7 +133,7 @@ public class TaskBudgetDAOImpl implements TaskBudgetDAO {
 							cost.setMonth(month);
 							cost.setYear(year);
 
-							TaskDTO task = new TaskDTO();
+							TaskInfo task = new TaskInfo();
 							task.setProjectTaskId(resultSet
 									.getInt("project_task_id"));
 							task.setTitle(resultSet.getString("title"));
@@ -154,17 +164,17 @@ public class TaskBudgetDAOImpl implements TaskBudgetDAO {
 	}
 
 	@Override
-	public Map<TaskDTO, Map<TaskInterval, List<TaskEstimatedCost>>> getTaskCostMapByTask(
+	public Map<TaskInfo, Map<TaskInterval, List<TaskEstimatedCost>>> getTaskCostMapByTask(
 			int projectTaskId) throws Exception {
 
-		Map<TaskDTO, Map<TaskInterval, List<TaskEstimatedCost>>> taskMapMap = new LinkedHashMap<>();
+		Map<TaskInfo, Map<TaskInterval, List<TaskEstimatedCost>>> taskMapMap = new LinkedHashMap<>();
 
 		jdbcTemplate
 				.query(OnTargetQuery.GET_TASK_COST_BY_TASK,
 						new Object[] { projectTaskId },
 						(resultSet, i) -> {
 
-							TaskDTO task = new TaskDTO();
+							TaskInfo task = new TaskInfo();
 							task.setProjectTaskId(resultSet
 									.getInt("project_task_id"));
 							task.setTitle("title");
@@ -220,7 +230,7 @@ public class TaskBudgetDAOImpl implements TaskBudgetDAO {
 	}
 
 	@Override
-	public TaskDTO getTaskCostByTask(TaskDTO task) throws Exception {
+	public TaskInfo getTaskCostByTask(TaskInfo task) throws Exception {
 		final List<TaskEstimatedCost> taskCostList = new ArrayList<>();
 		// Task task = new Task();
 		task.setCosts(taskCostList);

@@ -18,7 +18,7 @@ import com.ontarget.api.service.HelloService;
  * Example resource class hosted at the URI path "/hello"
  */
 @Component
-@Path("/hello")
+@Path("/")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class Hello {
@@ -39,8 +39,7 @@ public class Hello {
 	@GET
 	public String hello() throws JsonMappingException {
 		logger.info("Hello Service");
-		System.out.println("Service:: " + helloService.getHello());
-		return "Hello Santosh";
+		return "Welcome to OnTarge: Construction Management System";
 
 	}
 }

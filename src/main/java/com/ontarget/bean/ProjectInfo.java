@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class ProjectDTO implements Serializable {
+public class ProjectInfo implements Serializable {
 	private Integer projectId;
 	private String projectName;
 	private String projectDescription;
@@ -15,14 +15,18 @@ public class ProjectDTO implements Serializable {
 	private Company company;
 	private Integer projectParentId;
 	private AddressDTO projectAddress;
-	private List<TaskInfo> taskList;
-	private List<TaskObj> taskObjList;
-	private List<ProjectDTO> projects;
 	private Date startDate;
 	private Date endDate;
 	private String projectImagePath;
+	private List<TaskObj> taskObjList;
+	private List<ProjectInfo> projects;
 
-	public ProjectDTO() {
+	public List<ProjectInfo> getProjects() {
+		return projects;
+	}
+
+	public void setProjects(List<ProjectInfo> projects) {
+		this.projects = projects;
 	}
 
 	public Integer getProjectId() {
@@ -105,30 +109,6 @@ public class ProjectDTO implements Serializable {
 		this.projectAddress = projectAddress;
 	}
 
-	public List<TaskInfo> getTaskList() {
-		return taskList;
-	}
-
-	public void setTaskList(List<TaskInfo> taskList) {
-		this.taskList = taskList;
-	}
-
-	public List<TaskObj> getTaskObjList() {
-		return taskObjList;
-	}
-
-	public void setTaskObjList(List<TaskObj> taskObjList) {
-		this.taskObjList = taskObjList;
-	}
-
-	public List<ProjectDTO> getProjects() {
-		return projects;
-	}
-
-	public void setProjects(List<ProjectDTO> projects) {
-		this.projects = projects;
-	}
-
 	public Date getStartDate() {
 		return startDate;
 	}
@@ -153,18 +133,12 @@ public class ProjectDTO implements Serializable {
 		this.projectImagePath = projectImagePath;
 	}
 
-	@Override
-	public String toString() {
-		return "Project{" + "projectId=" + projectId + ", projectName='"
-				+ projectName + '\'' + ", projectDescription='"
-				+ projectDescription + '\'' + ", projectTypeId="
-				+ projectTypeId + ", projectOwnerId=" + projectOwnerId
-				+ ", status='" + status + '\'' + ", companyId=" + companyId
-				+ ", company=" + company + ", projectParentId="
-				+ projectParentId + ", projectAddress=" + projectAddress
-				+ ", taskList=" + taskList + ", projects=" + projects
-				+ ", startDate=" + startDate + ", endDate=" + endDate
-				+ ", projectImagePath='" + projectImagePath + '\'' + '}';
+	public List<TaskObj> getTaskObjList() {
+		return taskObjList;
+	}
+
+	public void setTaskObjList(List<TaskObj> taskObjList) {
+		this.taskObjList = taskObjList;
 	}
 
 }

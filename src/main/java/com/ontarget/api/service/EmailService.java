@@ -4,7 +4,8 @@ import java.util.List;
 
 import com.ontarget.bean.Contact;
 import com.ontarget.bean.DocumentDTO;
-import com.ontarget.bean.TaskDTO;
+import com.ontarget.bean.ProjectTaskInfo;
+import com.ontarget.bean.TaskInfo;
 import com.ontarget.request.bean.Assignee;
 
 /**
@@ -28,7 +29,7 @@ public interface EmailService {
 	public boolean sendInviteToAccountEmail(String email, String firstName,
 			String lastName, String tokenId);
 
-	public void sendTaskAssignmentEmail(TaskDTO task, Contact contact)
+	public void sendTaskAssignmentEmail(ProjectTaskInfo task, Contact contact)
 			throws Exception;
 
 	public void sendForgotPasswordEmail(String emailAddress, String name,

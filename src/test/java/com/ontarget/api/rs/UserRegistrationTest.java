@@ -17,8 +17,7 @@ public class UserRegistrationTest extends BaseTest {
 		request.setProjectId(1);
 		request.setFirstName("santosh");
 		request.setLastName("pun");
-		request.setRegistrationToken("424234243424");
-
+		
 		System.out.println("Client request .... \n");
 		System.out.println(toJsonString(request, true));
 		Response response = sendRequest("/register/inviteUserIntoProject",

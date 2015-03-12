@@ -1,11 +1,12 @@
 package com.ontarget.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by Owner on 1/7/15.
  */
-public class TaskEstimatedCostByMonthYear {
+public class TaskEstimatedCostByMonthYear implements Serializable{
 
 
     private TaskInterval taskInterval;

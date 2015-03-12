@@ -1,11 +1,13 @@
 package com.ontarget.dto;
 
+import java.io.Serializable;
+
 import com.ontarget.bean.UserDTO;
 
 /**
  * Created by Owner on 10/29/14.
  */
-public class UserResponse extends OnTargetResponse {
+public class UserResponse extends OnTargetResponse implements Serializable{
 
     private UserDTO user;
     private String token;

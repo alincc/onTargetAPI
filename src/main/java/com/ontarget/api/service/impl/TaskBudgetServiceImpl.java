@@ -1,21 +1,28 @@
 package com.ontarget.api.service.impl;
 
-import com.ontarget.api.dao.TaskBudgetDAO;
-import com.ontarget.api.dao.TaskDAO;
-import com.ontarget.api.dao.TaskEstimatedCostDAO;
-import com.ontarget.api.service.TaskBudgetService;
-import com.ontarget.bean.TaskDTO;
-import com.ontarget.bean.TaskEstimatedCost;
-import com.ontarget.bean.TaskEstimatedCostByMonthYear;
-import com.ontarget.bean.TaskInterval;
-import com.ontarget.constant.OnTargetConstant;
-import com.ontarget.exception.NoTaskFoundException;
-import com.ontarget.util.OntargetUtil;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import com.ontarget.api.dao.TaskBudgetDAO;
+import com.ontarget.api.dao.TaskDAO;
+import com.ontarget.api.dao.TaskEstimatedCostDAO;
+import com.ontarget.api.service.TaskBudgetService;
+import com.ontarget.bean.ProjectTaskInfo;
+import com.ontarget.bean.TaskEstimatedCost;
+import com.ontarget.bean.TaskEstimatedCostByMonthYear;
+import com.ontarget.bean.TaskInfo;
+import com.ontarget.bean.TaskInterval;
+import com.ontarget.constant.OnTargetConstant;
+import com.ontarget.exception.NoTaskFoundException;
+import com.ontarget.util.OntargetUtil;
 
 /**
  * Created by Owner on 11/22/14.
@@ -70,7 +77,7 @@ public class TaskBudgetServiceImpl implements TaskBudgetService {
 	}
 
 	@Override
-	public Map<TaskDTO, List<TaskEstimatedCost>> getTaskCostByMonthAndYear(
+	public Map<ProjectTaskInfo, List<TaskEstimatedCost>> getTaskCostByMonthAndYear(
 			int projectId) throws Exception {
 		logger.debug("Getting task cost by month and year for project: "
 				+ projectId);
@@ -84,7 +91,7 @@ public class TaskBudgetServiceImpl implements TaskBudgetService {
 		logger.debug("Adding task budget: " + costs);
 		if (costs != null && costs.size() > 0) {
 			for (TaskEstimatedCost taskEstimatedCost : costs) {
-				if (taskEstimatedCost.getId() > 0) {
+				if (taskEstimatedCost.getId() != null) {
 					boolean updated = taskPlannedEstimatedCostDAO
 							.updatePlannedActualCost(taskEstimatedCost);
 					if (!updated) {
@@ -126,19 +133,21 @@ public class TaskBudgetServiceImpl implements TaskBudgetService {
 	}
 
 	@Override
-	public TaskDTO getTaskBudgetByTask(int taskId) throws Exception {
+	public TaskInfo getTaskBudgetByTask(int taskId) throws Exception {
 		logger.debug("Getting list of task budget for task: " + taskId);
-		TaskDTO task = taskDAO.getTaskInfo(taskId);
-		return taskBudgetDAO.getTaskCostByTask(task);
+		// TODO:
+		return null;
+		// TaskInfo task = taskDAO.getTaskInfo(taskId);
+		// return taskBudgetDAO.getTaskCostByTask(task);
 	}
 
 	@Override
-	public TaskDTO getTaskBudgetByTaskAndMonthYear(int taskId)
+	public ProjectTaskInfo getTaskBudgetByTaskAndMonthYear(int taskId)
 			throws NoTaskFoundException, Exception {
 		logger.debug("Getting list of task budget for task differentiated by month year: "
 				+ taskId);
 
-		TaskDTO task = taskDAO.getTaskInfo(taskId);
+		ProjectTaskInfo task = taskDAO.getTaskInfo(taskId);
 
 		if (task == null || task.getProjectTaskId() == 0) {
 			throw new NoTaskFoundException("Task Does not exist with id "

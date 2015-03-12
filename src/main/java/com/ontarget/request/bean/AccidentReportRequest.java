@@ -14,14 +14,13 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "baseRequest", "projectId", "accidentReportId",
-		"submittedTo", "supervisorName", "witness", "location",
-		"briefOfAccident", "severity", "description", "bodyPartAffected",
-		"dateOfAccident", "timeOfAccident", "injuredVisitedDoctor",
-		"workersCompensationFiled", "injuredLeftJob", "dateInjuredLeftJob",
-		"timeInjuredLeftJob", "possiblePreventiveMeasures",
-		"unsafeConditionsCorrected", "correctionMeasuresPerformed",
-		"correctionMeasuresToBePerformed" })
+@JsonPropertyOrder({ "baseRequest", "projectId", "submittedTo",
+		"supervisorName", "witness", "location", "briefOfAccident", "severity",
+		"description", "bodyPartAffected", "dateOfAccident", "timeOfAccident",
+		"injuredVisitedDoctor", "workersCompensationFiled", "injuredLeftJob",
+		"dateInjuredLeftJob", "timeInjuredLeftJob",
+		"possiblePreventiveMeasures", "unsafeConditionsCorrected",
+		"correctionMeasuresPerformed", "correctionMeasuresToBePerformed" })
 public class AccidentReportRequest {
 	@NotNull
 	@Valid
@@ -30,8 +29,6 @@ public class AccidentReportRequest {
 	@NotNull
 	@JsonProperty("projectId")
 	private Integer projectId;
-	@JsonProperty("accidentReportId")
-	private Integer accidentReportId;
 	@NotEmpty
 	@JsonProperty("submittedTo")
 	private String submittedTo;
@@ -108,16 +105,6 @@ public class AccidentReportRequest {
 	@JsonProperty("projectId")
 	public void setProjectId(Integer projectId) {
 		this.projectId = projectId;
-	}
-
-	@JsonProperty("accidentReportId")
-	public Integer getAccidentReportId() {
-		return accidentReportId;
-	}
-
-	@JsonProperty("accidentReportId")
-	public void setAccidentReportId(Integer accidentReportId) {
-		this.accidentReportId = accidentReportId;
 	}
 
 	@JsonProperty("submittedTo")

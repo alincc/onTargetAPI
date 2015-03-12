@@ -5,111 +5,106 @@ import java.io.Serializable;
 /**
  * Created by Owner on 10/26/14.
  */
-public class UserDTO implements Serializable{
+public class UserDTO implements Serializable {
 
-    private Integer userId;
-    private String username;
-    private String password;
-    private String salt;
-    private String designation;
-    private String accountStatus;
-    private String userStatus;
-    private Long discipline;
-    private Contact contact;
+	private int userId;
+	private String username;
+	private String password;
+	private String salt;
+	private String designation;
+	private String accountStatus;
+	private String userStatus;
+	private long discipline;
+	private Contact contact;
+	private int userTypeId;
 
-    public String getSalt() {
-        return salt;
-    }
+	public UserDTO() {
+	}
 
-    public void setSalt(String salt) {
-        this.salt = salt;
-    }
+	public int getUserId() {
+		return userId;
+	}
 
-    public String getAccountStatus() {
-        return accountStatus;
-    }
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
 
-    public void setAccountStatus(String accountStatus) {
-        this.accountStatus = accountStatus;
-    }
+	public String getUsername() {
+		return username;
+	}
 
-    public String getUserStatus() {
-        return userStatus;
-    }
+	public void setUsername(String username) {
+		this.username = username;
+	}
 
-    public void setUserStatus(String userStatus) {
-        this.userStatus = userStatus;
-    }
+	public String getPassword() {
+		return password;
+	}
 
-    public Integer getUserTypeId() {
-        return userTypeId;
-    }
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-    public void setUserTypeId(Integer userTypeId) {
-        this.userTypeId = userTypeId;
-    }
+	public String getSalt() {
+		return salt;
+	}
 
-    private Integer userTypeId;
+	public void setSalt(String salt) {
+		this.salt = salt;
+	}
 
-    public String getDesignation() {
-        return designation;
-    }
+	public String getDesignation() {
+		return designation;
+	}
 
-    public void setDesignation(String designation) {
-        this.designation = designation;
-    }
+	public void setDesignation(String designation) {
+		this.designation = designation;
+	}
 
+	public String getAccountStatus() {
+		return accountStatus;
+	}
 
-    public UserDTO() {
-    }
+	public void setAccountStatus(String accountStatus) {
+		this.accountStatus = accountStatus;
+	}
 
-    public String getUsername() {
-        return username;
-    }
+	public String getUserStatus() {
+		return userStatus;
+	}
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+	public void setUserStatus(String userStatus) {
+		this.userStatus = userStatus;
+	}
 
-    public String getPassword() {
-        return password;
-    }
+	public long getDiscipline() {
+		return discipline;
+	}
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+	public void setDiscipline(long discipline) {
+		this.discipline = discipline;
+	}
 
-    public Integer getUserId() {
-        return userId;
-    }
+	public int getUserTypeId() {
+		return userTypeId;
+	}
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
+	public void setUserTypeId(int userTypeId) {
+		this.userTypeId = userTypeId;
+	}
 
-    public Long getDiscipline() {
-        return discipline;
-    }
+	@Override
+	public String toString() {
+		return "User{" + "userId=" + userId + ", username='" + username + '\''
+				+ ", password='" + password + '\'' + ", designation='"
+				+ designation + '\'' + '}';
+	}
 
-    public void setDiscipline(Long discipline) {
-        this.discipline = discipline;
-    }
+	public Contact getContact() {
+		return contact;
+	}
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "userId=" + userId +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", designation='" + designation + '\'' +
-                '}';
-    }
-
-    public Contact getContact() {
-        return contact;
-    }
-
-    public void setContact(Contact contact) {
-        this.contact = contact;
-    }
+	public void setContact(Contact contact) {
+		this.contact = contact;
+	}
 }

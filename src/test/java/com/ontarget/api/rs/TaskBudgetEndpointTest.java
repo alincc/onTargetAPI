@@ -71,7 +71,7 @@ public class TaskBudgetEndpointTest extends BaseTest {
 
 		taskBudget.setTaskBudgetEstimates(taskBudgetEstimateList);
 
-		System.out.println("Client request.... \n");
+		System.out.println("Client request....addTaskBudget \n");
 		System.out.println(toJsonString(taskBudget, true));
 		Response response = sendRequest("/task/budget/add", taskBudget);
 		if (response.getStatus() != 200) {
@@ -112,7 +112,7 @@ public class TaskBudgetEndpointTest extends BaseTest {
 
 		taskBudget.setTaskBudgetEstimates(taskBudgetEstimateList);
 
-		System.out.println("Client request.... \n");
+		System.out.println("Client request....updateTaskBudget \n");
 		System.out.println(toJsonString(taskBudget, true));
 		Response response = sendRequest("/task/budget/update", taskBudget);
 		if (response.getStatus() != 200) {
@@ -136,7 +136,7 @@ public class TaskBudgetEndpointTest extends BaseTest {
 		request.setBaseRequest(baseRequest);
 		request.setTaskId(1);
 
-		System.out.println("Client request.... \n");
+		System.out.println("Client request....getTaskBudgetByTaskId \n");
 		System.out.println(toJsonString(request, true));
 		Response response = sendRequest("/task/budget/getTaskBudgetByTaskId",
 				request);

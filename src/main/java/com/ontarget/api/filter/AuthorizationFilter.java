@@ -112,9 +112,7 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 			if (authorized) {
 				return true;
 			}
-			// return false;
-			// TODO: to pass request
-			return true;
+			return false;
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("System error");

@@ -40,12 +40,7 @@ public class TaskEndpointTest extends BaseTest {
 		taskRequest.setBaseRequest(baseRequest);
 
 		Task task = new Task();
-		// task.setStartDateText("2014-01-01 15:00:00");
-		// task.setEndDateText("2015-01-01 13:00:00");
-		// update
-		// task.setProjectTaskId(1);
 		task.setPercentageComplete(10);
-		// add
 		task.setProjectTaskId(0);
 
 		task.setStartDate(new Date(new java.util.Date().getTime()));
@@ -77,6 +72,61 @@ public class TaskEndpointTest extends BaseTest {
 		taskRequest.setUserId(1);
 
 		System.out.println("Client request addTask.... \n");
+		System.out.println(toJsonString(taskRequest, true));
+		Response response = sendRequest("/task/addTask", taskRequest);
+		if (response.getStatus() != 200) {
+			throw new RuntimeException("Failed : HTTP error code : "
+					+ response.getStatus());
+		}
+		String output = response.readEntity(String.class);
+		System.out.println("Server response .... \n");
+		System.out.println(output);
+
+	}
+
+	@Test
+	public void updateTask() {
+
+		TaskRequest taskRequest = new TaskRequest();
+
+		BaseRequest baseRequest = new BaseRequest();
+		baseRequest.setLoggedInUserId(1);
+		baseRequest.setLoggedInUserProjectId(1);
+
+		taskRequest.setBaseRequest(baseRequest);
+
+		Task task = new Task();
+		task.setPercentageComplete(10);
+		task.setProjectTaskId(0);
+
+		task.setStartDate(new Date(new java.util.Date().getTime()));
+		task.setEndDate(new Date(new java.util.Date().getTime()));
+		task.setTitle("task1");
+		task.setDescription("task desc");
+		task.setStatus("1");
+		task.setSeverity("1");
+		task.setProjectTaskId(1);
+
+		Project project = new Project();
+		project.setProjectId(1);
+		project.setStartDate(new Date(new java.util.Date().getTime()));
+		project.setEndDate(new Date(new java.util.Date().getTime()));
+		task.setProject(project);
+
+		taskRequest.setTask(task);
+
+		ParentTask parentTask = new ParentTask();
+		parentTask.setProjectTaskId(1);
+		parentTask.setStartDate(DateConverter
+				.convertUtilToSql(new java.util.Date()));
+		parentTask.setEndDate(DateConverter
+				.convertUtilToSql(new java.util.Date()));
+		task.setParentTask(parentTask);
+
+		taskRequest.setTask(task);
+		taskRequest.setUserId(1);
+
+		System.out.println("Client request updateTask.... \n");
 		System.out.println(toJsonString(taskRequest, true));
 		Response response = sendRequest("/task/addTask", taskRequest);
 		if (response.getStatus() != 200) {
