@@ -40,8 +40,6 @@ public class TaskEndpointTest extends BaseTest {
 		taskRequest.setBaseRequest(baseRequest);
 
 		Task task = new Task();
-		task.setPercentageComplete(10);
-		task.setProjectTaskId(0);
 
 		task.setStartDate(new Date(new java.util.Date().getTime()));
 		task.setEndDate(new Date(new java.util.Date().getTime()));
@@ -50,22 +48,12 @@ public class TaskEndpointTest extends BaseTest {
 		task.setStatus("1");
 		task.setSeverity("1");
 
-		Project project = new Project();
-		project.setProjectId(1);
-		project.setStartDate(new Date(new java.util.Date().getTime()));
-		project.setEndDate(new Date(new java.util.Date().getTime()));
-		task.setProject(project);
+		task.setProjectId(1);
 
 		taskRequest.setTask(task);
 
 		ParentTask parentTask = new ParentTask();
-		// parentTask.setStartDateText("2014-01-01 15:00:00");
-		// parentTask.setEndDateText("2015-01-01 13:00:00");
 		parentTask.setProjectTaskId(1);
-		parentTask.setStartDate(DateConverter
-				.convertUtilToSql(new java.util.Date()));
-		parentTask.setEndDate(DateConverter
-				.convertUtilToSql(new java.util.Date()));
 		task.setParentTask(parentTask);
 
 		taskRequest.setTask(task);
@@ -96,7 +84,6 @@ public class TaskEndpointTest extends BaseTest {
 		taskRequest.setBaseRequest(baseRequest);
 
 		Task task = new Task();
-		task.setPercentageComplete(10);
 		task.setProjectTaskId(0);
 
 		task.setStartDate(new Date(new java.util.Date().getTime()));
@@ -107,20 +94,12 @@ public class TaskEndpointTest extends BaseTest {
 		task.setSeverity("1");
 		task.setProjectTaskId(1);
 
-		Project project = new Project();
-		project.setProjectId(1);
-		project.setStartDate(new Date(new java.util.Date().getTime()));
-		project.setEndDate(new Date(new java.util.Date().getTime()));
-		task.setProject(project);
+		task.setProjectId(1);
 
 		taskRequest.setTask(task);
 
 		ParentTask parentTask = new ParentTask();
 		parentTask.setProjectTaskId(1);
-		parentTask.setStartDate(DateConverter
-				.convertUtilToSql(new java.util.Date()));
-		parentTask.setEndDate(DateConverter
-				.convertUtilToSql(new java.util.Date()));
 		task.setParentTask(parentTask);
 
 		taskRequest.setTask(task);

@@ -51,7 +51,8 @@ public class TaskDAOImpl implements TaskDAO {
 	@Override
 	public int addTask(Task task, int userId) throws Exception {
 
-		logger.info("Adding address: " + task);
+		logger.info("parent task id:: "
+				+ task.getParentTask().getProjectTaskId());
 
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		jdbcTemplate.update(new PreparedStatementCreator() {
@@ -59,24 +60,20 @@ public class TaskDAOImpl implements TaskDAO {
 					Connection connection) throws SQLException {
 				PreparedStatement ps = connection.prepareStatement(
 						OnTargetQuery.ADD_TASK, new String[] { "id" });
-				ps.setLong(1, task.getProject().getProjectId());
+				ps.setLong(1, task.getProjectId());
 				ps.setString(2, task.getTitle());
 				ps.setString(3, task.getDescription());
 				ps.setInt(4, task.getParentTask().getProjectTaskId());
-
-				ps.setInt(4, 0);
 				ps.setString(5, task.getStatus());
 				ps.setString(6, task.getSeverity());
 				ps.setDate(7, task.getStartDate());
 				ps.setDate(8, task.getEndDate());
-
 				ps.setInt(9, userId);
 				ps.setInt(10, userId);
-
 				return ps;
 			}
 		}, keyHolder);
-		logger.debug("Added address with id: " + keyHolder.getKey().intValue());
+		logger.debug("Added task with id: " + keyHolder.getKey().intValue());
 		return keyHolder.getKey().intValue();
 	}
 
@@ -109,7 +106,7 @@ public class TaskDAOImpl implements TaskDAO {
 
 		return tasks;
 	}
-	
+
 	@Override
 	public List<TaskObj> getTaskObjList(int projectId) throws Exception {
 		List<Map<String, Object>> taskList = jdbcTemplate.queryForList(
@@ -139,7 +136,6 @@ public class TaskDAOImpl implements TaskDAO {
 
 		return tasks;
 	}
-
 
 	@Override
 	public List<ProjectTask> getTasksByProject(int projectId) throws Exception {
@@ -303,7 +299,6 @@ public class TaskDAOImpl implements TaskDAO {
 
 	}
 
-	
 	@Override
 	public List<TaskComment> getTaskComments(int projectTaskId)
 			throws Exception {
@@ -332,16 +327,16 @@ public class TaskDAOImpl implements TaskDAO {
 		ParentTask parentTask = task.getParentTask();
 		int projectTaskId = parentTask == null ? 0 : parentTask
 				.getProjectTaskId();
+		logger.info("parent task id:: " + projectTaskId);
 		int row = jdbcTemplate.update(
 				OnTargetQuery.UPDATE_TASK,
 				new Object[] { task.getTitle(), task.getDescription(),
 						projectTaskId, task.getStatus(), task.getStartDate(),
-						task.getEndDate(), task.getPercentageComplete(),
-						task.getSeverity(), userId, task.getProjectTaskId() });
+						task.getEndDate(), task.getSeverity(), userId,
+						task.getProjectTaskId() });
 		if (row == 0) {
 			throw new Exception("Unable to update task comment");
 		}
-
 		return true;
 	}
 

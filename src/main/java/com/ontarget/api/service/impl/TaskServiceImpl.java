@@ -30,11 +30,12 @@ import com.ontarget.bean.TaskInfo;
 import com.ontarget.bean.TaskStatusCount;
 import com.ontarget.bean.UserDTO;
 import com.ontarget.dto.ProjectTask;
-import com.ontarget.request.bean.ParentTask;
+import com.ontarget.exception.DateAfterException;
+import com.ontarget.exception.DateBeforeException;
 import com.ontarget.request.bean.Project;
 import com.ontarget.request.bean.Task;
 import com.ontarget.request.bean.TaskCommentRequest;
-import com.ontarget.util.DateConverter;
+import com.ontarget.util.DateFormater;
 
 /**
  * Created by Owner on 11/6/14.
@@ -75,53 +76,46 @@ public class TaskServiceImpl implements TaskService {
 	public boolean addTaskService(Task task, int userId) throws Exception {
 		logger.info("Add/Update task: " + task);
 
-		int taskId = task.getProjectTaskId();
-		// validate times
-		Date startDate = task.getStartDate();
-		Date endDate = task.getEndDate();
-		if (task.getProject() == null) {
+		Integer taskId = task.getProjectTaskId();
+		logger.info("task id:: " + taskId);
+
+		Date startDate = DateFormater.getFormattedDate(task.getStartDate());
+		Date endDate = DateFormater.getFormattedDate(task.getEndDate());
+
+		logger.info("task start date after formatting:: " + startDate);
+		logger.info("task end date after formatting:: " + endDate);
+
+		if (task.getProjectId() == null) {
 			throw new Exception("task project is null");
 		} else {
-			Date projectStartDate = task.getProject().getStartDate();
-			Date projectEndDate = task.getProject().getEndDate();
-			if (projectStartDate == null || projectEndDate == null) {
-				ProjectDTO projectDTO = projectDAO.getProject(task.getProject()
-						.getProjectId());
-				logger.info("start and end date of project is null so getting new project "
-						+ projectDTO.toString());
-				if (projectDTO == null) {
-					throw new Exception("project is invalid for task");
-				}
-
-				Project project = new Project();
-				project.setProjectId(projectDTO.getProjectId());
-				project.setStartDate(DateConverter.convertUtilToSql(projectDTO
-						.getStartDate()));
-				project.setEndDate(DateConverter.convertUtilToSql(projectDTO
-						.getEndDate()));
-
-				task.setProject(project);
-				projectStartDate = project.getStartDate();
-				projectEndDate = project.getEndDate();
+			ProjectDTO project = projectDAO.getProject(task.getProjectId());
+			logger.info("start and end date of project is null so getting new project "
+					+ project.toString());
+			if (project.getProjectId() == null) {
+				throw new Exception("project is invalid for task");
 			}
 
-		}
+			Date projectStartDate = DateFormater.getFormattedDate(project
+					.getStartDate());
+			Date projectEndDate = DateFormater.getFormattedDate(project
+					.getEndDate());
 
-		ParentTask parentTask = task.getParentTask();
-		if (parentTask != null) {
-			Date parentTaskStartDate = parentTask.getStartDate();
-			Date parentTaskEndDate = parentTask.getEndDate();
-			if (parentTaskStartDate == null || parentTaskEndDate == null) {
-				ProjectTask parentTaskDTO = taskDAO.getTaskDetail(parentTask
-						.getProjectTaskId());
-				if (parentTaskDTO == null) {
-					throw new Exception("parent task does not exists");
+			logger.info("project start date:: " + projectStartDate);
+			logger.info("project end date:: " + projectEndDate);
+
+			if (startDate.before(projectStartDate)) {
+				logger.info(startDate.toString() + " less than "
+						+ projectStartDate.toString());
+				throw new DateBeforeException(
+						"Task starts before project start date");
+			} else {
+				if (endDate.after(projectEndDate)) {
+					logger.info(endDate.toString() + " more than "
+							+ projectEndDate.toString());
+					throw new DateAfterException(
+							"Task ends after project end date");
 				}
-
-				parentTaskStartDate = parentTaskDTO.getStartDate();
-				parentTaskEndDate = parentTaskDTO.getEndDate();
 			}
-
 		}
 
 		if (isTaskAdd(taskId)) {
@@ -137,18 +131,16 @@ public class TaskServiceImpl implements TaskService {
 			throw new Exception("Add/update task failed.");
 		}
 
-		// add project task assignee.
-
 		return true;
 	}
 
 	public boolean isTaskAdd(Task task) {
-		int taskId = task.getProjectTaskId();
+		Integer taskId = task.getProjectTaskId();
 		return isTaskAdd(taskId);
 	}
 
-	private boolean isTaskAdd(int taskId) {
-		return taskId <= 0;
+	private boolean isTaskAdd(Integer taskId) {
+		return taskId == null;
 	}
 
 	@Override
@@ -192,7 +184,8 @@ public class TaskServiceImpl implements TaskService {
 		return task;
 	}
 
-	public List<ProjectTask> setTaskLevel(ProjectTask task, int level) throws Exception {
+	public List<ProjectTask> setTaskLevel(ProjectTask task, int level)
+			throws Exception {
 		List<ProjectTask> childTasks = taskDAO.getChildTasks(task
 				.getProjectTaskId());
 		if (level < 20 && childTasks != null && !childTasks.isEmpty()) {

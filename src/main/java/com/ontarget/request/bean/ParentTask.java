@@ -11,78 +11,24 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "projectTaskId", "startDateText", "endDateText",
-		"startDate", "endDate" })
+@JsonPropertyOrder({ "projectTaskId", "startDate", "endDate" })
 public class ParentTask {
 	@NotNull
 	@JsonProperty("projectTaskId")
 	private Integer projectTaskId;
-	@JsonProperty("startDateText")
-	private String startDateText;
-	@JsonProperty("endDateText")
-	private String endDateText;
-	@NotNull
 	@JsonProperty("startDate")
 	private Date startDate;
-	@NotNull
 	@JsonProperty("endDate")
 	private Date endDate;
 
-	/**
-	 * 
-	 * @return The projectTaskId
-	 */
 	@JsonProperty("projectTaskId")
 	public Integer getProjectTaskId() {
 		return projectTaskId;
 	}
 
-	/**
-	 * 
-	 * @param projectTaskId
-	 *            The projectTaskId
-	 */
 	@JsonProperty("projectTaskId")
 	public void setProjectTaskId(Integer projectTaskId) {
 		this.projectTaskId = projectTaskId;
-	}
-
-	/**
-	 * 
-	 * @return The startDateText
-	 */
-	@JsonProperty("startDateText")
-	public String getStartDateText() {
-		return startDateText;
-	}
-
-	/**
-	 * 
-	 * @param startDateText
-	 *            The startDateText
-	 */
-	@JsonProperty("startDateText")
-	public void setStartDateText(String startDateText) {
-		this.startDateText = startDateText;
-	}
-
-	/**
-	 * 
-	 * @return The endDateText
-	 */
-	@JsonProperty("endDateText")
-	public String getEndDateText() {
-		return endDateText;
-	}
-
-	/**
-	 * 
-	 * @param endDateText
-	 *            The endDateText
-	 */
-	@JsonProperty("endDateText")
-	public void setEndDateText(String endDateText) {
-		this.endDateText = endDateText;
 	}
 
 	public Date getStartDate() {
