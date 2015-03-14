@@ -47,6 +47,8 @@ public class AccidentReportDAOImpl extends BaseGenericDAOImpl<AccidentReport>
 				if (accidentReport.getDateInjuredLeftJob() != null) {
 					ps.setDate(14, new java.sql.Date(accidentReport
 							.getDateInjuredLeftJob().getTime()));
+				} else {
+					ps.setDate(14, null);
 				}
 				ps.setString(15, accidentReport.getTimeInjuredLeftJob());
 				ps.setString(16, accidentReport.getPossiblePreventiveMeasures());
