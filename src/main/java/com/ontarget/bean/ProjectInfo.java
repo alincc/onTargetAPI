@@ -18,7 +18,7 @@ public class ProjectInfo implements Serializable {
 	private Date startDate;
 	private Date endDate;
 	private String projectImagePath;
-	private List<TaskObj> tasks;
+	private List<TaskObj> taskList;
 	private List<ProjectInfo> projects;
 
 	public List<ProjectInfo> getProjects() {
@@ -133,12 +133,12 @@ public class ProjectInfo implements Serializable {
 		this.projectImagePath = projectImagePath;
 	}
 
-	public List<TaskObj> getTasks() {
-		return tasks;
+	public List<TaskObj> getTaskList() {
+		return taskList;
 	}
 
-	public void setTasks(List<TaskObj> tasks) {
-		this.tasks = tasks;
+	public void setTaskList(List<TaskObj> taskList) {
+		this.taskList = taskList;
 	}
 
 }

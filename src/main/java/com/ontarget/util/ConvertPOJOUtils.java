@@ -174,6 +174,7 @@ public class ConvertPOJOUtils {
 	public static TaskBudgetRequest convertToTaskBudgetRequest(
 			TaskBudget taskBudget) {
 		TaskBudgetRequest taskBudgetRequest = new TaskBudgetRequest();
+
 		List<TaskEstimatedCost> costList = new ArrayList<TaskEstimatedCost>();
 
 		List<TaskBudgetEstimate> taskEstimates = taskBudget
@@ -185,8 +186,6 @@ public class ConvertPOJOUtils {
 			taskEstimatedCost.setCostType(taskBudgetEstimate.getCostType());
 			taskEstimatedCost.setFromDate(taskBudgetEstimate.getFromDate());
 			taskEstimatedCost.setToDate(taskBudgetEstimate.getToDate());
-			taskEstimatedCost.setMonth(taskBudgetEstimate.getMonth());
-			taskEstimatedCost.setYear(taskBudgetEstimate.getYear());
 			taskEstimatedCost.setId(taskBudgetEstimate.getId());
 			taskEstimatedCost.setCreatedBy(taskBudget.getBaseRequest()
 					.getLoggedInUserId());

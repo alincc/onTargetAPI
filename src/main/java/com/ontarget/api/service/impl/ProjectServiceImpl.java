@@ -204,7 +204,7 @@ public class ProjectServiceImpl implements ProjectService {
 					project.setProjectAddress(projectAddress);
 				}
 				List<TaskObj> tasks = taskDAO.getTaskObjList(projectId);
-				project.setTasks(tasks);
+				project.setTaskList(tasks);
 			}
 			response.setProject(project);
 			return response;
@@ -234,7 +234,6 @@ public class ProjectServiceImpl implements ProjectService {
 			throws Exception {
 		List<ProjectMember> projectMembers = projectDAO
 				.getProjectMembers(projectId);
-		System.out.println("project members:: " + projectMembers);
 		Map<Long, Contact> contactMap = new HashMap<>();
 		for (ProjectMember member : projectMembers) {
 			long userId = member.getUserId();
@@ -306,13 +305,12 @@ public class ProjectServiceImpl implements ProjectService {
 
 			Company company = companyDAO.getCompany(companyId);
 			project.setCompany(company);
-			// set project address
+
 			AddressDTO projectAddress = addressDAO
 					.getAddress(((Integer) projectDetail.get("ADDRESS_ID"))
 							.intValue());
 			project.setProjectAddress(projectAddress);
 
-			// get list of tasks.
 			List<TaskInfo> tasks = taskDAO.getTask(project.getProjectId());
 			project.setTaskList(tasks);
 			Map<Integer, Contact> contactMap = new HashMap<>(); //

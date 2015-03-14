@@ -91,7 +91,8 @@ public class TaskBudgetServiceImpl implements TaskBudgetService {
 		logger.debug("Adding task budget: " + costs);
 		if (costs != null && costs.size() > 0) {
 			for (TaskEstimatedCost taskEstimatedCost : costs) {
-				if (taskEstimatedCost.getId() != null) {
+				if (taskEstimatedCost.getId() != null
+						&& taskEstimatedCost.getId() > 0) {
 					boolean updated = taskPlannedEstimatedCostDAO
 							.updatePlannedActualCost(taskEstimatedCost);
 					if (!updated) {
@@ -134,9 +135,9 @@ public class TaskBudgetServiceImpl implements TaskBudgetService {
 
 	@Override
 	public TaskInfo getTaskBudgetByTask(int taskId) throws Exception {
-//		logger.debug("Getting list of task budget for task: " + taskId);
-//		TaskInfo task = taskDAO.getTaskInfo(taskId);
-//		return taskBudgetDAO.getTaskCostByTask(task);
+		// logger.debug("Getting list of task budget for task: " + taskId);
+		// TaskInfo task = taskDAO.getTaskInfo(taskId);
+		// return taskBudgetDAO.getTaskCostByTask(task);
 		return null;
 	}
 

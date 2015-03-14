@@ -11,8 +11,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "id", "taskId", "fromDate", "toDate", "costType", "cost",
-		"month", "year" })
+@JsonPropertyOrder({ "id", "taskId", "fromDate", "toDate", "costType", "cost" })
 public class TaskBudgetEstimate {
 
 	@JsonProperty("id")
@@ -32,12 +31,6 @@ public class TaskBudgetEstimate {
 	@NotNull
 	@JsonProperty("cost")
 	private Double cost;
-	@NotNull
-	@JsonProperty("month")
-	private Integer month;
-	@NotNull
-	@JsonProperty("year")
-	private Integer year;
 
 	@JsonProperty("id")
 	public Integer getId() {
@@ -98,25 +91,4 @@ public class TaskBudgetEstimate {
 	public void setCost(Double cost) {
 		this.cost = cost;
 	}
-
-	@JsonProperty("month")
-	public Integer getMonth() {
-		return month;
-	}
-
-	@JsonProperty("month")
-	public void setMonth(Integer month) {
-		this.month = month;
-	}
-
-	@JsonProperty("year")
-	public Integer getYear() {
-		return year;
-	}
-
-	@JsonProperty("year")
-	public void setYear(Integer year) {
-		this.year = year;
-	}
-
 }

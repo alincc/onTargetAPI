@@ -63,9 +63,6 @@ public class TaskBudgetEndpointTest extends BaseTest {
 				.setFromDate(new Date(new java.util.Date().getTime()));
 		taskBudgetEstimate.setToDate(new Date(new java.util.Date().getTime()));
 		taskBudgetEstimate.setTaskId(1);
-		taskBudgetEstimate.setYear(2014);
-		taskBudgetEstimate.setMonth(4);
-		taskBudgetEstimate.setTaskId(1);
 
 		taskBudgetEstimateList.add(taskBudgetEstimate);
 
@@ -103,8 +100,6 @@ public class TaskBudgetEndpointTest extends BaseTest {
 				.setFromDate(new Date(new java.util.Date().getTime()));
 		taskBudgetEstimate.setToDate(new Date(new java.util.Date().getTime()));
 		taskBudgetEstimate.setTaskId(1);
-		taskBudgetEstimate.setYear(2014);
-		taskBudgetEstimate.setMonth(4);
 		taskBudgetEstimate.setTaskId(1);
 		taskBudgetEstimate.setId(1);
 
@@ -114,7 +109,7 @@ public class TaskBudgetEndpointTest extends BaseTest {
 
 		System.out.println("Client request....updateTaskBudget \n");
 		System.out.println(toJsonString(taskBudget, true));
-		Response response = sendRequest("/task/budget/update", taskBudget);
+		Response response = sendRequest("/task/budget/add", taskBudget);
 		if (response.getStatus() != 200) {
 			throw new RuntimeException("Failed : HTTP error code : "
 					+ response.getStatus());

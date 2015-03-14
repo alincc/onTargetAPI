@@ -13,7 +13,6 @@ import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.ElementKind;
 import javax.validation.Path;
-import javax.validation.ValidationException;
 import javax.ws.rs.core.Configuration;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.GenericEntity;
@@ -27,24 +26,9 @@ import javax.ws.rs.ext.ExceptionMapper;
 import org.glassfish.jersey.server.validation.ValidationError;
 import org.glassfish.jersey.server.validation.internal.LocalizationMessages;
 
-/**
- * {@link ExceptionMapper} for {@link ValidationException}.
- * <p>
- * Send a list of {@link ValidationError} instances in {@link Response} in
- * addition to HTTP 400/500 status code. Supported media types are:
- * {@code application/json} / {@code application/xml} (if appropriate provider
- * is registered on server).
- * </p>
- * 
- * @see org.glassfish.jersey.server.validation.internal.ValidationExceptionMapper
- *      The original Glassfish class:
- *      {@code org.glassfish.jersey.server.validation.internal.ValidationExceptionMapper}
- */
 @javax.ws.rs.ext.Provider
 public class ValidationExceptionMapper implements
 		ExceptionMapper<ConstraintViolationException> {
-	// https://github.com/samaxes/jaxrs-beanvalidation-javaee7/blob/master/glassfish/src/main/java/com/samaxes/javax/rs/validation/ValidationExceptionMapper.java
-	// http://stackoverflow.com/questions/28529204/jersey-jsr-303-validation-custom-path-and-invalidvalue-in-validationerror
 	private static final Logger LOGGER = Logger
 			.getLogger(ValidationExceptionMapper.class.getName());
 
@@ -68,28 +52,13 @@ public class ValidationExceptionMapper implements
 			final List<Variant> variants = Variant.mediaTypes(
 					MediaType.APPLICATION_XML_TYPE,
 					MediaType.APPLICATION_JSON_TYPE).build();
-			final Variant variant = request.get().selectVariant(variants);
 
-			// if (variant != null) {
-			// System.out.println("media type:: " + variant.getMediaType());
-			// response.type(variant.getMediaType());
-			// } else {
-			/*
-			 * default media type which will be used only when none media type
-			 * from {@value variants} is in accept header of original request.
-			 */
-			// response.type(MediaType.TEXT_PLAIN_TYPE);
 			response.type(MediaType.APPLICATION_JSON);
-			// }
+
 			response.entity(new GenericEntity<List<ValidationError>>(
 					getEntity(cve.getConstraintViolations()),
 					new GenericType<List<ValidationError>>() {
 					}.getType()));
-
-			// response.entity(new GenericEntity<List<ValidationError>>(
-			// ValidationHelper.constraintViolationToValidationErrors(cve),
-			// new GenericType<List<ValidationError>>() {
-			// }.getType()));
 
 			return response.build();
 		} else {
@@ -159,12 +128,6 @@ public class ValidationExceptionMapper implements
 	}
 
 	private String getPath(final ConstraintViolation<?> violation) {
-		// final String leafBeanName = violation.getLeafBean().getClass()
-		// .getSimpleName();
-		// final String leafBeanCleanName = (leafBeanName.contains("$")) ?
-		// leafBeanName
-		// .substring(0, leafBeanName.indexOf("$")) : leafBeanName;
-
 		final String propertyPath = violation.getPropertyPath().toString();
 		if (!"".equals("propertyPath")) {
 			String param = propertyPath.split("arg")[1];
@@ -173,8 +136,5 @@ public class ValidationExceptionMapper implements
 		} else {
 			return "";
 		}
-
-		// return leafBeanCleanName
-		// + (!"".equals(propertyPath) ? '.' + propertyPath : "");
 	}
 }
