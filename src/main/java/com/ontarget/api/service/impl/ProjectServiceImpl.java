@@ -204,7 +204,7 @@ public class ProjectServiceImpl implements ProjectService {
 					project.setProjectAddress(projectAddress);
 				}
 				List<TaskObj> tasks = taskDAO.getTaskObjList(projectId);
-				project.setTaskObjList(tasks);
+				project.setTasks(tasks);
 			}
 			response.setProject(project);
 			return response;
