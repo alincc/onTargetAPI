@@ -215,8 +215,6 @@ public class AuthenticationDAOImpl implements AuthenticationDAO {
 	@Override
 	public boolean changePassword(long userId, String password, String salt)
 			throws Exception {
-		// System.out.println("user " + userId + " password " + password +
-		// " salt " + salt);
 		int row = jdbcTemplate.update(OnTargetQuery.CHANGE_USER_PASSWORD,
 				new Object[] { password, salt, userId });
 		return row > 0;

@@ -3,8 +3,6 @@ package com.ontarget.request.bean;
 import javax.annotation.Generated;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.validator.constraints.NotEmpty;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -16,7 +14,6 @@ public class Assignee {
 	@NotNull
 	@JsonProperty("userId")
 	private Integer userId;
-	@NotEmpty
 	@JsonProperty("username")
 	private String username;
 

@@ -17,6 +17,7 @@ import com.ontarget.api.dao.CompanyDAO;
 import com.ontarget.api.dao.ContactDAO;
 import com.ontarget.api.dao.ProjectDAO;
 import com.ontarget.api.dao.TaskDAO;
+import com.ontarget.api.dao.TaskPercentageDAO;
 import com.ontarget.api.dao.UserRegistrationDAO;
 import com.ontarget.api.service.ProjectService;
 import com.ontarget.bean.AddressDTO;
@@ -28,6 +29,7 @@ import com.ontarget.bean.ProjectMember;
 import com.ontarget.bean.TaskComment;
 import com.ontarget.bean.TaskInfo;
 import com.ontarget.bean.TaskObj;
+import com.ontarget.bean.TaskPercentage;
 import com.ontarget.bean.UserDTO;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.OnTargetResponse;
@@ -38,7 +40,6 @@ import com.ontarget.request.bean.ProjectAddressInfo;
 import com.ontarget.request.bean.ProjectDetailInfo;
 import com.ontarget.request.bean.ProjectRequest;
 import com.ontarget.util.ConvertPOJOUtils;
-import com.ontarget.util.DateConverter;
 
 /**
  * Created by Owner on 11/6/14.
@@ -66,12 +67,13 @@ public class ProjectServiceImpl implements ProjectService {
 	@Autowired
 	private UserRegistrationDAO userRegistrationDAO;
 
+	@Autowired
+	private TaskPercentageDAO taskPercentageDAO;
+
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
 	public OnTargetResponse addProject(ProjectRequest request) throws Exception {
 		logger.info("Adding new project " + request.getProject());
-
-		// add project address first.
 
 		ProjectAddressInfo projectAdd = request.getProject()
 				.getProjectAddress();
@@ -187,7 +189,7 @@ public class ProjectServiceImpl implements ProjectService {
 	public ProjectResponse getProjectDetail(int projectId) {
 		try {
 			ProjectInfo project = getProjectTree(projectId);
-			
+
 			ProjectResponse response = new ProjectResponse();
 			response.setProject(project);
 
@@ -298,11 +300,9 @@ public class ProjectServiceImpl implements ProjectService {
 			project.setCompanyId(companyId);
 			project.setProjectImagePath((String) projectDetail
 					.get("project_image_path"));
-
-			Date startDate = (Date) projectDetail.get("project_start_date");
-			project.setStartDate(DateConverter.convertUtilToSql(startDate));
-			Date endDate = (Date) projectDetail.get("project_end_date");
-			project.setEndDate(DateConverter.convertUtilToSql(endDate));
+			project.setStartDate((Date) projectDetail.get("project_start_date"));
+			project.setEndDate((Date) projectDetail.get("project_end_date"));
+			project.setStatus((String) projectDetail.get("project_status"));
 
 			Company company = companyDAO.getCompany(companyId);
 			project.setCompany(company);
@@ -334,10 +334,16 @@ public class ProjectServiceImpl implements ProjectService {
 						}
 					}
 					task.setComments(comments);
+					List<TaskPercentage> taskPercentageList = taskPercentageDAO
+							.getTaskPercentageByTask(task.getProjectTaskId());
+					if (taskPercentageList != null
+							&& taskPercentageList.size() > 0) {
+						task.setPercentageComplete(taskPercentageList.get(0)
+								.getTaskPercentageComplete());
+					}
 
 					Set<Integer> assignees = taskDAO.getTaskMembers(task
 							.getProjectTaskId());
-					// TODO:
 					List<UserDTO> assignedUsers = new ArrayList<>();
 					task.setAssignee(assignedUsers);
 					if (assignees != null && assignees.size() > 0) {

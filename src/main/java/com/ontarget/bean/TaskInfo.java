@@ -16,7 +16,7 @@ public class TaskInfo implements Serializable {
 	private String severity;
 	private Double cost;
 	private int numberOfWorkers;
-	private int percentageComplete;
+	private double percentageComplete;
 	private String startDateText;
 	private String endDateText;
 
@@ -91,11 +91,11 @@ public class TaskInfo implements Serializable {
 		this.numberOfWorkers = numberOfWorkers;
 	}
 
-	public int getPercentageComplete() {
+	public double getPercentageComplete() {
 		return percentageComplete;
 	}
 
-	public void setPercentageComplete(int percentageComplete) {
+	public void setPercentageComplete(double percentageComplete) {
 		this.percentageComplete = percentageComplete;
 	}
 

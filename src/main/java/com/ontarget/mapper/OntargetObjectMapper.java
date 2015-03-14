@@ -35,9 +35,17 @@ public class OntargetObjectMapper implements ContextResolver<ObjectMapper> {
 				.getDeserializationConfig();
 		deserializationConfig.setDateFormat(dateFormat);
 
+		// mapper.configure(SerializationConfig.Feature.WRITE_DATES_AS_TIMESTAMPS,
+		// true);
+		// mapper.setDateFormat(dateFormat);
+		// mapper.configure(SerializationConfig.Feature.INDENT_OUTPUT, true);
+		// return mapper;
+
 		mapper.configure(SerializationConfig.Feature.WRITE_DATES_AS_TIMESTAMPS,
 				false);
 		mapper.configure(SerializationConfig.Feature.INDENT_OUTPUT, true);
+
+		System.out.println("ontarget object mapper called.");
 
 		return mapper;
 	}

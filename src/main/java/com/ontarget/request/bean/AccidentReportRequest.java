@@ -62,16 +62,13 @@ public class AccidentReportRequest {
 	@NotEmpty
 	@JsonProperty("injuredVisitedDoctor")
 	private String injuredVisitedDoctor;
-	@NotEmpty
 	@JsonProperty("workersCompensationFiled")
 	private String workersCompensationFiled;
 	@NotEmpty
 	@JsonProperty("injuredLeftJob")
 	private String injuredLeftJob;
-	@NotNull
 	@JsonProperty("dateInjuredLeftJob")
 	private Date dateInjuredLeftJob;
-	@NotEmpty
 	@JsonProperty("timeInjuredLeftJob")
 	private String timeInjuredLeftJob;
 	@NotEmpty
@@ -80,10 +77,8 @@ public class AccidentReportRequest {
 	@NotEmpty
 	@JsonProperty("unsafeConditionsCorrected")
 	private String unsafeConditionsCorrected;
-	@NotEmpty
 	@JsonProperty("correctionMeasuresPerformed")
 	private String correctionMeasuresPerformed;
-	@NotEmpty
 	@JsonProperty("correctionMeasuresToBePerformed")
 	private String correctionMeasuresToBePerformed;
 
