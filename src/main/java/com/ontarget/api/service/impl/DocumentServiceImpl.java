@@ -184,13 +184,13 @@ public class DocumentServiceImpl implements DocumentService {
 	}
 
 	@Override
-	public GetDocumentsResponse getDocuments(String userName, int projectId)
+	public GetDocumentsResponse getDocuments(Integer userId, int projectId)
 			throws Exception {
-		if (userName == null || userName.trim().isEmpty()) {
-			throw new Exception("Please specify the userName!");
+		if (userId == null) {
+			throw new Exception("Please specify the user!");
 		}
 		try {
-			List<DocumentDTO> submittals = documentDAO.getByCreatedBy(userName,
+			List<DocumentDTO> submittals = documentDAO.getByCreatedBy(userId,
 					projectId);
 
 			for (DocumentDTO doc : submittals) {
@@ -205,7 +205,7 @@ public class DocumentServiceImpl implements DocumentService {
 			}
 
 			List<DocumentDTO> approvals = documentDAO.getByAssigneeUsername(
-					userName, projectId);
+					userId, projectId);
 			logger.info("total approval " + approvals.size());
 			for (DocumentDTO doc : approvals) {
 				doc.setDocumentTemplate(documentTemplateDAO.getByDocumentId(doc

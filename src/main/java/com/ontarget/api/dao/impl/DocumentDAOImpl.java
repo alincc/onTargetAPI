@@ -78,7 +78,7 @@ public class DocumentDAOImpl extends BaseGenericDAOImpl<DocumentDTO> implements
 	}
 
 	@Override
-	public List<DocumentDTO> getByCreatedBy(String createdBy, int projectId) {
+	public List<DocumentDTO> getByCreatedBy(Integer createdBy, int projectId) {
 		List<DocumentDTO> documents = jdbcTemplate.query(
 				OnTargetQuery.document.GET_BY_CREATED_BY, new Object[] {
 						createdBy, projectId }, new DocumentRowMapper());
@@ -86,11 +86,10 @@ public class DocumentDAOImpl extends BaseGenericDAOImpl<DocumentDTO> implements
 	}
 
 	@Override
-	public List<DocumentDTO> getByAssigneeUsername(String username,
-			int projectId) {
+	public List<DocumentDTO> getByAssigneeUsername(Integer userId, int projectId) {
 		List<DocumentDTO> documents = jdbcTemplate.query(
 				OnTargetQuery.document.GET_BY_ASSIGNEE_USERNAME, new Object[] {
-						username, projectId }, new DocumentRowMapper());
+						userId, projectId }, new DocumentRowMapper());
 		return documents;
 	}
 

@@ -7,13 +7,11 @@ import com.ontarget.bean.DocumentDTO;
 
 public interface DocumentDAO extends GenericDAO<DocumentDTO> {
 
-	public boolean updateStatus(int documentId, String newStatus,
-			int modifiedBy);
+	public boolean updateStatus(int documentId, String newStatus, int modifiedBy);
 
-	public List<DocumentDTO> getByCreatedBy(String createdBy, int projectId);
+	public List<DocumentDTO> getByCreatedBy(Integer createdBy, int projectId);
 
-	public List<DocumentDTO> getByAssigneeUsername(String username,
-			int projectId);
+	public List<DocumentDTO> getByAssigneeUsername(Integer userId, int projectId);
 
 	public List<DocumentDTO> getDocumentsByProject(int projectId,
 			String approved) throws Exception;

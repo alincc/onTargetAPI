@@ -159,7 +159,6 @@ public class DocumentEndpointTest extends BaseTest {
 		UserDocument request = new UserDocument();
 		request.setBaseRequest(baseRequest);
 		request.setProjectId(1);
-		request.setUsername("sanjeev@ontargetcloud.com");
 
 		System.out.println("Client request.... \n");
 		System.out.println(toJsonString(request, true));

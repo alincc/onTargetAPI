@@ -18,7 +18,7 @@ public interface DocumentService {
 	public OnTargetResponse updateDocument(UpdateDocumentRequest request)
 			throws Exception;
 
-	public GetDocumentsResponse getDocuments(String userName, int projectId)
+	public GetDocumentsResponse getDocuments(Integer userId, int projectId)
 			throws Exception;
 
 	public OnTargetResponse updateStatus(UpdateDocumentStatus request)
