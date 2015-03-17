@@ -20,7 +20,6 @@ import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Variant;
 import javax.ws.rs.ext.ExceptionMapper;
 
 import org.glassfish.jersey.server.validation.ValidationError;
@@ -48,10 +47,6 @@ public class ValidationExceptionMapper implements
 			final ConstraintViolationException cve = (ConstraintViolationException) exception;
 			final Response.ResponseBuilder response = Response
 					.status(getStatus(cve));
-
-			final List<Variant> variants = Variant.mediaTypes(
-					MediaType.APPLICATION_XML_TYPE,
-					MediaType.APPLICATION_JSON_TYPE).build();
 
 			response.type(MediaType.APPLICATION_JSON);
 

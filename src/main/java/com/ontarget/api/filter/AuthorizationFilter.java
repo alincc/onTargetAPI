@@ -30,16 +30,13 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 
 	@Override
 	public void filter(ContainerRequestContext request) {
-		logger.info("base URI:: " + request.getUriInfo().getBaseUri());
-		logger.info(request.getMethod());
-
-		String path = request.getUriInfo().getPath();
-
-		logger.info("path:: " + path);
+		logger.info("base URI:: " + request.getUriInfo().getBaseUri()
+				+ ", path:: " + request.getUriInfo().getPath()
+				+ ", http method:: " + request.getMethod());
 
 		String openEndpointArr[] = OnTargetConstant.OPEN_RS_ENDPOINT.split(",");
 		for (String openEndpoint : openEndpointArr) {
-			if (path.startsWith(openEndpoint)) {
+			if (request.getUriInfo().getPath().startsWith(openEndpoint)) {
 				return;
 			}
 		}
@@ -48,23 +45,22 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 		InputStream in = request.getEntityStream();
 		final StringBuilder b = new StringBuilder();
 		try {
-			if (in.available() > 0) {
-				ReaderWriter.writeTo(in, out);
+			// if (in.available() > 0) {
+			ReaderWriter.writeTo(in, out);
 
-				byte[] requestEntity = out.toByteArray();
-				String jsonPost = getJsonPostObj(b, requestEntity);
+			byte[] requestEntity = out.toByteArray();
+			String jsonPost = getJsonPostObj(b, requestEntity);
 
-				if (jsonPost == null || jsonPost.trim().length() == 0) {
-					logger.error("Empty json request");
-					throw new WebApplicationException(unauthorizedResponse());
-				}
-
-				if (authenticate(jsonPost)) {
-					request.setEntityStream(new ByteArrayInputStream(
-							requestEntity));
-					return;
-				}
+			if (jsonPost == null || jsonPost.trim().length() == 0) {
+				logger.error("Empty json request");
+				throw new WebApplicationException(unauthorizedResponse());
 			}
+
+			if (authenticate(jsonPost)) {
+				request.setEntityStream(new ByteArrayInputStream(requestEntity));
+				return;
+			}
+			// }
 
 		} catch (IOException ex) {
 			ex.printStackTrace();
@@ -91,7 +87,7 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 
 	private boolean authenticate(String jsonData) {
 		try {
-			logger.info("json post:: " + jsonData);
+			logger.info("request parameters:: " + jsonData);
 
 			ObjectMapper mapper = new ObjectMapper();
 
@@ -108,7 +104,7 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 
 			boolean authorized = authorizationService.validateUserOnProject(
 					userId, projectId);
-			logger.info("Authorized:: " + authorized);
+
 			if (authorized) {
 				return true;
 			}

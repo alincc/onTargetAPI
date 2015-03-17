@@ -5,7 +5,6 @@ import java.util.Map;
 
 import com.ontarget.bean.ProjectTaskInfo;
 import com.ontarget.bean.TaskEstimatedCost;
-import com.ontarget.bean.TaskInfo;
 import com.ontarget.bean.TaskInterval;
 
 /**
@@ -13,15 +12,17 @@ import com.ontarget.bean.TaskInterval;
  */
 public interface TaskBudgetService {
 
-    public List<TaskInterval> getTaskIntervals(int projectId) throws Exception;
+	public List<TaskInterval> getTaskIntervals(int projectId) throws Exception;
 
-    public Map<ProjectTaskInfo, List<TaskEstimatedCost>> getTaskCostByMonthAndYear(int projectId) throws Exception;
+	public Map<ProjectTaskInfo, List<TaskEstimatedCost>> getTaskCostByMonthAndYear(
+			int projectId) throws Exception;
 
-    public boolean addTaskBudget(List<TaskEstimatedCost> costs) throws Exception;
+	public boolean addTaskBudget(List<TaskEstimatedCost> costs)
+			throws Exception;
 
-    public boolean updateTaskBudget(List<TaskEstimatedCost> costs) throws Exception;
+	public boolean updateTaskBudget(List<TaskEstimatedCost> costs)
+			throws Exception;
 
-    public TaskInfo getTaskBudgetByTask(int taskId) throws Exception;
-
-    public ProjectTaskInfo getTaskBudgetByTaskAndMonthYear(int taskId) throws Exception;
+	public ProjectTaskInfo getTaskBudgetByTaskAndMonthYear(int taskId)
+			throws Exception;
 }

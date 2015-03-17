@@ -7,7 +7,6 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
-@JsonInclude(value = Include.NON_EMPTY)
 public class TaskInfo implements Serializable {
 	private int projectTaskId;
 	private String title;
@@ -202,6 +201,64 @@ public class TaskInfo implements Serializable {
 	public void setCostsByMonthYear(
 			List<TaskEstimatedCostByMonthYear> costsByMonthYear) {
 		this.costsByMonthYear = costsByMonthYear;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+
+		TaskInfo task = (TaskInfo) o;
+
+		// if (Double.compare(task.cost, cost) != 0) return false;
+		// if (percentageComplete != task.percentageComplete) return false;
+		if (projectTaskId != task.projectTaskId)
+			return false;
+		// if (description != null ? !description.equals(task.description) :
+		// task.description != null) return false;
+		// if (!endDate.equals(task.endDate)) return false;
+		// if (!severity.equals(task.severity)) return false;
+		// if (!startDate.equals(task.startDate)) return false;
+		// if (!status.equals(task.status)) return false;
+		if (!title.equals(task.title))
+			return false;
+
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		int result;
+		long temp;
+		result = projectTaskId;
+		result = 31 * result + title.hashCode();
+		/*
+		 * result = 31 * result + (description != null ? description.hashCode()
+		 * : 0); result = 31 * result + status.hashCode(); result = 31 * result
+		 * + severity.hashCode(); temp = Double.doubleToLongBits(cost); result =
+		 * 31 * result + (int) (temp ^ (temp >>> 32)); result = 31 * result +
+		 * percentageComplete; result = 31 * result + startDate.hashCode();
+		 * result = 31 * result + endDate.hashCode();
+		 */
+		return result;
+	}
+
+	@Override
+	public String toString() {
+		return "Task{" + "projectTaskId=" + projectTaskId + ", title='" + title
+				+ '\'' + ", description='" + description + '\'' + ", status='"
+				+ status + '\'' + ", severity='" + severity + '\'' + ", cost="
+				+ cost + ", numberOfWorkers=" + numberOfWorkers
+				+ ", percentageComplete=" + percentageComplete
+				+ ", startDateText='" + startDateText + '\''
+				+ ", endDateText='" + endDateText + '\'' + ", startDate="
+				+ startDate + ", endDate=" + endDate + ", completed="
+				+ completed + ", assignedTo=" + assignedTo + ", project="
+				+ project + ", parentTask=" + parentTask + ", comments="
+				+ comments + ", costs=" + costs + ", childTasks=" + childTasks
+				+ ", costsByMonthYear=" + costsByMonthYear + '}';
 	}
 
 }

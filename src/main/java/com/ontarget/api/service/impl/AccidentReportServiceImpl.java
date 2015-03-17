@@ -13,7 +13,6 @@ import com.ontarget.bean.AccidentReport;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.GetAccidentReportsResponse;
 import com.ontarget.dto.OnTargetResponse;
-import com.ontarget.dto.SaveAccidentReportRequest;
 import com.ontarget.dto.SaveAccidentReportResponse;
 
 @Service

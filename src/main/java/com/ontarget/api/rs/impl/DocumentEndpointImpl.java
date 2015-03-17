@@ -89,7 +89,8 @@ public class DocumentEndpointImpl implements DocumentEndpoint {
 	public GetDocumentsResponse getDocuments(UserDocument userDocument) {
 		try {
 			GetDocumentsResponse response = documentService.getDocuments(
-					userDocument.getBaseRequest().getLoggedInUserId(), userDocument.getProjectId());
+					userDocument.getBaseRequest().getLoggedInUserId(),
+					userDocument.getProjectId());
 			return response;
 		} catch (Throwable t) {
 			GetDocumentsResponse response = new GetDocumentsResponse(

@@ -18,7 +18,6 @@ import com.ontarget.api.service.TaskBudgetService;
 import com.ontarget.bean.ProjectTaskInfo;
 import com.ontarget.bean.TaskEstimatedCost;
 import com.ontarget.bean.TaskEstimatedCostByMonthYear;
-import com.ontarget.bean.TaskInfo;
 import com.ontarget.bean.TaskInterval;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.exception.NoTaskFoundException;
@@ -131,14 +130,6 @@ public class TaskBudgetServiceImpl implements TaskBudgetService {
 		}
 
 		return true;
-	}
-
-	@Override
-	public TaskInfo getTaskBudgetByTask(int taskId) throws Exception {
-		// logger.debug("Getting list of task budget for task: " + taskId);
-		// TaskInfo task = taskDAO.getTaskInfo(taskId);
-		// return taskBudgetDAO.getTaskCostByTask(task);
-		return null;
 	}
 
 	@Override

@@ -1,9 +1,8 @@
 package com.ontarget.dto;
 
-import com.ontarget.bean.Company;
-
-import java.io.Serializable;
 import java.util.List;
+
+import com.ontarget.bean.Company;
 
 /**
  * Created by sumit on 12/24/14.

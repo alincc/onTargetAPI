@@ -81,7 +81,7 @@ public class DocumentServiceImpl implements DocumentService {
 			document.setProjectId(request.getProjectId());
 			document.setDueDate(request.getDueDate());
 			document = documentDAO.insert(document);
-			logger.info("document:: " + document);
+			logger.info("added document with id:: " + document);
 
 			List<DocumentKeyValue> keyValues = request.getKeyValues();
 			if (keyValues != null) {

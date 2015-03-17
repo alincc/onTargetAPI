@@ -109,8 +109,7 @@ public class ProjectDAOImpl implements ProjectDAO {
 
 		return project;
 	}
-	
-	
+
 	@Override
 	public ProjectInfo getProjectInfo(int projectId) throws Exception {
 
@@ -133,7 +132,6 @@ public class ProjectDAOImpl implements ProjectDAO {
 						project.setCompanyId(resultSet.getInt("COMPANY_ID"));
 						project.setProjectOwnerId(resultSet
 								.getInt("project_owner_id"));
-						// logger.info("this is class of date object "+resultSet.getTime("project_start_date"));
 						project.setStartDate(resultSet
 								.getDate("project_start_date"));
 						project.setEndDate(resultSet
@@ -145,9 +143,6 @@ public class ProjectDAOImpl implements ProjectDAO {
 
 		return project;
 	}
-
-	
-	
 
 	public List<ProjectInfo> getChildProjects(int projectId) throws Exception {
 		List<ProjectInfo> projects = new LinkedList<>();

@@ -92,6 +92,7 @@ public class ProjectReportServiceImpl implements ProjectReportService {
 
 		// get all the time interval for the project
 		ProjectDTO project = projectDAO.getProject(projectId);
+
 		Date startDate = project.getStartDate();
 		Date endDate = project.getEndDate();
 		List<TaskInterval> timeInterval = OntargetUtil.getTimeInterval(
@@ -201,8 +202,8 @@ public class ProjectReportServiceImpl implements ProjectReportService {
 
 		// get all approved documents on time.
 
-		List<DocumentDTO> documents = documentDAO.getDocumentsByProject(projectId,
-				OnTargetConstant.APPROVED);
+		List<DocumentDTO> documents = documentDAO.getDocumentsByProject(
+				projectId, OnTargetConstant.APPROVED);
 
 		int approvedDocumentsOnTime = documents.size();
 
@@ -253,8 +254,7 @@ public class ProjectReportServiceImpl implements ProjectReportService {
 	 * @throws Exception
 	 */
 	@Override
-	public NoAccidentReport getNoAccidentReport(int projectId)
-			throws Exception {
+	public NoAccidentReport getNoAccidentReport(int projectId) throws Exception {
 		logger.debug("Getting accident report for project: " + projectId);
 		List<AccidentReport> accidents = accidentReportDAO
 				.getAccidentReportsByProjectId(projectId);

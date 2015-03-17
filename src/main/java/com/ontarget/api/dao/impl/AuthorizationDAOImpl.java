@@ -23,7 +23,6 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				+ " AND p.project_id=pm.project_id AND p.project_parent_id=0)";
 
 		int count = this.jdbcTemplate.queryForInt(sql);
-		logger.info("Count:: " + count);
 		if (count > 0) {
 			return true;
 		}

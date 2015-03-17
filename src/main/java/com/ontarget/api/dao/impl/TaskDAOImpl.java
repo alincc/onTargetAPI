@@ -327,7 +327,6 @@ public class TaskDAOImpl implements TaskDAO {
 		ParentTask parentTask = task.getParentTask();
 		int projectTaskId = parentTask == null ? 0 : parentTask
 				.getProjectTaskId();
-		logger.info("parent task id:: " + projectTaskId);
 		int row = jdbcTemplate.update(
 				OnTargetQuery.UPDATE_TASK,
 				new Object[] { task.getTitle(), task.getDescription(),
