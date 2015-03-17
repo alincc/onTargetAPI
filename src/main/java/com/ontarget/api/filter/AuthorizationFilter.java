@@ -45,6 +45,7 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 		InputStream in = request.getEntityStream();
 		final StringBuilder b = new StringBuilder();
 		try {
+<<<<<<< HEAD
 			// if (in.available() > 0) {
 			ReaderWriter.writeTo(in, out);
 
@@ -55,6 +56,27 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 				logger.error("Empty json request");
 				throw new WebApplicationException(unauthorizedResponse());
 			}
+=======
+//			if (in.available() > 0) {
+				ReaderWriter.writeTo(in, out);
+
+				byte[] requestEntity = out.toByteArray();
+				String jsonPost = getJsonPostObj(b, requestEntity);
+
+				if (jsonPost == null || jsonPost.trim().length() == 0) {
+					logger.error("Empty json request");
+					throw new WebApplicationException(unauthorizedResponse());
+				}
+
+				if (authenticate(jsonPost)) {
+					request.setEntityStream(new ByteArrayInputStream(
+							requestEntity));
+					return;
+				}
+//			}else{
+//                logger.error("input string not readable");
+//            }
+>>>>>>> 59750e0a47a2ce3172ae3ef103e285ed8f58e7d8
 
 			if (authenticate(jsonPost)) {
 				request.setEntityStream(new ByteArrayInputStream(requestEntity));
@@ -63,6 +85,7 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 			// }
 
 		} catch (IOException ex) {
+            logger.error("input string not readable in exception");
 			ex.printStackTrace();
 			throw new WebApplicationException(unauthorizedResponse());
 		}
