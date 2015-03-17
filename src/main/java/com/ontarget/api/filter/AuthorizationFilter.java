@@ -48,7 +48,7 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 		InputStream in = request.getEntityStream();
 		final StringBuilder b = new StringBuilder();
 		try {
-			if (in.available() > 0) {
+//			if (in.available() > 0) {
 				ReaderWriter.writeTo(in, out);
 
 				byte[] requestEntity = out.toByteArray();
@@ -64,9 +64,12 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 							requestEntity));
 					return;
 				}
-			}
+//			}else{
+//                logger.error("input string not readable");
+//            }
 
 		} catch (IOException ex) {
+            logger.error("input string not readable in exception");
 			ex.printStackTrace();
 			throw new WebApplicationException(unauthorizedResponse());
 		}
