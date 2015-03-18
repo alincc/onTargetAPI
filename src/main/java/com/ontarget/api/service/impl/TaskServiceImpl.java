@@ -79,42 +79,12 @@ public class TaskServiceImpl implements TaskService {
 		Integer taskId = task.getProjectTaskId();
 		logger.info("task id:: " + taskId);
 
-		Date startDate = DateFormater.getFormattedDate(task.getStartDate());
-		Date endDate = DateFormater.getFormattedDate(task.getEndDate());
-
-		logger.info("task start date after formatting:: " + startDate);
-		logger.info("task end date after formatting:: " + endDate);
-
 		if (task.getProjectId() == null) {
 			throw new Exception("task project is null");
 		} else {
 			ProjectDTO project = projectDAO.getProject(task.getProjectId());
-			logger.info("start and end date of project is null so getting new project "
-					+ project.toString());
 			if (project.getProjectId() == null) {
 				throw new Exception("project is invalid for task");
-			}
-
-			Date projectStartDate = DateFormater.getFormattedDate(project
-					.getStartDate());
-			Date projectEndDate = DateFormater.getFormattedDate(project
-					.getEndDate());
-
-			logger.info("project start date:: " + projectStartDate);
-			logger.info("project end date:: " + projectEndDate);
-
-			if (startDate.before(projectStartDate)) {
-				logger.info(startDate.toString() + " less than "
-						+ projectStartDate.toString());
-				throw new DateBeforeException(
-						"Task starts before project start date");
-			} else {
-				if (endDate.after(projectEndDate)) {
-					logger.info(endDate.toString() + " more than "
-							+ projectEndDate.toString());
-					throw new DateAfterException(
-							"Task ends after project end date");
-				}
 			}
 		}
 
