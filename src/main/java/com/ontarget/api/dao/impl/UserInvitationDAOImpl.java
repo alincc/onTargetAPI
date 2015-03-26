@@ -148,4 +148,5 @@ public class UserInvitationDAOImpl implements UserInvitationDAO {
 			return registrationRequest;
 		}
 	}
+
 }

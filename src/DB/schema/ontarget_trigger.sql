@@ -127,3 +127,51 @@ FOR EACH ROW BEGIN
 END$$
 DELIMITER ;
 
+
+
+/*sanjeev */
+
+CREATE DEFINER=`ontarget`@`%` TRIGGER `ontarget`.`project_AFTER_INSERT` AFTER INSERT ON `project` FOR EACH ROW
+  BEGIN
+    declare ppId bigint;
+    select project_parent_id into ppId from  project where project_id= NEW.project_id;
+
+    INSERT INTO activity_log (text, user_id,category,ts_insert,project_id) VALUES
+      (CONCAT("New Activity ", NEW.project_name, " added by ", get_userNameById(NEW.project_owner_id)),
+       New.created_by,2, now(),ppId);
+
+
+  END
+
+
+
+    CREATE DEFINER=`ontarget`@`%` TRIGGER `ontarget`.`project_AFTER_UPDATE` AFTER UPDATE ON `project` FOR EACH ROW
+BEGIN
+declare ppId bigint;
+select project_parent_id into ppId from  project where project_id= OLD.project_id;
+
+INSERT INTO activity_log (text, user_id,category,ts_insert,project_id) VALUES
+  (CONCAT("Activity ", NEW.project_name, " updated by ", get_userNameById(NEW.project_owner_id)),
+   New.created_by,2, now(),ppId);
+
+
+END
+
+
+
+CREATE DEFINER=`ontarget`@`%` TRIGGER `ontarget`.`project_task_AFTER_INSERT` AFTER INSERT ON `project_task` FOR EACH ROW
+  BEGIN
+
+    INSERT INTO activity_log (text, user_id,category,ts_insert)
+    VALUES (CONCAT("New task ", NEW.title, " added by ", get_userNameById(NEW.created_by)), New.created_by,4, now());
+
+  END
+
+
+    CREATE DEFINER=`ontarget`@`%` TRIGGER `ontarget`.`project_task_AFTER_UPDATE` AFTER UPDATE ON `project_task` FOR EACH ROW
+BEGIN
+
+INSERT INTO activity_log (text, user_id,category,ts_insert)
+VALUES (CONCAT("Task ", NEW.title, " updated by ", get_userNameById(NEW.modified_by)), NEW.modified_by,4, now());
+
+END

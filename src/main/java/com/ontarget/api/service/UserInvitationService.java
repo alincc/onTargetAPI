@@ -19,4 +19,5 @@ public interface UserInvitationService {
 	
 	public RegistrationRequestResponseDTO getRegistrationRequest(String email) throws Exception;
 
+
 }

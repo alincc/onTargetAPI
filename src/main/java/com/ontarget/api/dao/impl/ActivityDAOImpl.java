@@ -23,9 +23,9 @@ public class ActivityDAOImpl implements Serializable, com.ontarget.api.dao.Activ
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public List<ActivityLog> getActivityLog(long recentId) throws Exception {
+    public List<ActivityLog> getActivityLog(long projectId) throws Exception {
         List<ActivityLog> activityLogs = new LinkedList<ActivityLog>();
-        jdbcTemplate.query(OnTargetQuery.GET_ACTIVITY_LOG, new Object[]{recentId}, new RowMapper<ActivityLog>() {
+        jdbcTemplate.query(OnTargetQuery.GET_ACTIVITY_LOG, new Object[]{projectId}, new RowMapper<ActivityLog>() {
             @Override
             public ActivityLog mapRow(ResultSet resultSet, int i) throws SQLException {
                 ActivityLog activityLog = new ActivityLog();

@@ -45,6 +45,7 @@ public class ProjectDAOImpl implements ProjectDAO {
 
 	@Override
 	public int addProject(ProjectDTO project, int userId) throws Exception {
+
 		logger.info("Adding project: " + project);
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		jdbcTemplate.update(new PreparedStatementCreator() {
@@ -66,6 +67,7 @@ public class ProjectDAOImpl implements ProjectDAO {
 				ps.setLong(11, userId);
 				ps.setString(10, project.getProjectImagePath());
 				ps.setLong(11, project.getProjectOwnerId());
+
 				return ps;
 			}
 		}, keyHolder);
@@ -84,7 +86,8 @@ public class ProjectDAOImpl implements ProjectDAO {
 				new Object[] { projectId }, new RowMapper<ProjectDTO>() {
 					@Override
 					public ProjectDTO mapRow(ResultSet resultSet, int i)
-							throws SQLException {
+
+					throws SQLException {
 						project.setProjectId(projectId);
 						project.setProjectName(resultSet
 								.getString("PROJECT_NAME"));
@@ -97,6 +100,7 @@ public class ProjectDAOImpl implements ProjectDAO {
 						project.setCompanyId(resultSet.getInt("COMPANY_ID"));
 						project.setProjectOwnerId(resultSet
 								.getInt("project_owner_id"));
+
 						// logger.info("this is class of date object "+resultSet.getTime("project_start_date"));
 						project.setStartDate(resultSet
 								.getDate("project_start_date"));
@@ -146,11 +150,13 @@ public class ProjectDAOImpl implements ProjectDAO {
 
 	public List<ProjectInfo> getChildProjects(int projectId) throws Exception {
 		List<ProjectInfo> projects = new LinkedList<>();
+
 		List<Map<String, Object>> rs = jdbcTemplate.queryForList(
 				OnTargetQuery.GET_CHILD_PROJECTS, projectId);
 		if (rs != null)
 			for (Map<String, Object> row : rs) {
 				ProjectInfo project = new ProjectInfo();
+
 				project.setProjectId((int) row.get("project_id"));
 				project.setProjectName((String) row.get("PROJECT_NAME"));
 				project.setProjectDescription((String) row
@@ -164,6 +170,7 @@ public class ProjectDAOImpl implements ProjectDAO {
 				project.setStartDate(startDate);
 				Date endDate = (Date) row.get("project_end_date");
 				project.setEndDate(endDate);
+
 				projects.add(project);
 			}
 
@@ -181,13 +188,15 @@ public class ProjectDAOImpl implements ProjectDAO {
 				new Object[] { projectId }, new RowMapper<ProjectDTO>() {
 					@Override
 					public ProjectDTO mapRow(ResultSet resultSet, int i)
-							throws SQLException {
+
+					throws SQLException {
 
 						int parentProjectId = resultSet
 								.getInt("PROJECT_PARENT_ID");
 						int projectId = resultSet.getInt("PROJECT_ID");
 
 						ProjectDTO project1 = new ProjectDTO();
+
 						project1.setProjectId(projectId);
 						project1.setProjectName(resultSet
 								.getString("PROJECT_NAME"));
@@ -201,6 +210,7 @@ public class ProjectDAOImpl implements ProjectDAO {
 						if (parentProjectId == 0
 								&& projectToSubProject.get(projectId) == null) {
 							List<ProjectDTO> subProjects = new ArrayList<>();
+
 							subProjects.add(project1);
 							projectToSubProject.put(projectId, subProjects);
 						}
@@ -235,6 +245,7 @@ public class ProjectDAOImpl implements ProjectDAO {
 				company.setCompanyTypeId((int) map.get("company_type_id"));
 
 				AddressDTO address = new AddressDTO();
+
 				address.setAddress1((String) map.get("address1"));
 				address.setAddress2((String) map.get("address2"));
 				address.setCity((String) map.get("city"));
@@ -253,7 +264,8 @@ public class ProjectDAOImpl implements ProjectDAO {
 	@Override
 	// TODO: get user from project task
 	public boolean updateProject(ProjectDTO project, int updatingUserId)
-			throws Exception {
+
+	throws Exception {
 		int row = jdbcTemplate.update(
 				OnTargetQuery.UPDATE_PROJECT,
 				new Object[] { project.getProjectName(),
@@ -290,6 +302,7 @@ public class ProjectDAOImpl implements ProjectDAO {
 						contact.setLastName(resultSet.getString("last_name"));
 
 						UserDTO user = new UserDTO();
+
 						user.setUserId(resultSet.getInt("user_id"));
 						contact.setUser(user);
 
@@ -306,7 +319,6 @@ public class ProjectDAOImpl implements ProjectDAO {
 						return projectMember;
 					}
 				});
-		System.out.println("total read " + projectMemberList.size());
 		return projectMemberList;
 	}
 

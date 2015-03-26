@@ -13,6 +13,10 @@ import com.ontarget.request.bean.UpdateDocumentRequest;
 import com.ontarget.request.bean.UpdateDocumentStatus;
 import com.ontarget.request.bean.UserDocument;
 
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+
 public interface DocumentEndpoint {
 
 	public AddDocumentResponse addDocument(@Valid AddDocumentRequest request);

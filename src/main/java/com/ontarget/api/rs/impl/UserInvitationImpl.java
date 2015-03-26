@@ -163,6 +163,7 @@ public class UserInvitationImpl implements UserInvitation {
 				response.setReturnVal(OnTargetConstant.ERROR);
 				response.setReturnMessage("Your invitation request is not approved.");
 			}
+
 		} catch (Exception e) {
 			logger.error("Provided token does not match with db.", e);
 			response.setReturnMessage(OnTargetConstant.TOKEN_VERIFICATION_FAILED);
@@ -170,5 +171,4 @@ public class UserInvitationImpl implements UserInvitation {
 		}
 		return response;
 	}
-
 }

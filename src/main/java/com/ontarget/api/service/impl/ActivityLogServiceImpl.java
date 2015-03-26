@@ -17,7 +17,7 @@ public class ActivityLogServiceImpl implements com.ontarget.api.service.Activity
     private ActivityDAO activityDAO;
 
     @Override
-    public List<ActivityLog> getActivityLog(long recentId) throws Exception {
-        return activityDAO.getActivityLog(recentId);
+    public List<ActivityLog> getActivityLog(long projectId) throws Exception {
+        return activityDAO.getActivityLog(projectId);
     }
 }

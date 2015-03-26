@@ -34,6 +34,7 @@ public class ContactDAOImpl implements ContactDAO {
 						contact.getFirstName(), contact.getLastName(),
 						contact.getTitle(), contact.getUserImagePath() });
 
+
 		if (row <= 0) {
 			throw new Exception("Contact was not created");
 		}
@@ -82,6 +83,7 @@ public class ContactDAOImpl implements ContactDAO {
 		contact.setEmail((String) rs.get("email"));
 		return contact;
 	}
+
 
 	public boolean saveUserImagePath(int userId, String path, long modifier)
 			throws Exception {

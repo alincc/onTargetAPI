@@ -44,6 +44,7 @@ public class UserInvitationServiceImpl implements UserInvitationService {
 
 	@Override
 	public RegistrationRequestResponseDTO getRequestByToken(String token)
+
 			throws Exception {
 		return userInvitationDAO.findRequestByToken(token);
 	}
@@ -53,5 +54,4 @@ public class UserInvitationServiceImpl implements UserInvitationService {
 			throws Exception {
 		return userInvitationDAO.findRegRequestByEmail(email);
 	}
-
 }

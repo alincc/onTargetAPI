@@ -49,7 +49,7 @@ public interface OnTargetConstant {
 	interface EmailServiceConstants {
 		public static final String USER_REGISTRATION_SUBJECT = "OnTarget Registration Request";
 		public static final String USER_REGISTRATION_FROM = "donotreply@ontarget.com";
-		public static final String USER_REGISTRATION_REQUEST_APPROVAL_SUBJECT = "OnTarget Registration Approval";
+		public static final String USER_REGISTRATION_REQUEST_APPROVAL_SUBJECT = "Invite to Collaborate";
 
 		public static final String DOCUMENT_APPROVAL_FROM = "donotreply@ontarget.com";
 		public static final String DOCUMENT_APPROVAL_SUBJECT = "New document available for approval";

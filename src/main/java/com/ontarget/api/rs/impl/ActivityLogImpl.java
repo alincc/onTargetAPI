@@ -60,4 +60,5 @@ public class ActivityLogImpl implements com.ontarget.api.rs.ActivityLog {
 		}
 		return response;
 	}
+
 }
