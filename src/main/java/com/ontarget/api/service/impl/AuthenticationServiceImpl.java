@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,21 +32,27 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	private Logger logger = Logger.getLogger(UserProfileImpl.class);
 
 	@Autowired
+	@Qualifier("authenticationJpaDAOImpl")
 	private AuthenticationDAO authenticationDAO;
 
 	@Autowired
+	@Qualifier("authenticationDAOImpl")
+	private AuthenticationDAO authenticationJdbcDAO;
+
+	@Autowired
+	@Qualifier("userSessionJpaDAOImpl")
 	private UserSessionDAO userSessionDAO;
 
 	@Autowired
+	@Qualifier("contactJpaDAOImpl")
 	private ContactDAO contactDAO;
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
 	public UserResponse signIn(SignInRequest signInRequest) throws Exception {
-		logger.debug("Signing user: " + signInRequest);
 		UserResponse response = new UserResponse();
 		UserDTO returnUser = authenticationDAO.getUserSignInInfo(signInRequest);
-		if (returnUser.getUserId() == 0) {
+		if (returnUser == null) {
 			response.setReturnMessage(OnTargetConstant.AUTHENTICATION_FAILED);
 			response.setAuthenticated(false);
 			response.setReturnVal(OnTargetConstant.ERROR);
@@ -53,8 +60,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		}
 
 		String token = TokenUtil.getLoginToken(signInRequest.getUsername());
-		boolean saved = userSessionDAO.saveUserSessionToken(
-				returnUser.getUserId(), token);
+		boolean saved = userSessionDAO.saveUserSessionToken(returnUser.getUserId(), token);
 		if (!saved) {
 			throw new Exception("User session token failed");
 		}
@@ -62,12 +68,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		String accountStatus = returnUser.getAccountStatus();
 		logger.debug("Account status: " + accountStatus);
 
-//		if (!accountStatus.equals(OnTargetConstant.AccountStatus.ACCT_NEW)
-//				&& !accountStatus
-//						.equals(OnTargetConstant.AccountStatus.ACCOUNT_INVITATION)) {
-//			returnUser.setContact(contactDAO.getContact(returnUser.getUserId()));
-//		}
-        returnUser.setContact(contactDAO.getContact(returnUser.getUserId()));
+		if (!accountStatus.equals(OnTargetConstant.AccountStatus.ACCT_NEW)
+				&& !accountStatus.equals(OnTargetConstant.AccountStatus.ACCOUNT_INVITATION)) {
+			returnUser.setContact(contactDAO.getContact(returnUser.getUserId()));
+		}
 
 		response.setUser(returnUser);
 		response.setToken(token);
@@ -79,8 +83,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
-	public boolean registrationRequest(UserRegistrationRequest request)
-			throws Exception {
+	public boolean registrationRequest(UserRegistrationRequest request) throws Exception {
 		return authenticationDAO.saveRegistrationRequest(request);
 	}
 
@@ -91,10 +94,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	}
 
 	@Override
-	public UserRegistationApprovalResponse getUserRegistrationPendingRequests()
-			throws Exception {
-		List<RegistrationRequestDTO> pendingRequestsList = authenticationDAO
-				.getUserRegistrationPendingRequests();
+	public UserRegistationApprovalResponse getUserRegistrationPendingRequests() throws Exception {
+		List<RegistrationRequestDTO> pendingRequestsList = authenticationDAO.getUserRegistrationPendingRequests();
 		UserRegistationApprovalResponse response = new UserRegistationApprovalResponse();
 		response.setUserRegistrationRequestList(pendingRequestsList);
 		return response;
@@ -103,8 +104,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
-	public boolean approvePendingRegistrationRequest(
-			RegistrationApprovalRequest request) throws Exception {
+	public boolean approvePendingRegistrationRequest(RegistrationApprovalRequest request) throws Exception {
 		return authenticationDAO.approvePendingRegistrationRequest(request);
 	}
 

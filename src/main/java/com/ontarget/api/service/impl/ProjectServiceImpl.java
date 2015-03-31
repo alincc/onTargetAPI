@@ -9,6 +9,7 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -50,24 +51,31 @@ public class ProjectServiceImpl implements ProjectService {
 	private Logger logger = Logger.getLogger(ProjectServiceImpl.class);
 
 	@Autowired
+	@Qualifier("projectJpaDAOImpl")
 	private ProjectDAO projectDAO;
 
 	@Autowired
+	@Qualifier("addressJpaDAOImpl")
 	private AddressDAO addressDAO;
 
 	@Autowired
+	@Qualifier("taskJpaDAOImpl")
 	private TaskDAO taskDAO;
 
 	@Autowired
+	@Qualifier("contactJpaDAOImpl")
 	private ContactDAO contactDAO;
 
 	@Autowired
+	@Qualifier("companyJpaDAOImpl")
 	private CompanyDAO companyDAO;
 
 	@Autowired
+	@Qualifier("userRegistrationJpaDAOImpl")
 	private UserRegistrationDAO userRegistrationDAO;
 
 	@Autowired
+	@Qualifier("taskPercentageJpaDAOImpl")
 	private TaskPercentageDAO taskPercentageDAO;
 
 	@Override
@@ -75,11 +83,9 @@ public class ProjectServiceImpl implements ProjectService {
 	public OnTargetResponse addProject(ProjectRequest request) throws Exception {
 		logger.info("Adding new project " + request.getProject());
 
-		ProjectAddressInfo projectAdd = request.getProject()
-				.getProjectAddress();
+		ProjectAddressInfo projectAdd = request.getProject().getProjectAddress();
 
-		AddressDTO addressDTO = ConvertPOJOUtils
-				.convertToAddressDTO(projectAdd);
+		AddressDTO addressDTO = ConvertPOJOUtils.convertToAddressDTO(projectAdd);
 
 		addressDTO.setAddressType(OnTargetConstant.AddressType.PROJECT_ADDR);
 		int addressId = addressDAO.addAddress(addressDTO);
@@ -88,36 +94,32 @@ public class ProjectServiceImpl implements ProjectService {
 		int userId = request.getUserId();
 
 		int companyId = request.getProject().getCompanyId();
-		if (request.getProject().getProjectParentId() == null
-				|| request.getProject().getProjectParentId() == 0) {
+		if (request.getProject().getProjectParentId() == null || request.getProject().getProjectParentId() == 0) {
 			Map<String, Object> compMap = contactDAO.getContactDetail(userId);
 			companyId = (Integer) compMap.get("contact_company_id");
 		}
 
 		ProjectDetailInfo projectObj = request.getProject();
-		ProjectDTO projectDTO = ConvertPOJOUtils.convertToProjectDTO(
-				projectObj, addressDTO);
+		ProjectDTO projectDTO = ConvertPOJOUtils.convertToProjectDTO(projectObj, addressDTO);
 
 		projectDTO.setCompanyId(companyId);
 		projectDTO.setProjectOwnerId(userId);
 
 		int projectId = projectDAO.addProject(projectDTO, userId);
 
+		System.out.println("project id:: " + projectId);
 		// add the user to project member;
 		int projectMemberId = 0;
-		if (OnTargetConstant.AccountStatus.ACCT_NEW.equals(request
-				.getAccountStatus())) {
+		if (OnTargetConstant.AccountStatus.ACCT_NEW.equals(request.getAccountStatus())) {
 			projectMemberId = projectDAO.addProjectMember(projectId, userId);
 			if (projectMemberId < 0) {
-				throw new Exception("Error while adding the new member: "
-						+ userId);
+				throw new Exception("Error while adding the new member: " + userId);
 			}
 
 		}
 
 		// activate the account if accountStatus of user is ACCT_NEW
-		if (OnTargetConstant.AccountStatus.ACCT_NEW.equals(request
-				.getAccountStatus())) {
+		if (OnTargetConstant.AccountStatus.ACCT_NEW.equals(request.getAccountStatus())) {
 			int updated = userRegistrationDAO.activateAccount(userId);
 			if (updated == 0) {
 				throw new Exception("Error while activating account");
@@ -129,8 +131,7 @@ public class ProjectServiceImpl implements ProjectService {
 			response.setReturnMessage("Successfully created project.");
 			response.setReturnVal(OnTargetConstant.SUCCESS);
 		} else {
-			throw new Exception("Error while creating project: projectId: "
-					+ projectId);
+			throw new Exception("Error while creating project: projectId: " + projectId);
 		}
 
 		return response;
@@ -138,16 +139,13 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
-	public OnTargetResponse updateProject(ProjectRequest request)
-			throws Exception {
+	public OnTargetResponse updateProject(ProjectRequest request) throws Exception {
 		logger.info("Updating project " + request.getProject());
 
 		// add project address first.
-		ProjectAddressInfo projectAddress = request.getProject()
-				.getProjectAddress();
+		ProjectAddressInfo projectAddress = request.getProject().getProjectAddress();
 
-		AddressDTO addressDTO = ConvertPOJOUtils
-				.convertToAddressDTO(projectAddress);
+		AddressDTO addressDTO = ConvertPOJOUtils.convertToAddressDTO(projectAddress);
 		addressDTO.setAddressType(OnTargetConstant.AddressType.PROJECT_ADDR);
 
 		boolean updated = addressDAO.updateAddress(addressDTO);
@@ -156,10 +154,8 @@ public class ProjectServiceImpl implements ProjectService {
 		}
 
 		ProjectDetailInfo project = request.getProject();
-		ProjectDTO projectDTO = ConvertPOJOUtils.convertToProjectDTO(project,
-				addressDTO);
-		boolean updatedPr = projectDAO.updateProject(projectDTO,
-				request.getUserId());
+		ProjectDTO projectDTO = ConvertPOJOUtils.convertToProjectDTO(project, addressDTO);
+		boolean updatedPr = projectDAO.updateProject(projectDTO, request.getUserId());
 
 		OnTargetResponse response = new OnTargetResponse();
 		if (updatedPr) {
@@ -200,8 +196,7 @@ public class ProjectServiceImpl implements ProjectService {
 				if (address == null) {
 					logger.info("address is null for project " + project);
 				} else {
-					AddressDTO projectAddress = addressDAO.getAddress(address
-							.getAddressId());
+					AddressDTO projectAddress = addressDAO.getAddress(address.getAddressId());
 					project.setProjectAddress(projectAddress);
 				}
 				List<TaskObj> tasks = taskDAO.getTaskObjList(projectId);
@@ -216,10 +211,8 @@ public class ProjectServiceImpl implements ProjectService {
 		}
 	}
 
-	public List<ProjectInfo> setProjectLevel(ProjectInfo project, int level)
-			throws Exception {
-		List<ProjectInfo> projects = projectDAO.getChildProjects(project
-				.getProjectId());
+	public List<ProjectInfo> setProjectLevel(ProjectInfo project, int level) throws Exception {
+		List<ProjectInfo> projects = projectDAO.getChildProjects(project.getProjectId());
 		if (level < 20 && projects != null && !projects.isEmpty()) {
 			level++;
 			for (ProjectInfo p : projects) {
@@ -231,18 +224,16 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 
 	@Override
-	public ProjectMemberListResponse getProjectMembers(int projectId)
-			throws Exception {
-		List<ProjectMember> projectMembers = projectDAO
-				.getProjectMembers(projectId);
+	public ProjectMemberListResponse getProjectMembers(int projectId) throws Exception {
+		List<ProjectMember> projectMembers = projectDAO.getProjectMembers(projectId);
 		Map<Long, Contact> contactMap = new HashMap<>();
 		for (ProjectMember member : projectMembers) {
-			long userId = member.getUserId();
+			int userId = (int) member.getUserId();
 			if (contactMap.containsKey(userId)) {
 				member.setContact(contactMap.get(userId));
 			} else {
 				Contact contact = contactDAO.getContact(userId);
-				contactMap.put(userId, contact);
+				contactMap.put((long) userId, contact);
 				member.setContact(contact);
 			}
 		}
@@ -254,10 +245,8 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 
 	@Override
-	public ProjectListResponse getProjectsByCompany(int companyId, int userId)
-			throws Exception {
-		List<Map<String, Object>> projects = projectDAO.getProjectByCompany(
-				companyId, userId);
+	public ProjectListResponse getProjectsByCompany(int companyId, int userId) throws Exception {
+		List<Map<String, Object>> projects = projectDAO.getProjectByCompany(companyId, userId);
 		return this.getProjectResponse(projects);
 	}
 
@@ -267,13 +256,11 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Override
 	public ProjectListResponse getProjectsByUser(int userId) throws Exception {
-		List<Map<String, Object>> projects = projectDAO
-				.getProjectByUser(userId);
+		List<Map<String, Object>> projects = projectDAO.getProjectByUser(userId);
 		return this.getProjectResponse(projects);
 	}
 
-	private ProjectListResponse getProjectResponse(
-			List<Map<String, Object>> projects) throws Exception {
+	private ProjectListResponse getProjectResponse(List<Map<String, Object>> projects) throws Exception {
 		ProjectListResponse response = new ProjectListResponse();
 		List<ProjectDTO> projectList = new ArrayList<ProjectDTO>();
 		response.setProjects(projectList);
@@ -285,21 +272,16 @@ public class ProjectServiceImpl implements ProjectService {
 
 		for (Map<String, Object> projectDetail : projects) {
 
-			int parentProjectId = (Integer) projectDetail
-					.get("PROJECT_PARENT_ID");
+			int parentProjectId = (Integer) projectDetail.get("PROJECT_PARENT_ID");
 			ProjectDTO project = new ProjectDTO();
 			project.setProjectId((Integer) projectDetail.get("PROJECT_ID"));
 			project.setProjectName((String) projectDetail.get("PROJECT_NAME"));
-			project.setProjectDescription((String) projectDetail
-					.get("PROJECT_DESCRIPTION"));
-			project.setProjectTypeId((Integer) projectDetail
-					.get("PROJECT_TYPE_ID"));
-			project.setProjectParentId((Integer) projectDetail
-					.get("PROJECT_PARENT_ID"));
+			project.setProjectDescription((String) projectDetail.get("PROJECT_DESCRIPTION"));
+			project.setProjectTypeId((Integer) projectDetail.get("PROJECT_TYPE_ID"));
+			project.setProjectParentId((Integer) projectDetail.get("PROJECT_PARENT_ID"));
 			Integer companyId = (Integer) projectDetail.get("COMPANY_ID");
 			project.setCompanyId(companyId);
-			project.setProjectImagePath((String) projectDetail
-					.get("project_image_path"));
+			project.setProjectImagePath((String) projectDetail.get("project_image_path"));
 			project.setStartDate((Date) projectDetail.get("project_start_date"));
 			project.setEndDate((Date) projectDetail.get("project_end_date"));
 			project.setStatus((String) projectDetail.get("project_status"));
@@ -307,9 +289,7 @@ public class ProjectServiceImpl implements ProjectService {
 			Company company = companyDAO.getCompany(companyId);
 			project.setCompany(company);
 
-			AddressDTO projectAddress = addressDAO
-					.getAddress(((Integer) projectDetail.get("ADDRESS_ID"))
-							.intValue());
+			AddressDTO projectAddress = addressDAO.getAddress(((Integer) projectDetail.get("ADDRESS_ID")).intValue());
 			project.setProjectAddress(projectAddress);
 
 			List<TaskInfo> tasks = taskDAO.getTask(project.getProjectId());
@@ -318,31 +298,24 @@ public class ProjectServiceImpl implements ProjectService {
 			// get all the comments in the tasks and assigned to.
 			if (tasks != null && tasks.size() > 0) {
 				for (TaskInfo task : tasks) {
-					List<TaskComment> comments = taskDAO.getTaskComments(task
-							.getProjectTaskId());
+					List<TaskComment> comments = taskDAO.getTaskComments(task.getProjectTaskId());
 					for (TaskComment comment : comments) {
 						int commentedBy = comment.getCommentedBy();
 						if (contactMap.containsKey(commentedBy)) {
-							comment.setCommenterContact(contactMap
-									.get(commentedBy));
+							comment.setCommenterContact(contactMap.get(commentedBy));
 						} else {
-							Contact contact = contactDAO
-									.getContact(commentedBy);
+							Contact contact = contactDAO.getContact(commentedBy);
 							contactMap.put(commentedBy, contact);
 							comment.setCommenterContact(contact);
 						}
 					}
 					task.setComments(comments);
-					List<TaskPercentage> taskPercentageList = taskPercentageDAO
-							.getTaskPercentageByTask(task.getProjectTaskId());
-					if (taskPercentageList != null
-							&& taskPercentageList.size() > 0) {
-						task.setPercentageComplete(taskPercentageList.get(0)
-								.getTaskPercentageComplete());
+					List<TaskPercentage> taskPercentageList = taskPercentageDAO.getTaskPercentageByTask(task.getProjectTaskId());
+					if (taskPercentageList != null && taskPercentageList.size() > 0) {
+						task.setPercentageComplete(taskPercentageList.get(0).getTaskPercentageComplete());
 					}
 
-					Set<Integer> assignees = taskDAO.getTaskMembers(task
-							.getProjectTaskId());
+					Set<Integer> assignees = taskDAO.getTaskMembers(task.getProjectTaskId());
 					List<UserDTO> assignedUsers = new ArrayList<>();
 					task.setAssignee(assignedUsers);
 					if (assignees != null && assignees.size() > 0) {

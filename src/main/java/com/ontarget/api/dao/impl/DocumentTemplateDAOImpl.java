@@ -15,26 +15,23 @@ import com.ontarget.api.dao.DocumentTemplateDAO;
 import com.ontarget.bean.DocumentTemplateDTO;
 import com.ontarget.constant.OnTargetQuery;
 
-@Repository
-public class DocumentTemplateDAOImpl 
-		extends BaseGenericDAOImpl<DocumentTemplateDTO> 
-		implements DocumentTemplateDAO {
+@Repository("documentTemplateDAOImpl")
+public class DocumentTemplateDAOImpl extends BaseGenericDAOImpl<DocumentTemplateDTO> implements DocumentTemplateDAO {
 
 	@Override
 	public DocumentTemplateDTO insert(final DocumentTemplateDTO documentTemplate) {
 		KeyHolder kh = new GeneratedKeyHolder();
-		jdbcTemplate.update(new PreparedStatementCreator(){
+		jdbcTemplate.update(new PreparedStatementCreator() {
 			@Override
-			public PreparedStatement createPreparedStatement(Connection conn)
-					throws SQLException {
-				PreparedStatement ps = conn.prepareStatement(OnTargetQuery.documentTemplate.ADD, 
+			public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
+				PreparedStatement ps = conn.prepareStatement(OnTargetQuery.documentTemplate.ADD,
 						new String[] { "document_template_id" });
-		            ps.setString(1, documentTemplate.getName());
-		            ps.setInt(2, documentTemplate.getCreatedBy().getUserId());
-		            ps.setInt(3, documentTemplate.getModifiedBy().getUserId());
-		            return ps;
+				ps.setString(1, documentTemplate.getName());
+				ps.setInt(2, documentTemplate.getCreatedBy().getUserId());
+				ps.setInt(3, documentTemplate.getModifiedBy().getUserId());
+				return ps;
 			}
-			
+
 		}, kh);
 		documentTemplate.setDocumentTemplateId(kh.getKey().longValue());
 		return documentTemplate;
@@ -42,38 +39,34 @@ public class DocumentTemplateDAOImpl
 
 	@Override
 	public DocumentTemplateDTO read(long id) {
-		DocumentTemplateDTO documentTemplate = jdbcTemplate.queryForObject(OnTargetQuery.documentTemplate.GET_BY_ID, 
-				new Object[] { id }, 
-				new RowMapper<DocumentTemplateDTO>() {
+		DocumentTemplateDTO documentTemplate = jdbcTemplate.queryForObject(OnTargetQuery.documentTemplate.GET_BY_ID,
+				new Object[] { id }, new RowMapper<DocumentTemplateDTO>() {
 					@Override
-					public DocumentTemplateDTO mapRow(ResultSet rs, int arg1)
-							throws SQLException {
+					public DocumentTemplateDTO mapRow(ResultSet rs, int arg1) throws SQLException {
 						DocumentTemplateDTO dt = new DocumentTemplateDTO();
 						dt.setDocumentTemplateId(rs.getLong("document_template_id"));
 						dt.setName(rs.getString("name"));
 						return dt;
 					}
-			
-		});
+
+				});
 
 		return documentTemplate;
 	}
-	
+
 	@Override
 	public DocumentTemplateDTO getByDocumentId(long documentId) {
-		DocumentTemplateDTO documentTemplate = jdbcTemplate.queryForObject(OnTargetQuery.documentTemplate.GET_BY_DOCUMENT_ID, 
-				new Object[] { documentId }, 
-				new RowMapper<DocumentTemplateDTO>() {
+		DocumentTemplateDTO documentTemplate = jdbcTemplate.queryForObject(OnTargetQuery.documentTemplate.GET_BY_DOCUMENT_ID,
+				new Object[] { documentId }, new RowMapper<DocumentTemplateDTO>() {
 					@Override
-					public DocumentTemplateDTO mapRow(ResultSet rs, int arg1)
-							throws SQLException {
+					public DocumentTemplateDTO mapRow(ResultSet rs, int arg1) throws SQLException {
 						DocumentTemplateDTO dt = new DocumentTemplateDTO();
 						dt.setDocumentTemplateId(rs.getLong("document_template_id"));
 						dt.setName(rs.getString("name"));
 						return dt;
 					}
-			
-		});
+
+				});
 
 		return documentTemplate;
 	}

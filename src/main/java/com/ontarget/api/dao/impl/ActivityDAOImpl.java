@@ -17,27 +17,27 @@ import com.ontarget.constant.OnTargetQuery;
 /**
  * Created by sumit on 12/6/14.
  */
-@Repository
+@Repository("activityDAOImpl")
 public class ActivityDAOImpl implements Serializable, com.ontarget.api.dao.ActivityDAO {
 
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
 
-    public List<ActivityLog> getActivityLog(long projectId) throws Exception {
-        List<ActivityLog> activityLogs = new LinkedList<ActivityLog>();
-        jdbcTemplate.query(OnTargetQuery.GET_ACTIVITY_LOG, new Object[]{projectId}, new RowMapper<ActivityLog>() {
-            @Override
-            public ActivityLog mapRow(ResultSet resultSet, int i) throws SQLException {
-                ActivityLog activityLog = new ActivityLog();
-                activityLog.setCategory(resultSet.getLong("category"));
-                activityLog.setId(resultSet.getLong("id"));
-                activityLog.setTsInsert(resultSet.getTimestamp("ts_insert").getTime());
-                activityLog.setText(resultSet.getString("text"));
-                activityLogs.add(activityLog);
-                return activityLog;
-            }
-        });
-        
-        return activityLogs;
-    }
+	public List<ActivityLog> getActivityLog(long projectId) throws Exception {
+		List<ActivityLog> activityLogs = new LinkedList<ActivityLog>();
+		jdbcTemplate.query(OnTargetQuery.GET_ACTIVITY_LOG, new Object[] { projectId }, new RowMapper<ActivityLog>() {
+			@Override
+			public ActivityLog mapRow(ResultSet resultSet, int i) throws SQLException {
+				ActivityLog activityLog = new ActivityLog();
+				activityLog.setCategory(resultSet.getLong("category"));
+				activityLog.setId(resultSet.getLong("id"));
+				activityLog.setTsInsert(resultSet.getTimestamp("ts_insert").getTime());
+				activityLog.setText(resultSet.getString("text"));
+				activityLogs.add(activityLog);
+				return activityLog;
+			}
+		});
+
+		return activityLogs;
+	}
 }

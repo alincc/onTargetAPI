@@ -1,8 +1,10 @@
 package com.ontarget.api.dao.impl;
 
-import com.ontarget.api.dao.AddressDAO;
-import com.ontarget.bean.AddressDTO;
-import com.ontarget.constant.OnTargetQuery;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -12,15 +14,14 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import com.ontarget.api.dao.AddressDAO;
+import com.ontarget.bean.AddressDTO;
+import com.ontarget.constant.OnTargetQuery;
 
 /**
  * Created by Owner on 11/5/14.
  */
-@Repository
+@Repository("addressDAOImpl")
 public class AddressDAOImpl implements AddressDAO {
 
 	private Logger logger = Logger.getLogger(AddressDAOImpl.class);

@@ -5,6 +5,7 @@ import java.util.Random;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,27 +47,35 @@ public class UserProfileServiceImpl implements UserProfileService {
 	private Logger logger = Logger.getLogger(UserProfileServiceImpl.class);
 
 	@Autowired
+	@Qualifier("companyJpaDAOImpl")
 	private CompanyDAO companyDAO;
 
 	@Autowired
+	@Qualifier("contactJpaDAOImpl")
 	private ContactDAO contactDAO;
 
 	@Autowired
+	@Qualifier("authenticationJpaDAOImpl")
 	private AuthenticationDAO authenticationDAO;
 
 	@Autowired
+	@Qualifier("userRegistrationJpaDAOImpl")
 	private UserRegistrationDAO userRegistrationDAO;
 
 	@Autowired
+	@Qualifier("userJpaDAOImpl")
 	private UserDAO userDAO;
 
 	@Autowired
+	@Qualifier("userSafetyInfoJpaDAOImpl")
 	private UserSafetyInfoDAO userSafetyInfoDAO;
 
 	@Autowired
+	@Qualifier("projectJpaDAOImpl")
 	private ProjectDAO projectDAO;
 
 	@Autowired
+	@Qualifier("phoneJpaDAOImpl")
 	private PhoneDAO phoneDAO;
 
 	@Autowired
@@ -77,8 +86,7 @@ public class UserProfileServiceImpl implements UserProfileService {
 	// TODO: separate logic of user profile and company profile.
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
-	public UserProfileResponse addUserProfile(UserProfileRequest request)
-			throws Exception {
+	public UserProfileResponse addUserProfile(UserProfileRequest request) throws Exception {
 		logger.info("Request to add user profile" + request);
 		UserProfileResponse response = new UserProfileResponse();
 
@@ -123,10 +131,8 @@ public class UserProfileServiceImpl implements UserProfileService {
 
 		// activate the account.
 		String accountStatus = userDTO.getAccountStatus();
-		if (OnTargetConstant.AccountStatus.ACCOUNT_INVITATION
-				.equals(accountStatus)) {
-			boolean updated = this.activateAccount(request.getUser()
-					.getUserId());
+		if (OnTargetConstant.AccountStatus.ACCOUNT_INVITATION.equals(accountStatus)) {
+			boolean updated = this.activateAccount(request.getUser().getUserId());
 			if (!updated) {
 				throw new Exception("Error while activating account");
 			}
@@ -142,8 +148,7 @@ public class UserProfileServiceImpl implements UserProfileService {
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
-	public OnTargetResponse updateUserProfileAndContactInfo(
-			UpdateUserProfileRequest request) throws Exception {
+	public OnTargetResponse updateUserProfileAndContactInfo(UpdateUserProfileRequest request) throws Exception {
 		logger.info("Request to add user profile" + request);
 		OnTargetResponse response = new OnTargetResponse();
 
@@ -169,39 +174,32 @@ public class UserProfileServiceImpl implements UserProfileService {
 	}
 
 	public Contact getContact(long userId) throws Exception {
-		return contactDAO.getContact(userId);
+		return contactDAO.getContact((int) userId);
 	}
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
-	public boolean changeUserPassword(Integer userId, String newPassword,
-			String currentPassword) throws Exception {
+	public boolean changeUserPassword(Integer userId, String newPassword, String currentPassword) throws Exception {
 		UserDTO user = userDAO.getUser(userId);
 		if (user == null) {
 			throw new Exception("user not found");
 		}
 
-		String currentHashedPassword = Security.encodePassword(currentPassword,
-				user.getSalt());
+		String currentHashedPassword = Security.encodePassword(currentPassword, user.getSalt());
 		if (!user.getPassword().equals(currentHashedPassword)) {
-			throw new Exception(
-					"Wrong password provided. User not authenticated to change password");
+			throw new Exception("Wrong password provided. User not authenticated to change password");
 		}
 
 		String newSalt = Security.generateSecureSalt();
-		String newHashedPassword = Security
-				.encodePassword(newPassword, newSalt);
-		return authenticationDAO.changePassword(userId, newHashedPassword,
-				newSalt);
+		String newHashedPassword = Security.encodePassword(newPassword, newSalt);
+		return authenticationDAO.changePassword(userId, newHashedPassword, newSalt);
 	}
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
-	public boolean changeForgotPassword(String token, String newPassword)
-			throws Exception {
+	public boolean changeForgotPassword(String token, String newPassword) throws Exception {
 
-		Map<String, Object> forgotPasswordRequest = userDAO
-				.getForgotPasswordRequest(token);
+		Map<String, Object> forgotPasswordRequest = userDAO.getForgotPasswordRequest(token);
 		if (forgotPasswordRequest == null) {
 			throw new Exception("Forgot Password has already expired.");
 		}
@@ -214,10 +212,8 @@ public class UserProfileServiceImpl implements UserProfileService {
 		}
 
 		String newSalt = Security.generateSecureSalt();
-		String newHashedPassword = Security
-				.encodePassword(newPassword, newSalt);
-		boolean changed = authenticationDAO.changePassword(userId,
-				newHashedPassword, newSalt);
+		String newHashedPassword = Security.encodePassword(newPassword, newSalt);
+		boolean changed = authenticationDAO.changePassword(userId, newHashedPassword, newSalt);
 
 		if (!changed) {
 			throw new Exception("Error while changing forgot password");
@@ -236,11 +232,9 @@ public class UserProfileServiceImpl implements UserProfileService {
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
-	public boolean saveRegistration(int projectId, String firstName,
-			String lastName, String email, String tokenId, String accountStatus)
-			throws Exception {
-		return userRegistrationDAO.saveRegistrationInvitation(projectId,
-				firstName, lastName, email, tokenId, accountStatus) != 0;
+	public boolean saveRegistration(int projectId, String firstName, String lastName, String email, String tokenId,
+			String accountStatus) throws Exception {
+		return userRegistrationDAO.saveRegistrationInvitation(projectId, firstName, lastName, email, tokenId, accountStatus) != 0;
 	}
 
 	public UserRegistration getRegistration(String token) throws Exception {
@@ -259,20 +253,17 @@ public class UserProfileServiceImpl implements UserProfileService {
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
-	public boolean createNewUserFromInvitation(UserRegistrationInfo registration)
-			throws Exception {
+	public boolean createNewUserFromInvitation(UserRegistrationInfo registration) throws Exception {
 		// get token info and create user based on the status: ACCT_NEW or
 		// ACCT_INVITE
-		UserRegistration registrationFrom = userRegistrationDAO
-				.getInvitationRegistration(registration.getRegistrationToken());
+		UserRegistration registrationFrom = userRegistrationDAO.getInvitationRegistration(registration.getRegistrationToken());
 		int userId = generateUserId();
 		boolean flag = false;
 		int t = 0;
 		do {
 			t++;
 			try {
-				userRegistrationDAO.createNewuser(registration,
-						registrationFrom.getStatus(), userId);
+				userRegistrationDAO.createNewuser(registration, registrationFrom.getStatus(), userId);
 			} catch (DuplicateKeyException e) {
 				flag = true; // re run it
 				logger.info("duplicate key ", e);
@@ -283,11 +274,9 @@ public class UserProfileServiceImpl implements UserProfileService {
 					"Maximum allowed id generation per user is exhausted. There is serious issue with this system. Please check");
 		}
 		// update registration request user id by token.
-		int updated = userRegistrationDAO.updateRegistrationRequestUserId(
-				userId, registration.getRegistrationToken());
+		int updated = userRegistrationDAO.updateRegistrationRequestUserId(userId, registration.getRegistrationToken());
 		if (updated <= 0)
-			throw new Exception(
-					"Error while updating registration request user id");
+			throw new Exception("Error while updating registration request user id");
 
 		return true;
 	}
@@ -300,10 +289,8 @@ public class UserProfileServiceImpl implements UserProfileService {
 		}
 
 		// update project member
-		UserRegistration userRegistration = userRegistrationDAO
-				.getInvitationRegistrationByUser(userId);
-		int added = projectDAO.addProjectMember(
-				(int) userRegistration.getProjectId(), userId);
+		UserRegistration userRegistration = userRegistrationDAO.getInvitationRegistrationByUser(userId);
+		int added = projectDAO.addProjectMember((int) userRegistration.getProjectId(), userId);
 		if (added <= 0) {
 			throw new Exception("Error while adding project member");
 		}
@@ -327,17 +314,14 @@ public class UserProfileServiceImpl implements UserProfileService {
 			 * create a entry in forgot password request
 			 */
 			// generate token id
-			final String forgotPasswordToken = Security
-					.generateRandomValue(OnTargetConstant.TOKEN_LENGTH);
-			int id = userDAO.saveForgotPasswordRequest(
-					existingUser.getUserId(), forgotPasswordToken);
+			final String forgotPasswordToken = Security.generateRandomValue(OnTargetConstant.TOKEN_LENGTH);
+			int id = userDAO.saveForgotPasswordRequest(existingUser.getUserId(), forgotPasswordToken);
 			/**
 			 * send email
 			 */
 			Contact contact = contactDAO.getContact(existingUser.getUserId());
 			if (id > 0) {
-				emailService.sendForgotPasswordEmail(emailAddress,
-						contact.getFirstName() + " " + contact.getLastName(),
+				emailService.sendForgotPasswordEmail(emailAddress, contact.getFirstName() + " " + contact.getLastName(),
 						forgotPasswordToken);
 			}
 
@@ -348,8 +332,7 @@ public class UserProfileServiceImpl implements UserProfileService {
 	}
 
 	@Override
-	public boolean validateForgotPasswordToken(String forgotPasswordToken)
-			throws Exception {
+	public boolean validateForgotPasswordToken(String forgotPasswordToken) throws Exception {
 		int count = userDAO.getForgotPasswordRequestCount(forgotPasswordToken);
 		if (count > 0) {
 			return true;
@@ -358,10 +341,8 @@ public class UserProfileServiceImpl implements UserProfileService {
 	}
 
 	@Override
-	public boolean saveUserImage(UserImageRequest userImageRequest)
-			throws Exception {
-		return contactDAO.saveUserImagePath(userImageRequest.getUserId(),
-				userImageRequest.getImagePath(),
+	public boolean saveUserImage(UserImageRequest userImageRequest) throws Exception {
+		return contactDAO.saveUserImagePath(userImageRequest.getUserId(), userImageRequest.getImagePath(),
 				userImageRequest.getModifyingUser());
 	}
 

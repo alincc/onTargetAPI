@@ -11,16 +11,13 @@ import com.ontarget.api.dao.DocumentKeyValueDAO;
 import com.ontarget.bean.DocumentKeyValueDTO;
 import com.ontarget.constant.OnTargetQuery;
 
-@Repository
-public class DocumentKeyValueDAOImpl extends
-		BaseGenericDAOImpl<DocumentKeyValueDTO> implements DocumentKeyValueDAO {
+@Repository("documentKeyValueDAOImpl")
+public class DocumentKeyValueDAOImpl extends BaseGenericDAOImpl<DocumentKeyValueDTO> implements DocumentKeyValueDAO {
 
 	@Override
 	public DocumentKeyValueDTO insert(DocumentKeyValueDTO docKeyVal) {
-		jdbcTemplate.update(OnTargetQuery.documentKeyValue.ADD, docKeyVal
-				.getDocument().getDocumentId(), docKeyVal.getKey(), docKeyVal
-				.getValue(), docKeyVal.getCreatedBy(), docKeyVal
-				.getModifiedBy());
+		jdbcTemplate.update(OnTargetQuery.documentKeyValue.ADD, docKeyVal.getDocument().getDocumentId(), docKeyVal.getKey(),
+				docKeyVal.getValue(), docKeyVal.getCreatedBy(), docKeyVal.getModifiedBy());
 		return docKeyVal;
 	}
 
@@ -38,14 +35,11 @@ public class DocumentKeyValueDAOImpl extends
 
 	@Override
 	public List<DocumentKeyValueDTO> getByDocumentId(int documentId) {
-		List<DocumentKeyValueDTO> keyValues = jdbcTemplate.query(
-				OnTargetQuery.documentKeyValue.GET_BY_DOCUMENT,
-				new Object[] { documentId },
-				new RowMapper<DocumentKeyValueDTO>() {
+		List<DocumentKeyValueDTO> keyValues = jdbcTemplate.query(OnTargetQuery.documentKeyValue.GET_BY_DOCUMENT,
+				new Object[] { documentId }, new RowMapper<DocumentKeyValueDTO>() {
 
 					@Override
-					public DocumentKeyValueDTO mapRow(ResultSet rs, int rowNum)
-							throws SQLException {
+					public DocumentKeyValueDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
 						DocumentKeyValueDTO keyValue = new DocumentKeyValueDTO();
 						keyValue.setKey(rs.getString("key"));
 						keyValue.setValue(rs.getString("value"));
@@ -57,11 +51,8 @@ public class DocumentKeyValueDAOImpl extends
 	}
 
 	@Override
-	public boolean updateValue(int documentId, String key, String newValue,
-			int modifiedBy) {
-		int count = jdbcTemplate.update(
-				OnTargetQuery.documentKeyValue.UPDATE_VALUE, newValue,
-				modifiedBy, documentId, key);
+	public boolean updateValue(int documentId, String key, String newValue, int modifiedBy) {
+		int count = jdbcTemplate.update(OnTargetQuery.documentKeyValue.UPDATE_VALUE, newValue, modifiedBy, documentId, key);
 		return (count > 0);
 	}
 

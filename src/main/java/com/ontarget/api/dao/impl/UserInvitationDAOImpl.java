@@ -20,7 +20,7 @@ import com.ontarget.entity.pojo.RegistrationRequestResponseDTO;
 /**
  * Created by Santosh
  */
-@Repository
+@Repository("userInvitationDAOImpl")
 public class UserInvitationDAOImpl implements UserInvitationDAO {
 
 	private Logger logger = Logger.getLogger(UserInvitationDAO.class);
@@ -29,16 +29,13 @@ public class UserInvitationDAOImpl implements UserInvitationDAO {
 	private JdbcTemplate jdbcTemplate;
 
 	@Override
-	public boolean saveRegistrationRequest(
-			UserInvitationRequestDTO userInvitationRequestDTO) throws Exception {
+	public boolean saveRegistrationRequest(UserInvitationRequestDTO userInvitationRequestDTO) throws Exception {
 
-		int row = jdbcTemplate.update(OnTargetQuery.NEW_REGISTRATION_REQUEST,
-				new Object[] { userInvitationRequestDTO.getFirstName(),
-						userInvitationRequestDTO.getLastName(),
-						userInvitationRequestDTO.getEmail(),
-						userInvitationRequestDTO.getPhoneNumber(),
-						userInvitationRequestDTO.getMsg(),
-						OnTargetConstant.REGISTRATION_PENDING,
+		int row = jdbcTemplate.update(
+				OnTargetQuery.NEW_REGISTRATION_REQUEST,
+				new Object[] { userInvitationRequestDTO.getFirstName(), userInvitationRequestDTO.getLastName(),
+						userInvitationRequestDTO.getEmail(), userInvitationRequestDTO.getPhoneNumber(),
+						userInvitationRequestDTO.getMsg(), OnTargetConstant.REGISTRATION_PENDING,
 						userInvitationRequestDTO.getToken() });
 		System.out.println("Inserted in registration request:: " + row);
 		if (row == 0) {
@@ -48,30 +45,21 @@ public class UserInvitationDAOImpl implements UserInvitationDAO {
 	}
 
 	@Override
-	public List<RegistrationRequestResponseDTO> fetchPendingRequests()
-			throws Exception {
+	public List<RegistrationRequestResponseDTO> fetchPendingRequests() throws Exception {
 		final List<RegistrationRequestResponseDTO> userRegistrationRequests = new LinkedList<RegistrationRequestResponseDTO>();
-		jdbcTemplate.query(OnTargetQuery.PENDING_REGISTRATION_REQUEST_LIST,
-				new Object[] {},
+		jdbcTemplate.query(OnTargetQuery.PENDING_REGISTRATION_REQUEST_LIST, new Object[] {},
 				new RowMapper<RegistrationRequestResponseDTO>() {
 					@Override
-					public RegistrationRequestResponseDTO mapRow(
-							ResultSet resultSet, int i) throws SQLException {
+					public RegistrationRequestResponseDTO mapRow(ResultSet resultSet, int i) throws SQLException {
 						RegistrationRequestResponseDTO registrationRequest = new RegistrationRequestResponseDTO();
-						registrationRequest.setStatus(resultSet
-								.getString("status"));
-						registrationRequest.setRegistrationToken(resultSet
-								.getString("registration_token"));
-						registrationRequest.setPhoneNumber(resultSet
-								.getString("phone_number"));
-						registrationRequest.setEmail(resultSet
-								.getString("email"));
+						registrationRequest.setStatus(resultSet.getString("status"));
+						registrationRequest.setRegistrationToken(resultSet.getString("registration_token"));
+						registrationRequest.setPhoneNumber(resultSet.getString("phone_number"));
+						registrationRequest.setEmail(resultSet.getString("email"));
 						registrationRequest.setId(resultSet.getInt("id"));
 						registrationRequest.setMsg(resultSet.getString("msg"));
-						registrationRequest.setFirstName(resultSet
-								.getString("first_name"));
-						registrationRequest.setLastName(resultSet
-								.getString("last_name"));
+						registrationRequest.setFirstName(resultSet.getString("first_name"));
+						registrationRequest.setLastName(resultSet.getString("last_name"));
 						userRegistrationRequests.add(registrationRequest);
 						return registrationRequest;
 					}
@@ -82,10 +70,8 @@ public class UserInvitationDAOImpl implements UserInvitationDAO {
 
 	@Override
 	public boolean approvePendingRequest(int regRequestId) throws Exception {
-		int row = jdbcTemplate.update(
-				OnTargetQuery.APPROVE_PENDING_USER_REQUEST,
-				new Object[] { OnTargetConstant.REGISTRATION_REQUEST_NEW,
-						regRequestId });
+		int row = jdbcTemplate.update(OnTargetQuery.APPROVE_PENDING_USER_REQUEST, new Object[] {
+				OnTargetConstant.REGISTRATION_REQUEST_NEW, regRequestId });
 		if (row > 0) {
 			return true;
 		}
@@ -94,33 +80,25 @@ public class UserInvitationDAOImpl implements UserInvitationDAO {
 	}
 
 	@Override
-	public RegistrationRequestResponseDTO findRegRequestById(int id)
-			throws Exception {
-		RegistrationRequestResponseDTO registrationRequest = (RegistrationRequestResponseDTO) jdbcTemplate
-				.queryForObject(OnTargetQuery.GET_REGISTRATION_REQUEST,
-						new Object[] { id }, new UserRegistrationRowMapper());
+	public RegistrationRequestResponseDTO findRegRequestById(int id) throws Exception {
+		RegistrationRequestResponseDTO registrationRequest = (RegistrationRequestResponseDTO) jdbcTemplate.queryForObject(
+				OnTargetQuery.GET_REGISTRATION_REQUEST, new Object[] { id }, new UserRegistrationRowMapper());
 		return registrationRequest;
 	}
 
 	@Override
-	public RegistrationRequestResponseDTO findRequestByToken(String token)
-			throws Exception {
+	public RegistrationRequestResponseDTO findRequestByToken(String token) throws Exception {
 		String sql = "SELECT * FROM REGISTRATION_REQUEST WHERE registration_token = ?";
 
-		RegistrationRequestResponseDTO registrationRequest = (RegistrationRequestResponseDTO) jdbcTemplate
-				.queryForObject(sql, new Object[] { token },
-						new UserRegistrationRowMapper());
+		RegistrationRequestResponseDTO registrationRequest = (RegistrationRequestResponseDTO) jdbcTemplate.queryForObject(sql,
+				new Object[] { token }, new UserRegistrationRowMapper());
 		return registrationRequest;
 	}
 
-	public RegistrationRequestResponseDTO findRegRequestByEmail(String email)
-			throws Exception {
+	public RegistrationRequestResponseDTO findRegRequestByEmail(String email) throws Exception {
 		try {
-			RegistrationRequestResponseDTO registrationRequest = (RegistrationRequestResponseDTO) jdbcTemplate
-					.queryForObject(
-							OnTargetQuery.GET_REGISTRATION_REQUEST_BY_EMAIL,
-							new Object[] { email },
-							new UserRegistrationRowMapper());
+			RegistrationRequestResponseDTO registrationRequest = (RegistrationRequestResponseDTO) jdbcTemplate.queryForObject(
+					OnTargetQuery.GET_REGISTRATION_REQUEST_BY_EMAIL, new Object[] { email }, new UserRegistrationRowMapper());
 			return registrationRequest;
 		} catch (Exception e) {
 			logger.error("Exception::" + e);
@@ -135,16 +113,14 @@ public class UserInvitationDAOImpl implements UserInvitationDAO {
 		public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
 			RegistrationRequestResponseDTO registrationRequest = new RegistrationRequestResponseDTO();
 			registrationRequest.setStatus(rs.getString("status"));
-			registrationRequest.setRegistrationToken(rs
-					.getString("registration_token"));
+			registrationRequest.setRegistrationToken(rs.getString("registration_token"));
 			registrationRequest.setPhoneNumber(rs.getString("phone_number"));
 			registrationRequest.setEmail(rs.getString("email"));
 			registrationRequest.setId(rs.getInt("id"));
 			registrationRequest.setMsg(rs.getString("msg"));
 			registrationRequest.setFirstName(rs.getString("first_name"));
 			registrationRequest.setLastName(rs.getString("last_name"));
-			registrationRequest.setTsCreate(rs.getTimestamp("ts_create")
-					.getTime());
+			registrationRequest.setTsCreate(rs.getTimestamp("ts_create").getTime());
 			return registrationRequest;
 		}
 	}

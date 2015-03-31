@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -21,13 +22,12 @@ import com.ontarget.bean.Contact;
 import com.ontarget.bean.DocumentDTO;
 import com.ontarget.constant.OnTargetQuery;
 
-@Repository
-public class DocumentDAOImpl extends BaseGenericDAOImpl<DocumentDTO> implements
-		DocumentDAO {
-	private static final Logger logger = Logger
-			.getLogger(BaseGenericDAOImpl.class);
+@Repository("documentDAOImpl")
+public class DocumentDAOImpl extends BaseGenericDAOImpl<DocumentDTO> implements DocumentDAO {
+	private static final Logger logger = Logger.getLogger(BaseGenericDAOImpl.class);
 
 	@Autowired
+	@Qualifier("contactDAOImpl")
 	private ContactDAO contactDAO;
 
 	@Override
@@ -35,20 +35,15 @@ public class DocumentDAOImpl extends BaseGenericDAOImpl<DocumentDTO> implements
 		KeyHolder kh = new GeneratedKeyHolder();
 		jdbcTemplate.update(new PreparedStatementCreator() {
 			@Override
-			public PreparedStatement createPreparedStatement(Connection conn)
-					throws SQLException {
-				PreparedStatement ps = conn.prepareStatement(
-						OnTargetQuery.document.ADD,
-						new String[] { "document_id" });
-				ps.setLong(1, document.getDocumentTemplate()
-						.getDocumentTemplateId());
+			public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
+				PreparedStatement ps = conn.prepareStatement(OnTargetQuery.document.ADD, new String[] { "document_id" });
+				ps.setLong(1, document.getDocumentTemplate().getDocumentTemplateId());
 				ps.setString(2, document.getName());
 				ps.setString(3, document.getStatus());
 				ps.setInt(4, document.getCreatedBy());
 				ps.setInt(5, document.getModifiedBy());
 				ps.setLong(6, document.getProjectId());
-				ps.setDate(7,
-						new java.sql.Date(document.getDueDate().getTime()));
+				ps.setDate(7, new java.sql.Date(document.getDueDate().getTime()));
 				return ps;
 			}
 
@@ -59,8 +54,7 @@ public class DocumentDAOImpl extends BaseGenericDAOImpl<DocumentDTO> implements
 
 	@Override
 	public DocumentDTO read(long id) {
-		DocumentDTO document = jdbcTemplate.queryForObject(
-				OnTargetQuery.document.GET_BY_ID, new Object[] { id },
+		DocumentDTO document = jdbcTemplate.queryForObject(OnTargetQuery.document.GET_BY_ID, new Object[] { id },
 				new DocumentRowMapper());
 		return document;
 	}
@@ -72,41 +66,34 @@ public class DocumentDAOImpl extends BaseGenericDAOImpl<DocumentDTO> implements
 
 	@Override
 	public boolean updateStatus(int documentId, String newStatus, int modifiedBy) {
-		int count = jdbcTemplate.update(OnTargetQuery.document.UPDATE_STATUS,
-				new Object[] { newStatus, modifiedBy, documentId });
+		int count = jdbcTemplate.update(OnTargetQuery.document.UPDATE_STATUS, new Object[] { newStatus, modifiedBy, documentId });
 		return (count > 0);
 	}
 
 	@Override
 	public List<DocumentDTO> getByCreatedBy(Integer createdBy, int projectId) {
-		List<DocumentDTO> documents = jdbcTemplate.query(
-				OnTargetQuery.document.GET_BY_CREATED_BY, new Object[] {
-						createdBy, projectId }, new DocumentRowMapper());
+		List<DocumentDTO> documents = jdbcTemplate.query(OnTargetQuery.document.GET_BY_CREATED_BY, new Object[] { createdBy,
+				projectId }, new DocumentRowMapper());
 		return documents;
 	}
 
 	@Override
 	public List<DocumentDTO> getByAssigneeUsername(Integer userId, int projectId) {
-		List<DocumentDTO> documents = jdbcTemplate.query(
-				OnTargetQuery.document.GET_BY_ASSIGNEE_USERNAME, new Object[] {
-						userId, projectId }, new DocumentRowMapper());
+		List<DocumentDTO> documents = jdbcTemplate.query(OnTargetQuery.document.GET_BY_ASSIGNEE_USERNAME, new Object[] { userId,
+				projectId }, new DocumentRowMapper());
 		return documents;
 	}
 
 	@Override
-	public List<DocumentDTO> getDocumentsByProject(int projectId,
-			String approved) throws Exception {
-		List<DocumentDTO> documents = jdbcTemplate.query(
-				OnTargetQuery.document.GET_DOCUMENTS_BY_PROJECT, new Object[] {
-						projectId, approved }, new DocumentRowMapper());
+	public List<DocumentDTO> getDocumentsByProject(int projectId, String approved) throws Exception {
+		List<DocumentDTO> documents = jdbcTemplate.query(OnTargetQuery.document.GET_DOCUMENTS_BY_PROJECT, new Object[] {
+				projectId, approved }, new DocumentRowMapper());
 		return documents;
 	}
 
 	@Override
-	public boolean updateDueDate(int documentId, Date dueDate, String modifiedBy)
-			throws Exception {
-		int count = jdbcTemplate.update(OnTargetQuery.document.UPDATE_DUE_DATE,
-				new Object[] { dueDate, modifiedBy, documentId });
+	public boolean updateDueDate(int documentId, Date dueDate, String modifiedBy) throws Exception {
+		int count = jdbcTemplate.update(OnTargetQuery.document.UPDATE_DUE_DATE, new Object[] { dueDate, modifiedBy, documentId });
 		return (count > 0);
 	}
 
