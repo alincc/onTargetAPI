@@ -229,20 +229,22 @@ public class ProjectJpaDAOImpl implements ProjectDAO {
 	@Override
 	public List<ProjectInfo> getChildProjects(int projectId) throws Exception {
 		List<ProjectInfo> projects = new LinkedList<>();
-		Project parentProject = projectRepository.findByProjectParentId(projectId);
+		List<Project> projectList = projectRepository.findByProjectParentId(projectId);
 
-		ProjectInfo project = new ProjectInfo();
+		for (Project proj : projectList) {
+			ProjectInfo project = new ProjectInfo();
 
-		project.setProjectId(parentProject.getProjectId());
-		project.setProjectName(parentProject.getProjectName());
-		project.setProjectDescription(parentProject.getProjectDescription());
-		project.setProjectParentId(parentProject.getProjectParentId());
-		project.setCompanyId(parentProject.getCompanyInfo().getCompanyId());
-		project.setProjectOwnerId(parentProject.getProjectOwnerId());
+			project.setProjectId(proj.getProjectId());
+			project.setProjectName(proj.getProjectName());
+			project.setProjectDescription(proj.getProjectDescription());
+			project.setProjectParentId(proj.getProjectParentId());
+			project.setCompanyId(proj.getCompanyInfo().getCompanyId());
+			project.setProjectOwnerId(proj.getProjectOwnerId());
 
-		project.setStartDate(parentProject.getProjectStartDate());
-		project.setEndDate(parentProject.getProjectEndDate());
-		projects.add(project);
+			project.setStartDate(proj.getProjectStartDate());
+			project.setEndDate(proj.getProjectEndDate());
+			projects.add(project);
+		}
 
 		return projects;
 	}

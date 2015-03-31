@@ -19,7 +19,6 @@ import com.ontarget.api.service.EmailService;
 import com.ontarget.api.service.ProjectService;
 import com.ontarget.api.service.UserProfileService;
 import com.ontarget.bean.Contact;
-import com.ontarget.bean.ProjectDTO;
 import com.ontarget.bean.ProjectInfo;
 import com.ontarget.bean.UserRegistration;
 import com.ontarget.constant.OnTargetConstant;
@@ -36,8 +35,7 @@ import com.ontarget.util.Security;
 @Path("/register")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-public class UserRegistrationImpl implements
-		com.ontarget.api.rs.UserRegistration {
+public class UserRegistrationImpl implements com.ontarget.api.rs.UserRegistration {
 
 	private Logger logger = Logger.getLogger(UserRegistrationImpl.class);
 
@@ -53,8 +51,7 @@ public class UserRegistrationImpl implements
 	@Override
 	@POST
 	@Path("/inviteUserIntoProject")
-	public OnTargetResponse inviteUserIntoProject(
-			InviteUserIntoProjectRequest inviteUserIntoProjectRequest) {
+	public OnTargetResponse inviteUserIntoProject(InviteUserIntoProjectRequest inviteUserIntoProjectRequest) {
 
 		int projectId = inviteUserIntoProjectRequest.getProjectId();
 		String firstName = inviteUserIntoProjectRequest.getFirstName();
@@ -62,25 +59,21 @@ public class UserRegistrationImpl implements
 		String email = inviteUserIntoProjectRequest.getEmail();
 		OnTargetResponse response = new OnTargetResponse();
 		if (projectId > 0) {
-			logger.info("This is first name " + firstName + " last name "
-					+ lastName + " and email" + email);
+			logger.info("This is first name " + firstName + " last name " + lastName + " and email" + email);
 
 			// generate token id
-			final String tokenId = Security
-					.generateRandomValue(OnTargetConstant.TOKEN_LENGTH);
+			final String tokenId = Security.generateRandomValue(OnTargetConstant.TOKEN_LENGTH);
 			// save into registration table
 			logger.info("token id:: " + tokenId);
 			try {
-				if (userProfileService.saveRegistration(projectId, firstName,
-						lastName, email, tokenId,
+				if (userProfileService.saveRegistration(projectId, firstName, lastName, email, tokenId,
 						OnTargetConstant.AccountStatus.ACCOUNT_INVITATION)) {
 					ProjectInfo res = projectService.getProject(projectId);
 					long owner = res.getProjectOwnerId();
 					Contact c = userProfileService.getContact(owner);
 
 					// build n send email
-					emailService.sendUserRegistrationEmail(email, tokenId,
-							firstName, c.getFirstName(), c.getLastName());
+					emailService.sendUserRegistrationEmail(email, tokenId, firstName, c.getFirstName(), c.getLastName());
 					response.setReturnMessage("Email sent. Please check mail");
 					response.setReturnVal(OnTargetConstant.SUCCESS);
 				} else {
@@ -103,32 +96,24 @@ public class UserRegistrationImpl implements
 	@Override
 	@POST
 	@Path("/inviteToNewAccount")
-	public OnTargetResponse inviteUserIntoNewAccount(
-			InviteUserIntoProjectRequest inviteUserIntoProjectRequest) {
+	public OnTargetResponse inviteUserIntoNewAccount(InviteUserIntoProjectRequest inviteUserIntoProjectRequest) {
 		OnTargetResponse response = new OnTargetResponse();
 
-		logger.info("This is first name "
-				+ inviteUserIntoProjectRequest.getFirstName() + " last name "
-				+ inviteUserIntoProjectRequest.getLastName() + " and email"
-				+ inviteUserIntoProjectRequest.getEmail());
+		logger.info("This is first name " + inviteUserIntoProjectRequest.getFirstName() + " last name "
+				+ inviteUserIntoProjectRequest.getLastName() + " and email" + inviteUserIntoProjectRequest.getEmail());
 
 		String firstName = inviteUserIntoProjectRequest.getFirstName();
 		String lastName = inviteUserIntoProjectRequest.getLastName();
 		String email = inviteUserIntoProjectRequest.getEmail();
 
-		final String tokenId = Security
-				.generateRandomValue(OnTargetConstant.TOKEN_LENGTH);
+		final String tokenId = Security.generateRandomValue(OnTargetConstant.TOKEN_LENGTH);
 		try {
-			if (userProfileService.saveRegistration(
-					inviteUserIntoProjectRequest.getProjectId(),
-					inviteUserIntoProjectRequest.getFirstName(),
-					inviteUserIntoProjectRequest.getLastName(),
-					inviteUserIntoProjectRequest.getEmail(),
-					inviteUserIntoProjectRequest.getRegistrationToken(),
+			if (userProfileService.saveRegistration(inviteUserIntoProjectRequest.getProjectId(),
+					inviteUserIntoProjectRequest.getFirstName(), inviteUserIntoProjectRequest.getLastName(),
+					inviteUserIntoProjectRequest.getEmail(), inviteUserIntoProjectRequest.getRegistrationToken(),
 					OnTargetConstant.AccountStatus.ACCT_NEW)) {
 
-				emailService.sendInviteToAccountEmail(email, firstName,
-						lastName, tokenId);
+				emailService.sendInviteToAccountEmail(email, firstName, lastName, tokenId);
 				response.setReturnMessage("Email sent. Please check mail");
 				response.setReturnVal(OnTargetConstant.SUCCESS);
 			} else {
@@ -147,8 +132,7 @@ public class UserRegistrationImpl implements
 	@Override
 	@GET
 	@Path("/validateLink")
-	public UserInviteResponse validateLink(
-			@NotEmpty @QueryParam("q") String link) {
+	public UserInviteResponse validateLink(@NotEmpty @QueryParam("q") String link) {
 		UserInviteResponse response = new UserInviteResponse();
 		if (link == null || link.isEmpty()) {
 			response.setReturnMessage("No link specified");
@@ -171,9 +155,7 @@ public class UserRegistrationImpl implements
 		}
 
 		String status = userRegistration.getStatus();
-		if (status != null
-				&& (status.equals("deactivated") || status
-						.equals("user-created"))) {
+		if (status != null && (status.equals("deactivated") || status.equals("user-created"))) {
 			response.setReturnVal(OnTargetConstant.ERROR);
 			response.setReturnMessage("Deactivated Link. Please try with new link");
 			return response;
@@ -197,8 +179,7 @@ public class UserRegistrationImpl implements
 		logger.info("Adding new user: " + request);
 		OnTargetResponse response = new OnTargetResponse();
 		try {
-			boolean created = userProfileService
-					.createNewUserFromInvitation(request);
+			boolean created = userProfileService.createNewUserFromInvitation(request);
 			if (created) {
 				response.setReturnMessage("Successfully created user based on invitation.");
 				response.setReturnVal(OnTargetConstant.SUCCESS);
@@ -218,8 +199,7 @@ public class UserRegistrationImpl implements
 	@Override
 	@GET
 	@Path("/activateAccount/{userId}")
-	public OnTargetResponse activateAccount(
-			@NotNull @PathParam("userId") Integer userId) {
+	public OnTargetResponse activateAccount(@NotNull @PathParam("userId") Integer userId) {
 		OnTargetResponse response = new OnTargetResponse();
 		try {
 			if (userProfileService.activateAccount(userId)) {
