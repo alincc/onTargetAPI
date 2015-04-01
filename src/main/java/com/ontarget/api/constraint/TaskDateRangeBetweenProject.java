@@ -11,6 +11,7 @@ import javax.validation.Payload;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import com.ontarget.api.dao.ProjectDAO;
 import com.ontarget.bean.ProjectDTO;
@@ -35,6 +36,7 @@ public @interface TaskDateRangeBetweenProject {
 				.getLogger(TaskDateRangeBetweenProject.class);
 
 		@Autowired
+		@Qualifier("projectJpaDAOImpl")
 		private ProjectDAO projectDAO;
 
 		@Override

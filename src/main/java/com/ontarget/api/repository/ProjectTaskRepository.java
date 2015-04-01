@@ -19,12 +19,7 @@ public interface ProjectTaskRepository extends JpaRepository<ProjectTask, Intege
 	@Query("select pt from TaskAssignee ta join ta.projectTask pt where ta.taskAssignee = ?1")
 	List<ProjectTask> getAllTaskByAssignee(Long taskAssignee);
 
-	// select *,if(status='COMPLETED',true,false) as completed from project_task
-	// t where t.project_id in
-	// ( select p.project_id from project p where p.project_id=? or
-	// p.project_parent_id=?)
-	// and t.status=? and t.modified_date <= t.end_date
 	@Query("select pt from ProjectTask pt where pt.project.id in(select projectId from Project where projectId = ?1 and projectParentId = ?2)"
 			+ " and pt.status = ?3 and pt.modifiedDate <= pt.endDate")
-	List<ProjectTask> getTasksByProjectIdAndStatus(Integer projectId, Integer projectParentId, Integer status);
+	List<ProjectTask> getTasksByProjectIdAndStatus(Integer projectId, Integer projectParentId, String status);
 }
