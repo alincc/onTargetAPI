@@ -11,7 +11,7 @@ public interface ProjectTaskFilesRepository extends JpaRepository<ProjectTaskFil
 
 	ProjectTaskFiles findByTaskFileId(Integer taskFileId);
 
-	@Query("select p from ProjectTaskFiles p where p.projectTask.projectTaskId = :projectTaskId")
+	@Query("select p from ProjectTaskFiles p where p.projectTask.projectTaskId = ?1")
 	List<ProjectTaskFiles> getProjectTaskFilesByTaskId(Integer projectTaskId);
 
 }
