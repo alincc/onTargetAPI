@@ -26,7 +26,7 @@ import java.util.List;
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {
 
-	private Logger logger = Logger.getLogger(UserProfileImpl.class);
+	private Logger logger = Logger.getLogger(AuthenticationServiceImpl.class);
 
 	@Autowired
 	private AuthenticationDAO authenticationDAO;
