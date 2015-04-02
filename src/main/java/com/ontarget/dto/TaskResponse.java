@@ -1,18 +1,18 @@
 package com.ontarget.dto;
 
-import com.ontarget.bean.Task;
+import com.ontarget.bean.TaskInfo;
 
 /**
  * Created by sumit on 1/4/15.
  */
 public class TaskResponse extends OnTargetResponse {
-    private Task task;
+    private TaskInfo task;
 
-    public Task getTask() {
+    public TaskInfo getTask() {
         return task;
     }
 
-    public void setTask(Task task) {
+    public void setTask(TaskInfo task) {
         this.task = task;
     }
 }

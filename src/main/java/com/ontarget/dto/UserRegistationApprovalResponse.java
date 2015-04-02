@@ -5,15 +5,21 @@ import java.util.List;
 /**
  * Created by Owner on 11/3/14.
  */
-public class UserRegistationApprovalResponse extends OnTargetResponse{
+public class UserRegistationApprovalResponse extends OnTargetResponse {
 
-    private List<UserRegistrationRequest> userRegistrationRequestList;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private List<RegistrationRequestDTO> userRegistrationRequestList;
 
-    public List<UserRegistrationRequest> getUserRegistrationRequestList() {
-        return userRegistrationRequestList;
-    }
+	public List<RegistrationRequestDTO> getUserRegistrationRequestList() {
+		return userRegistrationRequestList;
+	}
 
-    public void setUserRegistrationRequestList(List<UserRegistrationRequest> userRegistrationRequestList) {
-        this.userRegistrationRequestList = userRegistrationRequestList;
-    }
+	public void setUserRegistrationRequestList(
+			List<RegistrationRequestDTO> userRegistrationRequestList) {
+		this.userRegistrationRequestList = userRegistrationRequestList;
+	}
+
 }

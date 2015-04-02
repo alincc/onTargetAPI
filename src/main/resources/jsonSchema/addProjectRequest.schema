@@ -1,0 +1,123 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://jsonschema.net",
+  "type": "object",
+  "properties": {
+   "baseRequest": {
+      "id": "http://jsonschema.net/baseRequest",
+      "type": "object",
+      "properties": {
+        "loggedInUserId": {
+          "id": "http://jsonschema.net/baseRequest/loggedInUserId",
+          "type": "integer"
+        },
+        "loggedInUserprojectId": {
+          "id": "http://jsonschema.net/baseRequest/loggedInUserProjectId",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "loggedInUserId",
+        "loggedInUserProjectId"
+      ]
+    },
+    "project": {
+      "id": "http://jsonschema.net/project",
+      "type": "object",
+      "properties": {
+        "projectParentId": {
+          "id": "http://jsonschema.net/project/projectParentId",
+          "type": "string"
+        },
+        "projectTypeId": {
+          "id": "http://jsonschema.net/project/projectTypeId",
+          "type": "integer"
+        },
+        "projectAddress": {
+          "id": "http://jsonschema.net/project/projectAddress",
+          "type": "object",
+          "properties": {
+            "address1": {
+              "id": "http://jsonschema.net/project/projectAddress/address1",
+              "type": "string"
+            },
+            "address2": {
+              "id": "http://jsonschema.net/project/projectAddress/address2",
+              "type": "null"
+            },
+            "city": {
+              "id": "http://jsonschema.net/project/projectAddress/city",
+              "type": "string"
+            },
+            "state": {
+              "id": "http://jsonschema.net/project/projectAddress/state",
+              "type": "string"
+            },
+            "country": {
+              "id": "http://jsonschema.net/project/projectAddress/country",
+              "type": "string"
+            },
+            "zip": {
+              "id": "http://jsonschema.net/project/projectAddress/zip",
+              "type": "string"
+            },
+             "addressId": {
+	          "id": "http://jsonschema.net/project/addressId",
+	          "type": "integer"
+	        }
+          }
+        },
+        "companyId": {
+          "id": "http://jsonschema.net/project/companyId",
+          "type": "integer"
+        },
+        "projectName": {
+          "id": "http://jsonschema.net/project/projectName",
+          "type": "string"
+        },
+        "projectDescription": {
+          "id": "http://jsonschema.net/project/projectDescription",
+          "type": "string"
+        },
+        "status": {
+          "id": "http://jsonschema.net/project/status",
+          "type": "string"
+        },
+        "startDate": {
+          "id": "http://jsonschema.net/project/startDate",
+          "type": "string"
+        },
+        "endDate": {
+          "id": "http://jsonschema.net/project/endDate",
+          "type": "string"
+        }
+      },
+      "required": [
+        "projectParentId",
+        "projectTypeId",
+        "projectAddress",
+        "companyId",
+        "projectName",
+        "projectDescription",
+        "status",
+        "startDate",
+        "endDate"
+      ]
+    },
+    "user": {
+      "id": "http://jsonschema.net/user",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "id": "http://jsonschema.net/user/userId",
+          "type": "string"
+        }
+      }
+    }
+  },
+  "required": [
+    "baseRequest",
+    "project",
+    "user"
+  ]
+}

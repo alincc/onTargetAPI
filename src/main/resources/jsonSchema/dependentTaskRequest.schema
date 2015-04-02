@@ -1,0 +1,47 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://jsonschema.net",
+  "type": "object",
+  "properties": {
+    "baseRequest": {
+      "id": "http://jsonschema.net/baseRequest",
+      "type": "object",
+      "properties": {
+        "loggedInUserId": {
+          "id": "http://jsonschema.net/baseRequest/loggedInUserId",
+          "type": "integer"
+        },
+        "loggedInUserProjectId": {
+          "id": "http://jsonschema.net/baseRequest/loggedInUserProjectId",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "loggedInUserId",
+        "loggedInUserProjectId"
+      ]
+    },
+    "dependentTask": {
+      "id": "http://jsonschema.net/dependentTask",
+      "type": "object",
+      "properties": {
+        "taskId": {
+          "id": "http://jsonschema.net/dependentTask/taskId",
+          "type": "integer"
+        },
+        "dependentTaskId": {
+          "id": "http://jsonschema.net/dependentTask/dependentTaskId",
+          "type": "integer"
+        },
+        "categoryId": {
+          "id": "http://jsonschema.net/dependentTask/categoryId",
+          "type": "integer"
+        }
+      }
+    }
+  },
+  "required": [
+    "baseRequest",
+    "dependentTask"
+  ]
+}

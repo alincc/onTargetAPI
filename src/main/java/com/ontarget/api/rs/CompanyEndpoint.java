@@ -1,13 +1,13 @@
 package com.ontarget.api.rs;
 
-import com.ontarget.dto.CompanyListResponse;
+import javax.validation.Valid;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
+import com.ontarget.dto.CompanyListResponse;
+import com.ontarget.request.bean.CompanyList;
 
 /**
  * Created by sumit on 12/24/14.
  */
 public interface CompanyEndpoint {
-    CompanyListResponse getCompanyList();
+	CompanyListResponse getCompanyList(@Valid CompanyList companyList);
 }

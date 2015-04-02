@@ -1,32 +1,47 @@
 package com.ontarget.api.rs;
 
-import com.ontarget.dto.*;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
+import org.hibernate.validator.constraints.NotEmpty;
+
+import com.ontarget.dto.ChangeUserPasswordRequest;
+import com.ontarget.dto.ForgotPasswordRequest;
+import com.ontarget.dto.OnTargetResponse;
+import com.ontarget.dto.SafetyInfoResponse;
+import com.ontarget.dto.UserImageRequest;
+import com.ontarget.dto.UserProfileRequest;
+import com.ontarget.request.bean.InviteUserIntoProjectRequest;
+import com.ontarget.request.bean.UpdateUserProfileRequest;
 
 /**
  * Created by Owner on 11/4/14.
  */
 public interface UserProfile {
 
-    public OnTargetResponse addUserProfile(UserProfileRequest userProfileRequest);
+	public OnTargetResponse addUserProfile(
+			@Valid UserProfileRequest userProfileRequest);
 
-    public OnTargetResponse changeUserPassword(ChangeUserPasswordRequest request) throws Exception;
+	public OnTargetResponse changeUserPassword(
+			@Valid ChangeUserPasswordRequest request) throws Exception;
 
-    public OnTargetResponse updateUserProfile(UserProfileRequest userProfileRequest);
+	public OnTargetResponse updateUserProfile(
+			@Valid UpdateUserProfileRequest userProfileRequest);
 
-    public OnTargetResponse changeForgotPassword(ForgotPasswordRequest request) throws Exception;
+	public OnTargetResponse changeForgotPassword(
+			@Valid ForgotPasswordRequest request) throws Exception;
 
-    public OnTargetResponse inviteUserIntoProject(UserInvitationRequest request);
+	public OnTargetResponse inviteUserIntoProject(
+			@Valid InviteUserIntoProjectRequest request);
 
-    public SafetyInfoResponse getSafetyInfoForUser(long userId);
+	public SafetyInfoResponse getSafetyInfoForUser(@NotNull Integer userId);
 
-    public OnTargetResponse forgotPasswordRequest(ForgotPasswordRequest request);
+	public OnTargetResponse forgotPasswordRequest(
+			@Valid ForgotPasswordRequest request);
 
-    public OnTargetResponse validateForgotPasswordToken(String forgotPasswordToken);
+	public OnTargetResponse validateForgotPasswordToken(
+			@NotEmpty String forgotPasswordToken);
 
-    public OnTargetResponse saveUserProfileImage(UserImageRequest userImageRequest);
+	public OnTargetResponse saveUserProfileImage(
+			@Valid UserImageRequest userImageRequest);
 }

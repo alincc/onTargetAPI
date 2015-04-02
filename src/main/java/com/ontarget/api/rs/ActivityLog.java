@@ -1,12 +1,14 @@
 package com.ontarget.api.rs;
 
-import com.ontarget.dto.ActivityLogResponse;
+import javax.validation.Valid;
 
-import javax.ws.rs.QueryParam;
+import com.ontarget.dto.ActivityLogResponse;
+import com.ontarget.request.bean.ActivityLogRequest;
 
 /**
  * Created by sumit on 12/6/14.
  */
 public interface ActivityLog {
-    ActivityLogResponse getActivityLog(@QueryParam("recentId") long recentId);
+	ActivityLogResponse getActivityLog(
+			@Valid ActivityLogRequest activityLogRequest);
 }

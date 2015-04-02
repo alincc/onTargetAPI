@@ -1,0 +1,43 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://jsonschema.net",
+  "type": "object",
+  "properties": {
+    "baseRequest": {
+      "id": "http://jsonschema.net/baseRequest",
+      "type": "object",
+      "properties": {
+        "loggedInUserId": {
+          "id": "http://jsonschema.net/baseRequest/loggedInUserId",
+          "type": "integer"
+        },
+        "loggedInUserProjectId": {
+          "id": "http://jsonschema.net/baseRequest/loggedInUserProjectId",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "loggedInUserId",
+        "loggedInUserProjectId"
+      ]
+    },
+    "percentageType": {
+      "id": "http://jsonschema.net/percentageType",
+      "type": "string"
+    },
+    "percentageComplete": {
+      "id": "http://jsonschema.net/percentageComplete",
+      "type": "number"
+    },
+    "taskId": {
+      "id": "http://jsonschema.net/taskId",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "baseRequest",
+    "percentageType",
+    "percentageComplete",
+    "taskId"
+  ]
+}

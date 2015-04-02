@@ -1,25 +1,25 @@
 package com.ontarget.api.response;
 
-import com.ontarget.bean.Task;
-import com.ontarget.bean.TaskPercentage;
-import com.ontarget.dto.OnTargetResponse;
-
 import java.util.List;
 import java.util.Map;
+
+import com.ontarget.bean.ProjectTaskInfo;
+import com.ontarget.bean.TaskPercentage;
+import com.ontarget.dto.OnTargetResponse;
 
 /**
  * Created by Owner on 12/2/14.
  */
-public class TaskPercentageResponse extends OnTargetResponse{
+public class TaskPercentageResponse extends OnTargetResponse {
 
-    private Map<Task,List<TaskPercentage>> taskListMap;
+	private Map<ProjectTaskInfo, List<TaskPercentage>> taskListMap;
 
+	public Map<ProjectTaskInfo, List<TaskPercentage>> getTaskListMap() {
+		return taskListMap;
+	}
 
-    public Map<Task, List<TaskPercentage>> getTaskListMap() {
-        return taskListMap;
-    }
+	public void setTaskListMap(Map<ProjectTaskInfo, List<TaskPercentage>> taskListMap) {
+		this.taskListMap = taskListMap;
+	}
 
-    public void setTaskListMap(Map<Task, List<TaskPercentage>> taskListMap) {
-        this.taskListMap = taskListMap;
-    }
 }

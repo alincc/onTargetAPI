@@ -1,31 +1,44 @@
 package com.ontarget.api.rs;
 
-import com.ontarget.dto.OnTargetResponse;
-import com.ontarget.dto.UserInvitationRequest;
-import com.ontarget.dto.UserInviteResponse;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.QueryParam;
 
-import javax.ws.rs.*;
+import org.hibernate.validator.constraints.NotEmpty;
+
+import com.ontarget.dto.OnTargetResponse;
+import com.ontarget.dto.UserInviteResponse;
+import com.ontarget.request.bean.InviteUserIntoProjectRequest;
+import com.ontarget.request.bean.UserRegistrationInfo;
 
 /**
  * Created by sumit on 12/1/14.
  */
 public interface UserRegistration {
 
-    OnTargetResponse inviteUserIntoProject(UserInvitationRequest request);
+	OnTargetResponse inviteUserIntoProject(
+			@Valid InviteUserIntoProjectRequest request);
 
-    @POST
-    @Path("/inviteToNewAccount")
-    OnTargetResponse inviteUserIntoNewAccount(com.ontarget.bean.UserRegistration registration);
+	@POST
+	@Path("/inviteToNewAccount")
+	OnTargetResponse inviteUserIntoNewAccount(
+			@Valid InviteUserIntoProjectRequest registration);
 
-    @GET
-    @Path("/validateLink")
-    UserInviteResponse validateLink(@QueryParam("q") String link);
+	@GET
+	@Path("/validateLink")
+	UserInviteResponse validateLink(@NotEmpty @QueryParam("q") String link);
 
-    @POST
-    @Path("/createUser")
-    OnTargetResponse createNewUser(com.ontarget.bean.UserRegistration request);
+	@POST
+	@Path("/createUser")
+	OnTargetResponse createNewUser(
+			@Valid UserRegistrationInfo userRegistrationRequest);
 
-    @POST
-    @Path("/activateAccount/{userId}")
-    OnTargetResponse activateAccount(@PathParam("userId") int userId);
+	@POST
+	@Path("/activateAccount/{userId}")
+	OnTargetResponse activateAccount(
+			@NotNull @PathParam("userId") Integer userId);
 }

@@ -1,0 +1,48 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://jsonschema.net",
+  "type": "object",
+  "properties": {
+    "baseRequest": {
+      "id": "http://jsonschema.net/baseRequest",
+      "type": "object",
+      "properties": {
+        "loggedInUserId": {
+          "id": "http://jsonschema.net/baseRequest/loggedInUserId",
+          "type": "integer"
+        },
+        "loggedInUserProjectId": {
+          "id": "http://jsonschema.net/baseRequest/loggedInUserProjectId",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "loggedInUserId",
+        "loggedInUserProjectId"
+      ]
+    },
+    "taskId": {
+      "id": "http://jsonschema.net/taskId",
+      "type": "integer"
+    },
+    "userId": {
+      "id": "http://jsonschema.net/userId",
+      "type": "integer"
+    },
+    "fileName": {
+      "id": "http://jsonschema.net/fileName",
+      "type": "string"
+    },
+    "location": {
+      "id": "http://jsonschema.net/location",
+      "type": "string"
+    }
+  },
+  "required": [
+    "baseRequest",
+    "taskId",
+    "userId",
+    "fileName",
+    "location"
+  ]
+}

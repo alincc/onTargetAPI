@@ -12,16 +12,16 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import com.ontarget.api.dao.DocumentTemplateDAO;
-import com.ontarget.bean.DocumentTemplate;
+import com.ontarget.bean.DocumentTemplateDTO;
 import com.ontarget.constant.OnTargetQuery;
 
 @Repository
 public class DocumentTemplateDAOImpl 
-		extends BaseGenericDAOImpl<DocumentTemplate> 
+		extends BaseGenericDAOImpl<DocumentTemplateDTO> 
 		implements DocumentTemplateDAO {
 
 	@Override
-	public DocumentTemplate insert(final DocumentTemplate documentTemplate) {
+	public DocumentTemplateDTO insert(final DocumentTemplateDTO documentTemplate) {
 		KeyHolder kh = new GeneratedKeyHolder();
 		jdbcTemplate.update(new PreparedStatementCreator(){
 			@Override
@@ -41,14 +41,14 @@ public class DocumentTemplateDAOImpl
 	}
 
 	@Override
-	public DocumentTemplate read(long id) {
-		DocumentTemplate documentTemplate = jdbcTemplate.queryForObject(OnTargetQuery.documentTemplate.GET_BY_ID, 
+	public DocumentTemplateDTO read(long id) {
+		DocumentTemplateDTO documentTemplate = jdbcTemplate.queryForObject(OnTargetQuery.documentTemplate.GET_BY_ID, 
 				new Object[] { id }, 
-				new RowMapper<DocumentTemplate>() {
+				new RowMapper<DocumentTemplateDTO>() {
 					@Override
-					public DocumentTemplate mapRow(ResultSet rs, int arg1)
+					public DocumentTemplateDTO mapRow(ResultSet rs, int arg1)
 							throws SQLException {
-						DocumentTemplate dt = new DocumentTemplate();
+						DocumentTemplateDTO dt = new DocumentTemplateDTO();
 						dt.setDocumentTemplateId(rs.getLong("document_template_id"));
 						dt.setName(rs.getString("name"));
 						return dt;
@@ -60,14 +60,14 @@ public class DocumentTemplateDAOImpl
 	}
 	
 	@Override
-	public DocumentTemplate getByDocumentId(long documentId) {
-		DocumentTemplate documentTemplate = jdbcTemplate.queryForObject(OnTargetQuery.documentTemplate.GET_BY_DOCUMENT_ID, 
+	public DocumentTemplateDTO getByDocumentId(long documentId) {
+		DocumentTemplateDTO documentTemplate = jdbcTemplate.queryForObject(OnTargetQuery.documentTemplate.GET_BY_DOCUMENT_ID, 
 				new Object[] { documentId }, 
-				new RowMapper<DocumentTemplate>() {
+				new RowMapper<DocumentTemplateDTO>() {
 					@Override
-					public DocumentTemplate mapRow(ResultSet rs, int arg1)
+					public DocumentTemplateDTO mapRow(ResultSet rs, int arg1)
 							throws SQLException {
-						DocumentTemplate dt = new DocumentTemplate();
+						DocumentTemplateDTO dt = new DocumentTemplateDTO();
 						dt.setDocumentTemplateId(rs.getLong("document_template_id"));
 						dt.setName(rs.getString("name"));
 						return dt;
@@ -79,7 +79,7 @@ public class DocumentTemplateDAOImpl
 	}
 
 	@Override
-	public boolean update(DocumentTemplate bean) {
+	public boolean update(DocumentTemplateDTO bean) {
 		throw new UnsupportedOperationException();
 	}
 

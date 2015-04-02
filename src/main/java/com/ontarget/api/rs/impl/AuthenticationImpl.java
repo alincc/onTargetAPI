@@ -1,23 +1,27 @@
 package com.ontarget.api.rs.impl;
 
-import com.ontarget.api.rs.Authentication;
-import com.ontarget.api.service.AuthenticationService;
-import com.ontarget.bean.User;
-import com.ontarget.constant.OnTargetConstant;
-import com.ontarget.dto.OnTargetResponse;
-import com.ontarget.dto.UserRegistationApprovalResponse;
-import com.ontarget.dto.UserRegistrationRequest;
-import com.ontarget.dto.UserResponse;
-import com.ontarget.util.Security;
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+
+import org.apache.log4j.Logger;
+import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.ontarget.api.rs.Authentication;
+import com.ontarget.api.service.AuthenticationService;
+import com.ontarget.constant.OnTargetConstant;
+import com.ontarget.dto.OnTargetResponse;
+import com.ontarget.dto.UserRegistationApprovalResponse;
+import com.ontarget.dto.UserResponse;
+import com.ontarget.request.bean.RegistrationApprovalRequest;
+import com.ontarget.request.bean.SignInRequest;
+import com.ontarget.request.bean.UserRegistrationRequest;
+import com.ontarget.util.Security;
 
 /**
  * Created by Owner on 10/26/14.
@@ -35,13 +39,13 @@ public class AuthenticationImpl implements Authentication {
 
 	@POST
 	@Path("/signin")
-	public UserResponse signIn(User user) {
-		logger.info("Sign in request: " + user);
+	public UserResponse signIn(SignInRequest signInRequest) {
+		logger.info("Sign in request: " + signInRequest);
 		UserResponse response = new UserResponse();
 		try {
-			response = authenticationService.signIn(user);
+			response = authenticationService.signIn(signInRequest);
 		} catch (Exception e) {
-			// e.printStackTrace();
+			e.printStackTrace();
 			logger.error("Authentication error", e);
 			response.setReturnMessage("Authentication Error");
 			response.setReturnVal(OnTargetConstant.ERROR);
@@ -50,17 +54,11 @@ public class AuthenticationImpl implements Authentication {
 	}
 
 	@Override
-	public UserResponse register(User user) {
-		return null;
-	}
-
-	@Override
 	@POST
 	@Path("/registrationRequest")
 	public OnTargetResponse registrationRequest(UserRegistrationRequest request) {
 		OnTargetResponse response = new OnTargetResponse();
 		try {
-			// generate token id
 			final String tokenId = Security
 					.generateRandomValue(OnTargetConstant.TOKEN_LENGTH);
 			request.setTokenId(tokenId);
@@ -100,11 +98,11 @@ public class AuthenticationImpl implements Authentication {
 	@POST
 	@Path("/approvePendingRequest")
 	public OnTargetResponse approvePendingRegistrationRequest(
-			UserRegistrationRequest requests) {
+			RegistrationApprovalRequest approvalRequest) {
 		OnTargetResponse response = new OnTargetResponse();
 		try {
 			if (authenticationService
-					.approvePendingRegistrationRequest(requests)) {
+					.approvePendingRegistrationRequest(approvalRequest)) {
 				response.setReturnVal(OnTargetConstant.SUCCESS);
 				response.setReturnMessage(OnTargetConstant.REGISTRATION_APPROVAL_REQUEST_SUCCESS);
 			}
@@ -119,10 +117,11 @@ public class AuthenticationImpl implements Authentication {
 	@Override
 	@POST
 	@Path("/logout")
-	public OnTargetResponse logout(User user) {
+	public OnTargetResponse logout(
+			@NotEmpty @QueryParam("username") String username) {
 		OnTargetResponse response = new OnTargetResponse();
 		try {
-			if (authenticationService.logout(user.getUsername())) {
+			if (authenticationService.logout(username)) {
 				response.setReturnVal(OnTargetConstant.SUCCESS);
 				response.setReturnMessage(OnTargetConstant.LOGOUT_SUCCESSFULL);
 				response.setAuthenticated(false);

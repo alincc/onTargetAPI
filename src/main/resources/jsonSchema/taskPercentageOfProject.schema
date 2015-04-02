@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://jsonschema.net",
+  "type": "object",
+  "properties": {
+    "baseRequest": {
+      "id": "http://jsonschema.net/baseRequest",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "id": "http://jsonschema.net/baseRequest/userId",
+          "type": "integer"
+        },
+        "projectId": {
+          "id": "http://jsonschema.net/baseRequest/projectId",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "userId",
+        "projectId"
+      ]
+    },
+    "projectId": {
+      "id": "http://jsonschema.net/projectId",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "baseRequest",
+    "projectId"
+  ]
+}

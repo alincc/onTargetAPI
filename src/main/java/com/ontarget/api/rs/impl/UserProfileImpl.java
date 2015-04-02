@@ -1,20 +1,37 @@
 package com.ontarget.api.rs.impl;
 
+import javax.validation.constraints.NotNull;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
+
+import org.apache.log4j.Logger;
+import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.ontarget.api.rs.UserProfile;
 import com.ontarget.api.service.EmailService;
 import com.ontarget.api.service.ProjectService;
 import com.ontarget.api.service.UserProfileService;
 import com.ontarget.bean.Contact;
-import com.ontarget.bean.Project;
+import com.ontarget.bean.ProjectInfo;
 import com.ontarget.constant.OnTargetConstant;
-import com.ontarget.dto.*;
+import com.ontarget.dto.ChangeUserPasswordRequest;
+import com.ontarget.dto.ForgotPasswordRequest;
+import com.ontarget.dto.OnTargetResponse;
+import com.ontarget.dto.SafetyInfoResponse;
+import com.ontarget.dto.UserImageRequest;
+import com.ontarget.dto.UserProfileRequest;
+import com.ontarget.dto.UserProfileResponse;
+import com.ontarget.request.bean.InviteUserIntoProjectRequest;
+import com.ontarget.request.bean.UpdateUserProfileRequest;
 import com.ontarget.util.Security;
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
 
 /**
  * Created by Owner on 11/4/14.
@@ -47,7 +64,6 @@ public class UserProfileImpl implements UserProfile {
 		try {
 			response = userProfileService.addUserProfile(userProfileRequest);
 		} catch (Exception e) {
-			// e.printStackTrace();
 			logger.error("Add User Profile failed.", e);
 			response.setReturnMessage("Add task failed");
 			response.setReturnVal(OnTargetConstant.ERROR);
@@ -60,10 +76,8 @@ public class UserProfileImpl implements UserProfile {
 	@POST
 	@Path("/updateUserProfile")
 	public OnTargetResponse updateUserProfile(
-			UserProfileRequest userProfileRequest) {
+			UpdateUserProfileRequest userProfileRequest) {
 		logger.info("Received request to add profile: " + userProfileRequest);
-		// System.out.println("Received request to add profile: " +
-		// userProfileRequest);
 		OnTargetResponse response = new UserProfileResponse();
 		try {
 			response = userProfileService
@@ -82,12 +96,10 @@ public class UserProfileImpl implements UserProfile {
 	@Path("/changeUserPassword")
 	public OnTargetResponse changeUserPassword(ChangeUserPasswordRequest request)
 			throws Exception {
-		long userId = request.getUserId();
+		Integer userId = request.getUserId();
 		String newPassword = request.getNewPassword();
 		String currentPassword = request.getCurrentPassword();
 
-		// System.out.println("this is user id " + userId + " password " +
-		// newPassword);
 		OnTargetResponse response = new OnTargetResponse();
 		try {
 			if (userProfileService.changeUserPassword(userId, newPassword,
@@ -96,16 +108,15 @@ public class UserProfileImpl implements UserProfile {
 				response.setReturnVal(OnTargetConstant.SUCCESS);
 			} else {
 				logger.error("failed updating password");
-				response.setReturnMessage("Add task failed");
+				response.setReturnMessage("Change user password failed");
 				response.setReturnVal(OnTargetConstant.ERROR);
 			}
 		} catch (Exception e) {
-			// e.printStackTrace();
+			e.printStackTrace();
 			logger.error("Add User Profile failed.", e);
-			response.setReturnMessage("Add task failed");
+			response.setReturnMessage("Error while changing user password");
 			response.setReturnVal(OnTargetConstant.ERROR);
 		}
-
 		return response;
 	}
 
@@ -126,13 +137,13 @@ public class UserProfileImpl implements UserProfile {
 				response.setReturnVal(OnTargetConstant.SUCCESS);
 			} else {
 				logger.error("failed updating password");
-				response.setReturnMessage("Add task failed");
+				response.setReturnMessage("Change forgot password failure");
 				response.setReturnVal(OnTargetConstant.ERROR);
 			}
 		} catch (Exception e) {
 			// e.printStackTrace();
 			logger.error("Add User Profile failed.", e);
-			response.setReturnMessage("Add task failed");
+			response.setReturnMessage("Change forgot password failure");
 			response.setReturnVal(OnTargetConstant.ERROR);
 		}
 
@@ -142,8 +153,9 @@ public class UserProfileImpl implements UserProfile {
 	@Override
 	@POST
 	@Path("/inviteUserIntoProject")
-	public OnTargetResponse inviteUserIntoProject(UserInvitationRequest request) {
-		long projectId = request.getProjectId();
+	public OnTargetResponse inviteUserIntoProject(
+			InviteUserIntoProjectRequest request) {
+		int projectId = 0;// request.getBaseRequest().getProjectId();
 		String firstName = request.getFirstName();
 		String lastName = request.getLastName();
 		String email = request.getEmail();
@@ -159,7 +171,7 @@ public class UserProfileImpl implements UserProfile {
 				if (userProfileService.saveRegistration(projectId, firstName,
 						lastName, email, tokenId,
 						OnTargetConstant.AccountStatus.ACCT_NEW)) {
-					Project res = projectService.getProject(projectId);
+					ProjectInfo res = projectService.getProject(projectId);
 					long owner = res.getProjectOwnerId();
 					Contact c = userProfileService.getContact(owner);
 
@@ -189,8 +201,7 @@ public class UserProfileImpl implements UserProfile {
 	@GET
 	@Path("/getSafetyInfoForUser")
 	public SafetyInfoResponse getSafetyInfoForUser(
-			@QueryParam("userId") long userId) {
-		// System.out.println("this is user id " + userId);
+			@NotNull @QueryParam("userId") Integer userId) {
 		SafetyInfoResponse response = new SafetyInfoResponse();
 		try {
 			String safetyUserInfo = userProfileService
@@ -265,7 +276,7 @@ public class UserProfileImpl implements UserProfile {
 	@GET
 	@Path("/validateForgotPassword/{forgotPasswordToken}")
 	public OnTargetResponse validateForgotPasswordToken(
-			@PathParam("forgotPasswordToken") String forgotPasswordToken) {
+			@NotEmpty @PathParam("forgotPasswordToken") String forgotPasswordToken) {
 		OnTargetResponse response = new OnTargetResponse();
 		try {
 			boolean validated = userProfileService

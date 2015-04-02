@@ -1,17 +1,18 @@
 package com.ontarget.api.dao.impl;
 
-import com.ontarget.bean.ActivityLog;
-import com.ontarget.constant.OnTargetQuery;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.stereotype.Repository;
-
 import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
+
+import com.ontarget.bean.ActivityLog;
+import com.ontarget.constant.OnTargetQuery;
 
 /**
  * Created by sumit on 12/6/14.

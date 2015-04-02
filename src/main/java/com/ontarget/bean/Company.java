@@ -5,75 +5,71 @@ import java.io.Serializable;
 /**
  * Created by Owner on 11/4/14.
  */
-public class Company implements Serializable{
+public class Company implements Serializable {
 
-    private int companyId;
-    private String companyName;
-    private int companyTypeId;
-    private Address address;
-    private String email;
-    private String website;
+	private Integer companyId;
+	private String companyName;
+	private Integer companyTypeId;
+	private AddressDTO address;
+	private String email;
+	private String website;
 
-    public Company() {
-    }
+	public Company() {
+	}
 
-    public String getCompanyName() {
-        return companyName;
-    }
+	public String getCompanyName() {
+		return companyName;
+	}
 
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
-    }
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
 
-    public Address getAddress() {
-        return address;
-    }
+	public Integer getCompanyId() {
+		return companyId;
+	}
 
-    public void setAddress(Address address) {
-        this.address = address;
-    }
+	public void setCompanyId(Integer companyId) {
+		this.companyId = companyId;
+	}
 
-    public String getEmail() {
-        return email;
-    }
+	public Integer getCompanyTypeId() {
+		return companyTypeId;
+	}
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	public void setCompanyTypeId(Integer companyTypeId) {
+		this.companyTypeId = companyTypeId;
+	}
 
-    public String getWebsite() {
-        return website;
-    }
+	public AddressDTO getAddress() {
+		return address;
+	}
 
-    public void setWebsite(String website) {
-        this.website = website;
-    }
+	public void setAddress(AddressDTO address) {
+		this.address = address;
+	}
 
-    public int getCompanyTypeId() {
-        return companyTypeId;
-    }
+	public String getEmail() {
+		return email;
+	}
 
-    public void setCompanyTypeId(int companyTypeId) {
-        this.companyTypeId = companyTypeId;
-    }
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-    public int getCompanyId() {
-        return companyId;
-    }
+	public String getWebsite() {
+		return website;
+	}
 
-    public void setCompanyId(int companyId) {
-        this.companyId = companyId;
-    }
+	public void setWebsite(String website) {
+		this.website = website;
+	}
 
-    @Override
-    public String toString() {
-        return "Company{" +
-                "companyId=" + companyId +
-                ", companyName='" + companyName + '\'' +
-                ", companyTypeId=" + companyTypeId +
-                ", address=" + address +
-                ", email='" + email + '\'' +
-                ", website='" + website + '\'' +
-                '}';
-    }
+	@Override
+	public String toString() {
+		return "Company{" + "companyId=" + companyId + ", companyName='"
+				+ companyName + '\'' + ", companyTypeId=" + companyTypeId
+				+ ", address=" + address + ", email='" + email + '\''
+				+ ", website='" + website + '\'' + '}';
+	}
 }

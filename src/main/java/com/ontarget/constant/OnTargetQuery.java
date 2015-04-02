@@ -14,10 +14,10 @@ public interface OnTargetQuery {
     public static final String GET_USER_REQUEST_INFO = new StringBuilder("SELECT REGISTRATION_REQ_ID,NAME,EMAIL,COMPANY_NAME,PHONE_NUMBER,MSG,STATUS FROM REGISTRATION_REQUEST WHERE REGISTRATION_REQ_ID=?").toString();
     
     public static final String GET_REGISTRATION_REQUEST = new StringBuilder("SELECT id,first_name,last_name,EMAIL,PHONE_NUMBER,MSG,STATUS,registration_token FROM REGISTRATION_REQUEST WHERE id=?").toString();
-    
-    public static final String GET_REGISTRATION_REQUEST_BY_EMAIL = new StringBuilder("SELECT id,first_name,last_name,email,phone_number,msg,status,registration_token,ts_create FROM registration_request WHERE email=? ORDER BY id DESC LIMIT 1 ").toString();
 
     public static final String GET_USER_REGISTRATION_PENDING_REQUEST = new StringBuilder("SELECT * FROM REGISTRATION_REQUEST WHERE status='PENDING'").toString();
+    
+    public static final String GET_REGISTRATION_REQUEST_BY_EMAIL = new StringBuilder("SELECT id,first_name,last_name,email,phone_number,msg,status,registration_token,ts_create FROM registration_request WHERE email=? ORDER BY id DESC LIMIT 1 ").toString();
 
     public static final String APPROVE_PENDING_USER_REQUEST = new StringBuilder("UPDATE REGISTRATION_REQUEST SET STATUS=? WHERE id=?").toString();
 
@@ -28,13 +28,13 @@ public interface OnTargetQuery {
     //TODO: MOVE ACTIVE TO CONSTANT CLASS. ADD MORE FIELDS TO THIS QUERY.
     public static final String CREATE_CONTACT = new StringBuilder("INSERT INTO CONTACT (user_id, contact_company_id, first_name,last_name, title, created_date, created_by, modified_date, modified_by, contact_status,contact_image) values (?,?,?,?,?,  NOW(),0, NOW(),0,'ACTIVE',?)").toString();
 
-    public static final String UPDATE_CONTACT = new StringBuilder("UPDATE contact SET first_name=?,last_name=?, title=?, contact_image=?, email=? WHERE user_id=?").toString();
+    public static final String UPDATE_CONTACT = new StringBuilder("UPDATE contact SET first_name=?,last_name=?, title=?, contact_image=? WHERE user_id=?").toString();
 
     public static final String CREATE_COMPANY = new StringBuilder("INSERT INTO COMPANY_INFO (COMPANY_NAME, COMPANY_TYPE_ID,ADDRESS1, ADDRESS2, CITY, STATE, ZIPCODE,COUNTRY, WEBSITE,STATUS) values (?,?,?,?,?,?,?,?,?,?)").toString();
 
     public static final String GET_COMPANY = new StringBuilder("SELECT company_name FROM company_info where company_id=?").toString();
 
-    public static final String  ADD_PROJECT = new StringBuilder("INSERT INTO  PROJECT (PROJECT_NAME, PROJECT_DESCRIPTION,PROJECT_TYPE_ID, COMPANY_ID, ADDRESS_ID,PROJECT_STATUS,PROJECT_PARENT_ID,project_start_date,project_end_date, CREATED_DATE, CREATED_BY, MODIFIED_DATE,MODIFIED_BY,project_image_path, project_owner_id ) VALUES (?,?,?,?,?,?,?,?,?,NOW(),?,NOW(),?,?,?)").toString();
+    public static final String  ADD_PROJECT = new StringBuilder("INSERT INTO  PROJECT (PROJECT_NAME, PROJECT_DESCRIPTION,PROJECT_TYPE_ID, COMPANY_ID, ADDRESS_ID,PROJECT_STATUS,PROJECT_PARENT_ID,project_start_date,project_end_date, CREATED_DATE, CREATED_BY, MODIFIED_DATE,MODIFIED_BY,project_image_path, project_owner_id ) VALUES (?,?,?,?,?,?,?,?,?,NOW(),'SYSTEM',NOW(),'SYSTEM',?,?)").toString();
 
     public static final String ADD_ADDRESS = new StringBuilder("INSERT INTO ADDRESS (address1,address2,city,state,zip,country,address_type) values (?,?,?,?,?,?,?)").toString();
 
@@ -77,17 +77,17 @@ public interface OnTargetQuery {
 
     public static final String UPDATE_PROJECT_ADDRESS = new StringBuilder("update address set address1=?,address2=?,city=?,state=?,zip=?,country=? where address_id=?").toString();
 
-    public static final String UPDATE_PROJECT = new StringBuilder("update project set project_name=?,project_description=?,company_id=?,project_type_id=?, project_parent_id=?, project_status=?, project_start_date=?,project_end_date=?, modified_by=?, modified_date=now() where project_id=?").toString();
+    public static final String UPDATE_PROJECT = new StringBuilder("update project set project_name=?,project_description=?,project_type_id=?, project_parent_id=?, project_status=?, project_start_date=?,project_end_date=?, modified_by=?, modified_date=now() where project_id=?").toString();
 
     public static final String GET_PROJECT_MEMBERS = new StringBuilder("select c.user_id,c.first_name,c.last_name,c.contact_image,cp.area_code,cp.phone_number, cp.phone_type,pm.*  from contact c, project_member pm, project p, phone cp")
             .append(" where  c.user_id=pm.user_id and  p.project_id=pm.project_id and  c.contact_id=cp.contact_id")
             .append(" and pm.project_id=?").toString();
 
-    public static final String UPDATE_TASK = new StringBuilder("update project_task set title=?,description=?,parent_task_id=?,status=?,start_date=?,end_date=?,percentage_complete=?,severity=?,modified_by=?, modified_date=now() where project_task_id=?").toString();
+    public static final String UPDATE_TASK = new StringBuilder("update project_task set title=?,description=?,parent_task_id=?,status=?,start_date=?,end_date=?,severity=?,modified_by=?, modified_date=now() where project_task_id=?").toString();
 
     public static final String GET_TASK_MEMBERS = new StringBuilder("SELECT `user_id` FROM `task_assignee` WHERE `task_id`=? and `status` = 'ACTIVE'").toString();
 
-    public static final String ADD_TASK_MEMBER = new StringBuilder("INSERT INTO task_member (task_id, project_id, user_id) VALUES (?, ?, ?)").toString();
+    public static final String ADD_TASK_MEMBER = new StringBuilder("INSERT INTO task_member (task_id, project_id, user_id,status) VALUES (?, ?, ?,'ACTIVE')").toString();
 
     public static final String UPDATE_TASK_PLANNED_ESTIMATED_COST = new StringBuilder("update planned_actuals_cost set value=?,modified_by=?,modified_date=now() where id=?").toString();
 
@@ -96,7 +96,7 @@ public interface OnTargetQuery {
             .append(" where pac.task_id=pt.project_task_id and pt.project_id=p.project_id and pac.cost_type=? and p.project_id=?").toString();
 
     public static final String GET_TASK_PLANNED_ESTIMATED_COST_BY_PROJECT = new StringBuilder("select pt.title,pt.project_task_id,pt.project_id,pac.* from planned_actuals_cost pac, project_task pt, project p ")
-            .append(" where pac.task_id=pt.project_task_id and pt.project_id=p.project_id and pac.cost_type=? and p.project_id in (select project_id from project where project_parent_id=?) order by pt.project_task_id asc").toString();
+            .append(" where pac.task_id=pt.project_task_id and pt.project_id=p.project_id and pac.cost_type=? and p.project_id in (select project_id from project where p.project_parent_id=?) order by pt.project_task_id asc").toString();
 
     public static final String ADD_TASK_PERCENTAGE_COMPLETE = new StringBuilder("insert into task_percentage_log (task_id, start_date, end_date, percentage_type, percentage_complete, created_by, created_date, modified_by, modified_date) values (?,now(),'9999/12/31',?,?, ?, now(), ?, now())").toString();
 
@@ -122,7 +122,7 @@ public interface OnTargetQuery {
 
     public static final String DELETE_TASK_USER = "DELETE FROM task_assignee WHERE project_task_id =?";
 
-    public static final String EXPIRE_TASK_PERCENTAGE_COMPLETE = new StringBuilder("update task_percentage_log set end_date=now() where task_percentage_log_id=?").toString();
+    public static final String EXPIRE_TASK_PERCENTAGE_COMPLETE = new StringBuilder("update task_percentage_log set end_date='9999-12-31' where task_percentage_log_id=?").toString();
 
     public static final String GET_TASK_PERCENTAGE_FOR_THIS_MONTH = new StringBuilder("select * from task_percentage_log tpl where month(tpl.created_date)=month(now()) and end_date='9999-12-31' and task_id=?").toString();
 
@@ -233,7 +233,7 @@ public interface OnTargetQuery {
 
     public static final String GET_REGISTRATION_INVITATION = new StringBuilder("SELECT * FROM registration_request WHERE registration_token=?").toString();
 
-    public static final String GET_ACTIVITY_LOG = new StringBuilder("SELECT * FROM activity_log where project_id=? order by ts_insert desc limit 200").toString();
+    public static final String GET_ACTIVITY_LOG = new StringBuilder("SELECT * FROM activity_log where id > ? order by id").toString();
 
     public static final String UPDATE_USER_IMAGE = new StringBuilder("UPDATE contact SET modified_date=?, modified_by=?, contact_image=? WHERE user_id=?").toString();
 

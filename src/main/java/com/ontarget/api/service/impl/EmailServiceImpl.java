@@ -7,11 +7,14 @@ import com.ontarget.api.dao.EmailDAO;
 import com.ontarget.api.rs.UserInvitation;
 import com.ontarget.api.service.EmailService;
 import com.ontarget.bean.Contact;
-import com.ontarget.bean.Document;
-import com.ontarget.bean.Task;
-import com.ontarget.bean.User;
+import com.ontarget.bean.DocumentDTO;
+import com.ontarget.bean.ProjectTaskInfo;
+import com.ontarget.bean.TaskInfo;
+import com.ontarget.bean.UserDTO;
 import com.ontarget.constant.OnTargetConstant;
-import com.ontarget.dto.UserRegistrationRequest;
+import com.ontarget.entity.pojo.RegistrationRequestResponseDTO;
+import com.ontarget.request.bean.Assignee;
+import com.ontarget.request.bean.UserRegistrationRequest;
 import com.ontarget.util.EmailConstant;
 
 import org.apache.log4j.Logger;
@@ -114,7 +117,7 @@ public class EmailServiceImpl implements EmailService {
 
 					// get values from the database.
 					logger.info("Reg req id:: " + userRequestId);
-					UserRegistrationRequest info = registrationDAO
+					RegistrationRequestResponseDTO info = registrationDAO
 							.findRegRequestById(userRequestId);
 
 					message.setTo(info.getEmail());
@@ -123,7 +126,7 @@ public class EmailServiceImpl implements EmailService {
 					model.put(EmailConstant.EmailParameter.FIRST_NAME,
 							info.getFirstName());
 					model.put("url", baseUrl + OnTargetConstant.URL.SIGNUP_URL
-							+ "?q=" + info.getTokenId());
+							+ "?q=" + info.getRegistrationToken());
 
 					String text = VelocityEngineUtils
 							.mergeTemplateIntoString(
@@ -223,10 +226,10 @@ public class EmailServiceImpl implements EmailService {
 	}
 
 	@Override
-	public boolean sendDocumentAssignmentEmails(final Document document,
-			List<User> assignees) {
-		List<User> failures = new ArrayList<>();
-		for (final User assignee : assignees) {
+	public boolean sendDocumentAssignmentEmails(final DocumentDTO document,
+			List<Assignee> assignees) {
+		List<Assignee> failures = new ArrayList<>();
+		for (final Assignee assignee : assignees) {
 			try {
 				MimeMessagePreparator preparator = new MimeMessagePreparator() {
 					@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -309,11 +312,11 @@ public class EmailServiceImpl implements EmailService {
 	}
 
 	@Override
-	public void sendTaskAssignmentEmail(Task task, Contact contact)
+	public void sendTaskAssignmentEmail(ProjectTaskInfo task, Contact contact)
 			throws Exception {
 
 		try {
-			User user = authenticationDAO.getUserInfoById(contact.getUser()
+			UserDTO user = authenticationDAO.getUserInfoById(contact.getUser()
 					.getUserId());
 			MimeMessagePreparator preparator = new MimeMessagePreparator() {
 				@SuppressWarnings({ "rawtypes", "unchecked" })

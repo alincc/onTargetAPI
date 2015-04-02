@@ -9,22 +9,26 @@ import java.util.List;
  */
 public class ActivityLogResponse extends OnTargetResponse {
 
-    private long recentActivityId;
-    private List<ActivityLog> logs;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8593965948801283839L;
+	private long recentActivityId;
+	private List<ActivityLog> logs;
 
-    public long getRecentActivityId() {
-        return recentActivityId;
-    }
+	public long getRecentActivityId() {
+		return recentActivityId;
+	}
 
-    public void setRecentActivityId(long recentActivityId) {
-        this.recentActivityId = recentActivityId;
-    }
+	public void setRecentActivityId(long recentActivityId) {
+		this.recentActivityId = recentActivityId;
+	}
 
-    public List<ActivityLog> getLogs() {
-        return logs;
-    }
+	public List<ActivityLog> getLogs() {
+		return logs;
+	}
 
-    public void setLogs(List<ActivityLog> logs) {
-        this.logs = logs;
-    }
+	public void setLogs(List<ActivityLog> logs) {
+		this.logs = logs;
+	}
 }

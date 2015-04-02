@@ -1,0 +1,44 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://jsonschema.net",
+  "type": "object",
+  "properties": {
+    "name": {
+      "id": "http://jsonschema.net/name",
+      "type": "string"
+    },
+    "registrationToken": {
+      "id": "http://jsonschema.net/registrationToken",
+      "type": "string"
+    },
+    "firstName": {
+      "id": "http://jsonschema.net/firstName",
+      "type": "string"
+    },
+    "lastName": {
+      "id": "http://jsonschema.net/lastName",
+      "type": "string"
+    },
+    "discipline": {
+      "id": "http://jsonschema.net/discipline",
+      "type": "string"
+    },
+    "password": {
+      "id": "http://jsonschema.net/password",
+      "type": "string"
+    },
+    "confirmpassword": {
+      "id": "http://jsonschema.net/confirmpassword",
+      "type": "string"
+    }
+  },
+  "required": [
+    "name",
+    "registrationToken",
+    "firstName",
+    "lastName",
+    "discipline",
+    "password",
+    "confirmpassword"
+  ]
+}

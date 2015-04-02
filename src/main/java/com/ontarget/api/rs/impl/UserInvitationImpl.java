@@ -13,20 +13,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.ontarget.api.rs.UserInvitation;
-import com.ontarget.api.service.UserInvitationService;
-import com.ontarget.api.service.AuthenticationService;
 import com.ontarget.api.service.EmailService;
-import com.ontarget.bean.UserRegistration;
+import com.ontarget.api.service.UserInvitationService;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.OnTargetResponse;
-import com.ontarget.dto.UserRegistationApprovalResponse;
-import com.ontarget.dto.UserRegistrationRequest;
-import com.ontarget.dto.UserResponse;
+import com.ontarget.dto.UserInvitationApprovalResponse;
+import com.ontarget.dto.UserInvitationRequestDTO;
+import com.ontarget.entity.pojo.RegistrationRequestResponseDTO;
+import com.ontarget.request.bean.UserInvitationRequest;
+import com.ontarget.util.ConvertPOJOUtils;
 import com.ontarget.util.Security;
-import com.ontarget.util.WSResourceKeyConstant;
 
 @Component
-@Path(WSResourceKeyConstant.ONTARGET_INVITATION)
+@Path("/onTargetInvitation")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class UserInvitationImpl implements UserInvitation {
@@ -40,29 +39,17 @@ public class UserInvitationImpl implements UserInvitation {
 
 	@Override
 	@POST
-	@Path(WSResourceKeyConstant.INVITE_TO_NEW_ACCOUNT)
+	@Path("/inviteToNewAccount")
 	public OnTargetResponse inviteUserIntoNewAccount(
-			UserRegistrationRequest request) {
+			UserInvitationRequest request) {
+
 		OnTargetResponse response = new OnTargetResponse();
 		try {
-			logger.info("This is first name " + request.getFirstName()
-					+ " last name " + request.getLastName() + " email"
-					+ request.getEmail() + ", phone no: "
-					+ request.getPhoneNumber() + ", message: "
-					+ request.getMsg());
-
-			UserRegistrationRequest registrationRequest = userInvitationService.getRegistrationRequest(request.getEmail());
-
-			logger.info("registration request:: " + registrationRequest);
-			System.out.println("registration request:: " + registrationRequest);
+			RegistrationRequestResponseDTO registrationRequest = userInvitationService
+					.getRegistrationRequest(request.getEmail());
 
 			if (registrationRequest != null) {
-				logger.info("id:: " + registrationRequest.getId());
-				logger.info("is create:: " + registrationRequest.getTsCreate());
 
-				System.out.println("id:: " + registrationRequest.getId());
-				System.out.println("is create:: "
-						+ registrationRequest.getTsCreate());
 				if (System.currentTimeMillis()
 						- registrationRequest.getTsCreate() <= OnTargetConstant.TOKEN_MAX_LIFE) {
 					response.setReturnVal(OnTargetConstant.ERROR);
@@ -73,14 +60,16 @@ public class UserInvitationImpl implements UserInvitation {
 
 			final String tokenId = Security
 					.generateRandomValue(OnTargetConstant.TOKEN_LENGTH);
-			logger.info("Token id:: " + tokenId);
-			request.setTokenId(tokenId);
-			if (userInvitationService.registrationRequest(request)) {
+
+			UserInvitationRequestDTO userInvitationRequestDTO = ConvertPOJOUtils
+					.convertToUserInvitationDTO(request, tokenId);
+
+			if (userInvitationService
+					.registrationRequest(userInvitationRequestDTO)) {
 				response.setReturnVal(OnTargetConstant.SUCCESS);
 				response.setReturnMessage(OnTargetConstant.SUCCESSFULLY_REGISTERED);
 			}
 		} catch (Exception e) {
-			System.out.println("Error:: " + e);
 			logger.error("Error while saving registration request.", e);
 			response.setReturnMessage(OnTargetConstant.REGISTRATION_REQUEST_FAILED);
 			response.setReturnVal(OnTargetConstant.ERROR);
@@ -90,15 +79,12 @@ public class UserInvitationImpl implements UserInvitation {
 	}
 
 	@Override
-	@Path(WSResourceKeyConstant.PENDING_REGISTRATION_REQUEST)
+	@Path("/pendingRegistrationRequest")
 	@POST
-	public UserRegistationApprovalResponse getPendingRequestList() {
-		UserRegistationApprovalResponse response = new UserRegistationApprovalResponse();
+	public UserInvitationApprovalResponse getPendingRequestList() {
+		UserInvitationApprovalResponse response = new UserInvitationApprovalResponse();
 		try {
 			response = userInvitationService.retrievePendingRegRequestList();
-
-			logger.info("Pending registration request list:: "
-					+ response.getUserRegistrationRequestList());
 
 			response.setReturnVal(OnTargetConstant.SUCCESS);
 			response.setReturnMessage(OnTargetConstant.PENDING_REQUEST_RECEIVED);
@@ -114,12 +100,11 @@ public class UserInvitationImpl implements UserInvitation {
 
 	@Override
 	@POST
-	@Path(WSResourceKeyConstant.REGISTRATION_APPROVAL_REQUEST)
+	@Path("/approvalRequest")
 	public OnTargetResponse approveRequest(@QueryParam("id") int id) {
 		OnTargetResponse response = new OnTargetResponse();
 		try {
 			boolean success = userInvitationService.approvePendingRequest(id);
-			logger.info("Approval request status:: " + success);
 			if (success) {
 				emailService.sendInvitationEmailForRegistration(id);
 				response.setReturnVal(OnTargetConstant.SUCCESS);
@@ -140,11 +125,11 @@ public class UserInvitationImpl implements UserInvitation {
 
 	@Override
 	@GET
-	@Path(WSResourceKeyConstant.VALIDATE_LINK_REQUEST)
+	@Path("/validateLink")
 	public OnTargetResponse verifyToken(@QueryParam("q") String token) {
 		OnTargetResponse response = new OnTargetResponse();
 		try {
-			UserRegistrationRequest userRegistration = null;
+			RegistrationRequestResponseDTO userRegistration = null;
 			try {
 				userRegistration = userInvitationService
 						.getRequestByToken(token);
@@ -162,23 +147,23 @@ public class UserInvitationImpl implements UserInvitation {
 			}
 
 			String status = userRegistration.getStatus();
-			logger.info("status:: " + status);
-			// if (status != null
-			// && (status
-			// .equals(OnTargetConstant.REGISTRATION_REQUEST_NEW))) {
-			if (System.currentTimeMillis() - userRegistration.getTsCreate() > OnTargetConstant.TOKEN_MAX_LIFE) {
-				response.setReturnVal(OnTargetConstant.ERROR);
-				response.setReturnMessage("expired link. Please try with new link");
-				return response;
+			if (status != null
+					&& (status
+							.equals(OnTargetConstant.REGISTRATION_REQUEST_NEW))) {
+				if (System.currentTimeMillis() - userRegistration.getTsCreate() > OnTargetConstant.TOKEN_MAX_LIFE) {
+					response.setReturnVal(OnTargetConstant.ERROR);
+					response.setReturnMessage("expired link. Please try with new link");
+					return response;
+				} else {
+					response.setReturnVal(OnTargetConstant.SUCCESS);
+					response.setReturnMessage(OnTargetConstant.TOKEN_VERIFIED);
+					return response;
+				}
 			} else {
-				response.setReturnVal(OnTargetConstant.SUCCESS);
-				response.setReturnMessage(OnTargetConstant.TOKEN_VERIFIED);
-				return response;
+				response.setReturnVal(OnTargetConstant.ERROR);
+				response.setReturnMessage("Your invitation request is not approved.");
 			}
-			// } else {
-			// response.setReturnVal(OnTargetConstant.ERROR);
-			// response.setReturnMessage("Your invitation request is not approved.");
-			// }
+
 		} catch (Exception e) {
 			logger.error("Provided token does not match with db.", e);
 			response.setReturnMessage(OnTargetConstant.TOKEN_VERIFICATION_FAILED);
@@ -186,5 +171,4 @@ public class UserInvitationImpl implements UserInvitation {
 		}
 		return response;
 	}
-
 }

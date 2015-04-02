@@ -1,12 +1,20 @@
 package com.ontarget.api.rs;
 
+import javax.validation.Valid;
+
 import com.ontarget.dto.GetAccidentReportsResponse;
 import com.ontarget.dto.OnTargetResponse;
-import com.ontarget.dto.SaveAccidentReportRequest;
 import com.ontarget.dto.SaveAccidentReportResponse;
+import com.ontarget.request.bean.AccidentReportInfoRequest;
+import com.ontarget.request.bean.AccidentReportRequest;
 
 public interface AccidentReportEndpoint {
-	SaveAccidentReportResponse saveAccidentReport(SaveAccidentReportRequest request);
-	GetAccidentReportsResponse getAccidentReports(String projectId);
-	OnTargetResponse updateAccidentReport(SaveAccidentReportRequest request);
+	SaveAccidentReportResponse saveAccidentReport(
+			@Valid AccidentReportRequest request);
+
+	GetAccidentReportsResponse getAccidentReports(
+			@Valid AccidentReportInfoRequest accidentReportInfoRequestBean);
+
+	OnTargetResponse updateAccidentReport(
+			@Valid AccidentReportRequest request);
 }

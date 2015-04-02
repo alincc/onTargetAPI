@@ -1,16 +1,45 @@
 package com.ontarget.api.service.impl;
 
-import com.ontarget.api.dao.*;
-import com.ontarget.api.service.ProjectService;
-import com.ontarget.bean.*;
-import com.ontarget.constant.OnTargetConstant;
-import com.ontarget.dto.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import com.ontarget.api.dao.AddressDAO;
+import com.ontarget.api.dao.CompanyDAO;
+import com.ontarget.api.dao.ContactDAO;
+import com.ontarget.api.dao.ProjectDAO;
+import com.ontarget.api.dao.TaskDAO;
+import com.ontarget.api.dao.TaskPercentageDAO;
+import com.ontarget.api.dao.UserRegistrationDAO;
+import com.ontarget.api.service.ProjectService;
+import com.ontarget.bean.AddressDTO;
+import com.ontarget.bean.Company;
+import com.ontarget.bean.Contact;
+import com.ontarget.bean.ProjectDTO;
+import com.ontarget.bean.ProjectInfo;
+import com.ontarget.bean.ProjectMember;
+import com.ontarget.bean.TaskComment;
+import com.ontarget.bean.TaskInfo;
+import com.ontarget.bean.TaskObj;
+import com.ontarget.bean.TaskPercentage;
+import com.ontarget.bean.UserDTO;
+import com.ontarget.constant.OnTargetConstant;
+import com.ontarget.dto.OnTargetResponse;
+import com.ontarget.dto.ProjectListResponse;
+import com.ontarget.dto.ProjectMemberListResponse;
+import com.ontarget.dto.ProjectResponse;
+import com.ontarget.request.bean.ProjectAddressInfo;
+import com.ontarget.request.bean.ProjectDetailInfo;
+import com.ontarget.request.bean.ProjectRequest;
+import com.ontarget.util.ConvertPOJOUtils;
 
 /**
  * Created by Owner on 11/6/14.
@@ -18,310 +47,332 @@ import java.util.*;
 @Service
 public class ProjectServiceImpl implements ProjectService {
 
-    private Logger logger = Logger.getLogger(ProjectServiceImpl.class);
+	private Logger logger = Logger.getLogger(ProjectServiceImpl.class);
 
-    @Autowired
-    private ProjectDAO projectDAO;
+	@Autowired
+	private ProjectDAO projectDAO;
 
-    @Autowired
-    private AddressDAO addressDAO;
+	@Autowired
+	private AddressDAO addressDAO;
 
-    @Autowired
-    private TaskDAO taskDAO;
+	@Autowired
+	private TaskDAO taskDAO;
 
-    @Autowired
-    private ContactDAO contactDAO;
+	@Autowired
+	private ContactDAO contactDAO;
 
-    @Autowired
-    private CompanyDAO companyDAO;
+	@Autowired
+	private CompanyDAO companyDAO;
 
-    @Autowired
-    private UserRegistrationDAO userRegistrationDAO;
+	@Autowired
+	private UserRegistrationDAO userRegistrationDAO;
 
-    @Autowired
-    private TaskPercentageDAO taskPercentageDAO;
+	@Autowired
+	private TaskPercentageDAO taskPercentageDAO;
 
+	@Override
+	@Transactional(rollbackFor = { Exception.class })
+	public OnTargetResponse addProject(ProjectRequest request) throws Exception {
+		logger.info("Adding new project " + request.getProject());
 
-    @Override
-    @Transactional(rollbackFor = {Exception.class})
-    public OnTargetResponse addProject(ProjectRequest request) throws Exception {
-        logger.info("Adding new project " + request.getProject());
+		ProjectAddressInfo projectAdd = request.getProject()
+				.getProjectAddress();
 
-        //add project address first.
-        Address projectAddress = request.getProject().getProjectAddress();
-        projectAddress.setAddressType(OnTargetConstant.AddressType.PROJECT_ADDR);
-        int addressId = addressDAO.addAddress(projectAddress);
+		AddressDTO addressDTO = ConvertPOJOUtils
+				.convertToAddressDTO(projectAdd);
 
-        projectAddress.setAddressId(addressId);
+		addressDTO.setAddressType(OnTargetConstant.AddressType.PROJECT_ADDR);
+		int addressId = addressDAO.addAddress(addressDTO);
+		addressDTO.setAddressId(addressId);
 
-        int userId = request.getUser().getUserId();
+		int userId = request.getUserId();
 
-        int companyId = request.getProject().getCompanyId();
-        if (request.getProject().getProjectParentId() == 0) {
-            Map<String, Object> compMap = contactDAO.getContactDetail(userId);
-            companyId = (Integer) compMap.get("contact_company_id");
-        }
+		int companyId = request.getProject().getCompanyId();
+		if (request.getProject().getProjectParentId() == null
+				|| request.getProject().getProjectParentId() == 0) {
+			Map<String, Object> compMap = contactDAO.getContactDetail(userId);
+			companyId = (Integer) compMap.get("contact_company_id");
+		}
 
-        Project project = request.getProject();
-        project.setCompanyId(companyId);
-        project.setProjectOwnerId(userId);
+		ProjectDetailInfo projectObj = request.getProject();
+		ProjectDTO projectDTO = ConvertPOJOUtils.convertToProjectDTO(
+				projectObj, addressDTO);
 
-        int projectId = projectDAO.addProject(project, userId);
+		projectDTO.setCompanyId(companyId);
+		projectDTO.setProjectOwnerId(userId);
 
-        //add the user to project member;
-        int projectMemberId = 0;
-        if (OnTargetConstant.AccountStatus.ACCT_NEW.equals(request.getUser().getAccountStatus())) {
-            projectMemberId = projectDAO.addProjectMember(projectId, userId);
-            if (projectMemberId < 0) {
-                throw new Exception("Error while adding the new member: " + userId);
-            }
+		int projectId = projectDAO.addProject(projectDTO, userId);
 
+		// add the user to project member;
+		int projectMemberId = 0;
+		if (OnTargetConstant.AccountStatus.ACCT_NEW.equals(request
+				.getAccountStatus())) {
+			projectMemberId = projectDAO.addProjectMember(projectId, userId);
+			if (projectMemberId < 0) {
+				throw new Exception("Error while adding the new member: "
+						+ userId);
+			}
 
-        }
+		}
 
-        //activate the account if accountStatus of user is ACCT_NEW
-        if (OnTargetConstant.AccountStatus.ACCT_NEW.equals(request.getUser().getAccountStatus())) {
-            int updated = userRegistrationDAO.activateAccount(userId);
-            if (updated == 0) {
-                throw new Exception("Error while activating account");
-            }
-        }
+		// activate the account if accountStatus of user is ACCT_NEW
+		if (OnTargetConstant.AccountStatus.ACCT_NEW.equals(request
+				.getAccountStatus())) {
+			int updated = userRegistrationDAO.activateAccount(userId);
+			if (updated == 0) {
+				throw new Exception("Error while activating account");
+			}
+		}
 
-        OnTargetResponse response = new OnTargetResponse();
-        if (projectId > 0) {
-            response.setReturnMessage("Successfully created project.");
-            response.setReturnVal(OnTargetConstant.SUCCESS);
-        } else {
-            throw new Exception("Error while creating project: projectId: " + projectId);
-        }
+		OnTargetResponse response = new OnTargetResponse();
+		if (projectId > 0) {
+			response.setReturnMessage("Successfully created project.");
+			response.setReturnVal(OnTargetConstant.SUCCESS);
+		} else {
+			throw new Exception("Error while creating project: projectId: "
+					+ projectId);
+		}
 
-        return response;
-    }
+		return response;
+	}
 
-    @Override
-    @Transactional(rollbackFor = {Exception.class})
-    public OnTargetResponse updateProject(ProjectRequest request) throws Exception {
-        logger.info("Updating project " + request.getProject());
+	@Override
+	@Transactional(rollbackFor = { Exception.class })
+	public OnTargetResponse updateProject(ProjectRequest request)
+			throws Exception {
+		logger.info("Updating project " + request.getProject());
 
-        //add project address first.
-        Address projectAddress = request.getProject().getProjectAddress();
-        projectAddress.setAddressType(OnTargetConstant.AddressType.PROJECT_ADDR);
-        int addressId = projectAddress.getAddressId();
+		// add project address first.
+		ProjectAddressInfo projectAddress = request.getProject()
+				.getProjectAddress();
 
-        boolean updated = addressDAO.updateAddress(projectAddress);
-        if (!updated) {
-            throw new Exception("Error while updating address");
-        }
+		AddressDTO addressDTO = ConvertPOJOUtils
+				.convertToAddressDTO(projectAddress);
+		addressDTO.setAddressType(OnTargetConstant.AddressType.PROJECT_ADDR);
 
-        Project project = request.getProject();
-        boolean updatedPr = projectDAO.updateProject(project, request.getUser().getUserId());
+		boolean updated = addressDAO.updateAddress(addressDTO);
+		if (!updated) {
+			throw new Exception("Error while updating address");
+		}
 
-        OnTargetResponse response = new OnTargetResponse();
-        if (updatedPr) {
-            response.setReturnMessage("Successfully updated project.");
-            response.setReturnVal(OnTargetConstant.SUCCESS);
-        } else {
-            throw new Exception("Error while updating project");
-        }
+		ProjectDetailInfo project = request.getProject();
+		ProjectDTO projectDTO = ConvertPOJOUtils.convertToProjectDTO(project,
+				addressDTO);
+		boolean updatedPr = projectDAO.updateProject(projectDTO,
+				request.getUserId());
 
-        return response;
-    }
+		OnTargetResponse response = new OnTargetResponse();
+		if (updatedPr) {
+			response.setReturnMessage("Successfully updated project.");
+			response.setReturnVal(OnTargetConstant.SUCCESS);
+		} else {
+			throw new Exception("Error while updating project");
+		}
 
-    public Project getProject(long projectId) throws Exception {
-        Project project = projectDAO.getProject((int) projectId);
-//        setProjectLevel(project, 1);
-        return project;
-    }
+		return response;
+	}
 
-    public Project getProjectTree(long projectId) throws Exception {
-        Project project = projectDAO.getProject((int) projectId);
-        setProjectLevel(project, 1);
-        return project;
-    }
+	@Override
+	public ProjectInfo getProject(int projectId) throws Exception {
+		ProjectInfo project = projectDAO.getProjectInfo(projectId);
+		setProjectLevel(project, 1);
+		return project;
+	}
 
-    @Override
-    public ProjectResponse getProjectDetail(long projectId) throws Exception {
-        Project project = getProjectTree(projectId);
+	@Override
+	public ProjectInfo getProjectTree(int projectId) throws Exception {
+		ProjectInfo project = projectDAO.getProjectInfo(projectId);
+		setProjectLevel(project, 1);
+		return project;
+	}
 
-        ProjectResponse response = new ProjectResponse();
-        response.setProject(project);
+	@Override
+	public ProjectResponse getProjectDetail(int projectId) {
+		try {
+			ProjectInfo project = getProjectTree(projectId);
 
-        project.setCompany(companyDAO.getCompany(project.getCompanyId()));
-        if (project.getProjectId() > 0) {
+			ProjectResponse response = new ProjectResponse();
+			response.setProject(project);
 
-            //set project address
-            Address address = project.getProjectAddress();
-            if (address == null) {
-                logger.info("address is null for project " + project);
-            } else {
-                Address projectAddress = addressDAO.getAddress(address.getAddressId());
-                project.setProjectAddress(projectAddress);
-            }
+			project.setCompany(companyDAO.getCompany(project.getCompanyId()));
+			if (project.getProjectId() > 0) {
+				AddressDTO address = project.getProjectAddress();
+				if (address == null) {
+					logger.info("address is null for project " + project);
+				} else {
+					AddressDTO projectAddress = addressDAO.getAddress(address
+							.getAddressId());
+					project.setProjectAddress(projectAddress);
+				}
+				List<TaskObj> tasks = taskDAO.getTaskObjList(projectId);
+				project.setTaskList(tasks);
+			}
+			response.setProject(project);
+			return response;
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.info("error: " + e);
+			return null;
+		}
+	}
 
-            //get list of tasks.
-            List<Task> tasks = taskDAO.getTask(projectId);
-            project.setTaskList(tasks);
-        }
+	public List<ProjectInfo> setProjectLevel(ProjectInfo project, int level)
+			throws Exception {
+		List<ProjectInfo> projects = projectDAO.getChildProjects(project
+				.getProjectId());
+		if (level < 20 && projects != null && !projects.isEmpty()) {
+			level++;
+			for (ProjectInfo p : projects) {
+				setProjectLevel(p, level);
+			}
+		}
+		project.setProjects(projects);
+		return projects;
+	}
 
-        response.setProject(project);
-        return response;
-    }
+	@Override
+	public ProjectMemberListResponse getProjectMembers(int projectId)
+			throws Exception {
+		List<ProjectMember> projectMembers = projectDAO
+				.getProjectMembers(projectId);
+		Map<Long, Contact> contactMap = new HashMap<>();
+		for (ProjectMember member : projectMembers) {
+			long userId = member.getUserId();
+			if (contactMap.containsKey(userId)) {
+				member.setContact(contactMap.get(userId));
+			} else {
+				Contact contact = contactDAO.getContact(userId);
+				contactMap.put(userId, contact);
+				member.setContact(contact);
+			}
+		}
+		ProjectMemberListResponse response = new ProjectMemberListResponse();
+		response.setProjectId(projectId);
 
-    public List<Project> setProjectLevel(Project project, int level) throws Exception {
-        List<Project> projects = projectDAO.getChildProjects(project.getProjectId());
-        if (level < 20 && projects != null && !projects.isEmpty()) {
-            level++;
-            for (Project p : projects) {
-                setProjectLevel(p, level);
-            }
-        }
+		response.setProjectMemberList(projectMembers);
+		return response;
+	}
 
-        project.setProjects(projects);
-        return projects;
-    }
+	@Override
+	public ProjectListResponse getProjectsByCompany(int companyId, int userId)
+			throws Exception {
+		List<Map<String, Object>> projects = projectDAO.getProjectByCompany(
+				companyId, userId);
+		return this.getProjectResponse(projects);
+	}
 
-    @Override
-    public ProjectMemberListResponse getProjectMembers(long projectId) throws Exception {
-        List<ProjectMember> projectMembers = projectDAO.getProjectMembers(projectId);
-        Map<Long, Contact> contactMap = new HashMap<>();
-        for (ProjectMember member : projectMembers) {
-            long userId = member.getUserId();
-            if (contactMap.containsKey(userId)) {
-                member.setContact(contactMap.get(userId));
-            } else {
-                Contact contact = contactDAO.getContact(userId);
-                contactMap.put(userId, contact);
-                member.setContact(contact);
-            }
-        }
-        ProjectMemberListResponse response = new ProjectMemberListResponse();
-        response.setProjectId(projectId);
+	public List<Company> getCompanyByProject(int projectId) throws Exception {
+		return projectDAO.getCompanyByProject(projectId);
+	}
 
-        response.setProjectMemberList(projectMembers);
-        return response;
-    }
+	@Override
+	public ProjectListResponse getProjectsByUser(int userId) throws Exception {
+		List<Map<String, Object>> projects = projectDAO
+				.getProjectByUser(userId);
+		return this.getProjectResponse(projects);
+	}
 
-    @Override
-    public ProjectListResponse getProjectsByCompany(int companyId, int userId) throws Exception {
-        List<Map<String, Object>> projects = projectDAO.getProjectByCompany(companyId, userId);
-        return this.getProjectResponse(projects);
-    }
+	private ProjectListResponse getProjectResponse(
+			List<Map<String, Object>> projects) throws Exception {
+		ProjectListResponse response = new ProjectListResponse();
+		List<ProjectDTO> projectList = new ArrayList<ProjectDTO>();
+		response.setProjects(projectList);
 
-    public List<Company> getCompanyByProject(int projectId) throws Exception {
-        return projectDAO.getCompanyByProject(projectId);
-    }
+		if (projects == null || projects.size() == 0) {
+			return response;
+		}
+		ProjectDTO parentProject = new ProjectDTO();
 
-    @Override
-    public ProjectListResponse getProjectsByUser(int userId) throws Exception {
-        List<Map<String, Object>> projects = projectDAO.getProjectByUser(userId);
-        return this.getProjectResponse(projects);
-    }
+		for (Map<String, Object> projectDetail : projects) {
 
-    private ProjectListResponse getProjectResponse(List<Map<String, Object>> projects) throws Exception {
-        ProjectListResponse response = new ProjectListResponse();
-        List<Project> projectList = new ArrayList<Project>();
-        response.setProjects(projectList);
+			int parentProjectId = (Integer) projectDetail
+					.get("PROJECT_PARENT_ID");
+			ProjectDTO project = new ProjectDTO();
+			project.setProjectId((Integer) projectDetail.get("PROJECT_ID"));
+			project.setProjectName((String) projectDetail.get("PROJECT_NAME"));
+			project.setProjectDescription((String) projectDetail
+					.get("PROJECT_DESCRIPTION"));
+			project.setProjectTypeId((Integer) projectDetail
+					.get("PROJECT_TYPE_ID"));
+			project.setProjectParentId((Integer) projectDetail
+					.get("PROJECT_PARENT_ID"));
+			Integer companyId = (Integer) projectDetail.get("COMPANY_ID");
+			project.setCompanyId(companyId);
+			project.setProjectImagePath((String) projectDetail
+					.get("project_image_path"));
+			project.setStartDate((Date) projectDetail.get("project_start_date"));
+			project.setEndDate((Date) projectDetail.get("project_end_date"));
+			project.setStatus((String) projectDetail.get("project_status"));
 
-        if (projects == null || projects.size() == 0) {
-            return response;
-        }
-        Project parentProject = new Project();
+			Company company = companyDAO.getCompany(companyId);
+			project.setCompany(company);
 
-        for (Map<String, Object> projectDetail : projects) {
+			AddressDTO projectAddress = addressDAO
+					.getAddress(((Integer) projectDetail.get("ADDRESS_ID"))
+							.intValue());
+			project.setProjectAddress(projectAddress);
 
-            int parentProjectId = (Integer) projectDetail.get("PROJECT_PARENT_ID");
-            Project project = new Project();
-            project.setProjectId((Integer) projectDetail.get("PROJECT_ID"));
-            project.setProjectName((String) projectDetail.get("PROJECT_NAME"));
-            project.setProjectDescription((String) projectDetail.get("PROJECT_DESCRIPTION"));
-            project.setProjectTypeId((Integer) projectDetail.get("PROJECT_TYPE_ID"));
-            project.setProjectParentId((Integer) projectDetail.get("PROJECT_PARENT_ID"));
-            Integer companyId = (Integer) projectDetail.get("COMPANY_ID");
-            project.setCompanyId(companyId);
-            project.setProjectImagePath((String) projectDetail.get("project_image_path"));
-            project.setStartDate((Date) projectDetail.get("project_start_date"));
-            project.setEndDate((Date) projectDetail.get("project_end_date"));
-            project.setStatus((String) projectDetail.get("project_status"));
-            Company company = companyDAO.getCompany(companyId);
-            project.setCompany(company);
+			List<TaskInfo> tasks = taskDAO.getTask(project.getProjectId());
+			project.setTaskList(tasks);
+			Map<Integer, Contact> contactMap = new HashMap<>(); //
+			// get all the comments in the tasks and assigned to.
+			if (tasks != null && tasks.size() > 0) {
+				for (TaskInfo task : tasks) {
+					List<TaskComment> comments = taskDAO.getTaskComments(task
+							.getProjectTaskId());
+					for (TaskComment comment : comments) {
+						int commentedBy = comment.getCommentedBy();
+						if (contactMap.containsKey(commentedBy)) {
+							comment.setCommenterContact(contactMap
+									.get(commentedBy));
+						} else {
+							Contact contact = contactDAO
+									.getContact(commentedBy);
+							contactMap.put(commentedBy, contact);
+							comment.setCommenterContact(contact);
+						}
+					}
+					task.setComments(comments);
+					List<TaskPercentage> taskPercentageList = taskPercentageDAO
+							.getTaskPercentageByTask(task.getProjectTaskId());
+					if (taskPercentageList != null
+							&& taskPercentageList.size() > 0) {
+						task.setPercentageComplete(taskPercentageList.get(0)
+								.getTaskPercentageComplete());
+					}
 
-            //set project address
-            Address projectAddress = addressDAO.getAddress(((Integer) projectDetail.get("ADDRESS_ID")).intValue());
-            project.setProjectAddress(projectAddress);
+					Set<Integer> assignees = taskDAO.getTaskMembers(task
+							.getProjectTaskId());
+					List<UserDTO> assignedUsers = new ArrayList<>();
+					task.setAssignee(assignedUsers);
+					if (assignees != null && assignees.size() > 0) {
+						for (Integer id : assignees) {
+							Contact contact = contactDAO.getContact(id);
+							UserDTO assignedToUser = new UserDTO();
+							assignedToUser.setContact(contact);
+							assignedToUser.setUserId((id.intValue()));
+							assignedUsers.add(assignedToUser);
+						}
+					} else {
+						logger.info("task is unassigned");
+					}
 
-            //get list of tasks.
-            List<Task> tasks = taskDAO.getTask(project.getProjectId());
-            project.setTaskList(tasks);
-            Map<Integer, Contact> contactMap = new HashMap<>(); //
-            //get all the comments in the tasks and assigned to.
-            if (tasks != null && tasks.size() > 0) {
-                for (Task task : tasks) {
-                    List<TaskComment> comments = taskDAO.getTaskComments(task.getProjectTaskId());
-                    for (TaskComment comment : comments) {
-                        int commentedBy = comment.getCommentedBy();
-                        if (contactMap.containsKey(commentedBy)) {
-                            comment.setCommenterContact(contactMap.get(commentedBy));
-                        } else {
-                            Contact contact = contactDAO.getContact(commentedBy);
-                            contactMap.put(commentedBy, contact);
-                            comment.setCommenterContact(contact);
-                        }
-                    }
-                    task.setComments(comments);
+				}
+			}
 
+			if (parentProjectId == 0) {
+				parentProject = project;
+				projectList.add(parentProject);
+			} else {
+				List<ProjectDTO> subProjects = parentProject.getProjects();
+				if (subProjects == null || subProjects.isEmpty()) {
+					subProjects = new ArrayList<>();
+					parentProject.setProjects(subProjects);
+				}
+				subProjects.add(project);
+			}
 
-                    //getting task percentage latest.
-                    List<TaskPercentage> taskPercentageList = taskPercentageDAO.getTaskPercentageByTask(task.getProjectTaskId());
-                    if(taskPercentageList!=null && taskPercentageList.size() > 0) {
-                        task.setPercentageComplete(taskPercentageList.get(0).getTaskPercentageComplete());
-                    }
-
-
-//                    //get task assigned to
-//                    Long assignedUserId = taskDAO.getAssignedUser(task.getProjectTaskId());
-//                    logger.debug("Getting contact detail for task assignee: " + assignedUserId);
-//                    if (assignedUserId > 0) {
-//                        Contact contact = contactDAO.getContact(assignedUserId);
-//                        User assignedToUser = new User();
-//                        assignedToUser.setContact(contact);
-//                        task.setAssignedTo(assignedToUser);
-//                    }
-
-                    Set<Long> assignees = taskDAO.getTaskMembers(task.getProjectTaskId());
-
-                    List<User> assignedUsers = new ArrayList<>();
-                    task.setAssignee(assignedUsers);
-                    if (assignees != null && assignees.size() > 0) {
-                        for (Long id : assignees) {
-                            Contact contact = contactDAO.getContact(id);
-                            User assignedToUser = new User();
-                            assignedToUser.setContact(contact);
-                            assignedToUser.setUserId((id.intValue()));
-                            assignedUsers.add(assignedToUser);
-                        }
-                    } else {
-                        logger.info("task is unassigned");
-                    }
-
-
-                }
-            }
-
-            if (parentProjectId == 0) {
-                parentProject = project;
-                projectList.add(parentProject);
-            } else {
-                List<Project> subProjects = parentProject.getProjects();
-                if (subProjects == null || subProjects.isEmpty()) {
-                    subProjects = new ArrayList<>();
-                    parentProject.setProjects(subProjects);
-                }
-                subProjects.add(project);
-            }
-
-
-        }
-        return response;
-    }
-
+		}
+		return response;
+	}
 }

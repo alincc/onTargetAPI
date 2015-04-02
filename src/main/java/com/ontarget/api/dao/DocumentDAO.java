@@ -3,17 +3,19 @@ package com.ontarget.api.dao;
 import java.util.Date;
 import java.util.List;
 
-import com.ontarget.bean.Document;
+import com.ontarget.bean.DocumentDTO;
 
-public interface DocumentDAO extends GenericDAO<Document>{
+public interface DocumentDAO extends GenericDAO<DocumentDTO> {
 
-    public boolean updateStatus(long documentId, String newStatus, int modifiedBy);
+	public boolean updateStatus(int documentId, String newStatus, int modifiedBy);
 
-    public List<Document> getByCreatedBy(String createdBy, long projectId);
+	public List<DocumentDTO> getByCreatedBy(Integer createdBy, int projectId);
 
-    public List<Document> getByAssigneeUsername(String username, long projectId);
+	public List<DocumentDTO> getByAssigneeUsername(Integer userId, int projectId);
 
-    public List<Document> getDocumentsByProject(long projectId, String approved) throws Exception;
+	public List<DocumentDTO> getDocumentsByProject(int projectId,
+			String approved) throws Exception;
 
-    public boolean updateDueDate(long documentId,Date dueDate, String modifiedBy) throws Exception;
+	public boolean updateDueDate(int documentId, Date dueDate, String modifiedBy)
+			throws Exception;
 }

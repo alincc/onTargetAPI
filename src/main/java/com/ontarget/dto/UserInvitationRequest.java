@@ -5,7 +5,7 @@ import javax.ws.rs.QueryParam;
 /**
  * Created by sumit on 12/25/14.
  */
-public class UserInvitationRequest {
+public class UserInvitationRequest{
     private long projectId;
     private String firstName;
     private String lastName;

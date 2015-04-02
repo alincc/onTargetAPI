@@ -1,25 +1,29 @@
 package com.ontarget.api.rs;
 
-import com.ontarget.api.response.TaskBudgetResponse;
+import javax.validation.Valid;
+
 import com.ontarget.api.response.TaskPercentageListResponse;
 import com.ontarget.api.response.TaskPercentageResponse;
 import com.ontarget.dto.OnTargetResponse;
-import com.ontarget.dto.TaskPercentageRequest;
-
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
+import com.ontarget.request.bean.AddTaskProgress;
+import com.ontarget.request.bean.TaskPercentageOfProject;
+import com.ontarget.request.bean.TaskPercentageOfTask;
+import com.ontarget.request.bean.UpdateTaskProgress;
 
 /**
  * Created by Owner on 11/25/14.
  */
 public interface TaskPercentageEndpoint {
 
-    public OnTargetResponse addTaskPercentageComplete(TaskPercentageRequest request);
+	public OnTargetResponse addTaskPercentageComplete(
+			@Valid AddTaskProgress addTaskProgress);
 
-    public OnTargetResponse updateTaskPercentageComplete(TaskPercentageRequest request);
+	public OnTargetResponse updateTaskPercentageComplete(
+			@Valid UpdateTaskProgress request);
 
-    public TaskPercentageListResponse getTaskPercentagesByTask(@PathParam("taskId") int taskId);
+	public TaskPercentageListResponse getTaskPercentagesByTask(
+			@Valid TaskPercentageOfTask taskPercentageOfTask);
 
-    public TaskPercentageResponse getTaskPercentageByProject(@PathParam("projectId") int projectId);
+	public TaskPercentageResponse getTaskPercentageByProject(
+			@Valid TaskPercentageOfProject taskPercentageOfProject);
 }

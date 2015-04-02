@@ -3,13 +3,13 @@ package com.ontarget.dto;
 public class SaveAccidentReportResponse extends OnTargetResponse {
 	private static final long serialVersionUID = 1L;
 	
-	private Long accidentReportId;
+	private int accidentReportId;
 
-	public Long getAccidentReportId() {
+	public int getAccidentReportId() {
 		return accidentReportId;
 	}
 
-	public void setAccidentReportId(Long accidentReportId) {
+	public void setAccidentReportId(int accidentReportId) {
 		this.accidentReportId = accidentReportId;
 	}
 }

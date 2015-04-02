@@ -1,17 +1,19 @@
 package com.ontarget.api.rs;
 
+import javax.validation.Valid;
+
 import com.ontarget.api.response.BIReportResponse;
 import com.ontarget.api.response.ProjectEarnedValueReportResponse;
-
-import javax.ws.rs.PathParam;
+import com.ontarget.request.bean.ProjectReportInfo;
 
 /**
  * Created by Owner on 12/23/14.
  */
 public interface ProjectReportEndpoint {
 
+	public ProjectEarnedValueReportResponse getProjectEarnedValueAnalysis(
+			@Valid ProjectReportInfo projectReportRequest);
 
-    public ProjectEarnedValueReportResponse getProjectEarnedValueAnalysis(long projectId);
-
-    public BIReportResponse getTimeSaved(long projectId);
+	public BIReportResponse getTimeSaved(
+			@Valid ProjectReportInfo projectReportRequest);
 }

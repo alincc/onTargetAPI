@@ -23,12 +23,12 @@ public class ProjectTaskFileDAOImpl implements com.ontarget.api.dao.ProjectTaskF
     protected JdbcTemplate jdbcTemplate;
 
     @Override
-    public long saveTaskFile(long taskId, String fileName, long owner, String location) throws Exception {
+    public long saveTaskFile(int taskId, String fileName, int owner, String location) throws Exception {
         return jdbcTemplate.update(OnTargetQuery.INSERT_TASK_FILE, new Object[]{taskId, fileName, owner, location});
     }
 
     @Override
-    public List<FileAttachment> getTaskAttachments(long taskId) throws Exception {
+    public List<FileAttachment> getTaskAttachments(int taskId) throws Exception {
         List<Map<String, Object>> taskList = jdbcTemplate.queryForList(OnTargetQuery.GET_TASK_FILE, new Object[]{taskId});
         List<FileAttachment> attachments = new ArrayList<>();
         if (taskList != null && taskList.size() > 0) {

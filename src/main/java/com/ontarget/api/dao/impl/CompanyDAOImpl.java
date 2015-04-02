@@ -1,11 +1,13 @@
 package com.ontarget.api.dao.impl;
 
-import com.ontarget.api.dao.CompanyDAO;
-import com.ontarget.bean.Address;
-import com.ontarget.bean.Company;
-import com.ontarget.bean.Project;
-import com.ontarget.constant.OnTargetConstant;
-import com.ontarget.constant.OnTargetQuery;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -14,13 +16,11 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import com.ontarget.api.dao.CompanyDAO;
+import com.ontarget.bean.AddressDTO;
+import com.ontarget.bean.Company;
+import com.ontarget.constant.OnTargetConstant;
+import com.ontarget.constant.OnTargetQuery;
 
 /**
  * Created by Owner on 11/5/14.
@@ -60,11 +60,6 @@ public class CompanyDAOImpl implements CompanyDAO {
 
     @Override
     public Company getCompany(int companyId) throws Exception {
-//        Map<String, Object> map = jdbcTemplate.queryForMap(OnTargetQuery.GET_COMPANY, companyId);
-//        Company company = new Company();
-//        company.setCompanyName((String) map.get("company_name"));
-//        return company;
-
         return jdbcTemplate.queryForObject(OnTargetQuery.GET_COMPANY,
                 new Object[]{companyId},
                 new RowMapper<Company>() {
@@ -77,17 +72,6 @@ public class CompanyDAOImpl implements CompanyDAO {
 
                     }
                 });
-
-//        Company company = new Company();
-//        jdbcTemplate.query(OnTargetQuery.GET_PROJECT, new Object[]{companyId}, new RowMapper<Company>() {
-//            @Override
-//            public Company mapRow(ResultSet resultSet, int i) throws SQLException {
-//                company.setCompanyName(resultSet.getString("company_name"));
-//                return company;
-//            }
-//        });
-//
-//        return company;
     }
 
     @Override
@@ -106,7 +90,7 @@ public class CompanyDAOImpl implements CompanyDAO {
                 company.setWebsite((String) map.get("website"));
                 company.setCompanyTypeId((int) map.get("company_type_id"));
 
-                Address address = new Address();
+                AddressDTO address = new AddressDTO();
                 address.setAddress1((String) map.get("address1"));
                 address.setAddress2((String) map.get("address2"));
                 address.setCity((String) map.get("city"));

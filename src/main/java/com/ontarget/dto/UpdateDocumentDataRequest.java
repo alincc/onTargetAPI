@@ -4,20 +4,20 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import com.ontarget.bean.DocumentGridKeyValue;
-import com.ontarget.bean.DocumentKeyValue;
-import com.ontarget.bean.User;
+import com.ontarget.bean.DocumentGridKeyValueDTO;
+import com.ontarget.bean.DocumentKeyValueDTO;
+import com.ontarget.bean.UserDTO;
 
 public class UpdateDocumentDataRequest implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private long documentId;
-	private List<DocumentKeyValue> keyValues;
-	private List<DocumentGridKeyValue> gridKeyValues;
+	private List<DocumentKeyValueDTO> keyValues;
+	private List<DocumentGridKeyValueDTO> gridKeyValues;
     private long projectId;
     private Date dueDate;
 	
-	private User user;
+	private UserDTO user;
 
 	public long getDocumentId() {
 		return documentId;
@@ -27,27 +27,27 @@ public class UpdateDocumentDataRequest implements Serializable {
 		this.documentId = documentId;
 	}
 
-	public List<DocumentKeyValue> getKeyValues() {
+	public List<DocumentKeyValueDTO> getKeyValues() {
 		return keyValues;
 	}
 
-	public void setKeyValues(List<DocumentKeyValue> keyValues) {
+	public void setKeyValues(List<DocumentKeyValueDTO> keyValues) {
 		this.keyValues = keyValues;
 	}
 
-	public List<DocumentGridKeyValue> getGridKeyValues() {
+	public List<DocumentGridKeyValueDTO> getGridKeyValues() {
 		return gridKeyValues;
 	}
 
-	public void setGridKeyValues(List<DocumentGridKeyValue> gridKeyValues) {
+	public void setGridKeyValues(List<DocumentGridKeyValueDTO> gridKeyValues) {
 		this.gridKeyValues = gridKeyValues;
 	}
 
-	public User getUser() {
+	public UserDTO getUser() {
 		return user;
 	}
 
-	public void setUser(User user) {
+	public void setUser(UserDTO user) {
 		this.user = user;
 	}
 

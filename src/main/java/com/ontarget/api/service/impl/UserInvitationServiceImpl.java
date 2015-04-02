@@ -8,8 +8,11 @@ import org.springframework.stereotype.Service;
 
 import com.ontarget.api.dao.UserInvitationDAO;
 import com.ontarget.api.service.UserInvitationService;
+import com.ontarget.dto.UserInvitationApprovalResponse;
+import com.ontarget.dto.UserInvitationRequestDTO;
 import com.ontarget.dto.UserRegistationApprovalResponse;
-import com.ontarget.dto.UserRegistrationRequest;
+import com.ontarget.entity.pojo.RegistrationRequestResponseDTO;
+
 
 @Service
 public class UserInvitationServiceImpl implements UserInvitationService {
@@ -19,18 +22,18 @@ public class UserInvitationServiceImpl implements UserInvitationService {
 	private UserInvitationDAO userInvitationDAO;
 
 	@Override
-	public boolean registrationRequest(UserRegistrationRequest request)
+	public boolean registrationRequest(UserInvitationRequestDTO request)
 			throws Exception {
 		return userInvitationDAO.saveRegistrationRequest(request);
 	}
 
 	@Override
-	public UserRegistationApprovalResponse retrievePendingRegRequestList()
+	public UserInvitationApprovalResponse retrievePendingRegRequestList()
 			throws Exception {
-		List<UserRegistrationRequest> pendingRequestsList = userInvitationDAO
+		List<RegistrationRequestResponseDTO> pendingRequestsList = userInvitationDAO
 				.fetchPendingRequests();
-		UserRegistationApprovalResponse response = new UserRegistationApprovalResponse();
-		response.setUserRegistrationRequestList(pendingRequestsList);
+		UserInvitationApprovalResponse response = new UserInvitationApprovalResponse();
+		response.setApprovalDTOList(pendingRequestsList);
 		return response;
 	}
 
@@ -40,13 +43,14 @@ public class UserInvitationServiceImpl implements UserInvitationService {
 	}
 
 	@Override
-	public UserRegistrationRequest getRequestByToken(String token)
+	public RegistrationRequestResponseDTO getRequestByToken(String token)
+
 			throws Exception {
 		return userInvitationDAO.findRequestByToken(token);
 	}
 
 	@Override
-	public UserRegistrationRequest getRegistrationRequest(String email)
+	public RegistrationRequestResponseDTO getRegistrationRequest(String email)
 			throws Exception {
 		return userInvitationDAO.findRegRequestByEmail(email);
 	}

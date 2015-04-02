@@ -1,24 +1,26 @@
 package com.ontarget.api.service.impl;
 
-import com.ontarget.api.dao.AuthenticationDAO;
-import com.ontarget.api.dao.UserInvitationDAO;
-import com.ontarget.api.dao.ContactDAO;
-import com.ontarget.api.dao.UserSessionDAO;
-import com.ontarget.api.rs.impl.UserProfileImpl;
-import com.ontarget.api.service.AuthenticationService;
-import com.ontarget.bean.User;
-import com.ontarget.constant.OnTargetConstant;
-import com.ontarget.dto.UserRegistationApprovalResponse;
-import com.ontarget.dto.UserRegistrationRequest;
-import com.ontarget.dto.UserResponse;
-import com.ontarget.util.TokenUtil;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import com.ontarget.api.dao.AuthenticationDAO;
+import com.ontarget.api.dao.ContactDAO;
+import com.ontarget.api.dao.UserSessionDAO;
+import com.ontarget.api.rs.impl.UserProfileImpl;
+import com.ontarget.api.service.AuthenticationService;
+import com.ontarget.bean.UserDTO;
+import com.ontarget.constant.OnTargetConstant;
+import com.ontarget.dto.RegistrationRequestDTO;
+import com.ontarget.dto.UserRegistationApprovalResponse;
+import com.ontarget.dto.UserResponse;
+import com.ontarget.request.bean.RegistrationApprovalRequest;
+import com.ontarget.request.bean.SignInRequest;
+import com.ontarget.request.bean.UserRegistrationRequest;
+import com.ontarget.util.TokenUtil;
 
 /**
  * Created by Owner on 10/30/14.
@@ -39,10 +41,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
-	public UserResponse signIn(User user) throws Exception {
-		logger.debug("Signing user: " + user);
+	public UserResponse signIn(SignInRequest signInRequest) throws Exception {
+		logger.debug("Signing user: " + signInRequest);
 		UserResponse response = new UserResponse();
-		User returnUser = authenticationDAO.getUserSignInInfo(user);
+		UserDTO returnUser = authenticationDAO.getUserSignInInfo(signInRequest);
 		if (returnUser.getUserId() == 0) {
 			response.setReturnMessage(OnTargetConstant.AUTHENTICATION_FAILED);
 			response.setAuthenticated(false);
@@ -50,7 +52,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			return response;
 		}
 
-		String token = TokenUtil.getLoginToken(user.getUsername());
+		String token = TokenUtil.getLoginToken(signInRequest.getUsername());
 		boolean saved = userSessionDAO.saveUserSessionToken(
 				returnUser.getUserId(), token);
 		if (!saved) {
@@ -91,7 +93,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	@Override
 	public UserRegistationApprovalResponse getUserRegistrationPendingRequests()
 			throws Exception {
-		List<UserRegistrationRequest> pendingRequestsList = authenticationDAO
+		List<RegistrationRequestDTO> pendingRequestsList = authenticationDAO
 				.getUserRegistrationPendingRequests();
 		UserRegistationApprovalResponse response = new UserRegistationApprovalResponse();
 		response.setUserRegistrationRequestList(pendingRequestsList);
@@ -102,8 +104,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
 	public boolean approvePendingRegistrationRequest(
-			UserRegistrationRequest requests) throws Exception {
-		return authenticationDAO.approvePendingRegistrationRequest(requests);
+			RegistrationApprovalRequest request) throws Exception {
+		return authenticationDAO.approvePendingRegistrationRequest(request);
 	}
 
 }

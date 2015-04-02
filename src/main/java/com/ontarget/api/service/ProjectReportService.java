@@ -12,12 +12,12 @@ import java.util.List;
  */
 public interface ProjectReportService {
 
+	public List<ProjectEarnedValueAnalysisReport> getEarnedValueAnalysisReport(
+			int projectId) throws Exception;
 
-    public List<ProjectEarnedValueAnalysisReport> getEarnedValueAnalysisReport(long projectId) throws Exception;
+	public TimeSaved getTimeSaved(int projectId) throws Exception;
 
-    public TimeSaved getTimeSaved(long projectId) throws Exception;
+	public TreesSaved getTreesSaved(int projectId) throws Exception;
 
-    public TreesSaved getTreesSaved(long projectId) throws Exception;
-
-    public NoAccidentReport getNoAccidentReport(long projectId) throws Exception;
+	public NoAccidentReport getNoAccidentReport(int projectId) throws Exception;
 }

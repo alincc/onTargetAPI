@@ -4,42 +4,42 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class BaseBean implements Serializable {
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    protected User createdBy;
-    protected Date createdDate;
-    protected User modifiedBy;
-    protected Date modifiedDate;
+	protected UserDTO createdBy;
+	protected Date createdDate;
+	protected UserDTO modifiedBy;
+	protected Date modifiedDate;
 
-    public User getCreatedBy() {
-        return createdBy;
-    }
+	public UserDTO getCreatedBy() {
+		return createdBy;
+	}
 
-    public void setCreatedBy(User createdBy) {
-        this.createdBy = createdBy;
-    }
+	public void setCreatedBy(UserDTO createdBy) {
+		this.createdBy = createdBy;
+	}
 
-    public Date getCreatedDate() {
-        return createdDate;
-    }
+	public Date getCreatedDate() {
+		return createdDate;
+	}
 
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
 
-    public User getModifiedBy() {
-        return modifiedBy;
-    }
+	public UserDTO getModifiedBy() {
+		return modifiedBy;
+	}
 
-    public void setModifiedBy(User modifiedBy) {
-        this.modifiedBy = modifiedBy;
-    }
+	public void setModifiedBy(UserDTO modifiedBy) {
+		this.modifiedBy = modifiedBy;
+	}
 
-    public Date getModifiedDate() {
-        return modifiedDate;
-    }
+	public Date getModifiedDate() {
+		return modifiedDate;
+	}
 
-    public void setModifiedDate(Date modifiedDate) {
-        this.modifiedDate = modifiedDate;
-    }
+	public void setModifiedDate(Date modifiedDate) {
+		this.modifiedDate = modifiedDate;
+	}
 }

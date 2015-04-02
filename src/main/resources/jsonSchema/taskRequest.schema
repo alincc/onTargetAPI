@@ -1,0 +1,123 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://jsonschema.net",
+  "type": "object",
+  "properties": {
+    "baseRequest": {
+      "id": "http://jsonschema.net/baseRequest",
+      "type": "object",
+      "properties": {
+        "loggedInUserId": {
+          "id": "http://jsonschema.net/baseRequest/loggedInUserId",
+          "type": "integer"
+        },
+        "loggedInUserProjectId": {
+          "id": "http://jsonschema.net/baseRequest/loggedInUserProjectId",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "loggedInUserId",
+        "loggedInUserProjectId"
+      ]
+    },
+    "userId": {
+      "id": "http://jsonschema.net/userId",
+      "type": "integer"
+    },
+    "task": {
+      "id": "http://jsonschema.net/task",
+      "type": "object",
+      "properties": {
+        "projectTaskId": {
+          "id": "http://jsonschema.net/task/projectTaskId",
+          "type": "integer"
+        },
+        "title": {
+          "id": "http://jsonschema.net/task/title",
+          "type": "string"
+        },
+        "description": {
+          "id": "http://jsonschema.net/task/description",
+          "type": "string"
+        },
+        "status": {
+          "id": "http://jsonschema.net/task/status",
+          "type": "string"
+        },
+        "severity": {
+          "id": "http://jsonschema.net/task/severity",
+          "type": "string"
+        },
+        "percentageComplete": {
+          "id": "http://jsonschema.net/task/percentageComplete",
+          "type": "integer"
+        },
+        "startDateText": {
+          "id": "http://jsonschema.net/task/startDateText",
+          "type": "string"
+        },
+        "endDateText": {
+          "id": "http://jsonschema.net/task/endDateText",
+          "type": "string"
+        },
+        "startDate": {
+          "id": "http://jsonschema.net/task/startDate",
+          "type": "date-time"
+        },
+        "endDate": {
+          "id": "http://jsonschema.net/task/endDate",
+          "type": "date-time"
+        },
+        "project": {
+          "id": "http://jsonschema.net/task/project",
+          "type": "object",
+          "properties": {
+            "projectId": {
+              "id": "http://jsonschema.net/task/project/projectId",
+              "type": "integer"
+            },
+            "startDate": {
+              "id": "http://jsonschema.net/task/project/startDate",
+              "type": "date-time"
+            },
+            "endDate": {
+              "id": "http://jsonschema.net/task/project/endDate",
+              "type": "date-time"
+            }
+          }
+        },
+        "parentTask": {
+          "id": "http://jsonschema.net/task/parentTask",
+          "type": "object",
+          "properties": {
+            "projectTaskId": {
+              "id": "http://jsonschema.net/task/parentTask/projectTaskId",
+              "type": "integer"
+            },
+            "startDateText": {
+              "id": "http://jsonschema.net/task/parentTask/startDateText",
+              "type": "string"
+            },
+            "endDateText": {
+              "id": "http://jsonschema.net/task/parentTask/endDateText",
+              "type": "string"
+            },
+            "startDate": {
+              "id": "http://jsonschema.net/task/parentTask/startDate",
+              "type": "date-time"
+            },
+            "endDate": {
+              "id": "http://jsonschema.net/task/parentTask/endDate",
+              "type": "date-time"
+            }
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "userId",
+    "task"
+  ]
+}

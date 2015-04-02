@@ -1,6 +1,6 @@
 package com.ontarget.dto;
 
-import com.ontarget.bean.Project;
+import com.ontarget.bean.ProjectDTO;
 
 import java.util.List;
 
@@ -9,13 +9,13 @@ import java.util.List;
  */
 public class ProjectListResponse extends OnTargetResponse {
 
-    private List<Project> projects;
+	private List<ProjectDTO> projects;
 
-    public List<Project> getProjects() {
-        return projects;
-    }
+	public List<ProjectDTO> getProjects() {
+		return projects;
+	}
 
-    public void setProjects(List<Project> projects) {
-        this.projects = projects;
-    }
+	public void setProjects(List<ProjectDTO> projects) {
+		this.projects = projects;
+	}
 }

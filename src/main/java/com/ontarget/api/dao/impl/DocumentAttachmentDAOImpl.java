@@ -13,60 +13,64 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import com.ontarget.api.dao.DocumentAttachmentDAO;
-import com.ontarget.bean.DocumentAttachment;
+import com.ontarget.bean.DocumentAttachmentDTO;
 import com.ontarget.constant.OnTargetQuery;
 
 @Repository
-public class DocumentAttachmentDAOImpl 
-		extends BaseGenericDAOImpl<DocumentAttachment> 
-		implements DocumentAttachmentDAO {
+public class DocumentAttachmentDAOImpl extends
+		BaseGenericDAOImpl<DocumentAttachmentDTO> implements
+		DocumentAttachmentDAO {
 
 	@Override
-	public DocumentAttachment insert(DocumentAttachment documentAttachment) {
+	public DocumentAttachmentDTO insert(DocumentAttachmentDTO documentAttachment) {
 		KeyHolder kh = new GeneratedKeyHolder();
-		jdbcTemplate.update(new PreparedStatementCreator(){
+		jdbcTemplate.update(new PreparedStatementCreator() {
 			@Override
 			public PreparedStatement createPreparedStatement(Connection conn)
 					throws SQLException {
-				PreparedStatement ps = conn.prepareStatement(OnTargetQuery.documentAttachment.ADD, 
+				PreparedStatement ps = conn.prepareStatement(
+						OnTargetQuery.documentAttachment.ADD,
 						new String[] { "document_attachment_id" });
-		            ps.setLong(1, documentAttachment.getDocument().getDocumentId());
-		            ps.setString(2, documentAttachment.getFilePath());
-		            ps.setInt(3, documentAttachment.getCreatedBy().getUserId());
-		            ps.setInt(4, documentAttachment.getModifiedBy().getUserId());
-		            return ps;
+				ps.setLong(1, documentAttachment.getDocument().getDocumentId());
+				ps.setString(2, documentAttachment.getFilePath());
+				ps.setInt(3, documentAttachment.getAddedBy());
+				ps.setInt(4, documentAttachment.getAddedBy());
+				return ps;
 			}
-			
+
 		}, kh);
-		documentAttachment.setDocumentAttachmentId(kh.getKey().longValue());
+		documentAttachment.setDocumentAttachmentId(kh.getKey().intValue());
 		return documentAttachment;
 	}
 
 	@Override
-	public DocumentAttachment read(long id) {
+	public DocumentAttachmentDTO read(long id) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public boolean update(DocumentAttachment bean) {
+	public boolean update(DocumentAttachmentDTO bean) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public List<DocumentAttachment> getByDocumentId(long documentId) {
-		List<DocumentAttachment> documentAttachments = jdbcTemplate.query(OnTargetQuery.documentAttachment.GET_BY_DOCUMENT_ID, 
-				new Object[] { documentId }, 
-				new RowMapper<DocumentAttachment>() {
+	public List<DocumentAttachmentDTO> getByDocumentId(long documentId) {
+		List<DocumentAttachmentDTO> documentAttachments = jdbcTemplate.query(
+				OnTargetQuery.documentAttachment.GET_BY_DOCUMENT_ID,
+				new Object[] { documentId },
+				new RowMapper<DocumentAttachmentDTO>() {
 					@Override
-					public DocumentAttachment mapRow(ResultSet rs, int rowNum)
+					public DocumentAttachmentDTO mapRow(ResultSet rs, int rowNum)
 							throws SQLException {
-						DocumentAttachment documentAttachment = new DocumentAttachment();
-						documentAttachment.setDocumentAttachmentId(rs.getLong("document_attachment_id"));
-						documentAttachment.setFilePath(rs.getString("file_path"));
+						DocumentAttachmentDTO documentAttachment = new DocumentAttachmentDTO();
+						documentAttachment.setDocumentAttachmentId(rs
+								.getInt("document_attachment_id"));
+						documentAttachment.setFilePath(rs
+								.getString("file_path"));
 						return documentAttachment;
 					}
-			
-		});
+
+				});
 		return documentAttachments;
 	}
 

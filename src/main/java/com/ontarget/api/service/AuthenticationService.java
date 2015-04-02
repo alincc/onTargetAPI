@@ -2,8 +2,10 @@ package com.ontarget.api.service;
 
 import com.ontarget.dto.UserRegistationApprovalResponse;
 import com.ontarget.dto.UserResponse;
-import com.ontarget.bean.User;
-import com.ontarget.dto.UserRegistrationRequest;
+import com.ontarget.bean.UserDTO;
+import com.ontarget.request.bean.RegistrationApprovalRequest;
+import com.ontarget.request.bean.SignInRequest;
+import com.ontarget.request.bean.UserRegistrationRequest;
 
 import java.util.List;
 
@@ -12,7 +14,7 @@ import java.util.List;
  */
 public interface AuthenticationService {
 
-	public UserResponse signIn(User user) throws Exception;
+	public UserResponse signIn(SignInRequest signInRequest) throws Exception;
 
 	public boolean registrationRequest(UserRegistrationRequest request)
 			throws Exception;
@@ -23,7 +25,6 @@ public interface AuthenticationService {
 			throws Exception;
 
 	public boolean approvePendingRegistrationRequest(
-			UserRegistrationRequest requests) throws Exception;
+			RegistrationApprovalRequest request) throws Exception;
 
-	
 }

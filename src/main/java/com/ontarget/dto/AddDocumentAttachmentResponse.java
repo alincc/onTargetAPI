@@ -3,13 +3,13 @@ package com.ontarget.dto;
 public class AddDocumentAttachmentResponse extends OnTargetResponse {
 	private static final long serialVersionUID = 1L;
 
-	private Long documentAttachmentId;
+	private int documentAttachmentId;
 
-	public Long getDocumentAttachmentId() {
+	public int getDocumentAttachmentId() {
 		return documentAttachmentId;
 	}
 
-	public void setDocumentAttachmentId(Long documentAttachmentId) {
+	public void setDocumentAttachmentId(int documentAttachmentId) {
 		this.documentAttachmentId = documentAttachmentId;
 	}
 }
