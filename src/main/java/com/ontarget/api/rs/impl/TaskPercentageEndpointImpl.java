@@ -38,15 +38,13 @@ public class TaskPercentageEndpointImpl implements TaskPercentageEndpoint {
 	@Override
 	@POST
 	@Path("/add")
-	public OnTargetResponse addTaskPercentageComplete(
-			AddTaskProgress addTaskProgress) {
+	public OnTargetResponse addTaskPercentageComplete(AddTaskProgress addTaskProgress) {
 		logger.info("Adding task Percentage");
 		OnTargetResponse response = new OnTargetResponse();
 
 		try {
-			boolean added = taskPercentageService.addTaskPercentage(
-					addTaskProgress.getTaskProgressList(), addTaskProgress
-							.getBaseRequest().getLoggedInUserId());
+			boolean added = taskPercentageService.addTaskPercentage(addTaskProgress.getTaskProgressList(), addTaskProgress
+					.getBaseRequest().getLoggedInUserId());
 			if (added) {
 				response.setReturnMessage("Successfully added task Percentages.");
 				response.setReturnVal(OnTargetConstant.SUCCESS);
@@ -63,14 +61,12 @@ public class TaskPercentageEndpointImpl implements TaskPercentageEndpoint {
 	@Override
 	@POST
 	@Path("/update")
-	public OnTargetResponse updateTaskPercentageComplete(
-			UpdateTaskProgress request) {
+	public OnTargetResponse updateTaskPercentageComplete(UpdateTaskProgress request) {
 		logger.info("update task Percentage");
 		OnTargetResponse response = new OnTargetResponse();
 
 		try {
-			boolean added = taskPercentageService.updateTaskPercentage(request
-					.getTaskProgressList(), request.getBaseRequest()
+			boolean added = taskPercentageService.updateTaskPercentage(request.getTaskProgressList(), request.getBaseRequest()
 					.getLoggedInUserId());
 			if (added) {
 				response.setReturnMessage("Successfully updated task Percentages.");
@@ -88,14 +84,12 @@ public class TaskPercentageEndpointImpl implements TaskPercentageEndpoint {
 	@Override
 	@POST
 	@Path("/getPercentageCompleteOfTask")
-	public TaskPercentageListResponse getTaskPercentagesByTask(
-			TaskPercentageOfTask taskPercentageOfTask) {
+	public TaskPercentageListResponse getTaskPercentagesByTask(TaskPercentageOfTask taskPercentageOfTask) {
 
 		TaskPercentageListResponse response = new TaskPercentageListResponse();
 
 		try {
-			response.setTaskPercentageList(taskPercentageService
-					.getTaskPercentageByTask(taskPercentageOfTask.getTaskId()));
+			response.setTaskPercentageList(taskPercentageService.getTaskPercentageByTask(taskPercentageOfTask.getTaskId()));
 			response.setReturnMessage("Successfully retrieved task percentage");
 			response.setReturnVal(OnTargetConstant.SUCCESS);
 		} catch (Exception e) {
@@ -110,13 +104,10 @@ public class TaskPercentageEndpointImpl implements TaskPercentageEndpoint {
 	@Override
 	@Path("/getTaskPercentageByProject")
 	@POST
-	public TaskPercentageResponse getTaskPercentageByProject(
-			TaskPercentageOfProject taskPercentageOfProject) {
+	public TaskPercentageResponse getTaskPercentageByProject(TaskPercentageOfProject taskPercentageOfProject) {
 		TaskPercentageResponse response = new TaskPercentageResponse();
 		try {
-			response.setTaskListMap(taskPercentageService
-					.getTaskPercentageByProject(taskPercentageOfProject
-							.getProjectId()));
+			response.setTaskListMap(taskPercentageService.getTaskPercentageByProject(taskPercentageOfProject.getProjectId()));
 			response.setReturnMessage("Successfully retrieved task percentage");
 			response.setReturnVal(OnTargetConstant.SUCCESS);
 		} catch (Exception e) {

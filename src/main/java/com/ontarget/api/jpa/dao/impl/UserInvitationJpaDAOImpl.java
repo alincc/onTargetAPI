@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
@@ -26,7 +27,6 @@ public class UserInvitationJpaDAOImpl implements UserInvitationDAO {
 
 	@Override
 	public boolean saveRegistrationRequest(UserInvitationRequestDTO userInvitationRequestDTO) throws Exception {
-
 		RegistrationRequest registrationRequest = new RegistrationRequest();
 		registrationRequest.setFirstName(userInvitationRequestDTO.getFirstName());
 		registrationRequest.setLastName(userInvitationRequestDTO.getLastName());
@@ -36,7 +36,6 @@ public class UserInvitationJpaDAOImpl implements UserInvitationDAO {
 		registrationRequest.setStatus(OnTargetConstant.REGISTRATION_PENDING);
 		registrationRequest.setRegistrationToken(userInvitationRequestDTO.getToken());
 		registrationRequestRepository.save(registrationRequest);
-
 		return true;
 	}
 
@@ -57,6 +56,7 @@ public class UserInvitationJpaDAOImpl implements UserInvitationDAO {
 				registrationRequest.setMsg(request.getMsg());
 				registrationRequest.setFirstName(request.getFirstName());
 				registrationRequest.setLastName(request.getLastName());
+				registrationRequest.setTsCreate(request.getTsCreate().getTime());
 				userRegistrationRequests.add(registrationRequest);
 			}
 		}
@@ -105,24 +105,31 @@ public class UserInvitationJpaDAOImpl implements UserInvitationDAO {
 	}
 
 	@Override
-	public RegistrationRequestResponseDTO findRegRequestByEmail(String email) throws Exception {
-		String hql = "SELECT r FROM RegistrationRequest r WHERE r.email = :email order by r.id desc";
-		Query query = entityManager.createQuery(hql);
-		query.setParameter("email", email);
-		query.setMaxResults(1);
-		RegistrationRequest registrationRequest = (RegistrationRequest) query.getSingleResult();
+	public RegistrationRequestResponseDTO findRegRequestByEmail(String email) {
+		try {
+			String hql = "SELECT r FROM RegistrationRequest r WHERE r.email = :email order by r.id desc";
+			Query query = entityManager.createQuery(hql);
+			query.setParameter("email", email);
+			query.setMaxResults(1);
+			RegistrationRequest registrationRequest = (RegistrationRequest) query.getSingleResult();
 
-		RegistrationRequestResponseDTO registrationRequestDTO = new RegistrationRequestResponseDTO();
-		registrationRequestDTO.setStatus(registrationRequest.getStatus());
-		registrationRequestDTO.setRegistrationToken(registrationRequest.getRegistrationToken());
-		registrationRequestDTO.setPhoneNumber(registrationRequest.getPhoneNumber());
-		registrationRequestDTO.setEmail(registrationRequest.getEmail());
-		registrationRequestDTO.setId(registrationRequest.getId().intValue());
-		registrationRequestDTO.setMsg(registrationRequest.getMsg());
-		registrationRequestDTO.setFirstName(registrationRequest.getFirstName());
-		registrationRequestDTO.setLastName(registrationRequest.getLastName());
-		registrationRequestDTO.setTsCreate(registrationRequest.getTsCreate().getTime());
-		return registrationRequestDTO;
+			RegistrationRequestResponseDTO registrationRequestDTO = new RegistrationRequestResponseDTO();
+			registrationRequestDTO.setStatus(registrationRequest.getStatus());
+			registrationRequestDTO.setRegistrationToken(registrationRequest.getRegistrationToken());
+			registrationRequestDTO.setPhoneNumber(registrationRequest.getPhoneNumber());
+			registrationRequestDTO.setEmail(registrationRequest.getEmail());
+			registrationRequestDTO.setId(registrationRequest.getId().intValue());
+			registrationRequestDTO.setMsg(registrationRequest.getMsg());
+			registrationRequestDTO.setFirstName(registrationRequest.getFirstName());
+			registrationRequestDTO.setLastName(registrationRequest.getLastName());
+			registrationRequestDTO.setTsCreate(registrationRequest.getTsCreate().getTime());
+			return registrationRequestDTO;
+		} catch (NoResultException nre) {
+			return null;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
 	}
 
 }

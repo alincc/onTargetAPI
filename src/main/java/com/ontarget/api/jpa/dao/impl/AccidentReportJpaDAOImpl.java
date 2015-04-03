@@ -50,8 +50,7 @@ public class AccidentReportJpaDAOImpl extends BaseGenericDAOImpl<AccidentReport>
 
 	@Override
 	public AccidentReport read(long id) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override

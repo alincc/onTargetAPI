@@ -71,12 +71,10 @@ public class ProjectEndpointImpl implements ProjectEndoint {
 	@Override
 	@POST
 	@Path("/getProject")
-	public ProjectResponse getProjectDetail(
-			ProjectDetailRequest projectDetailRequest) {
+	public ProjectResponse getProjectDetail(ProjectDetailRequest projectDetailRequest) {
 		ProjectResponse response = new ProjectResponse();
 		try {
-			response = projectService.getProjectDetail(projectDetailRequest
-					.getProjectId());
+			response = projectService.getProjectDetail(projectDetailRequest.getProjectId());
 			response.setReturnVal(OnTargetConstant.SUCCESS);
 			response.setReturnMessage("Successfully retrieved project info");
 
@@ -92,12 +90,10 @@ public class ProjectEndpointImpl implements ProjectEndoint {
 	@Override
 	@POST
 	@Path("/getProjectMembers")
-	public ProjectMemberListResponse getProjectMembers(
-			ProjectDetailRequest projectDetailRequest) {
+	public ProjectMemberListResponse getProjectMembers(ProjectDetailRequest projectDetailRequest) {
 		ProjectMemberListResponse response = new ProjectMemberListResponse();
 		try {
-			response = projectService.getProjectMembers(projectDetailRequest
-					.getProjectId());
+			response = projectService.getProjectMembers(projectDetailRequest.getProjectId());
 			response.setReturnVal(OnTargetConstant.SUCCESS);
 			response.setReturnMessage("Successfully retrieved project members");
 
@@ -113,12 +109,10 @@ public class ProjectEndpointImpl implements ProjectEndoint {
 	@Override
 	@POST
 	@Path("/getProjectsByCompany")
-	public ProjectListResponse getProjectByCompany(
-			ProjectCompanyRequest projectCompanyRequest) {
+	public ProjectListResponse getProjectByCompany(ProjectCompanyRequest projectCompanyRequest) {
 		ProjectListResponse response = new ProjectListResponse();
 		try {
-			response = projectService.getProjectsByCompany(
-					projectCompanyRequest.getCompanyId(),
+			response = projectService.getProjectsByCompany(projectCompanyRequest.getCompanyId(),
 					projectCompanyRequest.getProjectId());
 			response.setReturnVal(OnTargetConstant.SUCCESS);
 			response.setReturnMessage("Successfully retrieved project info");
@@ -133,12 +127,10 @@ public class ProjectEndpointImpl implements ProjectEndoint {
 	@Override
 	@POST
 	@Path("/getCompanyByProject")
-	public CompanyListResponse getCompanyByProject(
-			ProjectDetailRequest projectDetailRequest) {
+	public CompanyListResponse getCompanyByProject(ProjectDetailRequest projectDetailRequest) {
 		CompanyListResponse response = new CompanyListResponse();
 		try {
-			response.setCompanyList(projectService
-					.getCompanyByProject(projectDetailRequest.getProjectId()));
+			response.setCompanyList(projectService.getCompanyByProject(projectDetailRequest.getProjectId()));
 			response.setReturnVal(OnTargetConstant.SUCCESS);
 			response.setReturnMessage("Successfully retrieved company by project");
 		} catch (Exception e) {
@@ -154,13 +146,11 @@ public class ProjectEndpointImpl implements ProjectEndoint {
 	@Override
 	@POST
 	@Path("/getProjectsByUser")
-	public ProjectListResponse getProjectByUser(
-			ProjectUserRequest projectUserRequest) {
+	public ProjectListResponse getProjectByUser(ProjectUserRequest projectUserRequest) {
 
 		ProjectListResponse response = new ProjectListResponse();
 		try {
-			response = projectService.getProjectsByUser(projectUserRequest
-					.getUserId());
+			response = projectService.getProjectsByUser(projectUserRequest.getUserId());
 			response.setReturnVal(OnTargetConstant.SUCCESS);
 			response.setReturnMessage("Successfully retrieved project info");
 		} catch (Exception e) {

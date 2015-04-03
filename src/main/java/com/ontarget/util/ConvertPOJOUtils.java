@@ -27,17 +27,13 @@ import com.ontarget.request.bean.UserInvitationRequest;
 
 public class ConvertPOJOUtils {
 
-	public static UserInvitationRequestDTO convertToUserInvitationDTO(
-			UserInvitationRequest userInvitationRequest, String token) {
+	public static UserInvitationRequestDTO convertToUserInvitationDTO(UserInvitationRequest userInvitationRequest, String token) {
 		UserInvitationRequestDTO userInvitationRequestDTO = new UserInvitationRequestDTO();
-		userInvitationRequestDTO.setFirstName(userInvitationRequest
-				.getFirstName());
-		userInvitationRequestDTO.setLastName(userInvitationRequest
-				.getLastName());
+		userInvitationRequestDTO.setFirstName(userInvitationRequest.getFirstName());
+		userInvitationRequestDTO.setLastName(userInvitationRequest.getLastName());
 		userInvitationRequestDTO.setEmail(userInvitationRequest.getEmail());
 		userInvitationRequestDTO.setMsg(userInvitationRequest.getMsg());
-		userInvitationRequestDTO.setPhoneNumber(userInvitationRequest
-				.getPhoneNumber());
+		userInvitationRequestDTO.setPhoneNumber(userInvitationRequest.getPhoneNumber());
 		userInvitationRequestDTO.setToken(token);
 		return userInvitationRequestDTO;
 	}
@@ -74,8 +70,7 @@ public class ConvertPOJOUtils {
 		return contact;
 	}
 
-	public static AddressDTO convertToAddressDTO(
-			ProjectAddressInfo projectAddress) {
+	public static AddressDTO convertToAddressDTO(ProjectAddressInfo projectAddress) {
 		AddressDTO addressDTO = new AddressDTO();
 		addressDTO.setAddress1(projectAddress.getAddress1());
 		addressDTO.setAddress2(projectAddress.getAddress2());
@@ -89,8 +84,7 @@ public class ConvertPOJOUtils {
 		return addressDTO;
 	}
 
-	public static ProjectDTO convertToProjectDTO(ProjectDetailInfo project,
-			AddressDTO addressDTO) {
+	public static ProjectDTO convertToProjectDTO(ProjectDetailInfo project, AddressDTO addressDTO) {
 		ProjectDTO projectDTO = new ProjectDTO();
 		projectDTO.setProjectId(project.getProjectId());
 		projectDTO.setProjectParentId(project.getProjectParentId());
@@ -104,51 +98,32 @@ public class ConvertPOJOUtils {
 		return projectDTO;
 	}
 
-	public static AccidentReport convertToAccidentReport(
-			AccidentReportRequest accidentReportRequestBean) {
+	public static AccidentReport convertToAccidentReport(AccidentReportRequest accidentReportRequestBean) {
 		AccidentReport accidentReport = new AccidentReport();
 		accidentReport.setProjectId(accidentReportRequestBean.getProjectId());
-		accidentReport.setBodyPartAffected(accidentReportRequestBean
-				.getBodyPartAffected());
-		accidentReport.setBriefOfAccident(accidentReportRequestBean
-				.getBriefOfAccident());
-		accidentReport.setCorrectionMeasuresPerformed(accidentReportRequestBean
-				.getCorrectionMeasuresPerformed());
-		accidentReport
-				.setCorrectionMeasuresToBePerformed(accidentReportRequestBean
-						.getCorrectionMeasuresToBePerformed());
-		accidentReport.setDateInjuredLeftJob(accidentReportRequestBean
-				.getDateInjuredLeftJob());
-		accidentReport.setDateOfAccident(accidentReportRequestBean
-				.getDateOfAccident());
-		accidentReport.setDescription(accidentReportRequestBean
-				.getDescription());
-		accidentReport.setInjuredLeftJob(accidentReportRequestBean
-				.getInjuredLeftJob());
-		accidentReport.setInjuredVisitedDoctor(accidentReportRequestBean
-				.getInjuredVisitedDoctor());
+		accidentReport.setBodyPartAffected(accidentReportRequestBean.getBodyPartAffected());
+		accidentReport.setBriefOfAccident(accidentReportRequestBean.getBriefOfAccident());
+		accidentReport.setCorrectionMeasuresPerformed(accidentReportRequestBean.getCorrectionMeasuresPerformed());
+		accidentReport.setCorrectionMeasuresToBePerformed(accidentReportRequestBean.getCorrectionMeasuresToBePerformed());
+		accidentReport.setDateInjuredLeftJob(accidentReportRequestBean.getDateInjuredLeftJob());
+		accidentReport.setDateOfAccident(accidentReportRequestBean.getDateOfAccident());
+		accidentReport.setDescription(accidentReportRequestBean.getDescription());
+		accidentReport.setInjuredLeftJob(accidentReportRequestBean.getInjuredLeftJob());
+		accidentReport.setInjuredVisitedDoctor(accidentReportRequestBean.getInjuredVisitedDoctor());
 		accidentReport.setLocation(accidentReportRequestBean.getLocation());
-		accidentReport.setPossiblePreventiveMeasures(accidentReportRequestBean
-				.getPossiblePreventiveMeasures());
+		accidentReport.setPossiblePreventiveMeasures(accidentReportRequestBean.getPossiblePreventiveMeasures());
 		accidentReport.setSeverity(accidentReportRequestBean.getSeverity());
-		accidentReport.setSubmittedTo(accidentReportRequestBean
-				.getSubmittedTo());
-		accidentReport.setSupervisorName(accidentReportRequestBean
-				.getSupervisorName());
-		accidentReport.setTimeInjuredLeftJob(accidentReportRequestBean
-				.getTimeInjuredLeftJob());
-		accidentReport.setTimeOfAccident(accidentReportRequestBean
-				.getTimeOfAccident());
-		accidentReport.setUnsafeConditionsCorrected(accidentReportRequestBean
-				.getUnsafeConditionsCorrected());
+		accidentReport.setSubmittedTo(accidentReportRequestBean.getSubmittedTo());
+		accidentReport.setSupervisorName(accidentReportRequestBean.getSupervisorName());
+		accidentReport.setTimeInjuredLeftJob(accidentReportRequestBean.getTimeInjuredLeftJob());
+		accidentReport.setTimeOfAccident(accidentReportRequestBean.getTimeOfAccident());
+		accidentReport.setUnsafeConditionsCorrected(accidentReportRequestBean.getUnsafeConditionsCorrected());
 		accidentReport.setWitness(accidentReportRequestBean.getWitness());
-		accidentReport.setWorkersCompensationFiled(accidentReportRequestBean
-				.getWorkersCompensationFiled());
+		accidentReport.setWorkersCompensationFiled(accidentReportRequestBean.getWorkersCompensationFiled());
 		return accidentReport;
 	}
 
-	public static AddDependentRequest convertToAddDependentRequest(
-			DependentTaskRequest dependentTaskRequest) {
+	public static AddDependentRequest convertToAddDependentRequest(DependentTaskRequest dependentTaskRequest) {
 		DependentTask dependentTask = dependentTaskRequest.getDependentTask();
 
 		AddDependentRequest addDependentRequest = new AddDependentRequest();
@@ -157,28 +132,24 @@ public class ConvertPOJOUtils {
 			dependentTaskDTO.setTaskId(dependentTask.getTaskId());
 		}
 		if (dependentTask.getDependentTaskId() != null) {
-			dependentTaskDTO.setDependentTaskId(dependentTask
-					.getDependentTaskId());
+			dependentTaskDTO.setDependentTaskId(dependentTask.getDependentTaskId());
 		}
 		if (dependentTask.getCategoryId() != null) {
 			dependentTaskDTO.setCategory_id(dependentTask.getCategoryId());
 		}
-		dependentTaskDTO.setCreatedBy(dependentTaskRequest.getBaseRequest()
-				.getLoggedInUserId());
+		dependentTaskDTO.setCreatedBy(dependentTaskRequest.getBaseRequest().getLoggedInUserId());
 
 		addDependentRequest.setDependentTask(dependentTaskDTO);
 
 		return addDependentRequest;
 	}
 
-	public static TaskBudgetRequest convertToTaskBudgetRequest(
-			TaskBudget taskBudget) {
+	public static TaskBudgetRequest convertToTaskBudgetRequest(TaskBudget taskBudget) {
 		TaskBudgetRequest taskBudgetRequest = new TaskBudgetRequest();
 
 		List<TaskEstimatedCost> costList = new ArrayList<TaskEstimatedCost>();
 
-		List<TaskBudgetEstimate> taskEstimates = taskBudget
-				.getTaskBudgetEstimates();
+		List<TaskBudgetEstimate> taskEstimates = taskBudget.getTaskBudgetEstimates();
 
 		for (TaskBudgetEstimate taskBudgetEstimate : taskEstimates) {
 			TaskEstimatedCost taskEstimatedCost = new TaskEstimatedCost();
@@ -187,10 +158,8 @@ public class ConvertPOJOUtils {
 			taskEstimatedCost.setFromDate(taskBudgetEstimate.getFromDate());
 			taskEstimatedCost.setToDate(taskBudgetEstimate.getToDate());
 			taskEstimatedCost.setId(taskBudgetEstimate.getId());
-			taskEstimatedCost.setCreatedBy(taskBudget.getBaseRequest()
-					.getLoggedInUserId());
-			taskEstimatedCost.setModifiedBy(taskBudget.getBaseRequest()
-					.getLoggedInUserId());
+			taskEstimatedCost.setCreatedBy(taskBudget.getBaseRequest().getLoggedInUserId());
+			taskEstimatedCost.setModifiedBy(taskBudget.getBaseRequest().getLoggedInUserId());
 			taskEstimatedCost.setTaskId(taskBudgetEstimate.getTaskId());
 			costList.add(taskEstimatedCost);
 		}

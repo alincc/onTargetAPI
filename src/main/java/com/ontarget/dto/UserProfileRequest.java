@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.ontarget.request.bean.ContactPhone;
 import com.ontarget.request.bean.UserCompanyInfo;
 import com.ontarget.request.bean.UserContactInfo;
 import com.ontarget.request.bean.UserInfo;
@@ -22,6 +23,10 @@ public class UserProfileRequest {
 	@Valid
 	@JsonProperty("contact")
 	private UserContactInfo contact;
+	@NotNull
+	@Valid
+	@JsonProperty("contactPhone")
+	private ContactPhone contactPhone;
 	@NotNull
 	@Valid
 	@JsonProperty("company")
@@ -42,6 +47,16 @@ public class UserProfileRequest {
 	@JsonProperty("contact")
 	public void setContact(UserContactInfo contact) {
 		this.contact = contact;
+	}
+
+	@JsonProperty("contactPhone")
+	public ContactPhone getContactPhone() {
+		return contactPhone;
+	}
+
+	@JsonProperty("contactPhone")
+	public void setContactPhone(ContactPhone contactPhone) {
+		this.contactPhone = contactPhone;
 	}
 
 	@JsonProperty("company")
@@ -66,7 +81,6 @@ public class UserProfileRequest {
 
 	@Override
 	public String toString() {
-		return "UserProfileRequest{" + "contact=" + contact + ", company="
-				+ company + ", user=" + user + '}';
+		return "UserProfileRequest{" + "contact=" + contact + ", company=" + company + ", user=" + user + '}';
 	}
 }

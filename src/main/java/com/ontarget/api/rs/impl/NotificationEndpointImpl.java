@@ -25,8 +25,7 @@ import com.ontarget.request.bean.NotificationRequest;
 @Path("/notification")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-public class NotificationEndpointImpl implements
-		com.ontarget.api.rs.NotificationEndpoint {
+public class NotificationEndpointImpl implements com.ontarget.api.rs.NotificationEndpoint {
 
 	@Autowired
 	private NotificationService notificationService;
@@ -34,21 +33,17 @@ public class NotificationEndpointImpl implements
 	@Override
 	@POST
 	@Path("/getNotifications")
-	public NotificationResponse getNotifications(
-			NotificationRequest notificationRequest) {
+	public NotificationResponse getNotifications(NotificationRequest notificationRequest) {
 		NotificationResponse response = new NotificationResponse();
 		try {
-			List<Notification> notifications = notificationService
-					.getNotifications(notificationRequest.getRecentId(),
-							notificationRequest.getUserId());
+			List<Notification> notifications = notificationService.getNotifications(notificationRequest.getRecentId(),
+					notificationRequest.getUserId());
 			if (notifications == null || notifications.isEmpty()) {
 				response.setNotificationList(new LinkedList<>());
-				response.setRecentNotificationId(notificationRequest
-						.getRecentId());
+				response.setRecentNotificationId(notificationRequest.getRecentId());
 			} else {
 				response.setNotificationList(notifications);
-				response.setRecentNotificationId(notifications.get(
-						notifications.size() - 1).getId());
+				response.setRecentNotificationId(notifications.get(notifications.size() - 1).getId());
 			}
 			response.setReturnVal(OnTargetConstant.SUCCESS);
 			response.setReturnMessage("notification read");

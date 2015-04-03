@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "userId" })
+@JsonPropertyOrder({ "userId", "accountStatus" })
 public class UserInfo {
 	@NotNull
 	@JsonProperty("userId")

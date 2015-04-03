@@ -118,10 +118,11 @@ public class UserProfileServiceImpl implements UserProfileService {
 		int contactId = contactForPhone.getContactId();
 
 		// phone type should be CELL. THIS NEEDS TO BE COLLECTED FROM UI.
-
 		ContactPhone phone = new ContactPhone();
 		phone.setPhoneType(OnTargetConstant.PhoneType.CELL);
 		phone.setStatus(OnTargetConstant.PhoneStatus.ACTIVE);
+		phone.setPhoneNumber(request.getContactPhone().getPhoneNumber());
+		phone.setAreaCode(request.getContactPhone().getAreaCode());
 
 		int phoneId = phoneDAO.addContactPhone(contactId, phone);
 
@@ -254,8 +255,6 @@ public class UserProfileServiceImpl implements UserProfileService {
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
 	public boolean createNewUserFromInvitation(UserRegistrationInfo registration) throws Exception {
-		// get token info and create user based on the status: ACCT_NEW or
-		// ACCT_INVITE
 		UserRegistration registrationFrom = userRegistrationDAO.getInvitationRegistration(registration.getRegistrationToken());
 		int userId = generateUserId();
 		boolean flag = false;
@@ -310,15 +309,10 @@ public class UserProfileServiceImpl implements UserProfileService {
 
 		UserDTO existingUser = authenticationDAO.getUserInfoByUsername(user);
 		if (existingUser != null && existingUser.getUserId() > 0) {
-			/**
-			 * create a entry in forgot password request
-			 */
-			// generate token id
+
 			final String forgotPasswordToken = Security.generateRandomValue(OnTargetConstant.TOKEN_LENGTH);
 			int id = userDAO.saveForgotPasswordRequest(existingUser.getUserId(), forgotPasswordToken);
-			/**
-			 * send email
-			 */
+
 			Contact contact = contactDAO.getContact(existingUser.getUserId());
 			if (id > 0) {
 				emailService.sendForgotPasswordEmail(emailAddress, contact.getFirstName() + " " + contact.getLastName(),
