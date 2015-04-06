@@ -58,8 +58,7 @@ public class TaskServiceImpl implements TaskService {
 	@Autowired
 	private ProjectDAO projectDAO;
 
-	private static final SimpleDateFormat format = new SimpleDateFormat(
-			"yyyy-MM-dd");
+	private static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 	private static final TimeZone cst = TimeZone.getTimeZone("America/Chicago");
 
 	static {
@@ -105,7 +104,10 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	private boolean isTaskAdd(Integer taskId) {
-		return taskId == null;
+		if (taskId == null || taskId.equals(new Integer(0))) {
+			return true;
+		}
+		return false;
 	}
 
 	@Override
@@ -114,13 +116,11 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public List<ProjectTask> getTasksByProject(Integer projectId)
-			throws Exception {
+	public List<ProjectTask> getTasksByProject(Integer projectId) throws Exception {
 		return taskDAO.getTasksByProject(projectId);
 	}
 
-	public int addDependentTask(DependentTaskDTO dependentTask)
-			throws Exception {
+	public int addDependentTask(DependentTaskDTO dependentTask) throws Exception {
 		return taskDAO.addDependentTask(dependentTask);
 	}
 
@@ -128,8 +128,7 @@ public class TaskServiceImpl implements TaskService {
 		ProjectTask task = taskDAO.getTaskDetail(taskId);
 		int assignedUserId = taskDAO.getAssignedUser(task.getProjectTaskId());
 
-		Set<Integer> assignees = taskDAO
-				.getTaskMembers(task.getProjectTaskId());
+		Set<Integer> assignees = taskDAO.getTaskMembers(task.getProjectTaskId());
 
 		List<UserDTO> assignedUsers = new ArrayList<>();
 		task.setAssignee(assignedUsers);
@@ -149,10 +148,8 @@ public class TaskServiceImpl implements TaskService {
 		return task;
 	}
 
-	public List<ProjectTask> setTaskLevel(ProjectTask task, int level)
-			throws Exception {
-		List<ProjectTask> childTasks = taskDAO.getChildTasks(task
-				.getProjectTaskId());
+	public List<ProjectTask> setTaskLevel(ProjectTask task, int level) throws Exception {
+		List<ProjectTask> childTasks = taskDAO.getChildTasks(task.getProjectTaskId());
 		if (level < 20 && childTasks != null && !childTasks.isEmpty()) {
 			level++;
 			for (ProjectTask p : childTasks) {
@@ -165,8 +162,7 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public List<TaskStatusCount> getTaskCountByStatus(int projectId)
-			throws Exception {
+	public List<TaskStatusCount> getTaskCountByStatus(int projectId) throws Exception {
 		return taskDAO.getTaskCountByStatus(projectId);
 	}
 
@@ -175,16 +171,14 @@ public class TaskServiceImpl implements TaskService {
 	public Contact addTaskComment(TaskCommentRequest comment) throws Exception {
 		if (comment.getTaskCommentId() > 0) {
 			if (taskDAO.updateComment(comment)) {
-				Contact contact = contactDAO.getContact(comment
-						.getCommentedBy());
+				Contact contact = contactDAO.getContact(comment.getCommentedBy());
 				return contact;
 			} else
 				throw new Exception("task not updated");
 		} else {
 			int taskCommentId = taskDAO.addComment(comment);
 			if (taskCommentId > 0) {
-				Contact contact = contactDAO.getContact(comment
-						.getCommentedBy());
+				Contact contact = contactDAO.getContact(comment.getCommentedBy());
 				return contact;
 			} else {
 				throw new Exception("Task not added");
@@ -195,8 +189,7 @@ public class TaskServiceImpl implements TaskService {
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
-	public boolean updateTaskStatus(int taskId, String taskStatus, int userId)
-			throws Exception {
+	public boolean updateTaskStatus(int taskId, String taskStatus, int userId) throws Exception {
 		return taskDAO.updateTaskStatus(taskId, taskStatus, userId);
 	}
 
@@ -207,23 +200,19 @@ public class TaskServiceImpl implements TaskService {
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
-	public boolean addTaskMember(int projectId, int taskId, int memberId)
-			throws Exception {
+	public boolean addTaskMember(int projectId, int taskId, int memberId) throws Exception {
 		return taskDAO.addTaskMember(projectId, taskId, memberId);
 	}
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
-	public long saveTaskFile(int taskid, int userId, String fileName,
-			String location) throws Exception {
-		return projectTaskFileDAO.saveTaskFile(taskid, fileName, userId,
-				location);
+	public long saveTaskFile(int taskid, int userId, String fileName, String location) throws Exception {
+		return projectTaskFileDAO.saveTaskFile(taskid, fileName, userId, location);
 	}
 
 	@Override
 	public List<FileAttachment> getTaskAttachments(int taskId) throws Exception {
-		List<FileAttachment> taskAttachments = projectTaskFileDAO
-				.getTaskAttachments(taskId);
+		List<FileAttachment> taskAttachments = projectTaskFileDAO.getTaskAttachments(taskId);
 		Map<Long, Contact> contactSet = new HashMap<>();
 		for (FileAttachment fileAttachment : taskAttachments) {
 			long userId = fileAttachment.getUserId();
@@ -241,8 +230,7 @@ public class TaskServiceImpl implements TaskService {
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
-	public void assignTaskToUser(int taskId, List<Integer> users,
-			int assigningUser) throws Exception {
+	public void assignTaskToUser(int taskId, List<Integer> users, int assigningUser) throws Exception {
 		logger.info("clearing task assignees");
 		taskDAO.deleteAllTaskAssignedUsers(taskId);
 		for (Integer userId : users) {

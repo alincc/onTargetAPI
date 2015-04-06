@@ -53,8 +53,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		}
 
 		String token = TokenUtil.getLoginToken(signInRequest.getUsername());
-		boolean saved = userSessionDAO.saveUserSessionToken(
-				returnUser.getUserId(), token);
+		boolean saved = userSessionDAO.saveUserSessionToken(returnUser.getUserId(), token);
 		if (!saved) {
 			throw new Exception("User session token failed");
 		}
@@ -62,12 +61,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		String accountStatus = returnUser.getAccountStatus();
 		logger.debug("Account status: " + accountStatus);
 
-//		if (!accountStatus.equals(OnTargetConstant.AccountStatus.ACCT_NEW)
-//				&& !accountStatus
-//						.equals(OnTargetConstant.AccountStatus.ACCOUNT_INVITATION)) {
-//			returnUser.setContact(contactDAO.getContact(returnUser.getUserId()));
-//		}
-        returnUser.setContact(contactDAO.getContact(returnUser.getUserId()));
+		// if (!accountStatus.equals(OnTargetConstant.AccountStatus.ACCT_NEW)
+		// && !accountStatus
+		// .equals(OnTargetConstant.AccountStatus.ACCOUNT_INVITATION)) {
+		// returnUser.setContact(contactDAO.getContact(returnUser.getUserId()));
+		// }
+		returnUser.setContact(contactDAO.getContact(returnUser.getUserId()));
 
 		response.setUser(returnUser);
 		response.setToken(token);
@@ -79,8 +78,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
-	public boolean registrationRequest(UserRegistrationRequest request)
-			throws Exception {
+	public boolean registrationRequest(UserRegistrationRequest request) throws Exception {
 		return authenticationDAO.saveRegistrationRequest(request);
 	}
 
@@ -91,10 +89,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	}
 
 	@Override
-	public UserRegistationApprovalResponse getUserRegistrationPendingRequests()
-			throws Exception {
-		List<RegistrationRequestDTO> pendingRequestsList = authenticationDAO
-				.getUserRegistrationPendingRequests();
+	public UserRegistationApprovalResponse getUserRegistrationPendingRequests() throws Exception {
+		List<RegistrationRequestDTO> pendingRequestsList = authenticationDAO.getUserRegistrationPendingRequests();
 		UserRegistationApprovalResponse response = new UserRegistationApprovalResponse();
 		response.setUserRegistrationRequestList(pendingRequestsList);
 		return response;
@@ -103,8 +99,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
-	public boolean approvePendingRegistrationRequest(
-			RegistrationApprovalRequest request) throws Exception {
+	public boolean approvePendingRegistrationRequest(RegistrationApprovalRequest request) throws Exception {
 		return authenticationDAO.approvePendingRegistrationRequest(request);
 	}
 

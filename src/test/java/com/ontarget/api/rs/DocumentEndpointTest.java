@@ -22,8 +22,7 @@ import com.ontarget.request.bean.UserDocument;
 public class DocumentEndpointTest extends BaseTest {
 
 	@Test
-	public void testAddDocument() {
-
+	public void addDocument() {
 		BaseRequest baseRequest = new BaseRequest();
 		baseRequest.setLoggedInUserId(1);
 		baseRequest.setLoggedInUserProjectId(1);
@@ -62,12 +61,11 @@ public class DocumentEndpointTest extends BaseTest {
 		documentRequest.setKeyValues(keyValues);
 		documentRequest.setGridKeyValues(gridKeyValues);
 
-		System.out.println("Client request.... \n");
+		System.out.println("Client request....addDocument \n");
 		System.out.println(toJsonString(documentRequest, true));
 		Response response = sendPutRequest("/documents", documentRequest);
 		if (response.getStatus() != 200) {
-			throw new RuntimeException("Failed : HTTP error code : "
-					+ response.getStatus());
+			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
 		}
 		String output = response.readEntity(String.class);
 		System.out.println("Server response .... \n");
@@ -83,7 +81,7 @@ public class DocumentEndpointTest extends BaseTest {
 		baseRequest.setLoggedInUserProjectId(1);
 
 		UpdateDocumentRequest request = new UpdateDocumentRequest();
-		request.setDocumentId(139);
+		request.setDocumentId(5);
 		request.setDueDate(new java.sql.Date(new Date().getTime()));
 
 		request.setBaseRequest(baseRequest);
@@ -108,12 +106,11 @@ public class DocumentEndpointTest extends BaseTest {
 
 		request.setSubmittedBy(1);
 
-		System.out.println("Client request.... \n");
+		System.out.println("Client request....updateDocumentData \n");
 		System.out.println(toJsonString(request, true));
 		Response response = sendRequest("/documents", request);
 		if (response.getStatus() != 200) {
-			throw new RuntimeException("Failed : HTTP error code : "
-					+ response.getStatus());
+			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
 		}
 		String output = response.readEntity(String.class);
 		System.out.println("Server response .... \n");
@@ -123,25 +120,23 @@ public class DocumentEndpointTest extends BaseTest {
 
 	@Test
 	public void status() {
-
 		BaseRequest baseRequest = new BaseRequest();
 		baseRequest.setLoggedInUserId(1);
 		baseRequest.setLoggedInUserProjectId(1);
 
 		UpdateDocumentStatus request = new UpdateDocumentStatus();
-		request.setDocumentId(139);
+		request.setDocumentId(5);
 
 		request.setBaseRequest(baseRequest);
 
 		request.setModifiedBy(1);
 		request.setNewStatus("SUBMITTED");
 
-		System.out.println("Client request.... \n");
+		System.out.println("Client request....status \n");
 		System.out.println(toJsonString(request, true));
 		Response response = sendRequest("/documents/status", request);
 		if (response.getStatus() != 200) {
-			throw new RuntimeException("Failed : HTTP error code : "
-					+ response.getStatus());
+			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
 		}
 		String output = response.readEntity(String.class);
 		System.out.println("Server response .... \n");
@@ -160,12 +155,11 @@ public class DocumentEndpointTest extends BaseTest {
 		request.setBaseRequest(baseRequest);
 		request.setProjectId(1);
 
-		System.out.println("Client request.... \n");
+		System.out.println("Client request....getDocuments \n");
 		System.out.println(toJsonString(request, true));
 		Response response = sendRequest("/documents/getUserDocument", request);
 		if (response.getStatus() != 200) {
-			throw new RuntimeException("Failed : HTTP error code : "
-					+ response.getStatus());
+			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
 		}
 		String output = response.readEntity(String.class);
 		System.out.println("Server response .... \n");
@@ -175,21 +169,19 @@ public class DocumentEndpointTest extends BaseTest {
 
 	@Test
 	public void getDocument() {
-
 		BaseRequest baseRequest = new BaseRequest();
 		baseRequest.setLoggedInUserId(1);
 		baseRequest.setLoggedInUserProjectId(1);
 
 		DocumentDetail request = new DocumentDetail();
 		request.setBaseRequest(baseRequest);
-		request.setDcoumentId(139);
+		request.setDcoumentId(5);
 
-		System.out.println("Client request.... \n");
+		System.out.println("Client request....getDocument \n");
 		System.out.println(toJsonString(request, true));
 		Response response = sendRequest("/documents/getDocument", request);
 		if (response.getStatus() != 200) {
-			throw new RuntimeException("Failed : HTTP error code : "
-					+ response.getStatus());
+			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
 		}
 		String output = response.readEntity(String.class);
 		System.out.println("Server response .... \n");
@@ -199,7 +191,6 @@ public class DocumentEndpointTest extends BaseTest {
 
 	@Test
 	public void addDocumentAttachment() {
-
 		BaseRequest baseRequest = new BaseRequest();
 		baseRequest.setLoggedInUserId(1);
 		baseRequest.setLoggedInUserProjectId(1);
@@ -207,15 +198,14 @@ public class DocumentEndpointTest extends BaseTest {
 		AddDocumentAttachment request = new AddDocumentAttachment();
 		request.setBaseRequest(baseRequest);
 		request.setAddedBy(1);
-		request.setDocumentId(139);
+		request.setDocumentId(5);
 		request.setFilePath("/home/ontargetrs/sa.jpg");
 
-		System.out.println("Client request.... \n");
+		System.out.println("Client request....addDocumentAttachment \n");
 		System.out.println(toJsonString(request, true));
 		Response response = sendPutRequest("/documents/attachments", request);
 		if (response.getStatus() != 200) {
-			throw new RuntimeException("Failed : HTTP error code : "
-					+ response.getStatus());
+			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
 		}
 		String output = response.readEntity(String.class);
 		System.out.println("Server response .... \n");

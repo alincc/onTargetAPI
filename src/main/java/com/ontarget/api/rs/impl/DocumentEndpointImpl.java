@@ -47,10 +47,8 @@ public class DocumentEndpointImpl implements DocumentEndpoint {
 			response.setReturnMessage("sucessfully uploaded");
 			return response;
 		} catch (Throwable t) {
-			logger.error("Error occurred while serving add document request!",
-					t);
-			AddDocumentResponse response = new AddDocumentResponse(
-					OnTargetConstant.ERROR, t.getMessage());
+			logger.error("Error occurred while serving add document request!", t);
+			AddDocumentResponse response = new AddDocumentResponse(OnTargetConstant.ERROR, t.getMessage());
 			return response;
 		}
 	}
@@ -62,8 +60,7 @@ public class DocumentEndpointImpl implements DocumentEndpoint {
 			OnTargetResponse response = documentService.updateDocument(request);
 			return response;
 		} catch (Throwable t) {
-			OnTargetResponse response = new OnTargetResponse(
-					OnTargetConstant.ERROR, t.getMessage());
+			OnTargetResponse response = new OnTargetResponse(OnTargetConstant.ERROR, t.getMessage());
 			return response;
 		}
 	}
@@ -77,8 +74,7 @@ public class DocumentEndpointImpl implements DocumentEndpoint {
 			return response;
 		} catch (Throwable t) {
 			logger.error("error", t);
-			OnTargetResponse response = new OnTargetResponse(
-					OnTargetConstant.ERROR, t.getMessage());
+			OnTargetResponse response = new OnTargetResponse(OnTargetConstant.ERROR, t.getMessage());
 			return response;
 		}
 	}
@@ -88,13 +84,11 @@ public class DocumentEndpointImpl implements DocumentEndpoint {
 	@Override
 	public GetDocumentsResponse getDocuments(UserDocument userDocument) {
 		try {
-			GetDocumentsResponse response = documentService.getDocuments(
-					userDocument.getBaseRequest().getLoggedInUserId(),
+			GetDocumentsResponse response = documentService.getDocuments(userDocument.getBaseRequest().getLoggedInUserId(),
 					userDocument.getProjectId());
 			return response;
 		} catch (Throwable t) {
-			GetDocumentsResponse response = new GetDocumentsResponse(
-					OnTargetConstant.ERROR, t.getMessage());
+			GetDocumentsResponse response = new GetDocumentsResponse(OnTargetConstant.ERROR, t.getMessage());
 			return response;
 		}
 	}
@@ -104,16 +98,14 @@ public class DocumentEndpointImpl implements DocumentEndpoint {
 	@Override
 	public GetDocumentResponse getDocument(DocumentDetail documentDetail) {
 		try {
-			GetDocumentResponse response = documentService
-					.getDocument(documentDetail.getDcoumentId());
+			GetDocumentResponse response = documentService.getDocument(documentDetail.getDcoumentId());
 			return response;
 		} catch (Throwable t) {
 			String errMsg = t.getMessage();
 			if (t instanceof NumberFormatException) {
 				errMsg = "Invalid document ID specified as path parameter!";
 			}
-			GetDocumentResponse response = new GetDocumentResponse(
-					OnTargetConstant.ERROR, errMsg);
+			GetDocumentResponse response = new GetDocumentResponse(OnTargetConstant.ERROR, errMsg);
 			return response;
 		}
 	}
@@ -121,11 +113,9 @@ public class DocumentEndpointImpl implements DocumentEndpoint {
 	@PUT
 	@Path("/attachments")
 	@Override
-	public AddDocumentAttachmentResponse addDocumentAttachment(
-			AddDocumentAttachment request) {
+	public AddDocumentAttachmentResponse addDocumentAttachment(AddDocumentAttachment request) {
 		try {
-			AddDocumentAttachmentResponse response = documentService
-					.addDocumentAttachment(request);
+			AddDocumentAttachmentResponse response = documentService.addDocumentAttachment(request);
 			return response;
 		} catch (Throwable t) {
 			AddDocumentAttachmentResponse response = new AddDocumentAttachmentResponse();
