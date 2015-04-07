@@ -57,6 +57,16 @@
 		<property name="url" value="${driverUrl}"></property>
 		<property name="username" value="${username}"></property>
 		<property name="password" value="${password}"></property>
+
+        <property name="initialSize" value="${initialSize}"></property>
+        <property name="maxActive" value="${maxActive}"></property>
+        <property name="minIdle" value="${minIdle}"></property>
+        <property name="maxWait" value="${maxWait}"></property>
+        <property name="minEvictableIdleTimeMillis" value="${minEvictableIdleTimeMillis}"></property>
+        <property name="timeBetweenEvictionRunsMillis" value="${timeBetweenEvictionRunsMillis}"></property>
+        <property name="testWhileIdle" value="${testWhileIdle}"></property>
+        <property name="testOnReturn" value="${testOnReturn}"></property>
+        <property name="validationQuery" value="${validationQuery}"></property>
 	</bean>
 
 	<bean id="jdbcDataSource" class="org.apache.commons.dbcp.BasicDataSource">
