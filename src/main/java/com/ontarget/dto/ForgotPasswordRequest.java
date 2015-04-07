@@ -18,10 +18,8 @@ public class ForgotPasswordRequest {
 
 	@JsonProperty("emailAddress")
 	private String emailAddress;
-	@NotEmpty
 	@JsonProperty("newPassword")
 	private String newPassword;
-	@NotEmpty
 	@JsonProperty("forgotPasswordToken")
 	private String forgotPasswordToken;
 
