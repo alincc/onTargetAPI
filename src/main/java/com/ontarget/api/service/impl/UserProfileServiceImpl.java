@@ -122,8 +122,7 @@ public class UserProfileServiceImpl implements UserProfileService {
 
 		// activate the account.
 		String accountStatus = userDTO.getAccountStatus();
-		if (OnTargetConstant.AccountStatus.ACCOUNT_INVITATION.equals(accountStatus)
-				|| OnTargetConstant.AccountStatus.ACCT_NEW.equals(accountStatus)) {
+		if (OnTargetConstant.AccountStatus.ACCOUNT_INVITATION.equals(accountStatus)) {
 			boolean updated = this.activateAccount(request.getUser().getUserId());
 			if (!updated) {
 				throw new Exception("Error while activating account");
@@ -282,11 +281,9 @@ public class UserProfileServiceImpl implements UserProfileService {
 
 		// update project member
 		UserRegistration userRegistration = userRegistrationDAO.getInvitationRegistrationByUser(userId);
-		if (userRegistration.getProjectId() > 0) {
-			int added = projectDAO.addProjectMember((int) userRegistration.getProjectId(), userId);
-			if (added <= 0) {
-				throw new Exception("Error while adding project member");
-			}
+		int added = projectDAO.addProjectMember((int) userRegistration.getProjectId(), userId);
+		if (added <= 0) {
+			throw new Exception("Error while adding project member");
 		}
 
 		return true;
