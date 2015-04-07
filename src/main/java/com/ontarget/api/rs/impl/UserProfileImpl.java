@@ -57,8 +57,7 @@ public class UserProfileImpl implements UserProfile {
 	@Override
 	@POST
 	@Path("/addUserProfile")
-	public UserProfileResponse addUserProfile(
-			UserProfileRequest userProfileRequest) {
+	public UserProfileResponse addUserProfile(UserProfileRequest userProfileRequest) {
 		logger.info("Received request to add profile: " + userProfileRequest);
 		UserProfileResponse response = new UserProfileResponse();
 		try {
@@ -75,13 +74,11 @@ public class UserProfileImpl implements UserProfile {
 	@Override
 	@POST
 	@Path("/updateUserProfile")
-	public OnTargetResponse updateUserProfile(
-			UpdateUserProfileRequest userProfileRequest) {
+	public OnTargetResponse updateUserProfile(UpdateUserProfileRequest userProfileRequest) {
 		logger.info("Received request to add profile: " + userProfileRequest);
 		OnTargetResponse response = new UserProfileResponse();
 		try {
-			response = userProfileService
-					.updateUserProfileAndContactInfo(userProfileRequest);
+			response = userProfileService.updateUserProfileAndContactInfo(userProfileRequest);
 		} catch (Exception e) {
 			logger.error("Add User Profile failed.", e);
 			response.setReturnMessage("Update task failed");
@@ -94,16 +91,14 @@ public class UserProfileImpl implements UserProfile {
 	@Override
 	@POST
 	@Path("/changeUserPassword")
-	public OnTargetResponse changeUserPassword(ChangeUserPasswordRequest request)
-			throws Exception {
+	public OnTargetResponse changeUserPassword(ChangeUserPasswordRequest request) throws Exception {
 		Integer userId = request.getUserId();
 		String newPassword = request.getNewPassword();
 		String currentPassword = request.getCurrentPassword();
 
 		OnTargetResponse response = new OnTargetResponse();
 		try {
-			if (userProfileService.changeUserPassword(userId, newPassword,
-					currentPassword)) {
+			if (userProfileService.changeUserPassword(userId, newPassword, currentPassword)) {
 				response.setReturnMessage("succesfully updated");
 				response.setReturnVal(OnTargetConstant.SUCCESS);
 			} else {
@@ -123,16 +118,13 @@ public class UserProfileImpl implements UserProfile {
 	@Override
 	@POST
 	@Path("/changeForgotPassword")
-	public OnTargetResponse changeForgotPassword(ForgotPasswordRequest request)
-			throws Exception {
-		logger.debug("Changing the forgot password request based on token: "
-				+ request.getForgotPasswordToken());
+	public OnTargetResponse changeForgotPassword(ForgotPasswordRequest request) throws Exception {
+		logger.debug("Changing the forgot password request based on token: " + request.getForgotPasswordToken());
 
 		String newPassword = request.getNewPassword();
 		OnTargetResponse response = new OnTargetResponse();
 		try {
-			if (userProfileService.changeForgotPassword(
-					request.getForgotPasswordToken(), newPassword)) {
+			if (userProfileService.changeForgotPassword(request.getForgotPasswordToken(), newPassword)) {
 				response.setReturnMessage("Forgot Password Succesfully changed");
 				response.setReturnVal(OnTargetConstant.SUCCESS);
 			} else {
@@ -153,31 +145,27 @@ public class UserProfileImpl implements UserProfile {
 	@Override
 	@POST
 	@Path("/inviteUserIntoProject")
-	public OnTargetResponse inviteUserIntoProject(
-			InviteUserIntoProjectRequest request) {
+	public OnTargetResponse inviteUserIntoProject(InviteUserIntoProjectRequest request) {
 		int projectId = 0;// request.getBaseRequest().getProjectId();
 		String firstName = request.getFirstName();
 		String lastName = request.getLastName();
 		String email = request.getEmail();
 		OnTargetResponse response = new OnTargetResponse();
 		if (projectId > 0) {
-			logger.info("This is first name " + firstName + " last name "
-					+ lastName + " and email" + email);
+			logger.info("This is first name " + firstName + " last name " + lastName + " and email" + email);
 
 			// generate token id
 			final String tokenId = Security.generateRandomValue(TOKEN_LENGTH);
 			// save into registration table
 			try {
-				if (userProfileService.saveRegistration(projectId, firstName,
-						lastName, email, tokenId,
+				if (userProfileService.saveRegistration(projectId, firstName, lastName, email, tokenId,
 						OnTargetConstant.AccountStatus.ACCT_NEW)) {
 					ProjectInfo res = projectService.getProject(projectId);
 					long owner = res.getProjectOwnerId();
 					Contact c = userProfileService.getContact(owner);
 
 					// build n send email
-					emailService.sendUserRegistrationEmail(email, tokenId,
-							firstName, c.getFirstName(), c.getLastName());
+					emailService.sendUserRegistrationEmail(email, tokenId, firstName, c.getFirstName(), c.getLastName());
 					response.setReturnMessage("Email sent. Please check mail");
 					response.setReturnVal(OnTargetConstant.SUCCESS);
 				} else {
@@ -200,12 +188,10 @@ public class UserProfileImpl implements UserProfile {
 	@Override
 	@GET
 	@Path("/getSafetyInfoForUser")
-	public SafetyInfoResponse getSafetyInfoForUser(
-			@NotNull @QueryParam("userId") Integer userId) {
+	public SafetyInfoResponse getSafetyInfoForUser(@NotNull @QueryParam("userId") Integer userId) {
 		SafetyInfoResponse response = new SafetyInfoResponse();
 		try {
-			String safetyUserInfo = userProfileService
-					.getRandomSafetyUserInfo(userId);
+			String safetyUserInfo = userProfileService.getRandomSafetyUserInfo(userId);
 			if (safetyUserInfo == null) {
 				response.setReturnVal(OnTargetConstant.ERROR);
 				response.setReturnMessage("No safety info found");
@@ -225,8 +211,7 @@ public class UserProfileImpl implements UserProfile {
 	@Override
 	@POST
 	@Path("/saveUserProfileImage")
-	public OnTargetResponse saveUserProfileImage(
-			UserImageRequest userImageRequest) {
+	public OnTargetResponse saveUserProfileImage(UserImageRequest userImageRequest) {
 		OnTargetResponse response = new OnTargetResponse();
 		if (userImageRequest == null) {
 			response.setReturnMessage("param are null");
@@ -252,11 +237,9 @@ public class UserProfileImpl implements UserProfile {
 		OnTargetResponse response = new OnTargetResponse();
 
 		try {
-			boolean done = userProfileService.forgotPasswordRequest(request
-					.getEmailAddress());
+			boolean done = userProfileService.forgotPasswordRequest(request.getEmailAddress());
 			if (done) {
-				response.setReturnMessage("Email has been sent to "
-						+ request.getEmailAddress()
+				response.setReturnMessage("Email has been sent to " + request.getEmailAddress()
 						+ " with password reset instructions.");
 				response.setReturnVal(OnTargetConstant.SUCCESS);
 			} else {
@@ -275,12 +258,10 @@ public class UserProfileImpl implements UserProfile {
 	@Override
 	@GET
 	@Path("/validateForgotPassword/{forgotPasswordToken}")
-	public OnTargetResponse validateForgotPasswordToken(
-			@NotEmpty @PathParam("forgotPasswordToken") String forgotPasswordToken) {
+	public OnTargetResponse validateForgotPasswordToken(@NotEmpty @PathParam("forgotPasswordToken") String forgotPasswordToken) {
 		OnTargetResponse response = new OnTargetResponse();
 		try {
-			boolean validated = userProfileService
-					.validateForgotPasswordToken(forgotPasswordToken);
+			boolean validated = userProfileService.validateForgotPasswordToken(forgotPasswordToken);
 			if (validated) {
 				response.setReturnMessage("Valid Token");
 				response.setReturnVal(OnTargetConstant.SUCCESS);

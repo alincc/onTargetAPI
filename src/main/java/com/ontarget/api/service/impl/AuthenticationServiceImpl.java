@@ -65,7 +65,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 				&& !accountStatus.equals(OnTargetConstant.AccountStatus.ACCOUNT_INVITATION)) {
 			returnUser.setContact(contactDAO.getContact(returnUser.getUserId()));
 		}
-		// returnUser.setContact(contactDAO.getContact(returnUser.getUserId()));
 
 		response.setUser(returnUser);
 		response.setToken(token);

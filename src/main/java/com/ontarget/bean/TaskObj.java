@@ -127,4 +127,52 @@ public class TaskObj implements Serializable {
 		this.completed = completed;
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+
+		TaskObj task = (TaskObj) o;
+
+		// if (Double.compare(task.cost, cost) != 0) return false;
+		// if (percentageComplete != task.percentageComplete) return false;
+		// if (projectTaskId != thi.projectTaskId)
+		// return false;
+		// if (description != null ? !description.equals(task.description) :
+		// task.description != null) return false;
+		// if (!endDate.equals(task.endDate)) return false;
+		// if (!severity.equals(task.severity)) return false;
+		// if (!startDate.equals(task.startDate)) return false;
+		// if (!status.equals(task.status)) return false;
+
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		int result;
+		long temp;
+		result = projectTaskId;
+		// result = 31 * result + title.hashCode();
+		/*
+		 * result = 31 * result + (description != null ? description.hashCode()
+		 * : 0); result = 31 * result + status.hashCode(); result = 31 * result
+		 * + severity.hashCode(); temp = Double.doubleToLongBits(cost); result =
+		 * 31 * result + (int) (temp ^ (temp >>> 32)); result = 31 * result +
+		 * percentageComplete; result = 31 * result + startDate.hashCode();
+		 * result = 31 * result + endDate.hashCode();
+		 */
+		return result;
+	}
+
+	@Override
+	public String toString() {
+		return "Task{" + "projectTaskId=" + projectTaskId + ", title='" + title + '\'' + ", description='" + description + '\''
+				+ ", status='" + status + '\'' + ", severity='" + severity + '\'' + ", cost=" + cost + ", numberOfWorkers="
+				+ numberOfWorkers + ", percentageComplete=" + percentageComplete + ", startDateText='" + startDateText + '\''
+				+ ", endDateText='" + endDateText + '\'' + ", startDate=" + startDate + ", endDate=" + endDate + '}';
+	}
+
 }
