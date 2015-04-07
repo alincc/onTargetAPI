@@ -235,6 +235,7 @@ public class UserProfileServiceImpl implements UserProfileService {
 	@Override
 	public String getRandomSafetyUserInfo(Integer userId) throws Exception {
 		UserDTO user = userDAO.getUser(userId);
+		System.out.println("discipline: "+user.getDiscipline());
 		if (user.getDiscipline() == 0) {
 			return null;
 		}
