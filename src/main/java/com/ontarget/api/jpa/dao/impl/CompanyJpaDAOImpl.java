@@ -17,6 +17,7 @@ import com.ontarget.bean.Company;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.constant.OnTargetQuery;
 import com.ontarget.entities.CompanyInfo;
+import com.ontarget.entities.CompanyType;
 
 @Repository("companyJpaDAOImpl")
 public class CompanyJpaDAOImpl implements CompanyDAO {
@@ -28,7 +29,6 @@ public class CompanyJpaDAOImpl implements CompanyDAO {
 	@Override
 	public int addCompanyInfo(Company company) throws Exception {
 		CompanyInfo companyInfo = new CompanyInfo();
-		companyInfo.setCompanyId(company.getCompanyId());
 		companyInfo.setCompanyName(company.getCompanyName());
 		AddressDTO addressDTO = company.getAddress();
 		companyInfo.setAddress1(addressDTO.getAddress1());
@@ -39,6 +39,7 @@ public class CompanyJpaDAOImpl implements CompanyDAO {
 		companyInfo.setCountry(addressDTO.getCountry());
 		companyInfo.setWebsite(company.getWebsite());
 		companyInfo.setStatus(OnTargetConstant.CompanyStatus.STATUS);
+		companyInfo.setCompanyType(new CompanyType(company.getCompanyTypeId()));
 		companyInfoRepository.save(companyInfo);
 		return companyInfo.getCompanyId();
 	}

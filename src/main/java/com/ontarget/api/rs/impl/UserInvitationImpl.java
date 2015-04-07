@@ -40,32 +40,26 @@ public class UserInvitationImpl implements UserInvitation {
 	@Override
 	@POST
 	@Path("/inviteToNewAccount")
-	public OnTargetResponse inviteUserIntoNewAccount(
-			UserInvitationRequest request) {
+	public OnTargetResponse inviteUserIntoNewAccount(UserInvitationRequest request) {
 
 		OnTargetResponse response = new OnTargetResponse();
 		try {
-			RegistrationRequestResponseDTO registrationRequest = userInvitationService
-					.getRegistrationRequest(request.getEmail());
+			RegistrationRequestResponseDTO registrationRequest = userInvitationService.getRegistrationRequest(request.getEmail());
 
 			if (registrationRequest != null) {
 
-				if (System.currentTimeMillis()
-						- registrationRequest.getTsCreate() <= OnTargetConstant.TOKEN_MAX_LIFE) {
+				if (System.currentTimeMillis() - registrationRequest.getTsCreate() <= OnTargetConstant.TOKEN_MAX_LIFE) {
 					response.setReturnVal(OnTargetConstant.ERROR);
 					response.setReturnMessage("You are already invited");
 					return response;
 				}
 			}
 
-			final String tokenId = Security
-					.generateRandomValue(OnTargetConstant.TOKEN_LENGTH);
+			final String tokenId = Security.generateRandomValue(OnTargetConstant.TOKEN_LENGTH);
 
-			UserInvitationRequestDTO userInvitationRequestDTO = ConvertPOJOUtils
-					.convertToUserInvitationDTO(request, tokenId);
+			UserInvitationRequestDTO userInvitationRequestDTO = ConvertPOJOUtils.convertToUserInvitationDTO(request, tokenId);
 
-			if (userInvitationService
-					.registrationRequest(userInvitationRequestDTO)) {
+			if (userInvitationService.registrationRequest(userInvitationRequestDTO)) {
 				response.setReturnVal(OnTargetConstant.SUCCESS);
 				response.setReturnMessage(OnTargetConstant.SUCCESSFULLY_REGISTERED);
 			}
@@ -89,8 +83,7 @@ public class UserInvitationImpl implements UserInvitation {
 			response.setReturnVal(OnTargetConstant.SUCCESS);
 			response.setReturnMessage(OnTargetConstant.PENDING_REQUEST_RECEIVED);
 		} catch (Exception e) {
-			logger.error(
-					"Error while retrieving pending registration request.", e);
+			logger.error("Error while retrieving pending registration request.", e);
 			response.setReturnMessage(OnTargetConstant.RETRIEVE_PENDING_REQUEST_FAILED);
 			response.setReturnVal(OnTargetConstant.ERROR);
 		}
@@ -131,11 +124,9 @@ public class UserInvitationImpl implements UserInvitation {
 		try {
 			RegistrationRequestResponseDTO userRegistration = null;
 			try {
-				userRegistration = userInvitationService
-						.getRequestByToken(token);
+				userRegistration = userInvitationService.getRequestByToken(token);
 			} catch (Exception e) {
-				logger.error(
-						"Error while obtaining request with provided token", e);
+				logger.error("Error while obtaining request with provided token", e);
 				response.setReturnVal(OnTargetConstant.ERROR);
 				response.setReturnMessage("no user registration for the specified token exists");
 				return response;
@@ -147,9 +138,7 @@ public class UserInvitationImpl implements UserInvitation {
 			}
 
 			String status = userRegistration.getStatus();
-			if (status != null
-					&& (status
-							.equals(OnTargetConstant.REGISTRATION_REQUEST_NEW))) {
+			if (status != null && (status.equals(OnTargetConstant.REGISTRATION_REQUEST_NEW))) {
 				if (System.currentTimeMillis() - userRegistration.getTsCreate() > OnTargetConstant.TOKEN_MAX_LIFE) {
 					response.setReturnVal(OnTargetConstant.ERROR);
 					response.setReturnMessage("expired link. Please try with new link");

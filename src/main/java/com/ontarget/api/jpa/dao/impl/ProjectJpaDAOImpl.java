@@ -180,7 +180,7 @@ public class ProjectJpaDAOImpl implements ProjectDAO {
 				Contact contact = new Contact();
 				ContactPhone contactPhone = new ContactPhone();
 
-				if (!member.getUser().getContactList().isEmpty()) {
+				if (member.getUser().getContactList() != null && !member.getUser().getContactList().isEmpty()) {
 					com.ontarget.entities.Contact contactInfo = member.getUser().getContactList().get(0);
 
 					contact.setFirstName(contactInfo.getFirstName());
@@ -190,7 +190,7 @@ public class ProjectJpaDAOImpl implements ProjectDAO {
 					user.setUserId(member.getUser().getUserId());
 					contact.setUser(user);
 
-					if (!contactInfo.getPhoneList().isEmpty()) {
+					if (contactInfo.getPhoneList() != null && !contactInfo.getPhoneList().isEmpty()) {
 						Phone phone = contactInfo.getPhoneList().get(0);
 						contactPhone.setAreaCode(phone.getAreaCode());
 						contactPhone.setPhoneNumber(phone.getPhoneNumber());

@@ -34,12 +34,10 @@ public class AccidentReportEndpointImpl implements AccidentReportEndpoint {
 
 	@PUT
 	@Override
-	public SaveAccidentReportResponse saveAccidentReport(
-			AccidentReportRequest accidentReportRequestBean) {
+	public SaveAccidentReportResponse saveAccidentReport(AccidentReportRequest accidentReportRequestBean) {
 		SaveAccidentReportResponse response;
 		try {
-			AccidentReport accidentReport = ConvertPOJOUtils
-					.convertToAccidentReport(accidentReportRequestBean);
+			AccidentReport accidentReport = ConvertPOJOUtils.convertToAccidentReport(accidentReportRequestBean);
 			logger.info("accident report:: " + accidentReport);
 			response = accidentReportService.saveAccidentReport(accidentReport);
 		} catch (Exception t) {
@@ -55,13 +53,10 @@ public class AccidentReportEndpointImpl implements AccidentReportEndpoint {
 	@Override
 	@POST
 	@Path("/getAccidentReportsOfProject")
-	public GetAccidentReportsResponse getAccidentReports(
-			AccidentReportInfoRequest accidentReportInfoRequestBean) {
+	public GetAccidentReportsResponse getAccidentReports(AccidentReportInfoRequest accidentReportInfoRequestBean) {
 		GetAccidentReportsResponse response;
 		try {
-			response = accidentReportService
-					.getAccidentReports(accidentReportInfoRequestBean
-							.getProjectId());
+			response = accidentReportService.getAccidentReports(accidentReportInfoRequestBean.getProjectId());
 		} catch (Throwable t) {
 			logger.error(t);
 			response = new GetAccidentReportsResponse();
@@ -73,14 +68,11 @@ public class AccidentReportEndpointImpl implements AccidentReportEndpoint {
 
 	@Override
 	@POST
-	public OnTargetResponse updateAccidentReport(
-			AccidentReportRequest accidentReportRequestBean) {
+	public OnTargetResponse updateAccidentReport(AccidentReportRequest accidentReportRequestBean) {
 		OnTargetResponse response;
 		try {
-			AccidentReport accidentReport = ConvertPOJOUtils
-					.convertToAccidentReport(accidentReportRequestBean);
-			response = accidentReportService
-					.updateAccidentReport(accidentReport);
+			AccidentReport accidentReport = ConvertPOJOUtils.convertToAccidentReport(accidentReportRequestBean);
+			response = accidentReportService.updateAccidentReport(accidentReport);
 		} catch (Throwable t) {
 			logger.error(t);
 			response = new OnTargetResponse();

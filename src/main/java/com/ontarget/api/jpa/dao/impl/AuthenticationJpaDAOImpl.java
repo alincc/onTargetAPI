@@ -141,32 +141,18 @@ public class AuthenticationJpaDAOImpl implements AuthenticationDAO {
 
 	@Override
 	public boolean createUser(RegistrationApprovalRequest request) throws Exception {
-		// INSERT INTO user(user_name, user_type_id, password, salt, discipline,
-		// user_status,number_of_login,
-		// modified_date, account_status, user_id) VALUES
-		// (?,?,?,?,?,?,?,NOW(),?,?)
-		User user = new User();
-		user.setUserName(request.getEmail());
-		user.setUserType(new UserType(1));
-		user.setPassword(TokenUtil.getPasswordToken());
-		user.setSalt(TokenUtil.getPasswordToken());
-		user.setDiscipline(1);
-		user.setUserStatus(OnTargetConstant.USER_STATUS.PENDING);
-		user.setNumberOfLogin(1);
-		user.setModifiedDate(new Date());
-		user.setAccountStatus(OnTargetConstant.AccountStatus.ACCT_NEW);
-		userRepository.save(user);
-		return true;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public UserDTO getUserInfoByUsername(UserDTO user) throws Exception {
-
 		UserDTO returnUser = new UserDTO();
 
 		User userObj = userRepository.findUserLogin(user.getUsername());
-		returnUser.setUsername(userObj.getUserName());
-		returnUser.setUserId(userObj.getUserId());
+		if (userObj != null) {
+			returnUser.setUsername(userObj.getUserName());
+			returnUser.setUserId(userObj.getUserId());
+		}
 		return returnUser;
 	}
 

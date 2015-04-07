@@ -45,7 +45,7 @@ public class UserProfileTest extends BaseTest {
 		comp.setAddress(address);
 
 		UserInfo user = new UserInfo();
-		user.setUserId(1);
+		user.setUserId(9);
 		user.setAccountStatus("NEW");
 
 		UserProfileRequest request = new UserProfileRequest();

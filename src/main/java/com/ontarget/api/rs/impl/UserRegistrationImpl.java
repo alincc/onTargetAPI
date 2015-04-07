@@ -61,10 +61,8 @@ public class UserRegistrationImpl implements com.ontarget.api.rs.UserRegistratio
 		if (projectId > 0) {
 			logger.info("This is first name " + firstName + " last name " + lastName + " and email" + email);
 
-			// generate token id
 			final String tokenId = Security.generateRandomValue(OnTargetConstant.TOKEN_LENGTH);
-			// save into registration table
-			logger.info("token id:: " + tokenId);
+
 			try {
 				if (userProfileService.saveRegistration(projectId, firstName, lastName, email, tokenId,
 						OnTargetConstant.AccountStatus.ACCOUNT_INVITATION)) {
@@ -72,7 +70,6 @@ public class UserRegistrationImpl implements com.ontarget.api.rs.UserRegistratio
 					long owner = res.getProjectOwnerId();
 					Contact c = userProfileService.getContact(owner);
 
-					// build n send email
 					emailService.sendUserRegistrationEmail(email, tokenId, firstName, c.getFirstName(), c.getLastName());
 					response.setReturnMessage("Email sent. Please check mail");
 					response.setReturnVal(OnTargetConstant.SUCCESS);
@@ -134,10 +131,6 @@ public class UserRegistrationImpl implements com.ontarget.api.rs.UserRegistratio
 	@Path("/validateLink")
 	public UserInviteResponse validateLink(@NotEmpty @QueryParam("q") String link) {
 		UserInviteResponse response = new UserInviteResponse();
-		if (link == null || link.isEmpty()) {
-			response.setReturnMessage("No link specified");
-			return response;
-		}
 
 		UserRegistration userRegistration = null;
 		try {
@@ -187,7 +180,6 @@ public class UserRegistrationImpl implements com.ontarget.api.rs.UserRegistratio
 				throw new Exception("Error while creating user.");
 			}
 		} catch (Exception e) {
-			// e.printStackTrace();
 			logger.debug("Error while creating user based on invitation", e);
 			response.setReturnMessage("Error while creating user based on invitation.");
 			response.setReturnVal(OnTargetConstant.ERROR);

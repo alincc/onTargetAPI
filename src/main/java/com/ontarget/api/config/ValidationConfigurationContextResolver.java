@@ -14,19 +14,16 @@ import org.glassfish.jersey.moxy.json.MoxyJsonConfig;
 import org.glassfish.jersey.server.validation.ValidationConfig;
 import org.glassfish.jersey.server.validation.internal.InjectingConstraintValidatorFactory;
 
-public class ValidationConfigurationContextResolver implements
-		ContextResolver<ValidationConfig> {
+public class ValidationConfigurationContextResolver implements ContextResolver<ValidationConfig> {
 
 	@Context
 	private ResourceContext resourceContext;
 
 	@Override
 	public ValidationConfig getContext(final Class<?> type) {
-		return new ValidationConfig()
-				.constraintValidatorFactory(
-						resourceContext
-								.getResource(InjectingConstraintValidatorFactory.class))
-				.parameterNameProvider(new CustomParameterNameProvider());
+		return new ValidationConfig().constraintValidatorFactory(
+				resourceContext.getResource(InjectingConstraintValidatorFactory.class)).parameterNameProvider(
+				new CustomParameterNameProvider());
 	}
 
 	private class CustomParameterNameProvider implements ParameterNameProvider {
@@ -34,8 +31,7 @@ public class ValidationConfigurationContextResolver implements
 		private final ParameterNameProvider nameProvider;
 
 		public CustomParameterNameProvider() {
-			nameProvider = Validation.byDefaultProvider().configure()
-					.getDefaultParameterNameProvider();
+			nameProvider = Validation.byDefaultProvider().configure().getDefaultParameterNameProvider();
 		}
 
 		@Override
@@ -49,8 +45,7 @@ public class ValidationConfigurationContextResolver implements
 		}
 	}
 
-	public static class JsonConfiguration implements
-			ContextResolver<MoxyJsonConfig> {
+	public static class JsonConfiguration implements ContextResolver<MoxyJsonConfig> {
 
 		@Override
 		public MoxyJsonConfig getContext(final Class<?> type) {

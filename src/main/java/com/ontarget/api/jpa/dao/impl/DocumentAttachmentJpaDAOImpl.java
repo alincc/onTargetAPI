@@ -16,28 +16,21 @@ import com.ontarget.entities.Document;
 import com.ontarget.entities.DocumentAttachment;
 
 @Repository("documentAttachmentJpaDAOImpl")
-public class DocumentAttachmentJpaDAOImpl extends
-		BaseGenericDAOImpl<DocumentAttachmentDTO> implements
-		DocumentAttachmentDAO {
+public class DocumentAttachmentJpaDAOImpl extends BaseGenericDAOImpl<DocumentAttachmentDTO> implements DocumentAttachmentDAO {
 	@Resource
 	private DocumentAttachmentRepository documentAttachmentRepository;
 
 	@Override
-	public DocumentAttachmentDTO insert(
-			DocumentAttachmentDTO documentAttachmentDTO) {
+	public DocumentAttachmentDTO insert(DocumentAttachmentDTO documentAttachmentDTO) {
 		DocumentAttachment documentAttachment = new DocumentAttachment();
-		documentAttachment.setDocument(new Document(documentAttachmentDTO
-				.getDocument().getDocumentId()));
+		documentAttachment.setDocument(new Document(documentAttachmentDTO.getDocument().getDocumentId()));
 		documentAttachment.setFilePath(documentAttachmentDTO.getFilePath());
-		documentAttachment.setCreatedBy(String.valueOf(documentAttachmentDTO
-				.getAddedBy()));
+		documentAttachment.setCreatedBy(String.valueOf(documentAttachmentDTO.getAddedBy()));
 		documentAttachment.setCreatedDate(new Date());
-		documentAttachment.setModifiedBy(String.valueOf(documentAttachmentDTO
-				.getAddedBy()));
+		documentAttachment.setModifiedBy(String.valueOf(documentAttachmentDTO.getAddedBy()));
 		documentAttachment.setModifiedDate(new Date());
 		documentAttachmentRepository.save(documentAttachment);
-		documentAttachmentDTO.setDocumentAttachmentId(documentAttachment
-				.getDocumentAttachmentId());
+		documentAttachmentDTO.setDocumentAttachmentId(documentAttachment.getDocumentAttachmentId());
 		return documentAttachmentDTO;
 	}
 
@@ -53,17 +46,14 @@ public class DocumentAttachmentJpaDAOImpl extends
 
 	@Override
 	public List<DocumentAttachmentDTO> getByDocumentId(long documentId) {
-		List<DocumentAttachment> documentAttachments = documentAttachmentRepository
-				.findByDocumentId((int) documentId);
+		List<DocumentAttachment> documentAttachments = documentAttachmentRepository.findByDocumentId((int) documentId);
 
 		List<DocumentAttachmentDTO> documentAttachmentDTOList = new ArrayList<DocumentAttachmentDTO>();
 		if (documentAttachments != null && !documentAttachments.isEmpty()) {
 			for (DocumentAttachment documentAttachment : documentAttachments) {
 				DocumentAttachmentDTO documentAttachmentDTO = new DocumentAttachmentDTO();
-				documentAttachment.setDocumentAttachmentId(documentAttachment
-						.getDocumentAttachmentId());
-				documentAttachment
-						.setFilePath(documentAttachment.getFilePath());
+				documentAttachment.setDocumentAttachmentId(documentAttachment.getDocumentAttachmentId());
+				documentAttachment.setFilePath(documentAttachment.getFilePath());
 				documentAttachmentDTOList.add(documentAttachmentDTO);
 			}
 		}
