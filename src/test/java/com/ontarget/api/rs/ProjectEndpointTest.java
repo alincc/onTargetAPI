@@ -28,14 +28,12 @@ public class ProjectEndpointTest extends BaseTest {
 
 		ProjectDetailInfo projectDetailInfo = new ProjectDetailInfo();
 		projectDetailInfo.setCompanyId(1);
-		projectDetailInfo.setEndDate(new java.sql.Date(new java.util.Date()
-				.getTime()));
+		projectDetailInfo.setEndDate(new java.sql.Date(new java.util.Date().getTime()));
 		projectDetailInfo.setProjectDescription("project desc");
 		projectDetailInfo.setProjectName("project name");
 		projectDetailInfo.setProjectParentId(0);
 		projectDetailInfo.setProjectTypeId(1);
-		projectDetailInfo.setStartDate(new java.sql.Date(new java.util.Date()
-				.getTime()));
+		projectDetailInfo.setStartDate(new java.sql.Date(new java.util.Date().getTime()));
 		projectDetailInfo.setStatus("1");
 
 		ProjectAddressInfo projectAddressInfo = new ProjectAddressInfo();
@@ -53,8 +51,7 @@ public class ProjectEndpointTest extends BaseTest {
 		System.out.println(toJsonString(request, true));
 		Response response = sendRequest("/project/addProject", request);
 		if (response.getStatus() != 200) {
-			throw new RuntimeException("Failed : HTTP error code : "
-					+ response.getStatus());
+			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
 		}
 		String output = response.readEntity(String.class);
 		System.out.println("Server response .... \n");
@@ -63,7 +60,6 @@ public class ProjectEndpointTest extends BaseTest {
 
 	@Test
 	public void updateProject() {
-
 		BaseRequest baseRequest = new BaseRequest();
 		baseRequest.setLoggedInUserId(1);
 		baseRequest.setLoggedInUserProjectId(1);
@@ -74,26 +70,24 @@ public class ProjectEndpointTest extends BaseTest {
 		request.setAccountStatus("ACCT_NEW");
 
 		ProjectDetailInfo projectDetailInfo = new ProjectDetailInfo();
-		projectDetailInfo.setProjectId(47);
+		projectDetailInfo.setProjectId(7);
 		projectDetailInfo.setCompanyId(1);
-		projectDetailInfo.setEndDate(new java.sql.Date(new java.util.Date()
-				.getTime()));
+		projectDetailInfo.setEndDate(new java.sql.Date(new java.util.Date().getTime()));
 		projectDetailInfo.setProjectDescription("project desc");
 		projectDetailInfo.setProjectName("project name2");
 		projectDetailInfo.setProjectParentId(0);
 		projectDetailInfo.setProjectTypeId(1);
-		projectDetailInfo.setStartDate(new java.sql.Date(new java.util.Date()
-				.getTime()));
+		projectDetailInfo.setStartDate(new java.sql.Date(new java.util.Date().getTime()));
 		projectDetailInfo.setStatus("1");
 
 		ProjectAddressInfo projectAddressInfo = new ProjectAddressInfo();
-		projectAddressInfo.setAddress1("address1");
-		projectAddressInfo.setAddress2("address2");
+		projectAddressInfo.setAddress1("kathmandu");
+		projectAddressInfo.setAddress2("pokhara");
 		projectAddressInfo.setCity("city");
 		projectAddressInfo.setCountry("country");
 		projectAddressInfo.setState("state");
 		projectAddressInfo.setZip("zip");
-		projectAddressInfo.setAddressId(39);
+		projectAddressInfo.setAddressId(9);
 		projectDetailInfo.setProjectAddress(projectAddressInfo);
 
 		request.setProject(projectDetailInfo);
@@ -102,8 +96,7 @@ public class ProjectEndpointTest extends BaseTest {
 		System.out.println(toJsonString(request, true));
 		Response response = sendRequest("/project/addProject", request);
 		if (response.getStatus() != 200) {
-			throw new RuntimeException("Failed : HTTP error code : "
-					+ response.getStatus());
+			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
 		}
 		String output = response.readEntity(String.class);
 		System.out.println("Server response .... \n");
@@ -125,8 +118,7 @@ public class ProjectEndpointTest extends BaseTest {
 		System.out.println(toJsonString(request, true));
 		Response response = sendRequest("/project/getProject", request);
 		if (response.getStatus() != 200) {
-			throw new RuntimeException("Failed : HTTP error code : "
-					+ response.getStatus());
+			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
 		}
 		String output = response.readEntity(String.class);
 		System.out.println("Server response .... \n");
@@ -148,8 +140,7 @@ public class ProjectEndpointTest extends BaseTest {
 		System.out.println(toJsonString(request, true));
 		Response response = sendRequest("/project/getProjectMembers", request);
 		if (response.getStatus() != 200) {
-			throw new RuntimeException("Failed : HTTP error code : "
-					+ response.getStatus());
+			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
 		}
 		String output = response.readEntity(String.class);
 		System.out.println("Server response .... \n");
@@ -170,11 +161,9 @@ public class ProjectEndpointTest extends BaseTest {
 
 		System.out.println("Client request ....getProjectsByCompany \n");
 		System.out.println(toJsonString(request, true));
-		Response response = sendRequest("/project/getProjectsByCompany",
-				request);
+		Response response = sendRequest("/project/getProjectsByCompany", request);
 		if (response.getStatus() != 200) {
-			throw new RuntimeException("Failed : HTTP error code : "
-					+ response.getStatus());
+			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
 		}
 		String output = response.readEntity(String.class);
 		System.out.println("Server response .... \n");
@@ -196,8 +185,7 @@ public class ProjectEndpointTest extends BaseTest {
 		System.out.println(toJsonString(request, true));
 		Response response = sendRequest("/project/getCompanyByProject", request);
 		if (response.getStatus() != 200) {
-			throw new RuntimeException("Failed : HTTP error code : "
-					+ response.getStatus());
+			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
 		}
 		String output = response.readEntity(String.class);
 		System.out.println("Server response .... \n");
@@ -218,8 +206,7 @@ public class ProjectEndpointTest extends BaseTest {
 		System.out.println(toJsonString(request, true));
 		Response response = sendRequest("/project/getProjectsByUser", request);
 		if (response.getStatus() != 200) {
-			throw new RuntimeException("Failed : HTTP error code : "
-					+ response.getStatus());
+			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
 		}
 		String output = response.readEntity(String.class);
 		System.out.println("Server response .... \n");

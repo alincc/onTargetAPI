@@ -63,8 +63,7 @@ public class TaskEndpointTest extends BaseTest {
 		System.out.println(toJsonString(taskRequest, true));
 		Response response = sendRequest("/task/addTask", taskRequest);
 		if (response.getStatus() != 200) {
-			throw new RuntimeException("Failed : HTTP error code : "
-					+ response.getStatus());
+			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
 		}
 		String output = response.readEntity(String.class);
 		System.out.println("Server response .... \n");
@@ -74,7 +73,6 @@ public class TaskEndpointTest extends BaseTest {
 
 	@Test
 	public void updateTask() {
-
 		TaskRequest taskRequest = new TaskRequest();
 
 		BaseRequest baseRequest = new BaseRequest();
@@ -84,7 +82,7 @@ public class TaskEndpointTest extends BaseTest {
 		taskRequest.setBaseRequest(baseRequest);
 
 		Task task = new Task();
-		task.setProjectTaskId(0);
+		task.setProjectTaskId(18);
 
 		task.setStartDate(new Date(new java.util.Date().getTime()));
 		task.setEndDate(new Date(new java.util.Date().getTime()));
@@ -109,8 +107,7 @@ public class TaskEndpointTest extends BaseTest {
 		System.out.println(toJsonString(taskRequest, true));
 		Response response = sendRequest("/task/addTask", taskRequest);
 		if (response.getStatus() != 200) {
-			throw new RuntimeException("Failed : HTTP error code : "
-					+ response.getStatus());
+			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
 		}
 		String output = response.readEntity(String.class);
 		System.out.println("Server response .... \n");
@@ -132,11 +129,9 @@ public class TaskEndpointTest extends BaseTest {
 
 		System.out.println("Client request getTask.... \n");
 		System.out.println(toJsonString(projectTaskRequest, true));
-		Response response = sendRequest("/task/getProjectTask",
-				projectTaskRequest);
+		Response response = sendRequest("/task/getProjectTask", projectTaskRequest);
 		if (response.getStatus() != 200) {
-			throw new RuntimeException("Failed : HTTP error code : "
-					+ response.getStatus());
+			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
 		}
 		String output = response.readEntity(String.class);
 		System.out.println("Server response .... \n");
@@ -158,11 +153,9 @@ public class TaskEndpointTest extends BaseTest {
 
 		System.out.println("Client request getTaskCountsOfProject.... \n");
 		System.out.println(toJsonString(projectTaskRequest, true));
-		Response response = sendRequest("/task/getTaskCountsOfProject",
-				projectTaskRequest);
+		Response response = sendRequest("/task/getTaskCountsOfProject", projectTaskRequest);
 		if (response.getStatus() != 200) {
-			throw new RuntimeException("Failed : HTTP error code : "
-					+ response.getStatus());
+			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
 		}
 		String output = response.readEntity(String.class);
 		System.out.println("Server response .... \n");
@@ -184,11 +177,9 @@ public class TaskEndpointTest extends BaseTest {
 
 		System.out.println("Client request getTaskDetail.... \n");
 		System.out.println(toJsonString(taskDetailRequest, true));
-		Response response = sendRequest("/task/getTaskDetail",
-				taskDetailRequest);
+		Response response = sendRequest("/task/getTaskDetail", taskDetailRequest);
 		if (response.getStatus() != 200) {
-			throw new RuntimeException("Failed : HTTP error code : "
-					+ response.getStatus());
+			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
 		}
 		String output = response.readEntity(String.class);
 		System.out.println("Server response .... \n");
@@ -211,11 +202,9 @@ public class TaskEndpointTest extends BaseTest {
 
 		System.out.println("Client request updateTaskStatus.... \n");
 		System.out.println(toJsonString(taskStatusUpdateRequest, true));
-		Response response = sendRequest("/task/updateTaskStatus",
-				taskStatusUpdateRequest);
+		Response response = sendRequest("/task/updateTaskStatus", taskStatusUpdateRequest);
 		if (response.getStatus() != 200) {
-			throw new RuntimeException("Failed : HTTP error code : "
-					+ response.getStatus());
+			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
 		}
 		String output = response.readEntity(String.class);
 		System.out.println("Server response .... \n");
@@ -242,8 +231,7 @@ public class TaskEndpointTest extends BaseTest {
 		System.out.println(toJsonString(taskCommentRequest, true));
 		Response response = sendRequest("/task/addComment", taskCommentRequest);
 		if (response.getStatus() != 200) {
-			throw new RuntimeException("Failed : HTTP error code : "
-					+ response.getStatus());
+			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
 		}
 		String output = response.readEntity(String.class);
 		System.out.println("Server response .... \n");
@@ -272,11 +260,9 @@ public class TaskEndpointTest extends BaseTest {
 
 		System.out.println("Client request addTaskMember.... \n");
 		System.out.println(toJsonString(taskMemberRequest, true));
-		Response response = sendRequest("/task/addTaskMember",
-				taskMemberRequest);
+		Response response = sendRequest("/task/addTaskMember", taskMemberRequest);
 		if (response.getStatus() != 200) {
-			throw new RuntimeException("Failed : HTTP error code : "
-					+ response.getStatus());
+			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
 		}
 		String output = response.readEntity(String.class);
 		System.out.println("Server response .... \n");
@@ -301,11 +287,9 @@ public class TaskEndpointTest extends BaseTest {
 
 		System.out.println("Client request saveTaskFile.... \n");
 		System.out.println(toJsonString(taskFileSaveRequest, true));
-		Response response = sendRequest("/task/saveTaskFile",
-				taskFileSaveRequest);
+		Response response = sendRequest("/task/saveTaskFile", taskFileSaveRequest);
 		if (response.getStatus() != 200) {
-			throw new RuntimeException("Failed : HTTP error code : "
-					+ response.getStatus());
+			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
 		}
 		String output = response.readEntity(String.class);
 		System.out.println("Server response .... \n");
@@ -327,11 +311,9 @@ public class TaskEndpointTest extends BaseTest {
 
 		System.out.println("Client request getTaskAttachments.... \n");
 		System.out.println(toJsonString(taskAttachmentRequest, true));
-		Response response = sendRequest("/task/getTaskAttachments",
-				taskAttachmentRequest);
+		Response response = sendRequest("/task/getTaskAttachments", taskAttachmentRequest);
 		if (response.getStatus() != 200) {
-			throw new RuntimeException("Failed : HTTP error code : "
-					+ response.getStatus());
+			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
 		}
 		String output = response.readEntity(String.class);
 		System.out.println("Server response .... \n");
@@ -358,11 +340,9 @@ public class TaskEndpointTest extends BaseTest {
 
 		System.out.println("Client request assignTaskToUser .... \n");
 		System.out.println(toJsonString(taskMemberRequest, true));
-		Response response = sendRequest("/task/assignUserToTask",
-				taskMemberRequest);
+		Response response = sendRequest("/task/assignUserToTask", taskMemberRequest);
 		if (response.getStatus() != 200) {
-			throw new RuntimeException("Failed : HTTP error code : "
-					+ response.getStatus());
+			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
 		}
 		String output = response.readEntity(String.class);
 		System.out.println("Server response .... \n");
@@ -390,11 +370,9 @@ public class TaskEndpointTest extends BaseTest {
 
 		System.out.println("Client request addDependentTask .... \n");
 		System.out.println(toJsonString(dependentTaskRequest, true));
-		Response response = sendRequest("/task/addDependentTask",
-				dependentTaskRequest);
+		Response response = sendRequest("/task/addDependentTask", dependentTaskRequest);
 		if (response.getStatus() != 200) {
-			throw new RuntimeException("Failed : HTTP error code : "
-					+ response.getStatus());
+			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
 		}
 		String output = response.readEntity(String.class);
 		System.out.println("Server response .... \n");
@@ -416,11 +394,9 @@ public class TaskEndpointTest extends BaseTest {
 
 		System.out.println("Client request getDependentTasks .... \n");
 		System.out.println(toJsonString(dependentTaskDetail, true));
-		Response response = sendRequest("/task/getDependentTasks",
-				dependentTaskDetail);
+		Response response = sendRequest("/task/getDependentTasks", dependentTaskDetail);
 		if (response.getStatus() != 200) {
-			throw new RuntimeException("Failed : HTTP error code : "
-					+ response.getStatus());
+			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
 		}
 		String output = response.readEntity(String.class);
 		System.out.println("Server response .... \n");
@@ -444,8 +420,7 @@ public class TaskEndpointTest extends BaseTest {
 		System.out.println(toJsonString(userTask, true));
 		Response response = sendRequest("/task/getUserTasks", userTask);
 		if (response.getStatus() != 200) {
-			throw new RuntimeException("Failed : HTTP error code : "
-					+ response.getStatus());
+			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
 		}
 		String output = response.readEntity(String.class);
 		System.out.println("Server response .... \n");
