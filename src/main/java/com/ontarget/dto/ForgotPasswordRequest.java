@@ -16,7 +16,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({ "emailAddress", "newPassword", "forgotPasswordToken" })
 public class ForgotPasswordRequest {
 
-	@NotEmpty
 	@JsonProperty("emailAddress")
 	private String emailAddress;
 	@JsonProperty("newPassword")

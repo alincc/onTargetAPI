@@ -13,17 +13,17 @@ import java.util.Map;
  */
 @Repository
 public class UserSafetyInfoDAOImpl implements com.ontarget.api.dao.UserSafetyInfoDAO {
-    private Logger logger = Logger.getLogger(UserSafetyInfoDAOImpl.class);
+	private Logger logger = Logger.getLogger(UserSafetyInfoDAOImpl.class);
 
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
 
-    public String getRandomSafetyInfo(long disciplineId) {
-        Map<String, Object> rs = jdbcTemplate.queryForMap(OnTargetQuery.GET_RANDOM_SAFETY_INFO, new Object[]{disciplineId});
-        if (rs == null) {
-            return null;
-        }
+	public String getRandomSafetyInfo(long disciplineId) {
+		Map<String, Object> rs = jdbcTemplate.queryForMap(OnTargetQuery.GET_RANDOM_SAFETY_INFO, new Object[] { disciplineId });
+		if (rs == null) {
+			return null;
+		}
 
-        return (String) rs.get("name");
-    }
+		return (String) rs.get("name");
+	}
 }

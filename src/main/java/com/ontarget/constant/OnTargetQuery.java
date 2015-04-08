@@ -13,7 +13,7 @@ public interface OnTargetQuery {
 
     public static final String GET_USER_REQUEST_INFO = new StringBuilder("SELECT REGISTRATION_REQ_ID,NAME,EMAIL,COMPANY_NAME,PHONE_NUMBER,MSG,STATUS FROM REGISTRATION_REQUEST WHERE REGISTRATION_REQ_ID=?").toString();
     
-    public static final String GET_REGISTRATION_REQUEST = new StringBuilder("SELECT id,first_name,last_name,EMAIL,PHONE_NUMBER,MSG,STATUS,registration_token FROM REGISTRATION_REQUEST WHERE id=?").toString();
+    public static final String GET_REGISTRATION_REQUEST = new StringBuilder("SELECT id,first_name,last_name,EMAIL,PHONE_NUMBER,MSG,STATUS,registration_token,ts_create FROM REGISTRATION_REQUEST WHERE id=?").toString();
 
     public static final String GET_USER_REGISTRATION_PENDING_REQUEST = new StringBuilder("SELECT * FROM REGISTRATION_REQUEST WHERE status='PENDING'").toString();
     
