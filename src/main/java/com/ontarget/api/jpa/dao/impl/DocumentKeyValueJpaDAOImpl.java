@@ -14,6 +14,7 @@ import com.ontarget.api.repository.DocumentKeyValueRepository;
 import com.ontarget.bean.DocumentKeyValueDTO;
 import com.ontarget.entities.Document;
 import com.ontarget.entities.DocumentKeyValue;
+import com.ontarget.entities.User;
 
 @Repository("documentKeyValueJpaDAOImpl")
 public class DocumentKeyValueJpaDAOImpl extends BaseGenericDAOImpl<DocumentKeyValueDTO> implements DocumentKeyValueDAO {
@@ -27,10 +28,8 @@ public class DocumentKeyValueJpaDAOImpl extends BaseGenericDAOImpl<DocumentKeyVa
 
 		documentKeyValue.setKey(documentKeyValueDTO.getKey());
 		documentKeyValue.setValue(documentKeyValueDTO.getValue());
-		documentKeyValue.setCreatedBy(String.valueOf(documentKeyValueDTO.getCreatedBy()));
+		documentKeyValue.setCreatedBy(new User(documentKeyValueDTO.getCreatedBy()));
 		documentKeyValue.setCreatedDate(new Date());
-		documentKeyValue.setModifiedBy(String.valueOf(documentKeyValueDTO.getModifiedBy()));
-		documentKeyValue.setModifiedDate(new Date());
 		documentKeyValueRepository.save(documentKeyValue);
 		return documentKeyValueDTO;
 	}
@@ -67,7 +66,8 @@ public class DocumentKeyValueJpaDAOImpl extends BaseGenericDAOImpl<DocumentKeyVa
 
 		DocumentKeyValue documentKeyValue = documentKeyValueRepository.findByDocumentIdAndKey(documentId, key);
 		documentKeyValue.setValue(newValue);
-		documentKeyValue.setModifiedBy(String.valueOf(modifiedBy));
+		documentKeyValue.setModifiedBy(new User(modifiedBy));
+		documentKeyValue.setModifiedDate(new Date());
 		documentKeyValueRepository.save(documentKeyValue);
 
 		return true;

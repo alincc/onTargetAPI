@@ -30,6 +30,7 @@ import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.UserImageRequest;
 import com.ontarget.dto.UserProfileRequest;
 import com.ontarget.dto.UserProfileResponse;
+import com.ontarget.entities.User;
 import com.ontarget.request.bean.UpdateUserProfileRequest;
 import com.ontarget.request.bean.UserCompanyInfo;
 import com.ontarget.request.bean.UserContactInfo;
@@ -258,12 +259,14 @@ public class UserProfileServiceImpl implements UserProfileService {
 		UserRegistration registrationFrom = userRegistrationDAO.getInvitationRegistration(registration.getRegistrationToken());
 		int userId = generateUserId();
 		boolean flag = false;
+		User user = null;
 		int t = 0;
 		do {
 			t++;
 			try {
-				userRegistrationDAO.createNewuser(registration, registrationFrom.getStatus(), userId);
+				user = userRegistrationDAO.createNewuser(registration, registrationFrom.getStatus());
 			} catch (DuplicateKeyException e) {
+				e.printStackTrace();
 				flag = true; // re run it
 				logger.info("duplicate key ", e);
 			}
@@ -273,7 +276,7 @@ public class UserProfileServiceImpl implements UserProfileService {
 					"Maximum allowed id generation per user is exhausted. There is serious issue with this system. Please check");
 		}
 		// update registration request user id by token.
-		int updated = userRegistrationDAO.updateRegistrationRequestUserId(userId, registration.getRegistrationToken());
+		int updated = userRegistrationDAO.updateRegistrationRequestUserId(user.getUserId(), registration.getRegistrationToken());
 		if (updated <= 0)
 			throw new Exception("Error while updating registration request user id");
 

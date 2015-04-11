@@ -116,7 +116,6 @@ public class EmailServiceImpl implements EmailService {
 					message.setSentDate(new Date());
 
 					// get values from the database.
-					logger.info("Reg req id:: " + userRequestId);
 					RegistrationRequestResponseDTO info = registrationDAO.findRegRequestById(userRequestId);
 
 					message.setTo(info.getEmail());
@@ -125,13 +124,14 @@ public class EmailServiceImpl implements EmailService {
 					model.put(EmailConstant.EmailParameter.FIRST_NAME, info.getFirstName());
 					model.put("url", baseUrl + OnTargetConstant.URL.SIGNUP_URL + "?q=" + info.getRegistrationToken());
 
-					String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "/template/"
-							+ EmailConstant.Template.REGISTRATION_REQUEST, "UTF-8", model);
+					String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "/template/registrationRequest.vm",
+							"UTF-8", model);
 					message.setText(text, true);
 				}
 			};
 			javaMailSender.send(preparator);
 		} catch (Exception e) {
+			e.printStackTrace();
 			logger.error("Not able to send user request email", e);
 			return false;
 		}

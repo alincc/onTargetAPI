@@ -69,7 +69,7 @@ public class UserRegistrationJpaDAOImpl implements com.ontarget.api.dao.UserRegi
 	}
 
 	@Override
-	public void createNewuser(UserRegistrationInfo registration, String status, int userId) throws Exception {
+	public User createNewuser(UserRegistrationInfo registration, String status) throws Exception {
 
 		String password = registration.getPassword();
 		String salt = Security.generateSecureSalt();
@@ -85,10 +85,9 @@ public class UserRegistrationJpaDAOImpl implements com.ontarget.api.dao.UserRegi
 		user.setNumberOfLogin(1);
 		user.setModifiedDate(new Date());
 		user.setAccountStatus(status);
-		user.setUserId(userId);
 
 		userRepository.save(user);
-
+		return user;
 	}
 
 	@Override
@@ -102,7 +101,7 @@ public class UserRegistrationJpaDAOImpl implements com.ontarget.api.dao.UserRegi
 
 	@Override
 	public int activateAccount(int userId) throws Exception {
-		registrationRequestRepository.activeUserAccount("ACTIVE", userId);
+		userRepository.activeUserAccount("ACTIVE", userId);
 		return 1;
 	}
 

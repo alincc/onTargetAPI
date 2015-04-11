@@ -14,6 +14,7 @@ public class DocumentDTO implements Serializable {
 	private int projectId;
 	private Date dueDate;
 	private int createdBy;
+	private UserDTO creator;
 	private int modifiedBy;
 	private List<DocumentKeyValueDTO> keyValues;
 	private List<DocumentGridKeyValueDTO> gridKeyValues;
@@ -107,12 +108,19 @@ public class DocumentDTO implements Serializable {
 		this.modifiedBy = modifiedBy;
 	}
 
+	public UserDTO getCreator() {
+		return creator;
+	}
+
+	public void setCreator(UserDTO creator) {
+		this.creator = creator;
+	}
+
 	@Override
 	public String toString() {
-		return "Document{" + "documentId='" + documentId + "'"
-				+ ", documentTemplate='" + documentTemplate + "'" + ", name='"
-				+ name + "'" + ", status='" + status + "'" + ", keyValues="
-				+ keyValues + ", gridKeyValues=" + gridKeyValues + "}";
+		return "Document{" + "documentId='" + documentId + "'" + ", documentTemplate='" + documentTemplate + "'" + ", name='"
+				+ name + "'" + ", status='" + status + "'" + ", keyValues=" + keyValues + ", gridKeyValues=" + gridKeyValues
+				+ "}";
 	}
 
 }

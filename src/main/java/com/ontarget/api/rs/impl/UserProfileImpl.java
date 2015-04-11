@@ -147,7 +147,7 @@ public class UserProfileImpl implements UserProfile {
 	@POST
 	@Path("/inviteUserIntoProject")
 	public OnTargetResponse inviteUserIntoProject(InviteUserIntoProjectRequest request) {
-		int projectId = 0;// request.getBaseRequest().getProjectId();
+		int projectId = 0;
 		String firstName = request.getFirstName();
 		String lastName = request.getLastName();
 		String email = request.getEmail();
@@ -155,9 +155,7 @@ public class UserProfileImpl implements UserProfile {
 		if (projectId > 0) {
 			logger.info("This is first name " + firstName + " last name " + lastName + " and email" + email);
 
-			// generate token id
 			final String tokenId = Security.generateRandomValue(TOKEN_LENGTH);
-			// save into registration table
 			try {
 				if (userProfileService.saveRegistration(projectId, firstName, lastName, email, tokenId,
 						OnTargetConstant.AccountStatus.ACCT_NEW)) {
@@ -165,7 +163,6 @@ public class UserProfileImpl implements UserProfile {
 					long owner = res.getProjectOwnerId();
 					Contact c = userProfileService.getContact(owner);
 
-					// build n send email
 					emailService.sendUserRegistrationEmail(email, tokenId, firstName, c.getFirstName(), c.getLastName());
 					response.setReturnMessage("Email sent. Please check mail");
 					response.setReturnVal(OnTargetConstant.SUCCESS);

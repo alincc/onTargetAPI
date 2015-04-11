@@ -47,13 +47,15 @@ public class Contact implements Serializable {
 	@Column(name = "created_date")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createdDate;
-	@Column(name = "created_by", length = 20)
-	private String createdBy;
+	@JoinColumn(name = "created_by", referencedColumnName = "user_id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	private User createdBy;
 	@Column(name = "modified_date")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date modifiedDate;
-	@Column(name = "modified_by", length = 45)
-	private String modifiedBy;
+	@JoinColumn(name = "modified_by", referencedColumnName = "user_id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	private User modifiedBy;
 	@Column(name = "contact_status", length = 20)
 	private String contactStatus;
 	@Column(name = "contact_image", length = 255)
@@ -140,11 +142,11 @@ public class Contact implements Serializable {
 		this.createdDate = createdDate;
 	}
 
-	public String getCreatedBy() {
+	public User getCreatedBy() {
 		return createdBy;
 	}
 
-	public void setCreatedBy(String createdBy) {
+	public void setCreatedBy(User createdBy) {
 		this.createdBy = createdBy;
 	}
 
@@ -156,11 +158,11 @@ public class Contact implements Serializable {
 		this.modifiedDate = modifiedDate;
 	}
 
-	public String getModifiedBy() {
+	public User getModifiedBy() {
 		return modifiedBy;
 	}
 
-	public void setModifiedBy(String modifiedBy) {
+	public void setModifiedBy(User modifiedBy) {
 		this.modifiedBy = modifiedBy;
 	}
 

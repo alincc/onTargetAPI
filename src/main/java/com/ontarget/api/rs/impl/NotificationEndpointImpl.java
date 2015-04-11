@@ -1,22 +1,22 @@
 package com.ontarget.api.rs.impl;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.ontarget.api.service.NotificationService;
-import com.ontarget.bean.Notification;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.NotificationResponse;
+import com.ontarget.dto.OnTargetResponse;
+import com.ontarget.dto.UserNotificationDTO;
 import com.ontarget.request.bean.NotificationRequest;
+import com.ontarget.request.bean.NotificationStatusUpdateRequest;
 
 /**
  * Created by sumit on 12/26/14.
@@ -29,6 +29,7 @@ public class NotificationEndpointImpl implements com.ontarget.api.rs.Notificatio
 
 	@Autowired
 	private NotificationService notificationService;
+	private Logger logger = Logger.getLogger(NotificationEndpointImpl.class);
 
 	@Override
 	@POST
@@ -36,21 +37,40 @@ public class NotificationEndpointImpl implements com.ontarget.api.rs.Notificatio
 	public NotificationResponse getNotifications(NotificationRequest notificationRequest) {
 		NotificationResponse response = new NotificationResponse();
 		try {
-			List<Notification> notifications = notificationService.getNotifications(notificationRequest.getRecentId(),
-					notificationRequest.getUserId());
-			if (notifications == null || notifications.isEmpty()) {
-				response.setNotificationList(new LinkedList<>());
-				response.setRecentNotificationId(notificationRequest.getRecentId());
-			} else {
-				response.setNotificationList(notifications);
-				response.setRecentNotificationId(notifications.get(notifications.size() - 1).getId());
-			}
+
+			UserNotificationDTO userNotificationDTO = notificationService.getNotifications(notificationRequest.getPageNumber(),
+					notificationRequest.getPerPageLimit(), notificationRequest.getUserId());
+			response.setNotificationList(userNotificationDTO.getUserNotificationList());
+			response.setTotalNotification(userNotificationDTO.getTotalNotification());
 			response.setReturnVal(OnTargetConstant.SUCCESS);
 			response.setReturnMessage("notification read");
 		} catch (Exception e) {
 			e.printStackTrace();
 			response.setReturnMessage(e.getMessage());
 			response.setReturnVal(OnTargetConstant.ERROR);
+		}
+
+		return response;
+	}
+
+	@Override
+	@POST
+	@Path("/markAsSeen")
+	public OnTargetResponse markNotificationAsSeen(NotificationStatusUpdateRequest notificationStatusUpdateRequest) {
+		OnTargetResponse response = new OnTargetResponse();
+		try {
+			boolean updated = notificationService.updateStatusToSeen(notificationStatusUpdateRequest.getId());
+			if (updated) {
+				response.setReturnVal(OnTargetConstant.SUCCESS);
+				response.setReturnMessage("notification status set as seen");
+			} else {
+				response.setReturnVal(OnTargetConstant.ERROR);
+				response.setReturnMessage("Notification status update failed");
+			}
+		} catch (Exception e) {
+			logger.error(e);
+			response.setReturnVal(OnTargetConstant.ERROR);
+			response.setReturnMessage("Notification status update failed");
 		}
 
 		return response;

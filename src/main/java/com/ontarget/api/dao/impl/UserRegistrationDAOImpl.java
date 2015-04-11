@@ -17,6 +17,7 @@ import org.springframework.stereotype.Repository;
 import com.ontarget.bean.UserRegistration;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.constant.OnTargetQuery;
+import com.ontarget.entities.User;
 import com.ontarget.request.bean.UserRegistrationInfo;
 import com.ontarget.util.Security;
 
@@ -67,7 +68,7 @@ public class UserRegistrationDAOImpl implements com.ontarget.api.dao.UserRegistr
 	}
 
 	@Override
-	public void createNewuser(UserRegistrationInfo registration, String status, int userId) throws Exception {
+	public User createNewuser(UserRegistrationInfo registration, String status) throws Exception {
 		logger.info("creating new user based on : " + registration);
 		String password = registration.getPassword();
 		String salt = Security.generateSecureSalt();
@@ -85,10 +86,11 @@ public class UserRegistrationDAOImpl implements com.ontarget.api.dao.UserRegistr
 				ps.setString(6, OnTargetConstant.USER_STATUS.ACTIVE);
 				ps.setInt(7, 1);
 				ps.setString(8, status);
-				ps.setInt(9, userId);
+				// ps.setInt(9, userId);
 				return ps;
 			}
 		}, keyHolder);
+		return null;
 	}
 
 	@Override

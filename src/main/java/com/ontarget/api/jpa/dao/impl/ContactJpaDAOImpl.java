@@ -36,9 +36,7 @@ public class ContactJpaDAOImpl implements ContactDAO {
 		contact.setTitle(contactDTO.getTitle());
 		contact.setContactImage(contactDTO.getUserImagePath());
 		contact.setCreatedDate(new Date());
-		contact.setCreatedBy("0");
-		contact.setModifiedBy("0");
-		contact.setModifiedDate(new Date());
+		contact.setCreatedBy(new User(contactDTO.getUser().getUserId()));
 		contact.setContactStatus("ACTIVE");
 		contactRepository.save(contact);
 		return true;
@@ -103,7 +101,7 @@ public class ContactJpaDAOImpl implements ContactDAO {
 	public boolean saveUserImagePath(int userId, String path, long modifier) throws Exception {
 		List<com.ontarget.entities.Contact> contact = contactRepository.findByUserId(userId);
 		com.ontarget.entities.Contact contactObj = contact.get(0);
-		contactObj.setModifiedBy(String.valueOf(modifier));
+		contactObj.setModifiedBy(new User((int) modifier));
 		contactObj.setModifiedDate(new Timestamp(System.currentTimeMillis()));
 		contactObj.setContactImage(path);
 		contactRepository.save(contactObj);

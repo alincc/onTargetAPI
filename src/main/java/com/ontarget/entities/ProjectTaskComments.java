@@ -36,9 +36,9 @@ public class ProjectTaskComments implements Serializable {
 	@Column(name = "comment_date", nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date commentDate;
-	@Basic(optional = false)
-	@Column(name = "comment_by", nullable = false)
-	private int commentBy;
+	@JoinColumn(name = "comment_by", referencedColumnName = "user_id", nullable = false)
+	@ManyToOne(fetch = FetchType.LAZY)
+	private User commentBy;
 	@Basic(optional = false)
 	@Column(name = "reply_to", nullable = false)
 	private int replyTo;
@@ -51,15 +51,6 @@ public class ProjectTaskComments implements Serializable {
 
 	public ProjectTaskComments(Integer taskCommentId) {
 		this.taskCommentId = taskCommentId;
-	}
-
-	public ProjectTaskComments(Integer taskCommentId, String comment,
-			Date commentDate, int commentBy, int replyTo) {
-		this.taskCommentId = taskCommentId;
-		this.comment = comment;
-		this.commentDate = commentDate;
-		this.commentBy = commentBy;
-		this.replyTo = replyTo;
 	}
 
 	public Integer getTaskCommentId() {
@@ -86,11 +77,11 @@ public class ProjectTaskComments implements Serializable {
 		this.commentDate = commentDate;
 	}
 
-	public int getCommentBy() {
+	public User getCommentBy() {
 		return commentBy;
 	}
 
-	public void setCommentBy(int commentBy) {
+	public void setCommentBy(User commentBy) {
 		this.commentBy = commentBy;
 	}
 
@@ -126,8 +117,7 @@ public class ProjectTaskComments implements Serializable {
 		}
 		ProjectTaskComments other = (ProjectTaskComments) object;
 		if ((this.taskCommentId == null && other.taskCommentId != null)
-				|| (this.taskCommentId != null && !this.taskCommentId
-						.equals(other.taskCommentId))) {
+				|| (this.taskCommentId != null && !this.taskCommentId.equals(other.taskCommentId))) {
 			return false;
 		}
 		return true;
@@ -135,8 +125,7 @@ public class ProjectTaskComments implements Serializable {
 
 	@Override
 	public String toString() {
-		return "com.ontarget.entities.ProjectTaskComments[taskCommentId="
-				+ taskCommentId + "]";
+		return "com.ontarget.entities.ProjectTaskComments[taskCommentId=" + taskCommentId + "]";
 	}
 
 }

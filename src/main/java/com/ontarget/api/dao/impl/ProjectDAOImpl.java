@@ -31,6 +31,7 @@ import com.ontarget.bean.ProjectMember;
 import com.ontarget.bean.UserDTO;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.constant.OnTargetQuery;
+import com.ontarget.entities.Project;
 
 /**
  * Created by Owner on 11/5/14.
@@ -302,5 +303,22 @@ public class ProjectDAOImpl implements ProjectDAO {
 	@Override
 	public List<Map<String, Object>> getProjectByUser(int userId) {
 		return jdbcTemplate.queryForList(OnTargetQuery.GET_PROJECT_BY_USER, new Object[] { userId });
+	}
+
+	@Override
+	public List<Project> getUndeletedProjectsByParentId(Integer parentProjectId) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public Project findProjectById(int projectId) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Project getMainProjectByUser(int userId) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

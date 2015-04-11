@@ -30,4 +30,6 @@ public interface ProjectService {
     public ProjectInfo getProject(int projectId) throws Exception;
 
     public ProjectInfo getProjectTree(int projectId) throws Exception;
+    
+    public ProjectListResponse getUserProjectDetails(int userId) throws Exception;
 }

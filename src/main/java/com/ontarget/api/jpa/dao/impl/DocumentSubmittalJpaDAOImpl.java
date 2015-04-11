@@ -24,10 +24,8 @@ public class DocumentSubmittalJpaDAOImpl extends BaseGenericDAOImpl<DocumentSubm
 		DocumentSubmittal documentSubmittal = new DocumentSubmittal();
 		documentSubmittal.setDocument(new Document(documentSubmittalDTO.getDocument().getDocumentId()));
 		documentSubmittal.setUser(new User(documentSubmittalDTO.getAssignedTo()));
-		documentSubmittal.setCreatedBy(String.valueOf(documentSubmittalDTO.getCreatedBy()));
+		documentSubmittal.setCreatedBy(new User(documentSubmittalDTO.getCreatedBy()));
 		documentSubmittal.setCreatedDate(new Date());
-		documentSubmittal.setModifiedBy(String.valueOf(documentSubmittalDTO.getModifiedBy()));
-		documentSubmittal.setModifiedDate(new Date());
 		documentSubmittalRepository.save(documentSubmittal);
 		documentSubmittalDTO.setDocumentSubmittalId(documentSubmittal.getDocumentSubmittalId());
 		return documentSubmittalDTO;

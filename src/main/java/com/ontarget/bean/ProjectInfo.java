@@ -9,6 +9,7 @@ public class ProjectInfo implements Serializable {
 	private String projectName;
 	private String projectDescription;
 	private Integer projectTypeId;
+	private String type;
 	private Integer projectOwnerId;
 	private String status;
 	private Integer companyId;
@@ -131,6 +132,14 @@ public class ProjectInfo implements Serializable {
 
 	public void setProjectImagePath(String projectImagePath) {
 		this.projectImagePath = projectImagePath;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	public List<TaskObj> getTaskList() {

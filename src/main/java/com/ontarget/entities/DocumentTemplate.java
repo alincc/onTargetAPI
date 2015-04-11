@@ -11,10 +11,13 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
 /**
  *
  * @author santosh
@@ -31,21 +34,21 @@ public class DocumentTemplate implements Serializable {
 	@Basic(optional = false)
 	@Column(name = "name", nullable = false, length = 45)
 	private String name;
-	@Basic(optional = false)
-	@Column(name = "created_by", nullable = false, length = 45)
-	private String createdBy;
+	@JoinColumn(name = "created_by", referencedColumnName = "user_id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	private User createdBy;
 	@Basic(optional = false)
 	@Column(name = "created_date", nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createdDate;
-	@Basic(optional = false)
-	@Column(name = "modified_by", nullable = false, length = 45)
-	private String modifiedBy;
+	@JoinColumn(name = "modified_by", referencedColumnName = "user_id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	private User modifiedBy;
 	@Basic(optional = false)
 	@Column(name = "modfied_date", nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date modfiedDate;
-	@OneToMany(mappedBy = "documentTemplate",fetch=FetchType.LAZY)
+	@OneToMany(mappedBy = "documentTemplate", fetch = FetchType.LAZY)
 	private List<Document> documentList;
 
 	public DocumentTemplate() {
@@ -53,17 +56,6 @@ public class DocumentTemplate implements Serializable {
 
 	public DocumentTemplate(Integer documentTemplateId) {
 		this.documentTemplateId = documentTemplateId;
-	}
-
-	public DocumentTemplate(Integer documentTemplateId, String name,
-			String createdBy, Date createdDate, String modifiedBy,
-			Date modfiedDate) {
-		this.documentTemplateId = documentTemplateId;
-		this.name = name;
-		this.createdBy = createdBy;
-		this.createdDate = createdDate;
-		this.modifiedBy = modifiedBy;
-		this.modfiedDate = modfiedDate;
 	}
 
 	public Integer getDocumentTemplateId() {
@@ -82,11 +74,11 @@ public class DocumentTemplate implements Serializable {
 		this.name = name;
 	}
 
-	public String getCreatedBy() {
+	public User getCreatedBy() {
 		return createdBy;
 	}
 
-	public void setCreatedBy(String createdBy) {
+	public void setCreatedBy(User createdBy) {
 		this.createdBy = createdBy;
 	}
 
@@ -98,11 +90,11 @@ public class DocumentTemplate implements Serializable {
 		this.createdDate = createdDate;
 	}
 
-	public String getModifiedBy() {
+	public User getModifiedBy() {
 		return modifiedBy;
 	}
 
-	public void setModifiedBy(String modifiedBy) {
+	public void setModifiedBy(User modifiedBy) {
 		this.modifiedBy = modifiedBy;
 	}
 
@@ -138,8 +130,7 @@ public class DocumentTemplate implements Serializable {
 		}
 		DocumentTemplate other = (DocumentTemplate) object;
 		if ((this.documentTemplateId == null && other.documentTemplateId != null)
-				|| (this.documentTemplateId != null && !this.documentTemplateId
-						.equals(other.documentTemplateId))) {
+				|| (this.documentTemplateId != null && !this.documentTemplateId.equals(other.documentTemplateId))) {
 			return false;
 		}
 		return true;
@@ -147,8 +138,7 @@ public class DocumentTemplate implements Serializable {
 
 	@Override
 	public String toString() {
-		return "com.ontarget.entities.DocumentTemplate[documentTemplateId="
-				+ documentTemplateId + "]";
+		return "com.ontarget.entities.DocumentTemplate[documentTemplateId=" + documentTemplateId + "]";
 	}
 
 }

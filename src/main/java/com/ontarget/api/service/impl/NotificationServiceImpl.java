@@ -1,13 +1,11 @@
 package com.ontarget.api.service.impl;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.ontarget.api.dao.NotificationDAO;
-import com.ontarget.bean.Notification;
+import com.ontarget.dto.UserNotificationDTO;
 
 /**
  * Created by sumit on 12/26/14.
@@ -19,7 +17,12 @@ public class NotificationServiceImpl implements com.ontarget.api.service.Notific
 	private NotificationDAO notificationDAO;
 
 	@Override
-	public List<Notification> getNotifications(long recentId, int userId) throws Exception {
-		return notificationDAO.getNotificationSince(recentId, userId);
+	public UserNotificationDTO getNotifications(int pageNumber, int perPageLimit, int userId) throws Exception {
+		return notificationDAO.getUserNotifications(pageNumber, perPageLimit, userId);
+	}
+	
+	@Override
+	public boolean updateStatusToSeen(Long userNotificationId) throws Exception{
+		return notificationDAO.updateStatusToSeen(userNotificationId);
 	}
 }

@@ -38,8 +38,6 @@ public class ProjectTask implements Serializable {
 	private Integer parentTaskId;
 	@Column(name = "status", length = 10)
 	private String status;
-	@Column(name = "percentage_complete")
-	private Integer percentageComplete;
 	@Column(name = "start_date")
 	@Temporal(TemporalType.DATE)
 	private Date startDate;
@@ -49,13 +47,15 @@ public class ProjectTask implements Serializable {
 	@Column(name = "created_date")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createdDate;
-	@Column(name = "created_by")
-	private Integer createdBy;
+	@JoinColumn(name = "created_by", referencedColumnName = "user_id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	private User createdBy;
 	@Column(name = "modified_date")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date modifiedDate;
-	@Column(name = "modified_by")
-	private Integer modifiedBy;
+	@JoinColumn(name = "modified_by", referencedColumnName = "user_id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	private User modifiedBy;
 	@Column(name = "severity", length = 45)
 	private String severity;
 	@Column(name = "description", nullable = false, length = 65535, columnDefinition = "TEXT")
@@ -124,14 +124,6 @@ public class ProjectTask implements Serializable {
 		this.status = status;
 	}
 
-	public Integer getPercentageComplete() {
-		return percentageComplete;
-	}
-
-	public void setPercentageComplete(Integer percentageComplete) {
-		this.percentageComplete = percentageComplete;
-	}
-
 	public Date getStartDate() {
 		return startDate;
 	}
@@ -156,14 +148,6 @@ public class ProjectTask implements Serializable {
 		this.createdDate = createdDate;
 	}
 
-	public Integer getCreatedBy() {
-		return createdBy;
-	}
-
-	public void setCreatedBy(Integer createdBy) {
-		this.createdBy = createdBy;
-	}
-
 	public Date getModifiedDate() {
 		return modifiedDate;
 	}
@@ -172,11 +156,19 @@ public class ProjectTask implements Serializable {
 		this.modifiedDate = modifiedDate;
 	}
 
-	public Integer getModifiedBy() {
+	public User getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(User createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public User getModifiedBy() {
 		return modifiedBy;
 	}
 
-	public void setModifiedBy(Integer modifiedBy) {
+	public void setModifiedBy(User modifiedBy) {
 		this.modifiedBy = modifiedBy;
 	}
 

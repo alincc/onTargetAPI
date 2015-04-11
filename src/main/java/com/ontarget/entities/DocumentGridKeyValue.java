@@ -38,16 +38,16 @@ public class DocumentGridKeyValue implements Serializable {
 	@Basic(optional = false)
 	@Column(name = "grid_row_index", nullable = false, length = 11)
 	private Integer gridRowIndex;
-	@Basic(optional = false)
-	@Column(name = "created_by", nullable = false, length = 45)
-	private String createdBy;
+	@JoinColumn(name = "created_by", referencedColumnName = "user_id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	private User createdBy;
 	@Basic(optional = false)
 	@Column(name = "created_date", nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createdDate;
-	@Basic(optional = false)
-	@Column(name = "modified_by", nullable = false, length = 45)
-	private String modifiedBy;
+	@JoinColumn(name = "modified_by", referencedColumnName = "user_id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	private User modifiedBy;
 	@Basic(optional = false)
 	@Column(name = "modified_date", nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
@@ -105,11 +105,11 @@ public class DocumentGridKeyValue implements Serializable {
 		this.value = value;
 	}
 
-	public String getCreatedBy() {
+	public User getCreatedBy() {
 		return createdBy;
 	}
 
-	public void setCreatedBy(String createdBy) {
+	public void setCreatedBy(User createdBy) {
 		this.createdBy = createdBy;
 	}
 
@@ -121,11 +121,11 @@ public class DocumentGridKeyValue implements Serializable {
 		this.createdDate = createdDate;
 	}
 
-	public String getModifiedBy() {
+	public User getModifiedBy() {
 		return modifiedBy;
 	}
 
-	public void setModifiedBy(String modifiedBy) {
+	public void setModifiedBy(User modifiedBy) {
 		this.modifiedBy = modifiedBy;
 	}
 
@@ -148,8 +148,7 @@ public class DocumentGridKeyValue implements Serializable {
 	@Override
 	public int hashCode() {
 		int hash = 0;
-		hash += (documentGridKeyValueId != null ? documentGridKeyValueId
-				.hashCode() : 0);
+		hash += (documentGridKeyValueId != null ? documentGridKeyValueId.hashCode() : 0);
 		return hash;
 	}
 
@@ -162,8 +161,7 @@ public class DocumentGridKeyValue implements Serializable {
 		}
 		DocumentGridKeyValue other = (DocumentGridKeyValue) object;
 		if ((this.documentGridKeyValueId == null && other.documentGridKeyValueId != null)
-				|| (this.documentGridKeyValueId != null && !this.documentGridKeyValueId
-						.equals(other.documentGridKeyValueId))) {
+				|| (this.documentGridKeyValueId != null && !this.documentGridKeyValueId.equals(other.documentGridKeyValueId))) {
 			return false;
 		}
 		return true;
@@ -171,8 +169,7 @@ public class DocumentGridKeyValue implements Serializable {
 
 	@Override
 	public String toString() {
-		return "com.ontarget.entities.DocumentGridKeyValue[documentGridKeyValueId="
-				+ documentGridKeyValueId + "]";
+		return "com.ontarget.entities.DocumentGridKeyValue[documentGridKeyValueId=" + documentGridKeyValueId + "]";
 	}
 
 }

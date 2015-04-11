@@ -16,9 +16,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "baseRequest", "keyValues", "gridKeyValues", "assignees",
-		"submittedBy", "documentTemplateId", "projectId", "documentName",
-		"dueDate" })
+@JsonPropertyOrder({ "baseRequest", "keyValues", "gridKeyValues", "assignees", "submittedBy", "documentTemplateId", "projectId",
+		"documentName", "dueDate" })
 public class AddDocumentRequest {
 	@NotNull
 	@Valid

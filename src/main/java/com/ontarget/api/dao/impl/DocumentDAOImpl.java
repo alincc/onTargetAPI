@@ -20,6 +20,7 @@ import com.ontarget.api.dao.ContactDAO;
 import com.ontarget.api.dao.DocumentDAO;
 import com.ontarget.bean.Contact;
 import com.ontarget.bean.DocumentDTO;
+import com.ontarget.bean.UserDTO;
 import com.ontarget.constant.OnTargetQuery;
 
 @Repository("documentDAOImpl")
@@ -103,7 +104,6 @@ public class DocumentDAOImpl extends BaseGenericDAOImpl<DocumentDTO> implements 
 		public DocumentDTO mapRow(ResultSet rs, int index) throws SQLException {
 			DocumentDTO doc = new DocumentDTO();
 			doc.setDocumentId(rs.getInt("document_id"));
-			// doc.setDocumentTemplate(rs.getLong("document_template_id"));
 			doc.setName(rs.getString("name"));
 			doc.setStatus(rs.getString("status"));
 
@@ -114,9 +114,9 @@ public class DocumentDAOImpl extends BaseGenericDAOImpl<DocumentDTO> implements 
 				logger.error("Error while getting contact info", e);
 				throw new SQLException();
 			}
-			// UserDTO createdBy = new UserDTO();
-			// createdBy.setContact(contact);
-			// doc.setCreatedBy(createdBy);
+			UserDTO creator = new UserDTO();
+			creator.setContact(contact);
+			doc.setCreator(creator);
 			doc.setCreatedBy(rs.getInt("created_by"));
 			doc.setDueDate(rs.getDate("due_date"));
 			return doc;

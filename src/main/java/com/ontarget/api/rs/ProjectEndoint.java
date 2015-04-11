@@ -19,18 +19,15 @@ public interface ProjectEndoint {
 
 	public OnTargetResponse addProject(@Valid ProjectRequest request);
 
-	public ProjectResponse getProjectDetail(
-			@Valid ProjectDetailRequest projectDetailRequest);
+	public ProjectResponse getProjectDetail(@Valid ProjectDetailRequest projectDetailRequest);
 
-	public com.ontarget.dto.ProjectListResponse getProjectByCompany(
-			@Valid ProjectCompanyRequest projectCompanyRequest);
+	public com.ontarget.dto.ProjectListResponse getProjectByCompany(@Valid ProjectCompanyRequest projectCompanyRequest);
 
-	public CompanyListResponse getCompanyByProject(
-			@Valid ProjectDetailRequest projectDetailRequest);
+	public CompanyListResponse getCompanyByProject(@Valid ProjectDetailRequest projectDetailRequest);
 
-	public ProjectListResponse getProjectByUser(
-			@Valid ProjectUserRequest projectUserRequest);
+	public ProjectListResponse getProjectByUser(@Valid ProjectUserRequest projectUserRequest);
 
-	public ProjectMemberListResponse getProjectMembers(
-			@Valid ProjectDetailRequest projectDetailRequest);
+	public ProjectMemberListResponse getProjectMembers(@Valid ProjectDetailRequest projectDetailRequest);
+
+	public ProjectListResponse getUserProjectDetails(@Valid ProjectUserRequest projectUserRequest);
 }

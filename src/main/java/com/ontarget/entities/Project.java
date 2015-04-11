@@ -39,7 +39,7 @@ public class Project implements Serializable {
 	private Integer projectOwnerId;
 	@Basic(optional = false)
 	@Column(name = "project_parent_id", nullable = false)
-	private int projectParentId;
+	private Integer projectParentId;
 	@Column(name = "project_assignee", length = 45)
 	private String projectAssignee;
 	@Column(name = "project_description", columnDefinition = "TEXT")
@@ -57,22 +57,19 @@ public class Project implements Serializable {
 	@Column(name = "created_date")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createdDate;
-	@Column(name = "created_by", length = 20)
-	private String createdBy;
+	@JoinColumn(name = "created_by", referencedColumnName = "user_id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	private User createdBy;
 	@Column(name = "modified_date")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date modifiedDate;
-	@Column(name = "modified_by", length = 20)
-	private String modifiedBy;
-	@Column(name = "delete_flag", columnDefinition = "TINYINT")
-	private Short deleteFlag;
-	@Column(name = "deleted_date")
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date deletedDate;
-	@Column(name = "deleted_by", length = 20)
-	private String deletedBy;
+	@JoinColumn(name = "modified_by", referencedColumnName = "user_id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	private User modifiedBy;
 	@Column(name = "project_image_path", length = 255)
 	private String projectImagePath;
+	@Column(name = "type", length = 15)
+	private String type;
 	@OneToMany(mappedBy = "project", fetch = FetchType.LAZY)
 	private List<ProjectMember> projectMemberList;
 	@OneToMany(mappedBy = "project", fetch = FetchType.LAZY)
@@ -85,11 +82,8 @@ public class Project implements Serializable {
 	@JoinColumn(name = "company_id", referencedColumnName = "company_id", nullable = false)
 	@ManyToOne(optional = false)
 	private CompanyInfo companyInfo;
-	@JoinColumn(name = "project_category_id", referencedColumnName = "project_category_id")
-	@ManyToOne(fetch = FetchType.LAZY)
-	private ProjectCategory projectCategory;
 	@JoinColumn(name = "address_id", referencedColumnName = "address_id")
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne()
 	private Address address;
 	@OneToMany(mappedBy = "project", fetch = FetchType.LAZY)
 	private List<ProjectFile> projectFileList;
@@ -138,11 +132,11 @@ public class Project implements Serializable {
 		this.projectOwnerId = projectOwnerId;
 	}
 
-	public int getProjectParentId() {
+	public Integer getProjectParentId() {
 		return projectParentId;
 	}
 
-	public void setProjectParentId(int projectParentId) {
+	public void setProjectParentId(Integer projectParentId) {
 		this.projectParentId = projectParentId;
 	}
 
@@ -202,14 +196,6 @@ public class Project implements Serializable {
 		this.createdDate = createdDate;
 	}
 
-	public String getCreatedBy() {
-		return createdBy;
-	}
-
-	public void setCreatedBy(String createdBy) {
-		this.createdBy = createdBy;
-	}
-
 	public Date getModifiedDate() {
 		return modifiedDate;
 	}
@@ -218,36 +204,20 @@ public class Project implements Serializable {
 		this.modifiedDate = modifiedDate;
 	}
 
-	public String getModifiedBy() {
+	public User getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(User createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public User getModifiedBy() {
 		return modifiedBy;
 	}
 
-	public void setModifiedBy(String modifiedBy) {
+	public void setModifiedBy(User modifiedBy) {
 		this.modifiedBy = modifiedBy;
-	}
-
-	public Short getDeleteFlag() {
-		return deleteFlag;
-	}
-
-	public void setDeleteFlag(Short deleteFlag) {
-		this.deleteFlag = deleteFlag;
-	}
-
-	public Date getDeletedDate() {
-		return deletedDate;
-	}
-
-	public void setDeletedDate(Date deletedDate) {
-		this.deletedDate = deletedDate;
-	}
-
-	public String getDeletedBy() {
-		return deletedBy;
-	}
-
-	public void setDeletedBy(String deletedBy) {
-		this.deletedBy = deletedBy;
 	}
 
 	public String getProjectImagePath() {
@@ -256,6 +226,14 @@ public class Project implements Serializable {
 
 	public void setProjectImagePath(String projectImagePath) {
 		this.projectImagePath = projectImagePath;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	public List<ProjectMember> getProjectMemberList() {
@@ -296,14 +274,6 @@ public class Project implements Serializable {
 
 	public void setCompanyInfo(CompanyInfo companyInfo) {
 		this.companyInfo = companyInfo;
-	}
-
-	public ProjectCategory getProjectCategory() {
-		return projectCategory;
-	}
-
-	public void setProjectCategory(ProjectCategory projectCategory) {
-		this.projectCategory = projectCategory;
 	}
 
 	public Address getAddress() {

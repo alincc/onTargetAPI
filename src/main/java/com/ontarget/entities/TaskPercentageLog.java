@@ -39,13 +39,15 @@ public class TaskPercentageLog implements Serializable {
 	@Column(name = "end_date")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date endDate;
-	@Column(name = "created_by", length = 20)
-	private String createdBy;
+	@JoinColumn(name = "created_by", referencedColumnName = "user_id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	private User createdBy;
 	@Column(name = "modified_date")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date modifiedDate;
-	@Column(name = "modified_by", length = 45)
-	private String modifiedBy;
+	@JoinColumn(name = "modified_by", referencedColumnName = "user_id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	private User modifiedBy;
 	@Column(name = "created_date")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createdDate;
@@ -100,11 +102,11 @@ public class TaskPercentageLog implements Serializable {
 		this.endDate = endDate;
 	}
 
-	public String getCreatedBy() {
+	public User getCreatedBy() {
 		return createdBy;
 	}
 
-	public void setCreatedBy(String createdBy) {
+	public void setCreatedBy(User createdBy) {
 		this.createdBy = createdBy;
 	}
 
@@ -116,11 +118,11 @@ public class TaskPercentageLog implements Serializable {
 		this.modifiedDate = modifiedDate;
 	}
 
-	public String getModifiedBy() {
+	public User getModifiedBy() {
 		return modifiedBy;
 	}
 
-	public void setModifiedBy(String modifiedBy) {
+	public void setModifiedBy(User modifiedBy) {
 		this.modifiedBy = modifiedBy;
 	}
 
@@ -143,8 +145,7 @@ public class TaskPercentageLog implements Serializable {
 	@Override
 	public int hashCode() {
 		int hash = 0;
-		hash += (taskPercentageLogId != null ? taskPercentageLogId.hashCode()
-				: 0);
+		hash += (taskPercentageLogId != null ? taskPercentageLogId.hashCode() : 0);
 		return hash;
 	}
 
@@ -157,8 +158,7 @@ public class TaskPercentageLog implements Serializable {
 		}
 		TaskPercentageLog other = (TaskPercentageLog) object;
 		if ((this.taskPercentageLogId == null && other.taskPercentageLogId != null)
-				|| (this.taskPercentageLogId != null && !this.taskPercentageLogId
-						.equals(other.taskPercentageLogId))) {
+				|| (this.taskPercentageLogId != null && !this.taskPercentageLogId.equals(other.taskPercentageLogId))) {
 			return false;
 		}
 		return true;
@@ -166,8 +166,7 @@ public class TaskPercentageLog implements Serializable {
 
 	@Override
 	public String toString() {
-		return "com.ontarget.entities.TaskPercentageLog[taskPercentageLogId="
-				+ taskPercentageLogId + "]";
+		return "com.ontarget.entities.TaskPercentageLog[taskPercentageLogId=" + taskPercentageLogId + "]";
 	}
 
 }

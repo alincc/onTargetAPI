@@ -31,17 +31,17 @@ public class TaskAssignee implements Serializable {
 	private Integer taskAssigneeId;
 	@Basic(optional = false)
 	@Column(name = "task_assignee", nullable = false)
-	private long taskAssignee;
-	@Basic(optional = false)
-	@Column(name = "created_by", nullable = false)
-	private int createdBy;
+	private Integer taskAssignee;
+	@JoinColumn(name = "created_by", referencedColumnName = "user_id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	private User createdBy;
 	@Basic(optional = false)
 	@Column(name = "created_date", nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createdDate;
-	@Basic(optional = false)
-	@Column(name = "modified_by", nullable = false)
-	private int modifiedBy;
+	@JoinColumn(name = "modified_by", referencedColumnName = "user_id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	private User modifiedBy;
 	@Basic(optional = false)
 	@Column(name = "modified_date", nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
@@ -57,16 +57,6 @@ public class TaskAssignee implements Serializable {
 		this.taskAssigneeId = taskAssigneeId;
 	}
 
-	public TaskAssignee(Integer taskAssigneeId, long taskAssignee,
-			int createdBy, Date createdDate, int modifiedBy, Date modifiedDate) {
-		this.taskAssigneeId = taskAssigneeId;
-		this.taskAssignee = taskAssignee;
-		this.createdBy = createdBy;
-		this.createdDate = createdDate;
-		this.modifiedBy = modifiedBy;
-		this.modifiedDate = modifiedDate;
-	}
-
 	public Integer getTaskAssigneeId() {
 		return taskAssigneeId;
 	}
@@ -75,19 +65,19 @@ public class TaskAssignee implements Serializable {
 		this.taskAssigneeId = taskAssigneeId;
 	}
 
-	public long getTaskAssignee() {
+	public Integer getTaskAssignee() {
 		return taskAssignee;
 	}
 
-	public void setTaskAssignee(long taskAssignee) {
+	public void setTaskAssignee(Integer taskAssignee) {
 		this.taskAssignee = taskAssignee;
 	}
 
-	public int getCreatedBy() {
+	public User getCreatedBy() {
 		return createdBy;
 	}
 
-	public void setCreatedBy(int createdBy) {
+	public void setCreatedBy(User createdBy) {
 		this.createdBy = createdBy;
 	}
 
@@ -99,11 +89,11 @@ public class TaskAssignee implements Serializable {
 		this.createdDate = createdDate;
 	}
 
-	public int getModifiedBy() {
+	public User getModifiedBy() {
 		return modifiedBy;
 	}
 
-	public void setModifiedBy(int modifiedBy) {
+	public void setModifiedBy(User modifiedBy) {
 		this.modifiedBy = modifiedBy;
 	}
 
@@ -139,8 +129,7 @@ public class TaskAssignee implements Serializable {
 		}
 		TaskAssignee other = (TaskAssignee) object;
 		if ((this.taskAssigneeId == null && other.taskAssigneeId != null)
-				|| (this.taskAssigneeId != null && !this.taskAssigneeId
-						.equals(other.taskAssigneeId))) {
+				|| (this.taskAssigneeId != null && !this.taskAssigneeId.equals(other.taskAssigneeId))) {
 			return false;
 		}
 		return true;
@@ -148,8 +137,7 @@ public class TaskAssignee implements Serializable {
 
 	@Override
 	public String toString() {
-		return "com.ontarget.entities.TaskAssignee[taskAssigneeId="
-				+ taskAssigneeId + "]";
+		return "com.ontarget.entities.TaskAssignee[taskAssigneeId=" + taskAssigneeId + "]";
 	}
 
 }

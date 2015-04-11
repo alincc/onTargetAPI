@@ -32,16 +32,16 @@ public class DocumentKeyValue implements Serializable {
 	@Basic(optional = false)
 	@Column(name = "`key`", nullable = false, length = 45)
 	private String key;
-	@Basic(optional = false)
-	@Column(name = "created_by", nullable = false, length = 45)
-	private String createdBy;
+	@JoinColumn(name = "created_by", referencedColumnName = "user_id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	private User createdBy;
 	@Basic(optional = false)
 	@Column(name = "created_date", nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createdDate;
-	@Basic(optional = false)
-	@Column(name = "modified_by", nullable = false, length = 45)
-	private String modifiedBy;
+	@JoinColumn(name = "modified_by", referencedColumnName = "user_id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	private User modifiedBy;
 	@Basic(optional = false)
 	@Column(name = "modified_date", nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
@@ -83,11 +83,11 @@ public class DocumentKeyValue implements Serializable {
 		this.value = value;
 	}
 
-	public String getCreatedBy() {
+	public User getCreatedBy() {
 		return createdBy;
 	}
 
-	public void setCreatedBy(String createdBy) {
+	public void setCreatedBy(User createdBy) {
 		this.createdBy = createdBy;
 	}
 
@@ -99,11 +99,11 @@ public class DocumentKeyValue implements Serializable {
 		this.createdDate = createdDate;
 	}
 
-	public String getModifiedBy() {
+	public User getModifiedBy() {
 		return modifiedBy;
 	}
 
-	public void setModifiedBy(String modifiedBy) {
+	public void setModifiedBy(User modifiedBy) {
 		this.modifiedBy = modifiedBy;
 	}
 
@@ -139,8 +139,7 @@ public class DocumentKeyValue implements Serializable {
 		}
 		DocumentKeyValue other = (DocumentKeyValue) object;
 		if ((this.documentKeyValueId == null && other.documentKeyValueId != null)
-				|| (this.documentKeyValueId != null && !this.documentKeyValueId
-						.equals(other.documentKeyValueId))) {
+				|| (this.documentKeyValueId != null && !this.documentKeyValueId.equals(other.documentKeyValueId))) {
 			return false;
 		}
 		return true;
@@ -148,8 +147,7 @@ public class DocumentKeyValue implements Serializable {
 
 	@Override
 	public String toString() {
-		return "com.ontarget.entities.DocumentKeyValue[documentKeyValueId="
-				+ documentKeyValueId + "]";
+		return "com.ontarget.entities.DocumentKeyValue[documentKeyValueId=" + documentKeyValueId + "]";
 	}
 
 }

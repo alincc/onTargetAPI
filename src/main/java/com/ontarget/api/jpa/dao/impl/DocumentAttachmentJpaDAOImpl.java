@@ -14,6 +14,7 @@ import com.ontarget.api.repository.DocumentAttachmentRepository;
 import com.ontarget.bean.DocumentAttachmentDTO;
 import com.ontarget.entities.Document;
 import com.ontarget.entities.DocumentAttachment;
+import com.ontarget.entities.User;
 
 @Repository("documentAttachmentJpaDAOImpl")
 public class DocumentAttachmentJpaDAOImpl extends BaseGenericDAOImpl<DocumentAttachmentDTO> implements DocumentAttachmentDAO {
@@ -25,10 +26,8 @@ public class DocumentAttachmentJpaDAOImpl extends BaseGenericDAOImpl<DocumentAtt
 		DocumentAttachment documentAttachment = new DocumentAttachment();
 		documentAttachment.setDocument(new Document(documentAttachmentDTO.getDocument().getDocumentId()));
 		documentAttachment.setFilePath(documentAttachmentDTO.getFilePath());
-		documentAttachment.setCreatedBy(String.valueOf(documentAttachmentDTO.getAddedBy()));
+		documentAttachment.setCreatedBy(new User(documentAttachmentDTO.getAddedBy()));
 		documentAttachment.setCreatedDate(new Date());
-		documentAttachment.setModifiedBy(String.valueOf(documentAttachmentDTO.getAddedBy()));
-		documentAttachment.setModifiedDate(new Date());
 		documentAttachmentRepository.save(documentAttachment);
 		documentAttachmentDTO.setDocumentAttachmentId(documentAttachment.getDocumentAttachmentId());
 		return documentAttachmentDTO;

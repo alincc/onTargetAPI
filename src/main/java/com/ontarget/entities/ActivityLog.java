@@ -37,6 +37,8 @@ public class ActivityLog implements Serializable {
 	@Column(name = "ts_insert", nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date tsInsert;
+	@Column(name = "project_id", nullable = true)
+	private Integer projectId;
 
 	public ActivityLog() {
 	}
@@ -89,6 +91,14 @@ public class ActivityLog implements Serializable {
 
 	public void setTsInsert(Date tsInsert) {
 		this.tsInsert = tsInsert;
+	}
+
+	public Integer getProjectId() {
+		return projectId;
+	}
+
+	public void setProjectId(Integer projectId) {
+		this.projectId = projectId;
 	}
 
 	@Override

@@ -15,6 +15,7 @@ import com.ontarget.api.repository.PlannedActualsCostRepository;
 import com.ontarget.bean.TaskEstimatedCost;
 import com.ontarget.entities.PlannedActualsCost;
 import com.ontarget.entities.ProjectTask;
+import com.ontarget.entities.User;
 import com.ontarget.util.DateFormater;
 
 @Repository("taskPlannedEstimatedCostJpaDAOImpl")
@@ -33,10 +34,8 @@ public class TaskPlannedEstimatedCostJpaDAOImpl implements TaskEstimatedCostDAO 
 		plannedActualsCost.setCostType(cost.getCostType());
 		plannedActualsCost.setValue(new BigDecimal(cost.getCost()));
 		plannedActualsCost.setExpiryDate(DateFormater.convertToDate("9999-12-31"));
-		plannedActualsCost.setCreatedBy(cost.getCreatedBy());
+		plannedActualsCost.setCreatedBy(new User(cost.getCreatedBy()));
 		plannedActualsCost.setCreatedDate(new Date());
-		plannedActualsCost.setModifiedBy(cost.getModifiedBy());
-		plannedActualsCost.setModifiedDate(new Date());
 		plannedActualsCostRepository.save(plannedActualsCost);
 
 		return plannedActualsCost.getId();
@@ -49,7 +48,7 @@ public class TaskPlannedEstimatedCostJpaDAOImpl implements TaskEstimatedCostDAO 
 
 		Query query = entityManager.createQuery(hql);
 		query.setParameter("value", new BigDecimal(cost.getCost()));
-		query.setParameter("modifiedBy", cost.getModifiedBy());
+		query.setParameter("modifiedBy", new User(cost.getModifiedBy()));
 		query.setParameter("modifiedDate", new Date());
 		query.setParameter("id", cost.getId());
 		query.executeUpdate();

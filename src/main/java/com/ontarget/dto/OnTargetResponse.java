@@ -8,65 +8,63 @@ import java.util.List;
  */
 public class OnTargetResponse implements Serializable {
 
+	private String returnVal;
+	private String returnMessage;
+	private String responseCode;
 
-    private String returnVal;
-    private String returnMessage;
-    private String responseCode;
+	private List<ResponseError> errors;
 
-    private List<ResponseError> errors;
+	private boolean isAuthenticated;
 
-    private boolean isAuthenticated;
+	public OnTargetResponse() {
+	}
 
-    public OnTargetResponse() {
-    }
-    
-    public OnTargetResponse(String returnMessage){
-    	this.returnMessage=returnMessage;
-    }
-    
-    public OnTargetResponse(String responseCode,String returnMessage){
-    	this.responseCode=responseCode;
-    	this.returnMessage=returnMessage;
-    }
-    
-    public OnTargetResponse(String responseCode,String returnVal,String returnMessage){
-    	this.responseCode=responseCode;
-    	this.returnVal=returnVal;
-    	this.returnMessage=returnMessage;
-    }
-    
-    
-    public String getReturnVal() {
-        return returnVal;
-    }
+	public OnTargetResponse(String returnMessage) {
+		this.returnMessage = returnMessage;
+	}
 
-    public void setReturnVal(String returnVal) {
-        this.returnVal = returnVal;
-    }
+	public OnTargetResponse(String responseCode, String returnMessage) {
+		this.responseCode = responseCode;
+		this.returnMessage = returnMessage;
+	}
 
-    public String getReturnMessage() {
-        return returnMessage;
-    }
+	public OnTargetResponse(String responseCode, String returnVal, String returnMessage) {
+		this.responseCode = responseCode;
+		this.returnVal = returnVal;
+		this.returnMessage = returnMessage;
+	}
 
-    public void setReturnMessage(String returnMessage) {
-        this.returnMessage = returnMessage;
-    }
+	public String getReturnVal() {
+		return returnVal;
+	}
 
-    public List<ResponseError> getErrors() {
-        return errors;
-    }
+	public void setReturnVal(String returnVal) {
+		this.returnVal = returnVal;
+	}
 
-    public void setErrors(List<ResponseError> errors) {
-        this.errors = errors;
-    }
+	public String getReturnMessage() {
+		return returnMessage;
+	}
 
-    public boolean isAuthenticated() {
-        return isAuthenticated;
-    }
+	public void setReturnMessage(String returnMessage) {
+		this.returnMessage = returnMessage;
+	}
 
-    public void setAuthenticated(boolean isAuthenticated) {
-        this.isAuthenticated = isAuthenticated;
-    }
+	public List<ResponseError> getErrors() {
+		return errors;
+	}
+
+	public void setErrors(List<ResponseError> errors) {
+		this.errors = errors;
+	}
+
+	public boolean isAuthenticated() {
+		return isAuthenticated;
+	}
+
+	public void setAuthenticated(boolean isAuthenticated) {
+		this.isAuthenticated = isAuthenticated;
+	}
 
 	public String getResponseCode() {
 		return responseCode;
@@ -75,6 +73,5 @@ public class OnTargetResponse implements Serializable {
 	public void setResponseCode(String responseCode) {
 		this.responseCode = responseCode;
 	}
-
 
 }

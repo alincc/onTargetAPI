@@ -14,6 +14,7 @@ import com.ontarget.bean.UploadDocument;
 import com.ontarget.dto.UploadedDocumentDetail;
 import com.ontarget.entities.Project;
 import com.ontarget.entities.ProjectFile;
+import com.ontarget.entities.User;
 
 @Repository("uploadDocumentJpaDAOImpl")
 public class UploadDocumentJpaDAOImpl implements UploadDocumentDAO {
@@ -28,7 +29,7 @@ public class UploadDocumentJpaDAOImpl implements UploadDocumentDAO {
 		projectFile.setFileName(documentBean.getName());
 		projectFile.setFileType(documentBean.getFileType());
 		projectFile.setProject(new Project(documentBean.getProjectId()));
-		projectFile.setCreatedBy(documentBean.getCreatedBy());
+		projectFile.setCreatedBy(new User(documentBean.getCreatedBy()));
 		projectFile.setCreatedDate(new Date());
 		projectFileRepository.save(projectFile);
 
@@ -48,7 +49,7 @@ public class UploadDocumentJpaDAOImpl implements UploadDocumentDAO {
 				documentDetail.setFileId(file.getProjectFileId());
 				documentDetail.setName(file.getFileName());
 				documentDetail.setFileType(file.getFileType());
-				documentDetail.setCreatedBy(file.getCreatedBy());
+				documentDetail.setCreatedBy(file.getCreatedBy().getUserId());
 				documentDetail.setCreatedDate(file.getCreatedDate());
 				resultList.add(documentDetail);
 			}

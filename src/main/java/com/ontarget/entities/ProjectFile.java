@@ -36,14 +36,14 @@ public class ProjectFile implements Serializable {
 	@Column(name = "created_date", nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createdDate;
-	@Basic(optional = false)
-	@Column(name = "created_by", nullable = false)
-	private int createdBy;
+	@JoinColumn(name = "created_by", referencedColumnName = "user_id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	private User createdBy;
 	@Basic(optional = false)
 	@Column(name = "file_type", nullable = false, length = 45)
 	private String fileType;
 	@JoinColumn(name = "project_id", referencedColumnName = "project_id", nullable = false)
-	@ManyToOne(optional = false,fetch=FetchType.LAZY)
+	@ManyToOne(optional = false, fetch = FetchType.LAZY)
 	private Project project;
 
 	public ProjectFile() {
@@ -51,15 +51,6 @@ public class ProjectFile implements Serializable {
 
 	public ProjectFile(Integer projectFileId) {
 		this.projectFileId = projectFileId;
-	}
-
-	public ProjectFile(Integer projectFileId, String fileName,
-			Date createdDate, int createdBy, String fileType) {
-		this.projectFileId = projectFileId;
-		this.fileName = fileName;
-		this.createdDate = createdDate;
-		this.createdBy = createdBy;
-		this.fileType = fileType;
 	}
 
 	public Integer getProjectFileId() {
@@ -86,11 +77,11 @@ public class ProjectFile implements Serializable {
 		this.createdDate = createdDate;
 	}
 
-	public int getCreatedBy() {
+	public User getCreatedBy() {
 		return createdBy;
 	}
 
-	public void setCreatedBy(int createdBy) {
+	public void setCreatedBy(User createdBy) {
 		this.createdBy = createdBy;
 	}
 
@@ -126,8 +117,7 @@ public class ProjectFile implements Serializable {
 		}
 		ProjectFile other = (ProjectFile) object;
 		if ((this.projectFileId == null && other.projectFileId != null)
-				|| (this.projectFileId != null && !this.projectFileId
-						.equals(other.projectFileId))) {
+				|| (this.projectFileId != null && !this.projectFileId.equals(other.projectFileId))) {
 			return false;
 		}
 		return true;
@@ -135,8 +125,7 @@ public class ProjectFile implements Serializable {
 
 	@Override
 	public String toString() {
-		return "com.ontarget.entities.ProjectFile[projectFileId="
-				+ projectFileId + "]";
+		return "com.ontarget.entities.ProjectFile[projectFileId=" + projectFileId + "]";
 	}
 
 }

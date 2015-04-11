@@ -9,6 +9,8 @@ public class ProjectDTO implements Serializable {
 	private String projectName;
 	private String projectDescription;
 	private Integer projectTypeId;
+	private String parentType;
+	private String type;
 	private Integer projectOwnerId;
 	private String status;
 	private Integer companyId;
@@ -153,17 +155,29 @@ public class ProjectDTO implements Serializable {
 		this.projectImagePath = projectImagePath;
 	}
 
+	public String getParentType() {
+		return parentType;
+	}
+
+	public void setParentType(String parentType) {
+		this.parentType = parentType;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
 	@Override
 	public String toString() {
-		return "Project{" + "projectId=" + projectId + ", projectName='"
-				+ projectName + '\'' + ", projectDescription='"
-				+ projectDescription + '\'' + ", projectTypeId="
-				+ projectTypeId + ", projectOwnerId=" + projectOwnerId
-				+ ", status='" + status + '\'' + ", companyId=" + companyId
-				+ ", company=" + company + ", projectParentId="
-				+ projectParentId + ", projectAddress=" + projectAddress
-				+ ", taskList=" + taskList + ", projects=" + projects
-				+ ", startDate=" + startDate + ", endDate=" + endDate
+		return "Project{" + "projectId=" + projectId + ", projectName='" + projectName + '\'' + ", projectDescription='"
+				+ projectDescription + '\'' + ", projectTypeId=" + projectTypeId + ", projectOwnerId=" + projectOwnerId
+				+ ", status='" + status + '\'' + ", companyId=" + companyId + ", parentType" + parentType + ", company="
+				+ company + ", projectParentId=" + projectParentId + ", projectAddress=" + projectAddress + ", taskList="
+				+ taskList + ", projects=" + projects + ", startDate=" + startDate + ", endDate=" + endDate
 				+ ", projectImagePath='" + projectImagePath + '\'' + '}';
 	}
 

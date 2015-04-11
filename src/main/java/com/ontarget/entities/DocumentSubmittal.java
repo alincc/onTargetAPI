@@ -29,13 +29,15 @@ public class DocumentSubmittal implements Serializable {
 	@Basic(optional = false)
 	@Column(name = "document_submittal_id", nullable = false)
 	private Integer documentSubmittalId;
-	@Column(name = "created_by", length = 45)
-	private String createdBy;
+	@JoinColumn(name = "created_by", referencedColumnName = "user_id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	private User createdBy;
 	@Column(name = "created_date")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createdDate;
-	@Column(name = "modified_by", length = 45)
-	private String modifiedBy;
+	@JoinColumn(name = "modified_by", referencedColumnName = "user_id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	private User modifiedBy;
 	@Column(name = "modified_date")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date modifiedDate;
@@ -61,11 +63,11 @@ public class DocumentSubmittal implements Serializable {
 		this.documentSubmittalId = documentSubmittalId;
 	}
 
-	public String getCreatedBy() {
+	public User getCreatedBy() {
 		return createdBy;
 	}
 
-	public void setCreatedBy(String createdBy) {
+	public void setCreatedBy(User createdBy) {
 		this.createdBy = createdBy;
 	}
 
@@ -77,11 +79,11 @@ public class DocumentSubmittal implements Serializable {
 		this.createdDate = createdDate;
 	}
 
-	public String getModifiedBy() {
+	public User getModifiedBy() {
 		return modifiedBy;
 	}
 
-	public void setModifiedBy(String modifiedBy) {
+	public void setModifiedBy(User modifiedBy) {
 		this.modifiedBy = modifiedBy;
 	}
 
@@ -112,8 +114,7 @@ public class DocumentSubmittal implements Serializable {
 	@Override
 	public int hashCode() {
 		int hash = 0;
-		hash += (documentSubmittalId != null ? documentSubmittalId.hashCode()
-				: 0);
+		hash += (documentSubmittalId != null ? documentSubmittalId.hashCode() : 0);
 		return hash;
 	}
 
@@ -126,8 +127,7 @@ public class DocumentSubmittal implements Serializable {
 		}
 		DocumentSubmittal other = (DocumentSubmittal) object;
 		if ((this.documentSubmittalId == null && other.documentSubmittalId != null)
-				|| (this.documentSubmittalId != null && !this.documentSubmittalId
-						.equals(other.documentSubmittalId))) {
+				|| (this.documentSubmittalId != null && !this.documentSubmittalId.equals(other.documentSubmittalId))) {
 			return false;
 		}
 		return true;
@@ -135,8 +135,7 @@ public class DocumentSubmittal implements Serializable {
 
 	@Override
 	public String toString() {
-		return "com.ontarget.entities.DocumentSubmittal[documentSubmittalId="
-				+ documentSubmittalId + "]";
+		return "com.ontarget.entities.DocumentSubmittal[documentSubmittalId=" + documentSubmittalId + "]";
 	}
 
 }

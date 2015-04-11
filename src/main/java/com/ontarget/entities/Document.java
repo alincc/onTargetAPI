@@ -37,16 +37,16 @@ public class Document implements Serializable {
 	@Basic(optional = false)
 	@Column(name = "status", nullable = false, length = 45)
 	private String status;
-	@Basic(optional = false)
-	@Column(name = "created_by", nullable = false, length = 45)
-	private String createdBy;
+	@JoinColumn(name = "created_by", referencedColumnName = "user_id")
+	@ManyToOne()
+	private User createdBy;
 	@Basic(optional = false)
 	@Column(name = "created_date", nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createdDate;
-	@Basic(optional = false)
-	@Column(name = "modified_by", nullable = false, length = 45)
-	private String modifiedBy;
+	@JoinColumn(name = "modified_by", referencedColumnName = "user_id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	private User modifiedBy;
 	@Basic(optional = false)
 	@Column(name = "modified_date", nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
@@ -73,19 +73,6 @@ public class Document implements Serializable {
 		this.documentId = documentId;
 	}
 
-	public Document(Integer documentId, String name, String status, String createdBy, Date createdDate, String modifiedBy,
-			Date modifiedDate, int projectId, Date dueDate) {
-		this.documentId = documentId;
-		this.name = name;
-		this.status = status;
-		this.createdBy = createdBy;
-		this.createdDate = createdDate;
-		this.modifiedBy = modifiedBy;
-		this.modifiedDate = modifiedDate;
-		this.projectId = projectId;
-		this.dueDate = dueDate;
-	}
-
 	public Integer getDocumentId() {
 		return documentId;
 	}
@@ -110,11 +97,11 @@ public class Document implements Serializable {
 		this.status = status;
 	}
 
-	public String getCreatedBy() {
+	public User getCreatedBy() {
 		return createdBy;
 	}
 
-	public void setCreatedBy(String createdBy) {
+	public void setCreatedBy(User createdBy) {
 		this.createdBy = createdBy;
 	}
 
@@ -126,11 +113,11 @@ public class Document implements Serializable {
 		this.createdDate = createdDate;
 	}
 
-	public String getModifiedBy() {
+	public User getModifiedBy() {
 		return modifiedBy;
 	}
 
-	public void setModifiedBy(String modifiedBy) {
+	public void setModifiedBy(User modifiedBy) {
 		this.modifiedBy = modifiedBy;
 	}
 

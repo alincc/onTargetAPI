@@ -33,6 +33,7 @@ import com.ontarget.dto.ProjectTask;
 import com.ontarget.entities.DependentTask;
 import com.ontarget.entities.Project;
 import com.ontarget.entities.TaskAssignee;
+import com.ontarget.entities.User;
 import com.ontarget.request.bean.ParentTask;
 import com.ontarget.request.bean.Task;
 import com.ontarget.request.bean.TaskCommentRequest;
@@ -64,12 +65,9 @@ public class TaskJpaDAOImpl implements TaskDAO {
 		projectTask.setSeverity(task.getSeverity());
 		projectTask.setStartDate(task.getStartDate());
 		projectTask.setEndDate(task.getEndDate());
-		projectTask.setCreatedBy(userId);
+		projectTask.setCreatedBy(new User(userId));
 		projectTask.setCreatedDate(new Date());
-		projectTask.setModifiedBy(userId);
-		projectTask.setModifiedDate(new Date());
 		projectTaskRepository.save(projectTask);
-
 		return projectTask.getProjectTaskId();
 	}
 
@@ -78,6 +76,40 @@ public class TaskJpaDAOImpl implements TaskDAO {
 		String hql = "SELECT p FROM ProjectTask p WHERE p.project.id = :projectId";
 		Query query = entityManager.createQuery(hql);
 		query.setParameter("projectId", projectId);
+		@SuppressWarnings("unchecked")
+		List<com.ontarget.entities.ProjectTask> taskList = query.getResultList();
+
+		List<TaskInfo> tasks = new ArrayList<>();
+		if (taskList != null && taskList.size() > 0) {
+			for (com.ontarget.entities.ProjectTask taskObj : taskList) {
+				TaskInfo task = new TaskInfo();
+				task.setTitle(taskObj.getTitle());
+				task.setDescription(taskObj.getDescription());
+				task.setStatus(taskObj.getStatus());
+				task.setSeverity(taskObj.getSeverity());
+				task.setProjectTaskId(taskObj.getProjectTaskId());
+				task.setStartDate(taskObj.getStartDate());
+				task.setEndDate(taskObj.getEndDate());
+				task.setStatus(taskObj.getStatus());
+
+				if (taskObj.getStatus().equalsIgnoreCase("0")) {
+					task.setCompleted(false);
+				} else {
+					task.setCompleted(true);
+				}
+				tasks.add(task);
+			}
+		}
+
+		return tasks;
+	}
+
+	@Override
+	public List<TaskInfo> getAssignedTasksByProjectId(int projectId, int userId) throws Exception {
+		String hql = "SELECT pt FROM ProjectTask pt JOIN pt.taskAssigneeList ta WHERE pt.project.id = :projectId and ta.taskAssignee = :assigneeId";
+		Query query = entityManager.createQuery(hql);
+		query.setParameter("projectId", projectId);
+		query.setParameter("assigneeId", userId);
 		@SuppressWarnings("unchecked")
 		List<com.ontarget.entities.ProjectTask> taskList = query.getResultList();
 
@@ -135,7 +167,6 @@ public class TaskJpaDAOImpl implements TaskDAO {
 				tasks.add(task);
 			}
 		}
-
 		return tasks;
 	}
 
@@ -193,7 +224,7 @@ public class TaskJpaDAOImpl implements TaskDAO {
 	public boolean updateComment(TaskCommentRequest comment) throws Exception {
 		com.ontarget.entities.TaskComment taskComment = taskCommentRepository.findByTaskCommentId(comment.getTaskCommentId());
 		taskComment.setComment(comment.getComment());
-		taskComment.setCommentedBy(comment.getCommentedBy());
+		taskComment.setCommentedBy(new User(comment.getCommentedBy()));
 		taskCommentRepository.save(taskComment);
 		return true;
 	}
@@ -203,7 +234,7 @@ public class TaskJpaDAOImpl implements TaskDAO {
 		com.ontarget.entities.TaskComment taskComment = new com.ontarget.entities.TaskComment();
 		taskComment.setProjectTask(new com.ontarget.entities.ProjectTask(comment.getTaskId()));
 		taskComment.setComment(comment.getComment());
-		taskComment.setCommentedBy(comment.getCommentedBy());
+		taskComment.setCommentedBy(new User(comment.getCommentedBy()));
 		taskComment.setCommentedDate(new Date());
 		taskComment.setCommentStatus("ACTIVE");
 		entityManager.persist(taskComment);
@@ -223,9 +254,9 @@ public class TaskJpaDAOImpl implements TaskDAO {
 			for (com.ontarget.entities.TaskComment taskComment : taskCommentList) {
 				TaskComment comment = new TaskComment();
 				comment.setTaskCommentId(taskComment.getTaskCommentId());
-				comment.setTaskId(taskComment.getProjectTask().getProjectTaskId());
+				comment.setTaskId(projectTaskId);
 				comment.setComment(taskComment.getComment());
-				comment.setCommentedBy(taskComment.getCommentedBy());
+				comment.setCommentedBy(taskComment.getCommentedBy().getUserId());
 				comment.setCommentedDate(taskComment.getCommentedDate());
 				comments.add(comment);
 			}
@@ -239,35 +270,27 @@ public class TaskJpaDAOImpl implements TaskDAO {
 		ParentTask parentTask = task.getParentTask();
 		int projectTaskId = parentTask == null ? 0 : parentTask.getProjectTaskId();
 
-		String hql = "update ProjectTask set title = :title,description = :description,parentTaskId = :parentTaskId"
-				+ ",status = :status,startDate = :startDate,endDate= :endDate,severity = :severity, modifiedBy = :modifiedBy,"
-				+ "modifiedDate = :modifiedDate where projectTaskId = :projectTaskId";
-
-		Query query = entityManager.createQuery(hql);
-		query.setParameter("title", task.getTitle());
-		query.setParameter("description", task.getDescription());
-		query.setParameter("parentTaskId", projectTaskId);
-		query.setParameter("status", task.getStatus());
-		query.setParameter("startDate", task.getStartDate());
-		query.setParameter("endDate", task.getEndDate());
-		query.setParameter("severity", task.getSeverity());
-		query.setParameter("modifiedBy", userId);
-		query.setParameter("modifiedDate", new Date());
-		query.setParameter("projectTaskId", projectTaskId);
-		query.executeUpdate();
+		com.ontarget.entities.ProjectTask projectTask = projectTaskRepository.findByProjectTaskId(projectTaskId);
+		projectTask.setTitle(task.getTitle());
+		projectTask.setDescription(task.getDescription());
+		projectTask.setParentTaskId(projectTaskId);
+		projectTask.setStatus(task.getStatus());
+		projectTask.setStartDate(task.getStartDate());
+		projectTask.setEndDate(task.getEndDate());
+		projectTask.setSeverity(task.getSeverity());
+		projectTask.setModifiedBy(new User(userId));
+		projectTask.setModifiedDate(new Date());
+		projectTaskRepository.save(projectTask);
 		return true;
 	}
 
 	@Override
 	public boolean updateTaskStatus(int taskId, String taskStatus, int userId) throws Exception {
-		String hql = "update ProjectTask set status = :status,modifiedBy = :modifiedBy,modifiedDate = :modifiedDate where projectTaskId = :projectTaskId";
-		Query query = entityManager.createQuery(hql);
-		query.setParameter("status", taskStatus);
-		query.setParameter("modifiedBy", userId);
-		query.setParameter("modifiedDate", new Date());
-		query.setParameter("projectTaskId", taskId);
-
-		query.executeUpdate();
+		com.ontarget.entities.ProjectTask projectTask = projectTaskRepository.findByProjectTaskId(taskId);
+		projectTask.setStatus(taskStatus);
+		projectTask.setModifiedBy(new User(userId));
+		projectTask.setModifiedDate(new Date());
+		projectTaskRepository.save(projectTask);
 		return true;
 	}
 
@@ -279,10 +302,10 @@ public class TaskJpaDAOImpl implements TaskDAO {
 		@SuppressWarnings("unchecked")
 		List<TaskAssignee> assignees = query.getResultList();
 
-		List<Integer> users = new ArrayList<>();
+		Set<Integer> users = new HashSet<>();
 		if (assignees != null && !assignees.isEmpty()) {
 			for (TaskAssignee assignee : assignees) {
-				users.add((int) assignee.getTaskAssignee());
+				users.add(assignee.getTaskAssignee());
 			}
 		}
 		return new HashSet<Integer>(users);
@@ -308,9 +331,8 @@ public class TaskJpaDAOImpl implements TaskDAO {
 		TaskAssignee taskAssignee = new TaskAssignee();
 		taskAssignee.setProjectTask(new com.ontarget.entities.ProjectTask(taskId));
 		taskAssignee.setTaskAssignee(userId);
-		taskAssignee.setCreatedBy(assigningUser);
-		taskAssignee.setModifiedBy(assigningUser);
-		taskAssignee.setModifiedDate(new Date());
+		taskAssignee.setCreatedBy(new User(assigningUser));
+		taskAssignee.setCreatedDate(new Date());
 		taskAssigneeRepository.save(taskAssignee);
 		return true;
 	}
@@ -319,7 +341,7 @@ public class TaskJpaDAOImpl implements TaskDAO {
 	public boolean updateTaskAssignee(int taskId, int userId, int assigningUser) throws Exception {
 		TaskAssignee taskAssignee = taskAssigneeRepository.findByTaskAssigneeId(taskId);
 		taskAssignee.setTaskAssignee(userId);
-		taskAssignee.setModifiedBy(assigningUser);
+		taskAssignee.setModifiedBy(new User(assigningUser));
 		taskAssignee.setModifiedDate(new Date());
 		taskAssigneeRepository.save(taskAssignee);
 		return true;

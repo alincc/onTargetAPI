@@ -11,6 +11,7 @@ import com.ontarget.api.dao.impl.BaseGenericDAOImpl;
 import com.ontarget.api.repository.DocumentTemplateRepository;
 import com.ontarget.bean.DocumentTemplateDTO;
 import com.ontarget.entities.DocumentTemplate;
+import com.ontarget.entities.User;
 
 @Repository("documentTemplateJpaDAOImpl")
 public class DocumentTemplateJpaDAOImpl extends BaseGenericDAOImpl<DocumentTemplateDTO> implements DocumentTemplateDAO {
@@ -22,10 +23,8 @@ public class DocumentTemplateJpaDAOImpl extends BaseGenericDAOImpl<DocumentTempl
 	public DocumentTemplateDTO insert(DocumentTemplateDTO documentTemplateDTO) {
 		DocumentTemplate documentTemplate = new DocumentTemplate();
 		documentTemplate.setName(documentTemplateDTO.getName());
-		documentTemplate.setCreatedBy(String.valueOf(documentTemplateDTO.getCreatedBy().getUserId()));
+		documentTemplate.setCreatedBy(new User(documentTemplateDTO.getCreatedBy().getUserId()));
 		documentTemplate.setCreatedDate(new Date());
-		documentTemplate.setModifiedBy(String.valueOf(documentTemplateDTO.getModifiedBy().getUserId()));
-		documentTemplate.setModfiedDate(new Date());
 		documentTemplateRepository.save(documentTemplate);
 		documentTemplateDTO.setDocumentTemplateId(documentTemplate.getDocumentTemplateId());
 		return documentTemplateDTO;

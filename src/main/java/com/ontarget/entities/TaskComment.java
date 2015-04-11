@@ -31,8 +31,9 @@ public class TaskComment implements Serializable {
 	private Integer taskCommentId;
 	@Column(name = "comment", columnDefinition = "TEXT")
 	private String comment;
-	@Column(name = "commented_by")
-	private Integer commentedBy;
+	@JoinColumn(name = "commented_by", referencedColumnName = "user_id")
+	@ManyToOne()
+	private User commentedBy;
 	@Column(name = "commented_date")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date commentedDate;
@@ -65,11 +66,11 @@ public class TaskComment implements Serializable {
 		this.comment = comment;
 	}
 
-	public Integer getCommentedBy() {
+	public User getCommentedBy() {
 		return commentedBy;
 	}
 
-	public void setCommentedBy(Integer commentedBy) {
+	public void setCommentedBy(User commentedBy) {
 		this.commentedBy = commentedBy;
 	}
 

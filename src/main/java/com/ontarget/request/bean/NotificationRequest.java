@@ -11,15 +11,18 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "baseRequest", "recentId", "userId" })
+@JsonPropertyOrder({ "baseRequest", "pageNumber", "perPageLimit", "userId" })
 public class NotificationRequest {
 	@NotNull
 	@Valid
 	@JsonProperty("baseRequest")
 	private BaseRequest baseRequest;
 	@NotNull
-	@JsonProperty("recentId")
-	private Integer recentId;
+	@JsonProperty("pageNumber")
+	private Integer pageNumber;
+	@NotNull
+	@JsonProperty("perPageLimit")
+	private Integer perPageLimit;
 	@NotNull
 	@JsonProperty("userId")
 	private Integer userId;
@@ -34,14 +37,24 @@ public class NotificationRequest {
 		this.baseRequest = baseRequest;
 	}
 
-	@JsonProperty("recentId")
-	public Integer getRecentId() {
-		return recentId;
+	@JsonProperty("pageNumber")
+	public Integer getPageNumber() {
+		return pageNumber;
 	}
 
-	@JsonProperty("recentId")
-	public void setRecentId(Integer recentId) {
-		this.recentId = recentId;
+	@JsonProperty("pageNumber")
+	public void setPageNumber(Integer pageNumber) {
+		this.pageNumber = pageNumber;
+	}
+
+	@JsonProperty("perPageLimit")
+	public Integer getPerPageLimit() {
+		return perPageLimit;
+	}
+
+	@JsonProperty("perPageLimit")
+	public void setPerPageLimit(Integer perPageLimit) {
+		this.perPageLimit = perPageLimit;
 	}
 
 	@JsonProperty("userId")

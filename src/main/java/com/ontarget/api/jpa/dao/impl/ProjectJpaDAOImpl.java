@@ -37,6 +37,7 @@ import com.ontarget.entities.Project;
 import com.ontarget.entities.ProjectTask;
 import com.ontarget.entities.ProjectType;
 import com.ontarget.entities.User;
+import com.ontarget.util.ProjectUtil;
 
 @Repository("projectJpaDAOImpl")
 public class ProjectJpaDAOImpl implements ProjectDAO {
@@ -63,12 +64,16 @@ public class ProjectJpaDAOImpl implements ProjectDAO {
 		project.setProjectParentId(projectDTO.getProjectParentId());
 		project.setProjectStartDate(projectDTO.getStartDate());
 		project.setProjectEndDate(projectDTO.getEndDate());
-		project.setCreatedBy(String.valueOf(userId));
+		project.setCreatedBy(new User(userId));
 		project.setCreatedDate(new Date());
-		project.setModifiedBy(String.valueOf(userId));
-		project.setModifiedDate(new Date());
 		project.setProjectImagePath(projectDTO.getProjectImagePath());
 		project.setProjectOwnerId(projectDTO.getProjectOwnerId());
+
+		Project parentProject = null;
+		if (project.getProjectParentId() != null && project.getProjectParentId() > 0) {
+			parentProject = projectRepository.findByProjectId(project.getProjectParentId());
+		}
+		project.setType(ProjectUtil.getTypeForProject(parentProject));
 		projectRepository.save(project);
 		return project.getProjectId();
 	}
@@ -92,6 +97,11 @@ public class ProjectJpaDAOImpl implements ProjectDAO {
 	}
 
 	@Override
+	public Project findProjectById(int projectId) throws Exception {
+		return projectRepository.findByProjectId(projectId);
+	}
+
+	@Override
 	public ProjectInfo getProjectInfo(int projectId) throws Exception {
 		Project project = projectRepository.findByProjectId(projectId);
 
@@ -105,6 +115,7 @@ public class ProjectJpaDAOImpl implements ProjectDAO {
 		projectDTO.setProjectOwnerId(project.getProjectOwnerId());
 		projectDTO.setStartDate(project.getProjectStartDate());
 		projectDTO.setEndDate(project.getProjectEndDate());
+		projectDTO.setType(project.getType());
 
 		return projectDTO;
 	}
@@ -151,7 +162,7 @@ public class ProjectJpaDAOImpl implements ProjectDAO {
 		project.setProjectParentId(projectDTO.getProjectParentId());
 		project.setProjectStartDate(projectDTO.getStartDate());
 		project.setProjectEndDate(projectDTO.getEndDate());
-		project.setModifiedBy(String.valueOf(updatingUserId));
+		project.setModifiedBy(new User(updatingUserId));
 		project.setModifiedDate(new Date());
 		projectRepository.save(project);
 		return true;
@@ -227,6 +238,16 @@ public class ProjectJpaDAOImpl implements ProjectDAO {
 	}
 
 	@Override
+	public Project getMainProjectByUser(int userId) {
+		return projectRepository.getUserMainProject(userId);
+	}
+
+	@Override
+	public List<Project> getUndeletedProjectsByParentId(Integer parentProjectId) {
+		return projectRepository.findUndeletedProjectsByProjectParentId(parentProjectId);
+	}
+
+	@Override
 	public List<ProjectInfo> getChildProjects(int projectId) throws Exception {
 		List<ProjectInfo> projects = new LinkedList<>();
 		List<Project> projectList = projectRepository.findByProjectParentId(projectId);
@@ -243,6 +264,7 @@ public class ProjectJpaDAOImpl implements ProjectDAO {
 
 			project.setStartDate(proj.getProjectStartDate());
 			project.setEndDate(proj.getProjectEndDate());
+			project.setType(proj.getType());
 			projects.add(project);
 		}
 

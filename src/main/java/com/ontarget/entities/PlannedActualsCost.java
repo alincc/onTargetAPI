@@ -43,13 +43,15 @@ public class PlannedActualsCost implements Serializable {
 	@Column(name = "expiry_date")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date expiryDate;
-	@Column(name = "created_by")
-	private Integer createdBy;
+	@JoinColumn(name = "created_by", referencedColumnName = "user_id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	private User createdBy;
 	@Column(name = "created_date")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createdDate;
-	@Column(name = "modified_by")
-	private Integer modifiedBy;
+	@JoinColumn(name = "modified_by", referencedColumnName = "user_id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	private User modifiedBy;
 	@Column(name = "modified_date")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date modifiedDate;
@@ -112,11 +114,11 @@ public class PlannedActualsCost implements Serializable {
 		this.expiryDate = expiryDate;
 	}
 
-	public Integer getCreatedBy() {
+	public User getCreatedBy() {
 		return createdBy;
 	}
 
-	public void setCreatedBy(Integer createdBy) {
+	public void setCreatedBy(User createdBy) {
 		this.createdBy = createdBy;
 	}
 
@@ -128,11 +130,11 @@ public class PlannedActualsCost implements Serializable {
 		this.createdDate = createdDate;
 	}
 
-	public Integer getModifiedBy() {
+	public User getModifiedBy() {
 		return modifiedBy;
 	}
 
-	public void setModifiedBy(Integer modifiedBy) {
+	public void setModifiedBy(User modifiedBy) {
 		this.modifiedBy = modifiedBy;
 	}
 

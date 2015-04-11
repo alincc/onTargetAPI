@@ -161,4 +161,28 @@ public class ProjectEndpointImpl implements ProjectEndoint {
 		return response;
 	}
 
+	@Override
+	@POST
+	@Path("/getUserProjectDetails")
+	public ProjectListResponse getUserProjectDetails(ProjectUserRequest projectUserRequest) {
+
+		ProjectListResponse response = new ProjectListResponse();
+		try {
+			response = projectService.getUserProjectDetails(projectUserRequest.getUserId());
+			if (response.getResponseCode().equalsIgnoreCase("SUCC")) {
+				response.setReturnVal(OnTargetConstant.SUCCESS);
+				response.setReturnMessage("Successfully retrieved project info");
+			} else {
+				response = new ProjectListResponse();
+				response.setReturnMessage("User not assigned to main project");
+				response.setReturnVal(OnTargetConstant.ERROR);
+			}
+		} catch (Exception e) {
+			logger.error("Error while getting project by user", e);
+			response.setReturnMessage("Error while getting project by user");
+			response.setReturnVal(OnTargetConstant.ERROR);
+		}
+		return response;
+	}
+
 }

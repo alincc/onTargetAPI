@@ -9,13 +9,11 @@ public interface DocumentDAO extends GenericDAO<DocumentDTO> {
 
 	public boolean updateStatus(int documentId, String newStatus, int modifiedBy);
 
-	public List<DocumentDTO> getByCreatedBy(Integer createdBy, int projectId);
+	public List<DocumentDTO> getByCreatedBy(Integer createdBy, int projectId) throws Exception;
 
-	public List<DocumentDTO> getByAssigneeUsername(Integer userId, int projectId);
+	public List<DocumentDTO> getByAssigneeUsername(Integer userId, int projectId) throws Exception;
 
-	public List<DocumentDTO> getDocumentsByProject(int projectId,
-			String approved) throws Exception;
+	public List<DocumentDTO> getDocumentsByProject(int projectId, String approved) throws Exception;
 
-	public boolean updateDueDate(int documentId, Date dueDate, String modifiedBy)
-			throws Exception;
+	public boolean updateDueDate(int documentId, Date dueDate, String modifiedBy) throws Exception;
 }

@@ -29,11 +29,9 @@ public @interface TaskDateRangeBetweenProject {
 
 	Class<? extends Payload>[] payload() default {};
 
-	public class Validator implements
-			ConstraintValidator<TaskDateRangeBetweenProject, TaskRequest> {
+	public class Validator implements ConstraintValidator<TaskDateRangeBetweenProject, TaskRequest> {
 
-		private Logger logger = Logger
-				.getLogger(TaskDateRangeBetweenProject.class);
+		private Logger logger = Logger.getLogger(TaskDateRangeBetweenProject.class);
 
 		@Autowired
 		@Qualifier("projectJpaDAOImpl")
@@ -44,33 +42,27 @@ public @interface TaskDateRangeBetweenProject {
 		}
 
 		@Override
-		public boolean isValid(final TaskRequest taskRequest,
-				final ConstraintValidatorContext constraintValidatorContext) {
+		public boolean isValid(final TaskRequest taskRequest, final ConstraintValidatorContext constraintValidatorContext) {
 			try {
 				Task task = taskRequest.getTask();
 
-				Date startDate = DateFormater.getFormattedDate(task
-						.getStartDate());
+				Date startDate = DateFormater.getFormattedDate(task.getStartDate());
 				Date endDate = DateFormater.getFormattedDate(task.getEndDate());
 
 				ProjectDTO project = projectDAO.getProject(task.getProjectId());
 
-				Date projectStartDate = DateFormater.getFormattedDate(project
-						.getStartDate());
-				Date projectEndDate = DateFormater.getFormattedDate(project
-						.getEndDate());
+				Date projectStartDate = DateFormater.getFormattedDate(project.getStartDate());
+				Date projectEndDate = DateFormater.getFormattedDate(project.getEndDate());
 
 				logger.info("project start date:: " + projectStartDate);
 				logger.info("project end date:: " + projectEndDate);
 
 				if (startDate.before(projectStartDate)) {
-					logger.info(startDate.toString() + " less than "
-							+ projectStartDate.toString());
+					logger.info(startDate.toString() + " less than " + projectStartDate.toString());
 					return false;
 				} else {
 					if (endDate.after(projectEndDate)) {
-						logger.info(endDate.toString() + " more than "
-								+ projectEndDate.toString());
+						logger.info(endDate.toString() + " more than " + projectEndDate.toString());
 						return false;
 					}
 				}

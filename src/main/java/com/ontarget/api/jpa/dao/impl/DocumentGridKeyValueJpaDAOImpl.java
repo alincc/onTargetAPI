@@ -7,7 +7,6 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 
 import org.springframework.stereotype.Repository;
 
@@ -17,6 +16,7 @@ import com.ontarget.api.repository.DocumentGridKeyValueRepository;
 import com.ontarget.bean.DocumentGridKeyValueDTO;
 import com.ontarget.entities.Document;
 import com.ontarget.entities.DocumentGridKeyValue;
+import com.ontarget.entities.User;
 
 @Repository("documentGridKeyValueJpaDAOImpl")
 public class DocumentGridKeyValueJpaDAOImpl extends BaseGenericDAOImpl<DocumentGridKeyValueDTO> implements
@@ -34,10 +34,8 @@ public class DocumentGridKeyValueJpaDAOImpl extends BaseGenericDAOImpl<DocumentG
 		documentGridKeyValue.setGridRowIndex(documentGridKeyValueDTO.getGridRowIndex());
 		documentGridKeyValue.setKey(documentGridKeyValueDTO.getKey());
 		documentGridKeyValue.setValue(documentGridKeyValueDTO.getValue());
-		documentGridKeyValue.setCreatedBy(String.valueOf(documentGridKeyValueDTO.getCreatedBy()));
+		documentGridKeyValue.setCreatedBy(new User(documentGridKeyValueDTO.getCreatedBy()));
 		documentGridKeyValue.setCreatedDate(new Date());
-		documentGridKeyValue.setModifiedBy(String.valueOf(documentGridKeyValueDTO.getModifiedBy()));
-		documentGridKeyValue.setModifiedDate(new Date());
 		documentGridKeyValueRepository.save(documentGridKeyValue);
 
 		return documentGridKeyValueDTO;
@@ -92,16 +90,23 @@ public class DocumentGridKeyValueJpaDAOImpl extends BaseGenericDAOImpl<DocumentG
 
 	@Override
 	public boolean updateValue(int documentId, String gridId, int gridRowIndex, String key, String newValue, int modifiedBy) {
-		String hql = "update DocumentGridKeyValue d set d.value = :value,"
-				+ "d.modifiedBy =:modifiedBy where d.document.id = :documentId and "
-				+ " d.gridId = :gridId and d.gridRowIndex = :gridRowIndex";
-		Query query = entityManager.createQuery(hql);
-		query.setParameter("value", newValue);
-		query.setParameter("modifiedBy", modifiedBy);
-		query.setParameter("documentId", documentId);
-		query.setParameter("gridId", gridId);
-		query.setParameter("gridRowIndex", gridRowIndex);
-		query.executeUpdate();
+		// String hql = "update DocumentGridKeyValue d set d.value = :value,"
+		// + "d.modifiedBy =:modifiedBy where d.document.id = :documentId and "
+		// + " d.gridId = :gridId and d.gridRowIndex = :gridRowIndex";
+		// Query query = entityManager.createQuery(hql);
+		// query.setParameter("value", newValue);
+		// query.setParameter("modifiedBy", modifiedBy);
+		// query.setParameter("documentId", documentId);
+		// query.setParameter("gridId", gridId);
+		// query.setParameter("gridRowIndex", gridRowIndex);
+		// query.executeUpdate();
+
+		DocumentGridKeyValue documentGridKeyValue = documentGridKeyValueRepository
+				.getDocumentGridKeyValueByDocumentIdGridIdAndRowIndex(documentId, gridId, gridRowIndex);
+		documentGridKeyValue.setValue(newValue);
+		documentGridKeyValue.setModifiedBy(new User(modifiedBy));
+		documentGridKeyValue.setModifiedDate(new Date());
+		documentGridKeyValueRepository.save(documentGridKeyValue);
 		return true;
 	}
 

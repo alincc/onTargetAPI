@@ -88,7 +88,6 @@ public class AuthenticationImpl implements Authentication {
 			response.setReturnMessage(OnTargetConstant.REGISTRATION_APPROVAL_REQUEST_FAILED);
 			response.setReturnVal(OnTargetConstant.ERROR);
 		}
-
 		return response;
 	}
 

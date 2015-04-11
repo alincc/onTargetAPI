@@ -33,6 +33,11 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 		logger.info("base URI:: " + request.getUriInfo().getBaseUri() + ", path:: " + request.getUriInfo().getPath()
 				+ ", http method:: " + request.getMethod());
 
+		// System.out.println("base URI:: " + request.getUriInfo().getBaseUri()
+		// + ", path:: " + request.getUriInfo().getPath()
+		// + ", http method:: " + request.getMethod());
+		// System.out.println("uri:: "+request.getUriInfo().getBaseUri()+request.getUriInfo().getPath());
+
 		String openEndpointArr[] = OnTargetConstant.OPEN_RS_ENDPOINT.split(",");
 		logger.info("open end points: " + OnTargetConstant.OPEN_RS_ENDPOINT);
 		for (String openEndpoint : openEndpointArr) {
@@ -51,6 +56,7 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 			String jsonPost = getJsonPostObj(b, requestEntity);
 
 			logger.info("request parameters:: " + jsonPost);
+			// System.out.println("request parameters:: " + jsonPost);
 
 			if (jsonPost == null || jsonPost.trim().length() == 0) {
 				logger.error("Empty json request");
@@ -99,6 +105,8 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 			Integer projectId = projectObjNode.getIntValue();
 
 			boolean authorized = authorizationService.validateUserOnProject(userId, projectId);
+
+			// System.out.println("Authorized: " + authorized);
 
 			if (authorized) {
 				return true;

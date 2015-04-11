@@ -27,6 +27,7 @@ import com.ontarget.bean.TaskPercentage;
 import com.ontarget.constant.OnTargetQuery;
 import com.ontarget.entities.ProjectTask;
 import com.ontarget.entities.TaskPercentageLog;
+import com.ontarget.entities.User;
 import com.ontarget.request.bean.TaskProgress;
 import com.ontarget.request.bean.TaskProgressInfo;
 import com.ontarget.util.DateFormater;
@@ -170,10 +171,8 @@ public class TaskPercentageJpaDAOImpl implements TaskPercentageDAO {
 		taskPercentageLog.setEndDate(DateFormater.convertToDate("9999-12-31"));
 		taskPercentageLog.setPercentageType(taskProgress.getPercentageType());
 		taskPercentageLog.setPercentageComplete(taskProgress.getPercentageComplete());
-		taskPercentageLog.setCreatedBy(String.valueOf(addedBy));
+		taskPercentageLog.setCreatedBy(new User(addedBy));
 		taskPercentageLog.setCreatedDate(new Date());
-		taskPercentageLog.setModifiedBy("0");
-		taskPercentageLog.setModifiedDate(new Date());
 		taskPercentageLogRepository.save(taskPercentageLog);
 
 		return taskPercentageLog.getTaskPercentageLogId();
@@ -221,18 +220,17 @@ public class TaskPercentageJpaDAOImpl implements TaskPercentageDAO {
 
 				TaskPercentage percentage = new TaskPercentage();
 				percentage.setId(taskPercentageLog.getTaskPercentageLogId());
-				Date fromDate = taskPercentageLog.getStartDate();
-				percentage.setFromDate(fromDate);
+				percentage.setFromDate(taskPercentageLog.getStartDate());
 				percentage.setToDate(taskPercentageLog.getEndDate());
 				percentage.setTaskPercentageType(taskPercentageLog.getPercentageType());
 				percentage.setTaskPercentageComplete(taskPercentageLog.getPercentageComplete());
-				percentage.setCreatedBy(taskPercentageLog.getCreatedBy());
+				percentage.setCreatedBy(String.valueOf(taskPercentageLog.getCreatedBy().getUserId()));
 
 				int year = 0;
 				int month = 0;
-				if (fromDate != null) {
+				if (percentage.getFromDate() != null) {
 					Calendar cal = Calendar.getInstance();
-					cal.setTime(fromDate);
+					cal.setTime(percentage.getFromDate());
 					year = cal.get(Calendar.YEAR);
 					month = cal.get(Calendar.MONTH) + 1;
 				}

@@ -15,9 +15,12 @@ import com.ontarget.api.dao.ContactDAO;
 import com.ontarget.api.dao.DocumentDAO;
 import com.ontarget.api.dao.impl.BaseGenericDAOImpl;
 import com.ontarget.api.repository.DocumentRepository;
+import com.ontarget.bean.Contact;
 import com.ontarget.bean.DocumentDTO;
+import com.ontarget.bean.UserDTO;
 import com.ontarget.entities.Document;
 import com.ontarget.entities.DocumentTemplate;
+import com.ontarget.entities.User;
 
 @Repository("documentJpaDAOImpl")
 public class DocumentJpaDAOImpl extends BaseGenericDAOImpl<DocumentDTO> implements DocumentDAO {
@@ -36,11 +39,8 @@ public class DocumentJpaDAOImpl extends BaseGenericDAOImpl<DocumentDTO> implemen
 		document.setDocumentTemplate(new DocumentTemplate((int) documentDTO.getDocumentTemplate().getDocumentTemplateId()));
 		document.setName(documentDTO.getName());
 		document.setStatus(documentDTO.getStatus());
-		document.setCreatedBy(documentDTO.getStatus());
-		document.setCreatedBy(String.valueOf(documentDTO.getCreatedBy()));
+		document.setCreatedBy(new User(documentDTO.getCreatedBy()));
 		document.setCreatedDate(new Date());
-		document.setModifiedBy(String.valueOf(documentDTO.getModifiedBy()));
-		document.setModifiedDate(new Date());
 		document.setProjectId(documentDTO.getProjectId());
 		document.setDueDate(documentDTO.getDueDate());
 		documentRepository.save(document);
@@ -57,7 +57,7 @@ public class DocumentJpaDAOImpl extends BaseGenericDAOImpl<DocumentDTO> implemen
 		doc.setDocumentId(document.getDocumentId());
 		doc.setName(document.getName());
 		doc.setStatus(document.getStatus());
-		doc.setCreatedBy(Integer.parseInt(document.getCreatedBy()));
+		doc.setCreatedBy(document.getCreatedBy().getUserId());
 		doc.setDueDate(document.getDueDate());
 		return doc;
 	}
@@ -71,16 +71,16 @@ public class DocumentJpaDAOImpl extends BaseGenericDAOImpl<DocumentDTO> implemen
 	public boolean updateStatus(int documentId, String newStatus, int modifiedBy) {
 		Document document = documentRepository.findByDocumentId(documentId);
 		document.setStatus(newStatus);
-		document.setModifiedBy(String.valueOf(modifiedBy));
+		document.setModifiedBy(new User(modifiedBy));
 		document.setModifiedDate(new Date());
 		documentRepository.save(document);
 		return true;
 	}
 
 	@Override
-	public List<DocumentDTO> getByCreatedBy(Integer createdBy, int projectId) {
+	public List<DocumentDTO> getByCreatedBy(Integer createdBy, int projectId) throws Exception {
 
-		List<Document> documents = documentRepository.findByCreatedByAndProjectId(String.valueOf(createdBy), projectId);
+		List<Document> documents = documentRepository.findByCreatedByAndProjectId(new User(createdBy), projectId);
 
 		List<DocumentDTO> documentDTOList = new ArrayList<>();
 		if (documents != null && !documents.isEmpty()) {
@@ -89,8 +89,19 @@ public class DocumentJpaDAOImpl extends BaseGenericDAOImpl<DocumentDTO> implemen
 				doc.setDocumentId(document.getDocumentId());
 				doc.setName(document.getName());
 				doc.setStatus(document.getStatus());
-				doc.setCreatedBy(Integer.parseInt(document.getCreatedBy()));
+				doc.setCreatedBy(document.getCreatedBy().getUserId());
 				doc.setDueDate(document.getDueDate());
+
+				Contact contact = null;
+				try {
+					contact = contactDAO.getContact(doc.getCreatedBy());
+				} catch (Exception e) {
+					logger.error("Error while getting contact info", e);
+					throw e;
+				}
+				UserDTO creator = new UserDTO();
+				creator.setContact(contact);
+				doc.setCreator(creator);
 				documentDTOList.add(doc);
 			}
 		}
@@ -99,7 +110,7 @@ public class DocumentJpaDAOImpl extends BaseGenericDAOImpl<DocumentDTO> implemen
 	}
 
 	@Override
-	public List<DocumentDTO> getByAssigneeUsername(Integer userId, int projectId) {
+	public List<DocumentDTO> getByAssigneeUsername(Integer userId, int projectId) throws Exception {
 
 		List<Document> documents = documentRepository.findByAssigneAndProject(userId, projectId);
 
@@ -110,8 +121,19 @@ public class DocumentJpaDAOImpl extends BaseGenericDAOImpl<DocumentDTO> implemen
 				doc.setDocumentId(document.getDocumentId());
 				doc.setName(document.getName());
 				doc.setStatus(document.getStatus());
-				doc.setCreatedBy(Integer.parseInt(document.getCreatedBy()));
+				doc.setCreatedBy(document.getCreatedBy().getUserId());
 				doc.setDueDate(document.getDueDate());
+
+				Contact contact = null;
+				try {
+					contact = contactDAO.getContact(doc.getCreatedBy());
+				} catch (Exception e) {
+					logger.error("Error while getting contact info", e);
+					throw e;
+				}
+				UserDTO creator = new UserDTO();
+				creator.setContact(contact);
+				doc.setCreator(creator);
 				documentDTOList.add(doc);
 			}
 		}
@@ -130,7 +152,7 @@ public class DocumentJpaDAOImpl extends BaseGenericDAOImpl<DocumentDTO> implemen
 				doc.setDocumentId(document.getDocumentId());
 				doc.setName(document.getName());
 				doc.setStatus(document.getStatus());
-				doc.setCreatedBy(Integer.parseInt(document.getCreatedBy()));
+				doc.setCreatedBy(document.getCreatedBy().getUserId());
 				doc.setDueDate(document.getDueDate());
 				documentDTOList.add(doc);
 			}
@@ -143,7 +165,7 @@ public class DocumentJpaDAOImpl extends BaseGenericDAOImpl<DocumentDTO> implemen
 	public boolean updateDueDate(int documentId, Date dueDate, String modifiedBy) throws Exception {
 		Document document = documentRepository.findByDocumentId(documentId);
 		document.setDueDate(dueDate);
-		document.setModifiedBy(modifiedBy);
+		document.setModifiedBy(new User(Integer.parseInt(modifiedBy)));
 		document.setModifiedDate(new Date());
 		documentRepository.save(document);
 		return true;

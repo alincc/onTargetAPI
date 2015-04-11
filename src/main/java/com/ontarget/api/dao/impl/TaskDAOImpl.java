@@ -452,4 +452,9 @@ public class TaskDAOImpl implements TaskDAO {
 		return tasks;
 	}
 
+	@Override
+	public List<TaskInfo> getAssignedTasksByProjectId(int projectId, int userId) throws Exception {
+		throw new UnsupportedOperationException();
+	}
+
 }
