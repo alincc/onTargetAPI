@@ -37,7 +37,7 @@ public class ProjectFile implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createdDate;
 	@JoinColumn(name = "created_by", referencedColumnName = "user_id")
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne()
 	private User createdBy;
 	@Basic(optional = false)
 	@Column(name = "file_type", nullable = false, length = 45)
