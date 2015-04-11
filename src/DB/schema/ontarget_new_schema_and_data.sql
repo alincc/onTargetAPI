@@ -73,6 +73,7 @@ CREATE TABLE `activity_log` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `text` text,
   `user_id` int(12) NOT NULL,
+  `project_id` int(11) NOT NULL,
   `category` bigint(20) DEFAULT NULL,
   `ts_insert` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
