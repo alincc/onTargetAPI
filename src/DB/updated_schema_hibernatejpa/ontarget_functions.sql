@@ -22,6 +22,7 @@ USE `ontarget`;
 DELIMITER $$
 
 /*!50003 CREATE DEFINER=`ontarget`@`localhost` FUNCTION `getActivityNameById`(projectId INT) RETURNS varchar(100) CHARSET latin1
+    DETERMINISTIC
 BEGIN
   DECLARE activityName VARCHAR(100);
   SET activityName = (SELECT project_name FROM project WHERE project_id = projectId);
@@ -35,6 +36,7 @@ DELIMITER ;
 DELIMITER $$
 
 /*!50003 CREATE DEFINER=`ontarget`@`localhost` FUNCTION `getProjectTaskTitleById`(projectTaskId INT) RETURNS varchar(100) CHARSET latin1
+    DETERMINISTIC
 BEGIN
   DECLARE projectTaskTitle VARCHAR(100);
   SET projectTaskTitle = (SELECT title FROM project_task WHERE project_task_id = projectTaskId);
@@ -48,6 +50,7 @@ DELIMITER ;
 DELIMITER $$
 
 /*!50003 CREATE DEFINER=`ontarget`@`localhost` FUNCTION `getProjectTitleById`(projectId INT) RETURNS varchar(100) CHARSET latin1
+    DETERMINISTIC
 BEGIN
   DECLARE projectTitle VARCHAR(100);
   SET projectTitle = (SELECT project_name FROM project WHERE project_id = projectId);
@@ -60,7 +63,8 @@ DELIMITER ;
 /*!50003 DROP FUNCTION IF EXISTS `get_userNameById` */;
 DELIMITER $$
 
-/*!50003 CREATE DEFINER=`root`@`localhost` FUNCTION `get_userNameById`(userId INT) RETURNS varchar(100) CHARSET latin1
+/*!50003 CREATE DEFINER=`ontarget`@`localhost` FUNCTION `get_userNameById`(userId INT) RETURNS varchar(100) CHARSET latin1
+    DETERMINISTIC
 BEGIN
   DECLARE userName VARCHAR(100);
   SET userName = (SELECT user_name FROM USER WHERE user_id = userId);
