@@ -129,6 +129,6 @@ public interface OnTargetConstant {
 		public static final String ACTIVITY = "ACTIVITY";
 	}
 
-	public static final String OPEN_RS_ENDPOINT = "/register,/user,/onTargetInvitation,/profile,/project/getProjectsByUser,/project/addProject,/company";
+	public static final String OPEN_RS_ENDPOINT = "/register,/user,/onTargetInvitation,/profile,/project/getProjectsByUser,/project/addProject,/company,/file,/hello";
 
 }
