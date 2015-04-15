@@ -457,4 +457,9 @@ public class TaskDAOImpl implements TaskDAO {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
+	public boolean deleteTask(int taskId, int userId) throws Exception {
+		throw new UnsupportedOperationException();
+	}
+
 }

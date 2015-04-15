@@ -98,7 +98,6 @@ public class TaskEndpointImpl implements TaskEndpoint {
 	public ProjectTaskResponse getTask(ProjectTaskRequest projectTaskRequest) {
 		ProjectTaskResponse response = new ProjectTaskResponse();
 		try {
-
 			response.setTasks(taskService.getTasksByProject(projectTaskRequest.getProjectId()));
 			response.setReturnMessage("Successfully retrieved tasks");
 			response.setReturnVal(OnTargetConstant.SUCCESS);
@@ -127,7 +126,6 @@ public class TaskEndpointImpl implements TaskEndpoint {
 			response.setReturnMessage("Get task count failed");
 			response.setReturnVal(OnTargetConstant.ERROR);
 		}
-
 		return response;
 	}
 
@@ -346,5 +344,28 @@ public class TaskEndpointImpl implements TaskEndpoint {
 		}
 
 		return response;
+	}
+
+	@Override
+	@POST
+	@Path("/deleteTask")
+	public TaskDetailResponse deleteTask(TaskDetailRequest taskDetailRequest) {
+		TaskDetailResponse taskResponse = new TaskDetailResponse();
+		try {
+			boolean deleted = taskService.deleteTask(taskDetailRequest.getTaskId(), taskDetailRequest.getBaseRequest()
+					.getLoggedInUserId());
+			if (deleted) {
+				taskResponse.setReturnVal(OnTargetConstant.SUCCESS);
+				taskResponse.setReturnMessage("Task deleted successfully");
+			} else {
+				taskResponse.setReturnMessage("Task delete failed");
+				taskResponse.setReturnVal(OnTargetConstant.ERROR);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			taskResponse.setReturnMessage("Task delete failed");
+			taskResponse.setReturnVal(OnTargetConstant.ERROR);
+		}
+		return taskResponse;
 	}
 }

@@ -459,9 +459,10 @@ public class ProjectServiceImpl implements ProjectService {
 		}
 		return project;
 	}
-	
+
 	@Override
-	public boolean deleteProject(int projectId,int userId) {
+	@Transactional(rollbackFor = { Exception.class })
+	public boolean deleteProject(int projectId, int userId) {
 		try {
 			return projectDAO.deleteProject(projectId, userId);
 		} catch (Exception e) {
@@ -470,6 +471,5 @@ public class ProjectServiceImpl implements ProjectService {
 			return false;
 		}
 	}
-
 
 }

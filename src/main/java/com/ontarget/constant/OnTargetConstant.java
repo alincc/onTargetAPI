@@ -87,7 +87,13 @@ public interface OnTargetConstant {
 		public static final String REJECTED = "REJECTED";
 	}
 
-	public interface PROJECT_STATUS {
+	public interface ProjectStatus {
+		public static final String ACTIVE = "1";
+		public static final String PENDING = "0";
+		public static final String DELETED = "2";
+	}
+	
+	public interface TaskStatus {
 		public static final String ACTIVE = "1";
 		public static final String PENDING = "0";
 		public static final String DELETED = "2";

@@ -308,7 +308,7 @@ public class ProjectJpaDAOImpl implements ProjectDAO {
 	@Override
 	public boolean deleteProject(int projectId, int userId) throws Exception {
 		Project project = projectRepository.findByProjectId(projectId);
-		project.setProjectStatus(OnTargetConstant.PROJECT_STATUS.DELETED);
+		project.setProjectStatus(OnTargetConstant.ProjectStatus.DELETED);
 		project.setModifiedBy(new User(userId));
 		project.setModifiedDate(new Date());
 		projectRepository.save(project);

@@ -20,38 +20,33 @@ public interface TaskService {
 
 	public List<TaskInfo> getTask(Integer projectId) throws Exception;
 
-	public List<ProjectTask> getTasksByProject(Integer projectId)
-			throws Exception;
+	public List<ProjectTask> getTasksByProject(Integer projectId) throws Exception;
 
 	public boolean isTaskAdd(Task task);
 
-	public int addDependentTask(DependentTaskDTO dependentTask)
-			throws Exception;
+	public int addDependentTask(DependentTaskDTO dependentTask) throws Exception;
 
 	public ProjectTask getTaskDetail(int taskId) throws Exception;
 
-	public List<com.ontarget.bean.TaskStatusCount> getTaskCountByStatus(
-			int projectId) throws Exception;
+	public List<com.ontarget.bean.TaskStatusCount> getTaskCountByStatus(int projectId) throws Exception;
 
 	Contact addTaskComment(TaskCommentRequest comment) throws Exception;
 
-	public boolean updateTaskStatus(int taskId, String taskStatus, int userId)
-			throws Exception;
+	public boolean updateTaskStatus(int taskId, String taskStatus, int userId) throws Exception;
 
 	public Set<Integer> getTaskMembers(int taskId) throws Exception;
 
-	public boolean addTaskMember(int projectId, int taskId, int memberId)
-			throws Exception;
+	public boolean addTaskMember(int projectId, int taskId, int memberId) throws Exception;
 
-	public long saveTaskFile(int taskid, int userId, String fileName,
-			String location) throws Exception;
+	public long saveTaskFile(int taskid, int userId, String fileName, String location) throws Exception;
 
 	public List<FileAttachment> getTaskAttachments(int taskId) throws Exception;
 
-	public void assignTaskToUser(int taskId, List<Integer> users,
-			int assigningUser) throws Exception;
+	public void assignTaskToUser(int taskId, List<Integer> users, int assigningUser) throws Exception;
 
 	public List<ProjectTask> getDependentTasks(int taskId) throws Exception;
 
 	public List<ProjectTask> getUserTasks(int userId) throws Exception;
+	
+	public boolean deleteTask(int taskId, int userId) throws Exception;
 }
