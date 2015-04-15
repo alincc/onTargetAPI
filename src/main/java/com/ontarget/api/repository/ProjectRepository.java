@@ -18,7 +18,8 @@ public interface ProjectRepository extends JpaRepository<Project, Integer> {
 			+ OnTargetConstant.PROJECT_STATUS.DELETED)
 	List<Project> findUndeletedProjectsByProjectParentId(Integer parentProjectId);
 
-	@Query("select p from Project p JOIN p.projectMemberList pm where pm.user.userId = ?1 and p.projectParentId = 0")
+	@Query("select p from Project p JOIN p.projectMemberList pm where pm.user.userId = ?1 and p.projectParentId = 0 and p.projectStatus !="
+			+ OnTargetConstant.PROJECT_STATUS.DELETED)
 	Project getUserMainProject(Integer userId);
 
 	@Query("select count(p) from Project p join p.projectMemberList pm"

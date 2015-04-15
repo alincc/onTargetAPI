@@ -30,4 +30,6 @@ public interface ProjectEndoint {
 	public ProjectMemberListResponse getProjectMembers(@Valid ProjectDetailRequest projectDetailRequest);
 
 	public ProjectListResponse getUserProjectDetails(@Valid ProjectUserRequest projectUserRequest);
+	
+	public ProjectResponse deleteProject(ProjectDetailRequest projectDetailRequest);
 }

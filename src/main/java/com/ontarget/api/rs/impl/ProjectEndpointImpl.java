@@ -184,4 +184,28 @@ public class ProjectEndpointImpl implements ProjectEndoint {
 		return response;
 	}
 
+	@Override
+	@POST
+	@Path("/deleteProject")
+	public ProjectResponse deleteProject(ProjectDetailRequest projectDetailRequest) {
+		ProjectResponse response = new ProjectResponse();
+		try {
+			boolean deleted = projectService.deleteProject(projectDetailRequest.getProjectId(), projectDetailRequest
+					.getBaseRequest().getLoggedInUserId());
+			if (deleted) {
+				response.setReturnVal(OnTargetConstant.SUCCESS);
+				response.setReturnMessage("Successfully deleted project");
+			} else {
+				response.setReturnMessage("Error while deleting project");
+				response.setReturnVal(OnTargetConstant.ERROR);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("Error while getting project", e);
+			response.setReturnMessage("Error while deleting project");
+			response.setReturnVal(OnTargetConstant.ERROR);
+		}
+		return response;
+	}
+
 }
