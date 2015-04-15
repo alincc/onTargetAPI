@@ -40,7 +40,7 @@ public class TaskPercentageLog implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date endDate;
 	@JoinColumn(name = "created_by", referencedColumnName = "user_id")
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne()
 	private User createdBy;
 	@Column(name = "modified_date")
 	@Temporal(TemporalType.TIMESTAMP)
