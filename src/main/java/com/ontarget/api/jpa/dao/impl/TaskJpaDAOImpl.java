@@ -265,13 +265,12 @@ public class TaskJpaDAOImpl implements TaskDAO {
 
 	@Override
 	public boolean updateTask(Task task, int userId) throws Exception {
-		ParentTask parentTask = task.getParentTask();
-		int projectTaskId = parentTask == null ? 0 : parentTask.getProjectTaskId();
+		// ParentTask parentTask = task.getParentTask();
+		// int projectTaskId = parentTask == null ? 0 :
 
-		com.ontarget.entities.ProjectTask projectTask = projectTaskRepository.findByProjectTaskId(projectTaskId);
+		com.ontarget.entities.ProjectTask projectTask = projectTaskRepository.findByProjectTaskId(task.getProjectTaskId());
 		projectTask.setTitle(task.getTitle());
 		projectTask.setDescription(task.getDescription());
-		projectTask.setParentTaskId(projectTaskId);
 		projectTask.setStatus(task.getStatus());
 		projectTask.setStartDate(task.getStartDate());
 		projectTask.setEndDate(task.getEndDate());

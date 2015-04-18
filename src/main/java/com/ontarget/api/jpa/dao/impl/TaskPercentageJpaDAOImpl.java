@@ -180,16 +180,12 @@ public class TaskPercentageJpaDAOImpl implements TaskPercentageDAO {
 
 	@Override
 	public boolean updateTaskPercentageComplete(TaskProgressInfo taskProgressOfTask, int modifiedBy) throws Exception {
-		String hql = "update TaskPercentageLog tpl set tpl.percentageComplete = :percentageComplete,"
-				+ " tpl.modifiedBy = :modifiedBy, tpl.modifiedDate = :modifiedDate where tpl.taskPercentageLogId = :taskPercentageLogId";
-
-		Query query = entityManager.createQuery(hql);
-		query.setParameter("percentageComplete", taskProgressOfTask.getPercentageComplete());
-		query.setParameter("modifiedBy", modifiedBy);
-		query.setParameter("modifiedDate", new Date());
-		query.setParameter("taskPercentageLogId", taskProgressOfTask.getTaskPercentageLogId());
-		query.executeUpdate();
-
+		TaskPercentageLog taskPercentageLog = taskPercentageLogRepository.findByTaskPercentageLogId(taskProgressOfTask
+				.getTaskPercentageLogId());
+		taskPercentageLog.setPercentageComplete(taskProgressOfTask.getPercentageComplete());
+		taskPercentageLog.setModifiedBy(new User(modifiedBy));
+		taskPercentageLog.setModifiedDate(new Date());
+		taskPercentageLogRepository.save(taskPercentageLog);
 		return true;
 	}
 
