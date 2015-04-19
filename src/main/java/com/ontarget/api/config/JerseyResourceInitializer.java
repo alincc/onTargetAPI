@@ -8,6 +8,7 @@ import org.glassfish.jersey.server.ServerProperties;
 
 import com.ontarget.api.config.ValidationConfigurationContextResolver.JsonConfiguration;
 import com.ontarget.api.filter.AuthorizationFilter;
+import com.ontarget.api.filter.LoggingResponseFilter;
 
 @ApplicationPath("resources")
 public class JerseyResourceInitializer extends ResourceConfig {
@@ -16,6 +17,7 @@ public class JerseyResourceInitializer extends ResourceConfig {
 		register(AuthorizationFilter.class);
 		register(ValidationConfigurationContextResolver.class);
 		register(ValidationExceptionMapper.class);
+		register(LoggingResponseFilter.class);
 
 		property(ServerProperties.BV_SEND_ERROR_IN_RESPONSE, true);
 		property(ServerProperties.TRACING, true);
