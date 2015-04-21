@@ -14,7 +14,7 @@ public class AuthorizationJpaDAOImpl implements AuthorizationDAO {
 
 	@Override
 	public boolean validateUserOnProject(Integer userId, Integer projectId) throws Exception {
-		long count = projectRepository.countUserInvolvementInProject(userId, projectId);
+		long count = projectRepository.countUserProject(userId, projectId);
 		if (count > 0) {
 			return true;
 		}

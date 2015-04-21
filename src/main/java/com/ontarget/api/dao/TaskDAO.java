@@ -64,4 +64,6 @@ public interface TaskDAO {
 	public int addDependentTask(DependentTaskDTO dependentTask) throws Exception;
 
 	public List<TaskInfo> getTask(int projectId, int completed) throws Exception;
+	
+	public boolean deleteTask(int taskId,int userId) throws Exception ;
 }

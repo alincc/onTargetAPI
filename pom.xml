@@ -325,12 +325,6 @@
 			</exclusions>
 		</dependency>
 
-		<!-- <dependency> -->
-		<!-- <groupId>org.hibernate.javax.persistence</groupId> -->
-		<!-- <artifactId>hibernate-jpa-2.0-api</artifactId> -->
-		<!-- <version>1.0.0.Final</version> -->
-		<!-- </dependency> -->
-
 		<dependency>
 			<groupId>org.hibernate.javax.persistence</groupId>
 			<artifactId>hibernate-jpa-2.1-api</artifactId>
@@ -343,6 +337,25 @@
 			<artifactId>commons-dbcp</artifactId>
 			<version>1.2.2</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>3.10-FINAL</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>3.10-FINAL</version>
+		</dependency>
+
+		<!-- Jersey Multipart entity providers support module -->
+		<dependency>
+			<groupId>org.glassfish.jersey.media</groupId>
+			<artifactId>jersey-media-multipart</artifactId>
+			<version>${jersey-version}</version>
+		</dependency>
+
 
 	</dependencies>
 

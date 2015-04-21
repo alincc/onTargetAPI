@@ -28,6 +28,7 @@ import com.ontarget.bean.TaskComment;
 import com.ontarget.bean.TaskInfo;
 import com.ontarget.bean.TaskObj;
 import com.ontarget.bean.TaskStatusCount;
+import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.constant.OnTargetQuery;
 import com.ontarget.dto.ProjectTask;
 import com.ontarget.entities.DependentTask;
@@ -106,10 +107,11 @@ public class TaskJpaDAOImpl implements TaskDAO {
 
 	@Override
 	public List<TaskInfo> getAssignedTasksByProjectId(int projectId, int userId) throws Exception {
-		String hql = "SELECT pt FROM ProjectTask pt JOIN pt.taskAssigneeList ta WHERE pt.project.id = :projectId and ta.taskAssignee = :assigneeId";
+		String hql = "SELECT pt FROM ProjectTask pt JOIN pt.taskAssigneeList ta WHERE pt.project.id = :projectId and ta.taskAssignee = :assigneeId and pt.status != :status";
 		Query query = entityManager.createQuery(hql);
 		query.setParameter("projectId", projectId);
 		query.setParameter("assigneeId", userId);
+		query.setParameter("status", OnTargetConstant.TaskStatus.DELETED);
 		@SuppressWarnings("unchecked")
 		List<com.ontarget.entities.ProjectTask> taskList = query.getResultList();
 
@@ -172,14 +174,10 @@ public class TaskJpaDAOImpl implements TaskDAO {
 
 	@Override
 	public List<ProjectTask> getTasksByProject(int projectId) throws Exception {
-		String hql = "SELECT p FROM ProjectTask p WHERE p.project.id = :projectId";
-		Query query = entityManager.createQuery(hql);
-		query.setParameter("projectId", projectId);
-		@SuppressWarnings("unchecked")
-		List<com.ontarget.entities.ProjectTask> taskList = query.getResultList();
+		List<com.ontarget.entities.ProjectTask> taskList = projectTaskRepository.findUndeletedTasksByProject(projectId);
 
 		List<ProjectTask> tasks = new ArrayList<>();
-		if (taskList != null && taskList.size() > 0) {
+		if (taskList != null && !taskList.isEmpty()) {
 			for (com.ontarget.entities.ProjectTask taskObj : taskList) {
 				ProjectTask task = new ProjectTask();
 				task.setTitle(taskObj.getTitle());
@@ -267,13 +265,12 @@ public class TaskJpaDAOImpl implements TaskDAO {
 
 	@Override
 	public boolean updateTask(Task task, int userId) throws Exception {
-		ParentTask parentTask = task.getParentTask();
-		int projectTaskId = parentTask == null ? 0 : parentTask.getProjectTaskId();
+		// ParentTask parentTask = task.getParentTask();
+		// int projectTaskId = parentTask == null ? 0 :
 
-		com.ontarget.entities.ProjectTask projectTask = projectTaskRepository.findByProjectTaskId(projectTaskId);
+		com.ontarget.entities.ProjectTask projectTask = projectTaskRepository.findByProjectTaskId(task.getProjectTaskId());
 		projectTask.setTitle(task.getTitle());
 		projectTask.setDescription(task.getDescription());
-		projectTask.setParentTaskId(projectTaskId);
 		projectTask.setStatus(task.getStatus());
 		projectTask.setStartDate(task.getStartDate());
 		projectTask.setEndDate(task.getEndDate());
@@ -500,7 +497,16 @@ public class TaskJpaDAOImpl implements TaskDAO {
 		}
 
 		return tasks;
+	}
 
+	@Override
+	public boolean deleteTask(int taskId, int userId) throws Exception {
+		com.ontarget.entities.ProjectTask projectTask = projectTaskRepository.findByProjectTaskId(taskId);
+		projectTask.setStatus(OnTargetConstant.TaskStatus.DELETED);
+		projectTask.setModifiedBy(new User(userId));
+		projectTask.setModifiedDate(new Date());
+		projectTaskRepository.save(projectTask);
+		return true;
 	}
 
 }

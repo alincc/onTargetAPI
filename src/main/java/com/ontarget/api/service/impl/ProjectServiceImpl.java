@@ -351,10 +351,10 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Override
 	public ProjectListResponse getUserProjectDetails(int userId) throws Exception {
-		Project projectInfo = projectDAO.getMainProjectByUser(userId);
+		Project mainProject = projectDAO.getMainProjectByUser(userId);
 
-		if (projectInfo != null) {
-			ProjectDTO project = ProjectUtil.convertToProjectDTO(projectInfo);
+		if (mainProject != null) {
+			ProjectDTO project = ProjectUtil.convertToProjectDTO(mainProject);
 			Company company = companyDAO.getCompany(project.getCompanyId());
 			project.setCompany(company);
 
@@ -458,6 +458,18 @@ public class ProjectServiceImpl implements ProjectService {
 			}
 		}
 		return project;
+	}
+
+	@Override
+	@Transactional(rollbackFor = { Exception.class })
+	public boolean deleteProject(int projectId, int userId) {
+		try {
+			return projectDAO.deleteProject(projectId, userId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.info("error: " + e);
+			return false;
+		}
 	}
 
 }

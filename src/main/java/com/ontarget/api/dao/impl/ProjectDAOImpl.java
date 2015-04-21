@@ -312,13 +312,16 @@ public class ProjectDAOImpl implements ProjectDAO {
 
 	@Override
 	public Project findProjectById(int projectId) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public Project getMainProjectByUser(int userId) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public boolean deleteProject(int projectId,int userId) throws Exception {
+		throw new UnsupportedOperationException();
 	}
 }

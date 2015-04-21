@@ -41,4 +41,6 @@ public interface ProjectDAO {
 	public List<Project> getUndeletedProjectsByParentId(Integer parentProjectId);
 
 	public Project findProjectById(int projectId) throws Exception;
+	
+	public boolean deleteProject(int projectId,int userId) throws Exception;
 }

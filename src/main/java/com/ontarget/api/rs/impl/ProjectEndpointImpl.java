@@ -150,24 +150,6 @@ public class ProjectEndpointImpl implements ProjectEndoint {
 
 		ProjectListResponse response = new ProjectListResponse();
 		try {
-			response = projectService.getProjectsByUser(projectUserRequest.getUserId());
-			response.setReturnVal(OnTargetConstant.SUCCESS);
-			response.setReturnMessage("Successfully retrieved project info");
-		} catch (Exception e) {
-			logger.error("Error while getting project by company", e);
-			response.setReturnMessage("Error while getting project by company");
-			response.setReturnVal(OnTargetConstant.ERROR);
-		}
-		return response;
-	}
-
-	@Override
-	@POST
-	@Path("/getUserProjectDetails")
-	public ProjectListResponse getUserProjectDetails(ProjectUserRequest projectUserRequest) {
-
-		ProjectListResponse response = new ProjectListResponse();
-		try {
 			response = projectService.getUserProjectDetails(projectUserRequest.getUserId());
 			if (response.getResponseCode().equalsIgnoreCase("SUCC")) {
 				response.setReturnVal(OnTargetConstant.SUCCESS);
@@ -180,6 +162,47 @@ public class ProjectEndpointImpl implements ProjectEndoint {
 		} catch (Exception e) {
 			logger.error("Error while getting project by user", e);
 			response.setReturnMessage("Error while getting project by user");
+			response.setReturnVal(OnTargetConstant.ERROR);
+		}
+		return response;
+	}
+
+	@Override
+	@POST
+	@Path("/getUserProjectDetails")
+	public ProjectListResponse getUserProjectDetails(ProjectUserRequest projectUserRequest) {
+		ProjectListResponse response = new ProjectListResponse();
+		try {
+			response = projectService.getProjectsByUser(projectUserRequest.getUserId());
+			response.setReturnVal(OnTargetConstant.SUCCESS);
+			response.setReturnMessage("Successfully retrieved project info");
+		} catch (Exception e) {
+			logger.error("Error while getting project by company", e);
+			response.setReturnMessage("Error while getting project by user");
+			response.setReturnVal(OnTargetConstant.ERROR);
+		}
+		return response;
+	}
+
+	@Override
+	@POST
+	@Path("/deleteProject")
+	public ProjectResponse deleteProject(ProjectDetailRequest projectDetailRequest) {
+		ProjectResponse response = new ProjectResponse();
+		try {
+			boolean deleted = projectService.deleteProject(projectDetailRequest.getProjectId(), projectDetailRequest
+					.getBaseRequest().getLoggedInUserId());
+			if (deleted) {
+				response.setReturnVal(OnTargetConstant.SUCCESS);
+				response.setReturnMessage("Successfully deleted project");
+			} else {
+				response.setReturnMessage("Error while deleting project");
+				response.setReturnVal(OnTargetConstant.ERROR);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("Error while getting project", e);
+			response.setReturnMessage("Error while deleting project");
 			response.setReturnVal(OnTargetConstant.ERROR);
 		}
 		return response;

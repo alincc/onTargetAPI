@@ -303,7 +303,16 @@ public class ProjectJpaDAOImpl implements ProjectDAO {
 		}
 
 		return companies;
+	}
 
+	@Override
+	public boolean deleteProject(int projectId, int userId) throws Exception {
+		Project project = projectRepository.findByProjectId(projectId);
+		project.setProjectStatus(OnTargetConstant.ProjectStatus.DELETED);
+		project.setModifiedBy(new User(userId));
+		project.setModifiedDate(new Date());
+		projectRepository.save(project);
+		return true;
 	}
 
 }

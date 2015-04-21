@@ -47,6 +47,11 @@ public class DateFormater {
 		DateFormat sqlDateFormatter = new SimpleDateFormat("yyyy-MM-dd");
 		return sqlDateFormatter.parse(date);
 	}
+	
+	public static Date convertToDate(String date,String format) throws ParseException {
+		DateFormat sqlDateFormatter = new SimpleDateFormat(format);
+		return sqlDateFormatter.parse(date);
+	}
 
 	public static java.util.Date changeFormat(java.util.Date date, String format) {
 		try {

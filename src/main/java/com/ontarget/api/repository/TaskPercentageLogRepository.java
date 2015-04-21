@@ -6,4 +6,5 @@ import com.ontarget.entities.TaskPercentageLog;
 
 public interface TaskPercentageLogRepository extends JpaRepository<TaskPercentageLog, Integer> {
 
+	TaskPercentageLog findByTaskPercentageLogId(Integer id);
 }

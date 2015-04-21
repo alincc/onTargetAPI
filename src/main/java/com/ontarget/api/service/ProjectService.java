@@ -32,4 +32,6 @@ public interface ProjectService {
     public ProjectInfo getProjectTree(int projectId) throws Exception;
     
     public ProjectListResponse getUserProjectDetails(int userId) throws Exception;
+    
+    public boolean deleteProject(int projectId,int userId);
 }

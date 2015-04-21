@@ -27,39 +27,31 @@ import com.ontarget.request.bean.UserTask;
  */
 public interface TaskEndpoint {
 
-	public OnTargetResponse addTask(
-			@TaskDateRangeBetweenProject @Valid TaskRequest request);
+	public OnTargetResponse addTask(@TaskDateRangeBetweenProject @Valid TaskRequest request);
 
-	public ProjectTaskResponse getTask(
-			@Valid ProjectTaskRequest projectTaskRequest);
+	public ProjectTaskResponse getTask(@Valid ProjectTaskRequest projectTaskRequest);
 
-	public TaskListCountResponse getTaskCountByStatus(
-			@Valid ProjectTaskRequest projectTaskRequest);
+	public TaskListCountResponse getTaskCountByStatus(@Valid ProjectTaskRequest projectTaskRequest);
 
 	public UserResponse addUpdateCommentToTask(@Valid TaskCommentRequest comment);
 
-	public OnTargetResponse updateTaskStatus(
-			@Valid TaskStatusUpdateRequest request);
+	public OnTargetResponse updateTaskStatus(@Valid TaskStatusUpdateRequest request);
 
-	public OnTargetResponse addTaskMember(
-			@Valid TaskMemberRequest taskMemberRequest);
+	public OnTargetResponse addTaskMember(@Valid TaskMemberRequest taskMemberRequest);
 
 	public InsertResponse saveTaskFile(@Valid TaskFileSaveRequest request);
 
-	public OnTargetResponse assignTaskToUser(
-			@Valid TaskMemberRequest taskMemberRequest);
+	public OnTargetResponse assignTaskToUser(@Valid TaskMemberRequest taskMemberRequest);
 
-	public InsertResponse addDependentTask(
-			@Valid DependentTaskRequest dependentTaskRequest);
+	public InsertResponse addDependentTask(@Valid DependentTaskRequest dependentTaskRequest);
 
-	public ProjectTaskResponse getDependentTasks(
-			@Valid DependentTaskDetail dependentTaskDetail);
+	public ProjectTaskResponse getDependentTasks(@Valid DependentTaskDetail dependentTaskDetail);
 
-	public GetTaskAttachmentResponse getTaskAttachments(
-			@Valid TaskAttachmentRequest taskAttachmentRequest);
+	public GetTaskAttachmentResponse getTaskAttachments(@Valid TaskAttachmentRequest taskAttachmentRequest);
 
-	public TaskDetailResponse getTaskDetail(
-			@Valid TaskDetailRequest taskDetailRequest);
+	public TaskDetailResponse getTaskDetail(@Valid TaskDetailRequest taskDetailRequest);
 
 	public ProjectTaskResponse getUserTask(@Valid UserTask userTask);
+	
+	public TaskDetailResponse deleteTask(TaskDetailRequest taskDetailRequest);
 }
