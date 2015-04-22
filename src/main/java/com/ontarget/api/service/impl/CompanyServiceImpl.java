@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.ontarget.api.dao.CompanyDAO;
 import com.ontarget.bean.Company;
+import com.ontarget.request.bean.CompanyInfoRequest;
 
 /**
  * Created by sumit on 12/24/14.
@@ -22,5 +23,9 @@ public class CompanyServiceImpl implements com.ontarget.api.service.CompanyServi
 	@Override
 	public List<Company> getCompanyList() throws Exception {
 		return companyDAO.getCompanyList();
+	}
+	
+	public Company getCompanyInfo(CompanyInfoRequest request) throws Exception{
+		return companyDAO.getCompany(request.getCompanyId());
 	}
 }

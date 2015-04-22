@@ -69,6 +69,19 @@ public class CompanyJpaDAOImpl implements CompanyDAO {
 		CompanyInfo companyInfo = companyInfoRepository.findByCompanyId(companyId);
 		Company company = new Company();
 		company.setCompanyName(companyInfo.getCompanyName());
+		company.setCompanyId(companyInfo.getCompanyId());
+		company.setCompanyTypeId(companyInfo.getCompanyType().getCompanyTypeId());
+
+		AddressDTO address = new AddressDTO();
+		address.setAddress1(companyInfo.getAddress1());
+		address.setAddress2(companyInfo.getAddress2());
+		address.setCity(companyInfo.getCity());
+		address.setState(companyInfo.getState());
+		address.setZip(companyInfo.getZipcode());
+		address.setCountry(companyInfo.getCountry());
+
+		company.setAddress(address);
+
 		return company;
 	}
 

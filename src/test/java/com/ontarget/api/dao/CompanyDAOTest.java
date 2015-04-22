@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 import com.ontarget.api.rs.BaseTest;
+import com.ontarget.bean.Company;
 import com.ontarget.bean.UserAddressInfo;
 import com.ontarget.request.bean.CompanyEditInfo;
 
@@ -45,6 +46,18 @@ public class CompanyDAOTest extends BaseTest {
 			Assert.assertTrue(updated);
 		} catch (Exception e) {
 			logger.error("Error while updating company details", e);
+			fail();
+		}
+	}
+
+	@Test
+	public void getCompany() {
+		int companyId = 1;
+		try {
+			Company company = companyDAO.getCompany(companyId);
+			Assert.assertTrue(company != null);
+		} catch (Exception e) {
+			logger.error("Error while retrieving company info", e);
 			fail();
 		}
 	}
