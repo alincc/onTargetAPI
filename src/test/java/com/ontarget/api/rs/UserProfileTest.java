@@ -9,6 +9,8 @@ import com.ontarget.dto.ChangeUserPasswordRequest;
 import com.ontarget.dto.ForgotPasswordRequest;
 import com.ontarget.dto.UserImageRequest;
 import com.ontarget.dto.UserProfileRequest;
+import com.ontarget.request.bean.CompanyEditInfo;
+import com.ontarget.request.bean.CompanyInfoEditRequest;
 import com.ontarget.request.bean.UpdateUserProfileRequest;
 import com.ontarget.request.bean.UserCompanyInfo;
 import com.ontarget.request.bean.UserContactInfo;
@@ -57,8 +59,7 @@ public class UserProfileTest extends BaseTest {
 		System.out.println(toJsonString(request, true));
 		Response response = sendRequest("/profile/addUserProfile", request);
 		if (response.getStatus() != 200) {
-			throw new RuntimeException("Failed : HTTP error code : "
-					+ response.getStatus());
+			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
 		}
 		String output = response.readEntity(String.class);
 		System.out.println("Server response ....(/profile/addUserProfile) \n");
@@ -85,8 +86,40 @@ public class UserProfileTest extends BaseTest {
 		System.out.println(toJsonString(request, true));
 		Response response = sendRequest("/profile/updateUserProfile", request);
 		if (response.getStatus() != 200) {
-			throw new RuntimeException("Failed : HTTP error code : "
-					+ response.getStatus());
+			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
+		}
+		String output = response.readEntity(String.class);
+		System.out.println("Server response ....(/profile/updateUserProfile) \n");
+		System.out.println(output);
+	}
+
+	@Test
+	public void updateCompanyInfo() {
+
+		CompanyInfoEditRequest request = new CompanyInfoEditRequest();
+
+		CompanyEditInfo company = new CompanyEditInfo();
+		company.setCompanyId(1);
+		company.setCompanyName("SIMON AND BARRON WEA RESIDENTIAL");
+		company.setCompanyTypeId(1);
+
+		UserAddressInfo address = new UserAddressInfo();
+		address.setAddress1("363 23rd st");
+		address.setAddress2("Suite 2098");
+		address.setCity("New York");
+		address.setCountry("USA");
+		address.setState("NY");
+		address.setZip("10001");
+
+		company.setAddress(address);
+
+		request.setCompany(company);
+
+		System.out.println("Client request ....(/profile/updateCompanyInfo) \n");
+		System.out.println(toJsonString(request, true));
+		Response response = sendRequest("/profile/updateCompanyInfo", request);
+		if (response.getStatus() != 200) {
+			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
 		}
 		String output = response.readEntity(String.class);
 		System.out.println("Server response ....(/profile/updateUserProfile) \n");
@@ -101,11 +134,9 @@ public class UserProfileTest extends BaseTest {
 
 		System.out.println("Client request ....(/profile/forgotPasswordRequest) \n");
 		System.out.println(toJsonString(request, true));
-		Response response = sendRequest("/profile/forgotPasswordRequest",
-				request);
+		Response response = sendRequest("/profile/forgotPasswordRequest", request);
 		if (response.getStatus() != 200) {
-			throw new RuntimeException("Failed : HTTP error code : "
-					+ response.getStatus());
+			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
 		}
 		String output = response.readEntity(String.class);
 		System.out.println("Server response ...(/profile/forgotPasswordRequest) \n");
@@ -122,11 +153,9 @@ public class UserProfileTest extends BaseTest {
 
 		System.out.println("Client request ....(/profile/changeForgotPassword) \n");
 		System.out.println(toJsonString(request, true));
-		Response response = sendRequest("/profile/changeForgotPassword",
-				request);
+		Response response = sendRequest("/profile/changeForgotPassword", request);
 		if (response.getStatus() != 200) {
-			throw new RuntimeException("Failed : HTTP error code : "
-					+ response.getStatus());
+			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
 		}
 		String output = response.readEntity(String.class);
 		System.out.println("Server response ....(/profile/changeForgotPassword) \n");
@@ -145,8 +174,7 @@ public class UserProfileTest extends BaseTest {
 		System.out.println(toJsonString(request, true));
 		Response response = sendRequest("/profile/changeUserPassword", request);
 		if (response.getStatus() != 200) {
-			throw new RuntimeException("Failed : HTTP error code : "
-					+ response.getStatus());
+			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
 		}
 		String output = response.readEntity(String.class);
 		System.out.println("Server response ....(/profile/changeUserPassword) \n");
@@ -159,8 +187,7 @@ public class UserProfileTest extends BaseTest {
 		System.out.println("Client request ....(/profile/getSafetyInfoForUser?userId=1) \n");
 		Response response = getRequest("/profile/getSafetyInfoForUser?userId=1");
 		if (response.getStatus() != 200) {
-			throw new RuntimeException("Failed : HTTP error code : "
-					+ response.getStatus());
+			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
 		}
 		String output = response.readEntity(String.class);
 		System.out.println("Server response ....(/profile/getSafetyInfoForUser?userId=1) \n");
@@ -177,11 +204,9 @@ public class UserProfileTest extends BaseTest {
 
 		System.out.println("Client request ....(/profile/saveUserProfileImage) \n");
 		System.out.println(toJsonString(request, true));
-		Response response = sendRequest("/profile/saveUserProfileImage",
-				request);
+		Response response = sendRequest("/profile/saveUserProfileImage", request);
 		if (response.getStatus() != 200) {
-			throw new RuntimeException("Failed : HTTP error code : "
-					+ response.getStatus());
+			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
 		}
 		String output = response.readEntity(String.class);
 		System.out.println("Server response ....(/profile/saveUserProfileImage) \n");
@@ -194,8 +219,7 @@ public class UserProfileTest extends BaseTest {
 		System.out.println("Client request ....(/profile/validateForgotPassword/token) \n");
 		Response response = getRequest("/profile/validateForgotPassword/token");
 		if (response.getStatus() != 200) {
-			throw new RuntimeException("Failed : HTTP error code : "
-					+ response.getStatus());
+			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
 		}
 		String output = response.readEntity(String.class);
 		System.out.println("Server response ....(/profile/validateForgotPassword/token) \n");

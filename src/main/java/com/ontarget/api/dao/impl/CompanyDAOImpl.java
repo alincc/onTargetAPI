@@ -21,6 +21,7 @@ import com.ontarget.bean.AddressDTO;
 import com.ontarget.bean.Company;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.constant.OnTargetQuery;
+import com.ontarget.request.bean.CompanyEditInfo;
 
 /**
  * Created by Owner on 11/5/14.
@@ -98,5 +99,10 @@ public class CompanyDAOImpl implements CompanyDAO {
 		}
 
 		return companies;
+	}
+
+	@Override
+	public boolean update(CompanyEditInfo company) throws Exception {
+		throw new UnsupportedOperationException();
 	}
 }

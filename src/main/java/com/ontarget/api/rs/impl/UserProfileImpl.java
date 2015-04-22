@@ -29,6 +29,7 @@ import com.ontarget.dto.SafetyInfoResponse;
 import com.ontarget.dto.UserImageRequest;
 import com.ontarget.dto.UserProfileRequest;
 import com.ontarget.dto.UserProfileResponse;
+import com.ontarget.request.bean.CompanyInfoEditRequest;
 import com.ontarget.request.bean.InviteUserIntoProjectRequest;
 import com.ontarget.request.bean.UpdateUserProfileRequest;
 import com.ontarget.util.Security;
@@ -83,6 +84,23 @@ public class UserProfileImpl implements UserProfile {
 		} catch (Exception e) {
 			logger.error("Add User Profile failed.", e);
 			response.setReturnMessage("Update task failed");
+			response.setReturnVal(OnTargetConstant.ERROR);
+		}
+
+		return response;
+	}
+
+	@Override
+	@POST
+	@Path("/updateCompanyInfo")
+	public OnTargetResponse updateCompanyInfo(CompanyInfoEditRequest request) {
+		OnTargetResponse response = new OnTargetResponse();
+		try {
+			response = userProfileService.updateCompanyInfo(request);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("Error while updating company details.", e);
+			response.setReturnMessage("Error while updating company details");
 			response.setReturnVal(OnTargetConstant.ERROR);
 		}
 

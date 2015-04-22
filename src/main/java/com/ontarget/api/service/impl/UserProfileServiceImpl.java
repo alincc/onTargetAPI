@@ -31,6 +31,8 @@ import com.ontarget.dto.UserImageRequest;
 import com.ontarget.dto.UserProfileRequest;
 import com.ontarget.dto.UserProfileResponse;
 import com.ontarget.entities.User;
+import com.ontarget.request.bean.CompanyEditInfo;
+import com.ontarget.request.bean.CompanyInfoEditRequest;
 import com.ontarget.request.bean.UpdateUserProfileRequest;
 import com.ontarget.request.bean.UserCompanyInfo;
 import com.ontarget.request.bean.UserContactInfo;
@@ -169,6 +171,25 @@ public class UserProfileServiceImpl implements UserProfileService {
 			response.setReturnVal(OnTargetConstant.SUCCESS);
 		} else {
 			response.setReturnMessage("No Rows were updated. Seems User does not exists or may not have any contact info");
+			response.setReturnVal(OnTargetConstant.ERROR);
+		}
+
+		return response;
+	}
+
+	@Override
+	@Transactional(rollbackFor = { Exception.class })
+	public OnTargetResponse updateCompanyInfo(CompanyInfoEditRequest request) throws Exception {
+		OnTargetResponse response = new OnTargetResponse();
+
+		CompanyEditInfo companyEditInfo = request.getCompany();
+
+		boolean updated = companyDAO.update(companyEditInfo);
+		if (updated) {
+			response.setReturnMessage("Successfully updated company details");
+			response.setReturnVal(OnTargetConstant.SUCCESS);
+		} else {
+			response.setReturnMessage("Error while updating company details");
 			response.setReturnVal(OnTargetConstant.ERROR);
 		}
 
