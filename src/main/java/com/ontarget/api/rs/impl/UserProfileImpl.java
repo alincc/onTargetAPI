@@ -77,16 +77,14 @@ public class UserProfileImpl implements UserProfile {
 	@POST
 	@Path("/updateUserProfile")
 	public OnTargetResponse updateUserProfile(UpdateUserProfileRequest userProfileRequest) {
-		logger.info("Received request to add profile: " + userProfileRequest);
-		OnTargetResponse response = new UserProfileResponse();
+		OnTargetResponse response = new OnTargetResponse();
 		try {
 			response = userProfileService.updateUserProfileAndContactInfo(userProfileRequest);
 		} catch (Exception e) {
-			logger.error("Add User Profile failed.", e);
-			response.setReturnMessage("Update task failed");
+			logger.error("update user profile failed.", e);
+			response.setReturnMessage("Update user profile failed.");
 			response.setReturnVal(OnTargetConstant.ERROR);
 		}
-
 		return response;
 	}
 

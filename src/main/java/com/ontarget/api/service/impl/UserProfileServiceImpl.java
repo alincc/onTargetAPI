@@ -153,27 +153,16 @@ public class UserProfileServiceImpl implements UserProfileService {
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
 	public OnTargetResponse updateUserProfileAndContactInfo(UpdateUserProfileRequest request) throws Exception {
-		logger.info("Request to add user profile" + request);
 		OnTargetResponse response = new OnTargetResponse();
 
-		UserContactInfo userContactInfo = request.getContact();
-		Contact contact = ConvertPOJOUtils.convertToContact(userContactInfo);
-
-		UserInfo userInfo = request.getUser();
-		UserDTO userDTO = new UserDTO();
-		userDTO.setUserId(userInfo.getUserId());
-
-		contact.setUser(userDTO);
-
-		boolean saved = contactDAO.updateContactInfo(contact);
-		if (saved) {
-			response.setReturnMessage("Successfully created company and user profile");
+		boolean updated = userDAO.updateUserProfile(request);
+		if (updated) {
+			response.setReturnMessage("Successfully updated user profile");
 			response.setReturnVal(OnTargetConstant.SUCCESS);
 		} else {
 			response.setReturnMessage("No Rows were updated. Seems User does not exists or may not have any contact info");
 			response.setReturnVal(OnTargetConstant.ERROR);
 		}
-
 		return response;
 	}
 

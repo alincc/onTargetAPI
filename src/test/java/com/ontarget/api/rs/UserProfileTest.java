@@ -15,6 +15,7 @@ import com.ontarget.request.bean.UpdateUserProfileRequest;
 import com.ontarget.request.bean.UserCompanyInfo;
 import com.ontarget.request.bean.UserContactInfo;
 import com.ontarget.request.bean.UserInfo;
+import com.ontarget.request.bean.UserProfileInfo;
 
 /**
  * Created by Owner on 11/5/14.
@@ -69,18 +70,16 @@ public class UserProfileTest extends BaseTest {
 	@Test
 	public void updateUserProfile() {
 
-		UserContactInfo contact = new UserContactInfo();
-		contact.setTitle("Project Manager");
-		contact.setFirstName("firstname");
-		contact.setLastName("lastname");
-		contact.setUserImagePath("");
-
-		UserInfo user = new UserInfo();
-		user.setUserId(1);
-
 		UpdateUserProfileRequest request = new UpdateUserProfileRequest();
-		request.setUser(user);
-		request.setContact(contact);
+		UserProfileInfo userProfileInfo = new UserProfileInfo();
+		userProfileInfo.setAreaCode(977);
+		userProfileInfo.setPhoneNumber("9801012345");
+		userProfileInfo.setFirstName("Sanjeev");
+		userProfileInfo.setLastName("Ghimire");
+		userProfileInfo.setEmail("sanjeev@ontargetcloud.com");
+		userProfileInfo.setUserId(1);
+
+		request.setUserProfileInfo(userProfileInfo);
 
 		System.out.println("Client request ....(/profile/updateUserProfile) \n");
 		System.out.println(toJsonString(request, true));
