@@ -54,8 +54,9 @@ public class UploadActivityJpaDAOImpl implements UploadActivityDAO {
 		bulkActivityLog.setUploadedDate(new Date());
 		entityManager.persist(bulkActivityLog);
 
+		Project parentProject = projectRepository.findByProjectId(projectId);
+
 		for (ActivityInfo activityInfo : activityInfoList) {
-			Project parentProject = projectRepository.findByProjectId(projectId);
 			Project project = new Project();
 			project.setProjectCode(activityInfo.getActivityCode());
 			project.setProjectName(activityInfo.getActivityName());
