@@ -19,6 +19,8 @@ public interface TaskDAO {
 
 	public int addTask(Task task, int userId) throws Exception;
 
+	public com.ontarget.entities.ProjectTask getProjectTaskById(int projectTaskId);
+
 	public List<TaskInfo> getTask(int projectId) throws Exception;
 
 	public List<TaskInfo> getAssignedTasksByProjectId(int projectId, int userId) throws Exception;
@@ -64,6 +66,6 @@ public interface TaskDAO {
 	public int addDependentTask(DependentTaskDTO dependentTask) throws Exception;
 
 	public List<TaskInfo> getTask(int projectId, int completed) throws Exception;
-	
-	public boolean deleteTask(int taskId,int userId) throws Exception ;
+
+	public boolean deleteTask(int taskId, int userId) throws Exception;
 }

@@ -36,10 +36,6 @@ public class Task {
 	@JsonProperty("endDate")
 	private Date endDate;
 	@NotNull
-	@Valid
-	@JsonProperty("parentTask")
-	private ParentTask parentTask;
-	@NotNull
 	private Integer projectId;
 
 	/**
@@ -151,25 +147,6 @@ public class Task {
 
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
-	}
-
-	/**
-	 * 
-	 * @return The parentTask
-	 */
-	@JsonProperty("parentTask")
-	public ParentTask getParentTask() {
-		return parentTask;
-	}
-
-	/**
-	 * 
-	 * @param parentTask
-	 *            The parentTask
-	 */
-	@JsonProperty("parentTask")
-	public void setParentTask(ParentTask parentTask) {
-		this.parentTask = parentTask;
 	}
 
 	public Integer getProjectId() {
