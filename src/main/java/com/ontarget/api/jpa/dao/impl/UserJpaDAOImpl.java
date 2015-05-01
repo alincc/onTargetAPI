@@ -116,9 +116,12 @@ public class UserJpaDAOImpl extends BaseGenericDAOImpl<UserDTO> implements UserD
 	@Override
 	public boolean updateUserProfile(UpdateUserProfileRequest request) throws Exception {
 		UserProfileInfo profile = request.getUserProfileInfo();
-		List<com.ontarget.entities.Contact> contactList = contactRepository.findByUserId(profile.getUserId());
+
+		User user = userRepository.findByUserId(profile.getUserId());
+
+		List<com.ontarget.entities.Contact> contactList = user.getContactList();
 		if (contactList == null || contactList.isEmpty()) {
-			throw new Exception("User " + profile.getUserId() + " does not exist");
+			throw new Exception("User " + profile.getUserId() + " does not have contact");
 		}
 		Contact contact = contactList.get(0);
 		contact.setFirstName(profile.getFirstName());
@@ -130,21 +133,30 @@ public class UserJpaDAOImpl extends BaseGenericDAOImpl<UserDTO> implements UserD
 		phone.setAreaCode(profile.getAreaCode());
 		phoneRepository.save(phone);
 
-		List<Email> emailList = contact.getEmailList();
+		List<Email> emailList = user.getEmailList();
 		if (emailList != null && !emailList.isEmpty()) {
 			Email email = emailList.get(0);
 			email.setEmailAddress(profile.getEmail());
 			emailRepository.save(email);
 		} else {
 			Email email = new Email();
-			email.setContact(contact);
+			email.setUser(user);
 			email.setEmailAddress(profile.getEmail());
-			email.setEmailType("PERSONAL");
+			email.setAddedDate(new Date());
 			email.setStatus("ACTIVE");
 			emailRepository.save(email);
 		}
 
 		return true;
+	}
+
+	@Override
+	public boolean usernameAlreadyRegistered(String username) throws Exception {
+		List<User> userList = userRepository.findUserByUsername(username);
+		if (userList != null && !userList.isEmpty()) {
+			return true;
+		}
+		return false;
 	}
 
 }

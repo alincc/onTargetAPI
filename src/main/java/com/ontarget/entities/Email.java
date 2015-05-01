@@ -1,6 +1,7 @@
 package com.ontarget.entities;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -12,6 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
@@ -28,13 +31,14 @@ public class Email implements Serializable {
 	private Integer emailId;
 	@Column(name = "email_address", length = 45)
 	private String emailAddress;
-	@Column(name = "email_type", length = 45)
-	private String emailType;
 	@Column(name = "status", length = 45)
 	private String status;
-	@JoinColumn(name = "contact_id", referencedColumnName = "contact_id", nullable = false)
+	@Column(name = "added_date")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date addedDate;
+	@JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false)
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
-	private Contact contact;
+	private User user;
 
 	public Email() {
 	}
@@ -59,12 +63,12 @@ public class Email implements Serializable {
 		this.emailAddress = emailAddress;
 	}
 
-	public String getEmailType() {
-		return emailType;
+	public Date getAddedDate() {
+		return addedDate;
 	}
 
-	public void setEmailType(String emailType) {
-		this.emailType = emailType;
+	public void setAddedDate(Date addedDate) {
+		this.addedDate = addedDate;
 	}
 
 	public String getStatus() {
@@ -75,12 +79,12 @@ public class Email implements Serializable {
 		this.status = status;
 	}
 
-	public Contact getContact() {
-		return contact;
+	public User getUser() {
+		return user;
 	}
 
-	public void setContact(Contact contact) {
-		this.contact = contact;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	@Override

@@ -2,9 +2,6 @@ package com.ontarget.api.rs;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
 
@@ -20,25 +17,13 @@ import com.ontarget.request.bean.UserRegistrationInfo;
  */
 public interface UserRegistration {
 
-	OnTargetResponse inviteUserIntoProject(
-			@Valid InviteUserIntoProjectRequest request);
+	OnTargetResponse inviteUserIntoProject(@Valid InviteUserIntoProjectRequest request);
 
-	@POST
-	@Path("/inviteToNewAccount")
-	OnTargetResponse inviteUserIntoNewAccount(
-			@Valid InviteUserIntoProjectRequest registration);
+	OnTargetResponse inviteUserIntoNewAccount(@Valid InviteUserIntoProjectRequest registration);
 
-	@GET
-	@Path("/validateLink")
 	UserInviteResponse validateLink(@NotEmpty @QueryParam("q") String link);
 
-	@POST
-	@Path("/createUser")
-	OnTargetResponse createNewUser(
-			@Valid UserRegistrationInfo userRegistrationRequest);
+	OnTargetResponse createNewUser(@Valid UserRegistrationInfo userRegistrationRequest);
 
-	@POST
-	@Path("/activateAccount/{userId}")
-	OnTargetResponse activateAccount(
-			@NotNull @PathParam("userId") Integer userId);
+	OnTargetResponse activateAccount(@NotNull @PathParam("userId") Integer userId);
 }

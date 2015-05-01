@@ -31,12 +31,7 @@ public class EmailJpaDAOImpl extends BaseGenericDAOImpl<Email> implements EmailD
 
 	@Override
 	public Email getByContactId(int contactId) {
-		com.ontarget.entities.Email emailInfo = emailRepository.findByContactId(contactId);
-
-		Email email = new Email();
-		email.setEmailId(emailInfo.getEmailId());
-		email.setEmailAddress(emailInfo.getEmailAddress());
-		return email;
+		throw new UnsupportedOperationException();
 	}
 
 }

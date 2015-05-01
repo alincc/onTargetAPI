@@ -119,4 +119,9 @@ public class UserDAOImpl extends BaseGenericDAOImpl<UserDTO> implements UserDAO 
 	public boolean updateUserProfile(UpdateUserProfileRequest request) throws Exception {
 		throw new UnsupportedOperationException();
 	}
+
+	@Override
+	public boolean usernameAlreadyRegistered(String username) throws Exception {
+		throw new UnsupportedOperationException();
+	}
 }

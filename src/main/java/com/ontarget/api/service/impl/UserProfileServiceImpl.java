@@ -265,32 +265,34 @@ public class UserProfileServiceImpl implements UserProfileService {
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
-	public boolean createNewUserFromInvitation(UserRegistrationInfo registration) throws Exception {
-		UserRegistration registrationFrom = userRegistrationDAO.getInvitationRegistration(registration.getRegistrationToken());
-		int userId = generateUserId();
-		boolean flag = false;
-		User user = null;
-		int t = 0;
-		do {
-			t++;
-			try {
-				user = userRegistrationDAO.createNewuser(registration, registrationFrom.getStatus());
-			} catch (DuplicateKeyException e) {
-				e.printStackTrace();
-				flag = true; // re run it
-				logger.info("duplicate key ", e);
-			}
-		} while (flag && t < 20);
-		if (flag) { // maximum value encountered i.e. wrong value used
-			throw new Exception(
-					"Maximum allowed id generation per user is exhausted. There is serious issue with this system. Please check");
-		}
-		// update registration request user id by token.
-		int updated = userRegistrationDAO.updateRegistrationRequestUserId(user.getUserId(), registration.getRegistrationToken());
-		if (updated <= 0)
-			throw new Exception("Error while updating registration request user id");
+	public OnTargetResponse createNewUserFromInvitation(UserRegistrationInfo registration) throws Exception {
+		OnTargetResponse response = new OnTargetResponse();
+		UserRegistration registrationRequest = userRegistrationDAO.getInvitationRegistration(registration.getRegistrationToken());
 
-		return true;
+		if (registrationRequest != null) {
+			if (!userDAO.usernameAlreadyRegistered(registration.getUsername())) {
+
+				User user = userRegistrationDAO.createNewuser(registration, registrationRequest.getStatus());
+
+				int updated = userRegistrationDAO.updateRegistrationRequestUserId(user.getUserId(),
+						registration.getRegistrationToken());
+				if (updated <= 0) {
+					response.setReturnVal(OnTargetConstant.ERROR);
+					response.setReturnMessage("Error while creating user");
+				} else {
+					response.setReturnMessage("Successfully created user based on invitation.");
+					response.setReturnVal(OnTargetConstant.SUCCESS);
+				}
+			} else {
+				response.setReturnVal(OnTargetConstant.ERROR);
+				response.setReturnMessage("Username already registered");
+			}
+		} else {
+			response.setReturnVal(OnTargetConstant.ERROR);
+			response.setReturnMessage("Invalid registration");
+		}
+
+		return response;
 	}
 
 	@Override

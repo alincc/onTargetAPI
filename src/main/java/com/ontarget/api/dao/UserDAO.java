@@ -18,4 +18,6 @@ public interface UserDAO extends GenericDAO<UserDTO> {
     public boolean expireForgotPasswordRequest(String token) throws Exception;
     
     public boolean updateUserProfile(UpdateUserProfileRequest request) throws Exception;
+    
+    public boolean usernameAlreadyRegistered(String username) throws Exception;
 }

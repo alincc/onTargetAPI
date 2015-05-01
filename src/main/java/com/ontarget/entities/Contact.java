@@ -68,8 +68,6 @@ public class Contact implements Serializable {
 	@JoinColumn(name = "contact_company_id", referencedColumnName = "company_id")
 	@ManyToOne(fetch = FetchType.LAZY)
 	private CompanyInfo companyInfo;
-	@OneToMany(mappedBy = "contact", fetch = FetchType.EAGER)
-	private List<Email> emailList;
 
 	public Contact() {
 	}
@@ -204,14 +202,6 @@ public class Contact implements Serializable {
 
 	public void setCompanyInfo(CompanyInfo companyInfo) {
 		this.companyInfo = companyInfo;
-	}
-
-	public List<Email> getEmailList() {
-		return emailList;
-	}
-
-	public void setEmailList(List<Email> emailList) {
-		this.emailList = emailList;
 	}
 
 	@Override
