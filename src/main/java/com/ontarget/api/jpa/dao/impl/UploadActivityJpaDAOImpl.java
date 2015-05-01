@@ -55,11 +55,12 @@ public class UploadActivityJpaDAOImpl implements UploadActivityDAO {
 		entityManager.persist(bulkActivityLog);
 
 		for (ActivityInfo activityInfo : activityInfoList) {
+			Project parentProject = projectRepository.findByProjectId(projectId);
 			Project project = new Project();
 			project.setProjectCode(activityInfo.getActivityCode());
 			project.setProjectName(activityInfo.getActivityName());
 			project.setProjectDescription(activityInfo.getActivityName());
-			project.setProjectType(new ProjectType(1));
+			project.setProjectType(parentProject.getProjectType());
 			project.setProjectStatus(OnTargetConstant.ProjectStatus.ACTIVE);
 			project.setProjectParentId(projectId);
 			project.setProjectStartDate(DateFormater.convertToDate(activityInfo.getStartDate(), DateValidator.dateFormat));
@@ -67,7 +68,7 @@ public class UploadActivityJpaDAOImpl implements UploadActivityDAO {
 			project.setCreatedBy(new User(userId));
 			project.setCreatedDate(new Date());
 			project.setProjectOwnerId(userId);
-			project.setCompanyInfo(new CompanyInfo(1));
+			project.setCompanyInfo(parentProject.getCompanyInfo());
 			project.setType(OnTargetConstant.ProjectInfoType.ACTIVITY);
 			entityManager.persist(project);
 
