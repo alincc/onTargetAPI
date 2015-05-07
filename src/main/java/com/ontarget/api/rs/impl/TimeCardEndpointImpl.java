@@ -1,6 +1,7 @@
 package com.ontarget.api.rs.impl;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -13,8 +14,11 @@ import org.springframework.stereotype.Component;
 import com.ontarget.api.rs.TimeCardEndpoint;
 import com.ontarget.api.service.TimeCardService;
 import com.ontarget.constant.OnTargetConstant;
+import com.ontarget.dto.FieldWorkerResponse;
 import com.ontarget.dto.OnTargetResponse;
+import com.ontarget.request.bean.AddFieldWorkerRequest;
 import com.ontarget.request.bean.AddTimeCardRequest;
+import com.ontarget.request.bean.UpdateFieldWorkerRequest;
 
 @Component
 @Path("/timeCard")
@@ -38,6 +42,54 @@ public class TimeCardEndpointImpl implements TimeCardEndpoint {
 			e.printStackTrace();
 			logger.error("Add time card failed." + e);
 			response.setReturnMessage("Add time card failed");
+			response.setReturnVal(OnTargetConstant.ERROR);
+		}
+		return response;
+	}
+
+	@Override
+	@POST
+	@Path("/addFieldWorker")
+	public OnTargetResponse addFieldWorker(AddFieldWorkerRequest request) {
+		OnTargetResponse response = new OnTargetResponse();
+		try {
+			return timeCardService.addFieldWorker(request);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("Add field worker failed." + e);
+			response.setReturnMessage("Add field worker failed");
+			response.setReturnVal(OnTargetConstant.ERROR);
+		}
+		return response;
+	}
+
+	@Override
+	@POST
+	@Path("/editFieldWorker")
+	public OnTargetResponse editFieldWorker(UpdateFieldWorkerRequest request) {
+		OnTargetResponse response = new OnTargetResponse();
+		try {
+			return timeCardService.editFieldWorker(request);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("edit field worker failed." + e);
+			response.setReturnMessage("edit field worker failed");
+			response.setReturnVal(OnTargetConstant.ERROR);
+		}
+		return response;
+	}
+
+	@Override
+	@GET
+	@Path("/getFieldWorkers")
+	public FieldWorkerResponse getFieldWorkers() {
+		FieldWorkerResponse response = new FieldWorkerResponse();
+		try {
+			return timeCardService.fetchAllFieldWorkers();
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("Error while retrieving field workers." + e);
+			response.setReturnMessage("Error while retrieving field workers");
 			response.setReturnVal(OnTargetConstant.ERROR);
 		}
 		return response;
