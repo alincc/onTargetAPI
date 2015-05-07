@@ -19,6 +19,7 @@ import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.request.bean.AddFieldWorkerRequest;
 import com.ontarget.request.bean.AddTimeCardRequest;
 import com.ontarget.request.bean.UpdateFieldWorkerRequest;
+import com.ontarget.request.bean.UpdateTimeCardRequest;
 
 @Component
 @Path("/timeCard")
@@ -42,6 +43,22 @@ public class TimeCardEndpointImpl implements TimeCardEndpoint {
 			e.printStackTrace();
 			logger.error("Add time card failed." + e);
 			response.setReturnMessage("Add time card failed");
+			response.setReturnVal(OnTargetConstant.ERROR);
+		}
+		return response;
+	}
+
+	@Override
+	@POST
+	@Path("/edit")
+	public OnTargetResponse edit(UpdateTimeCardRequest request) {
+		OnTargetResponse response = new OnTargetResponse();
+		try {
+			return timeCardService.editTimeCard(request);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("Edit time card failed." + e);
+			response.setReturnMessage("Edit time card failed");
 			response.setReturnVal(OnTargetConstant.ERROR);
 		}
 		return response;

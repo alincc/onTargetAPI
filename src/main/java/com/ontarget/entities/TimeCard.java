@@ -29,18 +29,25 @@ public class TimeCard implements Serializable {
 	@Basic(optional = false)
 	@Column(name = "id", nullable = false)
 	private Integer id;
-	@JoinColumn(name = "recorded_by", referencedColumnName = "user_id")
+	@JoinColumn(name = "added_by", referencedColumnName = "user_id", nullable = false)
 	@ManyToOne(fetch = FetchType.LAZY)
-	private User recordedBy;
+	private User addedBy;
 	@Basic(optional = false)
-	@Column(name = "recorded_date", nullable = false)
+	@Column(name = "added_date", nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date recordedDate;
+	private Date addedDate;
+	@JoinColumn(name = "modified_by", referencedColumnName = "user_id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	private User modifiedBy;
+	@Column(name = "modified_date")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date modifiedDate;
 	@JoinColumn(name = "project_task_id", referencedColumnName = "project_task_id", nullable = false)
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
 	private ProjectTask projectTask;
-	@Column(name = "name", length = 150)
-	private String name;
+	@JoinColumn(name = "field_worker_id", referencedColumnName = "id", nullable = false)
+	@ManyToOne(optional = false)
+	private FieldWorker fieldworker;
 	@Basic(optional = false)
 	@Column(name = "time_in", nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
@@ -54,7 +61,6 @@ public class TimeCard implements Serializable {
 	}
 
 	public TimeCard(Integer id) {
-		super();
 		this.id = id;
 	}
 
@@ -66,20 +72,36 @@ public class TimeCard implements Serializable {
 		this.id = id;
 	}
 
-	public User getRecordedBy() {
-		return recordedBy;
+	public User getAddedBy() {
+		return addedBy;
 	}
 
-	public void setRecordedBy(User recordedBy) {
-		this.recordedBy = recordedBy;
+	public void setAddedBy(User addedBy) {
+		this.addedBy = addedBy;
 	}
 
-	public Date getRecordedDate() {
-		return recordedDate;
+	public Date getAddedDate() {
+		return addedDate;
 	}
 
-	public void setRecordedDate(Date recordedDate) {
-		this.recordedDate = recordedDate;
+	public void setAddedDate(Date addedDate) {
+		this.addedDate = addedDate;
+	}
+
+	public User getModifiedBy() {
+		return modifiedBy;
+	}
+
+	public void setModifiedBy(User modifiedBy) {
+		this.modifiedBy = modifiedBy;
+	}
+
+	public Date getModifiedDate() {
+		return modifiedDate;
+	}
+
+	public void setModifiedDate(Date modifiedDate) {
+		this.modifiedDate = modifiedDate;
 	}
 
 	public ProjectTask getProjectTask() {
@@ -90,12 +112,12 @@ public class TimeCard implements Serializable {
 		this.projectTask = projectTask;
 	}
 
-	public String getName() {
-		return name;
+	public FieldWorker getFieldworker() {
+		return fieldworker;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setFieldworker(FieldWorker fieldworker) {
+		this.fieldworker = fieldworker;
 	}
 
 	public Date getTimeIn() {

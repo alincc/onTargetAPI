@@ -18,6 +18,7 @@ import com.ontarget.entities.User;
 import com.ontarget.request.bean.AddFieldWorkerRequest;
 import com.ontarget.request.bean.AddTimeCardRequest;
 import com.ontarget.request.bean.UpdateFieldWorkerRequest;
+import com.ontarget.request.bean.UpdateTimeCardRequest;
 
 @Repository("timeCardJpaDAOImpl")
 public class TimeCardJpaDAOImpl implements TimeCardDAO {
@@ -30,10 +31,23 @@ public class TimeCardJpaDAOImpl implements TimeCardDAO {
 	@Override
 	public boolean add(AddTimeCardRequest request) throws Exception {
 		TimeCard timeCard = new TimeCard();
-		timeCard.setName(request.getName());
+		timeCard.setFieldworker(new FieldWorker(request.getFieldWorkerId()));
 		timeCard.setProjectTask(new ProjectTask(request.getProjectTaskId()));
-		timeCard.setRecordedBy(new User(request.getBaseRequest().getLoggedInUserId()));
-		timeCard.setRecordedDate(new Date());
+		timeCard.setAddedBy(new User(request.getBaseRequest().getLoggedInUserId()));
+		timeCard.setAddedDate(new Date());
+		timeCard.setTimeIn(request.getTimeIn());
+		timeCard.setTimeOut(request.getTimeOut());
+		timeCardRepository.save(timeCard);
+		return true;
+	}
+
+	@Override
+	public boolean update(UpdateTimeCardRequest request) throws Exception {
+		TimeCard timeCard = timeCardRepository.findById(request.getId());
+		timeCard.setFieldworker(new FieldWorker(request.getFieldWorkerId()));
+		timeCard.setProjectTask(new ProjectTask(request.getProjectTaskId()));
+		timeCard.setModifiedBy(new User(request.getBaseRequest().getLoggedInUserId()));
+		timeCard.setModifiedDate(new Date());
 		timeCard.setTimeIn(request.getTimeIn());
 		timeCard.setTimeOut(request.getTimeOut());
 		timeCardRepository.save(timeCard);

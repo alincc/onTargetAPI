@@ -18,6 +18,7 @@ import com.ontarget.request.bean.AddFieldWorkerRequest;
 import com.ontarget.request.bean.AddTimeCardRequest;
 import com.ontarget.request.bean.BaseRequest;
 import com.ontarget.request.bean.UpdateFieldWorkerRequest;
+import com.ontarget.request.bean.UpdateTimeCardRequest;
 
 public class TimeCardDAOTest extends BaseTest {
 
@@ -39,13 +40,37 @@ public class TimeCardDAOTest extends BaseTest {
 
 		request.setTimeIn(new Date());
 		request.setTimeOut(new Date());
-		request.setName("Santosh Pun");
+		request.setFieldWorkerId(1);
 		request.setProjectTaskId(1);
 		try {
 			boolean added = timeCardDAO.add(request);
 			Assert.assertTrue(added);
 		} catch (Exception e) {
 			logger.error("Error while adding time card", e);
+			fail();
+		}
+	}
+
+	@Test
+	public void update() {
+		UpdateTimeCardRequest request = new UpdateTimeCardRequest();
+
+		BaseRequest baseRequest = new BaseRequest();
+		baseRequest.setLoggedInUserId(1);
+		baseRequest.setLoggedInUserProjectId(1);
+
+		request.setBaseRequest(baseRequest);
+
+		request.setId(1);
+		request.setTimeIn(new Date());
+		request.setTimeOut(new Date());
+		request.setFieldWorkerId(1);
+		request.setProjectTaskId(1);
+		try {
+			boolean updated = timeCardDAO.update(request);
+			Assert.assertTrue(updated);
+		} catch (Exception e) {
+			logger.error("Error while updating time card", e);
 			fail();
 		}
 	}

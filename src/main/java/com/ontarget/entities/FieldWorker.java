@@ -58,7 +58,6 @@ public class FieldWorker implements Serializable {
 	}
 
 	public FieldWorker(Integer id) {
-		super();
 		this.id = id;
 	}
 

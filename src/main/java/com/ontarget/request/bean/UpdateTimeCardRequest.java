@@ -12,12 +12,15 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "baseRequest", "projectTaskId", "fieldWorkerId", "timeIn", "timeOut" })
-public class AddTimeCardRequest {
+@JsonPropertyOrder({ "baseRequest", "id", "projectTaskId", "fieldWorkerId", "timeIn", "timeOut" })
+public class UpdateTimeCardRequest {
 	@NotNull
 	@Valid
 	@JsonProperty("baseRequest")
 	private BaseRequest baseRequest;
+	@NotNull
+	@JsonProperty("id")
+	private Integer id;
 	@NotNull
 	@JsonProperty("projectTaskId")
 	private Integer projectTaskId;
@@ -37,6 +40,14 @@ public class AddTimeCardRequest {
 
 	public void setBaseRequest(BaseRequest baseRequest) {
 		this.baseRequest = baseRequest;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public Integer getProjectTaskId() {

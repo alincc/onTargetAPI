@@ -22,6 +22,7 @@ import com.ontarget.entities.ProjectTask;
 import com.ontarget.request.bean.AddFieldWorkerRequest;
 import com.ontarget.request.bean.AddTimeCardRequest;
 import com.ontarget.request.bean.UpdateFieldWorkerRequest;
+import com.ontarget.request.bean.UpdateTimeCardRequest;
 import com.ontarget.util.DateFormater;
 
 @Service
@@ -37,32 +38,43 @@ public class TimeCardServiceImpl implements TimeCardService {
 	@Qualifier("taskJpaDAOImpl")
 	private TaskDAO taskDAO;
 
+	private OnTargetResponse validateTimeFrame(Date inTime, Date outTime, int projectTaskId) {
+		OnTargetResponse response = new OnTargetResponse();
+		ProjectTask projectTask = taskDAO.getProjectTaskById(projectTaskId);
+		Date timeIn = DateFormater.getFormattedDate(inTime);
+		Date timeOut = DateFormater.getFormattedDate(outTime);
+
+		Date projectTaskStartDate = DateFormater.getFormattedDate(projectTask.getStartDate());
+		Date projectTaskEndDate = DateFormater.getFormattedDate(projectTask.getEndDate());
+
+		if (timeIn.before(projectTaskStartDate)) {
+			logger.info("time-in before task start date");
+			response.setReturnVal(OnTargetConstant.ERROR);
+			response.setReturnMessage("time-in before task start date");
+			return response;
+		} else {
+			if (timeOut.after(projectTaskEndDate)) {
+				logger.info("time-out after task end date");
+				response.setReturnVal(OnTargetConstant.ERROR);
+				response.setReturnMessage("time-out after task end date");
+				return response;
+			}
+		}
+		return null;
+	}
+
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
 	public OnTargetResponse addTimeCard(AddTimeCardRequest request) throws Exception {
 		OnTargetResponse response = new OnTargetResponse();
 		try {
-			ProjectTask projectTask = taskDAO.getProjectTaskById(request.getProjectTaskId());
-
-			Date timeIn = DateFormater.getFormattedDate(request.getTimeIn());
-			Date timeOut = DateFormater.getFormattedDate(request.getTimeOut());
-
-			Date projectTaskStartDate = DateFormater.getFormattedDate(projectTask.getStartDate());
-			Date projectTaskEndDate = DateFormater.getFormattedDate(projectTask.getEndDate());
-
-			if (timeIn.before(projectTaskStartDate)) {
-				logger.info("time-in before task start date");
-				response.setReturnVal(OnTargetConstant.ERROR);
-				response.setReturnMessage("time-in before task start date");
+			response = validateTimeFrame(request.getTimeIn(), request.getTimeOut(), request.getProjectTaskId());
+			if (response != null) {
 				return response;
-			} else {
-				if (timeOut.after(projectTaskEndDate)) {
-					logger.info("time-out after task end date");
-					response.setReturnVal(OnTargetConstant.ERROR);
-					response.setReturnMessage("time-out after task end date");
-					return response;
-				}
 			}
+
+			response = new OnTargetResponse();
+
 			if (timeCardDAO.add(request)) {
 				response.setReturnVal(OnTargetConstant.SUCCESS);
 				response.setReturnMessage("Time card added for task");
@@ -72,8 +84,37 @@ public class TimeCardServiceImpl implements TimeCardService {
 			}
 		} catch (Exception e) {
 			logger.error(e);
+			response = new OnTargetResponse();
 			response.setReturnVal(OnTargetConstant.ERROR);
 			response.setReturnMessage("Error while adding time card");
+		}
+		return response;
+	}
+
+	@Override
+	@Transactional(rollbackFor = { Exception.class })
+	public OnTargetResponse editTimeCard(UpdateTimeCardRequest request) throws Exception {
+		OnTargetResponse response = new OnTargetResponse();
+		try {
+			response = validateTimeFrame(request.getTimeIn(), request.getTimeOut(), request.getProjectTaskId());
+			if (response != null) {
+				return response;
+			}
+
+			response = new OnTargetResponse();
+
+			if (timeCardDAO.update(request)) {
+				response.setReturnVal(OnTargetConstant.SUCCESS);
+				response.setReturnMessage("Time card updated for task");
+			} else {
+				response.setReturnVal(OnTargetConstant.ERROR);
+				response.setReturnMessage("Error while updating time card");
+			}
+		} catch (Exception e) {
+			logger.error(e);
+			response = new OnTargetResponse();
+			response.setReturnVal(OnTargetConstant.ERROR);
+			response.setReturnMessage("Error while updating time card");
 		}
 		return response;
 	}
