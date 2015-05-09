@@ -1,6 +1,7 @@
 package com.ontarget.dto;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class FieldWorkerInfo implements Serializable {
 
@@ -12,6 +13,7 @@ public class FieldWorkerInfo implements Serializable {
 	private String phoneNumber;
 	private Long disciplineId;
 	private String discipline;
+	private Date addedDate;
 
 	public Integer getId() {
 		return id;
@@ -67,6 +69,14 @@ public class FieldWorkerInfo implements Serializable {
 
 	public void setDiscipline(String discipline) {
 		this.discipline = discipline;
+	}
+
+	public Date getAddedDate() {
+		return addedDate;
+	}
+
+	public void setAddedDate(Date addedDate) {
+		this.addedDate = addedDate;
 	}
 
 }

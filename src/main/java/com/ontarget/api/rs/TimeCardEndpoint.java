@@ -8,6 +8,7 @@ import com.ontarget.dto.FieldWorkerResponse;
 import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.request.bean.AddFieldWorkerRequest;
 import com.ontarget.request.bean.AddTimeCardRequest;
+import com.ontarget.request.bean.FieldWorkerList;
 import com.ontarget.request.bean.UpdateFieldWorkerRequest;
 import com.ontarget.request.bean.UpdateTimeCardRequest;
 
@@ -21,6 +22,6 @@ public interface TimeCardEndpoint {
 
 	OnTargetResponse editFieldWorker(@Valid UpdateFieldWorkerRequest request);
 
-	FieldWorkerResponse getFieldWorkers();
+	FieldWorkerResponse getFieldWorkers(@Valid FieldWorkerList request);
 
 }

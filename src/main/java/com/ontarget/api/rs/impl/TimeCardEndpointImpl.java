@@ -1,7 +1,6 @@
 package com.ontarget.api.rs.impl;
 
 import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -18,11 +17,12 @@ import com.ontarget.dto.FieldWorkerResponse;
 import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.request.bean.AddFieldWorkerRequest;
 import com.ontarget.request.bean.AddTimeCardRequest;
+import com.ontarget.request.bean.FieldWorkerList;
 import com.ontarget.request.bean.UpdateFieldWorkerRequest;
 import com.ontarget.request.bean.UpdateTimeCardRequest;
 
 @Component
-@Path("/timeCard")
+@Path("/timecard")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class TimeCardEndpointImpl implements TimeCardEndpoint {
@@ -97,9 +97,9 @@ public class TimeCardEndpointImpl implements TimeCardEndpoint {
 	}
 
 	@Override
-	@GET
 	@Path("/getFieldWorkers")
-	public FieldWorkerResponse getFieldWorkers() {
+	@POST
+	public FieldWorkerResponse getFieldWorkers(FieldWorkerList request) {
 		FieldWorkerResponse response = new FieldWorkerResponse();
 		try {
 			return timeCardService.fetchAllFieldWorkers();

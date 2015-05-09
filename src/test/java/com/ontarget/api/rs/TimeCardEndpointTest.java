@@ -9,6 +9,7 @@ import org.junit.Test;
 import com.ontarget.request.bean.AddFieldWorkerRequest;
 import com.ontarget.request.bean.AddTimeCardRequest;
 import com.ontarget.request.bean.BaseRequest;
+import com.ontarget.request.bean.FieldWorkerList;
 import com.ontarget.request.bean.UpdateFieldWorkerRequest;
 import com.ontarget.request.bean.UpdateTimeCardRequest;
 
@@ -32,7 +33,7 @@ public class TimeCardEndpointTest extends BaseTest {
 
 		System.out.println("Client request addTimeCard.... \n");
 		System.out.println(toJsonString(request, true));
-		Response response = sendRequest("/timeCard/add", request);
+		Response response = sendRequest("/timecard/add", request);
 		if (response.getStatus() != 200) {
 			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
 		}
@@ -61,7 +62,7 @@ public class TimeCardEndpointTest extends BaseTest {
 
 		System.out.println("Client request editTimeCard.... \n");
 		System.out.println(toJsonString(request, true));
-		Response response = sendRequest("/timeCard/edit", request);
+		Response response = sendRequest("/timecard/edit", request);
 		if (response.getStatus() != 200) {
 			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
 		}
@@ -90,7 +91,7 @@ public class TimeCardEndpointTest extends BaseTest {
 
 		System.out.println("Client request addFieldWorker.... \n");
 		System.out.println(toJsonString(request, true));
-		Response response = sendRequest("/timeCard/addFieldWorker", request);
+		Response response = sendRequest("/timecard/addFieldWorker", request);
 		if (response.getStatus() != 200) {
 			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
 		}
@@ -120,7 +121,7 @@ public class TimeCardEndpointTest extends BaseTest {
 
 		System.out.println("Client request editFieldWorker.... \n");
 		System.out.println(toJsonString(request, true));
-		Response response = sendRequest("/timeCard/editFieldWorker", request);
+		Response response = sendRequest("/timecard/editFieldWorker", request);
 		if (response.getStatus() != 200) {
 			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
 		}
@@ -133,8 +134,16 @@ public class TimeCardEndpointTest extends BaseTest {
 	@Test
 	public void getFieldWorkers() {
 
+		FieldWorkerList request = new FieldWorkerList();
+		BaseRequest baseRequest = new BaseRequest();
+		baseRequest.setLoggedInUserId(1);
+		baseRequest.setLoggedInUserProjectId(1);
+
+		request.setBaseRequest(baseRequest);
+
 		System.out.println("Client request getFieldWorkers.... \n");
-		Response response = getRequest("/timeCard/getFieldWorkers");
+		System.out.println(toJsonString(request, true));
+		Response response = sendRequest("/timecard/getFieldWorkers", request);
 		if (response.getStatus() != 200) {
 			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
 		}

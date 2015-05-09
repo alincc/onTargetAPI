@@ -177,6 +177,7 @@ public class TimeCardServiceImpl implements TimeCardService {
 					fieldWorkerInfo.setPhoneNumber(fieldWorker.getPhoneNumber());
 					fieldWorkerInfo.setDisciplineId(fieldWorker.getDiscipline().getId());
 					fieldWorkerInfo.setDiscipline(fieldWorker.getDiscipline().getName());
+					fieldWorkerInfo.setAddedDate(fieldWorker.getAddedDate());
 					fieldWorkerInfoList.add(fieldWorkerInfo);
 				}
 			}
