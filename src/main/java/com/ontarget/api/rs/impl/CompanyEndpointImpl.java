@@ -12,7 +12,9 @@ import org.springframework.stereotype.Component;
 
 import com.ontarget.api.service.CompanyService;
 import com.ontarget.constant.OnTargetConstant;
+import com.ontarget.dto.CompanyInfoResponse;
 import com.ontarget.dto.CompanyListResponse;
+import com.ontarget.request.bean.CompanyInfoRequest;
 import com.ontarget.request.bean.CompanyList;
 
 /**
@@ -43,6 +45,22 @@ public class CompanyEndpointImpl implements com.ontarget.api.rs.CompanyEndpoint 
 			response.setReturnVal(OnTargetConstant.ERROR);
 		}
 
+		return response;
+	}
+
+	@Override
+	@Path("/getCompanyInfo")
+	@POST
+	public CompanyInfoResponse getCompanyInfo(CompanyInfoRequest request) {
+		CompanyInfoResponse response = new CompanyInfoResponse();
+		try {
+			response.setCompany(companyService.getCompanyInfo(request));
+			response.setReturnVal(OnTargetConstant.SUCCESS);
+		} catch (Exception e) {
+			logger.error("Error while retrieving company info", e);
+			response.setReturnVal(OnTargetConstant.ERROR);
+			response.setReturnMessage("Error while retrieving company info.");
+		}
 		return response;
 	}
 }

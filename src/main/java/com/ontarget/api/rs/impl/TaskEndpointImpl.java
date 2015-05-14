@@ -352,6 +352,7 @@ public class TaskEndpointImpl implements TaskEndpoint {
 	public TaskDetailResponse deleteTask(TaskDetailRequest taskDetailRequest) {
 		TaskDetailResponse taskResponse = new TaskDetailResponse();
 		try {
+			
 			boolean deleted = taskService.deleteTask(taskDetailRequest.getTaskId(), taskDetailRequest.getBaseRequest()
 					.getLoggedInUserId());
 			if (deleted) {

@@ -68,8 +68,6 @@ public class ContactJpaDAOImpl implements ContactDAO {
 		com.ontarget.entities.Contact contact = contactList.get(0);
 		contact.setFirstName(contactDTO.getFirstName());
 		contact.setLastName(contactDTO.getLastName());
-		contact.setTitle(contactDTO.getTitle());
-		contact.setContactImage(contactDTO.getUserImagePath());
 		contactRepository.save(contact);
 		return true;
 	}
@@ -91,9 +89,6 @@ public class ContactJpaDAOImpl implements ContactDAO {
 		contact.setLastName(contactObj.getLastName());
 		contact.setTitle(contactObj.getTitle());
 		contact.setUserImagePath(contactObj.getContactImage());
-		if (contactObj.getEmailList() != null && !contactObj.getEmailList().isEmpty()) {
-			contact.setEmail(contactObj.getEmailList().get(0).getEmailAddress());
-		}
 		return contact;
 	}
 

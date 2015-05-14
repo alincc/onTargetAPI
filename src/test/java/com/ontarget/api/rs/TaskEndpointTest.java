@@ -12,7 +12,6 @@ import com.ontarget.request.bean.BaseRequest;
 import com.ontarget.request.bean.DependentTask;
 import com.ontarget.request.bean.DependentTaskDetail;
 import com.ontarget.request.bean.DependentTaskRequest;
-import com.ontarget.request.bean.ParentTask;
 import com.ontarget.request.bean.ProjectTaskRequest;
 import com.ontarget.request.bean.Task;
 import com.ontarget.request.bean.TaskAttachmentRequest;
@@ -50,11 +49,8 @@ public class TaskEndpointTest extends BaseTest {
 
 		taskRequest.setTask(task);
 
-		ParentTask parentTask = new ParentTask();
-		parentTask.setProjectTaskId(1);
-		task.setParentTask(parentTask);
-
 		taskRequest.setTask(task);
+
 		taskRequest.setUserId(1);
 
 		System.out.println("Client request addTask.... \n");
@@ -94,10 +90,6 @@ public class TaskEndpointTest extends BaseTest {
 		task.setProjectId(1);
 
 		taskRequest.setTask(task);
-
-		ParentTask parentTask = new ParentTask();
-		parentTask.setProjectTaskId(1);
-		task.setParentTask(parentTask);
 
 		taskRequest.setTask(task);
 		taskRequest.setUserId(1);

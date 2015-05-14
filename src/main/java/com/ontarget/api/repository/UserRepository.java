@@ -1,5 +1,7 @@
 package com.ontarget.api.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -14,6 +16,9 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
 	@Query("select u from User u where u.userName = ?1 and u.accountStatus !='LOCKED'")
 	User findUserLogin(String username);
+
+	@Query("select u from User u where u.userName = ?1")
+	List<User> findUserByUsername(String username);
 
 	@Modifying
 	@Query("update User u set u.accountStatus = ?1 where u.userId = ?2")

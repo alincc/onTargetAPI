@@ -172,19 +172,12 @@ public class UserRegistrationImpl implements com.ontarget.api.rs.UserRegistratio
 		logger.info("Adding new user: " + request);
 		OnTargetResponse response = new OnTargetResponse();
 		try {
-			boolean created = userProfileService.createNewUserFromInvitation(request);
-			if (created) {
-				response.setReturnMessage("Successfully created user based on invitation.");
-				response.setReturnVal(OnTargetConstant.SUCCESS);
-			} else {
-				throw new Exception("Error while creating user.");
-			}
+			return userProfileService.createNewUserFromInvitation(request);
 		} catch (Exception e) {
 			logger.debug("Error while creating user based on invitation", e);
 			response.setReturnMessage("Error while creating user based on invitation.");
 			response.setReturnVal(OnTargetConstant.ERROR);
 		}
-
 		return response;
 	}
 

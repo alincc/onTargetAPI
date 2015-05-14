@@ -1,6 +1,6 @@
 package com.ontarget.api.rs;
 
-import java.util.Map;
+import java.util.Date;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -9,8 +9,10 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.codehaus.jackson.Version;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.SerializationConfig;
+import org.codehaus.jackson.map.module.SimpleModule;
 import org.glassfish.jersey.client.ClientConfig;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -20,6 +22,7 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ontarget.api.config.JerseyResourceInitializer;
+import com.ontarget.util.JsonDateSerializer;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/applicationContext.xml" })
@@ -37,6 +40,9 @@ public class BaseTest extends AbstractTransactionalJUnit4SpringContextTests {
 		try {
 			ObjectMapper mapper = new ObjectMapper();
 			mapper.configure(SerializationConfig.Feature.INDENT_OUTPUT, format);
+			SimpleModule simpleModule = new SimpleModule("SimpleModule", new Version(2, 0, 0, null));
+			simpleModule.addSerializer(Date.class, new JsonDateSerializer());
+			mapper.registerModule(simpleModule);
 			String json = mapper.writeValueAsString(obj);
 			return json;
 		} catch (Exception ex) {
@@ -58,8 +64,7 @@ public class BaseTest extends AbstractTransactionalJUnit4SpringContextTests {
 			System.out.println(fullUri);
 			target = client.target(BASE_URI).path(path);
 			String payload = mapper.writeValueAsString(request);
-			response = target.request(MediaType.APPLICATION_JSON).post(
-					Entity.json(payload));
+			response = target.request(MediaType.APPLICATION_JSON).post(Entity.json(payload));
 			return response;
 		} catch (Throwable t) {
 			throw new RuntimeException(t);
@@ -80,8 +85,7 @@ public class BaseTest extends AbstractTransactionalJUnit4SpringContextTests {
 			System.out.println(fullUri);
 			target = client.target(BASE_URI).path(path);
 			String payload = mapper.writeValueAsString(request);
-			response = target.request(MediaType.APPLICATION_JSON).put(
-					Entity.json(payload));
+			response = target.request(MediaType.APPLICATION_JSON).put(Entity.json(payload));
 			return response;
 		} catch (Throwable t) {
 			throw new RuntimeException(t);

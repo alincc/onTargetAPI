@@ -31,6 +31,8 @@ import com.ontarget.dto.UserImageRequest;
 import com.ontarget.dto.UserProfileRequest;
 import com.ontarget.dto.UserProfileResponse;
 import com.ontarget.entities.User;
+import com.ontarget.request.bean.CompanyEditInfo;
+import com.ontarget.request.bean.CompanyInfoEditRequest;
 import com.ontarget.request.bean.UpdateUserProfileRequest;
 import com.ontarget.request.bean.UserCompanyInfo;
 import com.ontarget.request.bean.UserContactInfo;
@@ -151,24 +153,32 @@ public class UserProfileServiceImpl implements UserProfileService {
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
 	public OnTargetResponse updateUserProfileAndContactInfo(UpdateUserProfileRequest request) throws Exception {
-		logger.info("Request to add user profile" + request);
 		OnTargetResponse response = new OnTargetResponse();
 
-		UserContactInfo userContactInfo = request.getContact();
-		Contact contact = ConvertPOJOUtils.convertToContact(userContactInfo);
-
-		UserInfo userInfo = request.getUser();
-		UserDTO userDTO = new UserDTO();
-		userDTO.setUserId(userInfo.getUserId());
-
-		contact.setUser(userDTO);
-
-		boolean saved = contactDAO.updateContactInfo(contact);
-		if (saved) {
-			response.setReturnMessage("Successfully created company and user profile");
+		boolean updated = userDAO.updateUserProfile(request);
+		if (updated) {
+			response.setReturnMessage("Successfully updated user profile");
 			response.setReturnVal(OnTargetConstant.SUCCESS);
 		} else {
 			response.setReturnMessage("No Rows were updated. Seems User does not exists or may not have any contact info");
+			response.setReturnVal(OnTargetConstant.ERROR);
+		}
+		return response;
+	}
+
+	@Override
+	@Transactional(rollbackFor = { Exception.class })
+	public OnTargetResponse updateCompanyInfo(CompanyInfoEditRequest request) throws Exception {
+		OnTargetResponse response = new OnTargetResponse();
+
+		CompanyEditInfo companyEditInfo = request.getCompany();
+
+		boolean updated = companyDAO.update(companyEditInfo);
+		if (updated) {
+			response.setReturnMessage("Successfully updated company details");
+			response.setReturnVal(OnTargetConstant.SUCCESS);
+		} else {
+			response.setReturnMessage("Error while updating company details");
 			response.setReturnVal(OnTargetConstant.ERROR);
 		}
 
@@ -255,32 +265,34 @@ public class UserProfileServiceImpl implements UserProfileService {
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
-	public boolean createNewUserFromInvitation(UserRegistrationInfo registration) throws Exception {
-		UserRegistration registrationFrom = userRegistrationDAO.getInvitationRegistration(registration.getRegistrationToken());
-		int userId = generateUserId();
-		boolean flag = false;
-		User user = null;
-		int t = 0;
-		do {
-			t++;
-			try {
-				user = userRegistrationDAO.createNewuser(registration, registrationFrom.getStatus());
-			} catch (DuplicateKeyException e) {
-				e.printStackTrace();
-				flag = true; // re run it
-				logger.info("duplicate key ", e);
-			}
-		} while (flag && t < 20);
-		if (flag) { // maximum value encountered i.e. wrong value used
-			throw new Exception(
-					"Maximum allowed id generation per user is exhausted. There is serious issue with this system. Please check");
-		}
-		// update registration request user id by token.
-		int updated = userRegistrationDAO.updateRegistrationRequestUserId(user.getUserId(), registration.getRegistrationToken());
-		if (updated <= 0)
-			throw new Exception("Error while updating registration request user id");
+	public OnTargetResponse createNewUserFromInvitation(UserRegistrationInfo registration) throws Exception {
+		OnTargetResponse response = new OnTargetResponse();
+		UserRegistration registrationRequest = userRegistrationDAO.getInvitationRegistration(registration.getRegistrationToken());
 
-		return true;
+		if (registrationRequest != null) {
+			if (!userDAO.usernameAlreadyRegistered(registration.getUsername())) {
+
+				User user = userRegistrationDAO.createNewuser(registration, registrationRequest.getStatus());
+
+				int updated = userRegistrationDAO.updateRegistrationRequestUserId(user.getUserId(),
+						registration.getRegistrationToken());
+				if (updated <= 0) {
+					response.setReturnVal(OnTargetConstant.ERROR);
+					response.setReturnMessage("Error while creating user");
+				} else {
+					response.setReturnMessage("Successfully created user based on invitation.");
+					response.setReturnVal(OnTargetConstant.SUCCESS);
+				}
+			} else {
+				response.setReturnVal(OnTargetConstant.ERROR);
+				response.setReturnMessage("Username already registered");
+			}
+		} else {
+			response.setReturnVal(OnTargetConstant.ERROR);
+			response.setReturnMessage("Invalid registration");
+		}
+
+		return response;
 	}
 
 	@Override

@@ -14,10 +14,12 @@ import com.ontarget.api.dao.CompanyDAO;
 import com.ontarget.api.repository.CompanyInfoRepository;
 import com.ontarget.bean.AddressDTO;
 import com.ontarget.bean.Company;
+import com.ontarget.bean.UserAddressInfo;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.constant.OnTargetQuery;
 import com.ontarget.entities.CompanyInfo;
 import com.ontarget.entities.CompanyType;
+import com.ontarget.request.bean.CompanyEditInfo;
 
 @Repository("companyJpaDAOImpl")
 public class CompanyJpaDAOImpl implements CompanyDAO {
@@ -45,10 +47,41 @@ public class CompanyJpaDAOImpl implements CompanyDAO {
 	}
 
 	@Override
+	public boolean update(CompanyEditInfo company) throws Exception {
+		CompanyInfo companyInfo = companyInfoRepository.findByCompanyId(company.getCompanyId());
+		companyInfo.setCompanyName(company.getCompanyName());
+		companyInfo.setCompanyType(new CompanyType(company.getCompanyTypeId()));
+
+		UserAddressInfo addressDTO = company.getAddress();
+		companyInfo.setAddress1(addressDTO.getAddress1());
+		companyInfo.setAddress2(addressDTO.getAddress2());
+		companyInfo.setCity(addressDTO.getCity());
+		companyInfo.setState(addressDTO.getState());
+		companyInfo.setZipcode(addressDTO.getZip());
+		companyInfo.setCountry(addressDTO.getCountry());
+
+		companyInfoRepository.save(companyInfo);
+		return true;
+	}
+
+	@Override
 	public Company getCompany(int companyId) throws Exception {
 		CompanyInfo companyInfo = companyInfoRepository.findByCompanyId(companyId);
 		Company company = new Company();
 		company.setCompanyName(companyInfo.getCompanyName());
+		company.setCompanyId(companyInfo.getCompanyId());
+		company.setCompanyTypeId(companyInfo.getCompanyType().getCompanyTypeId());
+
+		AddressDTO address = new AddressDTO();
+		address.setAddress1(companyInfo.getAddress1());
+		address.setAddress2(companyInfo.getAddress2());
+		address.setCity(companyInfo.getCity());
+		address.setState(companyInfo.getState());
+		address.setZip(companyInfo.getZipcode());
+		address.setCountry(companyInfo.getCountry());
+
+		company.setAddress(address);
+
 		return company;
 	}
 

@@ -61,6 +61,8 @@ public class User implements Serializable {
 	@JoinColumn(name = "user_type_id", referencedColumnName = "user_type_id")
 	@ManyToOne
 	private UserType userType;
+	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+	private List<Email> emailList;
 
 	public User() {
 	}
@@ -186,6 +188,14 @@ public class User implements Serializable {
 
 	public void setUserType(UserType userType) {
 		this.userType = userType;
+	}
+
+	public List<Email> getEmailList() {
+		return emailList;
+	}
+
+	public void setEmailList(List<Email> emailList) {
+		this.emailList = emailList;
 	}
 
 	@Override

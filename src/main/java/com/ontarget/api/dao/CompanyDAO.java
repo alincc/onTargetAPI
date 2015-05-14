@@ -1,6 +1,7 @@
 package com.ontarget.api.dao;
 
 import com.ontarget.bean.Company;
+import com.ontarget.request.bean.CompanyEditInfo;
 
 import java.util.List;
 
@@ -10,6 +11,8 @@ import java.util.List;
 public interface CompanyDAO {
 
     public int addCompanyInfo(Company company) throws Exception;
+    
+    public boolean update(CompanyEditInfo company) throws Exception;
 
     public Company getCompany(int companyId) throws Exception;
 

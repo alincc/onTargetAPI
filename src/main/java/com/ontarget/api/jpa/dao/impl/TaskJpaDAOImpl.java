@@ -35,7 +35,6 @@ import com.ontarget.entities.DependentTask;
 import com.ontarget.entities.Project;
 import com.ontarget.entities.TaskAssignee;
 import com.ontarget.entities.User;
-import com.ontarget.request.bean.ParentTask;
 import com.ontarget.request.bean.Task;
 import com.ontarget.request.bean.TaskCommentRequest;
 
@@ -61,7 +60,6 @@ public class TaskJpaDAOImpl implements TaskDAO {
 		projectTask.setProject(new Project(task.getProjectId()));
 		projectTask.setTitle(task.getTitle());
 		projectTask.setDescription(task.getDescription());
-		projectTask.setParentTaskId(task.getParentTask().getProjectTaskId());
 		projectTask.setStatus(task.getStatus());
 		projectTask.setSeverity(task.getSeverity());
 		projectTask.setStartDate(task.getStartDate());
@@ -70,6 +68,11 @@ public class TaskJpaDAOImpl implements TaskDAO {
 		projectTask.setCreatedDate(new Date());
 		projectTaskRepository.save(projectTask);
 		return projectTask.getProjectTaskId();
+	}
+
+	@Override
+	public com.ontarget.entities.ProjectTask getProjectTaskById(int projectTaskId) {
+		return projectTaskRepository.findByProjectTaskId(projectTaskId);
 	}
 
 	@Override
@@ -265,9 +268,6 @@ public class TaskJpaDAOImpl implements TaskDAO {
 
 	@Override
 	public boolean updateTask(Task task, int userId) throws Exception {
-		// ParentTask parentTask = task.getParentTask();
-		// int projectTaskId = parentTask == null ? 0 :
-
 		com.ontarget.entities.ProjectTask projectTask = projectTaskRepository.findByProjectTaskId(task.getProjectTaskId());
 		projectTask.setTitle(task.getTitle());
 		projectTask.setDescription(task.getDescription());
