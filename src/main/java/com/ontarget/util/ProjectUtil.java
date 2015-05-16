@@ -6,11 +6,13 @@ import java.util.List;
 import java.util.Map;
 
 import com.ontarget.bean.AddressDTO;
+import com.ontarget.bean.ProjectConfigDTO;
 import com.ontarget.bean.ProjectDTO;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.entities.Address;
 import com.ontarget.entities.CompanyInfo;
 import com.ontarget.entities.Project;
+import com.ontarget.entities.ProjectConfiguration;
 import com.ontarget.entities.ProjectType;
 
 public class ProjectUtil {
@@ -77,6 +79,20 @@ public class ProjectUtil {
 		project.setEndDate(projectDetail.getProjectEndDate());
 		project.setStatus(projectDetail.getProjectStatus());
 		project.setType(projectDetail.getType());
+		project.setProjectOwnerId(projectDetail.getProjectOwnerId());
+		
+		List<ProjectConfigDTO> projectConfigList = new ArrayList<>();
+		List<ProjectConfiguration> projectConfigurations = projectDetail.getProjectConfigurationList();
+		if(projectConfigurations !=null && !projectConfigurations.isEmpty()){
+			for(ProjectConfiguration projectConfiguration:projectConfigurations){
+				ProjectConfigDTO projectConfigDTO = new ProjectConfigDTO();
+				projectConfigDTO.setConfigKey(projectConfiguration.getConfigKey());
+				projectConfigDTO.setConfigValue(projectConfiguration.getConfigValue());
+				projectConfigList.add(projectConfigDTO);
+			}
+		}
+		project.setProjectConfiguration(projectConfigList);
+		
 		AddressDTO address = new AddressDTO();
 		address.setAddressId(projectDetail.getAddress().getAddressId());
 		project.setProjectAddress(address);

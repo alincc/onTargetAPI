@@ -134,6 +134,10 @@ public interface OnTargetConstant {
 		public static final String PROJECT = "PROJECT";
 		public static final String ACTIVITY = "ACTIVITY";
 	}
+	
+	public interface ProjectConfigurationConstant{
+		public static final String unitOfMeasurement = "UNIT_OF_MEASUREMENT";
+	}
 
 	public static final String OPEN_RS_ENDPOINT = "/register,/user,/onTargetInvitation,/profile,/project/getProjectsByUser,/project/addProject,/company,/file,/hello,/timeCard/getFieldWorkers";
 

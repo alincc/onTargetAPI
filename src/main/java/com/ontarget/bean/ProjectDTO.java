@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.List;
 
 public class ProjectDTO implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 	private Integer projectId;
 	private String projectName;
 	private String projectDescription;
@@ -23,6 +25,8 @@ public class ProjectDTO implements Serializable {
 	private Date startDate;
 	private Date endDate;
 	private String projectImagePath;
+	private String unitOfMeasurement;
+	private List<ProjectConfigDTO> projectConfiguration;
 
 	public ProjectDTO() {
 	}
@@ -171,14 +175,42 @@ public class ProjectDTO implements Serializable {
 		this.type = type;
 	}
 
+	public String getUnitOfMeasurement() {
+		return unitOfMeasurement;
+	}
+
+	public void setUnitOfMeasurement(String unitOfMeasurement) {
+		this.unitOfMeasurement = unitOfMeasurement;
+	}
+
+	public List<ProjectConfigDTO> getProjectConfiguration() {
+		return projectConfiguration;
+	}
+
+	public void setProjectConfiguration(List<ProjectConfigDTO> projectConfiguration) {
+		this.projectConfiguration = projectConfiguration;
+	}
+
 	@Override
 	public String toString() {
-		return "Project{" + "projectId=" + projectId + ", projectName='" + projectName + '\'' + ", projectDescription='"
-				+ projectDescription + '\'' + ", projectTypeId=" + projectTypeId + ", projectOwnerId=" + projectOwnerId
-				+ ", status='" + status + '\'' + ", companyId=" + companyId + ", parentType" + parentType + ", company="
-				+ company + ", projectParentId=" + projectParentId + ", projectAddress=" + projectAddress + ", taskList="
-				+ taskList + ", projects=" + projects + ", startDate=" + startDate + ", endDate=" + endDate
-				+ ", projectImagePath='" + projectImagePath + '\'' + '}';
+		StringBuilder sb = new StringBuilder("Project{");
+		sb.append(",projectName: " + projectName);
+		sb.append(",projectDescription: " + projectDescription);
+		sb.append(",projectTypeId=" + projectTypeId);
+		sb.append(",projectOwnerId=" + projectOwnerId);
+		sb.append(",status=" + status);
+		sb.append(",companyId=" + companyId);
+		sb.append(",parentType=" + parentType);
+		sb.append(",company=" + companyId);
+		sb.append(",parentProjectId=" + projectTypeId);
+		sb.append(",projectAddress=" + projectAddress);
+		sb.append(",taskList=" + taskList);
+		sb.append(",projects=" + projects);
+		sb.append(",startDate=" + startDate);
+		sb.append(",endDate=" + endDate);
+		sb.append(",unitOfMeasurement=" + unitOfMeasurement);
+		sb.append("}");
+		return sb.toString();
 	}
 
 }
