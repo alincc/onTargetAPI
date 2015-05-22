@@ -70,7 +70,7 @@ CREATE TABLE `activity_log` (
   `ts_insert` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `project_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1168 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1182 DEFAULT CHARSET=latin1;
 
 /*Table structure for table `address` */
 
@@ -86,7 +86,7 @@ CREATE TABLE `address` (
   `country` varchar(20) NOT NULL,
   `address_type` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`address_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf32;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf32;
 
 /*Table structure for table `bulk_activity_attribute` */
 
@@ -137,7 +137,7 @@ CREATE TABLE `company_info` (
   PRIMARY KEY (`company_id`),
   KEY `comany_type_fk` (`company_type_id`),
   CONSTRAINT `comany_type_fk` FOREIGN KEY (`company_type_id`) REFERENCES `company_type` (`company_type_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `company_type` */
 
@@ -186,7 +186,7 @@ CREATE TABLE `contact` (
   CONSTRAINT `contact_user_fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `FK_5ub2tgt1ih6u94attrvtx8xqa` FOREIGN KEY (`modified_by`) REFERENCES `user` (`user_id`),
   CONSTRAINT `FK_7usm4c5y9pj5v32d96w2520p0` FOREIGN KEY (`created_by`) REFERENCES `user` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf32;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf32;
 
 /*Table structure for table `countries` */
 
@@ -407,7 +407,7 @@ CREATE TABLE `field_worker` (
   CONSTRAINT `FK_1wa282m6f14ur9myljkkbu8d` FOREIGN KEY (`added_by`) REFERENCES `user` (`user_id`),
   CONSTRAINT `FK_fnvttbj06ub9virpmy4sb5w19` FOREIGN KEY (`discipline_id`) REFERENCES `discipline` (`id`),
   CONSTRAINT `FK_sigh58fecyn2119ybpcwriqcg` FOREIGN KEY (`modified_by`) REFERENCES `user` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=latin1;
 
 /*Table structure for table `forgot_password_request` */
 
@@ -437,7 +437,7 @@ CREATE TABLE `phone` (
   PRIMARY KEY (`phone_id`),
   KEY `phone_fk` (`contact_id`),
   CONSTRAINT `phone_fk` FOREIGN KEY (`contact_id`) REFERENCES `contact` (`contact_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `planned_actuals_cost` */
 
@@ -500,7 +500,7 @@ CREATE TABLE `project` (
   CONSTRAINT `project_addr_fk` FOREIGN KEY (`address_id`) REFERENCES `address` (`address_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `project_comp_fk` FOREIGN KEY (`company_id`) REFERENCES `company_info` (`company_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `project_type_fk` FOREIGN KEY (`project_type_id`) REFERENCES `project_type` (`project_type_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf32;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf32;
 
 /*Table structure for table `project_activities` */
 
@@ -535,6 +535,20 @@ CREATE TABLE `project_category` (
   PRIMARY KEY (`project_category_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `project_configuration` */
+
+DROP TABLE IF EXISTS `project_configuration`;
+
+CREATE TABLE `project_configuration` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `config_key` varchar(30) NOT NULL,
+  `config_value` varchar(30) NOT NULL,
+  `project_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_fserys4sc7k295w86erainwlv` (`project_id`),
+  CONSTRAINT `FK_fserys4sc7k295w86erainwlv` FOREIGN KEY (`project_id`) REFERENCES `project` (`project_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+
 /*Table structure for table `project_file` */
 
 DROP TABLE IF EXISTS `project_file`;
@@ -567,7 +581,7 @@ CREATE TABLE `project_member` (
   KEY `member_user_fk` (`user_id`),
   CONSTRAINT `member_project_fk` FOREIGN KEY (`project_id`) REFERENCES `project` (`project_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `member_user_fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `project_task` */
 
@@ -684,7 +698,7 @@ CREATE TABLE `registration_request` (
   `user_id` int(11) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 /*Table structure for table `shops` */
 
@@ -805,7 +819,7 @@ CREATE TABLE `time_card` (
   CONSTRAINT `FK_jc3c9yj4vutludvmc4g6ykmdy` FOREIGN KEY (`added_by`) REFERENCES `user` (`user_id`),
   CONSTRAINT `FK_m1rs638fywmo3ut861ipf713u` FOREIGN KEY (`modified_by`) REFERENCES `user` (`user_id`),
   CONSTRAINT `FK_mw9x22mr9hwc00tqck0k10s8i` FOREIGN KEY (`field_worker_id`) REFERENCES `field_worker` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 /*Table structure for table `user` */
 
@@ -860,7 +874,7 @@ CREATE TABLE `user_notification` (
   PRIMARY KEY (`id`),
   KEY `FK_hrv2lmyjlt3ken6hk2f4sg1e` (`user_id`),
   CONSTRAINT `FK_hrv2lmyjlt3ken6hk2f4sg1e` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=942 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=956 DEFAULT CHARSET=latin1;
 
 /*Table structure for table `user_notification_attribute` */
 
@@ -874,7 +888,7 @@ CREATE TABLE `user_notification_attribute` (
   PRIMARY KEY (`id`),
   KEY `FK_3a2j0bxaiwccw4elllxy2syxm` (`user_notification_id`),
   CONSTRAINT `FK_3a2j0bxaiwccw4elllxy2syxm` FOREIGN KEY (`user_notification_id`) REFERENCES `user_notification` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1869 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1897 DEFAULT CHARSET=latin1;
 
 /*Table structure for table `user_safety_info` */
 
@@ -903,7 +917,7 @@ CREATE TABLE `user_session_info` (
   PRIMARY KEY (`user_session_info_id`),
   KEY `fk_user_id_idx` (`user_id`),
   CONSTRAINT `fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=latin1;
 
 /*Table structure for table `user_type` */
 

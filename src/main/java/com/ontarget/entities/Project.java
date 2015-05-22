@@ -87,6 +87,8 @@ public class Project implements Serializable {
 	private Address address;
 	@OneToMany(mappedBy = "project", fetch = FetchType.LAZY)
 	private List<ProjectFile> projectFileList;
+	@OneToMany(mappedBy = "project",fetch=FetchType.EAGER)
+	private List<ProjectConfiguration> projectConfigurationList;
 
 	public Project() {
 	}
@@ -290,6 +292,14 @@ public class Project implements Serializable {
 
 	public void setProjectFileList(List<ProjectFile> projectFileList) {
 		this.projectFileList = projectFileList;
+	}
+
+	public List<ProjectConfiguration> getProjectConfigurationList() {
+		return projectConfigurationList;
+	}
+
+	public void setProjectConfigurationList(List<ProjectConfiguration> projectConfigurationList) {
+		this.projectConfigurationList = projectConfigurationList;
 	}
 
 	@Override

@@ -97,6 +97,7 @@ public class ProjectServiceImpl implements ProjectService {
 
 		ProjectDetailInfo projectObj = request.getProject();
 		ProjectDTO projectDTO = ConvertPOJOUtils.convertToProjectDTO(projectObj, addressDTO);
+		System.out.println("project dto: "+projectDTO);
 
 		int companyId = request.getProject().getCompanyId();
 		if (request.getProject().getProjectParentId() == null || request.getProject().getProjectParentId() == 0) {
@@ -371,6 +372,7 @@ public class ProjectServiceImpl implements ProjectService {
 
 	private ProjectListResponse getUserProjectResponse(ProjectDTO project, int userId) throws Exception {
 		ProjectListResponse response = new ProjectListResponse();
+		project.setTaskList(new ArrayList<>());
 		response.setMainProject(project);
 
 		setSubProjects(project, userId, 1);
@@ -385,6 +387,7 @@ public class ProjectServiceImpl implements ProjectService {
 		if (level < 3 && projectDTOList != null && !projectDTOList.isEmpty()) {
 			level++;
 			for (ProjectDTO p : projectDTOList) {
+				p.setTaskList(new ArrayList<>());
 				getProjectTasks(userId, p);
 				setSubProjects(p, userId, level);
 			}

@@ -48,6 +48,9 @@ public class ProjectDetailInfo {
 	@NotNull
 	@JsonProperty("endDate")
 	private Date endDate;
+	@NotEmpty
+	@JsonProperty("unitOfMeasurement")
+	private String unitOfMeasurement;
 
 	/**
 	 * 
@@ -229,4 +232,15 @@ public class ProjectDetailInfo {
 	public void setProjectId(Integer projectId) {
 		this.projectId = projectId;
 	}
+
+	@JsonProperty("unitOfMeasurement")
+	public String getUnitOfMeasurement() {
+		return unitOfMeasurement;
+	}
+
+	@JsonProperty("unitOfMeasurement")
+	public void setUnitOfMeasurement(String unitOfMeasurement) {
+		this.unitOfMeasurement = unitOfMeasurement;
+	}
+
 }

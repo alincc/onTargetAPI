@@ -95,6 +95,7 @@ public class ConvertPOJOUtils {
 		projectDTO.setProjectDescription(project.getProjectDescription());
 		projectDTO.setStatus(project.getStatus());
 		projectDTO.setProjectAddress(addressDTO);
+		projectDTO.setUnitOfMeasurement(project.getUnitOfMeasurement());
 		return projectDTO;
 	}
 

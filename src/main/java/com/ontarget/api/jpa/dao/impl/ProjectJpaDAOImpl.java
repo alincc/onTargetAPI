@@ -17,6 +17,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.ontarget.api.dao.ProjectDAO;
+import com.ontarget.api.repository.ProjectConfigurationRepository;
 import com.ontarget.api.repository.ProjectMemberRepository;
 import com.ontarget.api.repository.ProjectRepository;
 import com.ontarget.api.repository.ProjectTaskRepository;
@@ -34,6 +35,7 @@ import com.ontarget.entities.Address;
 import com.ontarget.entities.CompanyInfo;
 import com.ontarget.entities.Phone;
 import com.ontarget.entities.Project;
+import com.ontarget.entities.ProjectConfiguration;
 import com.ontarget.entities.ProjectTask;
 import com.ontarget.entities.ProjectType;
 import com.ontarget.entities.User;
@@ -47,6 +49,8 @@ public class ProjectJpaDAOImpl implements ProjectDAO {
 	private ProjectMemberRepository projectMemberRepository;
 	@Resource
 	private ProjectTaskRepository projectTaskRepository;
+	@Resource
+	private ProjectConfigurationRepository projectConfigurationRepository;
 	@PersistenceContext
 	private EntityManager entityManager;
 	@Autowired
@@ -75,6 +79,13 @@ public class ProjectJpaDAOImpl implements ProjectDAO {
 		}
 		project.setType(ProjectUtil.getTypeForProject(parentProject));
 		projectRepository.save(project);
+
+		ProjectConfiguration projectConfiguration = new ProjectConfiguration();
+		projectConfiguration.setProject(new Project(project.getProjectId()));
+		projectConfiguration.setConfigKey(OnTargetConstant.ProjectConfigurationConstant.unitOfMeasurement);
+		projectConfiguration.setConfigValue(projectDTO.getUnitOfMeasurement());
+		projectConfigurationRepository.save(projectConfiguration);
+
 		return project.getProjectId();
 	}
 
@@ -165,6 +176,19 @@ public class ProjectJpaDAOImpl implements ProjectDAO {
 		project.setModifiedBy(new User(updatingUserId));
 		project.setModifiedDate(new Date());
 		projectRepository.save(project);
+
+		List<ProjectConfiguration> projectConfigurationList = project.getProjectConfigurationList();
+		if (projectConfigurationList != null && !projectConfigurationList.isEmpty()) {
+			for (ProjectConfiguration projectConfiguration : projectConfigurationList) {
+				if (projectConfiguration.getConfigKey().equalsIgnoreCase(
+						OnTargetConstant.ProjectConfigurationConstant.unitOfMeasurement)) {
+					projectConfiguration.setConfigValue(projectDTO.getUnitOfMeasurement());
+					projectConfigurationRepository.save(projectConfiguration);
+					break;
+				}
+			}
+		}
+
 		return true;
 	}
 

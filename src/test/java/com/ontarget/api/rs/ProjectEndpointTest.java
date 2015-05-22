@@ -35,6 +35,7 @@ public class ProjectEndpointTest extends BaseTest {
 		projectDetailInfo.setProjectTypeId(1);
 		projectDetailInfo.setStartDate(new java.sql.Date(new java.util.Date().getTime()));
 		projectDetailInfo.setStatus("1");
+		projectDetailInfo.setUnitOfMeasurement("HOUR");
 
 		ProjectAddressInfo projectAddressInfo = new ProjectAddressInfo();
 		projectAddressInfo.setAddress1("address1");
@@ -80,6 +81,7 @@ public class ProjectEndpointTest extends BaseTest {
 		projectDetailInfo.setProjectTypeId(1);
 		projectDetailInfo.setStartDate(new java.sql.Date(new java.util.Date().getTime()));
 		projectDetailInfo.setStatus("1");
+		projectDetailInfo.setUnitOfMeasurement("DOLLAR");
 
 		ProjectAddressInfo projectAddressInfo = new ProjectAddressInfo();
 		projectAddressInfo.setAddress1("address1");
