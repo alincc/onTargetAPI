@@ -20,7 +20,7 @@ import com.ontarget.entity.pojo.RegistrationRequestResponseDTO;
 /**
  * Created by Santosh
  */
-@Repository
+@Repository("userInvitationDAOImpl")
 public class UserInvitationDAOImpl implements UserInvitationDAO {
 
 	private Logger logger = Logger.getLogger(UserInvitationDAO.class);

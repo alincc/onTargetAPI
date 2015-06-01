@@ -1,15 +1,14 @@
 package com.ontarget.api.service.impl;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TimeZone;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,29 +40,27 @@ public class TaskServiceImpl implements TaskService {
 	private Logger logger = Logger.getLogger(TaskServiceImpl.class);
 
 	@Autowired
+	@Qualifier("taskJpaDAOImpl")
 	private TaskDAO taskDAO;
 
 	@Autowired
+	@Qualifier("taskPlannedEstimatedCostJpaDAOImpl")
 	private TaskEstimatedCostDAO taskEstimatedCostDAO;
 
 	@Autowired
+	@Qualifier("projectTaskFileJpaDAOImpl")
 	private ProjectTaskFileDAO projectTaskFileDAO;
 
 	@Autowired
 	private EmailService emailService;
 
 	@Autowired
+	@Qualifier("contactJpaDAOImpl")
 	private ContactDAO contactDAO;
 
 	@Autowired
+	@Qualifier("projectJpaDAOImpl")
 	private ProjectDAO projectDAO;
-
-	private static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-	private static final TimeZone cst = TimeZone.getTimeZone("America/Chicago");
-
-	static {
-		format.setTimeZone(cst);
-	}
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
@@ -104,10 +101,7 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	private boolean isTaskAdd(Integer taskId) {
-		if (taskId == null || taskId.equals(new Integer(0))) {
-			return true;
-		}
-		return false;
+		return taskId == null;
 	}
 
 	@Override
@@ -219,7 +213,7 @@ public class TaskServiceImpl implements TaskService {
 			if (contactSet.containsKey(userId)) {
 				fileAttachment.setContact(contactSet.get(userId));
 			} else {
-				Contact c = contactDAO.getContact(userId);
+				Contact c = contactDAO.getContact((int) userId);
 				contactSet.put(userId, c);
 				fileAttachment.setContact(c);
 			}
@@ -252,6 +246,11 @@ public class TaskServiceImpl implements TaskService {
 
 	public List<ProjectTask> getUserTasks(int userId) throws Exception {
 		return taskDAO.getUserTasks(userId);
+	}
+
+	@Override
+	public boolean deleteTask(int taskId, int userId) throws Exception {
+		return taskDAO.deleteTask(taskId, userId);
 	}
 
 }

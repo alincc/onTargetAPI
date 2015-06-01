@@ -14,9 +14,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "projectParentId", "projectTypeId", "projectAddress",
-		"companyId", "projectName", "projectDescription", "status",
-		"startDate", "endDate" })
+@JsonPropertyOrder({ "projectParentId", "projectTypeId", "projectAddress", "companyId", "projectName", "projectDescription",
+		"status", "startDate", "endDate" })
 public class ProjectDetailInfo {
 
 	@JsonProperty("projectId")
@@ -49,6 +48,9 @@ public class ProjectDetailInfo {
 	@NotNull
 	@JsonProperty("endDate")
 	private Date endDate;
+	@NotEmpty
+	@JsonProperty("unitOfMeasurement")
+	private String unitOfMeasurement;
 
 	/**
 	 * 
@@ -230,4 +232,15 @@ public class ProjectDetailInfo {
 	public void setProjectId(Integer projectId) {
 		this.projectId = projectId;
 	}
+
+	@JsonProperty("unitOfMeasurement")
+	public String getUnitOfMeasurement() {
+		return unitOfMeasurement;
+	}
+
+	@JsonProperty("unitOfMeasurement")
+	public void setUnitOfMeasurement(String unitOfMeasurement) {
+		this.unitOfMeasurement = unitOfMeasurement;
+	}
+
 }

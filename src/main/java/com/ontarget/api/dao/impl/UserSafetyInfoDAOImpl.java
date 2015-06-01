@@ -1,17 +1,18 @@
 package com.ontarget.api.dao.impl;
 
-import com.ontarget.constant.OnTargetQuery;
+import java.util.Map;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.Map;
+import com.ontarget.constant.OnTargetQuery;
 
 /**
  * Created by sumit on 12/3/14.
  */
-@Repository
+@Repository("userSafetyInfoDAOImpl")
 public class UserSafetyInfoDAOImpl implements com.ontarget.api.dao.UserSafetyInfoDAO {
 	private Logger logger = Logger.getLogger(UserSafetyInfoDAOImpl.class);
 

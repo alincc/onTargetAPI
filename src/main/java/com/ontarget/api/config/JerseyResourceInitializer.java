@@ -8,6 +8,8 @@ import org.glassfish.jersey.server.ServerProperties;
 
 import com.ontarget.api.config.ValidationConfigurationContextResolver.JsonConfiguration;
 import com.ontarget.api.filter.AuthorizationFilter;
+import com.ontarget.api.filter.LoggingResponseFilter;
+import com.ontarget.util.JsonDateSerializer;
 
 @ApplicationPath("resources")
 public class JerseyResourceInitializer extends ResourceConfig {
@@ -16,13 +18,12 @@ public class JerseyResourceInitializer extends ResourceConfig {
 		register(AuthorizationFilter.class);
 		register(ValidationConfigurationContextResolver.class);
 		register(ValidationExceptionMapper.class);
-		//register(OntargetObjectMapper.class);
+		register(LoggingResponseFilter.class);
+		register(JsonDateSerializer.class);
 
 		property(ServerProperties.BV_SEND_ERROR_IN_RESPONSE, true);
 		property(ServerProperties.TRACING, true);
-		property(
-				ServerProperties.BV_DISABLE_VALIDATE_ON_EXECUTABLE_OVERRIDE_CHECK,
-				true);
+		property(ServerProperties.BV_DISABLE_VALIDATE_ON_EXECUTABLE_OVERRIDE_CHECK, true);
 		register(MoxyJsonFeature.class);
 		register(JsonConfiguration.class);
 	}

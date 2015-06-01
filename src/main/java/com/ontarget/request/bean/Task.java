@@ -14,8 +14,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "projectTaskId", "title", "description", "status",
-		"severity", "startDate", "endDate", "projectId", "parentTask" })
+@JsonPropertyOrder({ "projectTaskId", "title", "description", "status", "severity", "startDate", "endDate", "projectId",
+		"parentTask" })
 public class Task {
 	@JsonProperty("projectTaskId")
 	private Integer projectTaskId;
@@ -35,10 +35,6 @@ public class Task {
 	private Date startDate;
 	@JsonProperty("endDate")
 	private Date endDate;
-	@NotNull
-	@Valid
-	@JsonProperty("parentTask")
-	private ParentTask parentTask;
 	@NotNull
 	private Integer projectId;
 
@@ -151,25 +147,6 @@ public class Task {
 
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
-	}
-
-	/**
-	 * 
-	 * @return The parentTask
-	 */
-	@JsonProperty("parentTask")
-	public ParentTask getParentTask() {
-		return parentTask;
-	}
-
-	/**
-	 * 
-	 * @param parentTask
-	 *            The parentTask
-	 */
-	@JsonProperty("parentTask")
-	public void setParentTask(ParentTask parentTask) {
-		this.parentTask = parentTask;
 	}
 
 	public Integer getProjectId() {

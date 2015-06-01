@@ -30,11 +30,11 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 
 	@Override
 	public void filter(ContainerRequestContext request) {
-		logger.info("base URI:: " + request.getUriInfo().getBaseUri()
-				+ ", path:: " + request.getUriInfo().getPath()
+		logger.info("base URI:: " + request.getUriInfo().getBaseUri() + ", path:: " + request.getUriInfo().getPath()
 				+ ", http method:: " + request.getMethod());
 
 		String openEndpointArr[] = OnTargetConstant.OPEN_RS_ENDPOINT.split(",");
+		logger.info("open end points: " + OnTargetConstant.OPEN_RS_ENDPOINT);
 		for (String openEndpoint : openEndpointArr) {
 			if (request.getUriInfo().getPath().startsWith(openEndpoint)) {
 				return;
@@ -45,11 +45,12 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 		InputStream in = request.getEntityStream();
 		final StringBuilder b = new StringBuilder();
 		try {
-			// if (in.available() > 0) {
 			ReaderWriter.writeTo(in, out);
 
 			byte[] requestEntity = out.toByteArray();
 			String jsonPost = getJsonPostObj(b, requestEntity);
+
+			logger.info("request parameters:: " + jsonPost);
 
 			if (jsonPost == null || jsonPost.trim().length() == 0) {
 				logger.error("Empty json request");
@@ -60,7 +61,6 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 				request.setEntityStream(new ByteArrayInputStream(requestEntity));
 				return;
 			}
-			// }
 
 		} catch (IOException ex) {
 			ex.printStackTrace();
@@ -72,13 +72,11 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 	}
 
 	private Response unauthorizedResponse() {
-		ResponseBuilder builder = Response.status(Response.Status.UNAUTHORIZED)
-				.entity("User cannot access the resource.");
+		ResponseBuilder builder = Response.status(Response.Status.UNAUTHORIZED).entity("User cannot access the resource.");
 		return builder.build();
 	}
 
-	private String getJsonPostObj(StringBuilder b, byte[] entity)
-			throws IOException {
+	private String getJsonPostObj(StringBuilder b, byte[] entity) throws IOException {
 		if (entity.length == 0)
 			return "";
 		b.append(new String(entity)).append("\n");
@@ -87,7 +85,6 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 
 	private boolean authenticate(String jsonData) {
 		try {
-			logger.info("request parameters:: " + jsonData);
 
 			ObjectMapper mapper = new ObjectMapper();
 
@@ -98,12 +95,12 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 			JsonNode userObjNode = baseRequestObj.get("loggedInUserId");
 			Integer userId = userObjNode.getIntValue();
 
-			JsonNode projectObjNode = baseRequestObj
-					.get("loggedInUserProjectId");
+			JsonNode projectObjNode = baseRequestObj.get("loggedInUserProjectId");
 			Integer projectId = projectObjNode.getIntValue();
 
-			boolean authorized = authorizationService.validateUserOnProject(
-					userId, projectId);
+			boolean authorized = authorizationService.validateUserOnProject(userId, projectId);
+
+			logger.info("Authorized: " + authorized);
 
 			if (authorized) {
 				return true;

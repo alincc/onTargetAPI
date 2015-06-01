@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,21 +32,27 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	private Logger logger = Logger.getLogger(AuthenticationServiceImpl.class);
 
 	@Autowired
+	@Qualifier("authenticationJpaDAOImpl")
 	private AuthenticationDAO authenticationDAO;
 
 	@Autowired
+	@Qualifier("authenticationDAOImpl")
+	private AuthenticationDAO authenticationJdbcDAO;
+
+	@Autowired
+	@Qualifier("userSessionJpaDAOImpl")
 	private UserSessionDAO userSessionDAO;
 
 	@Autowired
+	@Qualifier("contactJpaDAOImpl")
 	private ContactDAO contactDAO;
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
 	public UserResponse signIn(SignInRequest signInRequest) throws Exception {
-		logger.debug("Signing user: " + signInRequest);
 		UserResponse response = new UserResponse();
 		UserDTO returnUser = authenticationDAO.getUserSignInInfo(signInRequest);
-		if (returnUser.getUserId() == 0) {
+		if (returnUser == null) {
 			response.setReturnMessage(OnTargetConstant.AUTHENTICATION_FAILED);
 			response.setAuthenticated(false);
 			response.setReturnVal(OnTargetConstant.ERROR);

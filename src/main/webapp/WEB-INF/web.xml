@@ -32,13 +32,22 @@
             <param-name>com.sun.jersey.api.json.POJOMappingFeature</param-name>
             <param-value>true</param-value>
         </init-param>
+         <init-param>
+            <param-name>jersey.config.server.provider.classnames</param-name>
+            <param-value>org.glassfish.jersey.media.multipart.MultiPartFeature</param-value>
+        </init-param>
         <load-on-startup>1</load-on-startup>
-        
-            </servlet>
+    </servlet>
 
     <servlet-mapping>
         <servlet-name>ontargetapp</servlet-name>
         <url-pattern>/services/*</url-pattern>
     </servlet-mapping>
+    
+     <!-- welcome file -->
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+ 
 
 </web-app>

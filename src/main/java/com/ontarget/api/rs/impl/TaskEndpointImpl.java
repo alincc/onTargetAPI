@@ -98,9 +98,7 @@ public class TaskEndpointImpl implements TaskEndpoint {
 	public ProjectTaskResponse getTask(ProjectTaskRequest projectTaskRequest) {
 		ProjectTaskResponse response = new ProjectTaskResponse();
 		try {
-
-			response.setTasks(taskService.getTasksByProject(projectTaskRequest
-					.getProjectId()));
+			response.setTasks(taskService.getTasksByProject(projectTaskRequest.getProjectId()));
 			response.setReturnMessage("Successfully retrieved tasks");
 			response.setReturnVal(OnTargetConstant.SUCCESS);
 		} catch (Exception e) {
@@ -116,14 +114,11 @@ public class TaskEndpointImpl implements TaskEndpoint {
 	@Override
 	@POST
 	@Path("/getTaskCountsOfProject")
-	public TaskListCountResponse getTaskCountByStatus(
-			ProjectTaskRequest projectTaskRequest) {
+	public TaskListCountResponse getTaskCountByStatus(ProjectTaskRequest projectTaskRequest) {
 		TaskListCountResponse response = new TaskListCountResponse();
-		logger.info("Getting all tasks count for project: "
-				+ projectTaskRequest.getProjectId());
+		logger.info("Getting all tasks count for project: " + projectTaskRequest.getProjectId());
 		try {
-			response.setTaskCountByStatus(taskService
-					.getTaskCountByStatus(projectTaskRequest.getProjectId()));
+			response.setTaskCountByStatus(taskService.getTaskCountByStatus(projectTaskRequest.getProjectId()));
 			response.setReturnMessage("Successfully retrieved tasks and counts");
 			response.setReturnVal(OnTargetConstant.SUCCESS);
 		} catch (Exception e) {
@@ -131,7 +126,6 @@ public class TaskEndpointImpl implements TaskEndpoint {
 			response.setReturnMessage("Get task count failed");
 			response.setReturnVal(OnTargetConstant.ERROR);
 		}
-
 		return response;
 	}
 
@@ -166,8 +160,7 @@ public class TaskEndpointImpl implements TaskEndpoint {
 	public TaskDetailResponse getTaskDetail(TaskDetailRequest taskDetailRequest) {
 		TaskDetailResponse taskResponse = new TaskDetailResponse();
 		try {
-			taskResponse.setProjectTask(taskService
-					.getTaskDetail(taskDetailRequest.getTaskId()));
+			taskResponse.setProjectTask(taskService.getTaskDetail(taskDetailRequest.getTaskId()));
 			taskResponse.setReturnVal(OnTargetConstant.SUCCESS);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -180,15 +173,12 @@ public class TaskEndpointImpl implements TaskEndpoint {
 	@Override
 	@POST
 	@Path("/updateTaskStatus")
-	public OnTargetResponse updateTaskStatus(
-			TaskStatusUpdateRequest taskStatusUpdateRequest) {
+	public OnTargetResponse updateTaskStatus(TaskStatusUpdateRequest taskStatusUpdateRequest) {
 		int taskId = taskStatusUpdateRequest.getTaskId();
 		String taskStatus = taskStatusUpdateRequest.getTaskStatus();
 		OnTargetResponse response = new OnTargetResponse();
 		try {
-			if (taskService.updateTaskStatus(taskId, taskStatus,
-					taskStatusUpdateRequest.getBaseRequest()
-							.getLoggedInUserId())) {
+			if (taskService.updateTaskStatus(taskId, taskStatus, taskStatusUpdateRequest.getBaseRequest().getLoggedInUserId())) {
 				response.setReturnMessage("Successfully updated task status");
 				response.setReturnVal(OnTargetConstant.SUCCESS);
 			} else {
@@ -216,23 +206,18 @@ public class TaskEndpointImpl implements TaskEndpoint {
 			try {
 				Set<Integer> members = taskService.getTaskMembers(taskId);
 
-				List<Integer> taskMemberRequestMembers = taskMemberRequest
-						.getMembers();
+				List<Integer> taskMemberRequestMembers = taskMemberRequest.getMembers();
 				int count = 0;
 				for (Integer member : taskMemberRequestMembers) {
 					if (!members.contains(member)) {
-						if (taskService
-								.addTaskMember(projectId, taskId, member)) {
+						if (taskService.addTaskMember(projectId, taskId, member)) {
 							count++;
-							logger.info("member with id:: " + member
-									+ " inserted successfully");
+							logger.info("member with id:: " + member + " inserted successfully");
 						}
 					}
 				}
 				if (count < taskMemberRequestMembers.size()) {
-					response.setReturnMessage("Out of "
-							+ taskMemberRequestMembers.size() + " only "
-							+ count + " were written");
+					response.setReturnMessage("Out of " + taskMemberRequestMembers.size() + " only " + count + " were written");
 					response.setReturnVal(OnTargetConstant.SUCCESS);
 				} else {
 					response.setReturnMessage("Successfully written");
@@ -258,8 +243,7 @@ public class TaskEndpointImpl implements TaskEndpoint {
 		String location = request.getLocation();
 		InsertResponse response = new InsertResponse();
 		try {
-			long id = taskService.saveTaskFile(taskId, userId, fileName,
-					location);
+			long id = taskService.saveTaskFile(taskId, userId, fileName, location);
 			if (id > 0) {
 				response.setReturnMessage("Successfully written");
 				response.setReturnVal(OnTargetConstant.SUCCESS);
@@ -278,12 +262,10 @@ public class TaskEndpointImpl implements TaskEndpoint {
 
 	@POST
 	@Path("/getTaskAttachments")
-	public GetTaskAttachmentResponse getTaskAttachments(
-			TaskAttachmentRequest taskAttachmentRequest) {
+	public GetTaskAttachmentResponse getTaskAttachments(TaskAttachmentRequest taskAttachmentRequest) {
 		GetTaskAttachmentResponse response = new GetTaskAttachmentResponse();
 		try {
-			response.setTaskAttachments(taskService
-					.getTaskAttachments(taskAttachmentRequest.getTaskId()));
+			response.setTaskAttachments(taskService.getTaskAttachments(taskAttachmentRequest.getTaskId()));
 			response.setTaskId(taskAttachmentRequest.getTaskId());
 			response.setReturnVal(OnTargetConstant.SUCCESS);
 		} catch (Exception e) {
@@ -318,14 +300,11 @@ public class TaskEndpointImpl implements TaskEndpoint {
 
 	@Path("/addDependentTask")
 	@POST
-	public InsertResponse addDependentTask(
-			DependentTaskRequest dependentTaskRequest) {
+	public InsertResponse addDependentTask(DependentTaskRequest dependentTaskRequest) {
 		InsertResponse response = new InsertResponse();
 		try {
-			AddDependentRequest addDependentRequest = ConvertPOJOUtils
-					.convertToAddDependentRequest(dependentTaskRequest);
-			response.setId(taskService.addDependentTask(addDependentRequest
-					.getDependentTask()));
+			AddDependentRequest addDependentRequest = ConvertPOJOUtils.convertToAddDependentRequest(dependentTaskRequest);
+			response.setId(taskService.addDependentTask(addDependentRequest.getDependentTask()));
 			response.setReturnVal(OnTargetConstant.SUCCESS);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -337,12 +316,10 @@ public class TaskEndpointImpl implements TaskEndpoint {
 
 	@POST
 	@Path("/getDependentTasks")
-	public ProjectTaskResponse getDependentTasks(
-			DependentTaskDetail dependentTaskDetail) {
+	public ProjectTaskResponse getDependentTasks(DependentTaskDetail dependentTaskDetail) {
 		ProjectTaskResponse response = new ProjectTaskResponse();
 		try {
-			response.setTasks(taskService.getDependentTasks(dependentTaskDetail
-					.getTaskId()));
+			response.setTasks(taskService.getDependentTasks(dependentTaskDetail.getTaskId()));
 			response.setReturnVal(OnTargetConstant.SUCCESS);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -367,5 +344,29 @@ public class TaskEndpointImpl implements TaskEndpoint {
 		}
 
 		return response;
+	}
+
+	@Override
+	@POST
+	@Path("/deleteTask")
+	public TaskDetailResponse deleteTask(TaskDetailRequest taskDetailRequest) {
+		TaskDetailResponse taskResponse = new TaskDetailResponse();
+		try {
+			
+			boolean deleted = taskService.deleteTask(taskDetailRequest.getTaskId(), taskDetailRequest.getBaseRequest()
+					.getLoggedInUserId());
+			if (deleted) {
+				taskResponse.setReturnVal(OnTargetConstant.SUCCESS);
+				taskResponse.setReturnMessage("Task deleted successfully");
+			} else {
+				taskResponse.setReturnMessage("Task delete failed");
+				taskResponse.setReturnVal(OnTargetConstant.ERROR);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			taskResponse.setReturnMessage("Task delete failed");
+			taskResponse.setReturnVal(OnTargetConstant.ERROR);
+		}
+		return taskResponse;
 	}
 }

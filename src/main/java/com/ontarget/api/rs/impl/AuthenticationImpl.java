@@ -59,8 +59,7 @@ public class AuthenticationImpl implements Authentication {
 	public OnTargetResponse registrationRequest(UserRegistrationRequest request) {
 		OnTargetResponse response = new OnTargetResponse();
 		try {
-			final String tokenId = Security
-					.generateRandomValue(OnTargetConstant.TOKEN_LENGTH);
+			final String tokenId = Security.generateRandomValue(OnTargetConstant.TOKEN_LENGTH);
 			request.setTokenId(tokenId);
 			if (authenticationService.registrationRequest(request)) {
 				response.setReturnVal(OnTargetConstant.SUCCESS);
@@ -81,8 +80,7 @@ public class AuthenticationImpl implements Authentication {
 	public UserRegistationApprovalResponse getPendingUserRegistrationRequests() {
 		UserRegistationApprovalResponse response = new UserRegistationApprovalResponse();
 		try {
-			response = authenticationService
-					.getUserRegistrationPendingRequests();
+			response = authenticationService.getUserRegistrationPendingRequests();
 			response.setReturnVal(OnTargetConstant.SUCCESS);
 			response.setReturnMessage(OnTargetConstant.PENDING_REQUEST_RECEIVED);
 		} catch (Exception e) {
@@ -90,19 +88,16 @@ public class AuthenticationImpl implements Authentication {
 			response.setReturnMessage(OnTargetConstant.REGISTRATION_APPROVAL_REQUEST_FAILED);
 			response.setReturnVal(OnTargetConstant.ERROR);
 		}
-
 		return response;
 	}
 
 	@Override
 	@POST
 	@Path("/approvePendingRequest")
-	public OnTargetResponse approvePendingRegistrationRequest(
-			RegistrationApprovalRequest approvalRequest) {
+	public OnTargetResponse approvePendingRegistrationRequest(RegistrationApprovalRequest approvalRequest) {
 		OnTargetResponse response = new OnTargetResponse();
 		try {
-			if (authenticationService
-					.approvePendingRegistrationRequest(approvalRequest)) {
+			if (authenticationService.approvePendingRegistrationRequest(approvalRequest)) {
 				response.setReturnVal(OnTargetConstant.SUCCESS);
 				response.setReturnMessage(OnTargetConstant.REGISTRATION_APPROVAL_REQUEST_SUCCESS);
 			}
@@ -117,8 +112,7 @@ public class AuthenticationImpl implements Authentication {
 	@Override
 	@POST
 	@Path("/logout")
-	public OnTargetResponse logout(
-			@NotEmpty @QueryParam("username") String username) {
+	public OnTargetResponse logout(@NotEmpty @QueryParam("username") String username) {
 		OnTargetResponse response = new OnTargetResponse();
 		try {
 			if (authenticationService.logout(username)) {

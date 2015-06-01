@@ -35,6 +35,7 @@ public class ProjectEndpointTest extends BaseTest {
 		projectDetailInfo.setProjectTypeId(1);
 		projectDetailInfo.setStartDate(new java.sql.Date(new java.util.Date().getTime()));
 		projectDetailInfo.setStatus("1");
+		projectDetailInfo.setUnitOfMeasurement("HOUR");
 
 		ProjectAddressInfo projectAddressInfo = new ProjectAddressInfo();
 		projectAddressInfo.setAddress1("address1");
@@ -60,6 +61,7 @@ public class ProjectEndpointTest extends BaseTest {
 
 	@Test
 	public void updateProject() {
+
 		BaseRequest baseRequest = new BaseRequest();
 		baseRequest.setLoggedInUserId(1);
 		baseRequest.setLoggedInUserProjectId(1);
@@ -70,7 +72,7 @@ public class ProjectEndpointTest extends BaseTest {
 		request.setAccountStatus("ACCT_NEW");
 
 		ProjectDetailInfo projectDetailInfo = new ProjectDetailInfo();
-		projectDetailInfo.setProjectId(7);
+		projectDetailInfo.setProjectId(47);
 		projectDetailInfo.setCompanyId(1);
 		projectDetailInfo.setEndDate(new java.sql.Date(new java.util.Date().getTime()));
 		projectDetailInfo.setProjectDescription("project desc");
@@ -79,15 +81,16 @@ public class ProjectEndpointTest extends BaseTest {
 		projectDetailInfo.setProjectTypeId(1);
 		projectDetailInfo.setStartDate(new java.sql.Date(new java.util.Date().getTime()));
 		projectDetailInfo.setStatus("1");
+		projectDetailInfo.setUnitOfMeasurement("DOLLAR");
 
 		ProjectAddressInfo projectAddressInfo = new ProjectAddressInfo();
-		projectAddressInfo.setAddress1("kathmandu");
-		projectAddressInfo.setAddress2("pokhara");
+		projectAddressInfo.setAddress1("address1");
+		projectAddressInfo.setAddress2("address2");
 		projectAddressInfo.setCity("city");
 		projectAddressInfo.setCountry("country");
 		projectAddressInfo.setState("state");
 		projectAddressInfo.setZip("zip");
-		projectAddressInfo.setAddressId(9);
+		projectAddressInfo.setAddressId(39);
 		projectDetailInfo.setProjectAddress(projectAddressInfo);
 
 		request.setProject(projectDetailInfo);
@@ -205,6 +208,28 @@ public class ProjectEndpointTest extends BaseTest {
 		System.out.println("Client request ....getProjectByUser \n");
 		System.out.println(toJsonString(request, true));
 		Response response = sendRequest("/project/getProjectsByUser", request);
+		if (response.getStatus() != 200) {
+			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
+		}
+		String output = response.readEntity(String.class);
+		System.out.println("Server response .... \n");
+		System.out.println(output);
+	}
+
+	@Test
+	public void deleteProject() {
+
+		BaseRequest baseRequest = new BaseRequest();
+		baseRequest.setLoggedInUserId(1);
+		baseRequest.setLoggedInUserProjectId(1);
+
+		ProjectDetailRequest request = new ProjectDetailRequest();
+		request.setBaseRequest(baseRequest);
+		request.setProjectId(21);
+
+		System.out.println("Client request ....deleteProject \n");
+		System.out.println(toJsonString(request, true));
+		Response response = sendRequest("/project/deleteProject", request);
 		if (response.getStatus() != 200) {
 			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
 		}

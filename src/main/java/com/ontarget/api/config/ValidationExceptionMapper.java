@@ -26,10 +26,8 @@ import org.glassfish.jersey.server.validation.ValidationError;
 import org.glassfish.jersey.server.validation.internal.LocalizationMessages;
 
 @javax.ws.rs.ext.Provider
-public class ValidationExceptionMapper implements
-		ExceptionMapper<ConstraintViolationException> {
-	private static final Logger LOGGER = Logger
-			.getLogger(ValidationExceptionMapper.class.getName());
+public class ValidationExceptionMapper implements ExceptionMapper<ConstraintViolationException> {
+	private static final Logger LOGGER = Logger.getLogger(ValidationExceptionMapper.class.getName());
 
 	@Context
 	private Configuration config;
@@ -40,40 +38,31 @@ public class ValidationExceptionMapper implements
 	@Override
 	public Response toResponse(final ConstraintViolationException exception) {
 		if (exception instanceof ConstraintViolationException) {
-			LOGGER.log(Level.FINER,
-					LocalizationMessages.CONSTRAINT_VIOLATIONS_ENCOUNTERED(),
-					exception);
+			LOGGER.log(Level.FINER, LocalizationMessages.CONSTRAINT_VIOLATIONS_ENCOUNTERED(), exception);
 
 			final ConstraintViolationException cve = (ConstraintViolationException) exception;
-			final Response.ResponseBuilder response = Response
-					.status(getStatus(cve));
+			final Response.ResponseBuilder response = Response.status(getStatus(cve));
 
 			response.type(MediaType.APPLICATION_JSON);
 
-			response.entity(new GenericEntity<List<ValidationError>>(
-					getEntity(cve.getConstraintViolations()),
+			response.entity(new GenericEntity<List<ValidationError>>(getEntity(cve.getConstraintViolations()),
 					new GenericType<List<ValidationError>>() {
 					}.getType()));
 
 			return response.build();
 		} else {
-			LOGGER.log(Level.WARNING,
-					LocalizationMessages.VALIDATION_EXCEPTION_RAISED(),
-					exception);
+			LOGGER.log(Level.WARNING, LocalizationMessages.VALIDATION_EXCEPTION_RAISED(), exception);
 
-			return Response.serverError().entity(exception.getMessage())
-					.build();
+			return Response.serverError().entity(exception.getMessage()).build();
 		}
 	}
 
-	private List<ValidationError> getEntity(
-			final Set<ConstraintViolation<?>> violations) {
+	private List<ValidationError> getEntity(final Set<ConstraintViolation<?>> violations) {
 		final List<ValidationError> errors = new ArrayList<ValidationError>();
 
 		for (final ConstraintViolation<?> violation : violations) {
 
-			errors.add(new ValidationError(violation.getMessage(), violation
-					.getMessageTemplate(), getPath(violation),
+			errors.add(new ValidationError(violation.getMessage(), violation.getMessageTemplate(), getPath(violation),
 					getInvalidValue(violation.getInvalidValue())));
 		}
 
@@ -92,15 +81,12 @@ public class ValidationExceptionMapper implements
 		return invalidValue.toString();
 	}
 
-	private Response.Status getStatus(
-			final ConstraintViolationException exception) {
+	private Response.Status getStatus(final ConstraintViolationException exception) {
 		return getResponseStatus(exception.getConstraintViolations());
 	}
 
-	private Response.Status getResponseStatus(
-			final Set<ConstraintViolation<?>> constraintViolations) {
-		final Iterator<ConstraintViolation<?>> iterator = constraintViolations
-				.iterator();
+	private Response.Status getResponseStatus(final Set<ConstraintViolation<?>> constraintViolations) {
+		final Iterator<ConstraintViolation<?>> iterator = constraintViolations.iterator();
 
 		if (iterator.hasNext()) {
 			return getResponseStatus(iterator.next());
@@ -109,8 +95,7 @@ public class ValidationExceptionMapper implements
 		}
 	}
 
-	private Response.Status getResponseStatus(
-			final ConstraintViolation<?> constraintViolation) {
+	private Response.Status getResponseStatus(final ConstraintViolation<?> constraintViolation) {
 		for (final Path.Node node : constraintViolation.getPropertyPath()) {
 			final ElementKind kind = node.getKind();
 

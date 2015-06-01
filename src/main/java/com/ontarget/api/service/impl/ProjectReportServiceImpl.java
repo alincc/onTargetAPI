@@ -10,6 +10,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.ontarget.api.dao.AccidentReportDAO;
@@ -45,24 +46,31 @@ public class ProjectReportServiceImpl implements ProjectReportService {
 	private Logger logger = Logger.getLogger(ProjectReportServiceImpl.class);
 
 	@Autowired
+	@Qualifier("taskBudgetDAOImpl")
 	private TaskBudgetDAO taskBudgetDAO;
 
 	@Autowired
+	@Qualifier("taskPercentageDAOImpl")
 	private TaskPercentageDAO taskPercentageDAO;
 
 	@Autowired
+	@Qualifier("taskJpaDAOImpl")
 	private TaskDAO taskDAO;
 
 	@Autowired
+	@Qualifier("projectJpaDAOImpl")
 	private ProjectDAO projectDAO;
 
 	@Autowired
+	@Qualifier("documentJpaDAOImpl")
 	private DocumentDAO documentDAO;
 
 	@Autowired
+	@Qualifier("activityJpaDAOImpl")
 	private ActivityDAO activityDAO;
 
 	@Autowired
+	@Qualifier("accidentReportJpaDAOImpl")
 	private AccidentReportDAO accidentReportDAO;
 
 	@Override

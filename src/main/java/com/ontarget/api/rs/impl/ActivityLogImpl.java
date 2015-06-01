@@ -36,20 +36,17 @@ public class ActivityLogImpl implements com.ontarget.api.rs.ActivityLog {
 	@Override
 	@POST
 	@Path("/getLog")
-	public ActivityLogResponse getActivityLog(
-			ActivityLogRequest activityLogRequest) {
+	public ActivityLogResponse getActivityLog(ActivityLogRequest activityLogRequest) {
 		ActivityLogResponse response = new ActivityLogResponse();
 		try {
 			long recentId = activityLogRequest.getRecentId();
-			List<ActivityLog> activityLogs = activityLogService
-					.getActivityLog(activityLogRequest.getRecentId());
+			List<ActivityLog> activityLogs = activityLogService.getActivityLog(activityLogRequest.getRecentId());
 			if (activityLogs == null || activityLogs.isEmpty()) {
 				response.setLogs(new LinkedList<ActivityLog>());
 				response.setRecentActivityId(recentId);
 			} else {
 				response.setLogs(activityLogs);
-				response.setRecentActivityId(activityLogs.get(
-						activityLogs.size() - 1).getId());
+				response.setRecentActivityId(activityLogs.get(activityLogs.size() - 1).getId());
 			}
 			response.setReturnVal(OnTargetConstant.SUCCESS);
 			response.setReturnMessage("Activity log read");

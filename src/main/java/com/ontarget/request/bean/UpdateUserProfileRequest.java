@@ -7,44 +7,29 @@ import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.ontarget.request.bean.UserProfileInfo;
 
+/**
+ * Created by Owner on 11/4/14.
+ */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "contact", "user" })
+@JsonPropertyOrder({ "profile" })
 public class UpdateUserProfileRequest {
 	@NotNull
 	@Valid
-	@JsonProperty("contact")
-	private UserContactInfo contact;
-	@NotNull
-	@Valid
-	@JsonProperty("user")
-	private UserInfo user;
+	@JsonProperty("profile")
+	private UserProfileInfo userProfileInfo;
 
-	@JsonProperty("contact")
-	public UserContactInfo getContact() {
-		return contact;
+	public UpdateUserProfileRequest() {
 	}
 
-	@JsonProperty("contact")
-	public void setContact(UserContactInfo contact) {
-		this.contact = contact;
+	public UserProfileInfo getUserProfileInfo() {
+		return userProfileInfo;
 	}
 
-	@JsonProperty("user")
-	public UserInfo getUser() {
-		return user;
-	}
-
-	@JsonProperty("user")
-	public void setUser(UserInfo user) {
-		this.user = user;
-	}
-
-	@Override
-	public String toString() {
-		return "UpdateUserProfileRequest{" + "contact=" + contact + ", user="
-				+ user + '}';
+	public void setUserProfileInfo(UserProfileInfo userProfileInfo) {
+		this.userProfileInfo = userProfileInfo;
 	}
 
 }

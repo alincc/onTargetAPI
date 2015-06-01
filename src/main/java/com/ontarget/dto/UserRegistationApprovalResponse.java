@@ -7,9 +7,6 @@ import java.util.List;
  */
 public class UserRegistationApprovalResponse extends OnTargetResponse {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private List<RegistrationRequestDTO> userRegistrationRequestList;
 
@@ -17,8 +14,7 @@ public class UserRegistationApprovalResponse extends OnTargetResponse {
 		return userRegistrationRequestList;
 	}
 
-	public void setUserRegistrationRequestList(
-			List<RegistrationRequestDTO> userRegistrationRequestList) {
+	public void setUserRegistrationRequestList(List<RegistrationRequestDTO> userRegistrationRequestList) {
 		this.userRegistrationRequestList = userRegistrationRequestList;
 	}
 

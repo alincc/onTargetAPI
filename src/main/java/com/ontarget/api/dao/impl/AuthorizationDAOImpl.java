@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.ontarget.api.dao.AuthorizationDAO;
 
-@Repository
+@Repository("authorizationDAOimpl")
 public class AuthorizationDAOImpl implements AuthorizationDAO {
 	private Logger logger = Logger.getLogger(AuthorizationDAOImpl.class);
 
@@ -15,12 +15,9 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	private JdbcTemplate jdbcTemplate;
 
 	@Override
-	public boolean validateUserOnProject(Integer userId, Integer projectId)
-			throws Exception {
-		String sql = "SELECT COUNT(1)"
-				+ " FROM project p JOIN project_member pm ON(p.project_id="
-				+ projectId + " AND pm.user_id=" + userId
-				+ " AND p.project_id=pm.project_id AND p.project_parent_id=0)";
+	public boolean validateUserOnProject(Integer userId, Integer projectId) throws Exception {
+		String sql = "SELECT COUNT(1)" + " FROM project p JOIN project_member pm ON(p.project_id=" + projectId
+				+ " AND pm.user_id=" + userId + " AND p.project_id=pm.project_id AND p.project_parent_id=0)";
 
 		int count = this.jdbcTemplate.queryForInt(sql);
 		if (count > 0) {

@@ -1,12 +1,14 @@
 package com.ontarget.api.service;
 
-import com.ontarget.bean.Company;
-import com.ontarget.bean.ProjectDTO;
-import com.ontarget.bean.ProjectInfo;
-import com.ontarget.dto.*;
-import com.ontarget.request.bean.ProjectRequest;
-
 import java.util.List;
+
+import com.ontarget.bean.Company;
+import com.ontarget.bean.ProjectInfo;
+import com.ontarget.dto.OnTargetResponse;
+import com.ontarget.dto.ProjectListResponse;
+import com.ontarget.dto.ProjectMemberListResponse;
+import com.ontarget.dto.ProjectResponse;
+import com.ontarget.request.bean.ProjectRequest;
 
 /**
  * Created by Owner on 11/6/14.
@@ -30,4 +32,8 @@ public interface ProjectService {
     public ProjectInfo getProject(int projectId) throws Exception;
 
     public ProjectInfo getProjectTree(int projectId) throws Exception;
+    
+    public ProjectListResponse getUserProjectDetails(int userId) throws Exception;
+    
+    public boolean deleteProject(int projectId,int userId);
 }

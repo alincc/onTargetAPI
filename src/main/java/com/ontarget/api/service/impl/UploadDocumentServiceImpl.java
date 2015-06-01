@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,15 +24,16 @@ public class UploadDocumentServiceImpl implements UploadDocumentService {
 	private Logger logger = Logger.getLogger(UploadDocumentServiceImpl.class);
 
 	@Autowired
+	@Qualifier("uploadDocumentJpaDAOImpl")
 	private UploadDocumentDAO uploadDocumentDAO;
 
 	@Autowired
+	@Qualifier("contactJpaDAOImpl")
 	private ContactDAO contactDAO;
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
-	public boolean saveUploadedDocsInfo(UploadDocumentRequest documentInfo)
-			throws Exception {
+	public boolean saveUploadedDocsInfo(UploadDocumentRequest documentInfo) throws Exception {
 		logger.info("service call initiated for document upload");
 		UploadDocument documentBean = new UploadDocument(documentInfo);
 		documentBean = uploadDocumentDAO.saveUploadedDocsInfo(documentBean);
@@ -49,12 +51,9 @@ public class UploadDocumentServiceImpl implements UploadDocumentService {
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
-	public List<UploadedDocumentDetail> getUploadedFile(int projectId)
-			throws Exception {
-		logger.info("service call initiated to fetch uploaded file for project id"
-				+ projectId);
-		List<UploadedDocumentDetail> resultList = uploadDocumentDAO
-				.getFilesByProjectId(projectId);
+	public List<UploadedDocumentDetail> getUploadedFile(int projectId) throws Exception {
+		logger.info("service call initiated to fetch uploaded file for project id" + projectId);
+		List<UploadedDocumentDetail> resultList = uploadDocumentDAO.getFilesByProjectId(projectId);
 		Map<Integer, Contact> contactMap = new HashMap<>();
 		for (UploadedDocumentDetail detail : resultList) {
 			int createdBy = detail.getCreatedBy();

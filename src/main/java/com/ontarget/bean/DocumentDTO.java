@@ -14,7 +14,7 @@ public class DocumentDTO implements Serializable {
 	private int projectId;
 	private Date dueDate;
 	private int createdBy;
-	protected UserDTO creator;
+	private UserDTO creator;
 	private int modifiedBy;
 	private List<DocumentKeyValueDTO> keyValues;
 	private List<DocumentGridKeyValueDTO> gridKeyValues;

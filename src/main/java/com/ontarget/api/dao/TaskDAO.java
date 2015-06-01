@@ -17,49 +17,55 @@ import com.ontarget.request.bean.TaskCommentRequest;
  */
 public interface TaskDAO {
 
-    public int addTask(Task task, int userId) throws Exception;
+	public int addTask(Task task, int userId) throws Exception;
 
-    public List<TaskInfo> getTask(int projectId) throws Exception;
-    
-    public List<TaskObj> getTaskObjList(int projectId) throws Exception;
-    
-    public List<ProjectTask> getTasksByProject(int projectId) throws Exception;
+	public com.ontarget.entities.ProjectTask getProjectTaskById(int projectTaskId);
 
-    public List<com.ontarget.bean.TaskStatusCount> getTaskCountByStatus(int projectId) throws Exception;
+	public List<TaskInfo> getTask(int projectId) throws Exception;
 
-    public boolean updateComment(TaskCommentRequest comment) throws Exception;
+	public List<TaskInfo> getAssignedTasksByProjectId(int projectId, int userId) throws Exception;
 
-    public int addComment(TaskCommentRequest comment) throws Exception;
+	public List<TaskObj> getTaskObjList(int projectId) throws Exception;
 
-    public List<TaskComment> getTaskComments(int projectTaskId) throws Exception;
+	public List<ProjectTask> getTasksByProject(int projectId) throws Exception;
 
-    public boolean updateTask(Task task, int userId) throws Exception;
+	public List<com.ontarget.bean.TaskStatusCount> getTaskCountByStatus(int projectId) throws Exception;
 
-    public boolean updateTaskStatus(int taskId, String taskStatus, int userId) throws Exception;
+	public boolean updateComment(TaskCommentRequest comment) throws Exception;
 
-    public Set<Integer> getTaskMembers(int taskId) throws Exception;
+	public int addComment(TaskCommentRequest comment) throws Exception;
 
-    public boolean addTaskMember(int projectId, int taskId, int memberId) throws Exception;
+	public List<TaskComment> getTaskComments(int projectTaskId) throws Exception;
 
-    public boolean deleteAllTaskAssignedUsers(int taskId) throws Exception;
+	public boolean updateTask(Task task, int userId) throws Exception;
 
-    public boolean assignTaskToUser(int taskId, int userId, int assigningUser) throws Exception;
+	public boolean updateTaskStatus(int taskId, String taskStatus, int userId) throws Exception;
 
-    boolean updateTaskAssignee(int taskId, int userId, int assigningUser) throws Exception;
+	public Set<Integer> getTaskMembers(int taskId) throws Exception;
 
-    public Integer getAssignedUser(int taskId) throws Exception;
+	public boolean addTaskMember(int projectId, int taskId, int memberId) throws Exception;
 
-    public ProjectTask getTaskDetail(int taskId) throws Exception;
-    
-    public ProjectTaskInfo getTaskInfo(int taskId) throws Exception;
+	public boolean deleteAllTaskAssignedUsers(int taskId) throws Exception;
 
-    public List<ProjectTask> getChildTasks(int taskId) throws Exception;
+	public boolean assignTaskToUser(int taskId, int userId, int assigningUser) throws Exception;
 
-    public List<ProjectTask> getDependentTasks(int taskId) throws Exception;
+	boolean updateTaskAssignee(int taskId, int userId, int assigningUser) throws Exception;
 
-    public List<ProjectTask> getUserTasks(int userId) throws Exception;
+	public Integer getAssignedUser(int taskId) throws Exception;
 
-    public int addDependentTask(DependentTaskDTO dependentTask) throws Exception;
+	public ProjectTask getTaskDetail(int taskId) throws Exception;
 
-    public List<TaskInfo> getTask(int projectId, int completed) throws Exception;
+	public ProjectTaskInfo getTaskInfo(int taskId) throws Exception;
+
+	public List<ProjectTask> getChildTasks(int taskId) throws Exception;
+
+	public List<ProjectTask> getDependentTasks(int taskId) throws Exception;
+
+	public List<ProjectTask> getUserTasks(int userId) throws Exception;
+
+	public int addDependentTask(DependentTaskDTO dependentTask) throws Exception;
+
+	public List<TaskInfo> getTask(int projectId, int completed) throws Exception;
+
+	public boolean deleteTask(int taskId, int userId) throws Exception;
 }

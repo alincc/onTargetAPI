@@ -36,16 +36,13 @@ public class ProjectReportEndpointImpl implements ProjectReportEndpoint {
 	@Override
 	@POST
 	@Path("/earnedValueReport")
-	public ProjectEarnedValueReportResponse getProjectEarnedValueAnalysis(
-			ProjectReportInfo projectReportRequest) {
-		logger.debug("Getting earned value report for projectId: "
-				+ projectReportRequest.getProjectId());
+	public ProjectEarnedValueReportResponse getProjectEarnedValueAnalysis(ProjectReportInfo projectReportRequest) {
+		logger.debug("Getting earned value report for projectId: " + projectReportRequest.getProjectId());
 		ProjectEarnedValueReportResponse response = new ProjectEarnedValueReportResponse();
 
 		try {
 			List<ProjectEarnedValueAnalysisReport> report = projectReportService
-					.getEarnedValueAnalysisReport(projectReportRequest
-							.getProjectId());
+					.getEarnedValueAnalysisReport(projectReportRequest.getProjectId());
 			response.setEarnedValueAnalysisReportMap(report);
 			response.setReturnMessage("Successfully retrieved report.");
 			response.setReturnVal(OnTargetConstant.SUCCESS);
@@ -61,17 +58,13 @@ public class ProjectReportEndpointImpl implements ProjectReportEndpoint {
 	@Override
 	@POST
 	@Path("/bireport")
-	public BIReportResponse getTimeSaved(
-			ProjectReportInfo projectReportRequest) {
+	public BIReportResponse getTimeSaved(ProjectReportInfo projectReportRequest) {
 		BIReportResponse response = new BIReportResponse();
 
 		try {
-			TimeSaved timeSaved = projectReportService
-					.getTimeSaved(projectReportRequest.getProjectId());
-			TreesSaved treesSaved = projectReportService
-					.getTreesSaved(projectReportRequest.getProjectId());
-			NoAccidentReport noAccidentReport = projectReportService
-					.getNoAccidentReport(projectReportRequest.getProjectId());
+			TimeSaved timeSaved = projectReportService.getTimeSaved(projectReportRequest.getProjectId());
+			TreesSaved treesSaved = projectReportService.getTreesSaved(projectReportRequest.getProjectId());
+			NoAccidentReport noAccidentReport = projectReportService.getNoAccidentReport(projectReportRequest.getProjectId());
 
 			response.setTimeSaved(timeSaved);
 			response.setTreesSaved(treesSaved);

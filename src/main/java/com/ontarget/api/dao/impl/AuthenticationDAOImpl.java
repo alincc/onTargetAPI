@@ -27,7 +27,7 @@ import com.ontarget.util.TokenUtil;
 /**
  * Created by Owner on 10/30/14.
  */
-@Repository
+@Repository("authenticationDAOImpl")
 public class AuthenticationDAOImpl implements AuthenticationDAO {
 
 	private Logger logger = Logger.getLogger(AuthenticationDAO.class);

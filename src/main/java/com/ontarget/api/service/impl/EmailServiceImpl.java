@@ -1,25 +1,18 @@
 package com.ontarget.api.service.impl;
 
-import com.ontarget.api.dao.AuthenticationDAO;
-import com.ontarget.api.dao.UserInvitationDAO;
-import com.ontarget.api.dao.ContactDAO;
-import com.ontarget.api.dao.EmailDAO;
-import com.ontarget.api.rs.UserInvitation;
-import com.ontarget.api.service.EmailService;
-import com.ontarget.bean.Contact;
-import com.ontarget.bean.DocumentDTO;
-import com.ontarget.bean.ProjectTaskInfo;
-import com.ontarget.bean.TaskInfo;
-import com.ontarget.bean.UserDTO;
-import com.ontarget.constant.OnTargetConstant;
-import com.ontarget.entity.pojo.RegistrationRequestResponseDTO;
-import com.ontarget.request.bean.Assignee;
-import com.ontarget.request.bean.UserRegistrationRequest;
-import com.ontarget.util.EmailConstant;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 import org.apache.log4j.Logger;
 import org.apache.velocity.app.VelocityEngine;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -27,10 +20,20 @@ import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.velocity.VelocityEngineUtils;
 
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-
-import java.util.*;
+import com.ontarget.api.dao.AuthenticationDAO;
+import com.ontarget.api.dao.ContactDAO;
+import com.ontarget.api.dao.EmailDAO;
+import com.ontarget.api.dao.UserInvitationDAO;
+import com.ontarget.api.service.EmailService;
+import com.ontarget.bean.Contact;
+import com.ontarget.bean.DocumentDTO;
+import com.ontarget.bean.ProjectTaskInfo;
+import com.ontarget.bean.UserDTO;
+import com.ontarget.constant.OnTargetConstant;
+import com.ontarget.entity.pojo.RegistrationRequestResponseDTO;
+import com.ontarget.request.bean.Assignee;
+import com.ontarget.request.bean.UserRegistrationRequest;
+import com.ontarget.util.EmailConstant;
 
 /**
  * Created by Owner on 11/2/14.
@@ -47,15 +50,19 @@ public class EmailServiceImpl implements EmailService {
 	private VelocityEngine velocityEngine;
 
 	@Autowired
+	@Qualifier("authenticationJpaDAOImpl")
 	private AuthenticationDAO authenticationDAO;
 
 	@Autowired
+	@Qualifier("userInvitationJpaDAOImpl")
 	private UserInvitationDAO registrationDAO;
 
 	@Autowired
+	@Qualifier("contactJpaDAOImpl")
 	private ContactDAO contactDAO;
 
 	@Autowired
+	@Qualifier("emailJpaDAOImpl")
 	private EmailDAO emailDAO;
 
 	@Value("${baseUIUrl}")
@@ -225,7 +232,7 @@ public class EmailServiceImpl implements EmailService {
 						Map model = new HashMap();
 						model.put("document", document);
 						model.put("assignee", assignee);
-						model.put("documentUrl", baseUrl + "#/pages/onfile");
+						model.put("documentUrl", "http://www.ontarget.com/documents");
 
 						String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine,
 								"template/documentApprovalEmail.vm", "UTF-8", model);

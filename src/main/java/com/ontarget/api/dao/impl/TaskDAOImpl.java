@@ -23,10 +23,8 @@ import org.springframework.stereotype.Repository;
 
 import com.ontarget.api.dao.TaskDAO;
 import com.ontarget.bean.DependentTaskDTO;
-import com.ontarget.bean.ProjectDTO;
 import com.ontarget.bean.ProjectTaskInfo;
 import com.ontarget.bean.TaskComment;
-import com.ontarget.bean.TaskInfo;
 import com.ontarget.bean.TaskInfo;
 import com.ontarget.bean.TaskObj;
 import com.ontarget.bean.TaskStatusCount;
@@ -40,7 +38,7 @@ import com.ontarget.request.bean.TaskCommentRequest;
 /**
  * Created by Owner on 11/6/14.
  */
-@Repository
+@Repository("taskDAOImpl")
 public class TaskDAOImpl implements TaskDAO {
 
 	private Logger logger = Logger.getLogger(AddressDAOImpl.class);
@@ -51,8 +49,6 @@ public class TaskDAOImpl implements TaskDAO {
 	@Override
 	public int addTask(Task task, int userId) throws Exception {
 
-		logger.info("parent task id:: " + task.getParentTask().getProjectTaskId());
-
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		jdbcTemplate.update(new PreparedStatementCreator() {
 			public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
@@ -60,7 +56,7 @@ public class TaskDAOImpl implements TaskDAO {
 				ps.setLong(1, task.getProjectId());
 				ps.setString(2, task.getTitle());
 				ps.setString(3, task.getDescription());
-				ps.setInt(4, task.getParentTask().getProjectTaskId());
+				ps.setInt(4, 0);
 				ps.setString(5, task.getStatus());
 				ps.setString(6, task.getSeverity());
 				ps.setDate(7, task.getStartDate());
@@ -306,14 +302,12 @@ public class TaskDAOImpl implements TaskDAO {
 
 	@Override
 	public boolean updateTask(Task task, int userId) throws Exception {
-		ParentTask parentTask = task.getParentTask();
-		int projectTaskId = parentTask == null ? 0 : parentTask.getProjectTaskId();
 		int row = jdbcTemplate.update(
 				OnTargetQuery.UPDATE_TASK,
-				new Object[] { task.getTitle(), task.getDescription(), projectTaskId, task.getStatus(), task.getStartDate(),
+				new Object[] { task.getTitle(), task.getDescription(), 0, task.getStatus(), task.getStartDate(),
 						task.getEndDate(), task.getSeverity(), userId, task.getProjectTaskId() });
 		if (row == 0) {
-			throw new Exception("Unable to update task");
+			throw new Exception("Unable to update task comment");
 		}
 		return true;
 	}
@@ -452,6 +446,21 @@ public class TaskDAOImpl implements TaskDAO {
 		});
 
 		return tasks;
+	}
+
+	@Override
+	public List<TaskInfo> getAssignedTasksByProjectId(int projectId, int userId) throws Exception {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public boolean deleteTask(int taskId, int userId) throws Exception {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public com.ontarget.entities.ProjectTask getProjectTaskById(int projectTaskId) {
+		throw new UnsupportedOperationException();
 	}
 
 }

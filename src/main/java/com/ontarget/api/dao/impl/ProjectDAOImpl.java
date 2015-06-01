@@ -31,11 +31,12 @@ import com.ontarget.bean.ProjectMember;
 import com.ontarget.bean.UserDTO;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.constant.OnTargetQuery;
+import com.ontarget.entities.Project;
 
 /**
  * Created by Owner on 11/5/14.
  */
-@Repository
+@Repository("projectDAOImpl")
 public class ProjectDAOImpl implements ProjectDAO {
 
 	private Logger logger = Logger.getLogger(ProjectDAOImpl.class);
@@ -92,7 +93,6 @@ public class ProjectDAOImpl implements ProjectDAO {
 				project.setCompanyId(resultSet.getInt("COMPANY_ID"));
 				project.setProjectOwnerId(resultSet.getInt("project_owner_id"));
 
-				// logger.info("this is class of date object "+resultSet.getTime("project_start_date"));
 				project.setStartDate(resultSet.getDate("project_start_date"));
 				project.setEndDate(resultSet.getDate("project_end_date"));
 
@@ -303,5 +303,25 @@ public class ProjectDAOImpl implements ProjectDAO {
 	@Override
 	public List<Map<String, Object>> getProjectByUser(int userId) {
 		return jdbcTemplate.queryForList(OnTargetQuery.GET_PROJECT_BY_USER, new Object[] { userId });
+	}
+
+	@Override
+	public List<Project> getUndeletedProjectsByParentId(Integer parentProjectId) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public Project findProjectById(int projectId) throws Exception {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public Project getMainProjectByUser(int userId) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public boolean deleteProject(int projectId,int userId) throws Exception {
+		throw new UnsupportedOperationException();
 	}
 }

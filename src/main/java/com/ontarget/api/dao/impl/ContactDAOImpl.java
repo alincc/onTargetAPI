@@ -1,22 +1,23 @@
 package com.ontarget.api.dao.impl;
 
-import com.ontarget.api.dao.ContactDAO;
-import com.ontarget.bean.Contact;
-import com.ontarget.bean.UserDTO;
-import com.ontarget.constant.OnTargetQuery;
+import java.sql.Timestamp;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Timestamp;
-import java.util.List;
-import java.util.Map;
+import com.ontarget.api.dao.ContactDAO;
+import com.ontarget.bean.Contact;
+import com.ontarget.bean.UserDTO;
+import com.ontarget.constant.OnTargetQuery;
 
 /**
  * Created by Owner on 11/4/14.
  */
-@Repository
+@Repository("contactDAOImpl")
 public class ContactDAOImpl implements ContactDAO {
 
 	private Logger logger = Logger.getLogger(ContactDAOImpl.class);
@@ -27,13 +28,9 @@ public class ContactDAOImpl implements ContactDAO {
 	@Override
 	public boolean addContactInfo(Contact contact) throws Exception {
 
-		int row = jdbcTemplate.update(
-				OnTargetQuery.CREATE_CONTACT,
-				new Object[] { contact.getUser().getUserId(),
-						contact.getCompany().getCompanyId(),
-						contact.getFirstName(), contact.getLastName(),
-						contact.getTitle(), contact.getUserImagePath() });
-
+		int row = jdbcTemplate.update(OnTargetQuery.CREATE_CONTACT,
+				new Object[] { contact.getUser().getUserId(), contact.getCompany().getCompanyId(), contact.getFirstName(),
+						contact.getLastName(), contact.getTitle(), contact.getUserImagePath() });
 
 		if (row <= 0) {
 			throw new Exception("Contact was not created");
@@ -44,17 +41,14 @@ public class ContactDAOImpl implements ContactDAO {
 
 	@Override
 	public boolean updateContactInfo(Contact contact) throws Exception {
-		int row = jdbcTemplate.update(OnTargetQuery.UPDATE_CONTACT,
-				new Object[] { contact.getFirstName(), contact.getLastName(),
-						contact.getTitle(), contact.getUserImagePath(),
-						contact.getUser().getUserId() });
+		int row = jdbcTemplate.update(OnTargetQuery.UPDATE_CONTACT, new Object[] { contact.getFirstName(), contact.getLastName(),
+				contact.getTitle(), contact.getUserImagePath(), contact.getUser().getUserId() });
 		return row > 0;
 	}
 
 	@Override
 	public Map<String, Object> getContactDetail(int userId) throws Exception {
-		List<Map<String, Object>> results = jdbcTemplate.queryForList(
-				OnTargetQuery.GET_CONTACT_BY_USER, new Object[] { userId });
+		List<Map<String, Object>> results = jdbcTemplate.queryForList(OnTargetQuery.GET_CONTACT_BY_USER, new Object[] { userId });
 		if (results == null || results.isEmpty()) {
 			throw new Exception("User does not exists");
 		}
@@ -63,10 +57,9 @@ public class ContactDAOImpl implements ContactDAO {
 	}
 
 	@Override
-	public Contact getContact(long userId) throws Exception {
+	public Contact getContact(int userId) throws Exception {
 		logger.info("getting contact for user " + userId);
-		List<Map<String, Object>> results = jdbcTemplate.queryForList(
-				OnTargetQuery.GET_CONTACT_BY_USER, new Object[] { userId });
+		List<Map<String, Object>> results = jdbcTemplate.queryForList(OnTargetQuery.GET_CONTACT_BY_USER, new Object[] { userId });
 		if (results == null || results.isEmpty()) {
 			throw new Exception("User " + userId + " does not exist");
 		}
@@ -84,11 +77,8 @@ public class ContactDAOImpl implements ContactDAO {
 		return contact;
 	}
 
-
-	public boolean saveUserImagePath(int userId, String path, long modifier)
-			throws Exception {
-		int row = jdbcTemplate.update(OnTargetQuery.UPDATE_USER_IMAGE,
-				new Timestamp(System.currentTimeMillis()), modifier, path,
+	public boolean saveUserImagePath(int userId, String path, long modifier) throws Exception {
+		int row = jdbcTemplate.update(OnTargetQuery.UPDATE_USER_IMAGE, new Timestamp(System.currentTimeMillis()), modifier, path,
 				userId);
 		return row > 0;
 	}

@@ -41,12 +41,9 @@ public class UploadDocumentEndPointImpl implements UploadDocumentEndPoint {
 	@Override
 	@Path("/saveUploadedDocsInfo")
 	@POST
-	public OnTargetResponse saveUploadedDocsInfo(
-			UploadDocumentRequest requestData) {
+	public OnTargetResponse saveUploadedDocsInfo(UploadDocumentRequest requestData) {
 		logger.info("Starting document upload call");
-		OnTargetResponse response = new OnTargetResponse(
-				OnTargetConstant.INTERNAL_SERVER_ERROR_CODE,
-				OnTargetConstant.ERROR,
+		OnTargetResponse response = new OnTargetResponse(OnTargetConstant.INTERNAL_SERVER_ERROR_CODE, OnTargetConstant.ERROR,
 				OnTargetConstant.INTERNAL_SERVER_ERROR_MSG);
 
 		if (requestData.getProjectId() == 0 || requestData.getName().isEmpty()) {
@@ -58,8 +55,7 @@ public class UploadDocumentEndPointImpl implements UploadDocumentEndPoint {
 
 		try {
 			Boolean success = documentService.saveUploadedDocsInfo(requestData);
-			return ((success) ? (new OnTargetResponse(
-					OnTargetConstant.SUCCESS_CODE, OnTargetConstant.SUCCESS,
+			return ((success) ? (new OnTargetResponse(OnTargetConstant.SUCCESS_CODE, OnTargetConstant.SUCCESS,
 					OnTargetConstant.SUCCESS)) : response);
 		} catch (Exception ex) {
 			logger.error(OnTargetConstant.INTERNAL_SERVER_ERROR_MSG, ex);
@@ -70,19 +66,15 @@ public class UploadDocumentEndPointImpl implements UploadDocumentEndPoint {
 
 	@Override
 	@POST
-	public FileUploadResponse getUploadedFile(
-			UploadedFileDetail uploadedFileDetailBean) {
+	public FileUploadResponse getUploadedFile(UploadedFileDetail uploadedFileDetailBean) {
 		logger.info("Starting call to retrieve uploaded document by project id");
-		FileUploadResponse response = new FileUploadResponse(
-				OnTargetConstant.INTERNAL_SERVER_ERROR_CODE,
-				OnTargetConstant.ERROR,
+		FileUploadResponse response = new FileUploadResponse(OnTargetConstant.INTERNAL_SERVER_ERROR_CODE, OnTargetConstant.ERROR,
 				OnTargetConstant.INTERNAL_SERVER_ERROR_MSG);
 
 		response.setProjectId(uploadedFileDetailBean.getProjectId());
 		List<UploadedDocumentDetail> uploadedDocumentDetailList = null;
 		try {
-			uploadedDocumentDetailList = documentService
-					.getUploadedFile(uploadedFileDetailBean.getProjectId());
+			uploadedDocumentDetailList = documentService.getUploadedFile(uploadedFileDetailBean.getProjectId());
 			response.setUploadedDocumentList(uploadedDocumentDetailList);
 			response.setResponseCode(OnTargetConstant.SUCCESS_CODE);
 			response.setReturnVal(OnTargetConstant.SUCCESS);

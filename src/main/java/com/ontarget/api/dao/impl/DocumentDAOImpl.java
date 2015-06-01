@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -22,11 +23,12 @@ import com.ontarget.bean.DocumentDTO;
 import com.ontarget.bean.UserDTO;
 import com.ontarget.constant.OnTargetQuery;
 
-@Repository
+@Repository("documentDAOImpl")
 public class DocumentDAOImpl extends BaseGenericDAOImpl<DocumentDTO> implements DocumentDAO {
 	private static final Logger logger = Logger.getLogger(BaseGenericDAOImpl.class);
 
 	@Autowired
+	@Qualifier("contactDAOImpl")
 	private ContactDAO contactDAO;
 
 	@Override
@@ -112,10 +114,10 @@ public class DocumentDAOImpl extends BaseGenericDAOImpl<DocumentDTO> implements 
 				logger.error("Error while getting contact info", e);
 				throw new SQLException();
 			}
-			UserDTO createdBy = new UserDTO();
-			createdBy.setContact(contact);
-			doc.setCreator(createdBy);
-			// doc.setCreatedBy(rs.getInt("created_by"));
+			UserDTO creator = new UserDTO();
+			creator.setContact(contact);
+			doc.setCreator(creator);
+			doc.setCreatedBy(rs.getInt("created_by"));
 			doc.setDueDate(rs.getDate("due_date"));
 			return doc;
 		}

@@ -11,6 +11,7 @@ import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.SafetyInfoResponse;
 import com.ontarget.dto.UserImageRequest;
 import com.ontarget.dto.UserProfileRequest;
+import com.ontarget.request.bean.CompanyInfoEditRequest;
 import com.ontarget.request.bean.InviteUserIntoProjectRequest;
 import com.ontarget.request.bean.UpdateUserProfileRequest;
 
@@ -19,29 +20,23 @@ import com.ontarget.request.bean.UpdateUserProfileRequest;
  */
 public interface UserProfile {
 
-	public OnTargetResponse addUserProfile(
-			@Valid UserProfileRequest userProfileRequest);
+	public OnTargetResponse addUserProfile(@Valid UserProfileRequest userProfileRequest);
 
-	public OnTargetResponse changeUserPassword(
-			@Valid ChangeUserPasswordRequest request) throws Exception;
+	public OnTargetResponse changeUserPassword(@Valid ChangeUserPasswordRequest request) throws Exception;
 
-	public OnTargetResponse updateUserProfile(
-			@Valid UpdateUserProfileRequest userProfileRequest);
+	public OnTargetResponse updateUserProfile(@Valid UpdateUserProfileRequest userProfileRequest);
 
-	public OnTargetResponse changeForgotPassword(
-			@Valid ForgotPasswordRequest request) throws Exception;
+	public OnTargetResponse changeForgotPassword(@Valid ForgotPasswordRequest request) throws Exception;
 
-	public OnTargetResponse inviteUserIntoProject(
-			@Valid InviteUserIntoProjectRequest request);
+	public OnTargetResponse inviteUserIntoProject(@Valid InviteUserIntoProjectRequest request);
 
 	public SafetyInfoResponse getSafetyInfoForUser(@NotNull Integer userId);
 
-	public OnTargetResponse forgotPasswordRequest(
-			@Valid ForgotPasswordRequest request);
+	public OnTargetResponse forgotPasswordRequest(@Valid ForgotPasswordRequest request);
 
-	public OnTargetResponse validateForgotPasswordToken(
-			@NotEmpty String forgotPasswordToken);
+	public OnTargetResponse validateForgotPasswordToken(@NotEmpty String forgotPasswordToken);
 
-	public OnTargetResponse saveUserProfileImage(
-			@Valid UserImageRequest userImageRequest);
+	public OnTargetResponse saveUserProfileImage(@Valid UserImageRequest userImageRequest);
+
+	public OnTargetResponse updateCompanyInfo(@Valid CompanyInfoEditRequest request);
 }

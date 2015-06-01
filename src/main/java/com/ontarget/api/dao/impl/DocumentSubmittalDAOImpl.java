@@ -15,21 +15,16 @@ import com.ontarget.api.dao.DocumentSubmittalDAO;
 import com.ontarget.bean.DocumentSubmittalDTO;
 import com.ontarget.constant.OnTargetQuery;
 
-@Repository
-public class DocumentSubmittalDAOImpl extends
-		BaseGenericDAOImpl<DocumentSubmittalDTO> implements
-		DocumentSubmittalDAO {
+@Repository("documentSubmittalDAOImpl")
+public class DocumentSubmittalDAOImpl extends BaseGenericDAOImpl<DocumentSubmittalDTO> implements DocumentSubmittalDAO {
 
 	@Override
-	public DocumentSubmittalDTO insert(
-			final DocumentSubmittalDTO documentSubmittal) {
+	public DocumentSubmittalDTO insert(final DocumentSubmittalDTO documentSubmittal) {
 		KeyHolder kh = new GeneratedKeyHolder();
 		jdbcTemplate.update(new PreparedStatementCreator() {
 			@Override
-			public PreparedStatement createPreparedStatement(Connection conn)
-					throws SQLException {
-				PreparedStatement ps = conn.prepareStatement(
-						OnTargetQuery.documentSubmittal.ADD,
+			public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
+				PreparedStatement ps = conn.prepareStatement(OnTargetQuery.documentSubmittal.ADD,
 						new String[] { "document_submittal_id" });
 				ps.setLong(1, documentSubmittal.getDocument().getDocumentId());
 				ps.setLong(2, documentSubmittal.getAssignedTo());
@@ -45,10 +40,8 @@ public class DocumentSubmittalDAOImpl extends
 
 	@Override
 	public DocumentSubmittalDTO read(long documentSubmittalId) {
-		DocumentSubmittalDTO docSub = jdbcTemplate.queryForObject(
-				OnTargetQuery.documentSubmittal.GET_BY_ID,
-				new Object[] { documentSubmittalId },
-				new DocumentSubmittalRowMapper());
+		DocumentSubmittalDTO docSub = jdbcTemplate.queryForObject(OnTargetQuery.documentSubmittal.GET_BY_ID,
+				new Object[] { documentSubmittalId }, new DocumentSubmittalRowMapper());
 		return docSub;
 	}
 
@@ -58,11 +51,9 @@ public class DocumentSubmittalDAOImpl extends
 		return false;
 	}
 
-	static class DocumentSubmittalRowMapper implements
-			RowMapper<DocumentSubmittalDTO> {
+	static class DocumentSubmittalRowMapper implements RowMapper<DocumentSubmittalDTO> {
 		@Override
-		public DocumentSubmittalDTO mapRow(ResultSet rs, int index)
-				throws SQLException {
+		public DocumentSubmittalDTO mapRow(ResultSet rs, int index) throws SQLException {
 			DocumentSubmittalDTO docSub = new DocumentSubmittalDTO();
 			docSub.setDocumentSubmittalId(rs.getLong("document_submittal_id"));
 			// docSub.setSubmitter(submitter);

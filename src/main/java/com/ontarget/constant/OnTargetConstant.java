@@ -87,9 +87,16 @@ public interface OnTargetConstant {
 		public static final String REJECTED = "REJECTED";
 	}
 
-	public interface PROJECT_STATUS {
+	public interface ProjectStatus {
 		public static final String ACTIVE = "1";
 		public static final String PENDING = "0";
+		public static final String DELETED = "2";
+	}
+	
+	public interface TaskStatus {
+		public static final String ACTIVE = "1";
+		public static final String PENDING = "0";
+		public static final String DELETED = "2";
 	}
 
 	public interface MemberStatus {
@@ -110,18 +117,28 @@ public interface OnTargetConstant {
 
 	}
 
+	public interface UserNotificationStatus {
+		public static final String NEW = "NEW";
+		public static final String SEEN = "SEEN";
+	}
+
 	public interface FORGOT_PASSWORD {
 
 		public static final String FORGOT_PASSWORD_ACTIVE = "ACTIVE";
 		public static final String FORGOT_PASSWORD_EXPIRED = "EXPIRED";
 	}
 
-	public static final String OPEN_RS_ENDPOINT = "/register,/user,/onTargetInvitation,/profile,/project/getProjectsByUser,/project/addProject,/company";
+	public interface ProjectInfoType {
+		public static final String BASE_PROJECT = "BASE_PROJECT";
+		public static final String MAIN_PROJECT = "MAIN_PROJECT";
+		public static final String PROJECT = "PROJECT";
+		public static final String ACTIVITY = "ACTIVITY";
+	}
+	
+	public interface ProjectConfigurationConstant{
+		public static final String unitOfMeasurement = "UNIT_OF_MEASUREMENT";
+	}
 
-	// public Enum TaskStatus{
-	// COMPLETED(3 , "COMPLETED"),ACTIVE(1 , "ACTIVE"),PENDING(1 , "PENDING");
-	//
-	//
-	// }
+	public static final String OPEN_RS_ENDPOINT = "/register,/user,/onTargetInvitation,/profile,/project/getProjectsByUser,/project/addProject,/company,/file,/hello,/timeCard/getFieldWorkers";
 
 }

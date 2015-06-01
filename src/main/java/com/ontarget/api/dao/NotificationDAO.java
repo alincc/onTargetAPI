@@ -1,12 +1,12 @@
 package com.ontarget.api.dao;
 
-import com.ontarget.bean.Notification;
-
-import java.util.List;
+import com.ontarget.dto.UserNotificationDTO;
 
 /**
  * Created by sumit on 12/26/14.
  */
 public interface NotificationDAO {
-    List<Notification> getNotificationSince(long recentId, int userId) throws Exception;
+	UserNotificationDTO getUserNotifications(int pageNumber, int perPageLimit, int userId) throws Exception;
+	
+	boolean updateStatusToSeen(Long userNotificationId) throws Exception;
 }

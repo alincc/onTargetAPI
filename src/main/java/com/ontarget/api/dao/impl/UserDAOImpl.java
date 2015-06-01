@@ -1,15 +1,5 @@
 package com.ontarget.api.dao.impl;
 
-import com.ontarget.api.dao.UserDAO;
-import com.ontarget.bean.UserDTO;
-import com.ontarget.constant.OnTargetConstant;
-import com.ontarget.constant.OnTargetQuery;
-import org.springframework.jdbc.core.PreparedStatementCreator;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Repository;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,7 +7,20 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-@Repository
+import org.apache.log4j.Logger;
+import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Repository;
+
+import com.ontarget.api.dao.UserDAO;
+import com.ontarget.bean.UserDTO;
+import com.ontarget.constant.OnTargetConstant;
+import com.ontarget.constant.OnTargetQuery;
+import com.ontarget.request.bean.UpdateUserProfileRequest;
+
+@Repository("userDAOImpl")
 public class UserDAOImpl extends BaseGenericDAOImpl<UserDTO> implements UserDAO {
 	private Logger logger = Logger.getLogger(UserDAOImpl.class);
 
@@ -110,5 +113,15 @@ public class UserDAOImpl extends BaseGenericDAOImpl<UserDTO> implements UserDAO 
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public boolean updateUserProfile(UpdateUserProfileRequest request) throws Exception {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public boolean usernameAlreadyRegistered(String username) throws Exception {
+		throw new UnsupportedOperationException();
 	}
 }

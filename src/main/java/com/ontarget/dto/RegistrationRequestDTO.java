@@ -1,13 +1,8 @@
 package com.ontarget.dto;
 
 import java.io.Serializable;
-import java.security.Timestamp;
 
 public class RegistrationRequestDTO implements Serializable {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private Integer id;
 	private Integer projectId;
@@ -21,8 +16,6 @@ public class RegistrationRequestDTO implements Serializable {
 	private String lastName;
 	private String status;
 	private long tsCreate = Long.MIN_VALUE;
-	
-	
 
 	public Integer getId() {
 		return id;

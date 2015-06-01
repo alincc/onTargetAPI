@@ -29,6 +29,7 @@ import com.ontarget.dto.SafetyInfoResponse;
 import com.ontarget.dto.UserImageRequest;
 import com.ontarget.dto.UserProfileRequest;
 import com.ontarget.dto.UserProfileResponse;
+import com.ontarget.request.bean.CompanyInfoEditRequest;
 import com.ontarget.request.bean.InviteUserIntoProjectRequest;
 import com.ontarget.request.bean.UpdateUserProfileRequest;
 import com.ontarget.util.Security;
@@ -63,8 +64,9 @@ public class UserProfileImpl implements UserProfile {
 		try {
 			response = userProfileService.addUserProfile(userProfileRequest);
 		} catch (Exception e) {
+			e.printStackTrace();
 			logger.error("Add User Profile failed.", e);
-			response.setReturnMessage("Add task failed");
+			response.setReturnMessage("Add user details failed");
 			response.setReturnVal(OnTargetConstant.ERROR);
 		}
 
@@ -75,13 +77,28 @@ public class UserProfileImpl implements UserProfile {
 	@POST
 	@Path("/updateUserProfile")
 	public OnTargetResponse updateUserProfile(UpdateUserProfileRequest userProfileRequest) {
-		logger.info("Received request to add profile: " + userProfileRequest);
-		OnTargetResponse response = new UserProfileResponse();
+		OnTargetResponse response = new OnTargetResponse();
 		try {
 			response = userProfileService.updateUserProfileAndContactInfo(userProfileRequest);
 		} catch (Exception e) {
-			logger.error("Add User Profile failed.", e);
-			response.setReturnMessage("Update task failed");
+			logger.error("update user profile failed.", e);
+			response.setReturnMessage("Update user profile failed.");
+			response.setReturnVal(OnTargetConstant.ERROR);
+		}
+		return response;
+	}
+
+	@Override
+	@POST
+	@Path("/updateCompanyInfo")
+	public OnTargetResponse updateCompanyInfo(CompanyInfoEditRequest request) {
+		OnTargetResponse response = new OnTargetResponse();
+		try {
+			response = userProfileService.updateCompanyInfo(request);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("Error while updating company details.", e);
+			response.setReturnMessage("Error while updating company details");
 			response.setReturnVal(OnTargetConstant.ERROR);
 		}
 
@@ -146,7 +163,7 @@ public class UserProfileImpl implements UserProfile {
 	@POST
 	@Path("/inviteUserIntoProject")
 	public OnTargetResponse inviteUserIntoProject(InviteUserIntoProjectRequest request) {
-		int projectId = 0;// request.getBaseRequest().getProjectId();
+		int projectId = 0;
 		String firstName = request.getFirstName();
 		String lastName = request.getLastName();
 		String email = request.getEmail();
@@ -154,9 +171,7 @@ public class UserProfileImpl implements UserProfile {
 		if (projectId > 0) {
 			logger.info("This is first name " + firstName + " last name " + lastName + " and email" + email);
 
-			// generate token id
 			final String tokenId = Security.generateRandomValue(TOKEN_LENGTH);
-			// save into registration table
 			try {
 				if (userProfileService.saveRegistration(projectId, firstName, lastName, email, tokenId,
 						OnTargetConstant.AccountStatus.ACCT_NEW)) {
@@ -164,7 +179,6 @@ public class UserProfileImpl implements UserProfile {
 					long owner = res.getProjectOwnerId();
 					Contact c = userProfileService.getContact(owner);
 
-					// build n send email
 					emailService.sendUserRegistrationEmail(email, tokenId, firstName, c.getFirstName(), c.getLastName());
 					response.setReturnMessage("Email sent. Please check mail");
 					response.setReturnVal(OnTargetConstant.SUCCESS);

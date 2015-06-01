@@ -16,15 +16,12 @@ public interface AuthenticationService {
 
 	public UserResponse signIn(SignInRequest signInRequest) throws Exception;
 
-	public boolean registrationRequest(UserRegistrationRequest request)
-			throws Exception;
+	public boolean registrationRequest(UserRegistrationRequest request) throws Exception;
 
 	public boolean logout(String username) throws Exception;
 
-	public UserRegistationApprovalResponse getUserRegistrationPendingRequests()
-			throws Exception;
+	public UserRegistationApprovalResponse getUserRegistrationPendingRequests() throws Exception;
 
-	public boolean approvePendingRegistrationRequest(
-			RegistrationApprovalRequest request) throws Exception;
+	public boolean approvePendingRegistrationRequest(RegistrationApprovalRequest request) throws Exception;
 
 }

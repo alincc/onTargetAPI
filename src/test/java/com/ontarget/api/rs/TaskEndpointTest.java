@@ -12,8 +12,6 @@ import com.ontarget.request.bean.BaseRequest;
 import com.ontarget.request.bean.DependentTask;
 import com.ontarget.request.bean.DependentTaskDetail;
 import com.ontarget.request.bean.DependentTaskRequest;
-import com.ontarget.request.bean.ParentTask;
-import com.ontarget.request.bean.Project;
 import com.ontarget.request.bean.ProjectTaskRequest;
 import com.ontarget.request.bean.Task;
 import com.ontarget.request.bean.TaskAttachmentRequest;
@@ -24,7 +22,6 @@ import com.ontarget.request.bean.TaskMemberRequest;
 import com.ontarget.request.bean.TaskRequest;
 import com.ontarget.request.bean.TaskStatusUpdateRequest;
 import com.ontarget.request.bean.UserTask;
-import com.ontarget.util.DateConverter;
 
 public class TaskEndpointTest extends BaseTest {
 
@@ -52,11 +49,8 @@ public class TaskEndpointTest extends BaseTest {
 
 		taskRequest.setTask(task);
 
-		ParentTask parentTask = new ParentTask();
-		parentTask.setProjectTaskId(1);
-		task.setParentTask(parentTask);
-
 		taskRequest.setTask(task);
+
 		taskRequest.setUserId(1);
 
 		System.out.println("Client request addTask.... \n");
@@ -73,6 +67,7 @@ public class TaskEndpointTest extends BaseTest {
 
 	@Test
 	public void updateTask() {
+
 		TaskRequest taskRequest = new TaskRequest();
 
 		BaseRequest baseRequest = new BaseRequest();
@@ -82,7 +77,7 @@ public class TaskEndpointTest extends BaseTest {
 		taskRequest.setBaseRequest(baseRequest);
 
 		Task task = new Task();
-		task.setProjectTaskId(18);
+		task.setProjectTaskId(0);
 
 		task.setStartDate(new Date(new java.util.Date().getTime()));
 		task.setEndDate(new Date(new java.util.Date().getTime()));
@@ -95,10 +90,6 @@ public class TaskEndpointTest extends BaseTest {
 		task.setProjectId(1);
 
 		taskRequest.setTask(task);
-
-		ParentTask parentTask = new ParentTask();
-		parentTask.setProjectTaskId(1);
-		task.setParentTask(parentTask);
 
 		taskRequest.setTask(task);
 		taskRequest.setUserId(1);
@@ -419,6 +410,29 @@ public class TaskEndpointTest extends BaseTest {
 		System.out.println("Client request getUserTasks .... \n");
 		System.out.println(toJsonString(userTask, true));
 		Response response = sendRequest("/task/getUserTasks", userTask);
+		if (response.getStatus() != 200) {
+			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
+		}
+		String output = response.readEntity(String.class);
+		System.out.println("Server response .... \n");
+		System.out.println(output);
+	}
+
+	@Test
+	public void deleteTask() {
+
+		TaskDetailRequest request = new TaskDetailRequest();
+
+		BaseRequest baseRequest = new BaseRequest();
+		baseRequest.setLoggedInUserId(1);
+		baseRequest.setLoggedInUserProjectId(1);
+
+		request.setBaseRequest(baseRequest);
+		request.setTaskId(17);
+
+		System.out.println("Client request deleteTask.... \n");
+		System.out.println(toJsonString(request, true));
+		Response response = sendRequest("/task/deleteTask", request);
 		if (response.getStatus() != 200) {
 			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
 		}

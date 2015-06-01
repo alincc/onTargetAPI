@@ -18,16 +18,15 @@ public class NotificationEndpointTest extends BaseTest {
 		baseRequestBean.setLoggedInUserProjectId(1);
 
 		request.setBaseRequest(baseRequestBean);
-		request.setRecentId(1);
+		request.setPageNumber(1);
+		request.setPerPageLimit(10);
 		request.setUserId(1);
 
 		System.out.println("Client request .... \n");
 		System.out.println(toJsonString(request, true));
-		Response response = sendRequest("/notification/getNotifications",
-				request);
+		Response response = sendRequest("/notification/getNotifications", request);
 		if (response.getStatus() != 200) {
-			throw new RuntimeException("Failed : HTTP error code : "
-					+ response.getStatus());
+			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
 		}
 		String output = response.readEntity(String.class);
 		System.out.println("Server response .... \n");

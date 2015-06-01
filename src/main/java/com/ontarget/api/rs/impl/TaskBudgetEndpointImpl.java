@@ -40,15 +40,12 @@ public class TaskBudgetEndpointImpl implements TaskBudgetEndpoint {
 	@Override
 	@Path("getTaskBudgetEstimationOfProject")
 	@POST
-	public TaskBudgetResponse getTaskBudgetActualsAndEstimated(
-			TaskBudgetEstimationOfProject taskBudgetEstimationOfProject) {
+	public TaskBudgetResponse getTaskBudgetActualsAndEstimated(TaskBudgetEstimationOfProject taskBudgetEstimationOfProject) {
 		TaskBudgetResponse response = new TaskBudgetResponse();
 		try {
 			int projectId = taskBudgetEstimationOfProject.getProjectId();
-			response.setTaskCosts(taskBudgetService
-					.getTaskCostByMonthAndYear(projectId));
-			response.setTaskIntervals(taskBudgetService
-					.getTaskIntervals(projectId));
+			response.setTaskCosts(taskBudgetService.getTaskCostByMonthAndYear(projectId));
+			response.setTaskIntervals(taskBudgetService.getTaskIntervals(projectId));
 			response.setReturnMessage("Successfully retrieved Task budget");
 			response.setReturnVal(OnTargetConstant.SUCCESS);
 		} catch (Exception e) {
@@ -69,11 +66,9 @@ public class TaskBudgetEndpointImpl implements TaskBudgetEndpoint {
 
 		try {
 
-			TaskBudgetRequest taskBudgetRequest = ConvertPOJOUtils
-					.convertToTaskBudgetRequest(taskBudget);
+			TaskBudgetRequest taskBudgetRequest = ConvertPOJOUtils.convertToTaskBudgetRequest(taskBudget);
 
-			boolean added = taskBudgetService.addTaskBudget(taskBudgetRequest
-					.getCostList());
+			boolean added = taskBudgetService.addTaskBudget(taskBudgetRequest.getCostList());
 			if (added) {
 				response.setReturnMessage("Successfully added task budgets.");
 				response.setReturnVal(OnTargetConstant.SUCCESS);
@@ -87,7 +82,7 @@ public class TaskBudgetEndpointImpl implements TaskBudgetEndpoint {
 		return response;
 	}
 
-	//this service is not use/ handles update by add end point
+	// this service is not use/ handles update by add end point
 	@Override
 	@POST
 	@Path("/update")
@@ -96,11 +91,9 @@ public class TaskBudgetEndpointImpl implements TaskBudgetEndpoint {
 		OnTargetResponse response = new OnTargetResponse();
 
 		try {
-			TaskBudgetRequest taskBudgetRequest = ConvertPOJOUtils
-					.convertToTaskBudgetRequest(taskBudget);
+			TaskBudgetRequest taskBudgetRequest = ConvertPOJOUtils.convertToTaskBudgetRequest(taskBudget);
 
-			boolean added = taskBudgetService
-					.updateTaskBudget(taskBudgetRequest.getCostList());
+			boolean added = taskBudgetService.updateTaskBudget(taskBudgetRequest.getCostList());
 			if (added) {
 				response.setReturnMessage("Successfully updated task budgets.");
 				response.setReturnVal(OnTargetConstant.SUCCESS);
@@ -117,15 +110,13 @@ public class TaskBudgetEndpointImpl implements TaskBudgetEndpoint {
 	@Override
 	@POST
 	@Path("/getTaskBudgetByTaskId")
-	public TaskBudgetListResponse getTaskBudgetByTaskId(
-			TaskBudgetOfTask taskBudgetOfTask) {
+	public TaskBudgetListResponse getTaskBudgetByTaskId(TaskBudgetOfTask taskBudgetOfTask) {
 
 		TaskBudgetListResponse response = new TaskBudgetListResponse();
 
 		int taskId = taskBudgetOfTask.getTaskId();
 		try {
-			response.setTask(taskBudgetService
-					.getTaskBudgetByTaskAndMonthYear(taskId));
+			response.setTask(taskBudgetService.getTaskBudgetByTaskAndMonthYear(taskId));
 			response.setReturnMessage("Successfully retrieved task budget cost");
 			response.setReturnVal(OnTargetConstant.SUCCESS);
 		} catch (NoTaskFoundException e) {
