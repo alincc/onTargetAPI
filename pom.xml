@@ -386,6 +386,12 @@
 				<env>integration</env>
 			</properties>
 		</profile>
+        <profile>
+            <id>demo</id>
+            <properties>
+                <env>demo</env>
+            </properties>
+        </profile>
 		<profile>
 			<id>prod</id>
 			<properties>
