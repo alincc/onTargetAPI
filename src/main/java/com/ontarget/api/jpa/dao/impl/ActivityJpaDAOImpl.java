@@ -5,11 +5,16 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import com.ontarget.api.dao.ActivityDAO;
 import com.ontarget.api.repository.ActivityLogRepository;
 import com.ontarget.bean.ActivityLog;
+import com.ontarget.dto.ActivityLogDTO;
+import com.ontarget.entities.User;
 
 @Repository("activityJpaDAOImpl")
 public class ActivityJpaDAOImpl implements ActivityDAO {
@@ -17,23 +22,41 @@ public class ActivityJpaDAOImpl implements ActivityDAO {
 	private ActivityLogRepository activityLogRepository;
 
 	@Override
-	public List<ActivityLog> getActivityLog(long recentId) throws Exception {
-		List<ActivityLog> activityLogs = new LinkedList<ActivityLog>();
+	public ActivityLogDTO getActivityLog(int pageNumber, int perPageLimit, int projectId) throws Exception {
 
-		List<com.ontarget.entities.ActivityLog> activities = activityLogRepository.findByIdGreaterThan(recentId);
+		Pageable pageable = new PageRequest(pageNumber - 1, perPageLimit);
+		Page<com.ontarget.entities.ActivityLog> activityLogList = activityLogRepository.findActivityLogsByProjectId(
+				projectId, pageable);
 
-		if (activities != null && !activities.isEmpty()) {
-			for (com.ontarget.entities.ActivityLog activity : activities) {
+		ActivityLogDTO activityLogDTO = new ActivityLogDTO();
+		List<ActivityLog> activityLogs = new LinkedList<>();
+
+		if (activityLogList != null && activityLogList.getTotalPages() > 0) {
+			for (com.ontarget.entities.ActivityLog activity : activityLogList) {
 				ActivityLog activityLog = new ActivityLog();
 				activityLog.setCategory(activity.getCategory().longValue());
 				activityLog.setId(activity.getId());
 				activityLog.setTsInsert(activity.getTsInsert().getTime());
 				activityLog.setText(activity.getText());
+				activityLog.setUserImage("N/A");
+				User user = activity.getUser();
+				
+				String userImage = "";
+				if (user != null) {
+					if (user.getContactList() != null && !user.getContactList().isEmpty()) {
+						if (user.getContactList().get(0).getContactImage() != null) {
+							userImage = user.getContactList().get(0).getContactImage();
+						}
+					}
+				}
+				if (userImage != null & userImage.trim().length() > 0) {
+					activityLog.setUserImage(userImage);
+				}
 				activityLogs.add(activityLog);
 			}
 		}
-
-		return activityLogs;
+		activityLogDTO.setTotalActivity(activityLogList.getTotalElements());
+		activityLogDTO.setActivityLogList(activityLogs);
+		return activityLogDTO;
 	}
-
 }

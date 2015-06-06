@@ -43,7 +43,7 @@ public class ProjectTaskFiles implements Serializable {
 	@Column(name = "created_by", nullable = false)
 	private int createdBy;
 	@JoinColumn(name = "project_task_id", referencedColumnName = "project_task_id", nullable = false)
-	@ManyToOne(optional = false,fetch=FetchType.LAZY)
+	@ManyToOne(optional = false)
 	private ProjectTask projectTask;
 
 	public ProjectTaskFiles() {

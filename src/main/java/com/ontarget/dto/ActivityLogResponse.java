@@ -8,20 +8,16 @@ import java.util.List;
  * Created by sumit on 12/6/14.
  */
 public class ActivityLogResponse extends OnTargetResponse {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -8593965948801283839L;
-	private long recentActivityId;
+	private static final long serialVersionUID = 1L;
+	private long totalActivity;
 	private List<ActivityLog> logs;
 
-	public long getRecentActivityId() {
-		return recentActivityId;
+	public long getTotalActivity() {
+		return totalActivity;
 	}
 
-	public void setRecentActivityId(long recentActivityId) {
-		this.recentActivityId = recentActivityId;
+	public void setTotalActivity(long totalActivity) {
+		this.totalActivity = totalActivity;
 	}
 
 	public List<ActivityLog> getLogs() {

@@ -34,6 +34,7 @@ import com.ontarget.bean.TaskPercentage;
 import com.ontarget.bean.TimeSaved;
 import com.ontarget.bean.TreesSaved;
 import com.ontarget.constant.OnTargetConstant;
+import com.ontarget.dto.ActivityLogDTO;
 import com.ontarget.enums.TaskStatus;
 import com.ontarget.util.OntargetUtil;
 
@@ -232,7 +233,8 @@ public class ProjectReportServiceImpl implements ProjectReportService {
 	@Override
 	public TreesSaved getTreesSaved(int projectId) throws Exception {
 		TreesSaved treesSaved = new TreesSaved();
-		List<ActivityLog> logs = activityDAO.getActivityLog(0);
+		ActivityLogDTO activityLogDTO = activityDAO.getActivityLog(1, 50, projectId);
+		List<ActivityLog> logs = activityLogDTO.getActivityLogList();
 		treesSaved.setTreesSaved(new Double(logs.size()));
 		return treesSaved;
 	}
