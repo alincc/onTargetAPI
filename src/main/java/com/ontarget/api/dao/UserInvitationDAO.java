@@ -24,4 +24,5 @@ public interface UserInvitationDAO {
 	public RegistrationRequestResponseDTO findRegRequestByEmail(String email)
 			throws Exception;
 
+    RegistrationRequestResponseDTO findRegRequestByUserId(long userId);
 }

@@ -117,6 +117,16 @@ public class UserRegistrationJpaDAOImpl implements com.ontarget.api.dao.UserRegi
 		userRegistration.setLastName(registrationRequest.getLastName());
 		userRegistration.setEmail(registrationRequest.getEmail());
 		userRegistration.setStatus(registrationRequest.getStatus());
+        userRegistration.setCompanyName(registrationRequest.getCompanyName());
+        userRegistration.setCompanyAddress1(registrationRequest.getCompanyAddress1());
+        userRegistration.setCompanyAddress2(registrationRequest.getCompanyAddress2());
+        userRegistration.setCompanyCity(registrationRequest.getCompanyCity());
+        userRegistration.setCompanyState(registrationRequest.getCompanyState());
+        userRegistration.setCompanyZip(registrationRequest.getCompanyZip());
+        userRegistration.setCompanyCountry(registrationRequest.getCompanyCountry());
+        userRegistration.setCompanyId(registrationRequest.getCompanyId());
+
+
 		d = registrationRequest.getProjectId();
 		if (d != null) {
 			if (d instanceof Long)

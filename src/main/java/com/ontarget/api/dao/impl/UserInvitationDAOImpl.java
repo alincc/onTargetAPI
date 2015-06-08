@@ -106,7 +106,12 @@ public class UserInvitationDAOImpl implements UserInvitationDAO {
 
 	}
 
-	class UserRegistrationRowMapper implements RowMapper<Object> {
+    @Override
+    public RegistrationRequestResponseDTO findRegRequestByUserId(long userId) {
+        return null;
+    }
+
+    class UserRegistrationRowMapper implements RowMapper<Object> {
 
 		@Override
 		public Object mapRow(ResultSet rs, int rowNum) throws SQLException {

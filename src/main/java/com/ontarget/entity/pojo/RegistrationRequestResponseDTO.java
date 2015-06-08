@@ -17,8 +17,24 @@ public class RegistrationRequestResponseDTO implements Serializable {
 	private String status;
 	private int id;
 	private long tsCreate;
+    private String companyName;
+    private String companyAddress1;
+    private String companyAddress2;
+    private String companyCity;
+    private String companyState;
+    private String companyZip;
+    private String companyCountry;
+    private int companyId;
 
-	public String getRegistrationToken() {
+    public int getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(int companyId) {
+        this.companyId = companyId;
+    }
+
+    public String getRegistrationToken() {
 		return registrationToken;
 	}
 
@@ -98,4 +114,59 @@ public class RegistrationRequestResponseDTO implements Serializable {
 		this.tsCreate = tsCreate;
 	}
 
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public String getCompanyAddress1() {
+        return companyAddress1;
+    }
+
+    public void setCompanyAddress1(String companyAddress1) {
+        this.companyAddress1 = companyAddress1;
+    }
+
+    public String getCompanyAddress2() {
+        return companyAddress2;
+    }
+
+    public void setCompanyAddress2(String companyAddress2) {
+        this.companyAddress2 = companyAddress2;
+    }
+
+    public String getCompanyCity() {
+        return companyCity;
+    }
+
+    public void setCompanyCity(String companyCity) {
+        this.companyCity = companyCity;
+    }
+
+    public String getCompanyState() {
+        return companyState;
+    }
+
+    public void setCompanyState(String companyState) {
+        this.companyState = companyState;
+    }
+
+    public String getCompanyZip() {
+        return companyZip;
+    }
+
+    public void setCompanyZip(String companyZip) {
+        this.companyZip = companyZip;
+    }
+
+    public String getCompanyCountry() {
+        return companyCountry;
+    }
+
+    public void setCompanyCountry(String companyCountry) {
+        this.companyCountry = companyCountry;
+    }
 }

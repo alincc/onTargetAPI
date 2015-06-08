@@ -2,6 +2,7 @@ package com.ontarget.api.rs;
 
 import javax.ws.rs.core.Response;
 
+import junit.framework.Assert;
 import org.junit.Test;
 
 import com.ontarget.request.bean.UserInvitationRequest;
@@ -18,6 +19,13 @@ public class UserInvitationTest extends BaseTest {
 		userInvitationRequest.setEmail("santosh8pun@gmail.com");
 		userInvitationRequest.setPhoneNumber("45345345");
 		userInvitationRequest.setMsg("I want to request for onboard demo");
+        userInvitationRequest.setCompanyName("Test company name");
+        userInvitationRequest.setCompanyAddress1("address1");
+        userInvitationRequest.setCompanyAddress2("address2");
+        userInvitationRequest.setCompanyCity("city");
+        userInvitationRequest.setCompanyState("ST");
+        userInvitationRequest.setCompanyCountry("COU");
+        userInvitationRequest.setCompanyZip("11234");
 
 		System.out.println("Client request.... \n");
 		System.out.println(toJsonString(userInvitationRequest, true));
@@ -28,7 +36,8 @@ public class UserInvitationTest extends BaseTest {
 					+ response.getStatus());
 		}
 		String output = response.readEntity(String.class);
-		System.out.println("Server response .... \n");
+        Assert.assertTrue(output.contains("SUCCESS"));
+        System.out.println("Server response .... \n");
 		System.out.println(output);
 	}
 

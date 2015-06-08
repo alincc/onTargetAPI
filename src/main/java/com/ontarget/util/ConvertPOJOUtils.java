@@ -3,14 +3,8 @@ package com.ontarget.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ontarget.bean.AccidentReport;
-import com.ontarget.bean.AddressDTO;
-import com.ontarget.bean.Company;
-import com.ontarget.bean.Contact;
-import com.ontarget.bean.DependentTaskDTO;
-import com.ontarget.bean.ProjectDTO;
-import com.ontarget.bean.TaskEstimatedCost;
-import com.ontarget.bean.UserAddressInfo;
+import com.ontarget.bean.*;
+import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.AddDependentRequest;
 import com.ontarget.dto.TaskBudgetRequest;
 import com.ontarget.dto.UserInvitationRequestDTO;
@@ -35,6 +29,14 @@ public class ConvertPOJOUtils {
 		userInvitationRequestDTO.setMsg(userInvitationRequest.getMsg());
 		userInvitationRequestDTO.setPhoneNumber(userInvitationRequest.getPhoneNumber());
 		userInvitationRequestDTO.setToken(token);
+        userInvitationRequestDTO.setCompanyId(userInvitationRequest.getCompanyId());
+        userInvitationRequestDTO.setCompanyName(userInvitationRequest.getCompanyName());
+        userInvitationRequestDTO.setCompanyAddress1(userInvitationRequest.getCompanyAddress1());
+        userInvitationRequestDTO.setCompanyAddress2(userInvitationRequest.getCompanyAddress2());
+        userInvitationRequestDTO.setCompanyCity(userInvitationRequest.getCompanyCity());
+        userInvitationRequestDTO.setCompanyState(userInvitationRequest.getCompanyState());
+        userInvitationRequestDTO.setCompanyCountry(userInvitationRequest.getCompanyCountry());
+        userInvitationRequestDTO.setCompanyZip(userInvitationRequest.getCompanyZip());
 		return userInvitationRequestDTO;
 	}
 
@@ -60,6 +62,29 @@ public class ConvertPOJOUtils {
 
 		return company;
 	}
+
+
+    public static Company convertToCompany(UserRegistration userRegistration) {
+        Company company = new Company();
+        company.setCompanyName(userRegistration.getCompanyName());
+        if (userRegistration.getCompanyTypeId() != 0) {
+            company.setCompanyTypeId(userRegistration.getCompanyTypeId());
+        }
+        company.setWebsite(userRegistration.getCompanyWebsite());
+
+        AddressDTO addressDTO = new AddressDTO();
+        addressDTO.setAddress1(userRegistration.getCompanyAddress1());
+        addressDTO.setAddress2(userRegistration.getCompanyAddress2());
+        addressDTO.setAddressType(OnTargetConstant.AddressType.COMPANY_ADDR);
+        addressDTO.setCity(userRegistration.getCompanyCity());
+        addressDTO.setCountry(userRegistration.getCompanyCountry());
+        addressDTO.setState(userRegistration.getCompanyState());
+        addressDTO.setZip(userRegistration.getCompanyZip());
+
+        company.setAddress(addressDTO);
+
+        return company;
+    }
 
 	public static Contact convertToContact(UserContactInfo userContactInfo) {
 		Contact contact = new Contact();

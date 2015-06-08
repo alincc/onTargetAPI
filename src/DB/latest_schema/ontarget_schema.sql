@@ -2,7 +2,8 @@
 SQLyog Ultimate v11.33 (64 bit)
 MySQL - 5.5.41-0ubuntu0.14.04.1 : Database - ontarget
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -933,6 +934,25 @@ CREATE TABLE `user_type` (
   `is_expired` varchar(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`user_type_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+
+
+/* updated by sanjeev*/
+ALTER TABLE `ontarget`.`registration_request`
+DROP COLUMN `name`,
+CHANGE COLUMN `company_name` `company_name` VARCHAR(45) NULL DEFAULT NULL AFTER `user_id`,
+ADD COLUMN `company_address1` VARCHAR(100) NULL AFTER `company_name`,
+ADD COLUMN `company_address2` VARCHAR(100) NULL AFTER `company_address1`,
+ADD COLUMN `company_city` VARCHAR(45) NULL AFTER `company_address2`,
+ADD COLUMN `company_state` VARCHAR(45) NULL AFTER `company_city`,
+ADD COLUMN `company_zip` VARCHAR(45) NULL AFTER `company_state`,
+ADD COLUMN `company_country` VARCHAR(45) NULL AFTER `company_zip`;
+
+
+ALTER TABLE `ontarget`.`registration_request`
+ADD COLUMN `company_id` int NULL AFTER `company_country`;
+
+
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

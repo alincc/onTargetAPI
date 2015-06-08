@@ -3,6 +3,7 @@ package com.ontarget.api.service.impl;
 import java.util.Map;
 import java.util.Random;
 
+import com.ontarget.request.bean.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -31,13 +32,6 @@ import com.ontarget.dto.UserImageRequest;
 import com.ontarget.dto.UserProfileRequest;
 import com.ontarget.dto.UserProfileResponse;
 import com.ontarget.entities.User;
-import com.ontarget.request.bean.CompanyEditInfo;
-import com.ontarget.request.bean.CompanyInfoEditRequest;
-import com.ontarget.request.bean.UpdateUserProfileRequest;
-import com.ontarget.request.bean.UserCompanyInfo;
-import com.ontarget.request.bean.UserContactInfo;
-import com.ontarget.request.bean.UserInfo;
-import com.ontarget.request.bean.UserRegistrationInfo;
 import com.ontarget.util.ConvertPOJOUtils;
 import com.ontarget.util.Security;
 
@@ -92,20 +86,27 @@ public class UserProfileServiceImpl implements UserProfileService {
 	public UserProfileResponse addUserProfile(UserProfileRequest request) throws Exception {
 		logger.info("Request to add user profile" + request);
 		UserProfileResponse response = new UserProfileResponse();
+        UserInfo userInfo = request.getUser();
 
-		UserCompanyInfo userCompanyInfo = request.getCompany();
+        //get company info from the registration request.
+        UserRegistration userRegistration = userRegistrationDAO.getInvitationRegistrationByUser(userInfo.getUserId());
+        Company company = ConvertPOJOUtils.convertToCompany(userRegistration);
+        int companyId;
+        if(userRegistration.getCompanyId() !=0){
+            companyId=userRegistration.getCompanyId();
+        }else{
+            companyId = companyDAO.addCompanyInfo(company);
+        }
 
-		Company company = ConvertPOJOUtils.convertToCompany(userCompanyInfo);
-		int companyId = companyDAO.addCompanyInfo(company);
+        // add the company.
 
-		UserContactInfo userContactInfo = request.getContact();
-		Contact contact = ConvertPOJOUtils.convertToContact(userContactInfo);
+        UserContactInfo userContactInfo = request.getContact();
+        Contact contact = ConvertPOJOUtils.convertToContact(userContactInfo);
 
-		company.setCompanyId(companyId);
+        company.setCompanyId(companyId);
 
-		contact.setCompany(company);
+        contact.setCompany(company);
 
-		UserInfo userInfo = request.getUser();
 		UserDTO userDTO = new UserDTO();
 		userDTO.setUserId(userInfo.getUserId());
 		userDTO.setAccountStatus(userInfo.getAccountStatus());

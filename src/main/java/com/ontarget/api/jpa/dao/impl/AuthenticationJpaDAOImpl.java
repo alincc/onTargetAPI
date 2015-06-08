@@ -65,7 +65,6 @@ public class AuthenticationJpaDAOImpl implements AuthenticationDAO {
 	public boolean saveRegistrationRequest(UserRegistrationRequest request) throws Exception {
 		RegistrationRequest registrationRequest = new RegistrationRequest();
 		registrationRequest.setProjectId(request.getProjectId());
-		registrationRequest.setName(request.getName());
 		registrationRequest.setEmail(request.getEmail());
 		registrationRequest.setCompanyName(request.getCompanyName());
 		registrationRequest.setPhoneNumber(request.getPhoneNumber());
@@ -102,7 +101,6 @@ public class AuthenticationJpaDAOImpl implements AuthenticationDAO {
 				registrationRequestDTO.setEmail(registrationRequest.getEmail());
 				registrationRequestDTO.setId(registrationRequest.getId().intValue());
 				registrationRequestDTO.setMsg(registrationRequest.getMsg());
-				registrationRequestDTO.setName(registrationRequest.getName());
 				userRegistrationRequests.add(registrationRequestDTO);
 			}
 		}
