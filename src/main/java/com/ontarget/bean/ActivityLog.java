@@ -6,10 +6,12 @@ import java.io.Serializable;
  * Created by sumit on 12/6/14.
  */
 public class ActivityLog implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private long id;
 	private String text;
 	private long category;
 	private long tsInsert;
+	private String userImage;
 
 	public long getId() {
 		return id;
@@ -42,4 +44,14 @@ public class ActivityLog implements Serializable {
 	public void setTsInsert(long tsInsert) {
 		this.tsInsert = tsInsert;
 	}
+
+	public String getUserImage() {
+		return userImage;
+	}
+
+	public void setUserImage(String userImage) {
+		this.userImage = userImage;
+	}
+	
+	
 }

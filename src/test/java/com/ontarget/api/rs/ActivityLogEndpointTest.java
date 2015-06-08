@@ -11,22 +11,21 @@ public class ActivityLogEndpointTest extends BaseTest {
 
 	@Test
 	public void fetchLogs() {
-		ActivityLogRequest activityLogRequestBean = new ActivityLogRequest();
-
+		ActivityLogRequest request = new ActivityLogRequest();
 		BaseRequest baseRequestBean = new BaseRequest();
 		baseRequestBean.setLoggedInUserId(1);
 		baseRequestBean.setLoggedInUserProjectId(1);
 
-		activityLogRequestBean.setBaseRequest(baseRequestBean);
-		activityLogRequestBean.setRecentId(1);
+		request.setBaseRequest(baseRequestBean);
+		request.setPageNumber(1);
+		request.setPerPageLimit(10);
+		request.setProjectId(2);
 
 		System.out.println("Client request .... \n");
-		System.out.println(toJsonString(activityLogRequestBean, true));
-		Response response = sendRequest("/activityLog/getLog",
-				activityLogRequestBean);
+		System.out.println(toJsonString(request, true));
+		Response response = sendRequest("/activityLog/getLog", request);
 		if (response.getStatus() != 200) {
-			throw new RuntimeException("Failed : HTTP error code : "
-					+ response.getStatus());
+			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
 		}
 		String output = response.readEntity(String.class);
 		System.out.println("Server response .... \n");

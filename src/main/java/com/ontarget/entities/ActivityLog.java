@@ -9,6 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -28,9 +30,9 @@ public class ActivityLog implements Serializable {
 	private Long id;
 	@Column(name = "text", nullable = false, length = 65535, columnDefinition = "TEXT")
 	private String text;
-	@Basic(optional = false)
-	@Column(name = "user_id", nullable = false)
-	private int userId;
+	@JoinColumn(name = "user_id", referencedColumnName = "user_id")
+	@ManyToOne()
+	private User user;
 	@Column(name = "category")
 	private Long category;
 	@Basic(optional = false)
@@ -45,12 +47,6 @@ public class ActivityLog implements Serializable {
 
 	public ActivityLog(Long id) {
 		this.id = id;
-	}
-
-	public ActivityLog(Long id, int userId, Date tsInsert) {
-		this.id = id;
-		this.userId = userId;
-		this.tsInsert = tsInsert;
 	}
 
 	public Long getId() {
@@ -69,12 +65,12 @@ public class ActivityLog implements Serializable {
 		this.text = text;
 	}
 
-	public int getUserId() {
-		return userId;
+	public User getUser() {
+		return user;
 	}
 
-	public void setUserId(int userId) {
-		this.userId = userId;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public Long getCategory() {

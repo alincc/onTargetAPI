@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import com.ontarget.bean.ActivityLog;
 import com.ontarget.constant.OnTargetQuery;
+import com.ontarget.dto.ActivityLogDTO;
 
 /**
  * Created by sumit on 12/6/14.
@@ -39,5 +40,11 @@ public class ActivityDAOImpl implements Serializable, com.ontarget.api.dao.Activ
 		});
 
 		return activityLogs;
+	}
+
+	@Override
+	public ActivityLogDTO getActivityLog(int pageNumber, int perPageLimit, int projectId) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

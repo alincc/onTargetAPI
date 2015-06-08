@@ -1,8 +1,5 @@
 package com.ontarget.api.rs.impl;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -14,8 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.ontarget.api.service.ActivityLogService;
-import com.ontarget.bean.ActivityLog;
 import com.ontarget.constant.OnTargetConstant;
+import com.ontarget.dto.ActivityLogDTO;
 import com.ontarget.dto.ActivityLogResponse;
 import com.ontarget.request.bean.ActivityLogRequest;
 
@@ -39,20 +36,15 @@ public class ActivityLogImpl implements com.ontarget.api.rs.ActivityLog {
 	public ActivityLogResponse getActivityLog(ActivityLogRequest activityLogRequest) {
 		ActivityLogResponse response = new ActivityLogResponse();
 		try {
-			long recentId = activityLogRequest.getRecentId();
-			List<ActivityLog> activityLogs = activityLogService.getActivityLog(activityLogRequest.getRecentId());
-			if (activityLogs == null || activityLogs.isEmpty()) {
-				response.setLogs(new LinkedList<ActivityLog>());
-				response.setRecentActivityId(recentId);
-			} else {
-				response.setLogs(activityLogs);
-				response.setRecentActivityId(activityLogs.get(activityLogs.size() - 1).getId());
-			}
+			ActivityLogDTO userNotificationDTO = activityLogService.getActivityLog(activityLogRequest.getPageNumber(),
+					activityLogRequest.getPerPageLimit(), activityLogRequest.getProjectId());
+			response.setLogs(userNotificationDTO.getActivityLogList());
+			response.setTotalActivity(userNotificationDTO.getTotalActivity());
 			response.setReturnVal(OnTargetConstant.SUCCESS);
 			response.setReturnMessage("Activity log read");
 		} catch (Exception e) {
-			logger.error("Authentication error", e);
-			response.setReturnMessage("Authentication Error");
+			logger.error("Retrieving activity logs failed", e);
+			response.setReturnMessage("Retrieving activity logs failed");
 			response.setReturnVal(OnTargetConstant.ERROR);
 		}
 		return response;

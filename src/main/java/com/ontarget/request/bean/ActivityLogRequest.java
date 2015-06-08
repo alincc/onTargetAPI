@@ -10,51 +10,59 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "baseRequest", "recentId" })
+@JsonPropertyOrder({ "baseRequest", "pageNumber", "perPageLimit", "projectId" })
 public class ActivityLogRequest {
 	@NotNull
 	@Valid
 	@JsonProperty("baseRequest")
 	private BaseRequest baseRequest;
 	@NotNull
-	@JsonProperty("recentId")
-	private Integer recentId;
+	@JsonProperty("projectId")
+	private Integer projectId;
+	@NotNull
+	@JsonProperty("pageNumber")
+	private Integer pageNumber;
+	@NotNull
+	@JsonProperty("perPageLimit")
+	private Integer perPageLimit;
 
-	/**
-	 * 
-	 * @return The baseRequest
-	 */
 	@JsonProperty("baseRequest")
 	public BaseRequest getBaseRequest() {
 		return baseRequest;
 	}
 
-	/**
-	 * 
-	 * @param baseRequest
-	 *            The baseRequest
-	 */
 	@JsonProperty("baseRequest")
 	public void setBaseRequest(BaseRequest baseRequest) {
 		this.baseRequest = baseRequest;
 	}
 
-	/**
-	 * 
-	 * @return The recentId
-	 */
-	@JsonProperty("recentId")
-	public Integer getRecentId() {
-		return recentId;
+	@JsonProperty("pageNumber")
+	public Integer getPageNumber() {
+		return pageNumber;
 	}
 
-	/**
-	 * 
-	 * @param recentId
-	 *            The recentId
-	 */
-	@JsonProperty("recentId")
-	public void setRecentId(Integer recentId) {
-		this.recentId = recentId;
+	@JsonProperty("pageNumber")
+	public void setPageNumber(Integer pageNumber) {
+		this.pageNumber = pageNumber;
+	}
+
+	@JsonProperty("perPageLimit")
+	public Integer getPerPageLimit() {
+		return perPageLimit;
+	}
+
+	@JsonProperty("perPageLimit")
+	public void setPerPageLimit(Integer perPageLimit) {
+		this.perPageLimit = perPageLimit;
+	}
+
+	@JsonProperty("projectId")
+	public Integer getProjectId() {
+		return projectId;
+	}
+
+	@JsonProperty("projectId")
+	public void setProjectId(Integer projectId) {
+		this.projectId = projectId;
 	}
 }
