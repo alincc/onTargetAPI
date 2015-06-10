@@ -97,7 +97,7 @@ public class ProjectServiceImpl implements ProjectService {
 
 		ProjectDetailInfo projectObj = request.getProject();
 		ProjectDTO projectDTO = ConvertPOJOUtils.convertToProjectDTO(projectObj, addressDTO);
-		System.out.println("project dto: "+projectDTO);
+		System.out.println("project dto: " + projectDTO);
 
 		int companyId = request.getProject().getCompanyId();
 		if (request.getProject().getProjectParentId() == null || request.getProject().getProjectParentId() == 0) {
@@ -109,23 +109,6 @@ public class ProjectServiceImpl implements ProjectService {
 		projectDTO.setProjectOwnerId(userId);
 
 		int projectId = projectDAO.addProject(projectDTO, userId);
-
-		// add the user to project member;
-		int projectMemberId = 0;
-		if (OnTargetConstant.AccountStatus.ACCT_NEW.equals(request.getAccountStatus())) {
-			projectMemberId = projectDAO.addProjectMember(projectId, userId);
-			if (projectMemberId < 0) {
-				throw new Exception("Error while adding the new member: " + userId);
-			}
-		}
-
-		// activate the account if accountStatus of user is ACCT_NEW
-		if (OnTargetConstant.AccountStatus.ACCT_NEW.equals(request.getAccountStatus())) {
-			int updated = userRegistrationDAO.activateAccount(userId);
-			if (updated == 0) {
-				throw new Exception("Error while activating account");
-			}
-		}
 
 		OnTargetResponse response = new OnTargetResponse();
 		if (projectId > 0) {
@@ -311,7 +294,8 @@ public class ProjectServiceImpl implements ProjectService {
 						}
 					}
 					task.setComments(comments);
-					List<TaskPercentage> taskPercentageList = taskPercentageDAO.getTaskPercentageByTask(task.getProjectTaskId());
+					List<TaskPercentage> taskPercentageList = taskPercentageDAO.getTaskPercentageByTask(task
+							.getProjectTaskId());
 					if (taskPercentageList != null && taskPercentageList.size() > 0) {
 						task.setPercentageComplete(taskPercentageList.get(0).getTaskPercentageComplete());
 					}
@@ -416,10 +400,12 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 
 	private ProjectDTO getProjectTasks(int userId, ProjectDTO project) throws Exception {
+		logger.info("project type: " + project.getType());
 		if (project.getType().equalsIgnoreCase(OnTargetConstant.ProjectInfoType.ACTIVITY)) {
 			List<TaskInfo> tasks = taskDAO.getAssignedTasksByProjectId(project.getProjectId(), userId);
 			project.setTaskList(tasks);
-			logger.info("task list for project id: " + project.getProjectId() + " , user id: " + userId + ", list: " + tasks);
+			logger.info("task list for project id: " + project.getProjectId() + " , user id: " + userId + ", list: "
+					+ tasks);
 
 			Map<Integer, Contact> contactMap = new HashMap<>(); //
 			// get all the comments in the tasks and assigned to.
@@ -437,7 +423,8 @@ public class ProjectServiceImpl implements ProjectService {
 						}
 					}
 					task.setComments(comments);
-					List<TaskPercentage> taskPercentageList = taskPercentageDAO.getTaskPercentageByTask(task.getProjectTaskId());
+					List<TaskPercentage> taskPercentageList = taskPercentageDAO.getTaskPercentageByTask(task
+							.getProjectTaskId());
 					if (taskPercentageList != null && taskPercentageList.size() > 0) {
 						task.setPercentageComplete(taskPercentageList.get(0).getTaskPercentageComplete());
 					}

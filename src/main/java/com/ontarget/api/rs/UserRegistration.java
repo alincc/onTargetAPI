@@ -19,7 +19,7 @@ public interface UserRegistration {
 
 	OnTargetResponse inviteUserIntoProject(@Valid InviteUserIntoProjectRequest request);
 
-	OnTargetResponse inviteUserIntoNewAccount(@Valid InviteUserIntoProjectRequest registration);
+//	OnTargetResponse inviteUserIntoNewAccount(@Valid InviteUserIntoProjectRequest registration);
 
 	UserInviteResponse validateLink(@NotEmpty @QueryParam("q") String link);
 

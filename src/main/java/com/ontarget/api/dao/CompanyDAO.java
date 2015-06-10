@@ -1,6 +1,7 @@
 package com.ontarget.api.dao;
 
 import com.ontarget.bean.Company;
+import com.ontarget.entities.CompanyInfo;
 import com.ontarget.request.bean.CompanyEditInfo;
 
 import java.util.List;
@@ -19,4 +20,6 @@ public interface CompanyDAO {
     public java.util.Map<String, Object> getCompanyByUser(int userId) throws Exception;
 
     public List<Company> getCompanyList() throws Exception;
+    
+    public CompanyInfo getCompanyInfo(int companyId) throws Exception;
 }

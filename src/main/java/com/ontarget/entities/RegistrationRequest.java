@@ -1,10 +1,6 @@
 package com.ontarget.entities;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import org.hibernate.validator.constraints.NotEmpty;
-
 import java.io.Serializable;
-import java.math.BigInteger;
 import java.util.Date;
 
 import javax.persistence.Basic;
@@ -55,22 +51,24 @@ public class RegistrationRequest implements Serializable {
 	private Date tsCreate;
 	@Column(name = "user_id")
 	private Integer userId;
-    @Column(name = "company_address1")
-    private String companyAddress1;
-    @Column(name = "company_address2")
-    private String companyAddress2;
-    @Column(name = "company_city")
-    private String companyCity;
-    @Column(name = "company_state")
-    private String companyState;
-    @Column(name = "company_zip")
-    private String companyZip;
-    @Column(name = "company_country")
-    private String companyCountry;
-    @Column(name = "company_id")
-    private int companyId;
+	@Column(name = "company_address1")
+	private String companyAddress1;
+	@Column(name = "company_address2")
+	private String companyAddress2;
+	@Column(name = "company_city")
+	private String companyCity;
+	@Column(name = "company_state")
+	private String companyState;
+	@Column(name = "company_zip")
+	private String companyZip;
+	@Column(name = "company_country")
+	private String companyCountry;
+	@Column(name = "company_id")
+	private int companyId;
+	@Column(name = "company_type_id")
+	private Integer companyTypeId;
 
-    public RegistrationRequest() {
+	public RegistrationRequest() {
 	}
 
 	public RegistrationRequest(Long id) {
@@ -179,57 +177,63 @@ public class RegistrationRequest implements Serializable {
 		this.userId = userId;
 	}
 
-    public String getCompanyAddress1() {
-        return companyAddress1;
-    }
+	public String getCompanyAddress1() {
+		return companyAddress1;
+	}
 
-    public void setCompanyAddress1(String companyAddress1) {
-        this.companyAddress1 = companyAddress1;
-    }
+	public void setCompanyAddress1(String companyAddress1) {
+		this.companyAddress1 = companyAddress1;
+	}
 
-    public String getCompanyAddress2() {
-        return companyAddress2;
-    }
+	public String getCompanyAddress2() {
+		return companyAddress2;
+	}
 
-    public void setCompanyAddress2(String companyAddress2) {
-        this.companyAddress2 = companyAddress2;
-    }
+	public void setCompanyAddress2(String companyAddress2) {
+		this.companyAddress2 = companyAddress2;
+	}
 
-    public String getCompanyCity() {
-        return companyCity;
-    }
+	public String getCompanyCity() {
+		return companyCity;
+	}
 
-    public void setCompanyCity(String companyCity) {
-        this.companyCity = companyCity;
-    }
+	public void setCompanyCity(String companyCity) {
+		this.companyCity = companyCity;
+	}
 
-    public String getCompanyState() {
-        return companyState;
-    }
+	public String getCompanyState() {
+		return companyState;
+	}
 
-    public void setCompanyState(String companyState) {
-        this.companyState = companyState;
-    }
+	public void setCompanyState(String companyState) {
+		this.companyState = companyState;
+	}
 
-    public String getCompanyZip() {
-        return companyZip;
-    }
+	public String getCompanyZip() {
+		return companyZip;
+	}
 
-    public void setCompanyZip(String companyZip) {
-        this.companyZip = companyZip;
-    }
+	public void setCompanyZip(String companyZip) {
+		this.companyZip = companyZip;
+	}
 
-    public String getCompanyCountry() {
-        return companyCountry;
-    }
+	public String getCompanyCountry() {
+		return companyCountry;
+	}
 
-    public void setCompanyCountry(String companyCountry) {
-        this.companyCountry = companyCountry;
-    }
+	public void setCompanyCountry(String companyCountry) {
+		this.companyCountry = companyCountry;
+	}
 
+	public Integer getCompanyTypeId() {
+		return companyTypeId;
+	}
 
+	public void setCompanyTypeId(Integer companyTypeId) {
+		this.companyTypeId = companyTypeId;
+	}
 
-    @Override
+	@Override
 	public int hashCode() {
 		int hash = 0;
 		hash += (id != null ? id.hashCode() : 0);
@@ -244,8 +248,7 @@ public class RegistrationRequest implements Serializable {
 			return false;
 		}
 		RegistrationRequest other = (RegistrationRequest) object;
-		if ((this.id == null && other.id != null)
-				|| (this.id != null && !this.id.equals(other.id))) {
+		if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
 			return false;
 		}
 		return true;
@@ -256,15 +259,15 @@ public class RegistrationRequest implements Serializable {
 		return "com.ontarget.entities.RegistrationRequest[id=" + id + "]";
 	}
 
-    public int getcompanyId() {
-        return companyId;
-    }
+	public int getcompanyId() {
+		return companyId;
+	}
 
-    public int getCompanyId() {
-        return companyId;
-    }
+	public int getCompanyId() {
+		return companyId;
+	}
 
-    public void setCompanyId(int companyId) {
-        this.companyId = companyId;
-    }
+	public void setCompanyId(int companyId) {
+		this.companyId = companyId;
+	}
 }

@@ -31,6 +31,7 @@ import com.ontarget.bean.ProjectMember;
 import com.ontarget.bean.UserDTO;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.constant.OnTargetQuery;
+import com.ontarget.entities.CompanyInfo;
 import com.ontarget.entities.Project;
 
 /**
@@ -323,5 +324,11 @@ public class ProjectDAOImpl implements ProjectDAO {
 	@Override
 	public boolean deleteProject(int projectId,int userId) throws Exception {
 		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public int addMainProject(ProjectDTO projectDTO, CompanyInfo companyInfo, int userId) throws Exception {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

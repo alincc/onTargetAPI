@@ -27,10 +27,16 @@ public class ContactJpaDAOImpl implements ContactDAO {
 	private JdbcTemplate jdbcTemplate;
 
 	@Override
-	public boolean addContactInfo(Contact contactDTO) throws Exception {
-		com.ontarget.entities.Contact contact = new com.ontarget.entities.Contact();
-		contact.setUser(new User(contactDTO.getUser().getUserId()));
-		contact.setCompanyInfo(new CompanyInfo(contactDTO.getCompany().getCompanyId()));
+	public boolean addContactInfo(Contact contactDTO,int userId) throws Exception {
+		List<com.ontarget.entities.Contact> contactList = contactRepository.findByUserId(userId);
+		com.ontarget.entities.Contact contact;
+		if(contactList == null || contactList.isEmpty()){
+			 contact = new com.ontarget.entities.Contact();
+			 contact.setUser(new User(contactDTO.getUser().getUserId()));
+		}else{
+			contact = contactList.get(0);
+		}
+ 		contact.setCompanyInfo(new CompanyInfo(contactDTO.getCompany().getCompanyId()));
 		contact.setFirstName(contactDTO.getFirstName());
 		contact.setLastName(contactDTO.getLastName());
 		contact.setTitle(contactDTO.getTitle());

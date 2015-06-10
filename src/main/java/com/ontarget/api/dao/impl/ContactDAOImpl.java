@@ -25,19 +25,19 @@ public class ContactDAOImpl implements ContactDAO {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
-	@Override
-	public boolean addContactInfo(Contact contact) throws Exception {
-
-		int row = jdbcTemplate.update(OnTargetQuery.CREATE_CONTACT,
-				new Object[] { contact.getUser().getUserId(), contact.getCompany().getCompanyId(), contact.getFirstName(),
-						contact.getLastName(), contact.getTitle(), contact.getUserImagePath() });
-
-		if (row <= 0) {
-			throw new Exception("Contact was not created");
-		}
-
-		return true;
-	}
+//	@Override
+//	public boolean addContactInfo(Contact contact) throws Exception {
+//
+//		int row = jdbcTemplate.update(OnTargetQuery.CREATE_CONTACT,
+//				new Object[] { contact.getUser().getUserId(), contact.getCompany().getCompanyId(), contact.getFirstName(),
+//						contact.getLastName(), contact.getTitle(), contact.getUserImagePath() });
+//
+//		if (row <= 0) {
+//			throw new Exception("Contact was not created");
+//		}
+//
+//		return true;
+//	}
 
 	@Override
 	public boolean updateContactInfo(Contact contact) throws Exception {
@@ -81,5 +81,11 @@ public class ContactDAOImpl implements ContactDAO {
 		int row = jdbcTemplate.update(OnTargetQuery.UPDATE_USER_IMAGE, new Timestamp(System.currentTimeMillis()), modifier, path,
 				userId);
 		return row > 0;
+	}
+
+	@Override
+	public boolean addContactInfo(Contact contactDTO, int userId) throws Exception {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

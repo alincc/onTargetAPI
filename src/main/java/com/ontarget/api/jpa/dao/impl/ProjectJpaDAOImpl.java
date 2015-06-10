@@ -17,6 +17,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.ontarget.api.dao.ProjectDAO;
+import com.ontarget.api.repository.AddressRepository;
 import com.ontarget.api.repository.ProjectConfigurationRepository;
 import com.ontarget.api.repository.ProjectMemberRepository;
 import com.ontarget.api.repository.ProjectRepository;
@@ -50,6 +51,8 @@ public class ProjectJpaDAOImpl implements ProjectDAO {
 	@Resource
 	private ProjectTaskRepository projectTaskRepository;
 	@Resource
+	private AddressRepository addressRepository;
+	@Resource
 	private ProjectConfigurationRepository projectConfigurationRepository;
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -80,12 +83,44 @@ public class ProjectJpaDAOImpl implements ProjectDAO {
 		project.setType(ProjectUtil.getTypeForProject(parentProject));
 		projectRepository.save(project);
 
-		ProjectConfiguration projectConfiguration = new ProjectConfiguration();
-		projectConfiguration.setProject(new Project(project.getProjectId()));
-		projectConfiguration.setConfigKey(OnTargetConstant.ProjectConfigurationConstant.unitOfMeasurement);
-		projectConfiguration.setConfigValue(projectDTO.getUnitOfMeasurement());
-		projectConfigurationRepository.save(projectConfiguration);
+		if (project.getType().equalsIgnoreCase(OnTargetConstant.ProjectInfoType.PROJECT)) {
+			ProjectConfiguration projectConfiguration = new ProjectConfiguration();
+			projectConfiguration.setProject(new Project(project.getProjectId()));
+			projectConfiguration.setConfigKey(OnTargetConstant.ProjectConfigurationConstant.unitOfMeasurement);
+			projectConfiguration.setConfigValue(projectDTO.getUnitOfMeasurement());
+			projectConfigurationRepository.save(projectConfiguration);
+		}
 
+		return project.getProjectId();
+	}
+
+	@Override
+	public int addMainProject(ProjectDTO projectDTO, CompanyInfo companyInfo, int userId) throws Exception {
+		Address address = new Address();
+		address.setAddress1(companyInfo.getAddress1());
+		address.setAddress2(companyInfo.getAddress2());
+		address.setCity(companyInfo.getCity());
+		address.setState(companyInfo.getState());
+		address.setZip(companyInfo.getZipcode());
+		address.setCountry(companyInfo.getCountry());
+		address.setAddressType(OnTargetConstant.AddressType.PROJECT_ADDR);
+		addressRepository.save(address);
+
+		Project project = new Project();
+		project.setProjectName(projectDTO.getProjectName());
+		project.setProjectDescription(projectDTO.getProjectDescription());
+		project.setProjectType(new ProjectType(projectDTO.getProjectTypeId()));
+		project.setCompanyInfo(new CompanyInfo(companyInfo.getCompanyId()));
+		project.setAddress(address);
+		project.setProjectStatus("1");
+		project.setProjectParentId(0);
+		project.setProjectStartDate(projectDTO.getStartDate());
+		project.setProjectEndDate(projectDTO.getEndDate());
+		project.setCreatedBy(new User(userId));
+		project.setCreatedDate(new Date());
+		project.setProjectOwnerId(userId);
+		project.setType(OnTargetConstant.ProjectInfoType.MAIN_PROJECT);
+		projectRepository.save(project);
 		return project.getProjectId();
 	}
 

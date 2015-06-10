@@ -63,6 +63,11 @@ public class CompanyJpaDAOImpl implements CompanyDAO {
 		companyInfoRepository.save(companyInfo);
 		return true;
 	}
+	
+	@Override
+	public CompanyInfo getCompanyInfo(int companyId) throws Exception{
+		return companyInfoRepository.findByCompanyId(companyId);
+	}
 
 	@Override
 	public Company getCompany(int companyId) throws Exception {

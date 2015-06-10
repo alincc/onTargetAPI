@@ -32,21 +32,21 @@ public class CompanyEndpointTest extends BaseTest {
 
 	}
 
-	@Test
-	public void getCompanyInfo() {
-
-		CompanyInfoRequest request = new CompanyInfoRequest();
-		request.setCompanyId(1);
-
-		System.out.println("Client request ....getCompanyInfo \n");
-		System.out.println(toJsonString(request, true));
-		Response response = sendRequest("/company/getCompanyInfo", request);
-		if (response.getStatus() != 200) {
-			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
-		}
-		String output = response.readEntity(String.class);
-		System.out.println("Server response .... \n");
-		System.out.println(output);
-	}
+//	@Test
+//	public void getCompanyInfo() {
+//
+//		CompanyInfoRequest request = new CompanyInfoRequest();
+//		request.setCompanyId(1);
+//
+//		System.out.println("Client request ....getCompanyInfo \n");
+//		System.out.println(toJsonString(request, true));
+//		Response response = sendRequest("/company/getCompanyInfo", request);
+//		if (response.getStatus() != 200) {
+//			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
+//		}
+//		String output = response.readEntity(String.class);
+//		System.out.println("Server response .... \n");
+//		System.out.println(output);
+//	}
 
 }

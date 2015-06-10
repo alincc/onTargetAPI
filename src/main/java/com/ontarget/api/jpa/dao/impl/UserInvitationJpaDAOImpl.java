@@ -35,14 +35,19 @@ public class UserInvitationJpaDAOImpl implements UserInvitationDAO {
 		registrationRequest.setMsg(userInvitationRequestDTO.getMsg());
 		registrationRequest.setStatus(OnTargetConstant.REGISTRATION_PENDING);
 		registrationRequest.setRegistrationToken(userInvitationRequestDTO.getToken());
-        registrationRequest.setCompanyName(userInvitationRequestDTO.getCompanyName());
-        registrationRequest.setCompanyAddress1(userInvitationRequestDTO.getCompanyAddress1());
-        registrationRequest.setCompanyAddress2(userInvitationRequestDTO.getCompanyAddress2());
-        registrationRequest.setCompanyCity(userInvitationRequestDTO.getCompanyCity());
-        registrationRequest.setCompanyState(userInvitationRequestDTO.getCompanyState());
-        registrationRequest.setCompanyCountry(userInvitationRequestDTO.getCompanyCountry());
-        registrationRequest.setCompanyZip(userInvitationRequestDTO.getCompanyZip());
-        registrationRequest.setCompanyId(userInvitationRequestDTO.getCompanyId());
+		registrationRequest.setCompanyName(userInvitationRequestDTO.getCompanyName());
+		registrationRequest.setCompanyAddress1(userInvitationRequestDTO.getCompanyAddress1());
+		registrationRequest.setCompanyAddress2(userInvitationRequestDTO.getCompanyAddress2());
+		registrationRequest.setCompanyCity(userInvitationRequestDTO.getCompanyCity());
+		registrationRequest.setCompanyState(userInvitationRequestDTO.getCompanyState());
+		registrationRequest.setCompanyCountry(userInvitationRequestDTO.getCompanyCountry());
+		registrationRequest.setCompanyZip(userInvitationRequestDTO.getCompanyZip());
+		registrationRequest.setCompanyId(userInvitationRequestDTO.getCompanyId());
+		registrationRequest.setCompanyTypeId(userInvitationRequestDTO.getCompanyTypeId());
+		if (registrationRequest.getCompanyTypeId() == null) {
+			registrationRequest.setCompanyTypeId(0);
+		}
+		registrationRequest.setProjectId(0);
 		registrationRequestRepository.save(registrationRequest);
 		return true;
 	}
@@ -131,14 +136,14 @@ public class UserInvitationJpaDAOImpl implements UserInvitationDAO {
 			registrationRequestDTO.setFirstName(registrationRequest.getFirstName());
 			registrationRequestDTO.setLastName(registrationRequest.getLastName());
 			registrationRequestDTO.setTsCreate(registrationRequest.getTsCreate().getTime());
-            registrationRequestDTO.setCompanyId(registrationRequest.getcompanyId());
-            registrationRequestDTO.setCompanyName(registrationRequest.getCompanyName());
-            registrationRequestDTO.setCompanyAddress1(registrationRequest.getCompanyAddress1());
-            registrationRequestDTO.setCompanyAddress2(registrationRequest.getCompanyAddress2());
-            registrationRequestDTO.setCompanyCity(registrationRequest.getCompanyCity());
-            registrationRequestDTO.setCompanyState(registrationRequest.getCompanyState());
-            registrationRequestDTO.setCompanyZip(registrationRequest.getCompanyZip());
-            registrationRequestDTO.setCompanyCountry(registrationRequest.getCompanyCountry());
+			registrationRequestDTO.setCompanyId(registrationRequest.getcompanyId());
+			registrationRequestDTO.setCompanyName(registrationRequest.getCompanyName());
+			registrationRequestDTO.setCompanyAddress1(registrationRequest.getCompanyAddress1());
+			registrationRequestDTO.setCompanyAddress2(registrationRequest.getCompanyAddress2());
+			registrationRequestDTO.setCompanyCity(registrationRequest.getCompanyCity());
+			registrationRequestDTO.setCompanyState(registrationRequest.getCompanyState());
+			registrationRequestDTO.setCompanyZip(registrationRequest.getCompanyZip());
+			registrationRequestDTO.setCompanyCountry(registrationRequest.getCompanyCountry());
 
 			return registrationRequestDTO;
 		} catch (NoResultException nre) {
@@ -149,43 +154,59 @@ public class UserInvitationJpaDAOImpl implements UserInvitationDAO {
 		}
 	}
 
-    @Override
-    public RegistrationRequestResponseDTO findRegRequestByUserId(long userId) {
-        try {
-            String hql = "SELECT r FROM RegistrationRequest r WHERE r.userId = :userId order by r.id desc";
-            Query query = entityManager.createQuery(hql);
-            query.setParameter("userId", userId);
-            query.setMaxResults(1);
-            RegistrationRequest registrationRequest = (RegistrationRequest) query.getSingleResult();
+	@Override
+	public boolean updateRegistrationRequestProjectIdByUser(int projectId, int userId) {
+		try {
+			String hql = "SELECT r FROM RegistrationRequest r WHERE r.userId = :userId order by r.id desc";
+			Query query = entityManager.createQuery(hql);
+			query.setParameter("userId", userId);
+			query.setMaxResults(1);
+			RegistrationRequest registrationRequest = (RegistrationRequest) query.getSingleResult();
 
-            RegistrationRequestResponseDTO registrationRequestDTO = new RegistrationRequestResponseDTO();
-            registrationRequestDTO.setStatus(registrationRequest.getStatus());
-            registrationRequestDTO.setRegistrationToken(registrationRequest.getRegistrationToken());
-            registrationRequestDTO.setPhoneNumber(registrationRequest.getPhoneNumber());
-            registrationRequestDTO.setEmail(registrationRequest.getEmail());
-            registrationRequestDTO.setId(registrationRequest.getId().intValue());
-            registrationRequestDTO.setMsg(registrationRequest.getMsg());
-            registrationRequestDTO.setFirstName(registrationRequest.getFirstName());
-            registrationRequestDTO.setLastName(registrationRequest.getLastName());
-            registrationRequestDTO.setTsCreate(registrationRequest.getTsCreate().getTime());
-            registrationRequestDTO.setCompanyId(registrationRequest.getcompanyId());
-            registrationRequestDTO.setCompanyName(registrationRequest.getCompanyName());
-            registrationRequestDTO.setCompanyAddress1(registrationRequest.getCompanyAddress1());
-            registrationRequestDTO.setCompanyAddress2(registrationRequest.getCompanyAddress2());
-            registrationRequestDTO.setCompanyCity(registrationRequest.getCompanyCity());
-            registrationRequestDTO.setCompanyState(registrationRequest.getCompanyState());
-            registrationRequestDTO.setCompanyZip(registrationRequest.getCompanyZip());
-            registrationRequestDTO.setCompanyCountry(registrationRequest.getCompanyCountry());
+			registrationRequest.setProjectId(projectId);
+			registrationRequestRepository.save(registrationRequest);
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
 
+	@Override
+	public RegistrationRequestResponseDTO findRegRequestByUserId(long userId) {
+		try {
+			String hql = "SELECT r FROM RegistrationRequest r WHERE r.userId = :userId order by r.id desc";
+			Query query = entityManager.createQuery(hql);
+			query.setParameter("userId", userId);
+			query.setMaxResults(1);
+			RegistrationRequest registrationRequest = (RegistrationRequest) query.getSingleResult();
 
+			RegistrationRequestResponseDTO registrationRequestDTO = new RegistrationRequestResponseDTO();
+			registrationRequestDTO.setStatus(registrationRequest.getStatus());
+			registrationRequestDTO.setRegistrationToken(registrationRequest.getRegistrationToken());
+			registrationRequestDTO.setPhoneNumber(registrationRequest.getPhoneNumber());
+			registrationRequestDTO.setEmail(registrationRequest.getEmail());
+			registrationRequestDTO.setId(registrationRequest.getId().intValue());
+			registrationRequestDTO.setMsg(registrationRequest.getMsg());
+			registrationRequestDTO.setFirstName(registrationRequest.getFirstName());
+			registrationRequestDTO.setLastName(registrationRequest.getLastName());
+			registrationRequestDTO.setTsCreate(registrationRequest.getTsCreate().getTime());
+			registrationRequestDTO.setCompanyId(registrationRequest.getcompanyId());
+			registrationRequestDTO.setCompanyName(registrationRequest.getCompanyName());
+			registrationRequestDTO.setCompanyAddress1(registrationRequest.getCompanyAddress1());
+			registrationRequestDTO.setCompanyAddress2(registrationRequest.getCompanyAddress2());
+			registrationRequestDTO.setCompanyCity(registrationRequest.getCompanyCity());
+			registrationRequestDTO.setCompanyState(registrationRequest.getCompanyState());
+			registrationRequestDTO.setCompanyZip(registrationRequest.getCompanyZip());
+			registrationRequestDTO.setCompanyCountry(registrationRequest.getCompanyCountry());
 
-            return registrationRequestDTO;
-        } catch (NoResultException nre) {
-            return null;
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw e;
-        }
-    }
+			return registrationRequestDTO;
+		} catch (NoResultException nre) {
+			return null;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
 
 }

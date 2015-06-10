@@ -21,6 +21,7 @@ import com.ontarget.bean.AddressDTO;
 import com.ontarget.bean.Company;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.constant.OnTargetQuery;
+import com.ontarget.entities.CompanyInfo;
 import com.ontarget.request.bean.CompanyEditInfo;
 
 /**
@@ -104,5 +105,10 @@ public class CompanyDAOImpl implements CompanyDAO {
 	@Override
 	public boolean update(CompanyEditInfo company) throws Exception {
 		throw new UnsupportedOperationException();
+	}
+	
+	@Override
+	public CompanyInfo getCompanyInfo(int companyId) throws Exception{
+		return null;
 	}
 }

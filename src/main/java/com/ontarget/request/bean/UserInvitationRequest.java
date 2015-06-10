@@ -1,6 +1,7 @@
 package com.ontarget.request.bean;
 
 import javax.annotation.Generated;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
@@ -12,7 +13,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "firstName", "lastName", "email", "phoneNumber", "msg", "companyName","companyAddress1","companyAddress2","companyCity","companyState","companyZip","companyCountry" })
+@JsonPropertyOrder({ "firstName", "lastName", "email", "phoneNumber", "msg", "companyName", "companyAddress1",
+		"companyAddress2", "companyCity", "companyState", "companyZip", "companyCountry" })
 public class UserInvitationRequest {
 	@NotEmpty
 	@Size(min = 5, max = 40, message = "Your first name should be between 5 - 40 characters.")
@@ -32,42 +34,43 @@ public class UserInvitationRequest {
 	@NotEmpty
 	@JsonProperty("msg")
 	private String msg;
-    @NotEmpty
-    @JsonProperty("companyName")
-    private String companyName;
-    @NotEmpty
-    @JsonProperty("companyAddress1")
-    private String companyAddress1;
-    @NotEmpty
-    @JsonProperty("companyAddress2")
-    private String companyAddress2;
-    @NotEmpty
-    @JsonProperty("companyCity")
-    private String companyCity;
-    @NotEmpty
-    @JsonProperty("companyState")
-    private String companyState;
-    @NotEmpty
-    @JsonProperty("companyZip")
-    private String companyZip;
-    @NotEmpty
-    @JsonProperty("companyCountry")
-    private String companyCountry;
-    @NotEmpty
-    @JsonProperty("companyId")
-    private int companyId;
+	@NotEmpty
+	@JsonProperty("companyName")
+	private String companyName;
+	@NotEmpty
+	@JsonProperty("companyAddress1")
+	private String companyAddress1;
+	@JsonProperty("companyAddress2")
+	private String companyAddress2;
+	@NotEmpty
+	@JsonProperty("companyCity")
+	private String companyCity;
+	@NotEmpty
+	@JsonProperty("companyState")
+	private String companyState;
+	@NotEmpty
+	@JsonProperty("companyZip")
+	private String companyZip;
+	@NotEmpty
+	@JsonProperty("companyCountry")
+	private String companyCountry;
+	@NotNull
+	@JsonProperty("companyId")
+	private int companyId;
+	@JsonProperty("companyTypeId")
+	private Integer companyTypeId;
 
-    @JsonProperty("companyId")
-    public int getCompanyId() {
-        return companyId;
-    }
+	@JsonProperty("companyId")
+	public int getCompanyId() {
+		return companyId;
+	}
 
-    @JsonProperty("companyId")
-    public void setCompanyId(int companyId) {
-        this.companyId = companyId;
-    }
+	@JsonProperty("companyId")
+	public void setCompanyId(int companyId) {
+		this.companyId = companyId;
+	}
 
-    /**
+	/**
 	 *
 	 * @return The firstName
 	 */
@@ -162,61 +165,84 @@ public class UserInvitationRequest {
 		this.msg = msg;
 	}
 
-    @JsonProperty("companyName")
-    public String getCompanyName() {
-        return companyName;
-    }
+	@JsonProperty("companyName")
+	public String getCompanyName() {
+		return companyName;
+	}
 
-    @JsonProperty("companyName")
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
-    }
-    @JsonProperty("companyAddress1")
-    public String getCompanyAddress1() {
-        return companyAddress1;
-    }
-    @JsonProperty("companyAddress1")
-    public void setCompanyAddress1(String companyAddress1) {
-        this.companyAddress1 = companyAddress1;
-    }
-    @JsonProperty("companyAddress2")
-    public String getCompanyAddress2() {
-        return companyAddress2;
-    }
-    @JsonProperty("companyAddress2")
-    public void setCompanyAddress2(String companyAddress2) {
-        this.companyAddress2 = companyAddress2;
-    }
-    @JsonProperty("companyCity")
-    public String getCompanyCity() {
-        return companyCity;
-    }
-    @JsonProperty("companyCity")
-    public void setCompanyCity(String companyCity) {
-        this.companyCity = companyCity;
-    }
-    @JsonProperty("companyState")
-    public String getCompanyState() {
-        return companyState;
-    }
-    @JsonProperty("companyState")
-    public void setCompanyState(String companyState) {
-        this.companyState = companyState;
-    }
-    @JsonProperty("companyZip")
-    public String getCompanyZip() {
-        return companyZip;
-    }
-    @JsonProperty("companyZip")
-    public void setCompanyZip(String companyZip) {
-        this.companyZip = companyZip;
-    }
-    @JsonProperty("companyCountry")
-    public String getCompanyCountry() {
-        return companyCountry;
-    }
-    @JsonProperty("companyCountry")
-    public void setCompanyCountry(String companyCountry) {
-        this.companyCountry = companyCountry;
-    }
+	@JsonProperty("companyName")
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
+
+	@JsonProperty("companyAddress1")
+	public String getCompanyAddress1() {
+		return companyAddress1;
+	}
+
+	@JsonProperty("companyAddress1")
+	public void setCompanyAddress1(String companyAddress1) {
+		this.companyAddress1 = companyAddress1;
+	}
+
+	@JsonProperty("companyAddress2")
+	public String getCompanyAddress2() {
+		return companyAddress2;
+	}
+
+	@JsonProperty("companyAddress2")
+	public void setCompanyAddress2(String companyAddress2) {
+		this.companyAddress2 = companyAddress2;
+	}
+
+	@JsonProperty("companyCity")
+	public String getCompanyCity() {
+		return companyCity;
+	}
+
+	@JsonProperty("companyCity")
+	public void setCompanyCity(String companyCity) {
+		this.companyCity = companyCity;
+	}
+
+	@JsonProperty("companyState")
+	public String getCompanyState() {
+		return companyState;
+	}
+
+	@JsonProperty("companyState")
+	public void setCompanyState(String companyState) {
+		this.companyState = companyState;
+	}
+
+	@JsonProperty("companyZip")
+	public String getCompanyZip() {
+		return companyZip;
+	}
+
+	@JsonProperty("companyZip")
+	public void setCompanyZip(String companyZip) {
+		this.companyZip = companyZip;
+	}
+
+	@JsonProperty("companyCountry")
+	public String getCompanyCountry() {
+		return companyCountry;
+	}
+
+	@JsonProperty("companyCountry")
+	public void setCompanyCountry(String companyCountry) {
+		this.companyCountry = companyCountry;
+	}
+
+	@JsonProperty("companyTypeId")
+	public Integer getCompanyTypeId() {
+		return companyTypeId;
+	}
+
+	@JsonProperty("companyTypeId")
+	public void setCompanyTypeId(Integer companyTypeId) {
+		this.companyTypeId = companyTypeId;
+	}
+
 }

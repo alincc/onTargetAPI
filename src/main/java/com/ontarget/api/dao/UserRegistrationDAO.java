@@ -1,6 +1,7 @@
 package com.ontarget.api.dao;
 
 import com.ontarget.bean.UserRegistration;
+import com.ontarget.dto.UserInvitationRequestDTO;
 import com.ontarget.entities.User;
 import com.ontarget.request.bean.UserRegistrationInfo;
 
@@ -9,8 +10,10 @@ import com.ontarget.request.bean.UserRegistrationInfo;
  */
 public interface UserRegistrationDAO {
 
-	int saveRegistrationInvitation(int projectId, String firstName, String lastName, String email, String tokenId,
-			String accountStatus) throws Exception;
+//	int saveRegistrationInvitation(int projectId, String firstName, String lastName, String email, String tokenId,
+//			String accountStatus) throws Exception;
+	
+	public boolean saveRegistrationInvitation(UserInvitationRequestDTO userInvitationRequestDTO) throws Exception;
 
 	public UserRegistration getInvitationRegistration(String tokenId) throws Exception;
 

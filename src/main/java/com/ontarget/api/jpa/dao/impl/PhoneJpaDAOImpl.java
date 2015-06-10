@@ -1,5 +1,7 @@
 package com.ontarget.api.jpa.dao.impl;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
@@ -20,8 +22,14 @@ public class PhoneJpaDAOImpl implements PhoneDAO {
 
 	@Override
 	public int addContactPhone(int contactId, ContactPhone contactPhone) throws Exception {
-		Phone phone = new Phone();
-		phone.setContact(new Contact(contactId));
+		List<Phone> phoneList = phoneRepository.findByContactId(contactId);
+		Phone phone;
+		if(phoneList == null || phoneList.isEmpty()){
+			phone = new Phone();
+			phone.setContact(new Contact(contactId));
+		}else{
+			phone = phoneList.get(0);
+		}
 		phone.setAreaCode(contactPhone.getAreaCode());
 		phone.setPhoneNumber(contactPhone.getPhoneNumber());
 		phone.setPhoneType(contactPhone.getPhoneType());
