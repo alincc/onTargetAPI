@@ -117,7 +117,7 @@ DELIMITER $$
 /*!50003 CREATE */ /*!50017 DEFINER = 'ontarget'@'localhost' */ /*!50003 TRIGGER `project_AFTER_INSERT` AFTER INSERT ON `project` FOR EACH ROW BEGIN
 	
 	DECLARE ppId BIGINT;
-	DECLARE userNotificationId BIGINT;
+	
    
 	SELECT project_parent_id INTO ppId FROM  project WHERE project_id= NEW.project_id;    
 	
@@ -125,17 +125,7 @@ DELIMITER $$
 	(CONCAT("New Activity ", NEW.project_name, " added by ", get_userNameById(NEW.project_owner_id)),
 	NEW.project_owner_id,2, NOW(),ppId);
 	
-	INSERT INTO user_notification (TEXT, STATUS,user_id, ts_insert) 
-	VALUES (CONCAT("Activity ", NEW.project_name, " added by ", get_userNameById(NEW.project_owner_id)), 
-	"NEW",NEW.project_owner_id, NOW());
-   
-	set userNotificationId = LAST_INSERT_ID();
 	
-	INSERT INTO user_notification_attribute(attribute_key,attribute_value,user_notification_id)
-	VALUES('notificationType','PROJECT',userNotificationId);
-	
-	INSERT INTO user_notification_attribute(attribute_key,attribute_value,user_notification_id)
-	VALUES('notificationId',NEW.project_id,userNotificationId);
       
 END */$$
 
@@ -151,7 +141,7 @@ DELIMITER $$
 /*!50003 CREATE */ /*!50017 DEFINER = 'ontarget'@'localhost' */ /*!50003 TRIGGER `project_AFTER_UPDATE` AFTER UPDATE ON `project` FOR EACH ROW BEGIN
 	
 	DECLARE ppId BIGINT;
-	DECLARE userNotificationId BIGINT;
+	
 	
 	SELECT project_parent_id INTO ppId FROM  project WHERE project_id= OLD.project_id;
 	
@@ -159,17 +149,7 @@ DELIMITER $$
 	(CONCAT("Activity ", NEW.project_name, " updated by ", get_userNameById(NEW.modified_by)),
 	New.modified_by,2, NOW(),ppId);
   
-	INSERT INTO user_notification (TEXT, STATUS,user_id, ts_insert) 
-	VALUES (CONCAT("Activity with id ", NEW.project_id, "  updated by ", get_userNameById(NEW.modified_by)), 
-	"NEW",NEW.modified_by, NOW());
-   
-	SET userNotificationId = LAST_INSERT_ID(); 
 	
-	INSERT INTO user_notification_attribute(attribute_key,attribute_value,user_notification_id)
-	VALUES('notificationType','PROJECT',userNotificationId);
-	
-	INSERT INTO user_notification_attribute(attribute_key,attribute_value,user_notification_id)
-	VALUES('notificationId',NEW.project_id,userNotificationId);
   
   END */$$
 
