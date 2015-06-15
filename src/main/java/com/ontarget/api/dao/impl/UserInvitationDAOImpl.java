@@ -110,6 +110,11 @@ public class UserInvitationDAOImpl implements UserInvitationDAO {
     public RegistrationRequestResponseDTO findRegRequestByUserId(long userId) {
         return null;
     }
+    
+    @Override
+    public boolean updateRegistrationRequestProjectIdByUser(int projectId,int userId){
+    	return true;
+    }
 
     class UserRegistrationRowMapper implements RowMapper<Object> {
 

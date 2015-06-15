@@ -19,7 +19,7 @@ public interface RegistrationRequestRepository extends JpaRepository<Registratio
 
 	List<RegistrationRequest> findByStatus(String status);
 
-	@Query("select r from RegistrationRequest r where r.status = 'PENDING' and r.projectId is null")
+	@Query("select r from RegistrationRequest r where r.status = 'PENDING' and (r.projectId is null or r.projectId=0)")
 	List<RegistrationRequest> getPendingRegistrationRequests();
 
 }

@@ -1,6 +1,7 @@
 package com.ontarget.api.dao;
 
 import com.ontarget.bean.Contact;
+
 import org.springframework.stereotype.Repository;
 
 import java.util.Map;
@@ -10,7 +11,7 @@ import java.util.Map;
  */
 public interface ContactDAO {
 
-    public boolean addContactInfo(Contact contact) throws Exception;
+	public boolean addContactInfo(Contact contactDTO,int userId) throws Exception;
 
     public Map<String, Object> getContactDetail(int userId) throws Exception;
 

@@ -17,6 +17,7 @@ import org.springframework.stereotype.Repository;
 import com.ontarget.bean.UserRegistration;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.constant.OnTargetQuery;
+import com.ontarget.dto.UserInvitationRequestDTO;
 import com.ontarget.entities.User;
 import com.ontarget.request.bean.UserRegistrationInfo;
 import com.ontarget.util.Security;
@@ -32,13 +33,13 @@ public class UserRegistrationDAOImpl implements com.ontarget.api.dao.UserRegistr
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
-	@Override
-	public int saveRegistrationInvitation(int projectId, String firstName, String lastName, String email, String tokenId,
-			String accountStatus) throws Exception {
-		jdbcTemplate.update(OnTargetQuery.ADD_REGISTRATION_INVITATION, new Object[] { tokenId, firstName, lastName, email,
-				projectId, accountStatus });
-		return 1;
-	}
+//	@Override
+//	public int saveRegistrationInvitation(int projectId, String firstName, String lastName, String email, String tokenId,
+//			String accountStatus) throws Exception {
+//		jdbcTemplate.update(OnTargetQuery.ADD_REGISTRATION_INVITATION, new Object[] { tokenId, firstName, lastName, email,
+//				projectId, accountStatus });
+//		return 1;
+//	}
 
 	@Override
 	public UserRegistration getInvitationRegistration(String tokenId) throws Exception {
@@ -130,5 +131,11 @@ public class UserRegistrationDAOImpl implements com.ontarget.api.dao.UserRegistr
 		}
 
 		return userRegistration;
+	}
+
+	@Override
+	public boolean saveRegistrationInvitation(UserInvitationRequestDTO userInvitationRequestDTO) throws Exception {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

@@ -1,6 +1,7 @@
 package com.ontarget.util;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.ontarget.bean.*;
@@ -8,9 +9,11 @@ import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.AddDependentRequest;
 import com.ontarget.dto.TaskBudgetRequest;
 import com.ontarget.dto.UserInvitationRequestDTO;
+import com.ontarget.entities.CompanyInfo;
 import com.ontarget.request.bean.AccidentReportRequest;
 import com.ontarget.request.bean.DependentTask;
 import com.ontarget.request.bean.DependentTaskRequest;
+import com.ontarget.request.bean.InviteUserIntoProjectRequest;
 import com.ontarget.request.bean.ProjectAddressInfo;
 import com.ontarget.request.bean.ProjectDetailInfo;
 import com.ontarget.request.bean.TaskBudget;
@@ -21,7 +24,8 @@ import com.ontarget.request.bean.UserInvitationRequest;
 
 public class ConvertPOJOUtils {
 
-	public static UserInvitationRequestDTO convertToUserInvitationDTO(UserInvitationRequest userInvitationRequest, String token) {
+	public static UserInvitationRequestDTO convertToUserInvitationDTO(UserInvitationRequest userInvitationRequest,
+			String token) {
 		UserInvitationRequestDTO userInvitationRequestDTO = new UserInvitationRequestDTO();
 		userInvitationRequestDTO.setFirstName(userInvitationRequest.getFirstName());
 		userInvitationRequestDTO.setLastName(userInvitationRequest.getLastName());
@@ -29,14 +33,35 @@ public class ConvertPOJOUtils {
 		userInvitationRequestDTO.setMsg(userInvitationRequest.getMsg());
 		userInvitationRequestDTO.setPhoneNumber(userInvitationRequest.getPhoneNumber());
 		userInvitationRequestDTO.setToken(token);
-        userInvitationRequestDTO.setCompanyId(userInvitationRequest.getCompanyId());
-        userInvitationRequestDTO.setCompanyName(userInvitationRequest.getCompanyName());
-        userInvitationRequestDTO.setCompanyAddress1(userInvitationRequest.getCompanyAddress1());
-        userInvitationRequestDTO.setCompanyAddress2(userInvitationRequest.getCompanyAddress2());
-        userInvitationRequestDTO.setCompanyCity(userInvitationRequest.getCompanyCity());
-        userInvitationRequestDTO.setCompanyState(userInvitationRequest.getCompanyState());
-        userInvitationRequestDTO.setCompanyCountry(userInvitationRequest.getCompanyCountry());
-        userInvitationRequestDTO.setCompanyZip(userInvitationRequest.getCompanyZip());
+		userInvitationRequestDTO.setCompanyId(userInvitationRequest.getCompanyId());
+		userInvitationRequestDTO.setCompanyName(userInvitationRequest.getCompanyName());
+		userInvitationRequestDTO.setCompanyAddress1(userInvitationRequest.getCompanyAddress1());
+		userInvitationRequestDTO.setCompanyAddress2(userInvitationRequest.getCompanyAddress2());
+		userInvitationRequestDTO.setCompanyCity(userInvitationRequest.getCompanyCity());
+		userInvitationRequestDTO.setCompanyState(userInvitationRequest.getCompanyState());
+		userInvitationRequestDTO.setCompanyCountry(userInvitationRequest.getCompanyCountry());
+		userInvitationRequestDTO.setCompanyZip(userInvitationRequest.getCompanyZip());
+		userInvitationRequestDTO.setCompanyTypeId(userInvitationRequest.getCompanyTypeId());
+		return userInvitationRequestDTO;
+	}
+
+	public static UserInvitationRequestDTO convertToUserInvitationDTO(
+			InviteUserIntoProjectRequest userInvitationRequest, String token) {
+		UserInvitationRequestDTO userInvitationRequestDTO = new UserInvitationRequestDTO();
+		userInvitationRequestDTO.setFirstName(userInvitationRequest.getFirstName());
+		userInvitationRequestDTO.setLastName(userInvitationRequest.getLastName());
+		userInvitationRequestDTO.setEmail(userInvitationRequest.getEmail());
+		userInvitationRequestDTO.setToken(token);
+		userInvitationRequestDTO.setCompanyId(userInvitationRequest.getCompanyId());
+		userInvitationRequestDTO.setCompanyName(userInvitationRequest.getCompanyName());
+		userInvitationRequestDTO.setCompanyAddress1(userInvitationRequest.getCompanyAddress1());
+		userInvitationRequestDTO.setCompanyAddress2(userInvitationRequest.getCompanyAddress2());
+		userInvitationRequestDTO.setCompanyCity(userInvitationRequest.getCompanyCity());
+		userInvitationRequestDTO.setCompanyState(userInvitationRequest.getCompanyState());
+		userInvitationRequestDTO.setCompanyCountry(userInvitationRequest.getCompanyCountry());
+		userInvitationRequestDTO.setCompanyZip(userInvitationRequest.getCompanyZip());
+		userInvitationRequestDTO.setCompanyTypeId(userInvitationRequest.getCompanyTypeId());
+		userInvitationRequestDTO.setProjectId(userInvitationRequest.getProjectId());
 		return userInvitationRequestDTO;
 	}
 
@@ -63,28 +88,27 @@ public class ConvertPOJOUtils {
 		return company;
 	}
 
+	public static Company convertToCompany(UserRegistration userRegistration) {
+		Company company = new Company();
+		company.setCompanyName(userRegistration.getCompanyName());
+		if (userRegistration.getCompanyTypeId() != 0) {
+			company.setCompanyTypeId(userRegistration.getCompanyTypeId());
+		}
+		company.setWebsite(userRegistration.getCompanyWebsite());
 
-    public static Company convertToCompany(UserRegistration userRegistration) {
-        Company company = new Company();
-        company.setCompanyName(userRegistration.getCompanyName());
-        if (userRegistration.getCompanyTypeId() != 0) {
-            company.setCompanyTypeId(userRegistration.getCompanyTypeId());
-        }
-        company.setWebsite(userRegistration.getCompanyWebsite());
+		AddressDTO addressDTO = new AddressDTO();
+		addressDTO.setAddress1(userRegistration.getCompanyAddress1());
+		addressDTO.setAddress2(userRegistration.getCompanyAddress2());
+		addressDTO.setAddressType(OnTargetConstant.AddressType.COMPANY_ADDR);
+		addressDTO.setCity(userRegistration.getCompanyCity());
+		addressDTO.setCountry(userRegistration.getCompanyCountry());
+		addressDTO.setState(userRegistration.getCompanyState());
+		addressDTO.setZip(userRegistration.getCompanyZip());
 
-        AddressDTO addressDTO = new AddressDTO();
-        addressDTO.setAddress1(userRegistration.getCompanyAddress1());
-        addressDTO.setAddress2(userRegistration.getCompanyAddress2());
-        addressDTO.setAddressType(OnTargetConstant.AddressType.COMPANY_ADDR);
-        addressDTO.setCity(userRegistration.getCompanyCity());
-        addressDTO.setCountry(userRegistration.getCompanyCountry());
-        addressDTO.setState(userRegistration.getCompanyState());
-        addressDTO.setZip(userRegistration.getCompanyZip());
+		company.setAddress(addressDTO);
 
-        company.setAddress(addressDTO);
-
-        return company;
-    }
+		return company;
+	}
 
 	public static Contact convertToContact(UserContactInfo userContactInfo) {
 		Contact contact = new Contact();
@@ -123,6 +147,17 @@ public class ConvertPOJOUtils {
 		projectDTO.setUnitOfMeasurement(project.getUnitOfMeasurement());
 		return projectDTO;
 	}
+	
+	public static ProjectDTO setMainProject(CompanyInfo company) {
+		ProjectDTO projectDTO = new ProjectDTO();
+		projectDTO.setProjectParentId(0);
+		projectDTO.setProjectTypeId(1);
+		projectDTO.setStartDate(new Date());
+		projectDTO.setEndDate(DateFormater.addMonths(new Date(), 200));
+		projectDTO.setProjectName(company.getCompanyName()+"'s Project");
+		projectDTO.setProjectDescription(company.getCompanyName()+"'s Project");
+		return projectDTO;
+	}
 
 	public static AccidentReport convertToAccidentReport(AccidentReportRequest accidentReportRequestBean) {
 		AccidentReport accidentReport = new AccidentReport();
@@ -130,7 +165,8 @@ public class ConvertPOJOUtils {
 		accidentReport.setBodyPartAffected(accidentReportRequestBean.getBodyPartAffected());
 		accidentReport.setBriefOfAccident(accidentReportRequestBean.getBriefOfAccident());
 		accidentReport.setCorrectionMeasuresPerformed(accidentReportRequestBean.getCorrectionMeasuresPerformed());
-		accidentReport.setCorrectionMeasuresToBePerformed(accidentReportRequestBean.getCorrectionMeasuresToBePerformed());
+		accidentReport.setCorrectionMeasuresToBePerformed(accidentReportRequestBean
+				.getCorrectionMeasuresToBePerformed());
 		accidentReport.setDateInjuredLeftJob(accidentReportRequestBean.getDateInjuredLeftJob());
 		accidentReport.setDateOfAccident(accidentReportRequestBean.getDateOfAccident());
 		accidentReport.setDescription(accidentReportRequestBean.getDescription());

@@ -1,9 +1,8 @@
 /*
 SQLyog Ultimate v11.33 (64 bit)
-MySQL - 5.5.41-0ubuntu0.14.04.1 : Database - ontarget
+MySQL - 5.5.43-0ubuntu0.14.04.1 : Database - ontarget
 *********************************************************************
-*/
-
+*/
 
 /*!40101 SET NAMES utf8 */;
 
@@ -118,7 +117,7 @@ DELIMITER $$
 /*!50003 CREATE */ /*!50017 DEFINER = 'ontarget'@'localhost' */ /*!50003 TRIGGER `project_AFTER_INSERT` AFTER INSERT ON `project` FOR EACH ROW BEGIN
 	
 	DECLARE ppId BIGINT;
-	
+	DECLARE userNotificationId BIGINT;
    
 	SELECT project_parent_id INTO ppId FROM  project WHERE project_id= NEW.project_id;    
 	
@@ -126,7 +125,17 @@ DELIMITER $$
 	(CONCAT("New Activity ", NEW.project_name, " added by ", get_userNameById(NEW.project_owner_id)),
 	NEW.project_owner_id,2, NOW(),ppId);
 	
+	INSERT INTO user_notification (TEXT, STATUS,user_id, ts_insert) 
+	VALUES (CONCAT("Activity ", NEW.project_name, " added by ", get_userNameById(NEW.project_owner_id)), 
+	"NEW",NEW.project_owner_id, NOW());
+   
+	set userNotificationId = LAST_INSERT_ID();
 	
+	INSERT INTO user_notification_attribute(attribute_key,attribute_value,user_notification_id)
+	VALUES('notificationType','PROJECT',userNotificationId);
+	
+	INSERT INTO user_notification_attribute(attribute_key,attribute_value,user_notification_id)
+	VALUES('notificationId',NEW.project_id,userNotificationId);
       
 END */$$
 
@@ -142,7 +151,7 @@ DELIMITER $$
 /*!50003 CREATE */ /*!50017 DEFINER = 'ontarget'@'localhost' */ /*!50003 TRIGGER `project_AFTER_UPDATE` AFTER UPDATE ON `project` FOR EACH ROW BEGIN
 	
 	DECLARE ppId BIGINT;
-	
+	DECLARE userNotificationId BIGINT;
 	
 	SELECT project_parent_id INTO ppId FROM  project WHERE project_id= OLD.project_id;
 	
@@ -150,7 +159,17 @@ DELIMITER $$
 	(CONCAT("Activity ", NEW.project_name, " updated by ", get_userNameById(NEW.modified_by)),
 	New.modified_by,2, NOW(),ppId);
   
+	INSERT INTO user_notification (TEXT, STATUS,user_id, ts_insert) 
+	VALUES (CONCAT("Activity with id ", NEW.project_id, "  updated by ", get_userNameById(NEW.modified_by)), 
+	"NEW",NEW.modified_by, NOW());
+   
+	SET userNotificationId = LAST_INSERT_ID(); 
 	
+	INSERT INTO user_notification_attribute(attribute_key,attribute_value,user_notification_id)
+	VALUES('notificationType','PROJECT',userNotificationId);
+	
+	INSERT INTO user_notification_attribute(attribute_key,attribute_value,user_notification_id)
+	VALUES('notificationId',NEW.project_id,userNotificationId);
   
   END */$$
 
@@ -163,7 +182,7 @@ DELIMITER $$
 
 /*!50003 DROP TRIGGER*//*!50032 IF EXISTS */ /*!50003 `log_task_add` */$$
 
-/*!50003 CREATE */ /*!50017 DEFINER = 'ontarget'@'localhost' */ /*!50003 TRIGGER `log_task_add` AFTER INSERT ON `project_task` FOR EACH ROW BEGIN
+/*!50003 CREATE */ /*!50017 DEFINER = 'root'@'localhost' */ /*!50003 TRIGGER `log_task_add` AFTER INSERT ON `project_task` FOR EACH ROW BEGIN
 	
 	DECLARE userNotificationId BIGINT;
 	
@@ -193,7 +212,7 @@ DELIMITER $$
 
 /*!50003 DROP TRIGGER*//*!50032 IF EXISTS */ /*!50003 `log_task_update` */$$
 
-/*!50003 CREATE */ /*!50017 DEFINER = 'ontarget'@'localhost' */ /*!50003 TRIGGER `log_task_update` AFTER UPDATE ON `project_task` FOR EACH ROW BEGIN
+/*!50003 CREATE */ /*!50017 DEFINER = 'root'@'localhost' */ /*!50003 TRIGGER `log_task_update` AFTER UPDATE ON `project_task` FOR EACH ROW BEGIN
 	
 	DECLARE userNotificationId BIGINT;
 	
@@ -253,7 +272,7 @@ DELIMITER $$
 
 /*!50003 DROP TRIGGER*//*!50032 IF EXISTS */ /*!50003 `log_comment_add` */$$
 
-/*!50003 CREATE */ /*!50017 DEFINER = 'ontarget'@'localhost' */ /*!50003 TRIGGER `log_comment_add` AFTER INSERT ON `task_comment` FOR EACH ROW BEGIN
+/*!50003 CREATE */ /*!50017 DEFINER = 'root'@'localhost' */ /*!50003 TRIGGER `log_comment_add` AFTER INSERT ON `task_comment` FOR EACH ROW BEGIN
  
 	DECLARE userNotificationId BIGINT;
 	

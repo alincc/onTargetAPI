@@ -12,6 +12,7 @@ import com.ontarget.api.repository.RegistrationRequestRepository;
 import com.ontarget.api.repository.UserRepository;
 import com.ontarget.bean.UserRegistration;
 import com.ontarget.constant.OnTargetConstant;
+import com.ontarget.dto.UserInvitationRequestDTO;
 import com.ontarget.entities.Email;
 import com.ontarget.entities.RegistrationRequest;
 import com.ontarget.entities.User;
@@ -29,19 +30,47 @@ public class UserRegistrationJpaDAOImpl implements com.ontarget.api.dao.UserRegi
 	@Resource
 	private UserRepository userRepository;
 
-	@Override
-	public int saveRegistrationInvitation(int projectId, String firstName, String lastName, String email, String tokenId,
-			String accountStatus) throws Exception {
+	// @Override
+	// public int saveRegistrationInvitation(int projectId, String firstName,
+	// String lastName, String email, String tokenId,
+	// String accountStatus) throws Exception {
+	//
+	// RegistrationRequest registrationRequest = new RegistrationRequest();
+	// registrationRequest.setRegistrationToken(tokenId);
+	// registrationRequest.setFirstName(firstName);
+	// registrationRequest.setLastName(lastName);
+	// registrationRequest.setEmail(email);
+	// registrationRequest.setProjectId(projectId);
+	// registrationRequest.setStatus(accountStatus);
+	// registrationRequestRepository.save(registrationRequest);
+	// return 1;
+	// }
 
+	@Override
+	public boolean saveRegistrationInvitation(UserInvitationRequestDTO userInvitationRequestDTO) throws Exception {
 		RegistrationRequest registrationRequest = new RegistrationRequest();
-		registrationRequest.setRegistrationToken(tokenId);
-		registrationRequest.setFirstName(firstName);
-		registrationRequest.setLastName(lastName);
-		registrationRequest.setEmail(email);
-		registrationRequest.setProjectId(projectId);
-		registrationRequest.setStatus(accountStatus);
+		registrationRequest.setFirstName(userInvitationRequestDTO.getFirstName());
+		registrationRequest.setLastName(userInvitationRequestDTO.getLastName());
+		registrationRequest.setEmail(userInvitationRequestDTO.getEmail());
+		registrationRequest.setPhoneNumber(userInvitationRequestDTO.getPhoneNumber());
+		registrationRequest.setMsg(userInvitationRequestDTO.getMsg());
+		registrationRequest.setStatus(OnTargetConstant.AccountStatus.ACCOUNT_INVITATION);
+		registrationRequest.setRegistrationToken(userInvitationRequestDTO.getToken());
+		registrationRequest.setCompanyName(userInvitationRequestDTO.getCompanyName());
+		registrationRequest.setCompanyAddress1(userInvitationRequestDTO.getCompanyAddress1());
+		registrationRequest.setCompanyAddress2(userInvitationRequestDTO.getCompanyAddress2());
+		registrationRequest.setCompanyCity(userInvitationRequestDTO.getCompanyCity());
+		registrationRequest.setCompanyState(userInvitationRequestDTO.getCompanyState());
+		registrationRequest.setCompanyCountry(userInvitationRequestDTO.getCompanyCountry());
+		registrationRequest.setCompanyZip(userInvitationRequestDTO.getCompanyZip());
+		registrationRequest.setCompanyId(userInvitationRequestDTO.getCompanyId());
+		registrationRequest.setCompanyTypeId(userInvitationRequestDTO.getCompanyTypeId());
+		if (registrationRequest.getCompanyTypeId() == null) {
+			registrationRequest.setCompanyTypeId(0);
+		}
+		registrationRequest.setProjectId(userInvitationRequestDTO.getProjectId());
 		registrationRequestRepository.save(registrationRequest);
-		return 1;
+		return true;
 	}
 
 	@Override
@@ -55,9 +84,9 @@ public class UserRegistrationJpaDAOImpl implements com.ontarget.api.dao.UserRegi
 		userRegistration.setEmail(registrationRequest.getEmail());
 		userRegistration.setStatus(registrationRequest.getStatus());
 		userRegistration.setRegistrationToken(tokenId);
-        if(registrationRequest.getProjectId() !=null) {
-            userRegistration.setProjectId(registrationRequest.getProjectId().longValue());
-        }
+		if (registrationRequest.getProjectId() != null) {
+			userRegistration.setProjectId(registrationRequest.getProjectId().longValue());
+		}
 		if (registrationRequest.getTsCreate() != null) {
 			userRegistration.setTsCreate((registrationRequest.getTsCreate()).getTime());
 		}
@@ -117,17 +146,20 @@ public class UserRegistrationJpaDAOImpl implements com.ontarget.api.dao.UserRegi
 		userRegistration.setLastName(registrationRequest.getLastName());
 		userRegistration.setEmail(registrationRequest.getEmail());
 		userRegistration.setStatus(registrationRequest.getStatus());
-        userRegistration.setCompanyName(registrationRequest.getCompanyName());
-        userRegistration.setCompanyAddress1(registrationRequest.getCompanyAddress1());
-        userRegistration.setCompanyAddress2(registrationRequest.getCompanyAddress2());
-        userRegistration.setCompanyCity(registrationRequest.getCompanyCity());
-        userRegistration.setCompanyState(registrationRequest.getCompanyState());
-        userRegistration.setCompanyZip(registrationRequest.getCompanyZip());
-        userRegistration.setCompanyCountry(registrationRequest.getCompanyCountry());
-        userRegistration.setCompanyId(registrationRequest.getCompanyId());
-
+		userRegistration.setCompanyName(registrationRequest.getCompanyName());
+		userRegistration.setCompanyAddress1(registrationRequest.getCompanyAddress1());
+		userRegistration.setCompanyAddress2(registrationRequest.getCompanyAddress2());
+		userRegistration.setCompanyCity(registrationRequest.getCompanyCity());
+		userRegistration.setCompanyState(registrationRequest.getCompanyState());
+		userRegistration.setCompanyZip(registrationRequest.getCompanyZip());
+		userRegistration.setCompanyCountry(registrationRequest.getCompanyCountry());
+		userRegistration.setCompanyId(registrationRequest.getCompanyId());
+		userRegistration.setCompanyTypeId(registrationRequest.getCompanyTypeId());
+		userRegistration.setInvitedProjectId(registrationRequest.getProjectId());
 
 		d = registrationRequest.getProjectId();
+
+		System.out.println("d: " + d);
 		if (d != null) {
 			if (d instanceof Long)
 				userRegistration.setProjectId((Long) d);

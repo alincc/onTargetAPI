@@ -27,8 +27,8 @@ public class UserProfileRequest {
 	@Valid
 	@JsonProperty("contactPhone")
 	private ContactPhone contactPhone;
-	@NotNull
-	@Valid
+//	@NotNull
+//	@Valid
 	@JsonProperty("company")
 	private UserCompanyInfo company;
 	@NotNull

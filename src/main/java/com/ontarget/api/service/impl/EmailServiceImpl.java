@@ -124,8 +124,8 @@ public class EmailServiceImpl implements EmailService {
 					model.put(EmailConstant.EmailParameter.FIRST_NAME, info.getFirstName());
 					model.put("url", baseUrl + OnTargetConstant.URL.SIGNUP_URL + "?q=" + info.getRegistrationToken());
 
-					String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "/template/registrationRequest.vm",
-							"UTF-8", model);
+					String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine,
+							"/template/registrationRequest.vm", "UTF-8", model);
 					message.setText(text, true);
 				}
 			};
@@ -172,8 +172,8 @@ public class EmailServiceImpl implements EmailService {
 	}
 
 	@Override
-	public boolean sendUserRegistrationEmail(String userEmail, String tokenId, String receiverFirstName, String senderFirstName,
-			String senderLastName) {
+	public boolean sendUserRegistrationEmail(String userEmail, String tokenId, String receiverFirstName,
+			String senderFirstName, String senderLastName) {
 		try {
 			MimeMessagePreparator preparator = new MimeMessagePreparator() {
 				@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -185,7 +185,11 @@ public class EmailServiceImpl implements EmailService {
 					message.setSentDate(new Date());
 
 					Map model = new HashMap();
-					model.put("senderName", senderFirstName + " " + senderLastName);
+					if (senderFirstName != null && senderFirstName.trim().length() > 0) {
+						model.put("senderName", senderFirstName + " " + senderLastName);
+					} else {
+						model.put("senderName", OnTargetConstant.EmailServiceConstants.USER_REGISTRATION_FROM);
+					}
 					model.put("receiverFirstName", receiverFirstName);
 					model.put("url", baseUrl + OnTargetConstant.URL.SIGNUP_URL + "?q=" + tokenId);
 
@@ -217,7 +221,8 @@ public class EmailServiceImpl implements EmailService {
 					public void prepare(MimeMessage mimeMessage) throws Exception {
 						MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
 
-						message.setFrom(new InternetAddress(OnTargetConstant.EmailServiceConstants.DOCUMENT_APPROVAL_FROM));
+						message.setFrom(new InternetAddress(
+								OnTargetConstant.EmailServiceConstants.DOCUMENT_APPROVAL_FROM));
 						message.setSubject(OnTargetConstant.EmailServiceConstants.DOCUMENT_APPROVAL_SUBJECT);
 						message.setSentDate(new Date());
 
@@ -297,8 +302,8 @@ public class EmailServiceImpl implements EmailService {
 					model.put("name", contact.getFirstName() + " " + contact.getLastName());
 					model.put("task", task);
 
-					String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "/template/taskAssignedEmail.vm",
-							"UTF-8", model);
+					String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine,
+							"/template/taskAssignedEmail.vm", "UTF-8", model);
 					message.setText(text, true);
 				}
 			};
@@ -326,8 +331,8 @@ public class EmailServiceImpl implements EmailService {
 							+ forgotPasswordToken);
 					model.put("personName", name);
 
-					String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "/template/forgotPassword.vm",
-							"UTF-8", model);
+					String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine,
+							"/template/forgotPassword.vm", "UTF-8", model);
 					message.setText(text, true);
 				}
 			};

@@ -3,11 +3,9 @@ package com.ontarget.api.service.impl;
 import java.util.Map;
 import java.util.Random;
 
-import com.ontarget.request.bean.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +15,7 @@ import com.ontarget.api.dao.ContactDAO;
 import com.ontarget.api.dao.PhoneDAO;
 import com.ontarget.api.dao.ProjectDAO;
 import com.ontarget.api.dao.UserDAO;
+import com.ontarget.api.dao.UserInvitationDAO;
 import com.ontarget.api.dao.UserRegistrationDAO;
 import com.ontarget.api.dao.UserSafetyInfoDAO;
 import com.ontarget.api.service.EmailService;
@@ -24,14 +23,23 @@ import com.ontarget.api.service.UserProfileService;
 import com.ontarget.bean.Company;
 import com.ontarget.bean.Contact;
 import com.ontarget.bean.ContactPhone;
+import com.ontarget.bean.ProjectDTO;
 import com.ontarget.bean.UserDTO;
 import com.ontarget.bean.UserRegistration;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.UserImageRequest;
+import com.ontarget.dto.UserInvitationRequestDTO;
 import com.ontarget.dto.UserProfileRequest;
 import com.ontarget.dto.UserProfileResponse;
+import com.ontarget.entities.CompanyInfo;
 import com.ontarget.entities.User;
+import com.ontarget.request.bean.CompanyEditInfo;
+import com.ontarget.request.bean.CompanyInfoEditRequest;
+import com.ontarget.request.bean.UpdateUserProfileRequest;
+import com.ontarget.request.bean.UserContactInfo;
+import com.ontarget.request.bean.UserInfo;
+import com.ontarget.request.bean.UserRegistrationInfo;
 import com.ontarget.util.ConvertPOJOUtils;
 import com.ontarget.util.Security;
 
@@ -60,6 +68,10 @@ public class UserProfileServiceImpl implements UserProfileService {
 	private UserRegistrationDAO userRegistrationDAO;
 
 	@Autowired
+	@Qualifier("userInvitationJpaDAOImpl")
+	private UserInvitationDAO userInvitationDAO;
+
+	@Autowired
 	@Qualifier("userJpaDAOImpl")
 	private UserDAO userDAO;
 
@@ -86,39 +98,39 @@ public class UserProfileServiceImpl implements UserProfileService {
 	public UserProfileResponse addUserProfile(UserProfileRequest request) throws Exception {
 		logger.info("Request to add user profile" + request);
 		UserProfileResponse response = new UserProfileResponse();
-        UserInfo userInfo = request.getUser();
+		UserInfo userInfo = request.getUser();
 
-        //get company info from the registration request.
-        UserRegistration userRegistration = userRegistrationDAO.getInvitationRegistrationByUser(userInfo.getUserId());
-        Company company = ConvertPOJOUtils.convertToCompany(userRegistration);
-        int companyId;
-        if(userRegistration.getCompanyId() !=0){
-            companyId=userRegistration.getCompanyId();
-        }else{
-            companyId = companyDAO.addCompanyInfo(company);
-        }
+		// get company info from the registration request.
+		UserRegistration userRegistration = userRegistrationDAO.getInvitationRegistrationByUser(userInfo.getUserId());
+		Company company = ConvertPOJOUtils.convertToCompany(userRegistration);
+		int companyId;
+		if (userRegistration.getCompanyId() != 0) {
+			companyId = userRegistration.getCompanyId();
+		} else {
+			companyId = companyDAO.addCompanyInfo(company);
+		}
 
-        // add the company.
+		// add the company.
+		UserContactInfo userContactInfo = request.getContact();
+		Contact contact = ConvertPOJOUtils.convertToContact(userContactInfo);
 
-        UserContactInfo userContactInfo = request.getContact();
-        Contact contact = ConvertPOJOUtils.convertToContact(userContactInfo);
+		company.setCompanyId(companyId);
 
-        company.setCompanyId(companyId);
-
-        contact.setCompany(company);
+		contact.setCompany(company);
 
 		UserDTO userDTO = new UserDTO();
 		userDTO.setUserId(userInfo.getUserId());
 		userDTO.setAccountStatus(userInfo.getAccountStatus());
 
+		int userId = userDTO.getUserId();
 		contact.setUser(userDTO);
 
-		boolean saved = contactDAO.addContactInfo(contact);
+		boolean saved = contactDAO.addContactInfo(contact, userId);
 		if (!saved) {
 			throw new Exception("Contact not saved.");
 		}
 
-		Contact contactForPhone = contactDAO.getContact(userDTO.getUserId());
+		Contact contactForPhone = contactDAO.getContact(userId);
 		int contactId = contactForPhone.getContactId();
 
 		// phone type should be CELL. THIS NEEDS TO BE COLLECTED FROM UI.
@@ -134,9 +146,24 @@ public class UserProfileServiceImpl implements UserProfileService {
 			throw new Exception("Error while adding phone");
 		}
 
+		// if user is invited from a request-demo then add project
+		logger.info("project id: " + userRegistration.getProjectId());
+		System.out.println("projectid: " + userRegistration.getProjectId());
+		if (userRegistration.getProjectId() == 0) {
+			CompanyInfo companyInfo = companyDAO.getCompanyInfo(companyId);
+			ProjectDTO projectDTO = ConvertPOJOUtils.setMainProject(companyInfo);
+			int addedProjectId = projectDAO.addMainProject(projectDTO, companyInfo, userInfo.getUserId());
+			// add main project for request a demo user
+			if (addedProjectId <= 0) {
+				throw new Exception("Error while adding main project");
+			}
+			userInvitationDAO.updateRegistrationRequestProjectIdByUser(addedProjectId, userId);
+		}
+
 		// activate the account.
 		String accountStatus = userDTO.getAccountStatus();
-		if (OnTargetConstant.AccountStatus.ACCOUNT_INVITATION.equals(accountStatus)) {
+		if (OnTargetConstant.AccountStatus.ACCOUNT_INVITATION.equals(accountStatus)
+				|| OnTargetConstant.AccountStatus.ACCT_NEW.equals(accountStatus)) {
 			boolean updated = this.activateAccount(request.getUser().getUserId());
 			if (!updated) {
 				throw new Exception("Error while activating account");
@@ -243,11 +270,19 @@ public class UserProfileServiceImpl implements UserProfileService {
 		return null;
 	}
 
+	// @Override
+	// @Transactional(rollbackFor = { Exception.class })
+	// public boolean saveRegistration(int projectId, String firstName, String
+	// lastName, String email, String tokenId,
+	// String accountStatus) throws Exception {
+	// return userRegistrationDAO.saveRegistrationInvitation(projectId,
+	// firstName, lastName, email, tokenId, accountStatus) != 0;
+	// }
+
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
-	public boolean saveRegistration(int projectId, String firstName, String lastName, String email, String tokenId,
-			String accountStatus) throws Exception {
-		return userRegistrationDAO.saveRegistrationInvitation(projectId, firstName, lastName, email, tokenId, accountStatus) != 0;
+	public boolean saveRegistration(UserInvitationRequestDTO request) throws Exception {
+		return userRegistrationDAO.saveRegistrationInvitation(request);
 	}
 
 	public UserRegistration getRegistration(String token) throws Exception {
@@ -268,7 +303,8 @@ public class UserProfileServiceImpl implements UserProfileService {
 	@Transactional(rollbackFor = { Exception.class })
 	public OnTargetResponse createNewUserFromInvitation(UserRegistrationInfo registration) throws Exception {
 		OnTargetResponse response = new OnTargetResponse();
-		UserRegistration registrationRequest = userRegistrationDAO.getInvitationRegistration(registration.getRegistrationToken());
+		UserRegistration registrationRequest = userRegistrationDAO.getInvitationRegistration(registration
+				.getRegistrationToken());
 
 		if (registrationRequest != null) {
 			if (!userDAO.usernameAlreadyRegistered(registration.getUsername())) {
@@ -331,8 +367,8 @@ public class UserProfileServiceImpl implements UserProfileService {
 
 			Contact contact = contactDAO.getContact(existingUser.getUserId());
 			if (id > 0) {
-				emailService.sendForgotPasswordEmail(emailAddress, contact.getFirstName() + " " + contact.getLastName(),
-						forgotPasswordToken);
+				emailService.sendForgotPasswordEmail(emailAddress,
+						contact.getFirstName() + " " + contact.getLastName(), forgotPasswordToken);
 			}
 
 			return true;

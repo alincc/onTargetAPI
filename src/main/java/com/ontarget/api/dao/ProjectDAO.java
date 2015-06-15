@@ -1,9 +1,11 @@
 package com.ontarget.api.dao;
 
 import com.ontarget.bean.Company;
+import com.ontarget.bean.Contact;
 import com.ontarget.bean.ProjectDTO;
 import com.ontarget.bean.ProjectInfo;
 import com.ontarget.bean.ProjectMember;
+import com.ontarget.entities.CompanyInfo;
 import com.ontarget.entities.Project;
 
 import java.util.List;
@@ -15,6 +17,8 @@ import java.util.Map;
 public interface ProjectDAO {
 
 	public int addProject(ProjectDTO project, int userId) throws Exception;
+	
+	public int addMainProject(ProjectDTO projectDTO,CompanyInfo companyInfo, int userId) throws Exception;
 
 	public ProjectDTO getProject(int projectId) throws Exception;
 

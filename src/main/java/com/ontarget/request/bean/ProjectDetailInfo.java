@@ -48,7 +48,6 @@ public class ProjectDetailInfo {
 	@NotNull
 	@JsonProperty("endDate")
 	private Date endDate;
-	@NotEmpty
 	@JsonProperty("unitOfMeasurement")
 	private String unitOfMeasurement;
 

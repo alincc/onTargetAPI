@@ -28,7 +28,7 @@ public interface UserProfile {
 
 	public OnTargetResponse changeForgotPassword(@Valid ForgotPasswordRequest request) throws Exception;
 
-	public OnTargetResponse inviteUserIntoProject(@Valid InviteUserIntoProjectRequest request);
+//	public OnTargetResponse inviteUserIntoProject(@Valid InviteUserIntoProjectRequest request);
 
 	public SafetyInfoResponse getSafetyInfoForUser(@NotNull Integer userId);
 

@@ -25,4 +25,6 @@ public interface UserInvitationDAO {
 			throws Exception;
 
     RegistrationRequestResponseDTO findRegRequestByUserId(long userId);
+    
+    public boolean updateRegistrationRequestProjectIdByUser(int projectId,int userId);
 }

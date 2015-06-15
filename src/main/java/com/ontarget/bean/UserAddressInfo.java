@@ -15,7 +15,6 @@ public class UserAddressInfo {
 	@NotEmpty
 	@JsonProperty("address1")
 	private String address1;
-	@NotEmpty
 	@JsonProperty("address2")
 	private String address2;
 	@NotEmpty
