@@ -117,16 +117,16 @@ DELIMITER $$
 
 /*!50003 CREATE */ /*!50017 DEFINER = 'ontarget'@'localhost' */ /*!50003 TRIGGER `project_AFTER_INSERT` AFTER INSERT ON `project` FOR EACH ROW BEGIN
 
-  DECLARE ppId BIGINT;
-
-
-  SELECT project_parent_id INTO ppId FROM  project WHERE project_id= NEW.project_id;
-
-  INSERT INTO activity_log (TEXT, user_id,category,ts_insert,project_id) VALUES
-    (CONCAT("New Activity ", NEW.project_name, " added by ", get_userNameById(NEW.project_owner_id)),
-     NEW.project_owner_id,2, NOW(),ppId);
-
-
+	
+	DECLARE ppId BIGINT;
+	
+	SELECT project_parent_id INTO ppId FROM  project WHERE project_id= NEW.project_id;    
+	
+	INSERT INTO activity_log (TEXT, user_id,category,ts_insert,project_id) VALUES
+	(CONCAT("New Activity ", NEW.project_name, " added by ", get_userNameById(NEW.project_owner_id)),
+	NEW.project_owner_id,2, NOW(),ppId);
+	
+	  
 
 END */$$
 
@@ -141,18 +141,18 @@ DELIMITER $$
 
 /*!50003 CREATE */ /*!50017 DEFINER = 'ontarget'@'localhost' */ /*!50003 TRIGGER `project_AFTER_UPDATE` AFTER UPDATE ON `project` FOR EACH ROW BEGIN
 
-  DECLARE ppId BIGINT;
+	
+	DECLARE ppId BIGINT;
+	
+	SELECT project_parent_id INTO ppId FROM  project WHERE project_id= OLD.project_id;
+	
+	INSERT INTO activity_log (TEXT, user_id,category,ts_insert,project_id) VALUES
+	(CONCAT("Activity ", NEW.project_name, " updated by ", get_userNameById(NEW.modified_by)),
+	New.modified_by,2, NOW(),ppId);
+  
+	
+  END */$$
 
-
-  SELECT project_parent_id INTO ppId FROM  project WHERE project_id= OLD.project_id;
-
-  INSERT INTO activity_log (TEXT, user_id,category,ts_insert,project_id) VALUES
-    (CONCAT("Activity ", NEW.project_name, " updated by ", get_userNameById(NEW.modified_by)),
-     New.modified_by,2, NOW(),ppId);
-
-
-
-END */$$
 
 
 DELIMITER ;
