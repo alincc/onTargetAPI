@@ -17,11 +17,9 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 		"companyAddress2", "companyCity", "companyState", "companyZip", "companyCountry" })
 public class UserInvitationRequest {
 	@NotEmpty
-	@Size(min = 5, max = 40, message = "Your first name should be between 5 - 40 characters.")
 	@JsonProperty("firstName")
 	private String firstName;
 	@NotEmpty
-	@Size(min = 5, max = 40, message = "Your last name should be between 5 - 40 characters.")
 	@JsonProperty("lastName")
 	private String lastName;
 	@NotEmpty
