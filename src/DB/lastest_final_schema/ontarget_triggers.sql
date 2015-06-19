@@ -126,8 +126,6 @@ DELIMITER $$
 	(CONCAT("New Activity ", NEW.project_name, " added by ", get_userNameById(NEW.project_owner_id)),
 	NEW.project_owner_id,2, NOW(),ppId);
 	
-	  
-
 END */$$
 
 
@@ -150,7 +148,6 @@ DELIMITER $$
 	(CONCAT("Activity ", NEW.project_name, " updated by ", get_userNameById(NEW.modified_by)),
 	New.modified_by,2, NOW(),ppId);
   
-	
   END */$$
 
 
