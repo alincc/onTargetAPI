@@ -40,7 +40,6 @@ import com.ontarget.entities.ProjectConfiguration;
 import com.ontarget.entities.ProjectTask;
 import com.ontarget.entities.ProjectType;
 import com.ontarget.entities.User;
-import com.ontarget.util.ProjectUtil;
 
 @Repository("projectJpaDAOImpl")
 public class ProjectJpaDAOImpl implements ProjectDAO {
@@ -76,20 +75,35 @@ public class ProjectJpaDAOImpl implements ProjectDAO {
 		project.setProjectImagePath(projectDTO.getProjectImagePath());
 		project.setProjectOwnerId(projectDTO.getProjectOwnerId());
 
-		Project parentProject = null;
-		if (project.getProjectParentId() != null && project.getProjectParentId() > 0) {
-			parentProject = projectRepository.findByProjectId(project.getProjectParentId());
-		}
-		project.setType(ProjectUtil.getTypeForProject(parentProject));
+		project.setType(OnTargetConstant.ProjectInfoType.PROJECT);
 		projectRepository.save(project);
 
-		if (project.getType().equalsIgnoreCase(OnTargetConstant.ProjectInfoType.PROJECT)) {
-			ProjectConfiguration projectConfiguration = new ProjectConfiguration();
-			projectConfiguration.setProject(new Project(project.getProjectId()));
-			projectConfiguration.setConfigKey(OnTargetConstant.ProjectConfigurationConstant.unitOfMeasurement);
-			projectConfiguration.setConfigValue(projectDTO.getUnitOfMeasurement());
-			projectConfigurationRepository.save(projectConfiguration);
-		}
+		ProjectConfiguration projectConfiguration = new ProjectConfiguration();
+		projectConfiguration.setProject(new Project(project.getProjectId()));
+		projectConfiguration.setConfigKey(OnTargetConstant.ProjectConfigurationConstant.unitOfMeasurement);
+		projectConfiguration.setConfigValue(projectDTO.getUnitOfMeasurement());
+		projectConfigurationRepository.save(projectConfiguration);
+
+		return project.getProjectId();
+	}
+
+	@Override
+	public int addActivity(ProjectDTO projectDTO, int userId) throws Exception {
+		Project project = new Project();
+		project.setProjectName(projectDTO.getProjectName());
+		project.setProjectDescription(projectDTO.getProjectDescription());
+		project.setProjectType(new ProjectType(projectDTO.getProjectTypeId()));
+		project.setCompanyInfo(new CompanyInfo(projectDTO.getCompanyId()));
+		project.setProjectStatus(projectDTO.getStatus());
+		project.setProjectParentId(projectDTO.getProjectParentId());
+		project.setProjectStartDate(projectDTO.getStartDate());
+		project.setProjectEndDate(projectDTO.getEndDate());
+		project.setCreatedBy(new User(userId));
+		project.setCreatedDate(new Date());
+		project.setProjectOwnerId(projectDTO.getProjectOwnerId());
+
+		project.setType(OnTargetConstant.ProjectInfoType.ACTIVITY);
+		projectRepository.save(project);
 
 		return project.getProjectId();
 	}
@@ -223,6 +237,23 @@ public class ProjectJpaDAOImpl implements ProjectDAO {
 				}
 			}
 		}
+
+		return true;
+	}
+
+	@Override
+	public boolean updateActivity(ProjectDTO projectDTO, int updatingUserId) throws Exception {
+		Project project = projectRepository.findByProjectId(projectDTO.getProjectId());
+		project.setProjectName(projectDTO.getProjectName());
+		project.setProjectDescription(projectDTO.getProjectDescription());
+		project.setProjectType(new ProjectType(projectDTO.getProjectTypeId()));
+		project.setProjectStatus(projectDTO.getStatus());
+		project.setProjectParentId(projectDTO.getProjectParentId());
+		project.setProjectStartDate(projectDTO.getStartDate());
+		project.setProjectEndDate(projectDTO.getEndDate());
+		project.setModifiedBy(new User(updatingUserId));
+		project.setModifiedDate(new Date());
+		projectRepository.save(project);
 
 		return true;
 	}

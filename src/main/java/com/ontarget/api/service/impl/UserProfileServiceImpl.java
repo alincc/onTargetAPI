@@ -148,7 +148,6 @@ public class UserProfileServiceImpl implements UserProfileService {
 
 		// if user is invited from a request-demo then add project
 		logger.info("project id: " + userRegistration.getProjectId());
-		System.out.println("projectid: " + userRegistration.getProjectId());
 		if (userRegistration.getProjectId() == 0) {
 			CompanyInfo companyInfo = companyDAO.getCompanyInfo(companyId);
 			ProjectDTO projectDTO = ConvertPOJOUtils.setMainProject(companyInfo);

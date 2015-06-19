@@ -41,6 +41,11 @@ public interface OnTargetConstant {
 		public static final String COMPANY_ADDR = "COMPANY";
 		public static final String CONTACT_ADDR = "CONTACT";
 	}
+	
+	interface ProfileType{
+		public static final String MENU_PROFILE = "MENU";
+		public static final String PERMISSION_PROFILE = "PERMISSION";
+	}
 
 	/**
 	 * Email Constants
@@ -139,6 +144,6 @@ public interface OnTargetConstant {
 		public static final String unitOfMeasurement = "UNIT_OF_MEASUREMENT";
 	}
 
-	public static final String OPEN_RS_ENDPOINT = "/register,/user,/onTargetInvitation,/profile,/project/getProjectsByUser,/project/addProject,/company,/file,/hello,/timeCard/getFieldWorkers";
+	public static final String OPEN_RS_ENDPOINT = "/register,/user,/onTargetInvitation,/profile,/project/getProjectsByUser,/project/addProject,/company,/file,/hello,/timeCard/getFieldWorkers,/menuProfile,/permissionProfile";
 
 }

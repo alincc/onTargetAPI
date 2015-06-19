@@ -14,9 +14,9 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "projectParentId", "projectTypeId", "projectAddress", "companyId", "projectName",
-		"projectImagePath", "projectDescription", "status", "startDate", "endDate", "unitOfMeasurement" })
-public class ProjectDetailInfo {
+@JsonPropertyOrder({ "projectParentId", "projectTypeId", "companyId", "projectName", "projectDescription", "status",
+		"startDate", "endDate" })
+public class ActivityDetailInfo {
 
 	@JsonProperty("projectId")
 	private Integer projectId;
@@ -27,17 +27,11 @@ public class ProjectDetailInfo {
 	@JsonProperty("projectTypeId")
 	private Integer projectTypeId;
 	@NotNull
-	@Valid
-	@JsonProperty("projectAddress")
-	private ProjectAddressInfo projectAddress;
-	@NotNull
 	@JsonProperty("companyId")
 	private Integer companyId;
 	@NotEmpty
 	@JsonProperty("projectName")
 	private String projectName;
-	@JsonProperty("projectImagePath")
-	private String projectImagePath;
 	@NotEmpty
 	@JsonProperty("projectDescription")
 	private String projectDescription;
@@ -50,9 +44,6 @@ public class ProjectDetailInfo {
 	@NotNull
 	@JsonProperty("endDate")
 	private Date endDate;
-	@NotEmpty
-	@JsonProperty("unitOfMeasurement")
-	private String unitOfMeasurement;
 
 	/**
 	 * 
@@ -94,25 +85,6 @@ public class ProjectDetailInfo {
 
 	/**
 	 * 
-	 * @return The projectAddress
-	 */
-	@JsonProperty("projectAddress")
-	public ProjectAddressInfo getProjectAddress() {
-		return projectAddress;
-	}
-
-	/**
-	 * 
-	 * @param projectAddress
-	 *            The projectAddress
-	 */
-	@JsonProperty("projectAddress")
-	public void setProjectAddress(ProjectAddressInfo projectAddress) {
-		this.projectAddress = projectAddress;
-	}
-
-	/**
-	 * 
 	 * @return The companyId
 	 */
 	@JsonProperty("companyId")
@@ -147,16 +119,6 @@ public class ProjectDetailInfo {
 	@JsonProperty("projectName")
 	public void setProjectName(String projectName) {
 		this.projectName = projectName;
-	}
-
-	@JsonProperty("projectImagePath")
-	public String getProjectImagePath() {
-		return projectImagePath;
-	}
-
-	@JsonProperty("projectImagePath")
-	public void setProjectImagePath(String projectImagePath) {
-		this.projectImagePath = projectImagePath;
 	}
 
 	/**
@@ -244,15 +206,4 @@ public class ProjectDetailInfo {
 	public void setProjectId(Integer projectId) {
 		this.projectId = projectId;
 	}
-
-	@JsonProperty("unitOfMeasurement")
-	public String getUnitOfMeasurement() {
-		return unitOfMeasurement;
-	}
-
-	@JsonProperty("unitOfMeasurement")
-	public void setUnitOfMeasurement(String unitOfMeasurement) {
-		this.unitOfMeasurement = unitOfMeasurement;
-	}
-
 }

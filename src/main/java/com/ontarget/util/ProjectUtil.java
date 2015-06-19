@@ -80,11 +80,11 @@ public class ProjectUtil {
 		project.setStatus(projectDetail.getProjectStatus());
 		project.setType(projectDetail.getType());
 		project.setProjectOwnerId(projectDetail.getProjectOwnerId());
-		
+
 		List<ProjectConfigDTO> projectConfigList = new ArrayList<>();
 		List<ProjectConfiguration> projectConfigurations = projectDetail.getProjectConfigurationList();
-		if(projectConfigurations !=null && !projectConfigurations.isEmpty()){
-			for(ProjectConfiguration projectConfiguration:projectConfigurations){
+		if (projectConfigurations != null && !projectConfigurations.isEmpty()) {
+			for (ProjectConfiguration projectConfiguration : projectConfigurations) {
 				ProjectConfigDTO projectConfigDTO = new ProjectConfigDTO();
 				projectConfigDTO.setConfigKey(projectConfiguration.getConfigKey());
 				projectConfigDTO.setConfigValue(projectConfiguration.getConfigValue());
@@ -92,10 +92,11 @@ public class ProjectUtil {
 			}
 		}
 		project.setProjectConfiguration(projectConfigList);
-		
-		AddressDTO address = new AddressDTO();
-		address.setAddressId(projectDetail.getAddress().getAddressId());
-		project.setProjectAddress(address);
+		if (projectDetail.getAddress() != null) {
+			AddressDTO address = new AddressDTO();
+			address.setAddressId(projectDetail.getAddress().getAddressId());
+			project.setProjectAddress(address);
+		}
 		return project;
 	}
 

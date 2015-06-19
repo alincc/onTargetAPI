@@ -38,6 +38,8 @@ import com.ontarget.dto.ProjectListResponse;
 import com.ontarget.dto.ProjectMemberListResponse;
 import com.ontarget.dto.ProjectResponse;
 import com.ontarget.entities.Project;
+import com.ontarget.request.bean.ActivityDetailInfo;
+import com.ontarget.request.bean.ActivityRequest;
 import com.ontarget.request.bean.ProjectAddressInfo;
 import com.ontarget.request.bean.ProjectDetailInfo;
 import com.ontarget.request.bean.ProjectRequest;
@@ -146,6 +148,59 @@ public class ProjectServiceImpl implements ProjectService {
 			response.setReturnVal(OnTargetConstant.SUCCESS);
 		} else {
 			throw new Exception("Error while updating project");
+		}
+
+		return response;
+	}
+
+	@Override
+	@Transactional(rollbackFor = { Exception.class })
+	public OnTargetResponse addActivity(ActivityRequest request) throws Exception {
+		logger.info("Adding new activity " + request.getProject());
+
+		int userId = request.getUserId();
+
+		ActivityDetailInfo projectObj = request.getProject();
+		ProjectDTO projectDTO = ConvertPOJOUtils.convertActivityToProjectDTO(projectObj);
+		System.out.println("activity dto: " + projectDTO);
+
+		int companyId = request.getProject().getCompanyId();
+		if (request.getProject().getProjectParentId() == null || request.getProject().getProjectParentId() == 0) {
+			Map<String, Object> compMap = contactDAO.getContactDetail(userId);
+			companyId = (Integer) compMap.get("contact_company_id");
+		}
+
+		projectDTO.setCompanyId(companyId);
+		projectDTO.setProjectOwnerId(userId);
+
+		int projectId = projectDAO.addActivity(projectDTO, userId);
+
+		OnTargetResponse response = new OnTargetResponse();
+		if (projectId > 0) {
+			response.setReturnMessage("Successfully created activity.");
+			response.setReturnVal(OnTargetConstant.SUCCESS);
+		} else {
+			throw new Exception("Error while creating activity: activityId: " + projectId);
+		}
+
+		return response;
+	}
+
+	@Override
+	@Transactional(rollbackFor = { Exception.class })
+	public OnTargetResponse updateActivity(ActivityRequest request) throws Exception {
+		logger.info("Updating activity " + request.getProject());
+
+		ActivityDetailInfo project = request.getProject();
+		ProjectDTO projectDTO = ConvertPOJOUtils.convertActivityToProjectDTO(project);
+		boolean updatedPr = projectDAO.updateActivity(projectDTO, request.getUserId());
+
+		OnTargetResponse response = new OnTargetResponse();
+		if (updatedPr) {
+			response.setReturnMessage("Successfully updated activity.");
+			response.setReturnVal(OnTargetConstant.SUCCESS);
+		} else {
+			throw new Exception("Error while updating activity");
 		}
 
 		return response;
@@ -343,9 +398,10 @@ public class ProjectServiceImpl implements ProjectService {
 			Company company = companyDAO.getCompany(project.getCompanyId());
 			project.setCompany(company);
 
-			AddressDTO projectAddress = addressDAO.getAddress(project.getProjectAddress().getAddressId());
-			project.setProjectAddress(projectAddress);
-
+			if (!mainProject.getType().equalsIgnoreCase(OnTargetConstant.ProjectInfoType.ACTIVITY)) {
+				AddressDTO projectAddress = addressDAO.getAddress(project.getProjectAddress().getAddressId());
+				project.setProjectAddress(projectAddress);
+			}
 			return this.getUserProjectResponse(project, userId);
 		} else {
 			ProjectListResponse response = new ProjectListResponse();
@@ -389,9 +445,10 @@ public class ProjectServiceImpl implements ProjectService {
 
 				Company company = companyDAO.getCompany(project.getCompanyId());
 				project.setCompany(company);
-
-				AddressDTO projectAddress = addressDAO.getAddress(project.getProjectAddress().getAddressId());
-				project.setProjectAddress(projectAddress);
+				if (!project.getType().equalsIgnoreCase(OnTargetConstant.ProjectInfoType.ACTIVITY)) {
+					AddressDTO projectAddress = addressDAO.getAddress(project.getProjectAddress().getAddressId());
+					project.setProjectAddress(projectAddress);
+				}
 
 				projectDTOList.add(project);
 			}

@@ -11,6 +11,7 @@ import com.ontarget.dto.TaskBudgetRequest;
 import com.ontarget.dto.UserInvitationRequestDTO;
 import com.ontarget.entities.CompanyInfo;
 import com.ontarget.request.bean.AccidentReportRequest;
+import com.ontarget.request.bean.ActivityDetailInfo;
 import com.ontarget.request.bean.DependentTask;
 import com.ontarget.request.bean.DependentTaskRequest;
 import com.ontarget.request.bean.InviteUserIntoProjectRequest;
@@ -145,17 +146,31 @@ public class ConvertPOJOUtils {
 		projectDTO.setStatus(project.getStatus());
 		projectDTO.setProjectAddress(addressDTO);
 		projectDTO.setUnitOfMeasurement(project.getUnitOfMeasurement());
+		projectDTO.setProjectImagePath(project.getProjectImagePath());
 		return projectDTO;
 	}
-	
+
+	public static ProjectDTO convertActivityToProjectDTO(ActivityDetailInfo project) {
+		ProjectDTO projectDTO = new ProjectDTO();
+		projectDTO.setProjectId(project.getProjectId());
+		projectDTO.setProjectParentId(project.getProjectParentId());
+		projectDTO.setProjectTypeId(project.getProjectTypeId());
+		projectDTO.setStartDate(project.getStartDate());
+		projectDTO.setEndDate(project.getEndDate());
+		projectDTO.setProjectName(project.getProjectName());
+		projectDTO.setProjectDescription(project.getProjectDescription());
+		projectDTO.setStatus(project.getStatus());
+		return projectDTO;
+	}
+
 	public static ProjectDTO setMainProject(CompanyInfo company) {
 		ProjectDTO projectDTO = new ProjectDTO();
 		projectDTO.setProjectParentId(0);
 		projectDTO.setProjectTypeId(1);
 		projectDTO.setStartDate(new Date());
 		projectDTO.setEndDate(DateFormater.addMonths(new Date(), 200));
-		projectDTO.setProjectName(company.getCompanyName()+"'s Project");
-		projectDTO.setProjectDescription(company.getCompanyName()+"'s Project");
+		projectDTO.setProjectName(company.getCompanyName() + "'s Project");
+		projectDTO.setProjectDescription(company.getCompanyName() + "'s Project");
 		return projectDTO;
 	}
 

@@ -8,6 +8,7 @@ import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.ProjectListResponse;
 import com.ontarget.dto.ProjectMemberListResponse;
 import com.ontarget.dto.ProjectResponse;
+import com.ontarget.request.bean.ActivityRequest;
 import com.ontarget.request.bean.ProjectRequest;
 
 /**
@@ -16,8 +17,12 @@ import com.ontarget.request.bean.ProjectRequest;
 public interface ProjectService {
 
     public OnTargetResponse addProject(ProjectRequest request) throws Exception;
-
+    
     public OnTargetResponse updateProject(ProjectRequest request) throws Exception;
+    
+    public OnTargetResponse addActivity(ActivityRequest request) throws Exception;
+    
+    public OnTargetResponse updateActivity(ActivityRequest request) throws Exception;
 
     public ProjectResponse getProjectDetail(int projectId) throws Exception;
 

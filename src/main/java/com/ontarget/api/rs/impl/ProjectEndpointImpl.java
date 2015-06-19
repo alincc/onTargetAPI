@@ -19,6 +19,7 @@ import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.ProjectListResponse;
 import com.ontarget.dto.ProjectMemberListResponse;
 import com.ontarget.dto.ProjectResponse;
+import com.ontarget.request.bean.ActivityRequest;
 import com.ontarget.request.bean.ProjectCompanyRequest;
 import com.ontarget.request.bean.ProjectDetailRequest;
 import com.ontarget.request.bean.ProjectRequest;
@@ -62,6 +63,33 @@ public class ProjectEndpointImpl implements ProjectEndoint {
 				logger.error("Error while updating project", e);
 				response = new OnTargetResponse();
 				response.setReturnMessage("Error while updating project");
+				response.setReturnVal(OnTargetConstant.ERROR);
+			}
+		}
+		return response;
+	}
+
+	@Override
+	@POST
+	@Path("/addActivity")
+	public OnTargetResponse addActivity(ActivityRequest request) {
+		OnTargetResponse response = null;
+		if (request.getProject().getProjectId() == null) {
+			try {
+				response = projectService.addActivity(request);
+			} catch (Exception e) {
+				logger.error("Error while adding activity", e);
+				response = new OnTargetResponse();
+				response.setReturnMessage("Error while creating activity");
+				response.setReturnVal(OnTargetConstant.ERROR);
+			}
+		} else {
+			try {
+				response = projectService.updateActivity(request);
+			} catch (Exception e) {
+				logger.error("Error while updating activity", e);
+				response = new OnTargetResponse();
+				response.setReturnMessage("Error while updating activity");
 				response.setReturnVal(OnTargetConstant.ERROR);
 			}
 		}

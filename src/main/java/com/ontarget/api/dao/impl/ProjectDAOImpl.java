@@ -331,4 +331,16 @@ public class ProjectDAOImpl implements ProjectDAO {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+	@Override
+	public int addActivity(ProjectDTO projectDTO, int userId) throws Exception {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public boolean updateActivity(ProjectDTO projectDTO, int updatingUserId) throws Exception {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

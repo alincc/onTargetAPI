@@ -2,7 +2,6 @@ package com.ontarget.request.bean;
 
 import javax.annotation.Generated;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -17,11 +16,9 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 		"companyAddress2", "companyCity", "companyState", "companyZip", "companyCountry" })
 public class UserInvitationRequest {
 	@NotEmpty
-	@Size(min = 5, max = 40, message = "Your first name should be between 5 - 40 characters.")
 	@JsonProperty("firstName")
 	private String firstName;
 	@NotEmpty
-	@Size(min = 5, max = 40, message = "Your last name should be between 5 - 40 characters.")
 	@JsonProperty("lastName")
 	private String lastName;
 	@NotEmpty

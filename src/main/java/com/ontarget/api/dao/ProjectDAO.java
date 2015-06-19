@@ -1,15 +1,14 @@
 package com.ontarget.api.dao;
 
+import java.util.List;
+import java.util.Map;
+
 import com.ontarget.bean.Company;
-import com.ontarget.bean.Contact;
 import com.ontarget.bean.ProjectDTO;
 import com.ontarget.bean.ProjectInfo;
 import com.ontarget.bean.ProjectMember;
 import com.ontarget.entities.CompanyInfo;
 import com.ontarget.entities.Project;
-
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Owner on 11/5/14.
@@ -17,8 +16,10 @@ import java.util.Map;
 public interface ProjectDAO {
 
 	public int addProject(ProjectDTO project, int userId) throws Exception;
-	
-	public int addMainProject(ProjectDTO projectDTO,CompanyInfo companyInfo, int userId) throws Exception;
+
+	public int addActivity(ProjectDTO projectDTO, int userId) throws Exception;
+
+	public int addMainProject(ProjectDTO projectDTO, CompanyInfo companyInfo, int userId) throws Exception;
 
 	public ProjectDTO getProject(int projectId) throws Exception;
 
@@ -29,6 +30,8 @@ public interface ProjectDAO {
 	public List<Map<String, Object>> getProjectByCompany(int companyId, int userId) throws Exception;
 
 	public boolean updateProject(ProjectDTO project, int updatingUserId) throws Exception;
+
+	public boolean updateActivity(ProjectDTO projectDTO, int updatingUserId) throws Exception;
 
 	public List<ProjectMember> getProjectMembers(int projectId) throws Exception;
 
@@ -45,6 +48,6 @@ public interface ProjectDAO {
 	public List<Project> getUndeletedProjectsByParentId(Integer parentProjectId);
 
 	public Project findProjectById(int projectId) throws Exception;
-	
-	public boolean deleteProject(int projectId,int userId) throws Exception;
+
+	public boolean deleteProject(int projectId, int userId) throws Exception;
 }
