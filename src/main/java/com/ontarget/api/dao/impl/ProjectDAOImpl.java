@@ -11,6 +11,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import com.ontarget.entities.ProjectConfiguration;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -326,7 +327,12 @@ public class ProjectDAOImpl implements ProjectDAO {
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
+    @Override
+    public ProjectConfiguration getProjectUnitOfMeasureMent(Integer projectId) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
 	public int addMainProject(ProjectDTO projectDTO, CompanyInfo companyInfo, int userId) throws Exception {
 		// TODO Auto-generated method stub
 		return 0;

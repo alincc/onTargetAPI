@@ -140,6 +140,50 @@ public class TaskBudgetJpaDAOImpl implements TaskBudgetDAO {
 		return taskToCostMap;
 	}
 
+
+    @Override
+    public Map<TaskInfo, Map<TaskInterval, Double>> getTaskToCostMapByMonthYearDouble(int projectId, String costType)
+            throws Exception {
+        Map<TaskInfo, Map<TaskInterval, Double>> taskToCostMap = new LinkedHashMap<>();
+
+        jdbcTemplate.query(OnTargetQuery.GET_TASK_PLANNED_ESTIMATED_COST_BY_PROJECT, new Object[] { costType, projectId }, (
+                resultSet, i) -> {
+            TaskEstimatedCost cost = new TaskEstimatedCost();
+            cost.setId(resultSet.getInt("id"));
+            Date fromDate = resultSet.getDate("from_date");
+            cost.setFromDate(fromDate);
+            cost.setToDate(resultSet.getDate("to_date"));
+            cost.setCostType(costType);
+            cost.setCost(resultSet.getDouble("value"));
+
+            int year = 0;
+            int month = 0;
+            if (fromDate != null) {
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(fromDate);
+                year = cal.get(Calendar.YEAR);
+                month = cal.get(Calendar.MONTH) + 1;
+            }
+            cost.setMonth(month);
+            cost.setYear(year);
+
+            TaskInfo task = new TaskInfo();
+            task.setProjectTaskId(resultSet.getInt("project_task_id"));
+            task.setTitle(resultSet.getString("title"));
+
+            Map<TaskInterval, Double> monthYearCost = taskToCostMap.get(task);
+            if (monthYearCost == null) {
+                monthYearCost = new LinkedHashMap<>();
+            }
+            monthYearCost.put(new TaskInterval(month, year), resultSet.getDouble("value"));
+
+            taskToCostMap.put(task, monthYearCost);
+            return null;
+        });
+
+        return taskToCostMap;
+    }
+
 	@Override
 	public Map<TaskInfo, Map<TaskInterval, List<TaskEstimatedCost>>> getTaskCostMapByTask(int projectTaskId) throws Exception {
 

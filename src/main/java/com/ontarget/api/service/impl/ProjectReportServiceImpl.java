@@ -8,18 +8,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import com.ontarget.api.dao.*;
+import com.ontarget.entities.ProjectConfiguration;
+import com.ontarget.enums.ProjectUOM;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import com.ontarget.api.dao.AccidentReportDAO;
-import com.ontarget.api.dao.ActivityDAO;
-import com.ontarget.api.dao.DocumentDAO;
-import com.ontarget.api.dao.ProjectDAO;
-import com.ontarget.api.dao.TaskBudgetDAO;
-import com.ontarget.api.dao.TaskDAO;
-import com.ontarget.api.dao.TaskPercentageDAO;
 import com.ontarget.api.service.ProjectReportService;
 import com.ontarget.bean.AccidentReport;
 import com.ontarget.bean.ActivityLog;
@@ -74,6 +70,10 @@ public class ProjectReportServiceImpl implements ProjectReportService {
 	@Qualifier("accidentReportJpaDAOImpl")
 	private AccidentReportDAO accidentReportDAO;
 
+    @Autowired
+    @Qualifier("timeCardJpaDAOImpl")
+    private TimeCardDAO timeCardDAO;
+
 	@Override
 	public List<ProjectEarnedValueAnalysisReport> getEarnedValueAnalysisReport(int projectId) throws Exception {
 		logger.debug("Getting earned value analysis report: " + projectId);
@@ -81,9 +81,20 @@ public class ProjectReportServiceImpl implements ProjectReportService {
 		Map<TaskInfo, Map<TaskInterval, TaskEstimatedCost>> taskPlannedCostByMonthAndYear = taskBudgetDAO
 				.getTaskToCostMapByMonthYear(projectId, OnTargetConstant.CostType.PLANNED);
 
-		// task actual cost
-		Map<TaskInfo, Map<TaskInterval, TaskEstimatedCost>> taskActualCostByMonthAndYear = taskBudgetDAO
-				.getTaskToCostMapByMonthYear(projectId, OnTargetConstant.CostType.ACTUAL);
+
+        ProjectConfiguration pConfig = projectDAO.getProjectUnitOfMeasureMent(projectId);
+        if(pConfig == null){
+            throw new Exception("Project not yet configured.");
+        }
+        String uom=pConfig.getConfigValue();
+        Map<TaskInfo, Map<TaskInterval, Double>> taskActualCostByMonthAndYear=null;
+
+        if (uom.equals(ProjectUOM.HOUR.name())) {
+            // task actual cost
+            taskActualCostByMonthAndYear = timeCardDAO.calculateActualCostByMonthYear(projectId);
+        }else{
+            taskActualCostByMonthAndYear = taskBudgetDAO.getTaskToCostMapByMonthYearDouble(projectId, OnTargetConstant.CostType.ACTUAL);
+        }
 
 		// task percentage
 		Map<TaskInfo, Map<TaskInterval, TaskPercentage>> taskPercentageByMonthAndYear = taskPercentageDAO
@@ -151,19 +162,15 @@ public class ProjectReportServiceImpl implements ProjectReportService {
 		}
 
 		/**
-		 * calculate total actual cost by month year
+		 * calculate total actual cost by month year based on timecard
 		 */
 
-		for (Map.Entry<TaskInfo, Map<TaskInterval, TaskEstimatedCost>> entry : taskActualCostByMonthAndYear.entrySet()) {
+		for (Map.Entry<TaskInfo, Map<TaskInterval, Double>> entry : taskActualCostByMonthAndYear.entrySet()) {
 			TaskInfo task = entry.getKey();
-			Map<TaskInterval, TaskEstimatedCost> monthYearActualCost = entry.getValue();
+			Map<TaskInterval, Double> monthYearActualCost = entry.getValue();
 
 			for (TaskInterval ti : timeInterval) {
-				TaskEstimatedCost cost = monthYearActualCost.get(ti);
-				double monthYearCost = 0.0;
-				if (cost != null) {
-					monthYearCost = cost.getCost();
-				}
+				Double monthYearCost = monthYearActualCost.get(ti);
 
 				ProjectEarnedValueAnalysisReport rpt = monthYearEarnedValueReportByTask.get(ti);
 				if (rpt == null) {

@@ -149,7 +149,12 @@ public class TaskBudgetDAOImpl implements TaskBudgetDAO {
 		return taskToCostMap;
 	}
 
-	@Override
+    @Override
+    public Map<TaskInfo, Map<TaskInterval, Double>> getTaskToCostMapByMonthYearDouble(int projectId, String costType) throws Exception {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
 	public Map<TaskInfo, Map<TaskInterval, List<TaskEstimatedCost>>> getTaskCostMapByTask(int projectTaskId) throws Exception {
 
 		Map<TaskInfo, Map<TaskInterval, List<TaskEstimatedCost>>> taskMapMap = new LinkedHashMap<>();

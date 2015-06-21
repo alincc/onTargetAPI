@@ -19,11 +19,14 @@ public interface TaskBudgetDAO {
     public Map<ProjectTaskInfo,List<TaskEstimatedCost>> getTaskToCostMap(long projectId,String costType) throws Exception;
 
 
-    Map<TaskInfo, Map<TaskInterval,TaskEstimatedCost>> getTaskToCostMapByMonthYear(int projectId, String costType) throws Exception;
+    public Map<TaskInfo, Map<TaskInterval,TaskEstimatedCost>> getTaskToCostMapByMonthYear(int projectId, String costType) throws Exception;
 
-    Map<TaskInfo, Map<TaskInterval, List<TaskEstimatedCost>>> getTaskCostMapByTask(int projectTaskId) throws Exception;
+    public Map<TaskInfo, Map<TaskInterval, Double>> getTaskToCostMapByMonthYearDouble(int projectId, String costType)
+            throws Exception;
 
-    TaskInfo getTaskCostByTask(TaskInfo task) throws Exception;
+    public Map<TaskInfo, Map<TaskInterval, List<TaskEstimatedCost>>> getTaskCostMapByTask(int projectTaskId) throws Exception;
 
-    Map<TaskInterval, List<TaskEstimatedCost>> getTaskCostByTaskMonthYear(int projectTaskId) throws Exception;
+    public TaskInfo getTaskCostByTask(TaskInfo task) throws Exception;
+
+    public Map<TaskInterval, List<TaskEstimatedCost>> getTaskCostByTaskMonthYear(int projectTaskId) throws Exception;
 }
