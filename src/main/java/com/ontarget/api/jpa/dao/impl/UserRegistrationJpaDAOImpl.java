@@ -13,6 +13,7 @@ import com.ontarget.api.repository.UserRepository;
 import com.ontarget.bean.UserRegistration;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.UserInvitationRequestDTO;
+import com.ontarget.entities.Discipline;
 import com.ontarget.entities.Email;
 import com.ontarget.entities.RegistrationRequest;
 import com.ontarget.entities.User;
@@ -104,7 +105,7 @@ public class UserRegistrationJpaDAOImpl implements com.ontarget.api.dao.UserRegi
 		user.setUserType(new UserType(1));
 		user.setPassword(hashedPassword);
 		user.setSalt(salt);
-		user.setDiscipline(registration.getDiscipline());
+		user.setDiscipline(new Discipline(new Long(registration.getDiscipline())));
 		user.setUserStatus(OnTargetConstant.USER_STATUS.ACTIVE);
 		user.setNumberOfLogin(1);
 		user.setModifiedDate(new Date());

@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ontarget.api.dao.AuthenticationDAO;
 import com.ontarget.api.dao.ContactDAO;
 import com.ontarget.api.dao.UserSessionDAO;
-import com.ontarget.api.rs.impl.UserProfileImpl;
 import com.ontarget.api.service.AuthenticationService;
 import com.ontarget.bean.UserDTO;
 import com.ontarget.constant.OnTargetConstant;

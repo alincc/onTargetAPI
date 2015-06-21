@@ -14,29 +14,34 @@ import org.springframework.stereotype.Repository;
 
 import com.ontarget.api.dao.ContactDAO;
 import com.ontarget.api.repository.ContactRepository;
+import com.ontarget.api.repository.UserRepository;
 import com.ontarget.bean.Contact;
 import com.ontarget.bean.UserDTO;
 import com.ontarget.entities.CompanyInfo;
+import com.ontarget.entities.Email;
+import com.ontarget.entities.Phone;
 import com.ontarget.entities.User;
 
 @Repository("contactJpaDAOImpl")
 public class ContactJpaDAOImpl implements ContactDAO {
 	@Resource
 	private ContactRepository contactRepository;
+	@Resource
+	private UserRepository userRepository;
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
 	@Override
-	public boolean addContactInfo(Contact contactDTO,int userId) throws Exception {
+	public boolean addContactInfo(Contact contactDTO, int userId) throws Exception {
 		List<com.ontarget.entities.Contact> contactList = contactRepository.findByUserId(userId);
 		com.ontarget.entities.Contact contact;
-		if(contactList == null || contactList.isEmpty()){
-			 contact = new com.ontarget.entities.Contact();
-			 contact.setUser(new User(contactDTO.getUser().getUserId()));
-		}else{
+		if (contactList == null || contactList.isEmpty()) {
+			contact = new com.ontarget.entities.Contact();
+			contact.setUser(new User(contactDTO.getUser().getUserId()));
+		} else {
 			contact = contactList.get(0);
 		}
- 		contact.setCompanyInfo(new CompanyInfo(contactDTO.getCompany().getCompanyId()));
+		contact.setCompanyInfo(new CompanyInfo(contactDTO.getCompany().getCompanyId()));
 		contact.setFirstName(contactDTO.getFirstName());
 		contact.setLastName(contactDTO.getLastName());
 		contact.setTitle(contactDTO.getTitle());
@@ -67,7 +72,8 @@ public class ContactJpaDAOImpl implements ContactDAO {
 
 	@Override
 	public boolean updateContactInfo(Contact contactDTO) throws Exception {
-		List<com.ontarget.entities.Contact> contactList = contactRepository.findByUserId(contactDTO.getUser().getUserId());
+		List<com.ontarget.entities.Contact> contactList = contactRepository.findByUserId(contactDTO.getUser()
+				.getUserId());
 		if (contactList == null || contactList.isEmpty()) {
 			throw new Exception("User " + contactDTO.getUser().getUserId() + " does not exist");
 		}
@@ -80,7 +86,9 @@ public class ContactJpaDAOImpl implements ContactDAO {
 
 	@Override
 	public Contact getContact(int userId) throws Exception {
-		List<com.ontarget.entities.Contact> contactList = contactRepository.findByUserId(userId);
+		User userObj = userRepository.findByUserId(userId);
+		
+		List<com.ontarget.entities.Contact> contactList = userObj.getContactList();
 		if (contactList == null || contactList.isEmpty()) {
 			throw new Exception("User " + userId + " does not exist");
 		}
@@ -95,6 +103,19 @@ public class ContactJpaDAOImpl implements ContactDAO {
 		contact.setLastName(contactObj.getLastName());
 		contact.setTitle(contactObj.getTitle());
 		contact.setUserImagePath(contactObj.getContactImage());
+
+		List<Phone> phoneList = contactObj.getPhoneList();
+		if (phoneList != null && !phoneList.isEmpty()) {
+			Phone phone = phoneList.get(0);
+			contact.setAreaCode(phone.getAreaCode());
+			contact.setPhoneNumber(phone.getPhoneNumber());
+		}
+
+		List<Email> emailList = userObj.getEmailList();
+		if (emailList != null && !emailList.isEmpty()) {
+			Email email = emailList.get(0);
+			contact.setEmail(email.getEmailAddress());
+		}
 		return contact;
 	}
 

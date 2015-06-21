@@ -11,6 +11,7 @@ import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.SafetyInfoResponse;
 import com.ontarget.dto.UserImageRequest;
 import com.ontarget.dto.UserProfileRequest;
+import com.ontarget.dto.UserResponse;
 import com.ontarget.request.bean.CompanyInfoEditRequest;
 import com.ontarget.request.bean.InviteUserIntoProjectRequest;
 import com.ontarget.request.bean.UpdateUserProfileRequest;
@@ -24,11 +25,9 @@ public interface UserProfile {
 
 	public OnTargetResponse changeUserPassword(@Valid ChangeUserPasswordRequest request) throws Exception;
 
-	public OnTargetResponse updateUserProfile(@Valid UpdateUserProfileRequest userProfileRequest);
+	public UserResponse updateUserProfile(@Valid UpdateUserProfileRequest userProfileRequest);
 
 	public OnTargetResponse changeForgotPassword(@Valid ForgotPasswordRequest request) throws Exception;
-
-//	public OnTargetResponse inviteUserIntoProject(@Valid InviteUserIntoProjectRequest request);
 
 	public SafetyInfoResponse getSafetyInfoForUser(@NotNull Integer userId);
 

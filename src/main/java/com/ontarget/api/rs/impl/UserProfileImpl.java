@@ -27,6 +27,7 @@ import com.ontarget.dto.SafetyInfoResponse;
 import com.ontarget.dto.UserImageRequest;
 import com.ontarget.dto.UserProfileRequest;
 import com.ontarget.dto.UserProfileResponse;
+import com.ontarget.dto.UserResponse;
 import com.ontarget.request.bean.CompanyInfoEditRequest;
 import com.ontarget.request.bean.UpdateUserProfileRequest;
 
@@ -72,8 +73,8 @@ public class UserProfileImpl implements UserProfile {
 	@Override
 	@POST
 	@Path("/updateUserProfile")
-	public OnTargetResponse updateUserProfile(UpdateUserProfileRequest userProfileRequest) {
-		OnTargetResponse response = new OnTargetResponse();
+	public UserResponse updateUserProfile(UpdateUserProfileRequest userProfileRequest) {
+		UserResponse response = new UserResponse();
 		try {
 			response = userProfileService.updateUserProfileAndContactInfo(userProfileRequest);
 		} catch (Exception e) {
@@ -155,46 +156,6 @@ public class UserProfileImpl implements UserProfile {
 		return response;
 	}
 
-//	@Override
-//	@POST
-//	@Path("/inviteUserIntoProject")
-//	public OnTargetResponse inviteUserIntoProject(InviteUserIntoProjectRequest request) {
-//		int projectId = 0;
-//		String firstName = request.getFirstName();
-//		String lastName = request.getLastName();
-//		String email = request.getEmail();
-//		OnTargetResponse response = new OnTargetResponse();
-//		if (projectId > 0) {
-//			logger.info("This is first name " + firstName + " last name " + lastName + " and email" + email);
-//
-//			final String tokenId = Security.generateRandomValue(TOKEN_LENGTH);
-//			try {
-//				if (userProfileService.saveRegistration(projectId, firstName, lastName, email, tokenId,
-//						OnTargetConstant.AccountStatus.ACCT_NEW)) {
-//					ProjectInfo res = projectService.getProject(projectId);
-//					long owner = res.getProjectOwnerId();
-//					Contact c = userProfileService.getContact(owner);
-//
-//					emailService.sendUserRegistrationEmail(email, tokenId, firstName, c.getFirstName(), c.getLastName());
-//					response.setReturnMessage("Email sent. Please check mail");
-//					response.setReturnVal(OnTargetConstant.SUCCESS);
-//				} else {
-//					response.setReturnMessage("Registration save failed");
-//					response.setReturnVal(OnTargetConstant.ERROR);
-//				}
-//			} catch (Exception e) {
-//				logger.debug(e.getMessage(), e);
-//				response.setReturnMessage("Error while saving registration request");
-//				response.setReturnVal(OnTargetConstant.ERROR);
-//			}
-//		} else {
-//			response.setReturnMessage("Mandatory field missing");
-//			response.setReturnVal(OnTargetConstant.ERROR);
-//		}
-//
-//		return response;
-//	}
-
 	@Override
 	@GET
 	@Path("/getSafetyInfoForUser")
@@ -268,7 +229,8 @@ public class UserProfileImpl implements UserProfile {
 	@Override
 	@GET
 	@Path("/validateForgotPassword/{forgotPasswordToken}")
-	public OnTargetResponse validateForgotPasswordToken(@NotEmpty @PathParam("forgotPasswordToken") String forgotPasswordToken) {
+	public OnTargetResponse validateForgotPasswordToken(
+			@NotEmpty @PathParam("forgotPasswordToken") String forgotPasswordToken) {
 		OnTargetResponse response = new OnTargetResponse();
 		try {
 			boolean validated = userProfileService.validateForgotPasswordToken(forgotPasswordToken);

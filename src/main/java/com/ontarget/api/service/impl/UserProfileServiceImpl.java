@@ -32,6 +32,7 @@ import com.ontarget.dto.UserImageRequest;
 import com.ontarget.dto.UserInvitationRequestDTO;
 import com.ontarget.dto.UserProfileRequest;
 import com.ontarget.dto.UserProfileResponse;
+import com.ontarget.dto.UserResponse;
 import com.ontarget.entities.CompanyInfo;
 import com.ontarget.entities.User;
 import com.ontarget.request.bean.CompanyEditInfo;
@@ -42,6 +43,7 @@ import com.ontarget.request.bean.UserInfo;
 import com.ontarget.request.bean.UserRegistrationInfo;
 import com.ontarget.util.ConvertPOJOUtils;
 import com.ontarget.util.Security;
+import com.ontarget.util.TokenUtil;
 
 /**
  * Created by Owner on 11/4/14.
@@ -179,11 +181,17 @@ public class UserProfileServiceImpl implements UserProfileService {
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
-	public OnTargetResponse updateUserProfileAndContactInfo(UpdateUserProfileRequest request) throws Exception {
-		OnTargetResponse response = new OnTargetResponse();
+	public UserResponse updateUserProfileAndContactInfo(UpdateUserProfileRequest request) throws Exception {
+		UserResponse response = new UserResponse();
 
 		boolean updated = userDAO.updateUserProfile(request);
 		if (updated) {
+//			UserDTO returnUser = authenticationDAO.getUserResponse(request.getUserProfileInfo().getUserId());
+//			returnUser.setContact(contactDAO.getContact(returnUser.getUserId()));
+//			response.setUser(returnUser);
+//			String token = TokenUtil.getLoginToken(returnUser.getUsername());
+//			response.setToken(token);
+
 			response.setReturnMessage("Successfully updated user profile");
 			response.setReturnVal(OnTargetConstant.SUCCESS);
 		} else {
