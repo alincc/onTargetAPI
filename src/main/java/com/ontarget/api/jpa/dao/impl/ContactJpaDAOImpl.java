@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -24,6 +25,7 @@ import com.ontarget.entities.User;
 
 @Repository("contactJpaDAOImpl")
 public class ContactJpaDAOImpl implements ContactDAO {
+	private Logger logger = Logger.getLogger(ContactJpaDAOImpl.class);
 	@Resource
 	private ContactRepository contactRepository;
 	@Resource
@@ -33,14 +35,8 @@ public class ContactJpaDAOImpl implements ContactDAO {
 
 	@Override
 	public boolean addContactInfo(Contact contactDTO, int userId) throws Exception {
-		List<com.ontarget.entities.Contact> contactList = contactRepository.findByUserId(userId);
-		com.ontarget.entities.Contact contact;
-		if (contactList == null || contactList.isEmpty()) {
-			contact = new com.ontarget.entities.Contact();
-			contact.setUser(new User(contactDTO.getUser().getUserId()));
-		} else {
-			contact = contactList.get(0);
-		}
+		com.ontarget.entities.Contact contact = new com.ontarget.entities.Contact();
+		contact.setUser(new User(contactDTO.getUser().getUserId()));
 		contact.setCompanyInfo(new CompanyInfo(contactDTO.getCompany().getCompanyId()));
 		contact.setFirstName(contactDTO.getFirstName());
 		contact.setLastName(contactDTO.getLastName());
@@ -50,6 +46,7 @@ public class ContactJpaDAOImpl implements ContactDAO {
 		contact.setCreatedBy(new User(contactDTO.getUser().getUserId()));
 		contact.setContactStatus("ACTIVE");
 		contactRepository.save(contact);
+		logger.info("persist contact: " + contact.getContactId());
 		return true;
 	}
 
@@ -72,8 +69,7 @@ public class ContactJpaDAOImpl implements ContactDAO {
 
 	@Override
 	public boolean updateContactInfo(Contact contactDTO) throws Exception {
-		List<com.ontarget.entities.Contact> contactList = contactRepository.findByUserId(contactDTO.getUser()
-				.getUserId());
+		List<com.ontarget.entities.Contact> contactList = contactRepository.findByUserId(contactDTO.getUser().getUserId());
 		if (contactList == null || contactList.isEmpty()) {
 			throw new Exception("User " + contactDTO.getUser().getUserId() + " does not exist");
 		}
@@ -87,8 +83,10 @@ public class ContactJpaDAOImpl implements ContactDAO {
 	@Override
 	public Contact getContact(int userId) throws Exception {
 		User userObj = userRepository.findByUserId(userId);
-		
-		List<com.ontarget.entities.Contact> contactList = userObj.getContactList();
+		logger.info("user obj: " + userObj);
+
+		List<com.ontarget.entities.Contact> contactList = contactRepository.findByUserId(userId);
+		logger.info("contact list: " + contactList);
 		if (contactList == null || contactList.isEmpty()) {
 			throw new Exception("User " + userId + " does not exist");
 		}

@@ -27,6 +27,7 @@ import com.ontarget.dto.UserInvitationRequestDTO;
 import com.ontarget.dto.UserInviteResponse;
 import com.ontarget.request.bean.InviteUserIntoProjectRequest;
 import com.ontarget.request.bean.UserRegistrationInfo;
+import com.ontarget.request.bean.UserSignupRequest;
 import com.ontarget.util.ConvertPOJOUtils;
 import com.ontarget.util.Security;
 
@@ -185,17 +186,33 @@ public class UserRegistrationImpl implements com.ontarget.api.rs.UserRegistratio
 		return response;
 	}
 
+//	@Override
+//	@POST
+//	@Path("/createUser")
+//	public OnTargetResponse createNewUser(UserRegistrationInfo request) {
+//		logger.info("Adding new user: " + request);
+//		OnTargetResponse response = new OnTargetResponse();
+//		try {
+//			return userProfileService.createNewUserFromInvitation(request);
+//		} catch (Exception e) {
+//			logger.debug("Error while creating user based on invitation", e);
+//			response.setReturnMessage("Error while creating user based on invitation.");
+//			response.setReturnVal(OnTargetConstant.ERROR);
+//		}
+//		return response;
+//	}
+	
 	@Override
 	@POST
 	@Path("/createUser")
-	public OnTargetResponse createNewUser(UserRegistrationInfo request) {
+	public OnTargetResponse createNewUser(UserSignupRequest request) {
 		logger.info("Adding new user: " + request);
 		OnTargetResponse response = new OnTargetResponse();
 		try {
 			return userProfileService.createNewUserFromInvitation(request);
 		} catch (Exception e) {
-			logger.debug("Error while creating user based on invitation", e);
-			response.setReturnMessage("Error while creating user based on invitation.");
+			logger.debug("Error while creating user", e);
+			response.setReturnMessage("Error while creating user.");
 			response.setReturnVal(OnTargetConstant.ERROR);
 		}
 		return response;

@@ -20,6 +20,7 @@ import com.ontarget.constant.OnTargetQuery;
 import com.ontarget.dto.UserInvitationRequestDTO;
 import com.ontarget.entities.User;
 import com.ontarget.request.bean.UserRegistrationInfo;
+import com.ontarget.request.bean.UserSignupRequest;
 import com.ontarget.util.Security;
 
 /**
@@ -69,7 +70,7 @@ public class UserRegistrationDAOImpl implements com.ontarget.api.dao.UserRegistr
 	}
 
 	@Override
-	public User createNewuser(UserRegistrationInfo registration, String status) throws Exception {
+	public User createNewuser(UserSignupRequest registration, String status) throws Exception {
 		logger.info("creating new user based on : " + registration);
 		String password = registration.getPassword();
 		String salt = Security.generateSecureSalt();
@@ -137,5 +138,11 @@ public class UserRegistrationDAOImpl implements com.ontarget.api.dao.UserRegistr
 	public boolean saveRegistrationInvitation(UserInvitationRequestDTO userInvitationRequestDTO) throws Exception {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public int updateRegistrationRequestCompanyId(int companyId, String tokenId) throws Exception {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

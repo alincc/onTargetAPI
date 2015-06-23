@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -23,6 +24,7 @@ import com.ontarget.request.bean.CompanyEditInfo;
 
 @Repository("companyJpaDAOImpl")
 public class CompanyJpaDAOImpl implements CompanyDAO {
+	private Logger logger = Logger.getLogger(CompanyJpaDAOImpl.class);
 	@Resource
 	private CompanyInfoRepository companyInfoRepository;
 	@Autowired
@@ -43,6 +45,7 @@ public class CompanyJpaDAOImpl implements CompanyDAO {
 		companyInfo.setStatus(OnTargetConstant.CompanyStatus.STATUS);
 		companyInfo.setCompanyType(new CompanyType(company.getCompanyTypeId()));
 		companyInfoRepository.save(companyInfo);
+		logger.info("persist company: " + companyInfo.getCompanyId());
 		return companyInfo.getCompanyId();
 	}
 
@@ -63,9 +66,9 @@ public class CompanyJpaDAOImpl implements CompanyDAO {
 		companyInfoRepository.save(companyInfo);
 		return true;
 	}
-	
+
 	@Override
-	public CompanyInfo getCompanyInfo(int companyId) throws Exception{
+	public CompanyInfo getCompanyInfo(int companyId) throws Exception {
 		return companyInfoRepository.findByCompanyId(companyId);
 	}
 

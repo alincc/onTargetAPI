@@ -5,11 +5,13 @@ import java.util.Date;
 
 import javax.annotation.Resource;
 
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
 import com.ontarget.api.repository.EmailRepository;
 import com.ontarget.api.repository.RegistrationRequestRepository;
 import com.ontarget.api.repository.UserRepository;
+import com.ontarget.api.service.impl.UserProfileServiceImpl;
 import com.ontarget.bean.UserRegistration;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.UserInvitationRequestDTO;
@@ -18,11 +20,12 @@ import com.ontarget.entities.Email;
 import com.ontarget.entities.RegistrationRequest;
 import com.ontarget.entities.User;
 import com.ontarget.entities.UserType;
-import com.ontarget.request.bean.UserRegistrationInfo;
+import com.ontarget.request.bean.UserSignupRequest;
 import com.ontarget.util.Security;
 
 @Repository("userRegistrationJpaDAOImpl")
 public class UserRegistrationJpaDAOImpl implements com.ontarget.api.dao.UserRegistrationDAO {
+	private Logger logger = Logger.getLogger(UserRegistrationJpaDAOImpl.class);
 
 	@Resource
 	private RegistrationRequestRepository registrationRequestRepository;
@@ -85,39 +88,48 @@ public class UserRegistrationJpaDAOImpl implements com.ontarget.api.dao.UserRegi
 		userRegistration.setEmail(registrationRequest.getEmail());
 		userRegistration.setStatus(registrationRequest.getStatus());
 		userRegistration.setRegistrationToken(tokenId);
-		if (registrationRequest.getProjectId() != null) {
-			userRegistration.setProjectId(registrationRequest.getProjectId().longValue());
-		}
 		if (registrationRequest.getTsCreate() != null) {
 			userRegistration.setTsCreate((registrationRequest.getTsCreate()).getTime());
 		}
+		userRegistration.setCompanyName(registrationRequest.getCompanyName());
+		userRegistration.setCompanyAddress1(registrationRequest.getCompanyAddress1());
+		userRegistration.setCompanyAddress2(registrationRequest.getCompanyAddress2());
+		userRegistration.setCompanyCity(registrationRequest.getCompanyCity());
+		userRegistration.setCompanyState(registrationRequest.getCompanyState());
+		userRegistration.setCompanyZip(registrationRequest.getCompanyZip());
+		userRegistration.setCompanyCountry(registrationRequest.getCompanyCountry());
+		userRegistration.setCompanyId(registrationRequest.getCompanyId());
+		userRegistration.setCompanyTypeId(registrationRequest.getCompanyTypeId());
+		userRegistration.setInvitedProjectId(registrationRequest.getProjectId());
 		return userRegistration;
 	}
 
 	@Override
-	public User createNewuser(UserRegistrationInfo registration, String status) throws Exception {
-		String password = registration.getPassword();
+	public User createNewuser(UserSignupRequest request, String status) throws Exception {
+		String password = request.getPassword();
 		String salt = Security.generateSecureSalt();
 		String hashedPassword = Security.encodePassword(password, salt);
 
 		User user = new User();
-		user.setUserName(registration.getUsername());
+		user.setUserName(request.getUsername());
 		user.setUserType(new UserType(1));
 		user.setPassword(hashedPassword);
 		user.setSalt(salt);
-		user.setDiscipline(new Discipline(new Long(registration.getDiscipline())));
+		user.setDiscipline(new Discipline(new Long(request.getDiscipline())));
 		user.setUserStatus(OnTargetConstant.USER_STATUS.ACTIVE);
 		user.setNumberOfLogin(1);
 		user.setModifiedDate(new Date());
 		user.setAccountStatus(status);
 		userRepository.save(user);
+		logger.info("persist user: " + user.getUserId());
 
 		Email email = new Email();
-		email.setEmailAddress(registration.getEmail());
+		email.setEmailAddress(request.getEmail());
 		email.setStatus("ACTIVE");
 		email.setUser(user);
 		email.setAddedDate(new Date());
 		emailRepository.save(email);
+		logger.info("persist email: " + email.getEmailId());
 
 		return user;
 	}
@@ -127,6 +139,15 @@ public class UserRegistrationJpaDAOImpl implements com.ontarget.api.dao.UserRegi
 
 		RegistrationRequest registrationRequest = registrationRequestRepository.findByRegistrationToken(tokenId);
 		registrationRequest.setUserId(userId);
+		registrationRequestRepository.save(registrationRequest);
+		return 1;
+	}
+	
+	@Override
+	public int updateRegistrationRequestCompanyId(int companyId, String tokenId) throws Exception {
+
+		RegistrationRequest registrationRequest = registrationRequestRepository.findByRegistrationToken(tokenId);
+		registrationRequest.setCompanyId(companyId);
 		registrationRequestRepository.save(registrationRequest);
 		return 1;
 	}
@@ -160,7 +181,6 @@ public class UserRegistrationJpaDAOImpl implements com.ontarget.api.dao.UserRegi
 
 		d = registrationRequest.getProjectId();
 
-		System.out.println("d: " + d);
 		if (d != null) {
 			if (d instanceof Long)
 				userRegistration.setProjectId((Long) d);
