@@ -12,6 +12,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
 	User findByUserName(String userName);
 
+	@Query("select u from User u where u.userId = ?1")
 	User findByUserId(Integer userId);
 
 	@Query("select u from User u where u.userName = ?1 and u.accountStatus !='LOCKED'")

@@ -40,9 +40,12 @@ public class User implements Serializable {
 	private String salt;
 	@Column(name = "user_status", length = 2)
 	private String userStatus;
-	@Basic(optional = false)
-	@Column(name = "discipline", nullable = false)
-	private long discipline;
+	// @Basic(optional = false)
+	// @Column(name = "discipline", nullable = false)
+	// private long discipline;
+	@JoinColumn(name = "discipline", referencedColumnName = "id")
+	@ManyToOne
+	private Discipline discipline;
 	@Column(name = "number_of_login")
 	private Integer numberOfLogin;
 	@Column(name = "modified_date")
@@ -69,13 +72,6 @@ public class User implements Serializable {
 
 	public User(Integer userId) {
 		this.userId = userId;
-	}
-
-	public User(Integer userId, String password, String salt, long discipline) {
-		this.userId = userId;
-		this.password = password;
-		this.salt = salt;
-		this.discipline = discipline;
 	}
 
 	public Integer getUserId() {
@@ -118,11 +114,11 @@ public class User implements Serializable {
 		this.userStatus = userStatus;
 	}
 
-	public long getDiscipline() {
+	public Discipline getDiscipline() {
 		return discipline;
 	}
 
-	public void setDiscipline(long discipline) {
+	public void setDiscipline(Discipline discipline) {
 		this.discipline = discipline;
 	}
 

@@ -254,6 +254,7 @@ public class ProjectJpaDAOImpl implements ProjectDAO {
 				projectMember.setProjectId(projectId);
 				projectMember.setProjectMemberId(member.getProjectMemberId());
 				projectMember.setUserId(member.getUser().getUserId());
+				projectMember.setDiscipline(member.getUser().getDiscipline().getInfo());
 
 				Contact contact = new Contact();
 				ContactPhone contactPhone = new ContactPhone();
@@ -263,6 +264,10 @@ public class ProjectJpaDAOImpl implements ProjectDAO {
 
 					contact.setFirstName(contactInfo.getFirstName());
 					contact.setLastName(contactInfo.getLastName());
+
+					CompanyInfo companyInfo = contactInfo.getCompanyInfo();
+					projectMember.setCompanyName(companyInfo.getCompanyName());
+					projectMember.setCompanyAddress(companyInfo.getAddress1());
 
 					UserDTO user = new UserDTO();
 					user.setUserId(member.getUser().getUserId());

@@ -8,9 +8,10 @@ import com.ontarget.dto.UserImageRequest;
 import com.ontarget.dto.UserInvitationRequestDTO;
 import com.ontarget.dto.UserProfileRequest;
 import com.ontarget.dto.UserProfileResponse;
+import com.ontarget.dto.UserResponse;
 import com.ontarget.request.bean.CompanyInfoEditRequest;
 import com.ontarget.request.bean.UpdateUserProfileRequest;
-import com.ontarget.request.bean.UserRegistrationInfo;
+import com.ontarget.request.bean.UserSignupRequest;
 
 /**
  * Created by Owner on 11/4/14.
@@ -19,13 +20,10 @@ public interface UserProfileService {
 
 	public UserProfileResponse addUserProfile(UserProfileRequest request) throws Exception;
 
-	public OnTargetResponse updateUserProfileAndContactInfo(UpdateUserProfileRequest request) throws Exception;
+	public UserResponse updateUserProfileAndContactInfo(UpdateUserProfileRequest request) throws Exception;
 
 	public boolean changeUserPassword(Integer userId, String newPassword, String currentPassword) throws Exception;
 
-//	public boolean saveRegistration(int projectId, String firstName, String lastName, String email, String tokenId,
-//			String accountStatus) throws Exception;
-	
 	public boolean saveRegistration(UserInvitationRequestDTO request) throws Exception;
 
 	public Contact getContact(long userId) throws Exception;
@@ -38,7 +36,7 @@ public interface UserProfileService {
 
 	public String getRandomSafetyUserInfo(Integer userId) throws Exception;
 
-	public OnTargetResponse createNewUserFromInvitation(UserRegistrationInfo registration) throws Exception;
+	public OnTargetResponse createNewUserFromInvitation(UserSignupRequest request) throws Exception;
 
 	public boolean activateAccount(int userId) throws Exception;
 

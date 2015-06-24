@@ -18,7 +18,7 @@ public class AuthenticationTest extends BaseTest {
 	public void signIn() {
 
 		SignInRequest signInRequest = new SignInRequest();
-		signInRequest.setUsername("sanjeev@ontargetcloud.com");
+		signInRequest.setUsername("sanjeev");
 		signInRequest.setPassword("123456");
 
 		System.out.println("Client request .... \n");
@@ -48,8 +48,7 @@ public class AuthenticationTest extends BaseTest {
 		System.out.println(toJsonString(request, true));
 		Response response = sendRequest("/user/registrationRequest", request);
 		if (response.getStatus() != 200) {
-			throw new RuntimeException("Failed : HTTP error code : "
-					+ response.getStatus());
+			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
 		}
 		String output = response.readEntity(String.class);
 		System.out.println("Server response .... \n");
@@ -60,11 +59,9 @@ public class AuthenticationTest extends BaseTest {
 	public void getPendingUserRegistrationRequests() {
 
 		System.out.println("Client request .... \n");
-		Response response = sendRequest(
-				"/user/getPendingUserRegistrationRequests", "");
+		Response response = sendRequest("/user/getPendingUserRegistrationRequests", "");
 		if (response.getStatus() != 200) {
-			throw new RuntimeException("Failed : HTTP error code : "
-					+ response.getStatus());
+			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
 		}
 		String output = response.readEntity(String.class);
 		System.out.println("Server response .... \n");
@@ -82,8 +79,7 @@ public class AuthenticationTest extends BaseTest {
 		System.out.println(toJsonString(request, true));
 		Response response = sendRequest("/user/approvePendingRequest", request);
 		if (response.getStatus() != 200) {
-			throw new RuntimeException("Failed : HTTP error code : "
-					+ response.getStatus());
+			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
 		}
 		String output = response.readEntity(String.class);
 		System.out.println("Server response .... \n");
@@ -94,11 +90,9 @@ public class AuthenticationTest extends BaseTest {
 	public void logout() {
 
 		System.out.println("Client request .... \n");
-		Response response = sendRequest(
-				"/user/logout?username=santosh8pun@gmail.com", "");
+		Response response = sendRequest("/user/logout?username=santosh8pun@gmail.com", "");
 		if (response.getStatus() != 200) {
-			throw new RuntimeException("Failed : HTTP error code : "
-					+ response.getStatus());
+			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
 		}
 		String output = response.readEntity(String.class);
 		System.out.println("Server response .... \n");

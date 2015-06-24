@@ -32,6 +32,7 @@ import com.ontarget.dto.UserImageRequest;
 import com.ontarget.dto.UserInvitationRequestDTO;
 import com.ontarget.dto.UserProfileRequest;
 import com.ontarget.dto.UserProfileResponse;
+import com.ontarget.dto.UserResponse;
 import com.ontarget.entities.CompanyInfo;
 import com.ontarget.entities.User;
 import com.ontarget.request.bean.CompanyEditInfo;
@@ -39,7 +40,7 @@ import com.ontarget.request.bean.CompanyInfoEditRequest;
 import com.ontarget.request.bean.UpdateUserProfileRequest;
 import com.ontarget.request.bean.UserContactInfo;
 import com.ontarget.request.bean.UserInfo;
-import com.ontarget.request.bean.UserRegistrationInfo;
+import com.ontarget.request.bean.UserSignupRequest;
 import com.ontarget.util.ConvertPOJOUtils;
 import com.ontarget.util.Security;
 
@@ -179,11 +180,18 @@ public class UserProfileServiceImpl implements UserProfileService {
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
-	public OnTargetResponse updateUserProfileAndContactInfo(UpdateUserProfileRequest request) throws Exception {
-		OnTargetResponse response = new OnTargetResponse();
+	public UserResponse updateUserProfileAndContactInfo(UpdateUserProfileRequest request) throws Exception {
+		UserResponse response = new UserResponse();
 
 		boolean updated = userDAO.updateUserProfile(request);
 		if (updated) {
+			// UserDTO returnUser =
+			// authenticationDAO.getUserResponse(request.getUserProfileInfo().getUserId());
+			// returnUser.setContact(contactDAO.getContact(returnUser.getUserId()));
+			// response.setUser(returnUser);
+			// String token = TokenUtil.getLoginToken(returnUser.getUsername());
+			// response.setToken(token);
+
 			response.setReturnMessage("Successfully updated user profile");
 			response.setReturnVal(OnTargetConstant.SUCCESS);
 		} else {
@@ -298,27 +306,125 @@ public class UserProfileServiceImpl implements UserProfileService {
 		return userSafetyInfoDAO.getRandomSafetyInfo(user.getDiscipline());
 	}
 
+	// @Override
+	// @Transactional(rollbackFor = { Exception.class })
+	// public OnTargetResponse createNewUserFromInvitation(UserRegistrationInfo
+	// registration) throws Exception {
+	// OnTargetResponse response = new OnTargetResponse();
+	// UserRegistration registrationRequest =
+	// userRegistrationDAO.getInvitationRegistration(registration
+	// .getRegistrationToken());
+	//
+	// if (registrationRequest != null) {
+	// if (!userDAO.usernameAlreadyRegistered(registration.getUsername())) {
+	//
+	// User user = userRegistrationDAO.createNewuser(registration,
+	// registrationRequest.getStatus());
+	//
+	// int updated =
+	// userRegistrationDAO.updateRegistrationRequestUserId(user.getUserId(),
+	// registration.getRegistrationToken());
+	// if (updated <= 0) {
+	// response.setReturnVal(OnTargetConstant.ERROR);
+	// response.setReturnMessage("Error while creating user");
+	// } else {
+	// response.setReturnMessage("Successfully created user based on invitation.");
+	// response.setReturnVal(OnTargetConstant.SUCCESS);
+	// }
+	// } else {
+	// response.setReturnVal(OnTargetConstant.ERROR);
+	// response.setReturnMessage("Username already registered");
+	// }
+	// } else {
+	// response.setReturnVal(OnTargetConstant.ERROR);
+	// response.setReturnMessage("Invalid registration");
+	// }
+	//
+	// return response;
+	// }
+
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
-	public OnTargetResponse createNewUserFromInvitation(UserRegistrationInfo registration) throws Exception {
+	public OnTargetResponse createNewUserFromInvitation(UserSignupRequest request) throws Exception {
 		OnTargetResponse response = new OnTargetResponse();
-		UserRegistration registrationRequest = userRegistrationDAO.getInvitationRegistration(registration
-				.getRegistrationToken());
+		UserRegistration registrationRequest = userRegistrationDAO.getInvitationRegistration(request.getRegistrationToken());
 
 		if (registrationRequest != null) {
-			if (!userDAO.usernameAlreadyRegistered(registration.getUsername())) {
+			if (!userDAO.usernameAlreadyRegistered(request.getUsername())) {
 
-				User user = userRegistrationDAO.createNewuser(registration, registrationRequest.getStatus());
-
-				int updated = userRegistrationDAO.updateRegistrationRequestUserId(user.getUserId(),
-						registration.getRegistrationToken());
-				if (updated <= 0) {
-					response.setReturnVal(OnTargetConstant.ERROR);
-					response.setReturnMessage("Error while creating user");
-				} else {
-					response.setReturnMessage("Successfully created user based on invitation.");
-					response.setReturnVal(OnTargetConstant.SUCCESS);
+				User user = userRegistrationDAO.createNewuser(request, registrationRequest.getStatus());
+				logger.info("user id: " + user.getUserId());
+				int userUpdated = userRegistrationDAO.updateRegistrationRequestUserId(user.getUserId(), request.getRegistrationToken());
+				if (userUpdated <= 0) {
+					throw new Exception("Could not update user info in registration request");
 				}
+
+				Company company = ConvertPOJOUtils.convertToCompany(registrationRequest);
+				int companyId;
+				logger.info("company id from registration request: " + registrationRequest.getCompanyId());
+				if (registrationRequest.getCompanyId() != 0) {
+					companyId = registrationRequest.getCompanyId();
+				} else {
+					companyId = companyDAO.addCompanyInfo(company);
+					userRegistrationDAO.updateRegistrationRequestCompanyId(companyId, request.getRegistrationToken());
+				}
+				logger.info("company id: " + companyId);
+
+				Contact contact = ConvertPOJOUtils.convertToContact(request);
+
+				company.setCompanyId(companyId);
+
+				contact.setCompany(company);
+
+				UserDTO userDTO = new UserDTO();
+				userDTO.setUserId(user.getUserId());
+				userDTO.setAccountStatus(user.getAccountStatus());
+
+				int userId = userDTO.getUserId();
+				contact.setUser(userDTO);
+
+				boolean saved = contactDAO.addContactInfo(contact, userId);
+				if (!saved) {
+					throw new Exception("Contact not saved.");
+				}
+
+				logger.info("contact list:" + user.getContactList());
+				Contact contactForPhone = contactDAO.getContact(userId);
+				int contactId = contactForPhone.getContactId();
+
+				ContactPhone phone = new ContactPhone();
+				phone.setPhoneType(OnTargetConstant.PhoneType.CELL);
+				phone.setStatus(OnTargetConstant.PhoneStatus.ACTIVE);
+				phone.setPhoneNumber(request.getPhoneNumber());
+				phone.setAreaCode(request.getAreaCode());
+
+				int phoneId = phoneDAO.addContactPhone(contactId, phone);
+
+				if (phoneId <= 0) {
+					throw new Exception("Error while adding phone");
+				}
+
+				// if user is invited from a request-demo then add project
+				logger.info("project id: " + registrationRequest.getInvitedProjectId());
+				if (registrationRequest.getInvitedProjectId() == 0) {
+					CompanyInfo companyInfo = companyDAO.getCompanyInfo(companyId);
+					ProjectDTO projectDTO = ConvertPOJOUtils.setMainProject(companyInfo);
+					int addedProjectId = projectDAO.addMainProject(projectDTO, companyInfo, user.getUserId());
+					// add main project for request a demo user
+					if (addedProjectId <= 0) {
+						throw new Exception("Error while adding main project");
+					}
+					userInvitationDAO.updateRegistrationRequestProjectIdByUser(addedProjectId, userId);
+				}
+
+				boolean activated = this.activateAccount(user.getUserId());
+				if (!activated) {
+					throw new Exception("Error while activating account");
+				}
+
+				response.setReturnMessage("Successfully created user.");
+				response.setReturnVal(OnTargetConstant.SUCCESS);
+
 			} else {
 				response.setReturnVal(OnTargetConstant.ERROR);
 				response.setReturnMessage("Username already registered");
@@ -366,8 +472,8 @@ public class UserProfileServiceImpl implements UserProfileService {
 
 			Contact contact = contactDAO.getContact(existingUser.getUserId());
 			if (id > 0) {
-				emailService.sendForgotPasswordEmail(emailAddress,
-						contact.getFirstName() + " " + contact.getLastName(), forgotPasswordToken);
+				emailService.sendForgotPasswordEmail(emailAddress, contact.getFirstName() + " " + contact.getLastName(),
+						forgotPasswordToken);
 			}
 
 			return true;

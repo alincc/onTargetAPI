@@ -18,6 +18,7 @@ import com.ontarget.api.repository.UserSessionInfoRepository;
 import com.ontarget.bean.UserDTO;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.RegistrationRequestDTO;
+import com.ontarget.entities.Discipline;
 import com.ontarget.entities.RegistrationRequest;
 import com.ontarget.entities.User;
 import com.ontarget.entities.UserType;
@@ -48,7 +49,8 @@ public class AuthenticationJpaDAOImpl implements AuthenticationDAO {
 
 			if (hashedPassword.equals(user.getPassword())) {
 				UserDTO userDTO = new UserDTO();
-				userDTO.setDiscipline(user.getDiscipline());
+				// userDTO.setDiscipline(user.getDiscipline());
+				userDTO.setDiscipline(user.getDiscipline().getId());
 				userDTO.setUserId(user.getUserId());
 				userDTO.setAccountStatus(user.getAccountStatus());
 				userDTO.setUserStatus(user.getUserStatus());
@@ -56,6 +58,22 @@ public class AuthenticationJpaDAOImpl implements AuthenticationDAO {
 				return userDTO;
 			}
 
+		}
+		return null;
+	}
+
+	@Override
+	public UserDTO getUserResponse(Integer userId) throws Exception {
+
+		User user = userRepository.findByUserId(userId);
+		if (user != null) {
+			UserDTO userDTO = new UserDTO();
+			userDTO.setDiscipline(user.getDiscipline().getId());
+			userDTO.setUserId(user.getUserId());
+			userDTO.setAccountStatus(user.getAccountStatus());
+			userDTO.setUserStatus(user.getUserStatus());
+			userDTO.setUserTypeId(user.getUserType().getUserTypeId());
+			return userDTO;
 		}
 		return null;
 	}
@@ -118,7 +136,7 @@ public class AuthenticationJpaDAOImpl implements AuthenticationDAO {
 		user.setUserType(new UserType(1));
 		user.setPassword(TokenUtil.getPasswordToken());
 		user.setSalt("");
-		user.setDiscipline(1);
+		user.setDiscipline(new Discipline(1l));
 		user.setUserStatus(OnTargetConstant.USER_STATUS.PENDING);
 		user.setNumberOfLogin(1);
 		user.setModifiedDate(new Date());

@@ -192,4 +192,10 @@ public class AuthenticationDAOImpl implements AuthenticationDAO {
 
 		return user;
 	}
+
+	@Override
+	public UserDTO getUserResponse(Integer userId) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

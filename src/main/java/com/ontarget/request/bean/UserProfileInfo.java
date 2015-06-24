@@ -31,6 +31,11 @@ public class UserProfileInfo {
 	@NotEmpty
 	@JsonProperty("phoneNumber")
 	private String phoneNumber;
+	@NotEmpty
+	@JsonProperty("title")
+	private String title;
+	@JsonProperty("userImagePath")
+	private String userImagePath;
 
 	@JsonProperty("firstName")
 	public String getFirstName() {
@@ -90,6 +95,26 @@ public class UserProfileInfo {
 	@JsonProperty("phoneNumber")
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
+	}
+
+	@JsonProperty("title")
+	public String getTitle() {
+		return title;
+	}
+
+	@JsonProperty("title")
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	@JsonProperty("userImagePath")
+	public String getUserImagePath() {
+		return userImagePath;
+	}
+
+	@JsonProperty("userImagePath")
+	public void setUserImagePath(String userImagePath) {
+		this.userImagePath = userImagePath;
 	}
 
 }

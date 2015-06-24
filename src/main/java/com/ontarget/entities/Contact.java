@@ -66,7 +66,7 @@ public class Contact implements Serializable {
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
 	private User user;
 	@JoinColumn(name = "contact_company_id", referencedColumnName = "company_id")
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne()
 	private CompanyInfo companyInfo;
 
 	public Contact() {

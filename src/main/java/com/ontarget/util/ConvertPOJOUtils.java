@@ -22,11 +22,11 @@ import com.ontarget.request.bean.TaskBudgetEstimate;
 import com.ontarget.request.bean.UserCompanyInfo;
 import com.ontarget.request.bean.UserContactInfo;
 import com.ontarget.request.bean.UserInvitationRequest;
+import com.ontarget.request.bean.UserSignupRequest;
 
 public class ConvertPOJOUtils {
 
-	public static UserInvitationRequestDTO convertToUserInvitationDTO(UserInvitationRequest userInvitationRequest,
-			String token) {
+	public static UserInvitationRequestDTO convertToUserInvitationDTO(UserInvitationRequest userInvitationRequest, String token) {
 		UserInvitationRequestDTO userInvitationRequestDTO = new UserInvitationRequestDTO();
 		userInvitationRequestDTO.setFirstName(userInvitationRequest.getFirstName());
 		userInvitationRequestDTO.setLastName(userInvitationRequest.getLastName());
@@ -46,8 +46,7 @@ public class ConvertPOJOUtils {
 		return userInvitationRequestDTO;
 	}
 
-	public static UserInvitationRequestDTO convertToUserInvitationDTO(
-			InviteUserIntoProjectRequest userInvitationRequest, String token) {
+	public static UserInvitationRequestDTO convertToUserInvitationDTO(InviteUserIntoProjectRequest userInvitationRequest, String token) {
 		UserInvitationRequestDTO userInvitationRequestDTO = new UserInvitationRequestDTO();
 		userInvitationRequestDTO.setFirstName(userInvitationRequest.getFirstName());
 		userInvitationRequestDTO.setLastName(userInvitationRequest.getLastName());
@@ -120,6 +119,15 @@ public class ConvertPOJOUtils {
 		return contact;
 	}
 
+	public static Contact convertToContact(UserSignupRequest request) {
+		Contact contact = new Contact();
+		contact.setFirstName(request.getFirstName());
+		contact.setLastName(request.getLastName());
+		contact.setTitle(request.getTitle());
+		contact.setUserImagePath(request.getUserImagePath());
+		return contact;
+	}
+
 	public static AddressDTO convertToAddressDTO(ProjectAddressInfo projectAddress) {
 		AddressDTO addressDTO = new AddressDTO();
 		addressDTO.setAddress1(projectAddress.getAddress1());
@@ -180,8 +188,7 @@ public class ConvertPOJOUtils {
 		accidentReport.setBodyPartAffected(accidentReportRequestBean.getBodyPartAffected());
 		accidentReport.setBriefOfAccident(accidentReportRequestBean.getBriefOfAccident());
 		accidentReport.setCorrectionMeasuresPerformed(accidentReportRequestBean.getCorrectionMeasuresPerformed());
-		accidentReport.setCorrectionMeasuresToBePerformed(accidentReportRequestBean
-				.getCorrectionMeasuresToBePerformed());
+		accidentReport.setCorrectionMeasuresToBePerformed(accidentReportRequestBean.getCorrectionMeasuresToBePerformed());
 		accidentReport.setDateInjuredLeftJob(accidentReportRequestBean.getDateInjuredLeftJob());
 		accidentReport.setDateOfAccident(accidentReportRequestBean.getDateOfAccident());
 		accidentReport.setDescription(accidentReportRequestBean.getDescription());

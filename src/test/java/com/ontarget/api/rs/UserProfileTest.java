@@ -23,60 +23,63 @@ import com.ontarget.request.bean.UserProfileInfo;
 
 public class UserProfileTest extends BaseTest {
 
-	@Test
-	public void testAddUserProfile() {
-
-		UserContactInfo contact = new UserContactInfo();
-		contact.setTitle("Project Manager");
-		contact.setFirstName("firstname");
-		contact.setLastName("lastname");
-		contact.setUserImagePath("");
-
-		UserCompanyInfo comp = new UserCompanyInfo();
-		comp.setCompanyName("The TTG Inc.");
-		comp.setCompanyTypeId(1);
-		comp.setWebsite("http://www.comp.com");
-
-		UserAddressInfo address = new UserAddressInfo();
-		address.setAddress1("4750 59th street");
-		address.setAddress2("Apt #9C");
-		address.setCity("Woodside");
-		address.setState("NY");
-		address.setZip("11377");
-		address.setCountry("USA");
-		address.setAddressType("COMPANY");
-		comp.setAddress(address);
-
-		UserInfo user = new UserInfo();
-		user.setUserId(9);
-		user.setAccountStatus("NEW");
-
-		UserProfileRequest request = new UserProfileRequest();
-		request.setCompany(comp);
-		request.setUser(user);
-		request.setContact(contact);
-
-		System.out.println("Client request ...(/profile/addUserProfile) \n");
-		System.out.println(toJsonString(request, true));
-		Response response = sendRequest("/profile/addUserProfile", request);
-		if (response.getStatus() != 200) {
-			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
-		}
-		String output = response.readEntity(String.class);
-		System.out.println("Server response ....(/profile/addUserProfile) \n");
-		System.out.println(output);
-	}
-
+	 @Test
+	 public void testAddUserProfile() {
+	
+	 UserContactInfo contact = new UserContactInfo();
+	 contact.setTitle("Project Manager");
+	 contact.setFirstName("firstname");
+	 contact.setLastName("lastname");
+	 contact.setUserImagePath("");
+	
+	 UserCompanyInfo comp = new UserCompanyInfo();
+	 comp.setCompanyName("The TTG Inc.");
+	 comp.setCompanyTypeId(1);
+	 comp.setWebsite("http://www.comp.com");
+	
+	 UserAddressInfo address = new UserAddressInfo();
+	 address.setAddress1("4750 59th street");
+	 address.setAddress2("Apt #9C");
+	 address.setCity("Woodside");
+	 address.setState("NY");
+	 address.setZip("11377");
+	 address.setCountry("USA");
+	 address.setAddressType("COMPANY");
+	 comp.setAddress(address);
+	
+	 UserInfo user = new UserInfo();
+	 user.setUserId(9);
+	 user.setAccountStatus("NEW");
+	
+	 UserProfileRequest request = new UserProfileRequest();
+	 request.setCompany(comp);
+	 request.setUser(user);
+	 request.setContact(contact);
+	
+	 System.out.println("Client request ...(/profile/addUserProfile) \n");
+	 System.out.println(toJsonString(request, true));
+	 Response response = sendRequest("/profile/addUserProfile", request);
+	 if (response.getStatus() != 200) {
+	 throw new RuntimeException("Failed : HTTP error code : " +
+	 response.getStatus());
+	 }
+	 String output = response.readEntity(String.class);
+	 System.out.println("Server response ....(/profile/addUserProfile) \n");
+	 System.out.println(output);
+	 }
+	
 	@Test
 	public void updateUserProfile() {
 
 		UpdateUserProfileRequest request = new UpdateUserProfileRequest();
 		UserProfileInfo userProfileInfo = new UserProfileInfo();
-		userProfileInfo.setAreaCode(977);
+		userProfileInfo.setAreaCode(971);
 		userProfileInfo.setPhoneNumber("9801012345");
 		userProfileInfo.setFirstName("Sanjeev");
 		userProfileInfo.setLastName("Ghimire");
 		userProfileInfo.setEmail("sanjeev@ontargetcloud.com");
+		userProfileInfo.setTitle("Er");
+		userProfileInfo.setUserImagePath("sanjeev.jpg");
 		userProfileInfo.setUserId(1);
 
 		request.setUserProfileInfo(userProfileInfo);

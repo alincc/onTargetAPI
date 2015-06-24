@@ -8,35 +8,36 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.ontarget.api.dao.ContactDAO;
 import com.ontarget.api.repository.ContactRepository;
+import com.ontarget.api.repository.UserRepository;
 import com.ontarget.bean.Contact;
 import com.ontarget.bean.UserDTO;
 import com.ontarget.entities.CompanyInfo;
+import com.ontarget.entities.Email;
+import com.ontarget.entities.Phone;
 import com.ontarget.entities.User;
 
 @Repository("contactJpaDAOImpl")
 public class ContactJpaDAOImpl implements ContactDAO {
+	private Logger logger = Logger.getLogger(ContactJpaDAOImpl.class);
 	@Resource
 	private ContactRepository contactRepository;
+	@Resource
+	private UserRepository userRepository;
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
 	@Override
-	public boolean addContactInfo(Contact contactDTO,int userId) throws Exception {
-		List<com.ontarget.entities.Contact> contactList = contactRepository.findByUserId(userId);
-		com.ontarget.entities.Contact contact;
-		if(contactList == null || contactList.isEmpty()){
-			 contact = new com.ontarget.entities.Contact();
-			 contact.setUser(new User(contactDTO.getUser().getUserId()));
-		}else{
-			contact = contactList.get(0);
-		}
- 		contact.setCompanyInfo(new CompanyInfo(contactDTO.getCompany().getCompanyId()));
+	public boolean addContactInfo(Contact contactDTO, int userId) throws Exception {
+		com.ontarget.entities.Contact contact = new com.ontarget.entities.Contact();
+		contact.setUser(new User(contactDTO.getUser().getUserId()));
+		contact.setCompanyInfo(new CompanyInfo(contactDTO.getCompany().getCompanyId()));
 		contact.setFirstName(contactDTO.getFirstName());
 		contact.setLastName(contactDTO.getLastName());
 		contact.setTitle(contactDTO.getTitle());
@@ -45,6 +46,7 @@ public class ContactJpaDAOImpl implements ContactDAO {
 		contact.setCreatedBy(new User(contactDTO.getUser().getUserId()));
 		contact.setContactStatus("ACTIVE");
 		contactRepository.save(contact);
+		logger.info("persist contact: " + contact.getContactId());
 		return true;
 	}
 
@@ -80,7 +82,11 @@ public class ContactJpaDAOImpl implements ContactDAO {
 
 	@Override
 	public Contact getContact(int userId) throws Exception {
+		User userObj = userRepository.findByUserId(userId);
+		logger.info("user obj: " + userObj);
+
 		List<com.ontarget.entities.Contact> contactList = contactRepository.findByUserId(userId);
+		logger.info("contact list: " + contactList);
 		if (contactList == null || contactList.isEmpty()) {
 			throw new Exception("User " + userId + " does not exist");
 		}
@@ -95,6 +101,19 @@ public class ContactJpaDAOImpl implements ContactDAO {
 		contact.setLastName(contactObj.getLastName());
 		contact.setTitle(contactObj.getTitle());
 		contact.setUserImagePath(contactObj.getContactImage());
+
+		List<Phone> phoneList = contactObj.getPhoneList();
+		if (phoneList != null && !phoneList.isEmpty()) {
+			Phone phone = phoneList.get(0);
+			contact.setAreaCode(phone.getAreaCode());
+			contact.setPhoneNumber(phone.getPhoneNumber());
+		}
+
+		List<Email> emailList = userObj.getEmailList();
+		if (emailList != null && !emailList.isEmpty()) {
+			Email email = emailList.get(0);
+			contact.setEmail(email.getEmailAddress());
+		}
 		return contact;
 	}
 

@@ -34,4 +34,6 @@ public interface AuthenticationDAO {
     public boolean changePassword(long userId, String password, String salt) throws Exception;
 
     public UserDTO getUserInfoById(long userId) throws Exception;
+    
+    public UserDTO getUserResponse(Integer userId) throws Exception;
 }

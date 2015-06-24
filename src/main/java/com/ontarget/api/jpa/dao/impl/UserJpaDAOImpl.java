@@ -69,7 +69,7 @@ public class UserJpaDAOImpl extends BaseGenericDAOImpl<UserDTO> implements UserD
 		userDTO.setAccountStatus(user.getAccountStatus());
 		userDTO.setUserStatus(user.getUserStatus());
 		userDTO.setUserTypeId(user.getUserType().getUserTypeId());
-		userDTO.setDiscipline(user.getDiscipline());
+		userDTO.setDiscipline(user.getDiscipline().getId());
 		userDTO.setPassword(user.getPassword());
 		userDTO.setSalt(user.getSalt());
 		return userDTO;
@@ -126,6 +126,8 @@ public class UserJpaDAOImpl extends BaseGenericDAOImpl<UserDTO> implements UserD
 		Contact contact = contactList.get(0);
 		contact.setFirstName(profile.getFirstName());
 		contact.setLastName(profile.getLastName());
+		contact.setTitle(profile.getTitle());
+		contact.setContactImage(profile.getUserImagePath());
 		contactRepository.save(contact);
 
 		Phone phone = contact.getPhoneList().get(0);

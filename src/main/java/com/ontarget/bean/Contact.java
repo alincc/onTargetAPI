@@ -15,6 +15,8 @@ public class Contact implements Serializable {
 	private UserDTO user;
 	private String userImagePath;
 	private String email;
+	private Integer areaCode;
+	private String phoneNumber;
 
 	public String getEmail() {
 		return email;
@@ -67,11 +69,26 @@ public class Contact implements Serializable {
 		this.user = user;
 	}
 
+	public Integer getAreaCode() {
+		return areaCode;
+	}
+
+	public void setAreaCode(Integer areaCode) {
+		this.areaCode = areaCode;
+	}
+
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
 	@Override
 	public String toString() {
-		return "Contact{" + "firstName='" + firstName + '\'' + ", lastName='"
-				+ lastName + '\'' + ", title='" + title + '\'' + ", company="
-				+ company + ", user=" + user + '}';
+		return "Contact{" + "firstName='" + firstName + '\'' + ", lastName='" + lastName + '\'' + ", title='" + title
+				+ '\'' + ", company=" + company + ", user=" + user + '}';
 	}
 
 	public String getUserImagePath() {
