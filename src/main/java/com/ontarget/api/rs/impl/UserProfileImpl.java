@@ -30,6 +30,7 @@ import com.ontarget.dto.UserProfileResponse;
 import com.ontarget.dto.UserResponse;
 import com.ontarget.request.bean.CompanyInfoEditRequest;
 import com.ontarget.request.bean.UpdateUserProfileRequest;
+import com.ontarget.request.bean.UserInfo;
 
 /**
  * Created by Owner on 11/4/14.
@@ -80,6 +81,21 @@ public class UserProfileImpl implements UserProfile {
 		} catch (Exception e) {
 			logger.error("update user profile failed.", e);
 			response.setReturnMessage("Update user profile failed.");
+			response.setReturnVal(OnTargetConstant.ERROR);
+		}
+		return response;
+	}
+
+	@Override
+	@POST
+	@Path("/getUserDetails")
+	public UserResponse getUserDetails(UserInfo request) {
+		UserResponse response = new UserResponse();
+		try {
+			response = userProfileService.getUserDetails(request);
+		} catch (Exception e) {
+			logger.error("Error while retrieving user details.", e);
+			response.setReturnMessage("Error while retrieving user details.");
 			response.setReturnVal(OnTargetConstant.ERROR);
 		}
 		return response;
@@ -210,8 +226,7 @@ public class UserProfileImpl implements UserProfile {
 		try {
 			boolean done = userProfileService.forgotPasswordRequest(request.getEmailAddress());
 			if (done) {
-				response.setReturnMessage("Email has been sent to " + request.getEmailAddress()
-						+ " with password reset instructions.");
+				response.setReturnMessage("Email has been sent to " + request.getEmailAddress() + " with password reset instructions.");
 				response.setReturnVal(OnTargetConstant.SUCCESS);
 			} else {
 				response.setReturnMessage("Invalid user.");
@@ -229,8 +244,7 @@ public class UserProfileImpl implements UserProfile {
 	@Override
 	@GET
 	@Path("/validateForgotPassword/{forgotPasswordToken}")
-	public OnTargetResponse validateForgotPasswordToken(
-			@NotEmpty @PathParam("forgotPasswordToken") String forgotPasswordToken) {
+	public OnTargetResponse validateForgotPasswordToken(@NotEmpty @PathParam("forgotPasswordToken") String forgotPasswordToken) {
 		OnTargetResponse response = new OnTargetResponse();
 		try {
 			boolean validated = userProfileService.validateForgotPasswordToken(forgotPasswordToken);

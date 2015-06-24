@@ -16,6 +16,7 @@ import com.ontarget.api.repository.RegistrationRequestRepository;
 import com.ontarget.api.repository.UserRepository;
 import com.ontarget.api.repository.UserSessionInfoRepository;
 import com.ontarget.bean.UserDTO;
+import com.ontarget.bean.UserLoginInfo;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.RegistrationRequestDTO;
 import com.ontarget.entities.Discipline;
@@ -40,7 +41,7 @@ public class AuthenticationJpaDAOImpl implements AuthenticationDAO {
 	private EntityManager entityManager;
 
 	@Override
-	public UserDTO getUserSignInInfo(SignInRequest signInRequest) throws Exception {
+	public UserLoginInfo getUserSignInInfo(SignInRequest signInRequest) throws Exception {
 
 		User user = userRepository.findByUserName(signInRequest.getUsername());
 		if (user != null) {
@@ -48,13 +49,12 @@ public class AuthenticationJpaDAOImpl implements AuthenticationDAO {
 			String hashedPassword = Security.encodePassword(signInRequest.getPassword(), salt);
 
 			if (hashedPassword.equals(user.getPassword())) {
-				UserDTO userDTO = new UserDTO();
-				// userDTO.setDiscipline(user.getDiscipline());
-				userDTO.setDiscipline(user.getDiscipline().getId());
+				UserLoginInfo userDTO = new UserLoginInfo();
+				// userDTO.setDiscipline(user.getDiscipline().getId());
 				userDTO.setUserId(user.getUserId());
-				userDTO.setAccountStatus(user.getAccountStatus());
-				userDTO.setUserStatus(user.getUserStatus());
-				userDTO.setUserTypeId(user.getUserType().getUserTypeId());
+				// userDTO.setAccountStatus(user.getAccountStatus());
+				// userDTO.setUserStatus(user.getUserStatus());
+				// userDTO.setUserTypeId(user.getUserType().getUserTypeId());
 				return userDTO;
 			}
 

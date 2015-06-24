@@ -203,6 +203,21 @@ public class UserProfileServiceImpl implements UserProfileService {
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
+	public UserResponse getUserDetails(UserInfo request) throws Exception {
+		UserResponse response = new UserResponse();
+
+		UserDTO returnUser = authenticationDAO.getUserResponse(request.getUserId());
+		returnUser.setContact(contactDAO.getContact(returnUser.getUserId()));
+		response.setUser(returnUser);
+		
+		response.setReturnMessage("Successfully retrieved user details");
+		response.setReturnVal(OnTargetConstant.SUCCESS);
+
+		return response;
+	}
+
+	@Override
+	@Transactional(rollbackFor = { Exception.class })
 	public OnTargetResponse updateCompanyInfo(CompanyInfoEditRequest request) throws Exception {
 		OnTargetResponse response = new OnTargetResponse();
 

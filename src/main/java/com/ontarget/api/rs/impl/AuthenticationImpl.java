@@ -16,6 +16,7 @@ import com.ontarget.api.rs.Authentication;
 import com.ontarget.api.service.AuthenticationService;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.OnTargetResponse;
+import com.ontarget.dto.UserLoginResponse;
 import com.ontarget.dto.UserRegistationApprovalResponse;
 import com.ontarget.dto.UserResponse;
 import com.ontarget.request.bean.RegistrationApprovalRequest;
@@ -39,9 +40,9 @@ public class AuthenticationImpl implements Authentication {
 
 	@POST
 	@Path("/signin")
-	public UserResponse signIn(SignInRequest signInRequest) {
+	public UserLoginResponse signIn(SignInRequest signInRequest) {
 		logger.info("Sign in request: " + signInRequest);
-		UserResponse response = new UserResponse();
+		UserLoginResponse response = new UserLoginResponse();
 		try {
 			response = authenticationService.signIn(signInRequest);
 		} catch (Exception e) {

@@ -6,8 +6,8 @@ import javax.ws.rs.QueryParam;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import com.ontarget.dto.OnTargetResponse;
+import com.ontarget.dto.UserLoginResponse;
 import com.ontarget.dto.UserRegistationApprovalResponse;
-import com.ontarget.dto.UserResponse;
 import com.ontarget.request.bean.RegistrationApprovalRequest;
 import com.ontarget.request.bean.SignInRequest;
 import com.ontarget.request.bean.UserRegistrationRequest;
@@ -17,17 +17,14 @@ import com.ontarget.request.bean.UserRegistrationRequest;
  */
 public interface Authentication {
 
-	public UserResponse signIn(@Valid SignInRequest signInRequest);
+	public UserLoginResponse signIn(@Valid SignInRequest signInRequest);
 
-	public OnTargetResponse registrationRequest(
-			@Valid UserRegistrationRequest request);
+	public OnTargetResponse registrationRequest(@Valid UserRegistrationRequest request);
 
-	public OnTargetResponse logout(
-			@NotEmpty @QueryParam("username") String username);
+	public OnTargetResponse logout(@NotEmpty @QueryParam("username") String username);
 
 	public UserRegistationApprovalResponse getPendingUserRegistrationRequests();
 
-	public OnTargetResponse approvePendingRegistrationRequest(
-			@Valid RegistrationApprovalRequest request);
+	public OnTargetResponse approvePendingRegistrationRequest(@Valid RegistrationApprovalRequest request);
 
 }
