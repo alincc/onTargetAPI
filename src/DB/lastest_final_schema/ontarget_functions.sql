@@ -2,7 +2,8 @@
 SQLyog Ultimate v11.33 (64 bit)
 MySQL - 5.5.43-0ubuntu0.14.04.1 : Database - ontarget
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -67,7 +68,7 @@ DELIMITER $$
     DETERMINISTIC
 BEGIN
   DECLARE userName VARCHAR(100);
-  SET userName = (SELECT user_name FROM ontarget.`user` WHERE user_id = userId);
+  SET userName = (SELECT concat(first_name,' ', last_name) FROM ontarget.`contact` WHERE user_id = userId);
   RETURN userName;
 END */$$
 DELIMITER ;

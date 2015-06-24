@@ -1,45 +1,22 @@
 package com.ontarget.api.jpa.dao.impl;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import com.ontarget.api.dao.ProjectDAO;
+import com.ontarget.api.repository.*;
+import com.ontarget.bean.*;
+import com.ontarget.bean.Contact;
+import com.ontarget.bean.ProjectMember;
+import com.ontarget.constant.OnTargetConstant;
+import com.ontarget.constant.OnTargetQuery;
+import com.ontarget.entities.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Repository;
-
-import com.ontarget.api.dao.ProjectDAO;
-import com.ontarget.api.repository.AddressRepository;
-import com.ontarget.api.repository.ProjectConfigurationRepository;
-import com.ontarget.api.repository.ProjectMemberRepository;
-import com.ontarget.api.repository.ProjectRepository;
-import com.ontarget.api.repository.ProjectTaskRepository;
-import com.ontarget.bean.AddressDTO;
-import com.ontarget.bean.Company;
-import com.ontarget.bean.Contact;
-import com.ontarget.bean.ContactPhone;
-import com.ontarget.bean.ProjectDTO;
-import com.ontarget.bean.ProjectInfo;
-import com.ontarget.bean.ProjectMember;
-import com.ontarget.bean.UserDTO;
-import com.ontarget.constant.OnTargetConstant;
-import com.ontarget.constant.OnTargetQuery;
-import com.ontarget.entities.Address;
-import com.ontarget.entities.CompanyInfo;
-import com.ontarget.entities.Phone;
-import com.ontarget.entities.Project;
-import com.ontarget.entities.ProjectConfiguration;
-import com.ontarget.entities.ProjectTask;
-import com.ontarget.entities.ProjectType;
-import com.ontarget.entities.User;
+import java.util.*;
 
 @Repository("projectJpaDAOImpl")
 public class ProjectJpaDAOImpl implements ProjectDAO {
@@ -409,5 +386,12 @@ public class ProjectJpaDAOImpl implements ProjectDAO {
 		projectRepository.save(project);
 		return true;
 	}
+
+
+    @Override
+    public ProjectConfiguration getProjectUnitOfMeasureMent(Integer projectId){
+       return  projectConfigurationRepository.findByProjectId(projectId);
+    }
+
 
 }

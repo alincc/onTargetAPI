@@ -13,8 +13,8 @@ public class ActivityLogEndpointTest extends BaseTest {
 	public void fetchLogs() {
 		ActivityLogRequest request = new ActivityLogRequest();
 		BaseRequest baseRequestBean = new BaseRequest();
-		baseRequestBean.setLoggedInUserId(1);
-		baseRequestBean.setLoggedInUserProjectId(1);
+		baseRequestBean.setLoggedInUserId(10);
+		baseRequestBean.setLoggedInUserProjectId(24);
 
 		request.setBaseRequest(baseRequestBean);
 		request.setPageNumber(1);

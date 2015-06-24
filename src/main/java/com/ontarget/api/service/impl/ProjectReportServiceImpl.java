@@ -8,18 +8,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import com.ontarget.api.dao.*;
+import com.ontarget.entities.ProjectConfiguration;
+import com.ontarget.enums.ProjectUOM;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import com.ontarget.api.dao.AccidentReportDAO;
-import com.ontarget.api.dao.ActivityDAO;
-import com.ontarget.api.dao.DocumentDAO;
-import com.ontarget.api.dao.ProjectDAO;
-import com.ontarget.api.dao.TaskBudgetDAO;
-import com.ontarget.api.dao.TaskDAO;
-import com.ontarget.api.dao.TaskPercentageDAO;
 import com.ontarget.api.service.ProjectReportService;
 import com.ontarget.bean.AccidentReport;
 import com.ontarget.bean.ActivityLog;
@@ -47,7 +43,7 @@ public class ProjectReportServiceImpl implements ProjectReportService {
 	private Logger logger = Logger.getLogger(ProjectReportServiceImpl.class);
 
 	@Autowired
-	@Qualifier("taskBudgetDAOImpl")
+	@Qualifier("taskBudgetJpaDAOImpl")
 	private TaskBudgetDAO taskBudgetDAO;
 
 	@Autowired
@@ -74,16 +70,31 @@ public class ProjectReportServiceImpl implements ProjectReportService {
 	@Qualifier("accidentReportJpaDAOImpl")
 	private AccidentReportDAO accidentReportDAO;
 
+    @Autowired
+    @Qualifier("timeCardJpaDAOImpl")
+    private TimeCardDAO timeCardDAO;
+
 	@Override
 	public List<ProjectEarnedValueAnalysisReport> getEarnedValueAnalysisReport(int projectId) throws Exception {
 		logger.debug("Getting earned value analysis report: " + projectId);
 		// task planned cost
-		Map<TaskInfo, Map<TaskInterval, TaskEstimatedCost>> taskPlannedCostByMonthAndYear = taskBudgetDAO
-				.getTaskToCostMapByMonthYear(projectId, OnTargetConstant.CostType.PLANNED);
+		Map<TaskInfo, Map<TaskInterval, Double>> taskPlannedCostByMonthAndYear = taskBudgetDAO
+				.getTaskToCostMapByMonthYearDouble(projectId, OnTargetConstant.CostType.PLANNED);
 
-		// task actual cost
-		Map<TaskInfo, Map<TaskInterval, TaskEstimatedCost>> taskActualCostByMonthAndYear = taskBudgetDAO
-				.getTaskToCostMapByMonthYear(projectId, OnTargetConstant.CostType.ACTUAL);
+
+        ProjectConfiguration pConfig = projectDAO.getProjectUnitOfMeasureMent(projectId);
+        if(pConfig == null){
+            throw new Exception("Project not yet configured.");
+        }
+        String uom=pConfig.getConfigValue();
+        Map<TaskInfo, Map<TaskInterval, Double>> taskActualCostByMonthAndYear=null;
+
+        if (uom.equals(ProjectUOM.HOUR.name())) {
+            // task actual cost
+            taskActualCostByMonthAndYear = timeCardDAO.calculateActualCostByMonthYear(projectId);
+        }else{
+            taskActualCostByMonthAndYear = taskPlannedCostByMonthAndYear;//taskBudgetDAO.getTaskToCostMapByMonthYearDouble(projectId, OnTargetConstant.CostType.ACTUAL);
+        }
 
 		// task percentage
 		Map<TaskInfo, Map<TaskInterval, TaskPercentage>> taskPercentageByMonthAndYear = taskPercentageDAO
@@ -112,15 +123,15 @@ public class ProjectReportServiceImpl implements ProjectReportService {
 		/**
 		 * calculate total estimated cost by month and year
 		 */
-		for (Map.Entry<TaskInfo, Map<TaskInterval, TaskEstimatedCost>> entry : taskPlannedCostByMonthAndYear.entrySet()) {
+		for (Map.Entry<TaskInfo, Map<TaskInterval, Double>> entry : taskPlannedCostByMonthAndYear.entrySet()) {
 			TaskInfo task = entry.getKey();
-			Map<TaskInterval, TaskEstimatedCost> monthYearEstimatedCost = entry.getValue();
+			Map<TaskInterval, Double> monthYearEstimatedCost = entry.getValue();
 
 			for (TaskInterval ti : timeInterval) {
-				TaskEstimatedCost cost = monthYearEstimatedCost.get(ti);
+				Double cost = monthYearEstimatedCost.get(ti);
 				double monthYearCost = 0.0;
 				if (cost != null) {
-					monthYearCost = cost.getCost();
+					monthYearCost = cost.doubleValue();
 				}
 
 				ProjectEarnedValueAnalysisReport rpt = monthYearEarnedValueReportByTask.get(ti);
@@ -139,11 +150,11 @@ public class ProjectReportServiceImpl implements ProjectReportService {
 			 */
 
 			double totalTaskCost = 0.0;
-			for (Map.Entry<TaskInterval, TaskEstimatedCost> eachTaskCostByMonthYear : monthYearEstimatedCost.entrySet()) {
-				TaskEstimatedCost cost = eachTaskCostByMonthYear.getValue();
+			for (Map.Entry<TaskInterval, Double> eachTaskCostByMonthYear : monthYearEstimatedCost.entrySet()) {
+				Double cost = eachTaskCostByMonthYear.getValue();
 				double monthYearCost = 0.0;
 				if (cost != null) {
-					monthYearCost = cost.getCost();
+					monthYearCost = cost.doubleValue();
 				}
 				totalTaskCost += monthYearCost;
 			}
@@ -151,19 +162,19 @@ public class ProjectReportServiceImpl implements ProjectReportService {
 		}
 
 		/**
-		 * calculate total actual cost by month year
+		 * calculate total actual cost by month year based on timecard
 		 */
 
-		for (Map.Entry<TaskInfo, Map<TaskInterval, TaskEstimatedCost>> entry : taskActualCostByMonthAndYear.entrySet()) {
+		for (Map.Entry<TaskInfo, Map<TaskInterval, Double>> entry : taskActualCostByMonthAndYear.entrySet()) {
 			TaskInfo task = entry.getKey();
-			Map<TaskInterval, TaskEstimatedCost> monthYearActualCost = entry.getValue();
+			Map<TaskInterval, Double> monthYearActualCost = entry.getValue();
 
 			for (TaskInterval ti : timeInterval) {
-				TaskEstimatedCost cost = monthYearActualCost.get(ti);
-				double monthYearCost = 0.0;
-				if (cost != null) {
-					monthYearCost = cost.getCost();
-				}
+				Double cost = monthYearActualCost.get(ti);
+                double monthYearCost = 0.0;
+                if (cost != null) {
+                    monthYearCost = cost.doubleValue();
+                }
 
 				ProjectEarnedValueAnalysisReport rpt = monthYearEarnedValueReportByTask.get(ti);
 				if (rpt == null) {
