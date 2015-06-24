@@ -141,6 +141,8 @@ public class TaskBudgetJpaDAOImpl implements TaskBudgetDAO {
 	}
 
 
+
+
     @Override
     public Map<TaskInfo, Map<TaskInterval, Double>> getTaskToCostMapByMonthYearDouble(int projectId, String costType)
             throws Exception {

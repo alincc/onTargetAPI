@@ -14,6 +14,6 @@ public interface ProjectReportEndpoint {
 	public ProjectEarnedValueReportResponse getProjectEarnedValueAnalysis(
 			@Valid ProjectReportInfo projectReportRequest);
 
-	public BIReportResponse getTimeSaved(
+	public BIReportResponse getBIReport(
 			@Valid ProjectReportInfo projectReportRequest);
 }

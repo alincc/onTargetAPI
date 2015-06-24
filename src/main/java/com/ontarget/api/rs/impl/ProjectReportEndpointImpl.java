@@ -58,7 +58,7 @@ public class ProjectReportEndpointImpl implements ProjectReportEndpoint {
 	@Override
 	@POST
 	@Path("/bireport")
-	public BIReportResponse getTimeSaved(ProjectReportInfo projectReportRequest) {
+	public BIReportResponse getBIReport(ProjectReportInfo projectReportRequest) {
 		BIReportResponse response = new BIReportResponse();
 
 		try {
