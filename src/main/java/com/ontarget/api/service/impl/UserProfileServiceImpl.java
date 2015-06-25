@@ -3,21 +3,14 @@ package com.ontarget.api.service.impl;
 import java.util.Map;
 import java.util.Random;
 
+import com.ontarget.api.dao.*;
+import com.ontarget.entities.Email;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ontarget.api.dao.AuthenticationDAO;
-import com.ontarget.api.dao.CompanyDAO;
-import com.ontarget.api.dao.ContactDAO;
-import com.ontarget.api.dao.PhoneDAO;
-import com.ontarget.api.dao.ProjectDAO;
-import com.ontarget.api.dao.UserDAO;
-import com.ontarget.api.dao.UserInvitationDAO;
-import com.ontarget.api.dao.UserRegistrationDAO;
-import com.ontarget.api.dao.UserSafetyInfoDAO;
 import com.ontarget.api.service.EmailService;
 import com.ontarget.api.service.UserProfileService;
 import com.ontarget.bean.Company;
@@ -90,6 +83,10 @@ public class UserProfileServiceImpl implements UserProfileService {
 
 	@Autowired
 	private EmailService emailService;
+
+    @Autowired
+    @Qualifier("emailJpaDAOImpl")
+    private EmailDAO emailDao;
 
 	private Random random = new Random();
 
@@ -473,13 +470,14 @@ public class UserProfileServiceImpl implements UserProfileService {
 	public boolean forgotPasswordRequest(String emailAddress) throws Exception {
 
 		logger.debug("Adding forgot password request: " + emailAddress);
-		/**
-		 * check userlogin table for email address.
-		 */
-		UserDTO user = new UserDTO();
-		user.setUsername(emailAddress);
 
-		UserDTO existingUser = authenticationDAO.getUserInfoByUsername(user);
+        Email email = emailDao.getByEmailAddress(emailAddress);
+        if(email == null || email.getUser() == null){
+            throw new Exception("Error while fetching email");
+        }
+
+
+		UserDTO existingUser = authenticationDAO.getUserInfoById(email.getUser().getUserId());
 		if (existingUser != null && existingUser.getUserId() > 0) {
 
 			final String forgotPasswordToken = Security.generateRandomValue(OnTargetConstant.TOKEN_LENGTH);

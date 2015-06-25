@@ -21,8 +21,7 @@ public interface ProjectRepository extends JpaRepository<Project, Integer> {
 			+ OnTargetConstant.ProjectStatus.DELETED)
 	Project getUserMainProject(Integer userId);
 
-	@Query("select count(p) from Project p join p.projectMemberList pm"
-			+ " where p.projectParentId = 0 and pm.user.userId = ?1 and p.projectId = ?2")
+	@Query("select count(p) from Project p join p.projectMemberList pm where p.projectParentId = 0 and pm.user.userId = ?1 and p.projectId = ?2")
 	Long countUserProject(Integer userId, Integer projectId);
 
 }

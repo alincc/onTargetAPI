@@ -23,11 +23,10 @@ public class EmailServiceTest extends BaseTest {
     private EmailService emailService;
 
     @Test
-    public void sendTaskEmailTest(){
+    public void sendTaskAssignmentEmailTest(){
 
         ProjectTaskInfo taskInfo=new ProjectTaskInfo();
         taskInfo.setTitle("Test title");
-
 
         User createdBy = new User();
         createdBy.setUserId(10);
@@ -48,5 +47,33 @@ public class EmailServiceTest extends BaseTest {
             fail();
         }
     }
+
+
+    @Test
+    public void sendTaskStatusChangeEmailTest(){
+
+        ProjectTaskInfo taskInfo=new ProjectTaskInfo();
+        taskInfo.setTitle("Test title");
+
+        User createdBy = new User();
+        createdBy.setUserId(10);
+        taskInfo.setCreatedBy(createdBy);
+
+        Contact contact = new Contact();
+        contact.setFirstName("Assinged fn");
+        contact.setLastName("Assigned ln");
+        UserDTO userDto = new UserDTO();
+        userDto.setUserId(10);
+        contact.setUser(userDto);
+
+
+        try {
+            emailService.sendTaskStatusChangeEmail(taskInfo, 10);
+        } catch (Exception e) {
+            logger.error(e);
+            fail();
+        }
+    }
+
 
 }
