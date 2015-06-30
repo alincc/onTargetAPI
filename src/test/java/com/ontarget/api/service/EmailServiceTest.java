@@ -54,18 +54,10 @@ public class EmailServiceTest extends BaseTest {
 
         ProjectTaskInfo taskInfo=new ProjectTaskInfo();
         taskInfo.setTitle("Test title");
-
+        taskInfo.setStatus("ACTIVE");
         User createdBy = new User();
         createdBy.setUserId(10);
         taskInfo.setCreatedBy(createdBy);
-
-        Contact contact = new Contact();
-        contact.setFirstName("Assinged fn");
-        contact.setLastName("Assigned ln");
-        UserDTO userDto = new UserDTO();
-        userDto.setUserId(10);
-        contact.setUser(userDto);
-
 
         try {
             emailService.sendTaskStatusChangeEmail(taskInfo, 10);

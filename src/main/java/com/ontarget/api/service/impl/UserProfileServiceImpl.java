@@ -206,7 +206,7 @@ public class UserProfileServiceImpl implements UserProfileService {
 		UserDTO returnUser = authenticationDAO.getUserResponse(request.getUserId());
 		returnUser.setContact(contactDAO.getContact(returnUser.getUserId()));
 		response.setUser(returnUser);
-		
+
 		response.setReturnMessage("Successfully retrieved user details");
 		response.setReturnVal(OnTargetConstant.SUCCESS);
 
@@ -458,11 +458,11 @@ public class UserProfileServiceImpl implements UserProfileService {
 
 		// update project member
 		UserRegistration userRegistration = userRegistrationDAO.getInvitationRegistrationByUser(userId);
+
 		int added = projectDAO.addProjectMember((int) userRegistration.getProjectId(), userId);
 		if (added <= 0) {
 			throw new Exception("Error while adding project member");
 		}
-
 		return true;
 	}
 

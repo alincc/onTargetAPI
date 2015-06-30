@@ -31,6 +31,8 @@ public class UserNotification implements Serializable {
 	@Basic(optional = false)
 	@Column(name = "id", nullable = false)
 	private Long id;
+	@Column(name = "notification_type", length = 20, nullable = false)
+	private String notificationType;
 	@Column(name = "text", columnDefinition = "TEXT")
 	private String text;
 	@JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false)
@@ -101,6 +103,14 @@ public class UserNotification implements Serializable {
 
 	public void setLastSeenAt(Date lastSeenAt) {
 		this.lastSeenAt = lastSeenAt;
+	}
+
+	public String getNotificationType() {
+		return notificationType;
+	}
+
+	public void setNotificationType(String notificationType) {
+		this.notificationType = notificationType;
 	}
 
 	public List<UserNotificationAttribute> getUserNotificationAttributeList() {

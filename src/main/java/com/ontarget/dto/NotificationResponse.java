@@ -8,6 +8,7 @@ import com.ontarget.bean.Notification;
  * Created by sumit on 12/26/14.
  */
 public class NotificationResponse extends OnTargetResponse {
+	private static final long serialVersionUID = 1L;
 	List<Notification> notificationList;
 	private long totalNotification;
 

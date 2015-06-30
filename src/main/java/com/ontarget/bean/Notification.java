@@ -2,19 +2,21 @@ package com.ontarget.bean;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by sumit on 12/26/14.
  */
 public class Notification implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private long id;
 	private String text;
 	private String notificationType;
-	private int notificationId;
 	private long tsInsert;
 	private int userId;
 	private String status;
 	private Date lastSeenAt;
+	private List<NotificationAttribute> notificationAttributes;
 
 	public int getUserId() {
 		return userId;
@@ -48,14 +50,6 @@ public class Notification implements Serializable {
 		this.notificationType = notificationType;
 	}
 
-	public int getNotificationId() {
-		return notificationId;
-	}
-
-	public void setNotificationId(int notificationId) {
-		this.notificationId = notificationId;
-	}
-
 	public long getTsInsert() {
 		return tsInsert;
 	}
@@ -79,4 +73,13 @@ public class Notification implements Serializable {
 	public void setLastSeenAt(Date lastSeenAt) {
 		this.lastSeenAt = lastSeenAt;
 	}
+
+	public List<NotificationAttribute> getNotificationAttributes() {
+		return notificationAttributes;
+	}
+
+	public void setNotificationAttributes(List<NotificationAttribute> notificationAttributes) {
+		this.notificationAttributes = notificationAttributes;
+	}
+
 }

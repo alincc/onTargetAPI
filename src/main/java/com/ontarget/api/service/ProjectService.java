@@ -8,6 +8,7 @@ import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.ProjectListResponse;
 import com.ontarget.dto.ProjectMemberListResponse;
 import com.ontarget.dto.ProjectResponse;
+import com.ontarget.dto.UserProjectListResponse;
 import com.ontarget.request.bean.ActivityRequest;
 import com.ontarget.request.bean.ProjectRequest;
 
@@ -41,4 +42,6 @@ public interface ProjectService {
     public ProjectListResponse getUserProjectDetails(int userId) throws Exception;
     
     public boolean deleteProject(int projectId,int userId);
+    
+    public UserProjectListResponse getUserAssociatedProjectDetails(int userId) throws Exception;
 }

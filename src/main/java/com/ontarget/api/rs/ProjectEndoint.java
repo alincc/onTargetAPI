@@ -7,6 +7,7 @@ import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.ProjectListResponse;
 import com.ontarget.dto.ProjectMemberListResponse;
 import com.ontarget.dto.ProjectResponse;
+import com.ontarget.dto.UserProjectListResponse;
 import com.ontarget.request.bean.ActivityRequest;
 import com.ontarget.request.bean.ProjectCompanyRequest;
 import com.ontarget.request.bean.ProjectDetailRequest;
@@ -19,7 +20,7 @@ import com.ontarget.request.bean.ProjectUserRequest;
 public interface ProjectEndoint {
 
 	public OnTargetResponse addProject(@Valid ProjectRequest request);
-	
+
 	public OnTargetResponse addActivity(@Valid ActivityRequest request);
 
 	public ProjectResponse getProjectDetail(@Valid ProjectDetailRequest projectDetailRequest);
@@ -28,11 +29,13 @@ public interface ProjectEndoint {
 
 	public CompanyListResponse getCompanyByProject(@Valid ProjectDetailRequest projectDetailRequest);
 
-	public ProjectListResponse getProjectByUser(@Valid ProjectUserRequest projectUserRequest);
+	public UserProjectListResponse getAllProjectsByUser(@Valid ProjectUserRequest projectUserRequest);
 
 	public ProjectMemberListResponse getProjectMembers(@Valid ProjectDetailRequest projectDetailRequest);
 
 	public ProjectListResponse getUserProjectDetails(@Valid ProjectUserRequest projectUserRequest);
-	
+
 	public ProjectResponse deleteProject(ProjectDetailRequest projectDetailRequest);
+
+	public ProjectListResponse getProjectByUser(@Valid ProjectUserRequest projectUserRequest);
 }
