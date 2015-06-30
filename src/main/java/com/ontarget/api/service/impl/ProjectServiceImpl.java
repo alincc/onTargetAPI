@@ -37,6 +37,7 @@ import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.ProjectListResponse;
 import com.ontarget.dto.ProjectMemberListResponse;
 import com.ontarget.dto.ProjectResponse;
+import com.ontarget.dto.UserProjectListResponse;
 import com.ontarget.entities.Project;
 import com.ontarget.request.bean.ActivityDetailInfo;
 import com.ontarget.request.bean.ActivityRequest;
@@ -349,8 +350,7 @@ public class ProjectServiceImpl implements ProjectService {
 						}
 					}
 					task.setComments(comments);
-					List<TaskPercentage> taskPercentageList = taskPercentageDAO.getTaskPercentageByTask(task
-							.getProjectTaskId());
+					List<TaskPercentage> taskPercentageList = taskPercentageDAO.getTaskPercentageByTask(task.getProjectTaskId());
 					if (taskPercentageList != null && taskPercentageList.size() > 0) {
 						task.setPercentageComplete(taskPercentageList.get(0).getTaskPercentageComplete());
 					}
@@ -390,6 +390,24 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 
 	@Override
+	public UserProjectListResponse getUserAssociatedProjectDetails(int userId) throws Exception {
+
+		UserProjectListResponse response = new UserProjectListResponse();
+
+		List<Project> projectList = projectDAO.getAlllAssociatedProjectsByUser(userId);
+		List<ProjectDTO> projectDTOList = convertedProjectList(projectList, userId);
+		response.setProjects(projectDTOList);
+
+		for (ProjectDTO projectDTO : projectDTOList) {
+
+			setSubProjects(projectDTO, userId, 1);
+		}
+		response.setResponseCode("SUCC");
+		return response;
+
+	}
+
+	@Override
 	public ProjectListResponse getUserProjectDetails(int userId) throws Exception {
 		Project mainProject = projectDAO.getMainProjectByUser(userId);
 
@@ -398,10 +416,6 @@ public class ProjectServiceImpl implements ProjectService {
 			Company company = companyDAO.getCompany(project.getCompanyId());
 			project.setCompany(company);
 
-			if (!mainProject.getType().equalsIgnoreCase(OnTargetConstant.ProjectInfoType.ACTIVITY)) {
-				AddressDTO projectAddress = addressDAO.getAddress(project.getProjectAddress().getAddressId());
-				project.setProjectAddress(projectAddress);
-			}
 			return this.getUserProjectResponse(project, userId);
 		} else {
 			ProjectListResponse response = new ProjectListResponse();
@@ -415,7 +429,7 @@ public class ProjectServiceImpl implements ProjectService {
 		project.setTaskList(new ArrayList<>());
 		response.setMainProject(project);
 
-		setSubProjects(project, userId, 1);
+		setSubProjects(project, userId, 2);
 		response.setResponseCode("SUCC");
 		return response;
 	}
@@ -461,8 +475,7 @@ public class ProjectServiceImpl implements ProjectService {
 		if (project.getType().equalsIgnoreCase(OnTargetConstant.ProjectInfoType.ACTIVITY)) {
 			List<TaskInfo> tasks = taskDAO.getAssignedTasksByProjectId(project.getProjectId(), userId);
 			project.setTaskList(tasks);
-			logger.info("task list for project id: " + project.getProjectId() + " , user id: " + userId + ", list: "
-					+ tasks);
+			logger.info("task list for project id: " + project.getProjectId() + " , user id: " + userId + ", list: " + tasks);
 
 			Map<Integer, Contact> contactMap = new HashMap<>(); //
 			// get all the comments in the tasks and assigned to.
@@ -480,8 +493,7 @@ public class ProjectServiceImpl implements ProjectService {
 						}
 					}
 					task.setComments(comments);
-					List<TaskPercentage> taskPercentageList = taskPercentageDAO.getTaskPercentageByTask(task
-							.getProjectTaskId());
+					List<TaskPercentage> taskPercentageList = taskPercentageDAO.getTaskPercentageByTask(task.getProjectTaskId());
 					if (taskPercentageList != null && taskPercentageList.size() > 0) {
 						task.setPercentageComplete(taskPercentageList.get(0).getTaskPercentageComplete());
 					}

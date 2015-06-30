@@ -45,6 +45,7 @@ public class ProjectJpaDAOImpl implements ProjectDAO {
 		project.setAddress(new Address(projectDTO.getProjectAddress().getAddressId()));
 		project.setProjectStatus(projectDTO.getStatus());
 		project.setProjectParentId(projectDTO.getProjectParentId());
+
 		project.setProjectStartDate(projectDTO.getStartDate());
 		project.setProjectEndDate(projectDTO.getEndDate());
 		project.setCreatedBy(new User(userId));
@@ -54,6 +55,12 @@ public class ProjectJpaDAOImpl implements ProjectDAO {
 
 		project.setType(OnTargetConstant.ProjectInfoType.PROJECT);
 		projectRepository.save(project);
+
+		com.ontarget.entities.ProjectMember projectMember = new com.ontarget.entities.ProjectMember();
+		projectMember.setProject(project);
+		projectMember.setMemberStatus(OnTargetConstant.MemberStatus.ACTIVE);
+		projectMember.setUser(new User(userId));
+		projectMemberRepository.save(projectMember);
 
 		ProjectConfiguration projectConfiguration = new ProjectConfiguration();
 		projectConfiguration.setProject(new Project(project.getProjectId()));
@@ -206,8 +213,7 @@ public class ProjectJpaDAOImpl implements ProjectDAO {
 		List<ProjectConfiguration> projectConfigurationList = project.getProjectConfigurationList();
 		if (projectConfigurationList != null && !projectConfigurationList.isEmpty()) {
 			for (ProjectConfiguration projectConfiguration : projectConfigurationList) {
-				if (projectConfiguration.getConfigKey().equalsIgnoreCase(
-						OnTargetConstant.ProjectConfigurationConstant.unitOfMeasurement)) {
+				if (projectConfiguration.getConfigKey().equalsIgnoreCase(OnTargetConstant.ProjectConfigurationConstant.unitOfMeasurement)) {
 					projectConfiguration.setConfigValue(projectDTO.getUnitOfMeasurement());
 					projectConfigurationRepository.save(projectConfiguration);
 					break;
@@ -293,6 +299,15 @@ public class ProjectJpaDAOImpl implements ProjectDAO {
 
 	@Override
 	public int addProjectMember(int projectId, int userId) {
+		Project project = projectRepository.findByProjectId(projectId);
+		if (project.getProjectParentId() > 0) {
+			com.ontarget.entities.ProjectMember mainProjectMember = new com.ontarget.entities.ProjectMember();
+			mainProjectMember.setProject(new Project(project.getProjectParentId()));
+			mainProjectMember.setMemberStatus(OnTargetConstant.MemberStatus.ACTIVE);
+			mainProjectMember.setUser(new User(userId));
+			projectMemberRepository.save(mainProjectMember);
+		}
+
 		com.ontarget.entities.ProjectMember projectMember = new com.ontarget.entities.ProjectMember();
 		projectMember.setProject(new Project(projectId));
 		projectMember.setMemberStatus(OnTargetConstant.MemberStatus.ACTIVE);
@@ -315,8 +330,18 @@ public class ProjectJpaDAOImpl implements ProjectDAO {
 	}
 
 	@Override
+	public List<Project> getAlllAssociatedProjectsByUser(int userId) {
+		return projectRepository.findAlllAssociatedProjectsByUser(userId);
+	}
+
+	@Override
 	public List<Project> getUndeletedProjectsByParentId(Integer parentProjectId) {
 		return projectRepository.findUndeletedProjectsByProjectParentId(parentProjectId);
+	}
+
+	@Override
+	public List<Project> getUndeletedProjectsByParentIdAndUserId(Integer parentProjectId, int userId) {
+		return projectRepository.findUndeletedProjectsByProjectParentIdAndUserId(parentProjectId, userId);
 	}
 
 	@Override
@@ -387,11 +412,9 @@ public class ProjectJpaDAOImpl implements ProjectDAO {
 		return true;
 	}
 
-
-    @Override
-    public ProjectConfiguration getProjectUnitOfMeasureMent(Integer projectId){
-       return  projectConfigurationRepository.findByProjectId(projectId);
-    }
-
+	@Override
+	public ProjectConfiguration getProjectUnitOfMeasureMent(Integer projectId) {
+		return projectConfigurationRepository.findByProjectId(projectId);
+	}
 
 }

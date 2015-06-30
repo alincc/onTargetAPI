@@ -42,6 +42,7 @@ public class NotificationJpaDAOImpl implements NotificationDAO {
 				notification.setUserId(userNotification.getUser().getUserId());
 				notification.setStatus(userNotification.getStatus());
 				notification.setLastSeenAt(userNotification.getLastSeenAt());
+				notification.setNotificationType(userNotification.getNotificationType());
 
 				List<UserNotificationAttribute> notificationAttributes = userNotification.getUserNotificationAttributeList();
 				NotificationUtil.setNotificationAttributes(notification, notificationAttributes);

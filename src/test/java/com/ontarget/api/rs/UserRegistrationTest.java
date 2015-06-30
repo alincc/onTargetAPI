@@ -4,6 +4,7 @@ import javax.ws.rs.core.Response;
 
 import org.junit.Test;
 
+import com.ontarget.request.bean.InviteUserIntoProjectRequest;
 import com.ontarget.request.bean.UserSignupRequest;
 
 public class UserRegistrationTest extends BaseTest {
@@ -13,12 +14,11 @@ public class UserRegistrationTest extends BaseTest {
 	//
 	// InviteUserIntoProjectRequest request = new
 	// InviteUserIntoProjectRequest();
-	// request.setEmail("santosh7pun@gmail.com");
-	// request.setProjectId(1);
+	// request.setEmail("santosh8pun@gmail.com");
+	// request.setProjectId(2);
 	// request.setFirstName("santosh");
 	// request.setLastName("pun");
 	// request.setCompanyId(1);
-	//
 	//
 	// // request.setCompanyName("Test company name");
 	// // request.setCompanyAddress1("address1");
@@ -89,7 +89,7 @@ public class UserRegistrationTest extends BaseTest {
 		request.setFirstName("Santosh");
 		request.setLastName("Pun");
 		request.setPassword("123456");
-		request.setRegistrationToken("34772721766863856760030672360359997310212572511822348163552");
+		request.setRegistrationToken("749386401592128369547073841169158573798497667515454016839101");
 		request.setTitle("Mr");
 		request.setAreaCode(977);
 		request.setPhoneNumber("9808639594");
@@ -105,18 +105,17 @@ public class UserRegistrationTest extends BaseTest {
 		System.out.println("Server response .... \n");
 		System.out.println(output);
 	}
-	//
-	// @Test
-	// public void activateAccount() {
-	//
-	// System.out.println("Client request .... \n");
-	// Response response = getRequest("/register/activateAccount/1");
-	// if (response.getStatus() != 200) {
-	// throw new RuntimeException("Failed : HTTP error code : " +
-	// response.getStatus());
-	// }
-	// String output = response.readEntity(String.class);
-	// System.out.println("Server response .... \n");
-	// System.out.println(output);
-	// }
+
+//	@Test
+//	public void activateAccount() {
+//
+//		System.out.println("Client request .... \n");
+//		Response response = getRequest("/register/activateAccount/1");
+//		if (response.getStatus() != 200) {
+//			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
+//		}
+//		String output = response.readEntity(String.class);
+//		System.out.println("Server response .... \n");
+//		System.out.println(output);
+//	}
 }

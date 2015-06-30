@@ -26,7 +26,6 @@ import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.UserInvitationRequestDTO;
 import com.ontarget.dto.UserInviteResponse;
 import com.ontarget.request.bean.InviteUserIntoProjectRequest;
-import com.ontarget.request.bean.UserRegistrationInfo;
 import com.ontarget.request.bean.UserSignupRequest;
 import com.ontarget.util.ConvertPOJOUtils;
 import com.ontarget.util.Security;
@@ -102,51 +101,6 @@ public class UserRegistrationImpl implements com.ontarget.api.rs.UserRegistratio
 		return response;
 	}
 
-	// @Override
-	// @POST
-	// @Path("/inviteToNewAccount")
-	// public OnTargetResponse
-	// inviteUserIntoNewAccount(InviteUserIntoProjectRequest
-	// inviteUserIntoProjectRequest) {
-	// OnTargetResponse response = new OnTargetResponse();
-	//
-	// logger.info("This is first name " +
-	// inviteUserIntoProjectRequest.getFirstName() + " last name "
-	// + inviteUserIntoProjectRequest.getLastName() + " and email" +
-	// inviteUserIntoProjectRequest.getEmail());
-	//
-	// String firstName = inviteUserIntoProjectRequest.getFirstName();
-	// String lastName = inviteUserIntoProjectRequest.getLastName();
-	// String email = inviteUserIntoProjectRequest.getEmail();
-	//
-	// final String tokenId =
-	// Security.generateRandomValue(OnTargetConstant.TOKEN_LENGTH);
-	// try {
-	// if
-	// (userProfileService.saveRegistration(inviteUserIntoProjectRequest.getProjectId(),
-	// inviteUserIntoProjectRequest.getFirstName(),
-	// inviteUserIntoProjectRequest.getLastName(),
-	// inviteUserIntoProjectRequest.getEmail(),
-	// inviteUserIntoProjectRequest.getRegistrationToken(),
-	// OnTargetConstant.AccountStatus.ACCT_NEW)) {
-	//
-	// emailService.sendInviteToAccountEmail(email, firstName, lastName,
-	// tokenId);
-	// response.setReturnMessage("Email sent. Please check mail");
-	// response.setReturnVal(OnTargetConstant.SUCCESS);
-	// } else {
-	// response.setReturnMessage("Registration save failed");
-	// response.setReturnVal(OnTargetConstant.ERROR);
-	// }
-	// } catch (Exception e) {
-	// logger.debug(e.getMessage(), e);
-	// response.setReturnMessage(e.getMessage());
-	// response.setReturnVal(OnTargetConstant.ERROR);
-	// }
-	//
-	// return response;
-	// }
-
 	@Override
 	@GET
 	@Path("/validateLink")
@@ -186,22 +140,6 @@ public class UserRegistrationImpl implements com.ontarget.api.rs.UserRegistratio
 		return response;
 	}
 
-//	@Override
-//	@POST
-//	@Path("/createUser")
-//	public OnTargetResponse createNewUser(UserRegistrationInfo request) {
-//		logger.info("Adding new user: " + request);
-//		OnTargetResponse response = new OnTargetResponse();
-//		try {
-//			return userProfileService.createNewUserFromInvitation(request);
-//		} catch (Exception e) {
-//			logger.debug("Error while creating user based on invitation", e);
-//			response.setReturnMessage("Error while creating user based on invitation.");
-//			response.setReturnVal(OnTargetConstant.ERROR);
-//		}
-//		return response;
-//	}
-	
 	@Override
 	@POST
 	@Path("/createUser")
@@ -235,7 +173,6 @@ public class UserRegistrationImpl implements com.ontarget.api.rs.UserRegistratio
 			response.setReturnMessage("Error while activating account");
 			response.setReturnVal(OnTargetConstant.ERROR);
 		}
-
 		return response;
 	}
 
