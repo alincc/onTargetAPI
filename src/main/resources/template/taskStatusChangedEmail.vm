@@ -1,0 +1,15 @@
+<html>
+<body>
+Hi ( ${assignee.contact.firstName}&nbsp;${assignee.contact.lastName} ),
+
+<p>Task status has been  changed the task status to  "${task.status}" on "${task.modifiedDate}". </p>
+
+<p>You can view the task status  onTarget Mobile app ${appLink} or the following link - ${taskLink}.
+    You can collaborate with other members of the task online and download attachments.
+</p>
+
+Thanks,<br/>
+${sender.contact.firstName}&nbsp;${sender.contact.lastName}
+
+</body>
+</html>
