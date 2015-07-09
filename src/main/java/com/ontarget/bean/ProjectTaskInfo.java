@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.ontarget.entities.User;
 
 @JsonInclude(value = Include.NON_EMPTY)
 public class ProjectTaskInfo implements Serializable {
@@ -19,6 +20,9 @@ public class ProjectTaskInfo implements Serializable {
 	private Integer percentageComplete;
 	private String startDateText;
 	private String endDateText;
+
+    private Date createdDate;
+    private User createdBy;
 
 	private Date startDate;
 	private Date endDate;
@@ -147,4 +151,19 @@ public class ProjectTaskInfo implements Serializable {
 		this.costsByMonthYear = costsByMonthYear;
 	}
 
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public User getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(User createdBy) {
+        this.createdBy = createdBy;
+    }
 }

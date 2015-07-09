@@ -189,7 +189,22 @@ public class TaskServiceImpl implements TaskService {
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
 	public boolean updateTaskStatus(int taskId, String taskStatus, int userId) throws Exception {
-		return taskDAO.updateTaskStatus(taskId, taskStatus, userId);
+		boolean taskStatusUpdated = taskDAO.updateTaskStatus(taskId, taskStatus, userId);
+        /**
+         * change of status email.
+         */
+        if(taskStatusUpdated){
+            ProjectTaskInfo task = taskDAO.getTaskInfo(taskId);
+
+            Set<Integer> assignees = this.getTaskMembers(taskId);
+            if(assignees!=null && assignees.size() > 0){
+                for(Integer assignee : assignees) {
+                    emailService.sendTaskStatusChangeEmail(task, assignee.intValue());
+                }
+            }
+
+        }
+        return taskStatusUpdated;
 	}
 
 	@Override

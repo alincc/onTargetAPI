@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import com.ontarget.api.repository.EmailRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,6 +40,8 @@ public class AuthenticationJpaDAOImpl implements AuthenticationDAO {
 	private UserSessionInfoRepository userSessionInfoRepository;
 	@PersistenceContext
 	private EntityManager entityManager;
+    @Resource
+    private EmailRepository emailRepository;
 
 	@Override
 	public UserLoginInfo getUserSignInInfo(SignInRequest signInRequest) throws Exception {
@@ -187,6 +190,9 @@ public class AuthenticationJpaDAOImpl implements AuthenticationDAO {
 
 		UserDTO userDTO = new UserDTO();
 		userDTO.setUsername(user.getUserName());
+        userDTO.setUserId(user.getUserId());
+
+
 		return userDTO;
 	}
 

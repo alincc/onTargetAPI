@@ -1,17 +1,14 @@
 <html>
 <body>
-Dear ${name}
+Hi ( ${assignee.contact.firstName}&nbsp;${assignee.contact.lastName} ),
 
-<p>You have been assigned the following task. Please login to the application to see the detail.</p>
+<p>${sender.contact.title}&nbsp;${sender.contact.firstName} ${sender.contact.lastName} has assigned task "${task.title}" to you.</p>
+<p>The task is "${task.severity}" and hence you are kindly requested to complete it by "${task.endDate}".</p>
 
-<pre>
-    <p>Title: ${task.title}</p>
-    <p>Description: ${task.description}</p>
-</pre>
+<p>Kindly submit your progress status daily using onTarget Mobile app ${appLink} or the following link - ${taskLink}.<br/>
+You can collaborate with other members of the task online and download attachments.</p>
 
-
-<p>thanks<br>
-    OnTarget Team
-</p>
+Good Luck,<br/>
+${sender.contact.firstName}&nbsp;${sender.contact.lastName}
 </body>
 </html>

@@ -48,4 +48,9 @@ public class EmailDAOImpl extends BaseGenericDAOImpl<Email> implements EmailDAO 
 		return email;
 	}
 
+    @Override
+    public com.ontarget.entities.Email getByEmailAddress(String emailAddress) throws Exception {
+        throw new UnsupportedOperationException();
+    }
+
 }
