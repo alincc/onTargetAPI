@@ -19,6 +19,8 @@ public interface ProjectTaskRepository extends JpaRepository<ProjectTask, Intege
 
 	@Query("select pt from TaskAssignee ta join ta.projectTask pt where ta.taskAssignee = ?1")
 	List<ProjectTask> getAllTaskByAssignee(Long taskAssignee);
+	
+	
 
 	@Query("select pt from ProjectTask pt where pt.project.id in(select projectId from Project where projectId = ?1 and projectParentId = ?2)"
 			+ " and pt.status = ?3 and pt.modifiedDate <= pt.endDate")

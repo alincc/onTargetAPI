@@ -163,7 +163,6 @@ public class ProjectServiceImpl implements ProjectService {
 
 		ActivityDetailInfo projectObj = request.getProject();
 		ProjectDTO projectDTO = ConvertPOJOUtils.convertActivityToProjectDTO(projectObj);
-		System.out.println("activity dto: " + projectDTO);
 
 		int companyId = request.getProject().getCompanyId();
 		if (request.getProject().getProjectParentId() == null || request.getProject().getProjectParentId() == 0) {
@@ -429,7 +428,7 @@ public class ProjectServiceImpl implements ProjectService {
 		project.setTaskList(new ArrayList<>());
 		response.setMainProject(project);
 
-		setSubProjects(project, userId, 2);
+		setSubProjects(project, userId, 1);
 		response.setResponseCode("SUCC");
 		return response;
 	}
@@ -471,7 +470,6 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 
 	private ProjectDTO getProjectTasks(int userId, ProjectDTO project) throws Exception {
-		logger.info("project type: " + project.getType());
 		if (project.getType().equalsIgnoreCase(OnTargetConstant.ProjectInfoType.ACTIVITY)) {
 			List<TaskInfo> tasks = taskDAO.getAssignedTasksByProjectId(project.getProjectId(), userId);
 			project.setTaskList(tasks);

@@ -6,7 +6,6 @@ import java.util.Date;
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 
 import org.springframework.stereotype.Repository;
 
@@ -43,15 +42,12 @@ public class TaskPlannedEstimatedCostJpaDAOImpl implements TaskEstimatedCostDAO 
 
 	@Override
 	public boolean updatePlannedActualCost(TaskEstimatedCost cost) throws Exception {
-		String hql = "update PlannedActualsCost p set p.value = :value,"
-				+ " p.modifiedBy = :modifiedBy, p.modifiedDate = :modifiedDate where p.id = :id";
+		PlannedActualsCost plannedActualsCost = plannedActualsCostRepository.findById(cost.getId());
 
-		Query query = entityManager.createQuery(hql);
-		query.setParameter("value", new BigDecimal(cost.getCost()));
-		query.setParameter("modifiedBy", new User(cost.getModifiedBy()));
-		query.setParameter("modifiedDate", new Date());
-		query.setParameter("id", cost.getId());
-		query.executeUpdate();
+		plannedActualsCost.setModifiedBy(new User(cost.getModifiedBy()));
+		plannedActualsCost.setModifiedDate(new Date());
+		plannedActualsCost.setValue(new BigDecimal(cost.getCost()));
+		plannedActualsCostRepository.save(plannedActualsCost);
 
 		return true;
 	}

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import com.ontarget.bean.TaskComment;
 import com.ontarget.bean.UserDTO;
 
 public class ProjectTask implements Serializable {
@@ -21,6 +22,8 @@ public class ProjectTask implements Serializable {
 	private boolean completed;
 	private List<ProjectTask> childTasks;
 	private List<UserDTO> assignee;
+	private List<TaskComment> comments;
+	private double percentageComplete;
 
 	public String getTitle() {
 		return title;
@@ -100,6 +103,22 @@ public class ProjectTask implements Serializable {
 
 	public void setAssignee(List<UserDTO> assignee) {
 		this.assignee = assignee;
+	}
+
+	public List<TaskComment> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<TaskComment> comments) {
+		this.comments = comments;
+	}
+
+	public double getPercentageComplete() {
+		return percentageComplete;
+	}
+
+	public void setPercentageComplete(double percentageComplete) {
+		this.percentageComplete = percentageComplete;
 	}
 
 }

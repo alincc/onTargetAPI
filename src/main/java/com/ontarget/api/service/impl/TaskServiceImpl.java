@@ -27,7 +27,12 @@ import com.ontarget.bean.ProjectTaskInfo;
 import com.ontarget.bean.TaskInfo;
 import com.ontarget.bean.TaskStatusCount;
 import com.ontarget.bean.UserDTO;
+import com.ontarget.constant.OnTargetConstant;
+import com.ontarget.dto.FieldWorkerInfo;
+import com.ontarget.dto.FieldWorkerResponse;
 import com.ontarget.dto.ProjectTask;
+import com.ontarget.entities.FieldWorker;
+import com.ontarget.entities.TaskFieldWorker;
 import com.ontarget.request.bean.Task;
 import com.ontarget.request.bean.TaskCommentRequest;
 
@@ -231,13 +236,19 @@ public class TaskServiceImpl implements TaskService {
 			logger.info("inserting user " + userId + " for task " + taskId);
 			taskDAO.assignTaskToUser(taskId, userId, assigningUser);
 
-			// get contact detail by userId
 			Contact contact = contactDAO.getContact(userId);
-			ProjectTaskInfo task = taskDAO.getTaskInfo(taskId);
-			if (contact != null) {
+
+			if (contact != null && (contact.getEmail() != null && contact.getEmail().trim().length() > 0)) {
+				ProjectTaskInfo task = taskDAO.getTaskInfo(taskId);
 				emailService.sendTaskAssignmentEmail(task, contact);
 			}
 		}
+	}
+
+	@Override
+	@Transactional(rollbackFor = { Exception.class })
+	public boolean assignTaskToFieldworker(int taskId, List<Integer> fieldWorkerIds, int assigningUser) throws Exception {
+		return taskDAO.assignTaskToFieldworker(taskId, assigningUser, fieldWorkerIds);
 	}
 
 	public List<ProjectTask> getDependentTasks(int taskId) throws Exception {
@@ -251,6 +262,42 @@ public class TaskServiceImpl implements TaskService {
 	@Override
 	public boolean deleteTask(int taskId, int userId) throws Exception {
 		return taskDAO.deleteTask(taskId, userId);
+	}
+
+	@Override
+	public FieldWorkerResponse getFieldWorkersByTask(int taskId) throws Exception {
+		FieldWorkerResponse response = new FieldWorkerResponse();
+		List<FieldWorkerInfo> fieldWorkerInfoList = new ArrayList<>();
+		response.setFieldWorkers(fieldWorkerInfoList);
+		try {
+			List<TaskFieldWorker> taskFieldWorkers = taskDAO.getTaskFieldWorkersByTask(taskId);
+
+			if (taskFieldWorkers != null && !taskFieldWorkers.isEmpty()) {
+				for (TaskFieldWorker taskFieldWorker : taskFieldWorkers) {
+					if (taskFieldWorker.getStatus().equals(OnTargetConstant.TaskFieldWorkerStatus.ASSIGNED)) {
+						FieldWorker fieldWorker = taskFieldWorker.getFieldWorker();
+						FieldWorkerInfo fieldWorkerInfo = new FieldWorkerInfo();
+						fieldWorkerInfo.setId(fieldWorker.getId());
+						fieldWorkerInfo.setFirstName(fieldWorker.getFirstName());
+						fieldWorkerInfo.setLastName(fieldWorker.getLastName());
+						fieldWorkerInfo.setEmailAddress(fieldWorker.getEmailAddress());
+						fieldWorkerInfo.setPhoneNumber(fieldWorker.getPhoneNumber());
+						fieldWorkerInfo.setDisciplineId(fieldWorker.getDiscipline().getId());
+						fieldWorkerInfo.setDiscipline(fieldWorker.getDiscipline().getName());
+						fieldWorkerInfo.setAddedDate(fieldWorker.getAddedDate());
+						fieldWorkerInfoList.add(fieldWorkerInfo);
+					}
+				}
+			}
+			response.setFieldWorkers(fieldWorkerInfoList);
+			response.setReturnVal(OnTargetConstant.SUCCESS);
+			response.setReturnMessage("Successfully retrieved task field workers");
+		} catch (Exception e) {
+			logger.error(e);
+			response.setReturnVal(OnTargetConstant.ERROR);
+			response.setReturnMessage("Error while retrieving task field workers");
+		}
+		return response;
 	}
 
 }

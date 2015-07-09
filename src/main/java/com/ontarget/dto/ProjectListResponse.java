@@ -2,7 +2,6 @@ package com.ontarget.dto;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ontarget.bean.ProjectDTO;
 
 /**

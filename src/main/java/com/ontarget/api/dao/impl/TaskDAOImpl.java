@@ -31,7 +31,7 @@ import com.ontarget.bean.TaskStatusCount;
 import com.ontarget.bean.UserDTO;
 import com.ontarget.constant.OnTargetQuery;
 import com.ontarget.dto.ProjectTask;
-import com.ontarget.request.bean.ParentTask;
+import com.ontarget.entities.TaskFieldWorker;
 import com.ontarget.request.bean.Task;
 import com.ontarget.request.bean.TaskCommentRequest;
 
@@ -72,8 +72,7 @@ public class TaskDAOImpl implements TaskDAO {
 
 	@Override
 	public List<TaskInfo> getTask(int projectId) throws Exception {
-		List<Map<String, Object>> taskList = jdbcTemplate
-				.queryForList(OnTargetQuery.GET_PROJECT_TASK, new Object[] { projectId });
+		List<Map<String, Object>> taskList = jdbcTemplate.queryForList(OnTargetQuery.GET_PROJECT_TASK, new Object[] { projectId });
 		List<TaskInfo> tasks = new ArrayList<>();
 		if (taskList != null && taskList.size() > 0) {
 			for (Map<String, Object> taskMap : taskList) {
@@ -102,8 +101,7 @@ public class TaskDAOImpl implements TaskDAO {
 
 	@Override
 	public List<TaskObj> getTaskObjList(int projectId) throws Exception {
-		List<Map<String, Object>> taskList = jdbcTemplate
-				.queryForList(OnTargetQuery.GET_PROJECT_TASK, new Object[] { projectId });
+		List<Map<String, Object>> taskList = jdbcTemplate.queryForList(OnTargetQuery.GET_PROJECT_TASK, new Object[] { projectId });
 		List<TaskObj> tasks = new ArrayList<>();
 		if (taskList != null && taskList.size() > 0) {
 			for (Map<String, Object> taskMap : taskList) {
@@ -132,8 +130,7 @@ public class TaskDAOImpl implements TaskDAO {
 
 	@Override
 	public List<ProjectTask> getTasksByProject(int projectId) throws Exception {
-		List<Map<String, Object>> taskList = jdbcTemplate
-				.queryForList(OnTargetQuery.GET_PROJECT_TASK, new Object[] { projectId });
+		List<Map<String, Object>> taskList = jdbcTemplate.queryForList(OnTargetQuery.GET_PROJECT_TASK, new Object[] { projectId });
 		List<ProjectTask> tasks = new ArrayList<>();
 		if (taskList != null && taskList.size() > 0) {
 			for (Map<String, Object> taskMap : taskList) {
@@ -206,8 +203,8 @@ public class TaskDAOImpl implements TaskDAO {
 
 	@Override
 	public boolean updateComment(TaskCommentRequest comment) throws Exception {
-		int row = jdbcTemplate.update(OnTargetQuery.UPDATE_TASK_COMMENT,
-				new Object[] { comment.getTaskCommentId(), comment.getComment(), comment.getCommentedBy() });
+		int row = jdbcTemplate.update(OnTargetQuery.UPDATE_TASK_COMMENT, new Object[] { comment.getTaskCommentId(), comment.getComment(),
+				comment.getCommentedBy() });
 		if (row == 0) {
 			throw new Exception("Unable to update task comment");
 		}
@@ -236,8 +233,7 @@ public class TaskDAOImpl implements TaskDAO {
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		jdbcTemplate.update(new PreparedStatementCreator() {
 			public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
-				PreparedStatement ps = connection.prepareStatement(OnTargetQuery.DependentTask.ADD_DEPENDENT_TASK,
-						new String[] { "id" });
+				PreparedStatement ps = connection.prepareStatement(OnTargetQuery.DependentTask.ADD_DEPENDENT_TASK, new String[] { "id" });
 				ps.setInt(1, dependentTask.getTaskId());
 				ps.setInt(2, dependentTask.getDependentTaskId());
 				ps.setInt(3, dependentTask.getCategory_id());
@@ -282,8 +278,7 @@ public class TaskDAOImpl implements TaskDAO {
 
 	@Override
 	public List<TaskComment> getTaskComments(int projectTaskId) throws Exception {
-		List<Map<String, Object>> taskList = jdbcTemplate.queryForList(OnTargetQuery.GET_TASK_COMMENT,
-				new Object[] { projectTaskId });
+		List<Map<String, Object>> taskList = jdbcTemplate.queryForList(OnTargetQuery.GET_TASK_COMMENT, new Object[] { projectTaskId });
 		List<TaskComment> comments = new ArrayList<>();
 		if (taskList != null && taskList.size() > 0) {
 			for (Map<String, Object> commentMap : taskList) {
@@ -302,10 +297,8 @@ public class TaskDAOImpl implements TaskDAO {
 
 	@Override
 	public boolean updateTask(Task task, int userId) throws Exception {
-		int row = jdbcTemplate.update(
-				OnTargetQuery.UPDATE_TASK,
-				new Object[] { task.getTitle(), task.getDescription(), 0, task.getStatus(), task.getStartDate(),
-						task.getEndDate(), task.getSeverity(), userId, task.getProjectTaskId() });
+		int row = jdbcTemplate.update(OnTargetQuery.UPDATE_TASK, new Object[] { task.getTitle(), task.getDescription(), 0,
+				task.getStatus(), task.getStartDate(), task.getEndDate(), task.getSeverity(), userId, task.getProjectTaskId() });
 		if (row == 0) {
 			throw new Exception("Unable to update task comment");
 		}
@@ -335,8 +328,7 @@ public class TaskDAOImpl implements TaskDAO {
 
 	@Override
 	public boolean assignTaskToUser(int taskId, int userId, int assigningUser) throws Exception {
-		int row = jdbcTemplate.update(OnTargetQuery.ASSIGN_TASK_USER,
-				new Object[] { taskId, userId, assigningUser, assigningUser });
+		int row = jdbcTemplate.update(OnTargetQuery.ASSIGN_TASK_USER, new Object[] { taskId, userId, assigningUser, assigningUser });
 		return row > 0;
 	}
 
@@ -461,6 +453,18 @@ public class TaskDAOImpl implements TaskDAO {
 	@Override
 	public com.ontarget.entities.ProjectTask getProjectTaskById(int projectTaskId) {
 		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public boolean assignTaskToFieldworker(int taskId, int userId, List<Integer> fieldWorkerIds) throws Exception {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public List<TaskFieldWorker> getTaskFieldWorkersByTask(int taskId) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

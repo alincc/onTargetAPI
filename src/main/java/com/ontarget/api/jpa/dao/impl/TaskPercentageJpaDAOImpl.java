@@ -50,58 +50,52 @@ public class TaskPercentageJpaDAOImpl implements TaskPercentageDAO {
 		logger.info("getting percentage for project Id: " + projectId);
 		Map<ProjectTaskInfo, List<TaskPercentage>> taskToPercentageMap = new LinkedHashMap<>();
 
-		jdbcTemplate.query(
-				OnTargetQuery.GET_TASK_PERCENTAGE,
-				new Object[] { projectId },
-				(resultSet, i) -> {
-					TaskPercentage percentage = new TaskPercentage();
-					percentage.setId(resultSet.getInt("task_percentage_log_id"));
-					Date fromDate = resultSet.getDate("start_date");
-					percentage.setFromDate(fromDate);
-					percentage.setToDate(resultSet.getDate("end_date"));
-					percentage.setTaskPercentageType(resultSet.getString("percentage_type"));
-					percentage.setTaskPercentageComplete(resultSet.getDouble("percentage_complete"));
+		jdbcTemplate.query(OnTargetQuery.GET_TASK_PERCENTAGE, new Object[] { projectId }, (resultSet, i) -> {
+			TaskPercentage percentage = new TaskPercentage();
+			percentage.setId(resultSet.getInt("task_percentage_log_id"));
+			Date fromDate = resultSet.getDate("start_date");
+			percentage.setFromDate(fromDate);
+			percentage.setToDate(resultSet.getDate("end_date"));
+			percentage.setTaskPercentageType(resultSet.getString("percentage_type"));
+			percentage.setTaskPercentageComplete(resultSet.getDouble("percentage_complete"));
 
-					int year = 0;
-					int month = 0;
-					if (fromDate != null) {
-						Calendar cal = Calendar.getInstance();
-						cal.setTime(fromDate);
-						year = cal.get(Calendar.YEAR);
-						month = cal.get(Calendar.MONTH);
-					}
-					percentage.setMonth(month);
-					percentage.setYear(year);
+			int year = 0;
+			int month = 0;
+			if (fromDate != null) {
+				Calendar cal = Calendar.getInstance();
+				cal.setTime(fromDate);
+				year = cal.get(Calendar.YEAR);
+				month = cal.get(Calendar.MONTH);
+			}
+			percentage.setMonth(month);
+			percentage.setYear(year);
 
-					ProjectTaskInfo task = new ProjectTaskInfo();
-					task.setProjectTaskId(resultSet.getInt("project_task_id"));
-					task.setTitle(resultSet.getString("title"));
-					List<TaskPercentage> percentageList = taskToPercentageMap.get(task);
-					if (percentageList == null) {
-						percentageList = new ArrayList<>();
-					}
-					percentageList.add(percentage);
+			ProjectTaskInfo task = new ProjectTaskInfo();
+			task.setProjectTaskId(resultSet.getInt("project_task_id"));
+			task.setTitle(resultSet.getString("title"));
+			List<TaskPercentage> percentageList = taskToPercentageMap.get(task);
+			if (percentageList == null) {
+				percentageList = new ArrayList<>();
+			}
+			percentageList.add(percentage);
 
-					// sorting by month and year using java 8 lambda
-					// expression.
-					Comparator<TaskPercentage> byYear = (o1, o2) -> Integer.valueOf(o1.getYear()).compareTo(
-							Integer.valueOf(o2.getYear()));
-					Comparator<TaskPercentage> byMonth = (o1, o2) -> Integer.valueOf(o1.getMonth()).compareTo(
-							Integer.valueOf(o2.getMonth()));
+			// sorting by month and year using java 8 lambda
+			// expression.
+				Comparator<TaskPercentage> byYear = (o1, o2) -> Integer.valueOf(o1.getYear()).compareTo(Integer.valueOf(o2.getYear()));
+				Comparator<TaskPercentage> byMonth = (o1, o2) -> Integer.valueOf(o1.getMonth()).compareTo(Integer.valueOf(o2.getMonth()));
 
-					percentageList.stream().sorted(byYear.thenComparing(byMonth));
+				percentageList.stream().sorted(byYear.thenComparing(byMonth));
 
-					taskToPercentageMap.put(task, percentageList);
+				taskToPercentageMap.put(task, percentageList);
 
-					return null;
-				});
+				return null;
+			});
 
 		return taskToPercentageMap;
 	}
 
 	@Override
-	public Map<TaskInfo, Map<TaskInterval, TaskPercentage>> getTaskPercentageCompletesByMonthYear(long projectId)
-			throws Exception {
+	public Map<TaskInfo, Map<TaskInterval, TaskPercentage>> getTaskPercentageCompletesByMonthYear(long projectId) throws Exception {
 		logger.info("getting percentage for project Id: " + projectId);
 		Map<TaskInfo, Map<TaskInterval, TaskPercentage>> taskToPercentageMap = new LinkedHashMap<>();
 
@@ -191,12 +185,9 @@ public class TaskPercentageJpaDAOImpl implements TaskPercentageDAO {
 
 	@Override
 	public boolean expireTaskPercentage(int taskPercentageLogId) throws Exception {
-		String hql = "update TaskPercentageLog tpl set tpl.enddate = '9999-12-31' where tpl.taskPercentageLogId = :taskPercentageLogId";
-
-		Query query = entityManager.createQuery(hql);
-		query.setParameter("taskPercentageLogId", taskPercentageLogId);
-		query.executeUpdate();
-
+		TaskPercentageLog taskPercentageLog = taskPercentageLogRepository.findByTaskPercentageLogId(taskPercentageLogId);
+		taskPercentageLog.setEndDate(DateFormater.convertToDate("9999-12-31"));
+		taskPercentageLogRepository.save(taskPercentageLog);
 		return true;
 	}
 
@@ -205,7 +196,7 @@ public class TaskPercentageJpaDAOImpl implements TaskPercentageDAO {
 		List<TaskPercentage> taskPercentageList = new ArrayList<>();
 
 		String hql = "select tpl from TaskPercentageLog tpl where tpl.projectTask.projectTaskId = :projectTaskId"
-				+ " and tpl.endDate = '9999-12-31' order by tpl.createdDate desc";
+				+ " order by tpl.createdDate desc";
 		Query query = entityManager.createQuery(hql);
 		query.setParameter("projectTaskId", projectTaskId);
 		@SuppressWarnings("unchecked")
@@ -234,7 +225,7 @@ public class TaskPercentageJpaDAOImpl implements TaskPercentageDAO {
 				percentage.setYear(year);
 
 				taskPercentageList.add(percentage);
-				return null;
+
 			}
 		}
 

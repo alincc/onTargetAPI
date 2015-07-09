@@ -9,6 +9,7 @@ import com.ontarget.bean.TaskComment;
 import com.ontarget.bean.TaskInfo;
 import com.ontarget.bean.TaskObj;
 import com.ontarget.dto.ProjectTask;
+import com.ontarget.entities.TaskFieldWorker;
 import com.ontarget.request.bean.Task;
 import com.ontarget.request.bean.TaskCommentRequest;
 
@@ -48,6 +49,8 @@ public interface TaskDAO {
 	public boolean deleteAllTaskAssignedUsers(int taskId) throws Exception;
 
 	public boolean assignTaskToUser(int taskId, int userId, int assigningUser) throws Exception;
+	
+	public boolean assignTaskToFieldworker(int taskId, int userId, List<Integer> fieldWorkerIds) throws Exception;
 
 	boolean updateTaskAssignee(int taskId, int userId, int assigningUser) throws Exception;
 
@@ -68,4 +71,6 @@ public interface TaskDAO {
 	public List<TaskInfo> getTask(int projectId, int completed) throws Exception;
 
 	public boolean deleteTask(int taskId, int userId) throws Exception;
+	
+	public List<TaskFieldWorker> getTaskFieldWorkersByTask(int taskId) throws Exception;
 }
