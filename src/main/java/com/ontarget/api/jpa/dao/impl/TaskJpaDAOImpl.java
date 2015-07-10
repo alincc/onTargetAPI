@@ -537,7 +537,7 @@ public class TaskJpaDAOImpl implements TaskDAO {
 		task.setEndDate(projectTask.getEndDate());
 		task.setDescription(projectTask.getDescription());
 		task.setSeverity(projectTask.getSeverity());
-        task.setCreatedBy(projectTask.getCreatedBy());
+        //task.setCreatedBy(projectTask.getCreatedBy());
 
 		return task;
 	}
