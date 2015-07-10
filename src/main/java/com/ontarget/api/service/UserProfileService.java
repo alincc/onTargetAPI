@@ -11,7 +11,8 @@ import com.ontarget.dto.UserProfileResponse;
 import com.ontarget.dto.UserResponse;
 import com.ontarget.request.bean.CompanyInfoEditRequest;
 import com.ontarget.request.bean.UpdateUserProfileRequest;
-import com.ontarget.request.bean.UserRegistrationInfo;
+import com.ontarget.request.bean.UserInfo;
+import com.ontarget.request.bean.UserSignupRequest;
 
 /**
  * Created by Owner on 11/4/14.
@@ -36,7 +37,7 @@ public interface UserProfileService {
 
 	public String getRandomSafetyUserInfo(Integer userId) throws Exception;
 
-	public OnTargetResponse createNewUserFromInvitation(UserRegistrationInfo registration) throws Exception;
+	public OnTargetResponse createNewUserFromInvitation(UserSignupRequest request) throws Exception;
 
 	public boolean activateAccount(int userId) throws Exception;
 
@@ -49,4 +50,6 @@ public interface UserProfileService {
 	public int generateUserId() throws Exception;
 
 	public OnTargetResponse updateCompanyInfo(CompanyInfoEditRequest request) throws Exception;
+	
+	public UserResponse getUserDetails(UserInfo request) throws Exception;
 }

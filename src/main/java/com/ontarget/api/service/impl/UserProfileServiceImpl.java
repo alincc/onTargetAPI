@@ -3,21 +3,14 @@ package com.ontarget.api.service.impl;
 import java.util.Map;
 import java.util.Random;
 
+import com.ontarget.api.dao.*;
+import com.ontarget.entities.Email;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ontarget.api.dao.AuthenticationDAO;
-import com.ontarget.api.dao.CompanyDAO;
-import com.ontarget.api.dao.ContactDAO;
-import com.ontarget.api.dao.PhoneDAO;
-import com.ontarget.api.dao.ProjectDAO;
-import com.ontarget.api.dao.UserDAO;
-import com.ontarget.api.dao.UserInvitationDAO;
-import com.ontarget.api.dao.UserRegistrationDAO;
-import com.ontarget.api.dao.UserSafetyInfoDAO;
 import com.ontarget.api.service.EmailService;
 import com.ontarget.api.service.UserProfileService;
 import com.ontarget.bean.Company;
@@ -40,10 +33,9 @@ import com.ontarget.request.bean.CompanyInfoEditRequest;
 import com.ontarget.request.bean.UpdateUserProfileRequest;
 import com.ontarget.request.bean.UserContactInfo;
 import com.ontarget.request.bean.UserInfo;
-import com.ontarget.request.bean.UserRegistrationInfo;
+import com.ontarget.request.bean.UserSignupRequest;
 import com.ontarget.util.ConvertPOJOUtils;
 import com.ontarget.util.Security;
-import com.ontarget.util.TokenUtil;
 
 /**
  * Created by Owner on 11/4/14.
@@ -91,6 +83,10 @@ public class UserProfileServiceImpl implements UserProfileService {
 
 	@Autowired
 	private EmailService emailService;
+
+    @Autowired
+    @Qualifier("emailJpaDAOImpl")
+    private EmailDAO emailDao;
 
 	private Random random = new Random();
 
@@ -186,11 +182,12 @@ public class UserProfileServiceImpl implements UserProfileService {
 
 		boolean updated = userDAO.updateUserProfile(request);
 		if (updated) {
-//			UserDTO returnUser = authenticationDAO.getUserResponse(request.getUserProfileInfo().getUserId());
-//			returnUser.setContact(contactDAO.getContact(returnUser.getUserId()));
-//			response.setUser(returnUser);
-//			String token = TokenUtil.getLoginToken(returnUser.getUsername());
-//			response.setToken(token);
+			// UserDTO returnUser =
+			// authenticationDAO.getUserResponse(request.getUserProfileInfo().getUserId());
+			// returnUser.setContact(contactDAO.getContact(returnUser.getUserId()));
+			// response.setUser(returnUser);
+			// String token = TokenUtil.getLoginToken(returnUser.getUsername());
+			// response.setToken(token);
 
 			response.setReturnMessage("Successfully updated user profile");
 			response.setReturnVal(OnTargetConstant.SUCCESS);
@@ -198,6 +195,21 @@ public class UserProfileServiceImpl implements UserProfileService {
 			response.setReturnMessage("No Rows were updated. Seems User does not exists or may not have any contact info");
 			response.setReturnVal(OnTargetConstant.ERROR);
 		}
+		return response;
+	}
+
+	@Override
+	@Transactional(rollbackFor = { Exception.class })
+	public UserResponse getUserDetails(UserInfo request) throws Exception {
+		UserResponse response = new UserResponse();
+
+		UserDTO returnUser = authenticationDAO.getUserResponse(request.getUserId());
+		returnUser.setContact(contactDAO.getContact(returnUser.getUserId()));
+		response.setUser(returnUser);
+
+		response.setReturnMessage("Successfully retrieved user details");
+		response.setReturnVal(OnTargetConstant.SUCCESS);
+
 		return response;
 	}
 
@@ -306,27 +318,125 @@ public class UserProfileServiceImpl implements UserProfileService {
 		return userSafetyInfoDAO.getRandomSafetyInfo(user.getDiscipline());
 	}
 
+	// @Override
+	// @Transactional(rollbackFor = { Exception.class })
+	// public OnTargetResponse createNewUserFromInvitation(UserRegistrationInfo
+	// registration) throws Exception {
+	// OnTargetResponse response = new OnTargetResponse();
+	// UserRegistration registrationRequest =
+	// userRegistrationDAO.getInvitationRegistration(registration
+	// .getRegistrationToken());
+	//
+	// if (registrationRequest != null) {
+	// if (!userDAO.usernameAlreadyRegistered(registration.getUsername())) {
+	//
+	// User user = userRegistrationDAO.createNewuser(registration,
+	// registrationRequest.getStatus());
+	//
+	// int updated =
+	// userRegistrationDAO.updateRegistrationRequestUserId(user.getUserId(),
+	// registration.getRegistrationToken());
+	// if (updated <= 0) {
+	// response.setReturnVal(OnTargetConstant.ERROR);
+	// response.setReturnMessage("Error while creating user");
+	// } else {
+	// response.setReturnMessage("Successfully created user based on invitation.");
+	// response.setReturnVal(OnTargetConstant.SUCCESS);
+	// }
+	// } else {
+	// response.setReturnVal(OnTargetConstant.ERROR);
+	// response.setReturnMessage("Username already registered");
+	// }
+	// } else {
+	// response.setReturnVal(OnTargetConstant.ERROR);
+	// response.setReturnMessage("Invalid registration");
+	// }
+	//
+	// return response;
+	// }
+
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
-	public OnTargetResponse createNewUserFromInvitation(UserRegistrationInfo registration) throws Exception {
+	public OnTargetResponse createNewUserFromInvitation(UserSignupRequest request) throws Exception {
 		OnTargetResponse response = new OnTargetResponse();
-		UserRegistration registrationRequest = userRegistrationDAO.getInvitationRegistration(registration
-				.getRegistrationToken());
+		UserRegistration registrationRequest = userRegistrationDAO.getInvitationRegistration(request.getRegistrationToken());
 
 		if (registrationRequest != null) {
-			if (!userDAO.usernameAlreadyRegistered(registration.getUsername())) {
+			if (!userDAO.usernameAlreadyRegistered(request.getUsername())) {
 
-				User user = userRegistrationDAO.createNewuser(registration, registrationRequest.getStatus());
-
-				int updated = userRegistrationDAO.updateRegistrationRequestUserId(user.getUserId(),
-						registration.getRegistrationToken());
-				if (updated <= 0) {
-					response.setReturnVal(OnTargetConstant.ERROR);
-					response.setReturnMessage("Error while creating user");
-				} else {
-					response.setReturnMessage("Successfully created user based on invitation.");
-					response.setReturnVal(OnTargetConstant.SUCCESS);
+				User user = userRegistrationDAO.createNewuser(request, registrationRequest.getStatus());
+				logger.info("user id: " + user.getUserId());
+				int userUpdated = userRegistrationDAO.updateRegistrationRequestUserId(user.getUserId(), request.getRegistrationToken());
+				if (userUpdated <= 0) {
+					throw new Exception("Could not update user info in registration request");
 				}
+
+				Company company = ConvertPOJOUtils.convertToCompany(registrationRequest);
+				int companyId;
+				logger.info("company id from registration request: " + registrationRequest.getCompanyId());
+				if (registrationRequest.getCompanyId() != 0) {
+					companyId = registrationRequest.getCompanyId();
+				} else {
+					companyId = companyDAO.addCompanyInfo(company);
+					userRegistrationDAO.updateRegistrationRequestCompanyId(companyId, request.getRegistrationToken());
+				}
+				logger.info("company id: " + companyId);
+
+				Contact contact = ConvertPOJOUtils.convertToContact(request);
+
+				company.setCompanyId(companyId);
+
+				contact.setCompany(company);
+
+				UserDTO userDTO = new UserDTO();
+				userDTO.setUserId(user.getUserId());
+				userDTO.setAccountStatus(user.getAccountStatus());
+
+				int userId = userDTO.getUserId();
+				contact.setUser(userDTO);
+
+				boolean saved = contactDAO.addContactInfo(contact, userId);
+				if (!saved) {
+					throw new Exception("Contact not saved.");
+				}
+
+				logger.info("contact list:" + user.getContactList());
+				Contact contactForPhone = contactDAO.getContact(userId);
+				int contactId = contactForPhone.getContactId();
+
+				ContactPhone phone = new ContactPhone();
+				phone.setPhoneType(OnTargetConstant.PhoneType.CELL);
+				phone.setStatus(OnTargetConstant.PhoneStatus.ACTIVE);
+				phone.setPhoneNumber(request.getPhoneNumber());
+				phone.setAreaCode(request.getAreaCode());
+
+				int phoneId = phoneDAO.addContactPhone(contactId, phone);
+
+				if (phoneId <= 0) {
+					throw new Exception("Error while adding phone");
+				}
+
+				// if user is invited from a request-demo then add project
+				logger.info("project id: " + registrationRequest.getInvitedProjectId());
+				if (registrationRequest.getInvitedProjectId() == 0) {
+					CompanyInfo companyInfo = companyDAO.getCompanyInfo(companyId);
+					ProjectDTO projectDTO = ConvertPOJOUtils.setMainProject(companyInfo);
+					int addedProjectId = projectDAO.addMainProject(projectDTO, companyInfo, user.getUserId());
+					// add main project for request a demo user
+					if (addedProjectId <= 0) {
+						throw new Exception("Error while adding main project");
+					}
+					userInvitationDAO.updateRegistrationRequestProjectIdByUser(addedProjectId, userId);
+				}
+
+				boolean activated = this.activateAccount(user.getUserId());
+				if (!activated) {
+					throw new Exception("Error while activating account");
+				}
+
+				response.setReturnMessage("Successfully created user.");
+				response.setReturnVal(OnTargetConstant.SUCCESS);
+
 			} else {
 				response.setReturnVal(OnTargetConstant.ERROR);
 				response.setReturnMessage("Username already registered");
@@ -348,11 +458,11 @@ public class UserProfileServiceImpl implements UserProfileService {
 
 		// update project member
 		UserRegistration userRegistration = userRegistrationDAO.getInvitationRegistrationByUser(userId);
+
 		int added = projectDAO.addProjectMember((int) userRegistration.getProjectId(), userId);
 		if (added <= 0) {
 			throw new Exception("Error while adding project member");
 		}
-
 		return true;
 	}
 
@@ -360,13 +470,14 @@ public class UserProfileServiceImpl implements UserProfileService {
 	public boolean forgotPasswordRequest(String emailAddress) throws Exception {
 
 		logger.debug("Adding forgot password request: " + emailAddress);
-		/**
-		 * check userlogin table for email address.
-		 */
-		UserDTO user = new UserDTO();
-		user.setUsername(emailAddress);
 
-		UserDTO existingUser = authenticationDAO.getUserInfoByUsername(user);
+        Email email = emailDao.getByEmailAddress(emailAddress);
+        if(email == null || email.getUser() == null){
+            throw new Exception("Error while fetching email");
+        }
+
+
+		UserDTO existingUser = authenticationDAO.getUserInfoById(email.getUser().getUserId());
 		if (existingUser != null && existingUser.getUserId() > 0) {
 
 			final String forgotPasswordToken = Security.generateRandomValue(OnTargetConstant.TOKEN_LENGTH);
@@ -374,8 +485,8 @@ public class UserProfileServiceImpl implements UserProfileService {
 
 			Contact contact = contactDAO.getContact(existingUser.getUserId());
 			if (id > 0) {
-				emailService.sendForgotPasswordEmail(emailAddress,
-						contact.getFirstName() + " " + contact.getLastName(), forgotPasswordToken);
+				emailService.sendForgotPasswordEmail(emailAddress, contact.getFirstName() + " " + contact.getLastName(),
+						forgotPasswordToken);
 			}
 
 			return true;

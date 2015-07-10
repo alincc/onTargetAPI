@@ -1,7 +1,10 @@
 package com.ontarget.api.dao;
 
 import java.util.List;
+import java.util.Map;
 
+import com.ontarget.bean.TaskInfo;
+import com.ontarget.bean.TaskInterval;
 import com.ontarget.entities.FieldWorker;
 import com.ontarget.request.bean.AddFieldWorkerRequest;
 import com.ontarget.request.bean.AddTimeCardRequest;
@@ -20,4 +23,5 @@ public interface TimeCardDAO {
 	
 	List<FieldWorker> getAllFieldWorkers() throws Exception;
 
+    Map<TaskInfo, Map<TaskInterval, Double>>  calculateActualCostByMonthYear(long projectId);
 }

@@ -13,8 +13,8 @@ import com.ontarget.dto.UserImageRequest;
 import com.ontarget.dto.UserProfileRequest;
 import com.ontarget.dto.UserResponse;
 import com.ontarget.request.bean.CompanyInfoEditRequest;
-import com.ontarget.request.bean.InviteUserIntoProjectRequest;
 import com.ontarget.request.bean.UpdateUserProfileRequest;
+import com.ontarget.request.bean.UserInfo;
 
 /**
  * Created by Owner on 11/4/14.
@@ -38,4 +38,6 @@ public interface UserProfile {
 	public OnTargetResponse saveUserProfileImage(@Valid UserImageRequest userImageRequest);
 
 	public OnTargetResponse updateCompanyInfo(@Valid CompanyInfoEditRequest request);
+
+	public UserResponse getUserDetails(@Valid UserInfo request);
 }

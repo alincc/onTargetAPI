@@ -89,14 +89,14 @@ public class EmailServiceImpl implements EmailService {
 					Map model = new HashMap();
 					model.put("userRegistrationInfo", info);
 
-					String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine,
-							"/template/userRegistrationRequestEmail.vm", "UTF-8", model);
+					String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "/template/userRegistrationRequestEmail.vm",
+							"UTF-8", model);
 					message.setText(text, true);
 				}
 			};
 			javaMailSender.send(preparator);
 		} catch (Exception e) {
-			logger.error("Not able to send user request email", e);
+			logger.error("Not able to send assigneeUser request email", e);
 			return false;
 		}
 
@@ -124,22 +124,59 @@ public class EmailServiceImpl implements EmailService {
 					model.put(EmailConstant.EmailParameter.FIRST_NAME, info.getFirstName());
 					model.put("url", baseUrl + OnTargetConstant.URL.SIGNUP_URL + "?q=" + info.getRegistrationToken());
 
-					String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine,
-							"/template/registrationRequest.vm", "UTF-8", model);
+					String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "/template/registrationRequest.vm", "UTF-8",
+							model);
 					message.setText(text, true);
 				}
 			};
 			javaMailSender.send(preparator);
 		} catch (Exception e) {
 			e.printStackTrace();
-			logger.error("Not able to send user request email", e);
+			logger.error("Not able to send assigneeUser request email", e);
 			return false;
 		}
 
 		return true;
 	}
 
-	@Override
+    @Override
+    public void sendTaskStatusChangeEmail(ProjectTaskInfo task, int assigneeUserId) {
+        try {
+            MimeMessagePreparator preparator = new MimeMessagePreparator() {
+                @SuppressWarnings({ "rawtypes", "unchecked" })
+                public void prepare(MimeMessage mimeMessage) throws Exception {
+
+                    UserDTO assigneeUser = authenticationDAO.getUserResponse(assigneeUserId);
+                    assigneeUser.setContact(contactDAO.getContact(assigneeUser.getUserId()));
+
+                    //TODO: sender info : put this code at common place.
+                    UserDTO createdBy = authenticationDAO.getUserResponse(task.getCreatedBy().getUserId());
+                    createdBy.setContact(contactDAO.getContact(createdBy.getUserId()));
+
+                    MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
+                    message.setTo(assigneeUser.getContact().getEmail());
+                    message.setSubject(OnTargetConstant.EmailServiceConstants.TASK_ASSIGNED_SUBJECT);
+                    message.setSentDate(new Date());
+
+                    Map model = new HashMap();
+                    model.put("assignee", assigneeUser);
+                    model.put("task", task);
+                    model.put("sender",createdBy);
+                    model.put("appLink",EmailConstant.APP_LINK);
+                    //TODO: need to change
+                    model.put("taskLink","http://task");
+
+                    String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "/template/taskStatusChangedEmail.vm", "UTF-8", model);
+                    message.setText(text, true);
+                }
+            };
+            javaMailSender.send(preparator);
+        } catch (Exception e) {
+            logger.error("Error while sending email for task.", e);
+        }
+    }
+
+    @Override
 	public boolean sendUserRequestEmailToAdmin(int userRequestId) {
 		try {
 			MimeMessagePreparator preparator = new MimeMessagePreparator() {
@@ -165,15 +202,15 @@ public class EmailServiceImpl implements EmailService {
 			};
 			javaMailSender.send(preparator);
 		} catch (Exception e) {
-			logger.error("Error while sending user request email to admin", e);
+			logger.error("Error while sending assigneeUser request email to admin", e);
 		}
 
 		return true;
 	}
 
 	@Override
-	public boolean sendUserRegistrationEmail(String userEmail, String tokenId, String receiverFirstName,
-			String senderFirstName, String senderLastName) {
+	public boolean sendUserRegistrationEmail(String userEmail, String tokenId, String receiverFirstName, String senderFirstName,
+			String senderLastName) {
 		try {
 			MimeMessagePreparator preparator = new MimeMessagePreparator() {
 				@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -193,14 +230,14 @@ public class EmailServiceImpl implements EmailService {
 					model.put("receiverFirstName", receiverFirstName);
 					model.put("url", baseUrl + OnTargetConstant.URL.SIGNUP_URL + "?q=" + tokenId);
 
-					String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine,
-							"/template/registrationRequestsApproval.vm", "UTF-8", model);
+					String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "/template/registrationRequestsApproval.vm",
+							"UTF-8", model);
 					message.setText(text, true);
 				}
 			};
 			javaMailSender.send(preparator);
 		} catch (Exception e) {
-			logger.error("Unable to send user registration email.", e);
+			logger.error("Unable to send assigneeUser registration email.", e);
 		}
 
 		return true;
@@ -221,8 +258,7 @@ public class EmailServiceImpl implements EmailService {
 					public void prepare(MimeMessage mimeMessage) throws Exception {
 						MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
 
-						message.setFrom(new InternetAddress(
-								OnTargetConstant.EmailServiceConstants.DOCUMENT_APPROVAL_FROM));
+						message.setFrom(new InternetAddress(OnTargetConstant.EmailServiceConstants.DOCUMENT_APPROVAL_FROM));
 						message.setSubject(OnTargetConstant.EmailServiceConstants.DOCUMENT_APPROVAL_SUBJECT);
 						message.setSentDate(new Date());
 
@@ -239,8 +275,8 @@ public class EmailServiceImpl implements EmailService {
 						model.put("assignee", assignee);
 						model.put("documentUrl", "http://www.ontarget.com/documents");
 
-						String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine,
-								"template/documentApprovalEmail.vm", "UTF-8", model);
+						String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "template/documentApprovalEmail.vm",
+								"UTF-8", model);
 						message.setText(text, true);
 					}
 				};
@@ -255,9 +291,7 @@ public class EmailServiceImpl implements EmailService {
 
 	@Override
 	public boolean sendInviteToAccountEmail(String email, String firstName, String lastName, String tokenId) {
-
 		try {
-
 			MimeMessagePreparator preparator = new MimeMessagePreparator() {
 				@SuppressWarnings({ "rawtypes", "unchecked" })
 				public void prepare(MimeMessage mimeMessage) throws Exception {
@@ -271,8 +305,8 @@ public class EmailServiceImpl implements EmailService {
 					model.put("name", firstName + " " + lastName);
 					model.put("url", baseUrl + OnTargetConstant.URL.SIGNUP_URL + "?q=" + tokenId);
 
-					String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine,
-							"/template/inviteToAccountEmailTemplate.vm", "UTF-8", model);
+					String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "/template/inviteToAccountEmailTemplate.vm",
+							"UTF-8", model);
 					message.setText(text, true);
 				}
 			};
@@ -283,7 +317,7 @@ public class EmailServiceImpl implements EmailService {
 
 		return false;
 	}
-
+	
 	@Override
 	public void sendTaskAssignmentEmail(ProjectTaskInfo task, Contact contact) throws Exception {
 
@@ -293,7 +327,7 @@ public class EmailServiceImpl implements EmailService {
 				@SuppressWarnings({ "rawtypes", "unchecked" })
 				public void prepare(MimeMessage mimeMessage) throws Exception {
 					MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
-					message.setTo(user.getUsername());
+					message.setTo(contact.getEmail());
 					message.setFrom(new InternetAddress(OnTargetConstant.EmailServiceConstants.USER_REGISTRATION_FROM));
 					message.setSubject(OnTargetConstant.EmailServiceConstants.TASK_ASSIGNED_SUBJECT);
 					message.setSentDate(new Date());
@@ -301,9 +335,12 @@ public class EmailServiceImpl implements EmailService {
 					Map model = new HashMap();
 					model.put("name", contact.getFirstName() + " " + contact.getLastName());
 					model.put("task", task);
+					model.put("appLink",EmailConstant.APP_LINK);
+                    //TODO: need to change
+                    model.put("taskLink","http://task");
 
-					String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine,
-							"/template/taskAssignedEmail.vm", "UTF-8", model);
+					String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "/template/taskAssignedEmail.vm", "UTF-8",
+							model);
 					message.setText(text, true);
 				}
 			};
@@ -327,12 +364,11 @@ public class EmailServiceImpl implements EmailService {
 					message.setSentDate(new Date());
 
 					Map model = new HashMap();
-					model.put("forgotPasswordEmailUrl", baseUrl + OnTargetConstant.URL.forgotPasswordUrl + "?q="
-							+ forgotPasswordToken);
+					model.put("forgotPasswordEmailUrl", baseUrl + OnTargetConstant.URL.forgotPasswordUrl + "?q=" + forgotPasswordToken);
 					model.put("personName", name);
 
-					String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine,
-							"/template/forgotPassword.vm", "UTF-8", model);
+					String text = VelocityEngineUtils
+							.mergeTemplateIntoString(velocityEngine, "/template/forgotPassword.vm", "UTF-8", model);
 					message.setText(text, true);
 				}
 			};

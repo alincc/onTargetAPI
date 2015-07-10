@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 
 import com.ontarget.api.dao.AuthenticationDAO;
 import com.ontarget.bean.UserDTO;
+import com.ontarget.bean.UserLoginInfo;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.constant.OnTargetQuery;
 import com.ontarget.dto.RegistrationRequestDTO;
@@ -38,11 +39,10 @@ public class AuthenticationDAOImpl implements AuthenticationDAO {
 	@Override
 	public boolean saveRegistrationRequest(UserRegistrationRequest request) throws Exception {
 
-		int row = jdbcTemplate
-				.update(OnTargetQuery.REGISTRATION_REQUEST,
-						new Object[] { request.getProjectId(), request.getName(), request.getEmail(), request.getCompanyName(),
-								request.getPhoneNumber(), request.getMsg(), OnTargetConstant.REGISTRATION_PENDING,
-								request.getTokenId() });
+		int row = jdbcTemplate.update(
+				OnTargetQuery.REGISTRATION_REQUEST,
+				new Object[] { request.getProjectId(), request.getName(), request.getEmail(), request.getCompanyName(),
+						request.getPhoneNumber(), request.getMsg(), OnTargetConstant.REGISTRATION_PENDING, request.getTokenId() });
 		if (row == 0) {
 			throw new Exception("Error while inserting registration request.");
 		}
@@ -69,23 +69,22 @@ public class AuthenticationDAOImpl implements AuthenticationDAO {
 	public List<RegistrationRequestDTO> getUserRegistrationPendingRequests() throws Exception {
 
 		List<RegistrationRequestDTO> userRegistrationRequests = new LinkedList<RegistrationRequestDTO>();
-		jdbcTemplate.query(OnTargetQuery.GET_USER_REGISTRATION_PENDING_REQUEST, new Object[] {},
-				new RowMapper<RegistrationRequestDTO>() {
-					@Override
-					public RegistrationRequestDTO mapRow(ResultSet resultSet, int i) throws SQLException {
-						RegistrationRequestDTO registrationRequest = new RegistrationRequestDTO();
-						registrationRequest.setStatus(resultSet.getString("status"));
-						registrationRequest.setTokenId(resultSet.getString("registration_token"));
-						registrationRequest.setPhoneNumber(resultSet.getString("phone_number"));
-						registrationRequest.setCompanyName(resultSet.getString("company_name"));
-						registrationRequest.setEmail(resultSet.getString("email"));
-						registrationRequest.setId(resultSet.getInt("id"));
-						registrationRequest.setMsg(resultSet.getString("msg"));
-						registrationRequest.setName(resultSet.getString("name"));
-						userRegistrationRequests.add(registrationRequest);
-						return registrationRequest;
-					}
-				});
+		jdbcTemplate.query(OnTargetQuery.GET_USER_REGISTRATION_PENDING_REQUEST, new Object[] {}, new RowMapper<RegistrationRequestDTO>() {
+			@Override
+			public RegistrationRequestDTO mapRow(ResultSet resultSet, int i) throws SQLException {
+				RegistrationRequestDTO registrationRequest = new RegistrationRequestDTO();
+				registrationRequest.setStatus(resultSet.getString("status"));
+				registrationRequest.setTokenId(resultSet.getString("registration_token"));
+				registrationRequest.setPhoneNumber(resultSet.getString("phone_number"));
+				registrationRequest.setCompanyName(resultSet.getString("company_name"));
+				registrationRequest.setEmail(resultSet.getString("email"));
+				registrationRequest.setId(resultSet.getInt("id"));
+				registrationRequest.setMsg(resultSet.getString("msg"));
+				registrationRequest.setName(resultSet.getString("name"));
+				userRegistrationRequests.add(registrationRequest);
+				return registrationRequest;
+			}
+		});
 
 		return userRegistrationRequests;
 	}
@@ -120,9 +119,8 @@ public class AuthenticationDAOImpl implements AuthenticationDAO {
 
 	@Override
 	public boolean createUser(RegistrationApprovalRequest request) throws Exception {
-		int row = jdbcTemplate.update(OnTargetQuery.CREATE_NEW_USER,
-				new Object[] { request.getEmail(), 1, TokenUtil.getPasswordToken(), OnTargetConstant.USER_STATUS.PENDING, 1,
-						OnTargetConstant.AccountStatus.ACCT_NEW });
+		int row = jdbcTemplate.update(OnTargetQuery.CREATE_NEW_USER, new Object[] { request.getEmail(), 1, TokenUtil.getPasswordToken(),
+				OnTargetConstant.USER_STATUS.PENDING, 1, OnTargetConstant.AccountStatus.ACCT_NEW });
 		if (row > 0) {
 			return true;
 		}
@@ -131,24 +129,24 @@ public class AuthenticationDAOImpl implements AuthenticationDAO {
 	}
 
 	@Override
-	public UserDTO getUserSignInInfo(SignInRequest signInRequest) throws Exception {
+	public UserLoginInfo getUserSignInInfo(SignInRequest signInRequest) throws Exception {
 		logger.info("Authenticating user: " + signInRequest);
 
 		final String password = signInRequest.getPassword();
 
-		final UserDTO returnUser = new UserDTO();
-		returnUser.setUsername(signInRequest.getUsername());
-		jdbcTemplate.query(OnTargetQuery.USER_LOGIN, new Object[] { signInRequest.getUsername() }, new RowMapper<UserDTO>() {
+		final UserLoginInfo returnUser = new UserLoginInfo();
+		//returnUser.setUsername(signInRequest.getUsername());
+		jdbcTemplate.query(OnTargetQuery.USER_LOGIN, new Object[] { signInRequest.getUsername() }, new RowMapper<UserLoginInfo>() {
 			@Override
-			public UserDTO mapRow(ResultSet resultSet, int i) throws SQLException {
+			public UserLoginInfo mapRow(ResultSet resultSet, int i) throws SQLException {
 				String salt = resultSet.getString("salt");
 				String hashedPassword = Security.encodePassword(password, salt);
 
 				if (hashedPassword.equals(resultSet.getString("password"))) {
 					returnUser.setUserId(resultSet.getInt("user_id"));
-					returnUser.setAccountStatus(resultSet.getString("account_status"));
-					returnUser.setUserStatus(resultSet.getString("user_status"));
-					returnUser.setUserTypeId(resultSet.getInt("user_type_id"));
+//					returnUser.setAccountStatus(resultSet.getString("account_status"));
+//					returnUser.setUserStatus(resultSet.getString("user_status"));
+//					returnUser.setUserTypeId(resultSet.getInt("user_type_id"));
 					return returnUser;
 				} else {
 					return null;

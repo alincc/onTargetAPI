@@ -7,6 +7,7 @@ import com.ontarget.bean.Contact;
 import com.ontarget.bean.DependentTaskDTO;
 import com.ontarget.bean.FileAttachment;
 import com.ontarget.bean.TaskInfo;
+import com.ontarget.dto.FieldWorkerResponse;
 import com.ontarget.dto.ProjectTask;
 import com.ontarget.request.bean.Task;
 import com.ontarget.request.bean.TaskCommentRequest;
@@ -44,9 +45,13 @@ public interface TaskService {
 
 	public void assignTaskToUser(int taskId, List<Integer> users, int assigningUser) throws Exception;
 
+	public boolean assignTaskToFieldworker(int taskId, List<Integer> users, int assigningUser) throws Exception;
+
 	public List<ProjectTask> getDependentTasks(int taskId) throws Exception;
 
 	public List<ProjectTask> getUserTasks(int userId) throws Exception;
-	
+
 	public boolean deleteTask(int taskId, int userId) throws Exception;
+	
+	public FieldWorkerResponse getFieldWorkersByTask(int taskId) throws Exception;
 }

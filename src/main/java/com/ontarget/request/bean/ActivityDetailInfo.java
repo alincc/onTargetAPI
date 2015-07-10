@@ -23,7 +23,7 @@ public class ActivityDetailInfo {
 	@NotNull
 	@JsonProperty("projectParentId")
 	private Integer projectParentId;
-	@NotNull
+
 	@JsonProperty("projectTypeId")
 	private Integer projectTypeId;
 	@NotNull

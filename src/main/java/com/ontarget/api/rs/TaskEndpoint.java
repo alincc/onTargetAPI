@@ -4,6 +4,7 @@ import javax.validation.Valid;
 
 import com.ontarget.api.constraint.TaskDateRangeBetweenProject;
 import com.ontarget.api.response.TaskListCountResponse;
+import com.ontarget.dto.FieldWorkerResponse;
 import com.ontarget.dto.GetTaskAttachmentResponse;
 import com.ontarget.dto.InsertResponse;
 import com.ontarget.dto.OnTargetResponse;
@@ -16,6 +17,7 @@ import com.ontarget.request.bean.ProjectTaskRequest;
 import com.ontarget.request.bean.TaskAttachmentRequest;
 import com.ontarget.request.bean.TaskCommentRequest;
 import com.ontarget.request.bean.TaskDetailRequest;
+import com.ontarget.request.bean.TaskFieldWorkerRequest;
 import com.ontarget.request.bean.TaskFileSaveRequest;
 import com.ontarget.request.bean.TaskMemberRequest;
 import com.ontarget.request.bean.TaskRequest;
@@ -31,6 +33,8 @@ public interface TaskEndpoint {
 
 	public ProjectTaskResponse getTask(@Valid ProjectTaskRequest projectTaskRequest);
 
+	public FieldWorkerResponse getTaskFieldWorkers(@Valid TaskFieldWorkerRequest request);
+
 	public TaskListCountResponse getTaskCountByStatus(@Valid ProjectTaskRequest projectTaskRequest);
 
 	public UserResponse addUpdateCommentToTask(@Valid TaskCommentRequest comment);
@@ -43,6 +47,8 @@ public interface TaskEndpoint {
 
 	public OnTargetResponse assignTaskToUser(@Valid TaskMemberRequest taskMemberRequest);
 
+	public OnTargetResponse assignFieldworkerToTask(TaskMemberRequest taskMemberRequest);
+
 	public InsertResponse addDependentTask(@Valid DependentTaskRequest dependentTaskRequest);
 
 	public ProjectTaskResponse getDependentTasks(@Valid DependentTaskDetail dependentTaskDetail);
@@ -52,6 +58,6 @@ public interface TaskEndpoint {
 	public TaskDetailResponse getTaskDetail(@Valid TaskDetailRequest taskDetailRequest);
 
 	public ProjectTaskResponse getUserTask(@Valid UserTask userTask);
-	
+
 	public TaskDetailResponse deleteTask(TaskDetailRequest taskDetailRequest);
 }

@@ -13,8 +13,10 @@ import com.ontarget.api.dao.ContactDAO;
 import com.ontarget.api.dao.UserSessionDAO;
 import com.ontarget.api.service.AuthenticationService;
 import com.ontarget.bean.UserDTO;
+import com.ontarget.bean.UserLoginInfo;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.RegistrationRequestDTO;
+import com.ontarget.dto.UserLoginResponse;
 import com.ontarget.dto.UserRegistationApprovalResponse;
 import com.ontarget.dto.UserResponse;
 import com.ontarget.request.bean.RegistrationApprovalRequest;
@@ -48,9 +50,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
-	public UserResponse signIn(SignInRequest signInRequest) throws Exception {
-		UserResponse response = new UserResponse();
-		UserDTO returnUser = authenticationDAO.getUserSignInInfo(signInRequest);
+	public UserLoginResponse signIn(SignInRequest signInRequest) throws Exception {
+		UserLoginResponse response = new UserLoginResponse();
+		UserLoginInfo returnUser = authenticationDAO.getUserSignInInfo(signInRequest);
 		if (returnUser == null) {
 			response.setReturnMessage(OnTargetConstant.AUTHENTICATION_FAILED);
 			response.setAuthenticated(false);
@@ -64,13 +66,15 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			throw new Exception("User session token failed");
 		}
 
-		String accountStatus = returnUser.getAccountStatus();
-		logger.debug("Account status: " + accountStatus);
-
-		if (!accountStatus.equals(OnTargetConstant.AccountStatus.ACCT_NEW)
-				&& !accountStatus.equals(OnTargetConstant.AccountStatus.ACCOUNT_INVITATION)) {
-			returnUser.setContact(contactDAO.getContact(returnUser.getUserId()));
-		}
+		// String accountStatus = returnUser.getAccountStatus();
+		// logger.debug("Account status: " + accountStatus);
+		//
+		// if (!accountStatus.equals(OnTargetConstant.AccountStatus.ACCT_NEW)
+		// &&
+		// !accountStatus.equals(OnTargetConstant.AccountStatus.ACCOUNT_INVITATION))
+		// {
+		// returnUser.setContact(contactDAO.getContact(returnUser.getUserId()));
+		// }
 
 		response.setUser(returnUser);
 		response.setToken(token);

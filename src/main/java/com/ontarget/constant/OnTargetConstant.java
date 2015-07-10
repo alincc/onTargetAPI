@@ -107,6 +107,11 @@ public interface OnTargetConstant {
 	public interface MemberStatus {
 		public static final String ACTIVE = "ACTIVE";
 	}
+	
+	public interface TaskFieldWorkerStatus{
+		public static final Integer ASSIGNED = new Integer(1);
+		public static final Integer DELETED = new Integer(2);
+	}
 
 	public interface PhoneType {
 		public static final String CELL = "CELL";
@@ -145,5 +150,7 @@ public interface OnTargetConstant {
 	}
 
 	public static final String OPEN_RS_ENDPOINT = "/register,/user,/onTargetInvitation,/profile,/project/getProjectsByUser,/project/addProject,/company,/file,/hello,/timeCard/getFieldWorkers,/menuProfile,/permissionProfile";
+
+    public static final double HOUR = 60 * 60 * 1000D;
 
 }

@@ -10,20 +10,20 @@ import org.hibernate.validator.constraints.NotEmpty;
 import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.UserInviteResponse;
 import com.ontarget.request.bean.InviteUserIntoProjectRequest;
-import com.ontarget.request.bean.UserRegistrationInfo;
+import com.ontarget.request.bean.UserSignupRequest;
 
 /**
  * Created by sumit on 12/1/14.
  */
 public interface UserRegistration {
 
-	OnTargetResponse inviteUserIntoProject(@Valid InviteUserIntoProjectRequest request);
-
-//	OnTargetResponse inviteUserIntoNewAccount(@Valid InviteUserIntoProjectRequest registration);
+	OnTargetResponse inviteUserIntoProject(
+			@Valid InviteUserIntoProjectRequest request);
 
 	UserInviteResponse validateLink(@NotEmpty @QueryParam("q") String link);
 
-	OnTargetResponse createNewUser(@Valid UserRegistrationInfo userRegistrationRequest);
+	OnTargetResponse createNewUser(@Valid UserSignupRequest request);
 
-	OnTargetResponse activateAccount(@NotNull @PathParam("userId") Integer userId);
+	OnTargetResponse activateAccount(
+			@NotNull @PathParam("userId") Integer userId);
 }

@@ -1,13 +1,13 @@
 package com.ontarget.api.jpa.dao.impl;
 
-import javax.annotation.Resource;
-
-import org.springframework.stereotype.Repository;
-
 import com.ontarget.api.dao.EmailDAO;
 import com.ontarget.api.dao.impl.BaseGenericDAOImpl;
 import com.ontarget.api.repository.EmailRepository;
 import com.ontarget.bean.Email;
+import org.springframework.stereotype.Repository;
+
+import javax.annotation.Resource;
+
 
 @Repository("emailJpaDAOImpl")
 public class EmailJpaDAOImpl extends BaseGenericDAOImpl<Email> implements EmailDAO {
@@ -33,5 +33,10 @@ public class EmailJpaDAOImpl extends BaseGenericDAOImpl<Email> implements EmailD
 	public Email getByContactId(int contactId) {
 		throw new UnsupportedOperationException();
 	}
+
+    @Override
+    public com.ontarget.entities.Email getByEmailAddress(String emailAddress) throws Exception{
+        return emailRepository.getByEmailAddress(emailAddress);
+    }
 
 }

@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 import com.ontarget.api.rs.BaseTest;
-import com.ontarget.bean.UserDTO;
+import com.ontarget.bean.UserLoginInfo;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.request.bean.SignInRequest;
 import com.ontarget.request.bean.UserRegistrationRequest;
@@ -65,7 +65,7 @@ public class AuthenticationDAOTest extends BaseTest {
 		signInRequest.setPassword("123456");
 
 		try {
-			UserDTO user = authenticationDAO.getUserSignInInfo(signInRequest);
+			UserLoginInfo user = authenticationDAO.getUserSignInInfo(signInRequest);
 			logger.info(user);
 			System.out.println(user.getUserId());
 			Assert.assertTrue(user != null);

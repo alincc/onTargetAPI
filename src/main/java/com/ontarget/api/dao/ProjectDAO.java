@@ -9,6 +9,7 @@ import com.ontarget.bean.ProjectInfo;
 import com.ontarget.bean.ProjectMember;
 import com.ontarget.entities.CompanyInfo;
 import com.ontarget.entities.Project;
+import com.ontarget.entities.ProjectConfiguration;
 
 /**
  * Created by Owner on 11/5/14.
@@ -50,4 +51,10 @@ public interface ProjectDAO {
 	public Project findProjectById(int projectId) throws Exception;
 
 	public boolean deleteProject(int projectId, int userId) throws Exception;
+
+	public ProjectConfiguration getProjectUnitOfMeasureMent(Integer projectId);
+
+	public List<Project> getAlllAssociatedProjectsByUser(int userId);
+
+	public List<Project> getUndeletedProjectsByParentIdAndUserId(Integer parentProjectId, int userId);
 }

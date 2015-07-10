@@ -33,6 +33,7 @@ import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.constant.OnTargetQuery;
 import com.ontarget.entities.CompanyInfo;
 import com.ontarget.entities.Project;
+import com.ontarget.entities.ProjectConfiguration;
 
 /**
  * Created by Owner on 11/5/14.
@@ -200,8 +201,7 @@ public class ProjectDAOImpl implements ProjectDAO {
 
 	@Override
 	public List<Company> getCompanyByProject(int projectId) throws Exception {
-		List<Map<String, Object>> rs = jdbcTemplate
-				.queryForList(OnTargetQuery.GET_COMPANY_BY_PROJECT, new Object[] { projectId });
+		List<Map<String, Object>> rs = jdbcTemplate.queryForList(OnTargetQuery.GET_COMPANY_BY_PROJECT, new Object[] { projectId });
 		logger.info("project id:: " + projectId);
 
 		List<Company> companies = new ArrayList<>();
@@ -238,8 +238,8 @@ public class ProjectDAOImpl implements ProjectDAO {
 		int row = jdbcTemplate.update(
 				OnTargetQuery.UPDATE_PROJECT,
 				new Object[] { project.getProjectName(), project.getProjectDescription(), project.getProjectTypeId(),
-						project.getProjectParentId(), project.getStatus(), project.getStartDate(), project.getEndDate(),
-						updatingUserId, project.getProjectId() });
+						project.getProjectParentId(), project.getStatus(), project.getStartDate(), project.getEndDate(), updatingUserId,
+						project.getProjectId() });
 		if (row == 0) {
 			throw new Exception("Unable to update project.");
 		}
@@ -322,7 +322,12 @@ public class ProjectDAOImpl implements ProjectDAO {
 	}
 
 	@Override
-	public boolean deleteProject(int projectId,int userId) throws Exception {
+	public boolean deleteProject(int projectId, int userId) throws Exception {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public ProjectConfiguration getProjectUnitOfMeasureMent(Integer projectId) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -342,5 +347,17 @@ public class ProjectDAOImpl implements ProjectDAO {
 	public boolean updateActivity(ProjectDTO projectDTO, int updatingUserId) throws Exception {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public List<Project> getAlllAssociatedProjectsByUser(int userId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Project> getUndeletedProjectsByParentIdAndUserId(Integer parentProjectId, int userId) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

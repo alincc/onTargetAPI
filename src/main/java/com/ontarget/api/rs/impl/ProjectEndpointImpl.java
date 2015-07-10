@@ -19,6 +19,7 @@ import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.ProjectListResponse;
 import com.ontarget.dto.ProjectMemberListResponse;
 import com.ontarget.dto.ProjectResponse;
+import com.ontarget.dto.UserProjectListResponse;
 import com.ontarget.request.bean.ActivityRequest;
 import com.ontarget.request.bean.ProjectCompanyRequest;
 import com.ontarget.request.bean.ProjectDetailRequest;
@@ -140,8 +141,7 @@ public class ProjectEndpointImpl implements ProjectEndoint {
 	public ProjectListResponse getProjectByCompany(ProjectCompanyRequest projectCompanyRequest) {
 		ProjectListResponse response = new ProjectListResponse();
 		try {
-			response = projectService.getProjectsByCompany(projectCompanyRequest.getCompanyId(),
-					projectCompanyRequest.getProjectId());
+			response = projectService.getProjectsByCompany(projectCompanyRequest.getCompanyId(), projectCompanyRequest.getProjectId());
 			response.setReturnVal(OnTargetConstant.SUCCESS);
 			response.setReturnMessage("Successfully retrieved project info");
 		} catch (Exception e) {
@@ -168,6 +168,26 @@ public class ProjectEndpointImpl implements ProjectEndoint {
 			response.setReturnVal(OnTargetConstant.ERROR);
 		}
 
+		return response;
+	}
+
+	@Override
+	@POST
+	@Path("/getAllProjectsByUser")
+	public UserProjectListResponse getAllProjectsByUser(ProjectUserRequest projectUserRequest) {
+
+		UserProjectListResponse response = new UserProjectListResponse();
+		try {
+			response = projectService.getUserAssociatedProjectDetails(projectUserRequest.getUserId());
+			if (response.getResponseCode().equalsIgnoreCase("SUCC")) {
+				response.setReturnVal(OnTargetConstant.SUCCESS);
+				response.setReturnMessage("Successfully retrieved project info");
+			}
+		} catch (Exception e) {
+			logger.error("Error while getting project by user", e);
+			response.setReturnMessage("Error while getting project by user");
+			response.setReturnVal(OnTargetConstant.ERROR);
+		}
 		return response;
 	}
 
@@ -218,8 +238,8 @@ public class ProjectEndpointImpl implements ProjectEndoint {
 	public ProjectResponse deleteProject(ProjectDetailRequest projectDetailRequest) {
 		ProjectResponse response = new ProjectResponse();
 		try {
-			boolean deleted = projectService.deleteProject(projectDetailRequest.getProjectId(), projectDetailRequest
-					.getBaseRequest().getLoggedInUserId());
+			boolean deleted = projectService.deleteProject(projectDetailRequest.getProjectId(), projectDetailRequest.getBaseRequest()
+					.getLoggedInUserId());
 			if (deleted) {
 				response.setReturnVal(OnTargetConstant.SUCCESS);
 				response.setReturnMessage("Successfully deleted project");
