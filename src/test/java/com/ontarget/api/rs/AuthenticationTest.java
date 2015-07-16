@@ -14,24 +14,24 @@ import com.ontarget.request.bean.UserRegistrationRequest;
 
 public class AuthenticationTest extends BaseTest {
 
-	@Test
-	public void signIn() {
-
-		SignInRequest signInRequest = new SignInRequest();
-		signInRequest.setUsername("sanjeev");
-		signInRequest.setPassword("123456");
-
-		System.out.println("Client request .... \n");
-		System.out.println(toJsonString(signInRequest, true));
-		Response response = sendRequest("/user/signin", signInRequest);
-		if (response.getStatus() != 200) {
-			throw new RuntimeException("Failed : HTTP error code : "
-					+ response.getStatus());
-		}
-		String output = response.readEntity(String.class);
-		System.out.println("Server response .... \n");
-		System.out.println(output);
-	}
+//	@Test
+//	public void signIn() {
+//
+//		SignInRequest signInRequest = new SignInRequest();
+//		signInRequest.setUsername("sanjeev");
+//		signInRequest.setPassword("123456");
+//
+//		System.out.println("Client request .... \n");
+//		System.out.println(toJsonString(signInRequest, true));
+//		Response response = sendRequest("/user/signin", signInRequest);
+//		if (response.getStatus() != 200) {
+//			throw new RuntimeException("Failed : HTTP error code : "
+//					+ response.getStatus());
+//		}
+//		String output = response.readEntity(String.class);
+//		System.out.println("Server response .... \n");
+//		System.out.println(output);
+//	}
 
 //	@Test
 //	public void registrationRequest() {
@@ -86,17 +86,17 @@ public class AuthenticationTest extends BaseTest {
 //		System.out.println(output);
 //	}
 //
-//	@Test
-//	public void logout() {
-//
-//		System.out.println("Client request .... \n");
-//		Response response = sendRequest("/user/logout?username=santosh8pun@gmail.com", "");
-//		if (response.getStatus() != 200) {
-//			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
-//		}
-//		String output = response.readEntity(String.class);
-//		System.out.println("Server response .... \n");
-//		System.out.println(output);
-//	}
+	@Test
+	public void logout() {
+
+		System.out.println("Client request .... \n");
+		Response response = sendRequest("/user/logout?username=sanjeev", "");
+		if (response.getStatus() != 200) {
+			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
+		}
+		String output = response.readEntity(String.class);
+		System.out.println("Server response .... \n");
+		System.out.println(output);
+	}
 
 }

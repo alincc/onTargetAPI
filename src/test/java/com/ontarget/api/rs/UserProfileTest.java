@@ -96,22 +96,22 @@ public class UserProfileTest extends BaseTest {
 	// System.out.println(output);
 	// }
 
-	@Test
-	public void getUserDetails() {
-
-		UserInfo request = new UserInfo();
-		request.setUserId(1);
-
-		System.out.println("Client request ....(/profile/getUserDetails) \n");
-		System.out.println(toJsonString(request, true));
-		Response response = sendRequest("/profile/getUserDetails", request);
-		if (response.getStatus() != 200) {
-			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
-		}
-		String output = response.readEntity(String.class);
-		System.out.println("Server response ....(/profile/getUserDetails) \n");
-		System.out.println(output);
-	}
+//	@Test
+//	public void getUserDetails() {
+//
+//		UserInfo request = new UserInfo();
+//		request.setUserId(1);
+//
+//		System.out.println("Client request ....(/profile/getUserDetails) \n");
+//		System.out.println(toJsonString(request, true));
+//		Response response = sendRequest("/profile/getUserDetails", request);
+//		if (response.getStatus() != 200) {
+//			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
+//		}
+//		String output = response.readEntity(String.class);
+//		System.out.println("Server response ....(/profile/getUserDetails) \n");
+//		System.out.println(output);
+//	}
 
 	// @Test
 	// public void updateCompanyInfo() {
@@ -207,19 +207,19 @@ public class UserProfileTest extends BaseTest {
 	// System.out.println(output);
 	// }
 	//
-	// @Test
-	// public void getSafetyInfoForUser() {
-	//
-	// System.out.println("Client request ....(/profile/getSafetyInfoForUser?userId=1) \n");
-	// Response response = getRequest("/profile/getSafetyInfoForUser?userId=1");
-	// if (response.getStatus() != 200) {
-	// throw new RuntimeException("Failed : HTTP error code : " +
-	// response.getStatus());
-	// }
-	// String output = response.readEntity(String.class);
-	// System.out.println("Server response ....(/profile/getSafetyInfoForUser?userId=1) \n");
-	// System.out.println(output);
-	// }
+//	 @Test
+//	 public void getSafetyInfoForUser() {
+//	
+//	 System.out.println("Client request ....(/profile/getSafetyInfoForUser?userId=1) \n");
+//	 Response response = getRequest("/profile/getSafetyInfoForUser?userId=1");
+//	 if (response.getStatus() != 200) {
+//	 throw new RuntimeException("Failed : HTTP error code : " +
+//	 response.getStatus());
+//	 }
+//	 String output = response.readEntity(String.class);
+//	 System.out.println("Server response ....(/profile/getSafetyInfoForUser?userId=1) \n");
+//	 System.out.println(output);
+//	 }
 	//
 	// @Test
 	// public void saveUserProfileImage() {

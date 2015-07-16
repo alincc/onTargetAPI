@@ -109,29 +109,29 @@ public class TaskEndpointTest extends BaseTest {
 	//
 	// }
 	//
-	@Test
-	public void getProjectTask() {
-
-		ProjectTaskRequest projectTaskRequest = new ProjectTaskRequest();
-
-		BaseRequest baseRequest = new BaseRequest();
-		baseRequest.setLoggedInUserId(1);
-		baseRequest.setLoggedInUserProjectId(1);
-
-		projectTaskRequest.setBaseRequest(baseRequest);
-		projectTaskRequest.setProjectId(4);
-
-		System.out.println("Client request getProjectTask.... \n");
-		System.out.println(toJsonString(projectTaskRequest, true));
-		Response response = sendRequest("/task/getProjectTask", projectTaskRequest);
-		if (response.getStatus() != 200) {
-			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
-		}
-		String output = response.readEntity(String.class);
-		System.out.println("Server response .... \n");
-		System.out.println(output);
-
-	}
+//	@Test
+//	public void getProjectTask() {
+//
+//		ProjectTaskRequest projectTaskRequest = new ProjectTaskRequest();
+//
+//		BaseRequest baseRequest = new BaseRequest();
+//		baseRequest.setLoggedInUserId(1);
+//		baseRequest.setLoggedInUserProjectId(1);
+//
+//		projectTaskRequest.setBaseRequest(baseRequest);
+//		projectTaskRequest.setProjectId(4);
+//
+//		System.out.println("Client request getProjectTask.... \n");
+//		System.out.println(toJsonString(projectTaskRequest, true));
+//		Response response = sendRequest("/task/getProjectTask", projectTaskRequest);
+//		if (response.getStatus() != 200) {
+//			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
+//		}
+//		String output = response.readEntity(String.class);
+//		System.out.println("Server response .... \n");
+//		System.out.println(output);
+//
+//	}
 	//
 	// @Test
 	// public void getTaskCountsOfProject() {
@@ -329,37 +329,35 @@ public class TaskEndpointTest extends BaseTest {
 	// System.out.println(output);
 	// }
 	//
-	// @Test
-	// public void assignTaskToUser() {
-	//
-	// TaskMemberRequest taskMemberRequest = new TaskMemberRequest();
-	//
-	// BaseRequest baseRequest = new BaseRequest();
-	// baseRequest.setLoggedInUserId(1);
-	// baseRequest.setLoggedInUserProjectId(1);
-	//
-	// taskMemberRequest.setBaseRequest(baseRequest);
-	// taskMemberRequest.setTaskId(17);
-	// taskMemberRequest.setProjectId(1);
-	//
-	// ArrayList<Integer> members = new ArrayList<>();
-	// members.add(1);
-	//
-	// taskMemberRequest.setMembers(members);
-	//
-	// System.out.println("Client request assignTaskToUser .... \n");
-	// System.out.println(toJsonString(taskMemberRequest, true));
-	// Response response = sendRequest("/task/assignUserToTask",
-	// taskMemberRequest);
-	// if (response.getStatus() != 200) {
-	// throw new RuntimeException("Failed : HTTP error code : " +
-	// response.getStatus());
-	// }
-	// String output = response.readEntity(String.class);
-	// System.out.println("Server response .... \n");
-	// System.out.println(output);
-	//
-	// }
+	@Test
+	public void assignTaskToUser() {
+
+		TaskMemberRequest taskMemberRequest = new TaskMemberRequest();
+
+		BaseRequest baseRequest = new BaseRequest();
+		baseRequest.setLoggedInUserId(1);
+		baseRequest.setLoggedInUserProjectId(1);
+
+		taskMemberRequest.setBaseRequest(baseRequest);
+		taskMemberRequest.setTaskId(1);
+		taskMemberRequest.setProjectId(1);
+
+		ArrayList<Integer> members = new ArrayList<>();
+		//members.add(1);
+
+		taskMemberRequest.setMembers(members);
+
+		System.out.println("Client request assignTaskToUser .... \n");
+		System.out.println(toJsonString(taskMemberRequest, true));
+		Response response = sendRequest("/task/assignUserToTask", taskMemberRequest);
+		if (response.getStatus() != 200) {
+			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
+		}
+		String output = response.readEntity(String.class);
+		System.out.println("Server response .... \n");
+		System.out.println(output);
+
+	}
 
 	// @Test
 	// public void assignFieldworkerToTask() {

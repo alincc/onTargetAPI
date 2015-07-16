@@ -112,6 +112,11 @@ public interface OnTargetConstant {
 		public static final Integer ASSIGNED = new Integer(1);
 		public static final Integer DELETED = new Integer(2);
 	}
+	
+	public interface TaskAssigneeStatus{
+		public static final Integer ASSIGNED = new Integer(1);
+		public static final Integer DELETED = new Integer(2);
+	}
 
 	public interface PhoneType {
 		public static final String CELL = "CELL";

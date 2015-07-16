@@ -201,6 +201,7 @@ public class TaskPercentageJpaDAOImpl implements TaskPercentageDAO {
 		query.setParameter("projectTaskId", projectTaskId);
 		@SuppressWarnings("unchecked")
 		List<TaskPercentageLog> logs = query.getResultList();
+		
 
 		if (logs != null && !logs.isEmpty()) {
 			for (TaskPercentageLog taskPercentageLog : logs) {
@@ -225,7 +226,7 @@ public class TaskPercentageJpaDAOImpl implements TaskPercentageDAO {
 				percentage.setYear(year);
 
 				taskPercentageList.add(percentage);
-
+				return taskPercentageList;
 			}
 		}
 

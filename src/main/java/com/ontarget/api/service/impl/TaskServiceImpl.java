@@ -190,21 +190,21 @@ public class TaskServiceImpl implements TaskService {
 	@Transactional(rollbackFor = { Exception.class })
 	public boolean updateTaskStatus(int taskId, String taskStatus, int userId) throws Exception {
 		boolean taskStatusUpdated = taskDAO.updateTaskStatus(taskId, taskStatus, userId);
-        /**
-         * change of status email.
-         */
-        if(taskStatusUpdated){
-            ProjectTaskInfo task = taskDAO.getTaskInfo(taskId);
+		/**
+		 * change of status email.
+		 */
+		if (taskStatusUpdated) {
+			ProjectTaskInfo task = taskDAO.getTaskInfo(taskId);
 
-            Set<Integer> assignees = this.getTaskMembers(taskId);
-            if(assignees!=null && assignees.size() > 0){
-                for(Integer assignee : assignees) {
-                    emailService.sendTaskStatusChangeEmail(task, assignee.intValue());
-                }
-            }
+			Set<Integer> assignees = this.getTaskMembers(taskId);
+			if (assignees != null && assignees.size() > 0) {
+				for (Integer assignee : assignees) {
+					emailService.sendTaskStatusChangeEmail(task, assignee.intValue());
+				}
+			}
 
-        }
-        return taskStatusUpdated;
+		}
+		return taskStatusUpdated;
 	}
 
 	@Override
@@ -245,12 +245,8 @@ public class TaskServiceImpl implements TaskService {
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
 	public void assignTaskToUser(int taskId, List<Integer> users, int assigningUser) throws Exception {
-		logger.info("clearing task assignees");
-		taskDAO.deleteAllTaskAssignedUsers(taskId);
-		for (Integer userId : users) {
-			logger.info("inserting user " + userId + " for task " + taskId);
-			taskDAO.assignTaskToUser(taskId, userId, assigningUser);
-
+		List<Integer> assignees = taskDAO.assignTaskToUser(taskId, assigningUser, users);
+		for (Integer userId : assignees) {
 			Contact contact = contactDAO.getContact(userId);
 
 			if (contact != null && (contact.getEmail() != null && contact.getEmail().trim().length() > 0)) {

@@ -26,7 +26,6 @@ public class TaskMemberRequest {
 	@JsonProperty("projectId")
 	private Integer projectId;
 	@NotNull
-	@Size(min = 1)
 	@JsonProperty("members")
 	private List<Integer> members;
 

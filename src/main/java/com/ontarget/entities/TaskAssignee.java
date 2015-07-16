@@ -49,6 +49,8 @@ public class TaskAssignee implements Serializable {
 	@JoinColumn(name = "project_task_id", referencedColumnName = "project_task_id", nullable = false)
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
 	private ProjectTask projectTask;
+	@Column(name = "status", length = 1, nullable = false)
+	private Integer status;
 
 	public TaskAssignee() {
 	}
@@ -111,6 +113,14 @@ public class TaskAssignee implements Serializable {
 
 	public void setProjectTask(ProjectTask projectTask) {
 		this.projectTask = projectTask;
+	}
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
 
 	@Override
