@@ -12,6 +12,7 @@ import com.ontarget.api.validator.ActivityTaskValidator;
 import com.ontarget.bean.ActivityInfo;
 import com.ontarget.bean.ActivityTaskInfo;
 import com.ontarget.entities.Project;
+import com.ontarget.entities.TaskPriority;
 import com.ontarget.request.bean.ActivityTaskRecord;
 
 public class ActivityTaskUtil {
@@ -24,7 +25,7 @@ public class ActivityTaskUtil {
 		this.project = project;
 	}
 
-	public List<ActivityInfo> getActivityTaskList(List<ActivityTaskRecord> activityTaskRecords) {
+	public List<ActivityInfo> getActivityTaskList(List<ActivityTaskRecord> activityTaskRecords, Map<String, TaskPriority> taskPriorityMap) {
 		List<ActivityInfo> activityInfoList = new ArrayList<>();
 
 		Map<String, ActivityInfo> activityTaskMap = new LinkedHashMap<>();
@@ -37,8 +38,16 @@ public class ActivityTaskUtil {
 				invalidActivityTaskRecords.add(activityTaskValidator.getActivityTaskRecord());
 				continue;
 			}
-
 			ActivityTaskInfo activityTaskInfo = new ActivityTaskInfo();
+
+			TaskPriority taskPriority = taskPriorityMap.get(activityTaskRecord.getPriority());
+			if (taskPriority == null) {
+				activityTaskRecord.setInvalidMsg("task priority is not valid");
+				invalidActivityTaskRecords.add(activityTaskRecord);
+				continue;
+			}
+			activityTaskInfo.setPriority(taskPriority.getTaskPriorityId());
+
 			activityTaskInfo.setTaskCode(activityTaskRecord.getTaskCode());
 			activityTaskInfo.setTaskName(activityTaskRecord.getTaskName());
 			activityTaskInfo.setStartDate(activityTaskRecord.getTaskStartDate());
@@ -46,7 +55,6 @@ public class ActivityTaskUtil {
 			activityTaskInfo.setPercentageComplete(activityTaskRecord.getPercentageComplete());
 			activityTaskInfo.setEstimatedCost(activityTaskRecord.getEstimatedCost());
 			activityTaskInfo.setActualCost(activityTaskRecord.getActualCost());
-			activityTaskInfo.setPriority(activityTaskRecord.getPriority());
 			activityTaskInfo.setIndex(activityTaskRecord.getIndex());
 
 			if (!activityTaskMap.containsKey(activityTaskRecord.getActivityCode())) {

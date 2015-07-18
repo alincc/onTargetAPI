@@ -39,12 +39,12 @@ public class UploadActivityEndpointTest extends BaseTest {
 		// activityTaskRecords.add(activityTaskRecord);
 		// }
 
-		for (int i = 1; i <= 1; i++) {
+		for (int i = 1; i <= 4; i++) {
 			ActivityTaskRecord activityTaskRecord = new ActivityTaskRecord();
 			activityTaskRecord.setIndex(String.valueOf(i));
 			int index = i;
 			if (i < 3) {
-				// index = 1;
+				index = 1;
 			}
 			activityTaskRecord.setActivityCode("ACT-00" + index);
 			activityTaskRecord.setActivityName("activity" + index);
