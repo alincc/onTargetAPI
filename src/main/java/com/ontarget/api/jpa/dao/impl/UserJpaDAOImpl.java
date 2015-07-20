@@ -160,5 +160,14 @@ public class UserJpaDAOImpl extends BaseGenericDAOImpl<UserDTO> implements UserD
 		}
 		return false;
 	}
+	
+	@Override
+	public User findUserByUsername(String username) throws Exception{
+		List<User> userList =  userRepository.findUserByUsername(username);
+		if(userList !=null && !userList.isEmpty()){
+			return userList.get(0);
+		}
+		return null;
+	}
 
 }

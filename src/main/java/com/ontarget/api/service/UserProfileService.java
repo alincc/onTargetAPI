@@ -41,7 +41,7 @@ public interface UserProfileService {
 
 	public boolean activateAccount(int userId) throws Exception;
 
-	public boolean forgotPasswordRequest(String emailAddress) throws Exception;
+	public String forgotPasswordRequest(String emailAddress) throws Exception;
 
 	public boolean validateForgotPasswordToken(String forgotPasswordToken) throws Exception;
 

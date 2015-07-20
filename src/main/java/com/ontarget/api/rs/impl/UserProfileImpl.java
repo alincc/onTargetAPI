@@ -224,9 +224,9 @@ public class UserProfileImpl implements UserProfile {
 		OnTargetResponse response = new OnTargetResponse();
 
 		try {
-			boolean done = userProfileService.forgotPasswordRequest(request.getEmailAddress());
-			if (done) {
-				response.setReturnMessage("Email has been sent to " + request.getEmailAddress() + " with password reset instructions.");
+			String obtainedEmailAddress = userProfileService.forgotPasswordRequest(request.getUsername());
+			if (obtainedEmailAddress != null && obtainedEmailAddress.trim().length() > 0) {
+				response.setReturnMessage("Email has been sent to " + obtainedEmailAddress + " with password reset instructions.");
 				response.setReturnVal(OnTargetConstant.SUCCESS);
 			} else {
 				response.setReturnMessage("Invalid user.");

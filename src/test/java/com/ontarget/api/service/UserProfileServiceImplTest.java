@@ -13,27 +13,23 @@ import static org.junit.Assert.fail;
  */
 public class UserProfileServiceImplTest extends BaseTest {
 
-    private Logger logger = Logger.getLogger(EmailServiceTest.class);
+	private Logger logger = Logger.getLogger(EmailServiceTest.class);
 
+	@Autowired
+	private UserProfileService userProfileService;
 
-    @Autowired
-    private UserProfileService userProfileService;
+	@Test
+	public void forgotPasswordRequestTest() {
 
+		String emailAddress = "gsanjeev7@gmail.com";
 
-    @Test
-    public void forgotPasswordRequestTest(){
-
-        String emailAddress="gsanjeev7@gmail.com";
-
-        try {
-           boolean sent =  userProfileService.forgotPasswordRequest(emailAddress);
-            Assert.assertTrue(sent);
-        } catch (Exception e) {
-            logger.error("Error while sending forgot password request");
-            fail();
-        }
-    }
-
-
+		try {
+			String emailAdd = userProfileService.forgotPasswordRequest(emailAddress);
+			Assert.assertTrue(emailAdd != null);
+		} catch (Exception e) {
+			logger.error("Error while sending forgot password request");
+			fail();
+		}
+	}
 
 }

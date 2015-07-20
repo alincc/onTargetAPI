@@ -1,6 +1,7 @@
 package com.ontarget.api.dao;
 
 import com.ontarget.bean.UserDTO;
+import com.ontarget.entities.User;
 import com.ontarget.request.bean.UpdateUserProfileRequest;
 
 /**
@@ -20,4 +21,6 @@ public interface UserDAO extends GenericDAO<UserDTO> {
     public boolean updateUserProfile(UpdateUserProfileRequest request) throws Exception;
     
     public boolean usernameAlreadyRegistered(String username) throws Exception;
+    
+    public User findUserByUsername(String username) throws Exception;
 }

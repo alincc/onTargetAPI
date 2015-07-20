@@ -96,22 +96,23 @@ public class UserProfileTest extends BaseTest {
 	// System.out.println(output);
 	// }
 
-//	@Test
-//	public void getUserDetails() {
-//
-//		UserInfo request = new UserInfo();
-//		request.setUserId(1);
-//
-//		System.out.println("Client request ....(/profile/getUserDetails) \n");
-//		System.out.println(toJsonString(request, true));
-//		Response response = sendRequest("/profile/getUserDetails", request);
-//		if (response.getStatus() != 200) {
-//			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
-//		}
-//		String output = response.readEntity(String.class);
-//		System.out.println("Server response ....(/profile/getUserDetails) \n");
-//		System.out.println(output);
-//	}
+	// @Test
+	// public void getUserDetails() {
+	//
+	// UserInfo request = new UserInfo();
+	// request.setUserId(1);
+	//
+	// System.out.println("Client request ....(/profile/getUserDetails) \n");
+	// System.out.println(toJsonString(request, true));
+	// Response response = sendRequest("/profile/getUserDetails", request);
+	// if (response.getStatus() != 200) {
+	// throw new RuntimeException("Failed : HTTP error code : " +
+	// response.getStatus());
+	// }
+	// String output = response.readEntity(String.class);
+	// System.out.println("Server response ....(/profile/getUserDetails) \n");
+	// System.out.println(output);
+	// }
 
 	// @Test
 	// public void updateCompanyInfo() {
@@ -147,43 +148,42 @@ public class UserProfileTest extends BaseTest {
 	// System.out.println(output);
 	// }
 	//
-//	@Test
-//	public void forgotPasswordRequest() {
-//
-//		ForgotPasswordRequest request = new ForgotPasswordRequest();
-//		request.setEmailAddress("sanjeev@ontargetcloud.com");
-//
-//		System.out.println("Client request ....(/profile/forgotPasswordRequest) \n");
-//		System.out.println(toJsonString(request, true));
-//		Response response = sendRequest("/profile/forgotPasswordRequest", request);
-//		if (response.getStatus() != 200) {
-//			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
-//		}
-//		String output = response.readEntity(String.class);
-//		System.out.println("Server response ...(/profile/forgotPasswordRequest) \n");
-//		System.out.println(output);
-//	}
+	@Test
+	public void forgotPasswordRequest() {
+
+		ForgotPasswordRequest request = new ForgotPasswordRequest();
+		request.setUsername("sanjeev");
+
+		System.out.println("Client request ....(/profile/forgotPasswordRequest) \n");
+		System.out.println(toJsonString(request, true));
+		Response response = sendRequest("/profile/forgotPasswordRequest", request);
+		if (response.getStatus() != 200) {
+			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
+		}
+		String output = response.readEntity(String.class);
+		System.out.println("Server response ...(/profile/forgotPasswordRequest) \n");
+		System.out.println(output);
+	}
 	//
-	 @Test
-	 public void changeForgotPassword() {
-	
-	 ForgotPasswordRequest request = new ForgotPasswordRequest();
-	 request.setEmailAddress("sanjeev@ontargetcloud.com");
-	 request.setForgotPasswordToken("token");
-	 request.setNewPassword("123456");
-	
-	 System.out.println("Client request ....(/profile/changeForgotPassword) \n");
-	 System.out.println(toJsonString(request, true));
-	 Response response = sendRequest("/profile/changeForgotPassword",
-	 request);
-	 if (response.getStatus() != 200) {
-	 throw new RuntimeException("Failed : HTTP error code : " +
-	 response.getStatus());
-	 }
-	 String output = response.readEntity(String.class);
-	 System.out.println("Server response ....(/profile/changeForgotPassword) \n");
-	 System.out.println(output);
-	 }
+	// @Test
+	// public void changeForgotPassword() {
+	//
+	// ForgotPasswordRequest request = new ForgotPasswordRequest();
+	// request.setForgotPasswordToken("token");
+	// request.setNewPassword("123456");
+	//
+	// System.out.println("Client request ....(/profile/changeForgotPassword) \n");
+	// System.out.println(toJsonString(request, true));
+	// Response response = sendRequest("/profile/changeForgotPassword",
+	// request);
+	// if (response.getStatus() != 200) {
+	// throw new RuntimeException("Failed : HTTP error code : " +
+	// response.getStatus());
+	// }
+	// String output = response.readEntity(String.class);
+	// System.out.println("Server response ....(/profile/changeForgotPassword) \n");
+	// System.out.println(output);
+	// }
 	//
 	// @Test
 	// public void changeUserPassword() {
@@ -205,19 +205,19 @@ public class UserProfileTest extends BaseTest {
 	// System.out.println(output);
 	// }
 	//
-//	 @Test
-//	 public void getSafetyInfoForUser() {
-//	
-//	 System.out.println("Client request ....(/profile/getSafetyInfoForUser?userId=1) \n");
-//	 Response response = getRequest("/profile/getSafetyInfoForUser?userId=1");
-//	 if (response.getStatus() != 200) {
-//	 throw new RuntimeException("Failed : HTTP error code : " +
-//	 response.getStatus());
-//	 }
-//	 String output = response.readEntity(String.class);
-//	 System.out.println("Server response ....(/profile/getSafetyInfoForUser?userId=1) \n");
-//	 System.out.println(output);
-//	 }
+	// @Test
+	// public void getSafetyInfoForUser() {
+	//
+	// System.out.println("Client request ....(/profile/getSafetyInfoForUser?userId=1) \n");
+	// Response response = getRequest("/profile/getSafetyInfoForUser?userId=1");
+	// if (response.getStatus() != 200) {
+	// throw new RuntimeException("Failed : HTTP error code : " +
+	// response.getStatus());
+	// }
+	// String output = response.readEntity(String.class);
+	// System.out.println("Server response ....(/profile/getSafetyInfoForUser?userId=1) \n");
+	// System.out.println(output);
+	// }
 	//
 	// @Test
 	// public void saveUserProfileImage() {

@@ -84,9 +84,9 @@ public class UserProfileServiceImpl implements UserProfileService {
 	@Autowired
 	private EmailService emailService;
 
-    @Autowired
-    @Qualifier("emailJpaDAOImpl")
-    private EmailDAO emailDao;
+	@Autowired
+	@Qualifier("emailJpaDAOImpl")
+	private EmailDAO emailDao;
 
 	private Random random = new Random();
 
@@ -467,32 +467,26 @@ public class UserProfileServiceImpl implements UserProfileService {
 	}
 
 	@Override
-	public boolean forgotPasswordRequest(String emailAddress) throws Exception {
+	public String forgotPasswordRequest(String username) throws Exception {
 
-		logger.debug("Adding forgot password request: " + emailAddress);
+		logger.debug("Adding forgot password request: " + username);
 
-        Email email = emailDao.getByEmailAddress(emailAddress);
-        if(email == null || email.getUser() == null){
-            throw new Exception("Error while fetching email");
-        }
+		User user = userDAO.findUserByUsername(username);
 
-
-		UserDTO existingUser = authenticationDAO.getUserInfoById(email.getUser().getUserId());
-		if (existingUser != null && existingUser.getUserId() > 0) {
-
-			final String forgotPasswordToken = Security.generateRandomValue(OnTargetConstant.TOKEN_LENGTH);
-			int id = userDAO.saveForgotPasswordRequest(existingUser.getUserId(), forgotPasswordToken);
-
-			Contact contact = contactDAO.getContact(existingUser.getUserId());
-			if (id > 0) {
-				emailService.sendForgotPasswordEmail(emailAddress, contact.getFirstName() + " " + contact.getLastName(),
-						forgotPasswordToken);
-			}
-
-			return true;
-
+		if (user == null) {
+			throw new Exception("Provided username is not registered.");
 		}
-		return false;
+		Email email = user.getEmailList().get(0);
+
+		final String forgotPasswordToken = Security.generateRandomValue(OnTargetConstant.TOKEN_LENGTH);
+		int id = userDAO.saveForgotPasswordRequest(user.getUserId(), forgotPasswordToken);
+
+		Contact contact = contactDAO.getContact(user.getUserId());
+		if (id > 0) {
+			emailService.sendForgotPasswordEmail(email.getEmailAddress(), contact.getFirstName() + " " + contact.getLastName(),
+					forgotPasswordToken);
+		}
+		return email.getEmailAddress();
 	}
 
 	@Override
