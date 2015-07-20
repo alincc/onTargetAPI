@@ -494,7 +494,7 @@ public class TaskJpaDAOImpl implements TaskDAO {
 				taskAssignee.setStatus(OnTargetConstant.TaskAssigneeStatus.ASSIGNED);
 				taskAssignee.setCreatedDate(new Date());
 				taskAssigneeRepository.save(taskAssignee);
-				newAssigneeList.add(taskAssignee.getTaskAssigneeId());
+				newAssigneeList.add(taskAssignee.getTaskAssignee());
 			}
 		}
 		return newAssigneeList;

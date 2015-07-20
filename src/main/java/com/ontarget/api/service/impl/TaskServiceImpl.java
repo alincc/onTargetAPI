@@ -86,7 +86,6 @@ public class TaskServiceImpl implements TaskService {
 
 		if (isTaskAdd(taskId)) {
 			taskId = taskDAO.addTask(task, userId);
-			System.out.println("task id: "+taskId);
 			if (taskId > 0) {
 				List<Integer> assignees = task.getAssignees();
 				for (Integer assigneeId : assignees) {
@@ -258,7 +257,9 @@ public class TaskServiceImpl implements TaskService {
 	@Transactional(rollbackFor = { Exception.class })
 	public void assignTaskToUser(int taskId, List<Integer> users, int assigningUser) throws Exception {
 		List<Integer> assignees = taskDAO.assignTaskToUser(taskId, assigningUser, users);
+		logger.info("assignees: "+assignees);
 		for (Integer userId : assignees) {
+			logger.info("user id: "+userId);
 			Contact contact = contactDAO.getContact(userId);
 
 			if (contact != null && (contact.getEmail() != null && contact.getEmail().trim().length() > 0)) {
