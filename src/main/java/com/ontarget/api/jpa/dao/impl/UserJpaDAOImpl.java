@@ -93,7 +93,7 @@ public class UserJpaDAOImpl extends BaseGenericDAOImpl<UserDTO> implements UserD
 				.findExpiredRequestByToken(forgotPasswordToken);
 		if (forgotPasswordRequest != null) {
 			Map<String, Object> forgotPwdMap = new HashMap<>();
-			forgotPwdMap.put("user_id", forgotPasswordRequest.getUserId());
+			forgotPwdMap.put("user_id", (int) forgotPasswordRequest.getUserId());
 			return forgotPwdMap;
 		}
 		return null;
