@@ -330,7 +330,6 @@ public class EmailServiceImpl implements EmailService {
 					UserDTO assigneeUser = authenticationDAO.getUserResponse(contact.getUser().getUserId());
 					assigneeUser.setContact(contactDAO.getContact(assigneeUser.getUserId()));
 
-					// TODO: sender info : put this code at common place.
 					UserDTO createdBy = authenticationDAO.getUserResponse(task.getCreatorId());
 					createdBy.setContact(contactDAO.getContact(createdBy.getUserId()));
 

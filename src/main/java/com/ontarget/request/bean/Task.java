@@ -1,6 +1,7 @@
 package com.ontarget.request.bean;
 
 import java.sql.Date;
+import java.util.List;
 
 import javax.annotation.Generated;
 import javax.validation.Valid;
@@ -14,8 +15,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "projectTaskId", "title", "description", "status", "severity", "startDate", "endDate", "projectId",
-		"parentTask" })
+@JsonPropertyOrder({ "projectTaskId", "title", "description", "status", "severity", "startDate", "endDate", "projectId", "parentTask" })
 public class Task {
 	@JsonProperty("projectTaskId")
 	private Integer projectTaskId;
@@ -37,6 +37,8 @@ public class Task {
 	private Date endDate;
 	@NotNull
 	private Integer projectId;
+	@JsonProperty("assignees")
+	private List<Integer> assignees;
 
 	/**
 	 * 
@@ -155,6 +157,14 @@ public class Task {
 
 	public void setProjectId(Integer projectId) {
 		this.projectId = projectId;
+	}
+
+	public List<Integer> getAssignees() {
+		return assignees;
+	}
+
+	public void setAssignees(List<Integer> assignees) {
+		this.assignees = assignees;
 	}
 
 }

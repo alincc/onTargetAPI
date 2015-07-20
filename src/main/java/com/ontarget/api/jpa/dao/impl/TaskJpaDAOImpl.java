@@ -86,6 +86,18 @@ public class TaskJpaDAOImpl implements TaskDAO {
 		projectTask.setCreatedBy(new User(userId));
 		projectTask.setCreatedDate(new Date());
 		projectTaskRepository.save(projectTask);
+
+		List<Integer> assignees = task.getAssignees();
+
+		for (Integer assigneeId : assignees) {
+			TaskAssignee taskAssignee = new TaskAssignee();
+			taskAssignee.setProjectTask(projectTask);
+			taskAssignee.setTaskAssignee(assigneeId);
+			taskAssignee.setCreatedBy(new User(userId));
+			taskAssignee.setStatus(OnTargetConstant.TaskAssigneeStatus.ASSIGNED);
+			taskAssignee.setCreatedDate(new Date());
+			taskAssigneeRepository.save(taskAssignee);
+		}
 		return projectTask.getProjectTaskId();
 	}
 
@@ -570,8 +582,7 @@ public class TaskJpaDAOImpl implements TaskDAO {
 		task.setEndDate(projectTask.getEndDate());
 		task.setDescription(projectTask.getDescription());
 		task.setSeverity(projectTask.getSeverity());
-		task.setCreatorId(projectTask.getCreatorId());
-
+		task.setCreatorId(projectTask.getCreatedBy().getUserId());
 		return task;
 	}
 

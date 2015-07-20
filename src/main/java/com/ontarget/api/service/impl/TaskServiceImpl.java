@@ -86,6 +86,18 @@ public class TaskServiceImpl implements TaskService {
 
 		if (isTaskAdd(taskId)) {
 			taskId = taskDAO.addTask(task, userId);
+			System.out.println("task id: "+taskId);
+			if (taskId > 0) {
+				List<Integer> assignees = task.getAssignees();
+				for (Integer assigneeId : assignees) {
+					Contact contact = contactDAO.getContact(assigneeId);
+					
+					if (contact != null && (contact.getEmail() != null && contact.getEmail().trim().length() > 0)) {
+						ProjectTaskInfo taskInfo = taskDAO.getTaskInfo(taskId);
+						emailService.sendTaskAssignmentEmail(taskInfo, contact);
+					}
+				}
+			}
 		} else {
 			boolean updated = taskDAO.updateTask(task, userId);
 			if (!updated) {
