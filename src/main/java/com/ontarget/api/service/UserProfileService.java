@@ -3,6 +3,7 @@ package com.ontarget.api.service;
 import com.ontarget.bean.Company;
 import com.ontarget.bean.Contact;
 import com.ontarget.bean.UserRegistration;
+import com.ontarget.dto.ForgotPasswordRequestResponse;
 import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.UserImageRequest;
 import com.ontarget.dto.UserInvitationRequestDTO;
@@ -41,7 +42,7 @@ public interface UserProfileService {
 
 	public boolean activateAccount(int userId) throws Exception;
 
-	public String forgotPasswordRequest(String emailAddress) throws Exception;
+	public ForgotPasswordRequestResponse forgotPasswordRequest(String emailAddress) throws Exception;
 
 	public boolean validateForgotPasswordToken(String forgotPasswordToken) throws Exception;
 

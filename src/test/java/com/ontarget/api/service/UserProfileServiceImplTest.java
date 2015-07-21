@@ -1,7 +1,10 @@
 package com.ontarget.api.service;
 
 import com.ontarget.api.rs.BaseTest;
+import com.ontarget.dto.ForgotPasswordRequestResponse;
+
 import junit.framework.Assert;
+
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +27,8 @@ public class UserProfileServiceImplTest extends BaseTest {
 		String emailAddress = "gsanjeev7@gmail.com";
 
 		try {
-			String emailAdd = userProfileService.forgotPasswordRequest(emailAddress);
-			Assert.assertTrue(emailAdd != null);
+			ForgotPasswordRequestResponse response = userProfileService.forgotPasswordRequest(emailAddress);
+			Assert.assertTrue(response != null);
 		} catch (Exception e) {
 			logger.error("Error while sending forgot password request");
 			fail();

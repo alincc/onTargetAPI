@@ -22,6 +22,7 @@ import com.ontarget.api.service.UserProfileService;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.ChangeUserPasswordRequest;
 import com.ontarget.dto.ForgotPasswordRequest;
+import com.ontarget.dto.ForgotPasswordRequestResponse;
 import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.SafetyInfoResponse;
 import com.ontarget.dto.UserImageRequest;
@@ -220,19 +221,10 @@ public class UserProfileImpl implements UserProfile {
 	@Override
 	@POST
 	@Path("/forgotPasswordRequest")
-	public OnTargetResponse forgotPasswordRequest(ForgotPasswordRequest request) {
-		OnTargetResponse response = new OnTargetResponse();
-
+	public ForgotPasswordRequestResponse forgotPasswordRequest(ForgotPasswordRequest request) {
+		ForgotPasswordRequestResponse response = new ForgotPasswordRequestResponse();
 		try {
-			String obtainedEmailAddress = userProfileService.forgotPasswordRequest(request.getUsername());
-			if (obtainedEmailAddress != null && obtainedEmailAddress.trim().length() > 0) {
-				response.setReturnMessage("Email has been sent to " + obtainedEmailAddress + " with password reset instructions.");
-				response.setReturnVal(OnTargetConstant.SUCCESS);
-			} else {
-				response.setReturnMessage("Invalid user.");
-				response.setReturnVal(OnTargetConstant.ERROR);
-			}
-
+			return userProfileService.forgotPasswordRequest(request.getUsername());
 		} catch (Exception e) {
 			logger.error("Error while processing forgot password request", e);
 			response.setReturnMessage("Error while processing forgot password request.");
