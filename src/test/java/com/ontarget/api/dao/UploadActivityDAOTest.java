@@ -66,7 +66,7 @@ public class UploadActivityDAOTest extends BaseTest {
 		activityTaskInfo.setActualCost("500");
 		activityTaskInfo.setEstimatedCost("200");
 		activityTaskInfo.setPercentageComplete("20");
-		activityTaskInfo.setPriority("HIGH");
+		activityTaskInfo.setPriority(1);
 		activityTaskInfo.setIndex("1");
 
 		List<ActivityTaskInfo> taskList = new ArrayList<>();

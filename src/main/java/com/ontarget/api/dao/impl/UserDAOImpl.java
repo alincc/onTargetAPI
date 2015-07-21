@@ -18,6 +18,7 @@ import com.ontarget.api.dao.UserDAO;
 import com.ontarget.bean.UserDTO;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.constant.OnTargetQuery;
+import com.ontarget.entities.User;
 import com.ontarget.request.bean.UpdateUserProfileRequest;
 
 @Repository("userDAOImpl")
@@ -123,5 +124,11 @@ public class UserDAOImpl extends BaseGenericDAOImpl<UserDTO> implements UserDAO 
 	@Override
 	public boolean usernameAlreadyRegistered(String username) throws Exception {
 		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public User findUserByUsername(String username) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

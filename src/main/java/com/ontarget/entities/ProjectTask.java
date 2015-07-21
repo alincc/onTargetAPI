@@ -48,8 +48,10 @@ public class ProjectTask implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createdDate;
 	@JoinColumn(name = "created_by", referencedColumnName = "user_id")
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne()
 	private User createdBy;
+	@Column(name = "created_by", insertable = false, updatable = false)
+	private Integer creatorId;
 	@Column(name = "modified_date")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date modifiedDate;
@@ -258,6 +260,14 @@ public class ProjectTask implements Serializable {
 
 	public void setTaskAssigneeList(List<TaskAssignee> taskAssigneeList) {
 		this.taskAssigneeList = taskAssigneeList;
+	}
+
+	public Integer getCreatorId() {
+		return creatorId;
+	}
+
+	public void setCreatorId(Integer creatorId) {
+		this.creatorId = creatorId;
 	}
 
 	@Override

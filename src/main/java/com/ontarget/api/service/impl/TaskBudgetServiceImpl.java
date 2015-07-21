@@ -90,6 +90,7 @@ public class TaskBudgetServiceImpl implements TaskBudgetService {
 			for (TaskEstimatedCost taskEstimatedCost : costs) {
 				if (taskEstimatedCost.getId() != null && taskEstimatedCost.getId() > 0) {
 					boolean updated = taskPlannedEstimatedCostDAO.updatePlannedActualCost(taskEstimatedCost);
+
 					if (!updated) {
 						throw new Exception("Error while updating task budget by month" + taskEstimatedCost);
 					}

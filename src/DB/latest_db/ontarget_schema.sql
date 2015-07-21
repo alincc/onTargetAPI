@@ -72,7 +72,7 @@ CREATE TABLE `activity_log` (
   PRIMARY KEY (`id`),
   KEY `FK_csf0njobhrvcaaryhn9ya8vje` (`user_id`),
   CONSTRAINT `FK_csf0njobhrvcaaryhn9ya8vje` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=latin1;
 
 /*Table structure for table `address` */
 
@@ -88,7 +88,7 @@ CREATE TABLE `address` (
   `country` varchar(20) NOT NULL,
   `address_type` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`address_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf32;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf32;
 
 /*Table structure for table `application_menu` */
 
@@ -128,7 +128,7 @@ CREATE TABLE `bulk_activity_attribute` (
   PRIMARY KEY (`id`),
   KEY `FK_k8q918aomg0vruqg8nsy6yrkx` (`bulk_activity_log_id`),
   CONSTRAINT `FK_k8q918aomg0vruqg8nsy6yrkx` FOREIGN KEY (`bulk_activity_log_id`) REFERENCES `bulk_activity_log` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=114 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=213 DEFAULT CHARSET=latin1;
 
 /*Table structure for table `bulk_activity_log` */
 
@@ -142,7 +142,7 @@ CREATE TABLE `bulk_activity_log` (
   PRIMARY KEY (`id`),
   KEY `FK_bfmddopkaobsub4cvy7ggq589` (`uploaded_by`),
   CONSTRAINT `FK_bfmddopkaobsub4cvy7ggq589` FOREIGN KEY (`uploaded_by`) REFERENCES `user` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
 
 /*Table structure for table `company_info` */
 
@@ -413,16 +413,6 @@ CREATE TABLE `email_templates` (
   PRIMARY KEY (`email_template_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `emp` */
-
-DROP TABLE IF EXISTS `emp`;
-
-CREATE TABLE `emp` (
-  `first name` varchar(20) DEFAULT NULL,
-  `id` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
 /*Table structure for table `field_worker` */
 
 DROP TABLE IF EXISTS `field_worker`;
@@ -445,7 +435,7 @@ CREATE TABLE `field_worker` (
   CONSTRAINT `FK_1wa282m6f14ur9myljkkbu8d` FOREIGN KEY (`added_by`) REFERENCES `user` (`user_id`),
   CONSTRAINT `FK_fnvttbj06ub9virpmy4sb5w19` FOREIGN KEY (`discipline_id`) REFERENCES `discipline` (`id`),
   CONSTRAINT `FK_sigh58fecyn2119ybpcwriqcg` FOREIGN KEY (`modified_by`) REFERENCES `user` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 /*Table structure for table `forgot_password_request` */
 
@@ -500,7 +490,7 @@ CREATE TABLE `planned_actuals_cost` (
   CONSTRAINT `FK_5esfn5kr4k3cphjuhlih229gs` FOREIGN KEY (`created_by`) REFERENCES `user` (`user_id`),
   CONSTRAINT `FK_7dacqo4sy74ub6anhlw4bso5q` FOREIGN KEY (`modified_by`) REFERENCES `user` (`user_id`),
   CONSTRAINT `planned_actual_task_fk` FOREIGN KEY (`task_id`) REFERENCES `project_task` (`project_task_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
 
 /*Table structure for table `profile` */
 
@@ -591,7 +581,7 @@ CREATE TABLE `project` (
   CONSTRAINT `project_addr_fk` FOREIGN KEY (`address_id`) REFERENCES `address` (`address_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `project_comp_fk` FOREIGN KEY (`company_id`) REFERENCES `company_info` (`company_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `project_type_fk` FOREIGN KEY (`project_type_id`) REFERENCES `project_type` (`project_type_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf32;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf32;
 
 /*Table structure for table `project_activities` */
 
@@ -638,7 +628,7 @@ CREATE TABLE `project_configuration` (
   PRIMARY KEY (`id`),
   KEY `FK_fserys4sc7k295w86erainwlv` (`project_id`),
   CONSTRAINT `FK_fserys4sc7k295w86erainwlv` FOREIGN KEY (`project_id`) REFERENCES `project` (`project_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 
 /*Table structure for table `project_file` */
 
@@ -656,7 +646,7 @@ CREATE TABLE `project_file` (
   KEY `FK_2v0bylp54dbusaabhxg3qbtdn` (`created_by`),
   CONSTRAINT `FK_2v0bylp54dbusaabhxg3qbtdn` FOREIGN KEY (`created_by`) REFERENCES `user` (`user_id`),
   CONSTRAINT `project_file_fk` FOREIGN KEY (`project_id`) REFERENCES `project` (`project_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `project_member` */
 
@@ -672,7 +662,7 @@ CREATE TABLE `project_member` (
   KEY `member_user_fk` (`user_id`),
   CONSTRAINT `member_project_fk` FOREIGN KEY (`project_id`) REFERENCES `project` (`project_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `member_user_fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `project_task` */
 
@@ -699,7 +689,7 @@ CREATE TABLE `project_task` (
   CONSTRAINT `FK_3d965u7t9ixv7tw0ihk3ntf8b` FOREIGN KEY (`created_by`) REFERENCES `user` (`user_id`),
   CONSTRAINT `FK_lswu8hb7600pskjbu9lrutpgi` FOREIGN KEY (`modified_by`) REFERENCES `user` (`user_id`),
   CONSTRAINT `project_task_fk` FOREIGN KEY (`project_id`) REFERENCES `project` (`project_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf32;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf32;
 
 /*Table structure for table `project_task_comments` */
 
@@ -733,7 +723,7 @@ CREATE TABLE `project_task_files` (
   PRIMARY KEY (`task_file_id`),
   KEY `project_task_files_fk` (`project_task_id`),
   CONSTRAINT `project_task_files_fk` FOREIGN KEY (`project_task_id`) REFERENCES `project_task` (`project_task_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `project_type` */
 
@@ -821,6 +811,7 @@ CREATE TABLE `task_assignee` (
   `created_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `modified_by` int(11) DEFAULT NULL,
   `modified_date` datetime DEFAULT NULL,
+  `status` int(1) NOT NULL,
   PRIMARY KEY (`task_assignee_id`),
   KEY `task_assignee_fk` (`project_task_id`),
   KEY `FK_g7nktpoqdfsdumeg28ylqg1ja` (`created_by`),
@@ -828,7 +819,7 @@ CREATE TABLE `task_assignee` (
   CONSTRAINT `FK_g7nktpoqdfsdumeg28ylqg1ja` FOREIGN KEY (`created_by`) REFERENCES `user` (`user_id`),
   CONSTRAINT `FK_gkt2o02okukrnijnx1lev5f99` FOREIGN KEY (`modified_by`) REFERENCES `user` (`user_id`),
   CONSTRAINT `task_assignee_fk` FOREIGN KEY (`project_task_id`) REFERENCES `project_task` (`project_task_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf32;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf32;
 
 /*Table structure for table `task_comment` */
 
@@ -846,7 +837,31 @@ CREATE TABLE `task_comment` (
   KEY `FK_mjfxkt431suodwh1e5k9cglck` (`commented_by`),
   CONSTRAINT `FK_mjfxkt431suodwh1e5k9cglck` FOREIGN KEY (`commented_by`) REFERENCES `user` (`user_id`),
   CONSTRAINT `task_comment_fk` FOREIGN KEY (`task_id`) REFERENCES `project_task` (`project_task_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+
+/*Table structure for table `task_fieldworker` */
+
+DROP TABLE IF EXISTS `task_fieldworker`;
+
+CREATE TABLE `task_fieldworker` (
+  `task_fieldworker_id` int(11) NOT NULL AUTO_INCREMENT,
+  `created_date` datetime NOT NULL,
+  `modified_date` datetime DEFAULT NULL,
+  `status` int(11) NOT NULL,
+  `created_by` int(11) NOT NULL,
+  `field_worker_id` int(11) DEFAULT NULL,
+  `modified_by` int(11) DEFAULT NULL,
+  `project_task_id` int(11) NOT NULL,
+  PRIMARY KEY (`task_fieldworker_id`),
+  KEY `FK_e7tp6v1xqgs7lxwpku1pu2qus` (`created_by`),
+  KEY `FK_542dg8ja17vpuwonf7w1vdvwl` (`field_worker_id`),
+  KEY `FK_6kyd6q21rodfjbsnxibjwtrro` (`modified_by`),
+  KEY `FK_qjf06abb1b6iuwri5pg2q0xjw` (`project_task_id`),
+  CONSTRAINT `FK_542dg8ja17vpuwonf7w1vdvwl` FOREIGN KEY (`field_worker_id`) REFERENCES `field_worker` (`id`),
+  CONSTRAINT `FK_6kyd6q21rodfjbsnxibjwtrro` FOREIGN KEY (`modified_by`) REFERENCES `user` (`user_id`),
+  CONSTRAINT `FK_e7tp6v1xqgs7lxwpku1pu2qus` FOREIGN KEY (`created_by`) REFERENCES `user` (`user_id`),
+  CONSTRAINT `FK_qjf06abb1b6iuwri5pg2q0xjw` FOREIGN KEY (`project_task_id`) REFERENCES `project_task` (`project_task_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 /*Table structure for table `task_percentage_log` */
 
@@ -870,7 +885,18 @@ CREATE TABLE `task_percentage_log` (
   CONSTRAINT `FK_bg2ao4dgbionetoo8tvp3wmn9` FOREIGN KEY (`created_by`) REFERENCES `user` (`user_id`),
   CONSTRAINT `FK_kv835tca9yhj3udsvda5l93bi` FOREIGN KEY (`modified_by`) REFERENCES `user` (`user_id`),
   CONSTRAINT `task_percentage_fk` FOREIGN KEY (`task_id`) REFERENCES `project_task` (`project_task_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
+
+/*Table structure for table `task_priority` */
+
+DROP TABLE IF EXISTS `task_priority`;
+
+CREATE TABLE `task_priority` (
+  `task_priority_id` int(11) NOT NULL AUTO_INCREMENT,
+  `priority` varchar(20) DEFAULT NULL,
+  `code` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`task_priority_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 /*Table structure for table `task_status` */
 
@@ -928,6 +954,8 @@ CREATE TABLE `user` (
   UNIQUE KEY `user_name_UNIQUE` (`user_name`),
   UNIQUE KEY `UK_lqjrcobrh9jc8wpcar64q1bfh` (`user_name`),
   KEY `fk_user_type_id_idx` (`user_type_id`),
+  KEY `FK_tfg4ytlwtbbks3dqy6sbbjpkq` (`discipline`),
+  CONSTRAINT `FK_tfg4ytlwtbbks3dqy6sbbjpkq` FOREIGN KEY (`discipline`) REFERENCES `discipline` (`id`),
   CONSTRAINT `fk_user_type_id` FOREIGN KEY (`user_type_id`) REFERENCES `user_type` (`user_type_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf32;
 
@@ -963,7 +991,7 @@ CREATE TABLE `user_notification` (
   PRIMARY KEY (`id`),
   KEY `FK_hrv2lmyjlt3ken6hk2f4sg1e` (`user_id`),
   CONSTRAINT `FK_hrv2lmyjlt3ken6hk2f4sg1e` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=latin1;
 
 /*Table structure for table `user_notification_attribute` */
 
@@ -977,7 +1005,7 @@ CREATE TABLE `user_notification_attribute` (
   PRIMARY KEY (`id`),
   KEY `FK_3a2j0bxaiwccw4elllxy2syxm` (`user_notification_id`),
   CONSTRAINT `FK_3a2j0bxaiwccw4elllxy2syxm` FOREIGN KEY (`user_notification_id`) REFERENCES `user_notification` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=93 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=265 DEFAULT CHARSET=latin1;
 
 /*Table structure for table `user_profile` */
 
@@ -1024,7 +1052,7 @@ CREATE TABLE `user_session_info` (
   PRIMARY KEY (`user_session_info_id`),
   KEY `fk_user_id_idx` (`user_id`),
   CONSTRAINT `fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=107 DEFAULT CHARSET=latin1;
 
 /*Table structure for table `user_type` */
 

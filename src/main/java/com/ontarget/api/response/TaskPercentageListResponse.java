@@ -10,7 +10,11 @@ import java.util.List;
  */
 public class TaskPercentageListResponse extends OnTargetResponse{
 
-    private List<TaskPercentage> taskPercentageList;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private List<TaskPercentage> taskPercentageList;
 
 
     public List<TaskPercentage> getTaskPercentageList() {

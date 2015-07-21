@@ -20,6 +20,7 @@ import com.ontarget.bean.Contact;
 import com.ontarget.bean.UserDTO;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.AddDependentRequest;
+import com.ontarget.dto.FieldWorkerResponse;
 import com.ontarget.dto.GetTaskAttachmentResponse;
 import com.ontarget.dto.InsertResponse;
 import com.ontarget.dto.OnTargetResponse;
@@ -35,6 +36,7 @@ import com.ontarget.request.bean.Task;
 import com.ontarget.request.bean.TaskAttachmentRequest;
 import com.ontarget.request.bean.TaskCommentRequest;
 import com.ontarget.request.bean.TaskDetailRequest;
+import com.ontarget.request.bean.TaskFieldWorkerRequest;
 import com.ontarget.request.bean.TaskFileSaveRequest;
 import com.ontarget.request.bean.TaskMemberRequest;
 import com.ontarget.request.bean.TaskRequest;
@@ -282,10 +284,9 @@ public class TaskEndpointImpl implements TaskEndpoint {
 	public OnTargetResponse assignTaskToUser(TaskMemberRequest taskMemberRequest) {
 		OnTargetResponse response = new OnTargetResponse();
 		try {
-			List<Integer> members = taskMemberRequest.getMembers();
-			int userId = taskMemberRequest.getBaseRequest().getLoggedInUserId();
-			int taskId = taskMemberRequest.getTaskId();
-			taskService.assignTaskToUser(taskId, members, userId);
+			logger.info("members: "+taskMemberRequest.getMembers());
+			taskService.assignTaskToUser(taskMemberRequest.getTaskId(), taskMemberRequest.getMembers(), taskMemberRequest.getBaseRequest()
+					.getLoggedInUserId());
 			response.setReturnMessage("Successfully assigned task");
 			response.setReturnVal(OnTargetConstant.SUCCESS);
 		} catch (Exception e) {
@@ -294,7 +295,48 @@ public class TaskEndpointImpl implements TaskEndpoint {
 			response.setReturnMessage("Error while assigning task members");
 			response.setReturnVal(OnTargetConstant.ERROR);
 		}
+		return response;
+	}
 
+	@Override
+	@Path("/assignFieldworkerToTask")
+	@POST
+	public OnTargetResponse assignFieldworkerToTask(TaskMemberRequest taskMemberRequest) {
+		OnTargetResponse response = new OnTargetResponse();
+		try {
+			List<Integer> members = taskMemberRequest.getMembers();
+			int userId = taskMemberRequest.getBaseRequest().getLoggedInUserId();
+			int taskId = taskMemberRequest.getTaskId();
+			boolean assigned = taskService.assignTaskToFieldworker(taskId, members, userId);
+			if (assigned) {
+				response.setReturnMessage("Successfully assigned field workers");
+				response.setReturnVal(OnTargetConstant.SUCCESS);
+			} else {
+				response.setReturnMessage("Error while assigning field workers to task");
+				response.setReturnVal(OnTargetConstant.ERROR);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("Error while assigning field workers to task", e);
+			response.setReturnMessage("Error while assigning field workers to task");
+			response.setReturnVal(OnTargetConstant.ERROR);
+		}
+		return response;
+	}
+
+	@Override
+	@Path("/getTaskFieldWorkers")
+	@POST
+	public FieldWorkerResponse getTaskFieldWorkers(TaskFieldWorkerRequest request) {
+		FieldWorkerResponse response = new FieldWorkerResponse();
+		try {
+			return taskService.getFieldWorkersByTask(request.getTaskId());
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("Error while retrieving field workers for a task." + e);
+			response.setReturnMessage("Error while retrieving field workers for a task");
+			response.setReturnVal(OnTargetConstant.ERROR);
+		}
 		return response;
 	}
 
@@ -352,9 +394,8 @@ public class TaskEndpointImpl implements TaskEndpoint {
 	public TaskDetailResponse deleteTask(TaskDetailRequest taskDetailRequest) {
 		TaskDetailResponse taskResponse = new TaskDetailResponse();
 		try {
-			
-			boolean deleted = taskService.deleteTask(taskDetailRequest.getTaskId(), taskDetailRequest.getBaseRequest()
-					.getLoggedInUserId());
+
+			boolean deleted = taskService.deleteTask(taskDetailRequest.getTaskId(), taskDetailRequest.getBaseRequest().getLoggedInUserId());
 			if (deleted) {
 				taskResponse.setReturnVal(OnTargetConstant.SUCCESS);
 				taskResponse.setReturnMessage("Task deleted successfully");

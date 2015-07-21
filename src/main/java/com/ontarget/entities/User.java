@@ -40,9 +40,6 @@ public class User implements Serializable {
 	private String salt;
 	@Column(name = "user_status", length = 2)
 	private String userStatus;
-	// @Basic(optional = false)
-	// @Column(name = "discipline", nullable = false)
-	// private long discipline;
 	@JoinColumn(name = "discipline", referencedColumnName = "id")
 	@ManyToOne
 	private Discipline discipline;

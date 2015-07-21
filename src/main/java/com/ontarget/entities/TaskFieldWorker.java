@@ -21,18 +21,18 @@ import javax.persistence.TemporalType;
  * @author santosh
  */
 @Entity
-@Table(name = "task_assignee")
-public class TaskAssignee implements Serializable {
+@Table(name = "task_fieldworker")
+public class TaskFieldWorker implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Basic(optional = false)
-	@Column(name = "task_assignee_id", nullable = false)
-	private Integer taskAssigneeId;
-	@Basic(optional = false)
-	@Column(name = "task_assignee", nullable = false)
-	private Integer taskAssignee;
-	@JoinColumn(name = "created_by", referencedColumnName = "user_id")
+	@Column(name = "task_fieldworker_id", nullable = false)
+	private Integer taskFieldWorkerId;
+	@JoinColumn(name = "field_worker_id", referencedColumnName = "id")
+	@ManyToOne()
+	private FieldWorker fieldWorker;
+	@JoinColumn(name = "created_by", referencedColumnName = "user_id", nullable = false)
 	@ManyToOne(fetch = FetchType.LAZY)
 	private User createdBy;
 	@Basic(optional = false)
@@ -42,8 +42,7 @@ public class TaskAssignee implements Serializable {
 	@JoinColumn(name = "modified_by", referencedColumnName = "user_id")
 	@ManyToOne(fetch = FetchType.LAZY)
 	private User modifiedBy;
-	@Basic(optional = false)
-	@Column(name = "modified_date", nullable = false)
+	@Column(name = "modified_date")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date modifiedDate;
 	@JoinColumn(name = "project_task_id", referencedColumnName = "project_task_id", nullable = false)
@@ -52,27 +51,23 @@ public class TaskAssignee implements Serializable {
 	@Column(name = "status", length = 1, nullable = false)
 	private Integer status;
 
-	public TaskAssignee() {
+	public TaskFieldWorker() {
 	}
 
-	public TaskAssignee(Integer taskAssigneeId) {
-		this.taskAssigneeId = taskAssigneeId;
+	public Integer getTaskFieldWorkerId() {
+		return taskFieldWorkerId;
 	}
 
-	public Integer getTaskAssigneeId() {
-		return taskAssigneeId;
+	public void setTaskFieldWorkerId(Integer taskFieldWorkerId) {
+		this.taskFieldWorkerId = taskFieldWorkerId;
 	}
 
-	public void setTaskAssigneeId(Integer taskAssigneeId) {
-		this.taskAssigneeId = taskAssigneeId;
+	public FieldWorker getFieldWorker() {
+		return fieldWorker;
 	}
 
-	public Integer getTaskAssignee() {
-		return taskAssignee;
-	}
-
-	public void setTaskAssignee(Integer taskAssignee) {
-		this.taskAssignee = taskAssignee;
+	public void setFieldWorker(FieldWorker fieldWorker) {
+		this.fieldWorker = fieldWorker;
 	}
 
 	public User getCreatedBy() {
@@ -126,7 +121,7 @@ public class TaskAssignee implements Serializable {
 	@Override
 	public int hashCode() {
 		int hash = 0;
-		hash += (taskAssigneeId != null ? taskAssigneeId.hashCode() : 0);
+		hash += (taskFieldWorkerId != null ? taskFieldWorkerId.hashCode() : 0);
 		return hash;
 	}
 
@@ -134,12 +129,12 @@ public class TaskAssignee implements Serializable {
 	public boolean equals(Object object) {
 		// TODO: Warning - this method won't work in the case the id fields are
 		// not set
-		if (!(object instanceof TaskAssignee)) {
+		if (!(object instanceof TaskFieldWorker)) {
 			return false;
 		}
-		TaskAssignee other = (TaskAssignee) object;
-		if ((this.taskAssigneeId == null && other.taskAssigneeId != null)
-				|| (this.taskAssigneeId != null && !this.taskAssigneeId.equals(other.taskAssigneeId))) {
+		TaskFieldWorker other = (TaskFieldWorker) object;
+		if ((this.taskFieldWorkerId == null && other.taskFieldWorkerId != null)
+				|| (this.taskFieldWorkerId != null && !this.taskFieldWorkerId.equals(other.taskFieldWorkerId))) {
 			return false;
 		}
 		return true;
@@ -147,7 +142,7 @@ public class TaskAssignee implements Serializable {
 
 	@Override
 	public String toString() {
-		return "com.ontarget.entities.TaskAssignee[taskAssigneeId=" + taskAssigneeId + "]";
+		return "com.ontarget.entities.TaskFieldWorker[taskFieldworkerId=" + taskFieldWorkerId + "]";
 	}
 
 }

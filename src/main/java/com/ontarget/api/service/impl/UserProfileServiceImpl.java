@@ -5,6 +5,7 @@ import java.util.Random;
 
 import com.ontarget.api.dao.*;
 import com.ontarget.entities.Email;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -20,6 +21,7 @@ import com.ontarget.bean.ProjectDTO;
 import com.ontarget.bean.UserDTO;
 import com.ontarget.bean.UserRegistration;
 import com.ontarget.constant.OnTargetConstant;
+import com.ontarget.dto.ForgotPasswordRequestResponse;
 import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.UserImageRequest;
 import com.ontarget.dto.UserInvitationRequestDTO;
@@ -84,9 +86,9 @@ public class UserProfileServiceImpl implements UserProfileService {
 	@Autowired
 	private EmailService emailService;
 
-    @Autowired
-    @Qualifier("emailJpaDAOImpl")
-    private EmailDAO emailDao;
+	@Autowired
+	@Qualifier("emailJpaDAOImpl")
+	private EmailDAO emailDao;
 
 	private Random random = new Random();
 
@@ -467,32 +469,33 @@ public class UserProfileServiceImpl implements UserProfileService {
 	}
 
 	@Override
-	public boolean forgotPasswordRequest(String emailAddress) throws Exception {
+	public ForgotPasswordRequestResponse forgotPasswordRequest(String username) throws Exception {
 
-		logger.debug("Adding forgot password request: " + emailAddress);
+		ForgotPasswordRequestResponse response = new ForgotPasswordRequestResponse();
 
-        Email email = emailDao.getByEmailAddress(emailAddress);
-        if(email == null || email.getUser() == null){
-            throw new Exception("Error while fetching email");
-        }
+		logger.debug("Adding forgot password request: " + username);
 
+		User user = userDAO.findUserByUsername(username);
 
-		UserDTO existingUser = authenticationDAO.getUserInfoById(email.getUser().getUserId());
-		if (existingUser != null && existingUser.getUserId() > 0) {
-
-			final String forgotPasswordToken = Security.generateRandomValue(OnTargetConstant.TOKEN_LENGTH);
-			int id = userDAO.saveForgotPasswordRequest(existingUser.getUserId(), forgotPasswordToken);
-
-			Contact contact = contactDAO.getContact(existingUser.getUserId());
-			if (id > 0) {
-				emailService.sendForgotPasswordEmail(emailAddress, contact.getFirstName() + " " + contact.getLastName(),
-						forgotPasswordToken);
-			}
-
-			return true;
-
+		if (user == null) {
+			response.setReturnVal(OnTargetConstant.ERROR);
+			response.setReturnMessage("Username not found");
+			return response;
 		}
-		return false;
+		
+		Email email = user.getEmailList().get(0);
+
+		final String forgotPasswordToken = Security.generateRandomValue(OnTargetConstant.TOKEN_LENGTH);
+		int id = userDAO.saveForgotPasswordRequest(user.getUserId(), forgotPasswordToken);
+
+		Contact contact = contactDAO.getContact(user.getUserId());
+		if (id > 0) {
+			emailService.sendForgotPasswordEmail(email.getEmailAddress(), contact.getFirstName() + " " + contact.getLastName(),
+					forgotPasswordToken);
+		}
+		response.setReturnVal(OnTargetConstant.SUCCESS);
+		response.setReturnMessage("Email has been sent to " + email.getEmailAddress() + " with password reset instructions.");
+		return response;
 	}
 
 	@Override

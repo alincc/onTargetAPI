@@ -9,7 +9,7 @@ public class ActivityTaskInfo {
 	private String estimatedCost;
 	private String actualCost;
 	private String index;
-	private String priority;
+	private Integer priority;
 
 	public String getTaskCode() {
 		return taskCode;
@@ -67,11 +67,11 @@ public class ActivityTaskInfo {
 		this.actualCost = actualCost;
 	}
 
-	public String getPriority() {
+	public Integer getPriority() {
 		return priority;
 	}
 
-	public void setPriority(String priority) {
+	public void setPriority(Integer priority) {
 		this.priority = priority;
 	}
 

@@ -27,7 +27,12 @@ import com.ontarget.bean.ProjectTaskInfo;
 import com.ontarget.bean.TaskInfo;
 import com.ontarget.bean.TaskStatusCount;
 import com.ontarget.bean.UserDTO;
+import com.ontarget.constant.OnTargetConstant;
+import com.ontarget.dto.FieldWorkerInfo;
+import com.ontarget.dto.FieldWorkerResponse;
 import com.ontarget.dto.ProjectTask;
+import com.ontarget.entities.FieldWorker;
+import com.ontarget.entities.TaskFieldWorker;
 import com.ontarget.request.bean.Task;
 import com.ontarget.request.bean.TaskCommentRequest;
 
@@ -81,6 +86,17 @@ public class TaskServiceImpl implements TaskService {
 
 		if (isTaskAdd(taskId)) {
 			taskId = taskDAO.addTask(task, userId);
+			if (taskId > 0) {
+				List<Integer> assignees = task.getAssignees();
+				for (Integer assigneeId : assignees) {
+					Contact contact = contactDAO.getContact(assigneeId);
+					
+					if (contact != null && (contact.getEmail() != null && contact.getEmail().trim().length() > 0)) {
+						ProjectTaskInfo taskInfo = taskDAO.getTaskInfo(taskId);
+						emailService.sendTaskAssignmentEmail(taskInfo, contact);
+					}
+				}
+			}
 		} else {
 			boolean updated = taskDAO.updateTask(task, userId);
 			if (!updated) {
@@ -185,21 +201,21 @@ public class TaskServiceImpl implements TaskService {
 	@Transactional(rollbackFor = { Exception.class })
 	public boolean updateTaskStatus(int taskId, String taskStatus, int userId) throws Exception {
 		boolean taskStatusUpdated = taskDAO.updateTaskStatus(taskId, taskStatus, userId);
-        /**
-         * change of status email.
-         */
-        if(taskStatusUpdated){
-            ProjectTaskInfo task = taskDAO.getTaskInfo(taskId);
+		/**
+		 * change of status email.
+		 */
+		if (taskStatusUpdated) {
+			ProjectTaskInfo task = taskDAO.getTaskInfo(taskId);
 
-            Set<Integer> assignees = this.getTaskMembers(taskId);
-            if(assignees!=null && assignees.size() > 0){
-                for(Integer assignee : assignees) {
-                    emailService.sendTaskStatusChangeEmail(task, assignee.intValue());
-                }
-            }
+			Set<Integer> assignees = this.getTaskMembers(taskId);
+			if (assignees != null && assignees.size() > 0) {
+				for (Integer assignee : assignees) {
+					emailService.sendTaskStatusChangeEmail(task, assignee.intValue());
+				}
+			}
 
-        }
-        return taskStatusUpdated;
+		}
+		return taskStatusUpdated;
 	}
 
 	@Override
@@ -240,19 +256,23 @@ public class TaskServiceImpl implements TaskService {
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
 	public void assignTaskToUser(int taskId, List<Integer> users, int assigningUser) throws Exception {
-		logger.info("clearing task assignees");
-		taskDAO.deleteAllTaskAssignedUsers(taskId);
-		for (Integer userId : users) {
-			logger.info("inserting user " + userId + " for task " + taskId);
-			taskDAO.assignTaskToUser(taskId, userId, assigningUser);
-
-			// get contact detail by userId
+		List<Integer> assignees = taskDAO.assignTaskToUser(taskId, assigningUser, users);
+		logger.info("assignees: "+assignees);
+		for (Integer userId : assignees) {
+			logger.info("user id: "+userId);
 			Contact contact = contactDAO.getContact(userId);
-			ProjectTaskInfo task = taskDAO.getTaskInfo(taskId);
-			if (contact != null) {
+
+			if (contact != null && (contact.getEmail() != null && contact.getEmail().trim().length() > 0)) {
+				ProjectTaskInfo task = taskDAO.getTaskInfo(taskId);
 				emailService.sendTaskAssignmentEmail(task, contact);
 			}
 		}
+	}
+
+	@Override
+	@Transactional(rollbackFor = { Exception.class })
+	public boolean assignTaskToFieldworker(int taskId, List<Integer> fieldWorkerIds, int assigningUser) throws Exception {
+		return taskDAO.assignTaskToFieldworker(taskId, assigningUser, fieldWorkerIds);
 	}
 
 	public List<ProjectTask> getDependentTasks(int taskId) throws Exception {
@@ -266,6 +286,42 @@ public class TaskServiceImpl implements TaskService {
 	@Override
 	public boolean deleteTask(int taskId, int userId) throws Exception {
 		return taskDAO.deleteTask(taskId, userId);
+	}
+
+	@Override
+	public FieldWorkerResponse getFieldWorkersByTask(int taskId) throws Exception {
+		FieldWorkerResponse response = new FieldWorkerResponse();
+		List<FieldWorkerInfo> fieldWorkerInfoList = new ArrayList<>();
+		response.setFieldWorkers(fieldWorkerInfoList);
+		try {
+			List<TaskFieldWorker> taskFieldWorkers = taskDAO.getTaskFieldWorkersByTask(taskId);
+
+			if (taskFieldWorkers != null && !taskFieldWorkers.isEmpty()) {
+				for (TaskFieldWorker taskFieldWorker : taskFieldWorkers) {
+					if (taskFieldWorker.getStatus().equals(OnTargetConstant.TaskFieldWorkerStatus.ASSIGNED)) {
+						FieldWorker fieldWorker = taskFieldWorker.getFieldWorker();
+						FieldWorkerInfo fieldWorkerInfo = new FieldWorkerInfo();
+						fieldWorkerInfo.setId(fieldWorker.getId());
+						fieldWorkerInfo.setFirstName(fieldWorker.getFirstName());
+						fieldWorkerInfo.setLastName(fieldWorker.getLastName());
+						fieldWorkerInfo.setEmailAddress(fieldWorker.getEmailAddress());
+						fieldWorkerInfo.setPhoneNumber(fieldWorker.getPhoneNumber());
+						fieldWorkerInfo.setDisciplineId(fieldWorker.getDiscipline().getId());
+						fieldWorkerInfo.setDiscipline(fieldWorker.getDiscipline().getName());
+						fieldWorkerInfo.setAddedDate(fieldWorker.getAddedDate());
+						fieldWorkerInfoList.add(fieldWorkerInfo);
+					}
+				}
+			}
+			response.setFieldWorkers(fieldWorkerInfoList);
+			response.setReturnVal(OnTargetConstant.SUCCESS);
+			response.setReturnMessage("Successfully retrieved task field workers");
+		} catch (Exception e) {
+			logger.error(e);
+			response.setReturnVal(OnTargetConstant.ERROR);
+			response.setReturnMessage("Error while retrieving task field workers");
+		}
+		return response;
 	}
 
 }

@@ -1,7 +1,9 @@
 package com.ontarget.api.jpa.dao.impl;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -18,22 +20,33 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.ontarget.api.dao.TaskDAO;
+import com.ontarget.api.repository.ContactRepository;
 import com.ontarget.api.repository.DependentTaskRepository;
 import com.ontarget.api.repository.ProjectTaskRepository;
 import com.ontarget.api.repository.TaskAssigneeRepository;
 import com.ontarget.api.repository.TaskCommentRepository;
+import com.ontarget.api.repository.TaskFieldWorkerRepository;
+import com.ontarget.api.repository.UserRepository;
+import com.ontarget.bean.Contact;
 import com.ontarget.bean.DependentTaskDTO;
 import com.ontarget.bean.ProjectTaskInfo;
 import com.ontarget.bean.TaskComment;
 import com.ontarget.bean.TaskInfo;
 import com.ontarget.bean.TaskObj;
+import com.ontarget.bean.TaskPercentage;
 import com.ontarget.bean.TaskStatusCount;
+import com.ontarget.bean.UserDTO;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.constant.OnTargetQuery;
 import com.ontarget.dto.ProjectTask;
 import com.ontarget.entities.DependentTask;
+import com.ontarget.entities.Email;
+import com.ontarget.entities.FieldWorker;
+import com.ontarget.entities.Phone;
 import com.ontarget.entities.Project;
 import com.ontarget.entities.TaskAssignee;
+import com.ontarget.entities.TaskFieldWorker;
+import com.ontarget.entities.TaskPercentageLog;
 import com.ontarget.entities.User;
 import com.ontarget.request.bean.Task;
 import com.ontarget.request.bean.TaskCommentRequest;
@@ -49,6 +62,12 @@ public class TaskJpaDAOImpl implements TaskDAO {
 	private TaskAssigneeRepository taskAssigneeRepository;
 	@Resource
 	private DependentTaskRepository dependentTaskRepository;
+	@Resource
+	private TaskFieldWorkerRepository taskFieldWorkerRepository;
+	@Resource
+	private UserRepository userRepository;
+	@Resource
+	private ContactRepository contactRepository;
 	@PersistenceContext
 	private EntityManager entityManager;
 	@Autowired
@@ -67,6 +86,18 @@ public class TaskJpaDAOImpl implements TaskDAO {
 		projectTask.setCreatedBy(new User(userId));
 		projectTask.setCreatedDate(new Date());
 		projectTaskRepository.save(projectTask);
+
+		List<Integer> assignees = task.getAssignees();
+
+		for (Integer assigneeId : assignees) {
+			TaskAssignee taskAssignee = new TaskAssignee();
+			taskAssignee.setProjectTask(projectTask);
+			taskAssignee.setTaskAssignee(assigneeId);
+			taskAssignee.setCreatedBy(new User(userId));
+			taskAssignee.setStatus(OnTargetConstant.TaskAssigneeStatus.ASSIGNED);
+			taskAssignee.setCreatedDate(new Date());
+			taskAssigneeRepository.save(taskAssignee);
+		}
 		return projectTask.getProjectTaskId();
 	}
 
@@ -180,6 +211,7 @@ public class TaskJpaDAOImpl implements TaskDAO {
 		List<com.ontarget.entities.ProjectTask> taskList = projectTaskRepository.findUndeletedTasksByProject(projectId);
 
 		List<ProjectTask> tasks = new ArrayList<>();
+		Map<Integer, Contact> contactMap = new HashMap<>();
 		if (taskList != null && !taskList.isEmpty()) {
 			for (com.ontarget.entities.ProjectTask taskObj : taskList) {
 				ProjectTask task = new ProjectTask();
@@ -198,10 +230,115 @@ public class TaskJpaDAOImpl implements TaskDAO {
 					task.setCompleted(true);
 				}
 				tasks.add(task);
+
+				List<TaskComment> comments = getTaskComments(task.getProjectTaskId());
+				for (TaskComment comment : comments) {
+					int commentedBy = comment.getCommentedBy();
+					if (contactMap.containsKey(commentedBy)) {
+						comment.setCommenterContact(contactMap.get(commentedBy));
+					} else {
+						Contact contact = getContact(commentedBy);
+						contactMap.put(commentedBy, contact);
+						comment.setCommenterContact(contact);
+					}
+				}
+				task.setComments(comments);
+				List<TaskPercentage> taskPercentageList = getTaskPercentageByTask(task.getProjectTaskId());
+				if (taskPercentageList != null && taskPercentageList.size() > 0) {
+					task.setPercentageComplete(taskPercentageList.get(0).getTaskPercentageComplete());
+				}
+
+				Set<Integer> assignees = getTaskMembers(task.getProjectTaskId());
+				List<UserDTO> assignedUsers = new ArrayList<>();
+				task.setAssignee(assignedUsers);
+				if (assignees != null && assignees.size() > 0) {
+					for (Integer id : assignees) {
+						Contact contact = getContact(id);
+						UserDTO assignedToUser = new UserDTO();
+						assignedToUser.setContact(contact);
+						assignedToUser.setUserId((id.intValue()));
+						assignedUsers.add(assignedToUser);
+					}
+				}
 			}
 		}
 
 		return tasks;
+	}
+
+	public List<TaskPercentage> getTaskPercentageByTask(int projectTaskId) throws Exception {
+		List<TaskPercentage> taskPercentageList = new ArrayList<>();
+
+		String hql = "select tpl from TaskPercentageLog tpl where tpl.projectTask.projectTaskId = :projectTaskId"
+				+ " order by tpl.createdDate desc";
+		Query query = entityManager.createQuery(hql);
+		query.setParameter("projectTaskId", projectTaskId);
+		@SuppressWarnings("unchecked")
+		List<TaskPercentageLog> logs = query.getResultList();
+
+		if (logs != null && !logs.isEmpty()) {
+			for (TaskPercentageLog taskPercentageLog : logs) {
+
+				TaskPercentage percentage = new TaskPercentage();
+				percentage.setId(taskPercentageLog.getTaskPercentageLogId());
+				percentage.setFromDate(taskPercentageLog.getStartDate());
+				percentage.setToDate(taskPercentageLog.getEndDate());
+				percentage.setTaskPercentageType(taskPercentageLog.getPercentageType());
+				percentage.setTaskPercentageComplete(taskPercentageLog.getPercentageComplete());
+				percentage.setCreatedBy(String.valueOf(taskPercentageLog.getCreatedBy().getUserId()));
+
+				int year = 0;
+				int month = 0;
+				if (percentage.getFromDate() != null) {
+					Calendar cal = Calendar.getInstance();
+					cal.setTime(percentage.getFromDate());
+					year = cal.get(Calendar.YEAR);
+					month = cal.get(Calendar.MONTH) + 1;
+				}
+				percentage.setMonth(month);
+				percentage.setYear(year);
+
+				taskPercentageList.add(percentage);
+				return null;
+			}
+		}
+
+		return taskPercentageList;
+	}
+
+	public Contact getContact(int userId) throws Exception {
+		User userObj = userRepository.findByUserId(userId);
+
+		List<com.ontarget.entities.Contact> contactList = contactRepository.findByUserId(userId);
+
+		if (contactList == null || contactList.isEmpty()) {
+			throw new Exception("User " + userId + " does not exist");
+		}
+
+		com.ontarget.entities.Contact contactObj = contactList.get(0);
+		Contact contact = new Contact();
+		contact.setContactId(contactObj.getContactId());
+		UserDTO user = new UserDTO();
+		user.setUserId((int) userId);
+		contact.setUser(user);
+		contact.setFirstName(contactObj.getFirstName());
+		contact.setLastName(contactObj.getLastName());
+		contact.setTitle(contactObj.getTitle());
+		contact.setUserImagePath(contactObj.getContactImage());
+
+		List<Phone> phoneList = contactObj.getPhoneList();
+		if (phoneList != null && !phoneList.isEmpty()) {
+			Phone phone = phoneList.get(0);
+			contact.setAreaCode(phone.getAreaCode());
+			contact.setPhoneNumber(phone.getPhoneNumber());
+		}
+
+		List<Email> emailList = userObj.getEmailList();
+		if (emailList != null && !emailList.isEmpty()) {
+			Email email = emailList.get(0);
+			contact.setEmail(email.getEmailAddress());
+		}
+		return contact;
 	}
 
 	@Override
@@ -262,7 +399,6 @@ public class TaskJpaDAOImpl implements TaskDAO {
 				comments.add(comment);
 			}
 		}
-
 		return comments;
 	}
 
@@ -293,7 +429,8 @@ public class TaskJpaDAOImpl implements TaskDAO {
 
 	@Override
 	public Set<Integer> getTaskMembers(int taskId) throws Exception {
-		String hql = "select t from TaskAssignee t where t.projectTask.projectTaskId = :projectTaskId";
+		String hql = "select t from TaskAssignee t where t.projectTask.projectTaskId = :projectTaskId and t.status !="
+				+ OnTargetConstant.TaskAssigneeStatus.DELETED;
 		Query query = entityManager.createQuery(hql);
 		query.setParameter("projectTaskId", taskId);
 		@SuppressWarnings("unchecked")
@@ -324,14 +461,43 @@ public class TaskJpaDAOImpl implements TaskDAO {
 	}
 
 	@Override
-	public boolean assignTaskToUser(int taskId, int userId, int assigningUser) throws Exception {
-		TaskAssignee taskAssignee = new TaskAssignee();
-		taskAssignee.setProjectTask(new com.ontarget.entities.ProjectTask(taskId));
-		taskAssignee.setTaskAssignee(userId);
-		taskAssignee.setCreatedBy(new User(assigningUser));
-		taskAssignee.setCreatedDate(new Date());
-		taskAssigneeRepository.save(taskAssignee);
-		return true;
+	public List<Integer> assignTaskToUser(int taskId, int userId, List<Integer> assignees) throws Exception {
+
+		List<TaskAssignee> taskAssigneeList = taskAssigneeRepository.getAllTaskAssigneeByTaskId(taskId);
+
+		List<Integer> alreadyAssigned = new ArrayList<Integer>();
+
+		List<Integer> newAssigneeList = new ArrayList<Integer>();
+
+		if (taskAssigneeList != null && !taskAssigneeList.isEmpty()) {
+			for (TaskAssignee assignee : taskAssigneeList) {
+				if (!assignees.contains(assignee.getTaskAssignee())) {
+					assignee.setStatus(OnTargetConstant.TaskAssigneeStatus.DELETED);
+				} else {
+					if (assignee.getStatus().equals(OnTargetConstant.TaskAssigneeStatus.DELETED)) {
+						newAssigneeList.add(assignee.getTaskAssignee());
+					}
+					assignee.setStatus(OnTargetConstant.TaskAssigneeStatus.ASSIGNED);
+				}
+				assignee.setModifiedBy(new User(userId));
+				assignee.setModifiedDate(new Date());
+				taskAssigneeRepository.save(assignee);
+				alreadyAssigned.add(assignee.getTaskAssignee());
+			}
+		}
+		for (Integer assigneeId : assignees) {
+			if (!alreadyAssigned.contains(assigneeId)) {
+				TaskAssignee taskAssignee = new TaskAssignee();
+				taskAssignee.setProjectTask(new com.ontarget.entities.ProjectTask(taskId));
+				taskAssignee.setTaskAssignee(assigneeId);
+				taskAssignee.setCreatedBy(new User(userId));
+				taskAssignee.setStatus(OnTargetConstant.TaskAssigneeStatus.ASSIGNED);
+				taskAssignee.setCreatedDate(new Date());
+				taskAssigneeRepository.save(taskAssignee);
+				newAssigneeList.add(taskAssignee.getTaskAssignee());
+			}
+		}
+		return newAssigneeList;
 	}
 
 	@Override
@@ -341,6 +507,41 @@ public class TaskJpaDAOImpl implements TaskDAO {
 		taskAssignee.setModifiedBy(new User(assigningUser));
 		taskAssignee.setModifiedDate(new Date());
 		taskAssigneeRepository.save(taskAssignee);
+		return true;
+	}
+
+	@Override
+	public boolean assignTaskToFieldworker(int taskId, int userId, List<Integer> fieldWorkerIds) throws Exception {
+
+		List<TaskFieldWorker> taskFieldworkers = taskFieldWorkerRepository.getAllFieldworkersByTaskId(taskId);
+		List<Integer> alreadyAssigned = new ArrayList<Integer>();
+		if (taskFieldworkers != null && !taskFieldworkers.isEmpty()) {
+			for (TaskFieldWorker taskFieldWorker : taskFieldworkers) {
+
+				if (!fieldWorkerIds.contains(taskFieldWorker.getFieldWorker().getId())) {
+					taskFieldWorker.setStatus(OnTargetConstant.TaskFieldWorkerStatus.DELETED);
+				} else {
+					taskFieldWorker.setStatus(OnTargetConstant.TaskFieldWorkerStatus.ASSIGNED);
+				}
+
+				taskFieldWorker.setModifiedBy(new User(userId));
+				taskFieldWorker.setModifiedDate(new Date());
+				taskFieldWorkerRepository.save(taskFieldWorker);
+				alreadyAssigned.add(taskFieldWorker.getFieldWorker().getId());
+			}
+
+		}
+		for (Integer fieldworkerId : fieldWorkerIds) {
+			if (!alreadyAssigned.contains(fieldworkerId)) {
+				TaskFieldWorker taskFieldworker = new TaskFieldWorker();
+				taskFieldworker.setProjectTask(new com.ontarget.entities.ProjectTask(taskId));
+				taskFieldworker.setFieldWorker(new FieldWorker(fieldworkerId));
+				taskFieldworker.setCreatedBy(new User(userId));
+				taskFieldworker.setCreatedDate(new Date());
+				taskFieldworker.setStatus(OnTargetConstant.TaskFieldWorkerStatus.ASSIGNED);
+				taskFieldWorkerRepository.save(taskFieldworker);
+			}
+		}
 		return true;
 	}
 
@@ -381,8 +582,7 @@ public class TaskJpaDAOImpl implements TaskDAO {
 		task.setEndDate(projectTask.getEndDate());
 		task.setDescription(projectTask.getDescription());
 		task.setSeverity(projectTask.getSeverity());
-        task.setCreatedBy(projectTask.getCreatedBy());
-
+		task.setCreatorId(projectTask.getCreatedBy().getUserId());
 		return task;
 	}
 
@@ -474,8 +674,8 @@ public class TaskJpaDAOImpl implements TaskDAO {
 
 	@Override
 	public List<TaskInfo> getTask(int projectId, int completed) throws Exception {
-		List<com.ontarget.entities.ProjectTask> assigneeTasks = projectTaskRepository.getTasksByProjectIdAndStatus(projectId,
-				projectId, String.valueOf(completed));
+		List<com.ontarget.entities.ProjectTask> assigneeTasks = projectTaskRepository.getTasksByProjectIdAndStatus(projectId, projectId,
+				String.valueOf(completed));
 		List<TaskInfo> tasks = new LinkedList<>();
 
 		if (assigneeTasks != null && !assigneeTasks.isEmpty()) {
@@ -508,6 +708,11 @@ public class TaskJpaDAOImpl implements TaskDAO {
 		projectTask.setModifiedDate(new Date());
 		projectTaskRepository.save(projectTask);
 		return true;
+	}
+
+	@Override
+	public List<TaskFieldWorker> getTaskFieldWorkersByTask(int taskId) throws Exception {
+		return taskFieldWorkerRepository.getAllFieldworkersByTaskId(taskId);
 	}
 
 }

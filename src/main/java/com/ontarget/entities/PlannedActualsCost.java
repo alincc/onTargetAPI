@@ -44,13 +44,13 @@ public class PlannedActualsCost implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date expiryDate;
 	@JoinColumn(name = "created_by", referencedColumnName = "user_id")
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne()
 	private User createdBy;
 	@Column(name = "created_date")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createdDate;
 	@JoinColumn(name = "modified_by", referencedColumnName = "user_id")
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne()
 	private User modifiedBy;
 	@Column(name = "modified_date")
 	@Temporal(TemporalType.TIMESTAMP)

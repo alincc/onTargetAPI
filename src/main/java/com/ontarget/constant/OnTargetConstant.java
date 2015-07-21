@@ -107,6 +107,16 @@ public interface OnTargetConstant {
 	public interface MemberStatus {
 		public static final String ACTIVE = "ACTIVE";
 	}
+	
+	public interface TaskFieldWorkerStatus{
+		public static final Integer ASSIGNED = new Integer(1);
+		public static final Integer DELETED = new Integer(2);
+	}
+	
+	public interface TaskAssigneeStatus{
+		public static final Integer ASSIGNED = new Integer(1);
+		public static final Integer DELETED = new Integer(2);
+	}
 
 	public interface PhoneType {
 		public static final String CELL = "CELL";

@@ -13,14 +13,17 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "emailAddress", "newPassword", "forgotPasswordToken" })
+@JsonPropertyOrder({ "username", "newPassword", "forgotPasswordToken" })
 public class ForgotPasswordRequest {
-	@JsonProperty("emailAddress")
-	private String emailAddress;
+	@JsonProperty("username")
+	private String username;
 	@JsonProperty("newPassword")
 	private String newPassword;
 	@JsonProperty("forgotPasswordToken")
 	private String forgotPasswordToken;
+
+	public ForgotPasswordRequest() {
+	}
 
 	public String getNewPassword() {
 		return newPassword;
@@ -38,14 +41,12 @@ public class ForgotPasswordRequest {
 		this.forgotPasswordToken = forgotPasswordToken;
 	}
 
-	public ForgotPasswordRequest() {
+	public String getUsername() {
+		return username;
 	}
 
-	public String getEmailAddress() {
-		return emailAddress;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
-	public void setEmailAddress(String emailAddress) {
-		this.emailAddress = emailAddress;
-	}
 }
