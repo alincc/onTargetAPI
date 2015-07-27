@@ -299,7 +299,7 @@ public class TaskJpaDAOImpl implements TaskDAO {
 				percentage.setYear(year);
 
 				taskPercentageList.add(percentage);
-				return null;
+				return taskPercentageList;
 			}
 		}
 
