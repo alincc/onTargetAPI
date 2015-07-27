@@ -139,44 +139,45 @@ public class EmailServiceImpl implements EmailService {
 		return true;
 	}
 
-    @Override
-    public void sendTaskStatusChangeEmail(ProjectTaskInfo task, int assigneeUserId) {
-        try {
-            MimeMessagePreparator preparator = new MimeMessagePreparator() {
-                @SuppressWarnings({ "rawtypes", "unchecked" })
-                public void prepare(MimeMessage mimeMessage) throws Exception {
+	@Override
+	public void sendTaskStatusChangeEmail(ProjectTaskInfo task, int assigneeUserId) {
+		try {
+			MimeMessagePreparator preparator = new MimeMessagePreparator() {
+				@SuppressWarnings({ "rawtypes", "unchecked" })
+				public void prepare(MimeMessage mimeMessage) throws Exception {
 
-                    UserDTO assigneeUser = authenticationDAO.getUserResponse(assigneeUserId);
-                    assigneeUser.setContact(contactDAO.getContact(assigneeUser.getUserId()));
+					UserDTO assigneeUser = authenticationDAO.getUserResponse(assigneeUserId);
+					assigneeUser.setContact(contactDAO.getContact(assigneeUser.getUserId()));
 
-                    //TODO: sender info : put this code at common place.
-                    UserDTO createdBy = authenticationDAO.getUserResponse(task.getCreatedBy().getUserId());
-                    createdBy.setContact(contactDAO.getContact(createdBy.getUserId()));
+					// TODO: sender info : put this code at common place.
+					UserDTO createdBy = authenticationDAO.getUserResponse(task.getCreatorId());
+					createdBy.setContact(contactDAO.getContact(createdBy.getUserId()));
 
-                    MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
-                    message.setTo(assigneeUser.getContact().getEmail());
-                    message.setSubject(OnTargetConstant.EmailServiceConstants.TASK_ASSIGNED_SUBJECT);
-                    message.setSentDate(new Date());
+					MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
+					message.setTo(assigneeUser.getContact().getEmail());
+					message.setSubject(OnTargetConstant.EmailServiceConstants.TASK_ASSIGNED_SUBJECT);
+					message.setSentDate(new Date());
 
-                    Map model = new HashMap();
-                    model.put("assignee", assigneeUser);
-                    model.put("task", task);
-                    model.put("sender",createdBy);
-                    model.put("appLink",EmailConstant.APP_LINK);
-                    //TODO: need to change
-                    model.put("taskLink","http://task");
+					Map model = new HashMap();
+					model.put("assignee", assigneeUser);
+					model.put("task", task);
+					model.put("sender", createdBy);
+					model.put("appLink", EmailConstant.APP_LINK);
+					// TODO: need to change
+					model.put("taskLink", "http://task");
 
-                    String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "/template/taskStatusChangedEmail.vm", "UTF-8", model);
-                    message.setText(text, true);
-                }
-            };
-            javaMailSender.send(preparator);
-        } catch (Exception e) {
-            logger.error("Error while sending email for task.", e);
-        }
-    }
+					String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "/template/taskStatusChangedEmail.vm",
+							"UTF-8", model);
+					message.setText(text, true);
+				}
+			};
+			javaMailSender.send(preparator);
+		} catch (Exception e) {
+			logger.error("Error while sending email for task.", e);
+		}
+	}
 
-    @Override
+	@Override
 	public boolean sendUserRequestEmailToAdmin(int userRequestId) {
 		try {
 			MimeMessagePreparator preparator = new MimeMessagePreparator() {
@@ -317,30 +318,37 @@ public class EmailServiceImpl implements EmailService {
 
 		return false;
 	}
-	
+
 	@Override
 	public void sendTaskAssignmentEmail(ProjectTaskInfo task, Contact contact) throws Exception {
 
 		try {
-			UserDTO user = authenticationDAO.getUserInfoById(contact.getUser().getUserId());
 			MimeMessagePreparator preparator = new MimeMessagePreparator() {
 				@SuppressWarnings({ "rawtypes", "unchecked" })
 				public void prepare(MimeMessage mimeMessage) throws Exception {
+
+					UserDTO assigneeUser = authenticationDAO.getUserResponse(contact.getUser().getUserId());
+					assigneeUser.setContact(contactDAO.getContact(assigneeUser.getUserId()));
+
+					UserDTO createdBy = authenticationDAO.getUserResponse(task.getCreatorId());
+					createdBy.setContact(contactDAO.getContact(createdBy.getUserId()));
+
 					MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
-					message.setTo(contact.getEmail());
-					message.setFrom(new InternetAddress(OnTargetConstant.EmailServiceConstants.USER_REGISTRATION_FROM));
+					message.setTo(assigneeUser.getContact().getEmail());
 					message.setSubject(OnTargetConstant.EmailServiceConstants.TASK_ASSIGNED_SUBJECT);
 					message.setSentDate(new Date());
 
 					Map model = new HashMap();
-					model.put("name", contact.getFirstName() + " " + contact.getLastName());
+					model.put("assignee", assigneeUser);
 					model.put("task", task);
-					model.put("appLink",EmailConstant.APP_LINK);
-                    //TODO: need to change
-                    model.put("taskLink","http://task");
+					model.put("sender", createdBy);
+					model.put("appLink", EmailConstant.APP_LINK);
+					// TODO: need to change
+					model.put("taskLink", "http://task");
 
 					String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "/template/taskAssignedEmail.vm", "UTF-8",
 							model);
+
 					message.setText(text, true);
 				}
 			};

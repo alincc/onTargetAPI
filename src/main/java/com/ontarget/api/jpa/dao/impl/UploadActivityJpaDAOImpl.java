@@ -2,31 +2,30 @@ package com.ontarget.api.jpa.dao.impl;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.ontarget.api.dao.UploadActivityDAO;
 import com.ontarget.api.repository.ProjectRepository;
 import com.ontarget.api.repository.ProjectTaskRepository;
+import com.ontarget.api.repository.TaskPriorityRepository;
 import com.ontarget.bean.ActivityInfo;
 import com.ontarget.bean.ActivityTaskInfo;
 import com.ontarget.constant.BulkActivityAttributeConstant;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.entities.BulkActivityAttribute;
 import com.ontarget.entities.BulkActivityLog;
-import com.ontarget.entities.CompanyInfo;
 import com.ontarget.entities.PlannedActualsCost;
 import com.ontarget.entities.Project;
 import com.ontarget.entities.ProjectTask;
-import com.ontarget.entities.ProjectType;
 import com.ontarget.entities.TaskAssignee;
 import com.ontarget.entities.TaskPercentageLog;
+import com.ontarget.entities.TaskPriority;
 import com.ontarget.entities.User;
 import com.ontarget.request.bean.ActivityTaskRecord;
 import com.ontarget.util.DateFormater;
@@ -38,13 +37,15 @@ public class UploadActivityJpaDAOImpl implements UploadActivityDAO {
 	private ProjectRepository projectRepository;
 	@Resource
 	private ProjectTaskRepository projectTaskRepository;
+	@Resource
+	private TaskPriorityRepository taskPriorityRepository;
 	@PersistenceContext
 	private EntityManager entityManager;
 
 	@Override
 	@Transactional
-	public boolean createActivity(List<ActivityInfo> activityInfoList, List<ActivityTaskRecord> invalidActivityRecords,
-			String filename, int userId, int projectId) throws Exception {
+	public boolean createActivity(List<ActivityInfo> activityInfoList, List<ActivityTaskRecord> invalidActivityRecords, String filename,
+			int userId, int projectId) throws Exception {
 		int batchSize = 1000;
 		int i = 0;
 
@@ -84,7 +85,7 @@ public class UploadActivityJpaDAOImpl implements UploadActivityDAO {
 				projectTask.setEndDate(DateFormater.convertToDate(activityTaskInfo.getEndDate(), DateValidator.dateFormat));
 				projectTask.setCreatedBy(new User(userId));
 				projectTask.setCreatedDate(new Date());
-				projectTask.setSeverity("1");
+				projectTask.setSeverity(String.valueOf(activityTaskInfo.getPriority()));
 				entityManager.persist(projectTask);
 
 				TaskAssignee taskAssignee = new TaskAssignee();
@@ -92,6 +93,7 @@ public class UploadActivityJpaDAOImpl implements UploadActivityDAO {
 				taskAssignee.setCreatedDate(new Date());
 				taskAssignee.setProjectTask(projectTask);
 				taskAssignee.setTaskAssignee(userId);
+				taskAssignee.setStatus(OnTargetConstant.TaskAssigneeStatus.ASSIGNED);
 				entityManager.persist(taskAssignee);
 
 				TaskPercentageLog taskPercentageLog = new TaskPercentageLog();
@@ -324,6 +326,16 @@ public class UploadActivityJpaDAOImpl implements UploadActivityDAO {
 		estimatedCostAttribute.setIndex(activityTaskRecord.getIndex());
 		estimatedCostAttribute.setValid("N");
 		entityManager.persist(estimatedCostAttribute);
+	}
+
+	@Override
+	public Map<String, TaskPriority> getTaskPriorityMap() {
+		List<TaskPriority> taskPriorityList = taskPriorityRepository.getAllTaskPriority();
+		Map taskPriorityMap = new HashMap<String, TaskPriority>();
+		for (TaskPriority taskPriority : taskPriorityList) {
+			taskPriorityMap.put(taskPriority.getCode(), taskPriority);
+		}
+		return taskPriorityMap;
 	}
 
 }

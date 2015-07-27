@@ -48,7 +48,7 @@ public interface TaskDAO {
 
 	public boolean deleteAllTaskAssignedUsers(int taskId) throws Exception;
 
-	public boolean assignTaskToUser(int taskId, int userId, int assigningUser) throws Exception;
+	public List<Integer> assignTaskToUser(int taskId, int userId, List<Integer> assignees) throws Exception;
 	
 	public boolean assignTaskToFieldworker(int taskId, int userId, List<Integer> fieldWorkerIds) throws Exception;
 

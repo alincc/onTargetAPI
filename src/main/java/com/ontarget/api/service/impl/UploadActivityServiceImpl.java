@@ -40,12 +40,13 @@ public class UploadActivityServiceImpl implements UploadActivityService {
 			Project project = projectDAO.findProjectById(request.getProjectId());
 
 			ActivityTaskUtil activityTaskUtil = new ActivityTaskUtil(project);
-			List<ActivityInfo> activityInfoList = activityTaskUtil.getActivityTaskList(request.getActivityTaskRecords());
+			List<ActivityInfo> activityInfoList = activityTaskUtil.getActivityTaskList(request.getActivityTaskRecords(),
+					uploadActivityDAO.getTaskPriorityMap());
 
 			invalidActivityRecords = activityTaskUtil.getInvalidActivityTaskRecords();
 
-			uploadActivityDAO.createActivity(activityInfoList, invalidActivityRecords, request.getFilename(), request
-					.getBaseRequest().getLoggedInUserId(), request.getProjectId());
+			uploadActivityDAO.createActivity(activityInfoList, invalidActivityRecords, request.getFilename(), request.getBaseRequest()
+					.getLoggedInUserId(), request.getProjectId());
 
 		} catch (Exception e) {
 			logger.error("Unable to upload activity!", e);

@@ -93,7 +93,7 @@ public class UserJpaDAOImpl extends BaseGenericDAOImpl<UserDTO> implements UserD
 				.findExpiredRequestByToken(forgotPasswordToken);
 		if (forgotPasswordRequest != null) {
 			Map<String, Object> forgotPwdMap = new HashMap<>();
-			forgotPwdMap.put("user_id", forgotPasswordRequest.getUserId());
+			forgotPwdMap.put("user_id", (int) forgotPasswordRequest.getUserId());
 			return forgotPwdMap;
 		}
 		return null;
@@ -159,6 +159,15 @@ public class UserJpaDAOImpl extends BaseGenericDAOImpl<UserDTO> implements UserD
 			return true;
 		}
 		return false;
+	}
+	
+	@Override
+	public User findUserByUsername(String username) throws Exception{
+		List<User> userList =  userRepository.findUserByUsername(username);
+		if(userList !=null && !userList.isEmpty()){
+			return userList.get(0);
+		}
+		return null;
 	}
 
 }

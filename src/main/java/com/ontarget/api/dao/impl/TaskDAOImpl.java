@@ -327,12 +327,6 @@ public class TaskDAOImpl implements TaskDAO {
 	}
 
 	@Override
-	public boolean assignTaskToUser(int taskId, int userId, int assigningUser) throws Exception {
-		int row = jdbcTemplate.update(OnTargetQuery.ASSIGN_TASK_USER, new Object[] { taskId, userId, assigningUser, assigningUser });
-		return row > 0;
-	}
-
-	@Override
 	public boolean updateTaskAssignee(int taskId, int userId, int assigningUser) throws Exception {
 		int row = jdbcTemplate.update(OnTargetQuery.UPDATE_TASK_USER, new Object[] { userId, assigningUser, taskId });
 		return row > 0;
@@ -463,6 +457,12 @@ public class TaskDAOImpl implements TaskDAO {
 
 	@Override
 	public List<TaskFieldWorker> getTaskFieldWorkersByTask(int taskId) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Integer> assignTaskToUser(int taskId, int userId, List<Integer> assignees) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}

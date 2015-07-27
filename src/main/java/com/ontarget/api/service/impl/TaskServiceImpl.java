@@ -86,6 +86,17 @@ public class TaskServiceImpl implements TaskService {
 
 		if (isTaskAdd(taskId)) {
 			taskId = taskDAO.addTask(task, userId);
+			if (taskId > 0) {
+				List<Integer> assignees = task.getAssignees();
+				for (Integer assigneeId : assignees) {
+					Contact contact = contactDAO.getContact(assigneeId);
+					
+					if (contact != null && (contact.getEmail() != null && contact.getEmail().trim().length() > 0)) {
+						ProjectTaskInfo taskInfo = taskDAO.getTaskInfo(taskId);
+						emailService.sendTaskAssignmentEmail(taskInfo, contact);
+					}
+				}
+			}
 		} else {
 			boolean updated = taskDAO.updateTask(task, userId);
 			if (!updated) {
@@ -190,21 +201,21 @@ public class TaskServiceImpl implements TaskService {
 	@Transactional(rollbackFor = { Exception.class })
 	public boolean updateTaskStatus(int taskId, String taskStatus, int userId) throws Exception {
 		boolean taskStatusUpdated = taskDAO.updateTaskStatus(taskId, taskStatus, userId);
-        /**
-         * change of status email.
-         */
-        if(taskStatusUpdated){
-            ProjectTaskInfo task = taskDAO.getTaskInfo(taskId);
+		/**
+		 * change of status email.
+		 */
+		if (taskStatusUpdated) {
+			ProjectTaskInfo task = taskDAO.getTaskInfo(taskId);
 
-            Set<Integer> assignees = this.getTaskMembers(taskId);
-            if(assignees!=null && assignees.size() > 0){
-                for(Integer assignee : assignees) {
-                    emailService.sendTaskStatusChangeEmail(task, assignee.intValue());
-                }
-            }
+			Set<Integer> assignees = this.getTaskMembers(taskId);
+			if (assignees != null && assignees.size() > 0) {
+				for (Integer assignee : assignees) {
+					emailService.sendTaskStatusChangeEmail(task, assignee.intValue());
+				}
+			}
 
-        }
-        return taskStatusUpdated;
+		}
+		return taskStatusUpdated;
 	}
 
 	@Override
@@ -245,12 +256,10 @@ public class TaskServiceImpl implements TaskService {
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
 	public void assignTaskToUser(int taskId, List<Integer> users, int assigningUser) throws Exception {
-		logger.info("clearing task assignees");
-		taskDAO.deleteAllTaskAssignedUsers(taskId);
-		for (Integer userId : users) {
-			logger.info("inserting user " + userId + " for task " + taskId);
-			taskDAO.assignTaskToUser(taskId, userId, assigningUser);
-
+		List<Integer> assignees = taskDAO.assignTaskToUser(taskId, assigningUser, users);
+		logger.info("assignees: "+assignees);
+		for (Integer userId : assignees) {
+			logger.info("user id: "+userId);
 			Contact contact = contactDAO.getContact(userId);
 
 			if (contact != null && (contact.getEmail() != null && contact.getEmail().trim().length() > 0)) {

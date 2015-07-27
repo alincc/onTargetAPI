@@ -7,6 +7,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import com.ontarget.dto.ChangeUserPasswordRequest;
 import com.ontarget.dto.ForgotPasswordRequest;
+import com.ontarget.dto.ForgotPasswordRequestResponse;
 import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.SafetyInfoResponse;
 import com.ontarget.dto.UserImageRequest;
@@ -31,7 +32,7 @@ public interface UserProfile {
 
 	public SafetyInfoResponse getSafetyInfoForUser(@NotNull Integer userId);
 
-	public OnTargetResponse forgotPasswordRequest(@Valid ForgotPasswordRequest request);
+	public ForgotPasswordRequestResponse forgotPasswordRequest(@Valid ForgotPasswordRequest request);
 
 	public OnTargetResponse validateForgotPasswordToken(@NotEmpty String forgotPasswordToken);
 

@@ -100,7 +100,6 @@ public class ProjectServiceImpl implements ProjectService {
 
 		ProjectDetailInfo projectObj = request.getProject();
 		ProjectDTO projectDTO = ConvertPOJOUtils.convertToProjectDTO(projectObj, addressDTO);
-		System.out.println("project dto: " + projectDTO);
 
 		int companyId = request.getProject().getCompanyId();
 		if (request.getProject().getProjectParentId() == null || request.getProject().getProjectParentId() == 0) {
