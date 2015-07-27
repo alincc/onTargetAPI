@@ -79,7 +79,7 @@ public class UploadActivityJpaDAOImpl implements UploadActivityDAO {
 				ProjectTask projectTask = new ProjectTask();
 				projectTask.setProject(new Project(project.getProjectId()));
 				projectTask.setTitle(activityTaskInfo.getTaskName());
-				projectTask.setDescription(activityTaskInfo.getTaskName());
+				projectTask.setDescription(activityTaskInfo.getTaskDescription());
 				projectTask.setStatus(OnTargetConstant.TaskStatus.ACTIVE);
 				projectTask.setStartDate(DateFormater.convertToDate(activityTaskInfo.getStartDate(), DateValidator.dateFormat));
 				projectTask.setEndDate(DateFormater.convertToDate(activityTaskInfo.getEndDate(), DateValidator.dateFormat));
@@ -196,6 +196,14 @@ public class UploadActivityJpaDAOImpl implements UploadActivityDAO {
 		taskNameAttribute.setIndex(activityTaskInfo.getIndex());
 		taskNameAttribute.setValid("Y");
 		entityManager.persist(taskNameAttribute);
+		
+		BulkActivityAttribute taskDescriptionAttribute = new BulkActivityAttribute();
+		taskDescriptionAttribute.setAttributeKey(BulkActivityAttributeConstant.taskDescription);
+		taskDescriptionAttribute.setAttributeValue(activityTaskInfo.getTaskDescription());
+		taskDescriptionAttribute.setBulkActivityLog(bulkActivityLog);
+		taskDescriptionAttribute.setIndex(activityTaskInfo.getIndex());
+		taskDescriptionAttribute.setValid("Y");
+		entityManager.persist(taskDescriptionAttribute);
 
 		BulkActivityAttribute taskStartDateAttribute = new BulkActivityAttribute();
 		taskStartDateAttribute.setAttributeKey(BulkActivityAttributeConstant.taskStartDate);
@@ -286,6 +294,14 @@ public class UploadActivityJpaDAOImpl implements UploadActivityDAO {
 		taskNameAttribute.setIndex(activityTaskRecord.getIndex());
 		taskNameAttribute.setValid("N");
 		entityManager.persist(taskNameAttribute);
+		
+		BulkActivityAttribute taskDescriptionAttribute = new BulkActivityAttribute();
+		taskDescriptionAttribute.setAttributeKey(BulkActivityAttributeConstant.taskDescription);
+		taskDescriptionAttribute.setAttributeValue(activityTaskRecord.getTaskDescription());
+		taskDescriptionAttribute.setBulkActivityLog(bulkActivityLog);
+		taskDescriptionAttribute.setIndex(activityTaskRecord.getIndex());
+		taskDescriptionAttribute.setValid("N");
+		entityManager.persist(taskDescriptionAttribute);
 
 		BulkActivityAttribute taskStartDateAttribute = new BulkActivityAttribute();
 		taskStartDateAttribute.setAttributeKey(BulkActivityAttributeConstant.taskStartDate);

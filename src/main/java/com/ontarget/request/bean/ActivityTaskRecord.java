@@ -10,8 +10,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "index", "activityCode", "activityName", "taskCode", "taskName", "activityStartDate", "activityEndDate",
-		"taskStartDate", "taskEndDate", "estimatedCost", "actualCost", "percentageComplete", "priority" })
+@JsonPropertyOrder({ "index", "activityCode", "activityName", "taskCode", "taskName", "taskDescription", "activityStartDate",
+		"activityEndDate", "taskStartDate", "taskEndDate", "estimatedCost", "actualCost", "percentageComplete", "priority" })
 public class ActivityTaskRecord {
 	@NotEmpty
 	@JsonProperty("index")
@@ -34,6 +34,8 @@ public class ActivityTaskRecord {
 	@NotEmpty
 	@JsonProperty("taskName")
 	private String taskName;
+	@JsonProperty("taskDescription")
+	private String taskDescription;
 	@NotEmpty
 	@JsonProperty("taskStartDate")
 	private String taskStartDate;
@@ -165,6 +167,14 @@ public class ActivityTaskRecord {
 
 	public void setInvalidMsg(String invalidMsg) {
 		this.invalidMsg = invalidMsg;
+	}
+
+	public String getTaskDescription() {
+		return taskDescription;
+	}
+
+	public void setTaskDescription(String taskDescription) {
+		this.taskDescription = taskDescription;
 	}
 
 }

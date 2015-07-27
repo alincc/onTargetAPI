@@ -3,6 +3,7 @@ package com.ontarget.bean;
 public class ActivityTaskInfo {
 	private String taskCode;
 	private String taskName;
+	private String taskDescription;
 	private String startDate;
 	private String endDate;
 	private String percentageComplete;
@@ -25,6 +26,14 @@ public class ActivityTaskInfo {
 
 	public void setTaskName(String taskName) {
 		this.taskName = taskName;
+	}
+
+	public String getTaskDescription() {
+		return taskDescription;
+	}
+
+	public void setTaskDescription(String taskDescription) {
+		this.taskDescription = taskDescription;
 	}
 
 	public String getStartDate() {

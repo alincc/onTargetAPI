@@ -22,7 +22,7 @@ public class UploadActivityEndpointTest extends BaseTest {
 		baseRequestBean.setLoggedInUserProjectId(1);
 
 		request.setBaseRequest(baseRequestBean);
-		request.setProjectId(1);
+		request.setProjectId(2);
 		request.setFilename("Onfile.xls");
 
 		List<ActivityTaskRecord> activityTaskRecords = new ArrayList<>();
@@ -39,7 +39,7 @@ public class UploadActivityEndpointTest extends BaseTest {
 		// activityTaskRecords.add(activityTaskRecord);
 		// }
 
-		for (int i = 1; i <= 4; i++) {
+		for (int i = 1; i <= 1; i++) {
 			ActivityTaskRecord activityTaskRecord = new ActivityTaskRecord();
 			activityTaskRecord.setIndex(String.valueOf(i));
 			int index = i;
@@ -48,13 +48,14 @@ public class UploadActivityEndpointTest extends BaseTest {
 			}
 			activityTaskRecord.setActivityCode("ACT-00" + index);
 			activityTaskRecord.setActivityName("activity" + index);
-			activityTaskRecord.setActivityStartDate("17/04/2015");
-			activityTaskRecord.setActivityEndDate("17/06/2015");
+			activityTaskRecord.setActivityStartDate("17/06/2015");
+			activityTaskRecord.setActivityEndDate("22/06/2015");
 
 			activityTaskRecord.setTaskCode("TASK-00" + i);
 			activityTaskRecord.setTaskName("task" + i);
-			activityTaskRecord.setTaskStartDate("17/04/2015");
-			activityTaskRecord.setTaskEndDate("17/06/2015");
+			activityTaskRecord.setTaskDescription("");
+			activityTaskRecord.setTaskStartDate("17/06/2015");
+			activityTaskRecord.setTaskEndDate("22/06/2015");
 			activityTaskRecord.setActualCost("500");
 			activityTaskRecord.setEstimatedCost("200");
 			activityTaskRecord.setPercentageComplete("20");

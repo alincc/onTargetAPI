@@ -50,6 +50,7 @@ public class ActivityTaskUtil {
 
 			activityTaskInfo.setTaskCode(activityTaskRecord.getTaskCode());
 			activityTaskInfo.setTaskName(activityTaskRecord.getTaskName());
+			activityTaskInfo.setTaskDescription(activityTaskRecord.getTaskDescription());
 			activityTaskInfo.setStartDate(activityTaskRecord.getTaskStartDate());
 			activityTaskInfo.setEndDate(activityTaskRecord.getTaskEndDate());
 			activityTaskInfo.setPercentageComplete(activityTaskRecord.getPercentageComplete());

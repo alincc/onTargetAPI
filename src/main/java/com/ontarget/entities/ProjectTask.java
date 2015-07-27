@@ -60,7 +60,7 @@ public class ProjectTask implements Serializable {
 	private User modifiedBy;
 	@Column(name = "severity", length = 45)
 	private String severity;
-	@Column(name = "description", nullable = false, length = 65535, columnDefinition = "TEXT")
+	@Column(name = "description",length = 65535, columnDefinition = "TEXT")
 	private String description;
 	@OneToMany(mappedBy = "projectTask", fetch = FetchType.LAZY)
 	private List<ProjectTaskComments> projectTaskCommentsList;

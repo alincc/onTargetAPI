@@ -7,6 +7,7 @@ public class BulkActivityAttributeConstant {
 	public static final String activityName = "activityName";
 	public static final String taskCode = "taskCode";
 	public static final String taskName = "taskName";
+	public static final String taskDescription = "taskDescription";
 	public static final String activityStartDate = "activityStartDate";
 	public static final String activityEndDate = "activityEndDate";
 	public static final String taskStartDate = "taskStartDate";
