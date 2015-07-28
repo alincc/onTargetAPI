@@ -433,7 +433,17 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 
 	public void setSubProjects(ProjectDTO projectDTO, int userId, int level) throws Exception {
-		List<Project> childProjects = projectDAO.getUndeletedProjectsByParentId(projectDTO.getProjectId());
+		List<Project> childProjects;
+		if (level == 1) {
+			childProjects = projectDAO.getUndeletedProjectsByParentIdAndUserId(projectDTO.getProjectId(), userId);
+		} else {
+			childProjects = projectDAO.getUndeletedProjectsByParentId(projectDTO.getProjectId());
+		}
+		// List<Project> childProjects =
+		// projectDAO.getUndeletedProjectsByParentId(projectDTO.getProjectId());
+		// List<Project> childProjects =
+		// projectDAO.getUndeletedProjectsByParentIdAndUserId(projectDTO.getProjectId(),
+		// userId);
 		List<ProjectDTO> projectDTOList = convertedProjectList(childProjects, userId);
 
 		if (level < 3 && projectDTOList != null && !projectDTOList.isEmpty()) {
