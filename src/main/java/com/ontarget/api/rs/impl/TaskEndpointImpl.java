@@ -42,6 +42,7 @@ import com.ontarget.request.bean.TaskMemberRequest;
 import com.ontarget.request.bean.TaskRequest;
 import com.ontarget.request.bean.TaskStatusUpdateRequest;
 import com.ontarget.request.bean.UserTask;
+import com.ontarget.response.bean.TaskResponse;
 import com.ontarget.util.ConvertPOJOUtils;
 
 /**
@@ -105,11 +106,30 @@ public class TaskEndpointImpl implements TaskEndpoint {
 			response.setReturnVal(OnTargetConstant.SUCCESS);
 		} catch (Exception e) {
 			e.printStackTrace();
-			logger.error("Add task failed." + e);
-			response.setReturnMessage("Add task failed");
+			logger.error("Error while retrieving task list." + e);
+			response.setReturnMessage("Error while retrieving task list");
 			response.setReturnVal(OnTargetConstant.ERROR);
 		}
 
+		return response;
+	}
+
+	// new
+	@Override
+	@POST
+	@Path("/getProjectTaskList")
+	public com.ontarget.response.bean.TaskListResponse getProjectTaskList(ProjectTaskRequest projectTaskRequest) {
+		com.ontarget.response.bean.TaskListResponse response = new com.ontarget.response.bean.TaskListResponse();
+		try {
+			response = taskService.getTaskList(projectTaskRequest.getProjectId());
+			response.setReturnMessage("Successfully retrieved tasks");
+			response.setReturnVal(OnTargetConstant.SUCCESS);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("Error while retrieving task list." + e);
+			response.setReturnMessage("Error while retrieving task list");
+			response.setReturnVal(OnTargetConstant.ERROR);
+		}
 		return response;
 	}
 
@@ -156,17 +176,18 @@ public class TaskEndpointImpl implements TaskEndpoint {
 		return response;
 	}
 
+	// new
 	@Override
 	@POST
 	@Path("/getTaskDetail")
-	public TaskDetailResponse getTaskDetail(TaskDetailRequest taskDetailRequest) {
-		TaskDetailResponse taskResponse = new TaskDetailResponse();
+	public TaskResponse getTaskDetail(TaskDetailRequest taskDetailRequest) {
+		TaskResponse taskResponse = new TaskResponse();
 		try {
-			taskResponse.setProjectTask(taskService.getTaskDetail(taskDetailRequest.getTaskId()));
+			taskResponse = taskService.getTaskDetail(taskDetailRequest.getTaskId());
 			taskResponse.setReturnVal(OnTargetConstant.SUCCESS);
 		} catch (Exception e) {
-			e.printStackTrace();
-			taskResponse.setReturnMessage("Add task comment failed");
+			logger.error("Error while retrieving task details" + e);
+			taskResponse.setReturnMessage("Error while retrieving task details");
 			taskResponse.setReturnVal(OnTargetConstant.ERROR);
 		}
 		return taskResponse;
@@ -284,7 +305,7 @@ public class TaskEndpointImpl implements TaskEndpoint {
 	public OnTargetResponse assignTaskToUser(TaskMemberRequest taskMemberRequest) {
 		OnTargetResponse response = new OnTargetResponse();
 		try {
-			logger.info("members: "+taskMemberRequest.getMembers());
+			logger.info("members: " + taskMemberRequest.getMembers());
 			taskService.assignTaskToUser(taskMemberRequest.getTaskId(), taskMemberRequest.getMembers(), taskMemberRequest.getBaseRequest()
 					.getLoggedInUserId());
 			response.setReturnMessage("Successfully assigned task");

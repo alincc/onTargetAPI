@@ -17,6 +17,7 @@ import com.ontarget.api.dao.ProjectDAO;
 import com.ontarget.api.dao.ProjectTaskFileDAO;
 import com.ontarget.api.dao.TaskDAO;
 import com.ontarget.api.dao.TaskEstimatedCostDAO;
+import com.ontarget.api.response.TaskListCountResponse;
 import com.ontarget.api.service.EmailService;
 import com.ontarget.api.service.TaskService;
 import com.ontarget.bean.Contact;
@@ -24,17 +25,21 @@ import com.ontarget.bean.DependentTaskDTO;
 import com.ontarget.bean.FileAttachment;
 import com.ontarget.bean.ProjectDTO;
 import com.ontarget.bean.ProjectTaskInfo;
+import com.ontarget.bean.TaskComment;
 import com.ontarget.bean.TaskInfo;
+import com.ontarget.bean.TaskPercentage;
 import com.ontarget.bean.TaskStatusCount;
 import com.ontarget.bean.UserDTO;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.FieldWorkerInfo;
 import com.ontarget.dto.FieldWorkerResponse;
 import com.ontarget.dto.ProjectTask;
+import com.ontarget.dto.TaskListResponse;
 import com.ontarget.entities.FieldWorker;
 import com.ontarget.entities.TaskFieldWorker;
 import com.ontarget.request.bean.Task;
 import com.ontarget.request.bean.TaskCommentRequest;
+import com.ontarget.response.bean.TaskResponse;
 
 /**
  * Created by Owner on 11/6/14.
@@ -90,7 +95,7 @@ public class TaskServiceImpl implements TaskService {
 				List<Integer> assignees = task.getAssignees();
 				for (Integer assigneeId : assignees) {
 					Contact contact = contactDAO.getContact(assigneeId);
-					
+
 					if (contact != null && (contact.getEmail() != null && contact.getEmail().trim().length() > 0)) {
 						ProjectTaskInfo taskInfo = taskDAO.getTaskInfo(taskId);
 						emailService.sendTaskAssignmentEmail(taskInfo, contact);
@@ -130,32 +135,102 @@ public class TaskServiceImpl implements TaskService {
 		return taskDAO.getTasksByProject(projectId);
 	}
 
-	public int addDependentTask(DependentTaskDTO dependentTask) throws Exception {
-		return taskDAO.addDependentTask(dependentTask);
+	@Override
+	public com.ontarget.response.bean.TaskListResponse getTaskList(Integer projectId) throws Exception {
+		List<com.ontarget.entities.ProjectTask> projectTaskList = taskDAO.getProjectTaskByProjectId(projectId);
+
+		List<com.ontarget.response.bean.Task> taskList = new ArrayList<com.ontarget.response.bean.Task>();
+
+		for (com.ontarget.entities.ProjectTask projectTask : projectTaskList) {
+			com.ontarget.response.bean.Task task = new com.ontarget.response.bean.Task();
+			task.setTitle(projectTask.getTitle());
+			task.setDescription(projectTask.getDescription());
+			task.setStatus(projectTask.getStatus());
+			task.setSeverity(projectTask.getSeverity());
+			task.setProjectTaskId(projectTask.getProjectTaskId());
+			task.setStartDate(projectTask.getStartDate());
+			task.setEndDate(projectTask.getEndDate());
+			task.setStatus(projectTask.getStatus());
+
+			if (projectTask.getStatus().equalsIgnoreCase("0")) {
+				task.setCompleted(false);
+			} else {
+				task.setCompleted(true);
+			}
+			List<TaskPercentage> taskPercentageList = taskDAO.getTaskPercentageByTask(task.getProjectTaskId());
+			if (taskPercentageList != null && taskPercentageList.size() > 0) {
+				task.setPercentageComplete(taskPercentageList.get(0).getTaskPercentageComplete());
+			}
+			taskList.add(task);
+		}
+
+		com.ontarget.response.bean.TaskListResponse taskListResponse = new com.ontarget.response.bean.TaskListResponse();
+		taskListResponse.setTasks(taskList);
+		return taskListResponse;
 	}
 
-	public ProjectTask getTaskDetail(int taskId) throws Exception {
-		ProjectTask task = taskDAO.getTaskDetail(taskId);
-		int assignedUserId = taskDAO.getAssignedUser(task.getProjectTaskId());
+	private com.ontarget.response.bean.Task getTaskInfo(com.ontarget.entities.ProjectTask projectTask) throws Exception {
+		com.ontarget.response.bean.Task task = new com.ontarget.response.bean.Task();
+		task.setTitle(projectTask.getTitle());
+		task.setDescription(projectTask.getDescription());
+		task.setStatus(projectTask.getStatus());
+		task.setSeverity(projectTask.getSeverity());
+		task.setProjectTaskId(projectTask.getProjectTaskId());
+		task.setStartDate(projectTask.getStartDate());
+		task.setEndDate(projectTask.getEndDate());
+		task.setStatus(projectTask.getStatus());
 
-		Set<Integer> assignees = taskDAO.getTaskMembers(task.getProjectTaskId());
+		if (projectTask.getStatus().equalsIgnoreCase("0")) {
+			task.setCompleted(false);
+		} else {
+			task.setCompleted(true);
+		}
 
+		Map<Integer, Contact> contactMap = new HashMap<>();
+
+		List<TaskComment> comments = taskDAO.getTaskComments(task.getProjectTaskId());
+		for (TaskComment comment : comments) {
+			int commentedBy = comment.getCommentedBy();
+			if (contactMap.containsKey(commentedBy)) {
+				comment.setCommenterContact(contactMap.get(commentedBy));
+			} else {
+				Contact contact = taskDAO.getContact(commentedBy);
+				contactMap.put(commentedBy, contact);
+				comment.setCommenterContact(contact);
+			}
+		}
+		task.setComments(comments);
+		List<TaskPercentage> taskPercentageList = taskDAO.getTaskPercentageByTask(task.getProjectTaskId());
+		if (taskPercentageList != null && taskPercentageList.size() > 0) {
+			task.setPercentageComplete(taskPercentageList.get(0).getTaskPercentageComplete());
+		}
+
+		Set<Integer> assignees = getTaskMembers(task.getProjectTaskId());
 		List<UserDTO> assignedUsers = new ArrayList<>();
 		task.setAssignee(assignedUsers);
 		if (assignees != null && assignees.size() > 0) {
 			for (Integer id : assignees) {
-				Contact contact = contactDAO.getContact(id);
+				Contact contact = taskDAO.getContact(id);
 				UserDTO assignedToUser = new UserDTO();
 				assignedToUser.setContact(contact);
-				assignedToUser.setUserId(assignedUserId);
+				assignedToUser.setUserId((id.intValue()));
 				assignedUsers.add(assignedToUser);
 			}
-		} else {
-			logger.info("task is unassigned");
 		}
-
-		setTaskLevel(task, 1);
 		return task;
+	}
+
+	public int addDependentTask(DependentTaskDTO dependentTask) throws Exception {
+		return taskDAO.addDependentTask(dependentTask);
+	}
+
+	// new
+	public TaskResponse getTaskDetail(int taskId) throws Exception {
+		com.ontarget.entities.ProjectTask projectTask = taskDAO.getProjectTaskById(taskId);
+		TaskResponse taskResponse = new TaskResponse();
+		com.ontarget.response.bean.Task task = getTaskInfo(projectTask);
+		taskResponse.setTask(task);
+		return taskResponse;
 	}
 
 	public List<ProjectTask> setTaskLevel(ProjectTask task, int level) throws Exception {
@@ -257,9 +332,9 @@ public class TaskServiceImpl implements TaskService {
 	@Transactional(rollbackFor = { Exception.class })
 	public void assignTaskToUser(int taskId, List<Integer> users, int assigningUser) throws Exception {
 		List<Integer> assignees = taskDAO.assignTaskToUser(taskId, assigningUser, users);
-		logger.info("assignees: "+assignees);
+		logger.info("assignees: " + assignees);
 		for (Integer userId : assignees) {
-			logger.info("user id: "+userId);
+			logger.info("user id: " + userId);
 			Contact contact = contactDAO.getContact(userId);
 
 			if (contact != null && (contact.getEmail() != null && contact.getEmail().trim().length() > 0)) {

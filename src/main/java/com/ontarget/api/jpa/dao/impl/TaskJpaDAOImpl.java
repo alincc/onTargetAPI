@@ -107,6 +107,11 @@ public class TaskJpaDAOImpl implements TaskDAO {
 	}
 
 	@Override
+	public List<com.ontarget.entities.ProjectTask> getProjectTaskByProjectId(int projectId) {
+		return projectTaskRepository.findUndeletedTasksByProject(projectId);
+	}
+
+	@Override
 	public List<TaskInfo> getTask(int projectId) throws Exception {
 		String hql = "SELECT p FROM ProjectTask p WHERE p.project.id = :projectId";
 		Query query = entityManager.createQuery(hql);
@@ -266,6 +271,7 @@ public class TaskJpaDAOImpl implements TaskDAO {
 		return tasks;
 	}
 
+	@Override
 	public List<TaskPercentage> getTaskPercentageByTask(int projectTaskId) throws Exception {
 		List<TaskPercentage> taskPercentageList = new ArrayList<>();
 
@@ -306,6 +312,7 @@ public class TaskJpaDAOImpl implements TaskDAO {
 		return taskPercentageList;
 	}
 
+	@Override
 	public Contact getContact(int userId) throws Exception {
 		User userObj = userRepository.findByUserId(userId);
 

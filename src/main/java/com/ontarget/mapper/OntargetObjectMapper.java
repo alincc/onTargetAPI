@@ -18,8 +18,7 @@ public class OntargetObjectMapper implements ContextResolver<ObjectMapper> {
 
 	private final ObjectMapper mapper;
 
-	private static final SimpleDateFormat dateFormat = new SimpleDateFormat(
-			"yyyy-MM-dd'T'HH:mm:ss");
+	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
 	public OntargetObjectMapper() {
 		this.mapper = createObjectMapper();
@@ -31,22 +30,11 @@ public class OntargetObjectMapper implements ContextResolver<ObjectMapper> {
 		SerializationConfig serConfig = mapper.getSerializationConfig();
 		serConfig.setDateFormat(dateFormat);
 
-		DeserializationConfig deserializationConfig = mapper
-				.getDeserializationConfig();
+		DeserializationConfig deserializationConfig = mapper.getDeserializationConfig();
 		deserializationConfig.setDateFormat(dateFormat);
 
-		// mapper.configure(SerializationConfig.Feature.WRITE_DATES_AS_TIMESTAMPS,
-		// true);
-		// mapper.setDateFormat(dateFormat);
-		// mapper.configure(SerializationConfig.Feature.INDENT_OUTPUT, true);
-		// return mapper;
-
-		mapper.configure(SerializationConfig.Feature.WRITE_DATES_AS_TIMESTAMPS,
-				false);
+		mapper.configure(SerializationConfig.Feature.WRITE_DATES_AS_TIMESTAMPS, false);
 		mapper.configure(SerializationConfig.Feature.INDENT_OUTPUT, true);
-
-		System.out.println("ontarget object mapper called.");
-
 		return mapper;
 	}
 

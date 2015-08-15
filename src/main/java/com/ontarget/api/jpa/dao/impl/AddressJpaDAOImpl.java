@@ -46,6 +46,24 @@ public class AddressJpaDAOImpl implements AddressDAO {
 		return addressDTO;
 
 	}
+	
+	@Override
+	public com.ontarget.response.bean.Address getAddressById(int addressId) throws Exception {
+		com.ontarget.response.bean.Address addressDTO = new com.ontarget.response.bean.Address();
+
+		Address address = addressRepository.findByAddressId(addressId);
+
+		addressDTO.setAddressId(addressId);
+		addressDTO.setAddress1(address.getAddress1());
+		addressDTO.setAddress2(address.getAddress2());
+		addressDTO.setCity(address.getCity());
+		addressDTO.setState(address.getState());
+		addressDTO.setCountry(address.getCountry());
+		addressDTO.setZip(address.getZip());
+		addressDTO.setAddressType(address.getAddressType());
+		return addressDTO;
+
+	}
 
 	@Override
 	public boolean updateAddress(AddressDTO addressDTO) throws Exception {

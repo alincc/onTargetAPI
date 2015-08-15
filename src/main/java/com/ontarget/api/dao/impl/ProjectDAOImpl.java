@@ -360,4 +360,16 @@ public class ProjectDAOImpl implements ProjectDAO {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public com.ontarget.response.bean.Project getProjectById(int projectId) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Project> getProjectsByUserIdAndCompanyId(Integer userId, Integer companyId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

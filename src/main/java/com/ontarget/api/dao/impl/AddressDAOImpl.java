@@ -17,6 +17,7 @@ import org.springframework.stereotype.Repository;
 import com.ontarget.api.dao.AddressDAO;
 import com.ontarget.bean.AddressDTO;
 import com.ontarget.constant.OnTargetQuery;
+import com.ontarget.response.bean.Address;
 
 /**
  * Created by Owner on 11/5/14.
@@ -88,5 +89,11 @@ public class AddressDAOImpl implements AddressDAO {
 			throw new Exception("Unable to update project address");
 		}
 		return true;
+	}
+
+	@Override
+	public Address getAddressById(int addressId) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

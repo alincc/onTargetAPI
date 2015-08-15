@@ -22,11 +22,13 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import com.ontarget.api.dao.TaskDAO;
+import com.ontarget.bean.Contact;
 import com.ontarget.bean.DependentTaskDTO;
 import com.ontarget.bean.ProjectTaskInfo;
 import com.ontarget.bean.TaskComment;
 import com.ontarget.bean.TaskInfo;
 import com.ontarget.bean.TaskObj;
+import com.ontarget.bean.TaskPercentage;
 import com.ontarget.bean.TaskStatusCount;
 import com.ontarget.bean.UserDTO;
 import com.ontarget.constant.OnTargetQuery;
@@ -463,6 +465,24 @@ public class TaskDAOImpl implements TaskDAO {
 
 	@Override
 	public List<Integer> assignTaskToUser(int taskId, int userId, List<Integer> assignees) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<com.ontarget.entities.ProjectTask> getProjectTaskByProjectId(int projectId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Contact getContact(int userId) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<TaskPercentage> getTaskPercentageByTask(int projectTaskId) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}

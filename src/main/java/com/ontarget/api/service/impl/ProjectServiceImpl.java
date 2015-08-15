@@ -29,21 +29,22 @@ import com.ontarget.bean.ProjectInfo;
 import com.ontarget.bean.ProjectMember;
 import com.ontarget.bean.TaskComment;
 import com.ontarget.bean.TaskInfo;
-import com.ontarget.bean.TaskObj;
 import com.ontarget.bean.TaskPercentage;
 import com.ontarget.bean.UserDTO;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.ProjectListResponse;
 import com.ontarget.dto.ProjectMemberListResponse;
-import com.ontarget.dto.ProjectResponse;
 import com.ontarget.dto.UserProjectListResponse;
 import com.ontarget.entities.Project;
+import com.ontarget.entities.ProjectConfiguration;
 import com.ontarget.request.bean.ActivityDetailInfo;
 import com.ontarget.request.bean.ActivityRequest;
 import com.ontarget.request.bean.ProjectAddressInfo;
 import com.ontarget.request.bean.ProjectDetailInfo;
 import com.ontarget.request.bean.ProjectRequest;
+import com.ontarget.response.bean.Address;
+import com.ontarget.response.bean.ProjectConfig;
 import com.ontarget.util.ConvertPOJOUtils;
 import com.ontarget.util.ProjectUtil;
 
@@ -219,31 +220,48 @@ public class ProjectServiceImpl implements ProjectService {
 		return project;
 	}
 
-	@Override
-	public ProjectResponse getProjectDetail(int projectId) {
-		try {
-			ProjectInfo project = getProjectTree(projectId);
+	// new
+	private com.ontarget.response.bean.Project getProjectInfo(Project project) throws Exception {
+		com.ontarget.response.bean.Project projectInfo = new com.ontarget.response.bean.Project();
+		projectInfo.setProjectId(project.getProjectId());
+		projectInfo.setProjectName(project.getProjectName());
+		projectInfo.setProjectDescription(project.getProjectDescription());
+		projectInfo.setProjectTypeId(project.getProjectType().getProjectTypeId());
+		projectInfo.setProjectOwnerId(project.getProjectOwnerId());
+		projectInfo.setStartDate(project.getProjectStartDate());
+		projectInfo.setEndDate(project.getProjectEndDate());
+		projectInfo.setProjectImagePath(project.getProjectImagePath());
 
-			ProjectResponse response = new ProjectResponse();
-			response.setProject(project);
-
-			project.setCompany(companyDAO.getCompany(project.getCompanyId()));
-			if (project.getProjectId() > 0) {
-				AddressDTO address = project.getProjectAddress();
-				if (address == null) {
-					logger.info("address is null for project " + project);
-				} else {
-					AddressDTO projectAddress = addressDAO.getAddress(address.getAddressId());
-					project.setProjectAddress(projectAddress);
-				}
-				List<TaskObj> tasks = taskDAO.getTaskObjList(projectId);
-				project.setTaskList(tasks);
+		List<ProjectConfig> projectConfigList = new ArrayList<>();
+		List<ProjectConfiguration> projectConfigurations = project.getProjectConfigurationList();
+		if (projectConfigurations != null && !projectConfigurations.isEmpty()) {
+			for (ProjectConfiguration projectConfiguration : projectConfigurations) {
+				ProjectConfig projectConfig = new ProjectConfig();
+				projectConfig.setConfigKey(projectConfiguration.getConfigKey());
+				projectConfig.setConfigValue(projectConfiguration.getConfigValue());
+				projectConfigList.add(projectConfig);
 			}
-			response.setProject(project);
-			return response;
+			projectInfo.setProjectConfiguration(projectConfigList);
+		}
+
+		if (project.getAddress() != null) {
+			Address projectAddress = addressDAO.getAddressById(project.getAddress().getAddressId());
+			projectInfo.setProjectAddress(projectAddress);
+		}
+		return projectInfo;
+	}
+
+	// new
+	@Override
+	public com.ontarget.response.bean.ProjectResponse getProjectDetail(int projectId) {
+		try {
+			com.ontarget.response.bean.ProjectResponse projectResponse = new com.ontarget.response.bean.ProjectResponse();
+			Project project = projectDAO.findProjectById(projectId);
+
+			projectResponse.setProject(getProjectInfo(project));
+			return projectResponse;
 		} catch (Exception e) {
-			e.printStackTrace();
-			logger.info("error: " + e);
+			logger.error("error: " + e);
 			return null;
 		}
 	}
@@ -422,6 +440,40 @@ public class ProjectServiceImpl implements ProjectService {
 		}
 	}
 
+	// new
+	@Override
+	public com.ontarget.response.bean.ProjectListResponse getUserProjectsByCompany(Integer userId, Integer companyId) throws Exception {
+		com.ontarget.response.bean.ProjectListResponse projectListResponse = new com.ontarget.response.bean.ProjectListResponse();
+		List<Project> projects = projectDAO.getProjectsByUserIdAndCompanyId(userId, companyId);
+
+		List<com.ontarget.response.bean.Project> projectInfoList = new ArrayList<com.ontarget.response.bean.Project>();
+
+		if (projects != null && !projects.isEmpty()) {
+			for (Project project : projects) {
+				projectInfoList.add(getProjectInfo(project));
+			}
+		}
+		projectListResponse.setProjects(projectInfoList);
+		return projectListResponse;
+	}
+
+	// new
+	@Override
+	public com.ontarget.response.bean.ProjectListResponse getActivityOfProject(Integer projectId) throws Exception {
+		com.ontarget.response.bean.ProjectListResponse projectListResponse = new com.ontarget.response.bean.ProjectListResponse();
+		List<Project> projects = projectDAO.getUndeletedProjectsByParentId(projectId);
+
+		List<com.ontarget.response.bean.Project> projectInfoList = new ArrayList<com.ontarget.response.bean.Project>();
+
+		if (projects != null && !projects.isEmpty()) {
+			for (Project project : projects) {
+				projectInfoList.add(getProjectInfo(project));
+			}
+		}
+		projectListResponse.setProjects(projectInfoList);
+		return projectListResponse;
+	}
+
 	private ProjectListResponse getUserProjectResponse(ProjectDTO project, int userId) throws Exception {
 		ProjectListResponse response = new ProjectListResponse();
 		project.setTaskList(new ArrayList<>());
@@ -532,10 +584,8 @@ public class ProjectServiceImpl implements ProjectService {
 		try {
 			return projectDAO.deleteProject(projectId, userId);
 		} catch (Exception e) {
-			e.printStackTrace();
-			logger.info("error: " + e);
+			logger.error("error: " + e);
 			return false;
 		}
 	}
-
 }

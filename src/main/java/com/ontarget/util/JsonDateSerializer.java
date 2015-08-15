@@ -25,6 +25,7 @@ public class JsonDateSerializer extends JsonSerializer<Date> {
 
 	@Override
 	public void serialize(Date date, JsonGenerator gen, SerializerProvider provider) throws IOException, JsonProcessingException {
+		
 		gen.writeString(dateFormat.format(date));
 	}
 }

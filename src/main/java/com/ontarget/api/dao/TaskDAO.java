@@ -3,11 +3,13 @@ package com.ontarget.api.dao;
 import java.util.List;
 import java.util.Set;
 
+import com.ontarget.bean.Contact;
 import com.ontarget.bean.DependentTaskDTO;
 import com.ontarget.bean.ProjectTaskInfo;
 import com.ontarget.bean.TaskComment;
 import com.ontarget.bean.TaskInfo;
 import com.ontarget.bean.TaskObj;
+import com.ontarget.bean.TaskPercentage;
 import com.ontarget.dto.ProjectTask;
 import com.ontarget.entities.TaskFieldWorker;
 import com.ontarget.request.bean.Task;
@@ -73,4 +75,10 @@ public interface TaskDAO {
 	public boolean deleteTask(int taskId, int userId) throws Exception;
 	
 	public List<TaskFieldWorker> getTaskFieldWorkersByTask(int taskId) throws Exception;
+	
+	public List<com.ontarget.entities.ProjectTask> getProjectTaskByProjectId(int projectId);
+	
+	public Contact getContact(int userId) throws Exception;
+	
+	public List<TaskPercentage> getTaskPercentageByTask(int projectTaskId) throws Exception;
 }

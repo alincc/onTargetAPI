@@ -21,7 +21,8 @@ public interface ProjectRepository extends JpaRepository<Project, Integer> {
 			+ OnTargetConstant.ProjectStatus.DELETED)
 	List<Project> findUndeletedProjectsByProjectParentIdAndUserId(Integer parentProjectId, int userId);
 
-	@Query("select p from Project p JOIN p.projectMemberList pm where pm.user.userId = ?1 and p.projectParentId = 0 and p.projectStatus !="+ OnTargetConstant.ProjectStatus.DELETED)
+	@Query("select p from Project p JOIN p.projectMemberList pm where pm.user.userId = ?1 and p.projectParentId = 0 and p.projectStatus !="
+			+ OnTargetConstant.ProjectStatus.DELETED)
 	Project getUserMainProject(Integer userId);
 
 	@Query("select p from Project p JOIN p.projectMemberList pm where pm.user.userId = ?1 and p.projectStatus !="
@@ -31,4 +32,7 @@ public interface ProjectRepository extends JpaRepository<Project, Integer> {
 	@Query("select count(p) from Project p join p.projectMemberList pm where pm.user.userId = ?1 and p.projectId = ?2")
 	Long countUserProject(Integer userId, Integer projectId);
 
+	@Query("select p from Project p join p.projectMemberList pm where pm.user.userId = ?1 and p.companyInfo.companyId = ?2 and p.projectParentId !=0 and p.projectStatus !="
+			+ OnTargetConstant.ProjectStatus.DELETED)
+	List<Project> getProjectsByUserIdAndCompanyId(Integer userId, Integer companyId);
 }

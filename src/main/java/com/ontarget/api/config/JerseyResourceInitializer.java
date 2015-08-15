@@ -21,6 +21,7 @@ public class JerseyResourceInitializer extends ResourceConfig {
 		register(LoggingResponseFilter.class);
 		register(JsonDateSerializer.class);
 
+		
 		property(ServerProperties.BV_SEND_ERROR_IN_RESPONSE, true);
 		property(ServerProperties.TRACING, true);
 		property(ServerProperties.BV_DISABLE_VALIDATE_ON_EXECUTABLE_OVERRIDE_CHECK, true);

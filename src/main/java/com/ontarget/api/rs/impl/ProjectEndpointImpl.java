@@ -25,6 +25,7 @@ import com.ontarget.request.bean.ProjectCompanyRequest;
 import com.ontarget.request.bean.ProjectDetailRequest;
 import com.ontarget.request.bean.ProjectRequest;
 import com.ontarget.request.bean.ProjectUserRequest;
+import com.ontarget.request.bean.UserProjectRequest;
 
 /**
  * Created by Owner on 11/6/14.
@@ -100,13 +101,13 @@ public class ProjectEndpointImpl implements ProjectEndoint {
 	@Override
 	@POST
 	@Path("/getProject")
-	public ProjectResponse getProjectDetail(ProjectDetailRequest projectDetailRequest) {
-		ProjectResponse response = new ProjectResponse();
+	public com.ontarget.response.bean.ProjectResponse getProjectDetail(ProjectDetailRequest projectDetailRequest) {
+		com.ontarget.response.bean.ProjectResponse response = new com.ontarget.response.bean.ProjectResponse();
 		try {
 			response = projectService.getProjectDetail(projectDetailRequest.getProjectId());
 			response.setReturnVal(OnTargetConstant.SUCCESS);
 			response.setReturnMessage("Successfully retrieved project info");
-
+			response.setAuthenticated(true);
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("Error while getting project", e);
@@ -141,7 +142,8 @@ public class ProjectEndpointImpl implements ProjectEndoint {
 	public ProjectListResponse getProjectByCompany(ProjectCompanyRequest projectCompanyRequest) {
 		ProjectListResponse response = new ProjectListResponse();
 		try {
-			response = projectService.getProjectsByCompany(projectCompanyRequest.getCompanyId(), projectCompanyRequest.getProjectId());
+			response = projectService.getProjectsByCompany(projectCompanyRequest.getCompanyId(), projectCompanyRequest.getBaseRequest()
+					.getLoggedInUserId());
 			response.setReturnVal(OnTargetConstant.SUCCESS);
 			response.setReturnMessage("Successfully retrieved project info");
 		} catch (Exception e) {
@@ -251,6 +253,40 @@ public class ProjectEndpointImpl implements ProjectEndoint {
 			e.printStackTrace();
 			logger.error("Error while getting project", e);
 			response.setReturnMessage("Error while deleting project");
+			response.setReturnVal(OnTargetConstant.ERROR);
+		}
+		return response;
+	}
+
+	@Override
+	@POST
+	@Path("/getUserProjectsByComapny")
+	public com.ontarget.response.bean.ProjectListResponse getUserProjectsByComapny(UserProjectRequest userProjectRequest) {
+		com.ontarget.response.bean.ProjectListResponse response = new com.ontarget.response.bean.ProjectListResponse();
+		try {
+			response = projectService.getUserProjectsByCompany(userProjectRequest.getUserId(), userProjectRequest.getCompanyId());
+			response.setReturnVal(OnTargetConstant.SUCCESS);
+			response.setReturnMessage("Successfully retrieved company projects assigned to user");
+		} catch (Exception e) {
+			logger.error("Error while getting company projects assigned to user", e);
+			response.setReturnMessage("Error while getting company projects assigned to user");
+			response.setReturnVal(OnTargetConstant.ERROR);
+		}
+		return response;
+	}
+
+	@Override
+	@POST
+	@Path("/getActivityOfProject")
+	public com.ontarget.response.bean.ProjectListResponse getActivityOfProject(ProjectDetailRequest projectDetailRequest) {
+		com.ontarget.response.bean.ProjectListResponse response = new com.ontarget.response.bean.ProjectListResponse();
+		try {
+			response = projectService.getActivityOfProject(projectDetailRequest.getProjectId());
+			response.setReturnVal(OnTargetConstant.SUCCESS);
+			response.setReturnMessage("Successfully retrieved project activities");
+		} catch (Exception e) {
+			logger.error("Error while getting project activities", e);
+			response.setReturnMessage("Error while getting project activities");
 			response.setReturnVal(OnTargetConstant.ERROR);
 		}
 		return response;

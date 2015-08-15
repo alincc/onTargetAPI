@@ -23,6 +23,7 @@ import com.ontarget.request.bean.TaskMemberRequest;
 import com.ontarget.request.bean.TaskRequest;
 import com.ontarget.request.bean.TaskStatusUpdateRequest;
 import com.ontarget.request.bean.UserTask;
+import com.ontarget.response.bean.TaskResponse;
 
 /**
  * Created by Owner on 11/6/14.
@@ -55,9 +56,11 @@ public interface TaskEndpoint {
 
 	public GetTaskAttachmentResponse getTaskAttachments(@Valid TaskAttachmentRequest taskAttachmentRequest);
 
-	public TaskDetailResponse getTaskDetail(@Valid TaskDetailRequest taskDetailRequest);
+	public TaskResponse getTaskDetail(@Valid TaskDetailRequest taskDetailRequest);
 
 	public ProjectTaskResponse getUserTask(@Valid UserTask userTask);
 
-	public TaskDetailResponse deleteTask(TaskDetailRequest taskDetailRequest);
+	public TaskDetailResponse deleteTask(@Valid TaskDetailRequest taskDetailRequest);
+
+	public com.ontarget.response.bean.TaskListResponse getProjectTaskList(@Valid ProjectTaskRequest projectTaskRequest);
 }

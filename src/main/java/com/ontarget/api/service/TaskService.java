@@ -11,6 +11,7 @@ import com.ontarget.dto.FieldWorkerResponse;
 import com.ontarget.dto.ProjectTask;
 import com.ontarget.request.bean.Task;
 import com.ontarget.request.bean.TaskCommentRequest;
+import com.ontarget.response.bean.TaskResponse;
 
 /**
  * Created by Owner on 11/6/14.
@@ -27,7 +28,7 @@ public interface TaskService {
 
 	public int addDependentTask(DependentTaskDTO dependentTask) throws Exception;
 
-	public ProjectTask getTaskDetail(int taskId) throws Exception;
+	public TaskResponse getTaskDetail(int taskId) throws Exception;
 
 	public List<com.ontarget.bean.TaskStatusCount> getTaskCountByStatus(int projectId) throws Exception;
 
@@ -52,6 +53,9 @@ public interface TaskService {
 	public List<ProjectTask> getUserTasks(int userId) throws Exception;
 
 	public boolean deleteTask(int taskId, int userId) throws Exception;
-	
+
 	public FieldWorkerResponse getFieldWorkersByTask(int taskId) throws Exception;
+
+	public com.ontarget.response.bean.TaskListResponse getTaskList(Integer projectId) throws Exception;
+
 }

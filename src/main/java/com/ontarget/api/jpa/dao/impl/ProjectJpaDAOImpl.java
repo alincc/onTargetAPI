@@ -8,6 +8,8 @@ import com.ontarget.bean.ProjectMember;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.constant.OnTargetQuery;
 import com.ontarget.entities.*;
+import com.ontarget.response.bean.ProjectConfig;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -16,6 +18,7 @@ import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+
 import java.util.*;
 
 @Repository("projectJpaDAOImpl")
@@ -162,6 +165,38 @@ public class ProjectJpaDAOImpl implements ProjectDAO {
 		projectDTO.setType(project.getType());
 
 		return projectDTO;
+	}
+
+	@Override
+	public com.ontarget.response.bean.Project getProjectById(int projectId) throws Exception {
+		Project project = projectRepository.findByProjectId(projectId);
+
+		com.ontarget.response.bean.Project projectInfo = new com.ontarget.response.bean.Project();
+		projectInfo.setProjectId(projectId);
+		projectInfo.setProjectName(project.getProjectName());
+		projectInfo.setProjectDescription(project.getProjectDescription());
+		projectInfo.setProjectTypeId(project.getProjectType().getProjectTypeId());
+		projectInfo.setProjectParentId(project.getProjectParentId());
+		projectInfo.setCompanyId(project.getCompanyInfo().getCompanyId());
+		projectInfo.setProjectOwnerId(project.getProjectOwnerId());
+		projectInfo.setStartDate(project.getProjectStartDate());
+		projectInfo.setEndDate(project.getProjectEndDate());
+		projectInfo.setType(project.getType());
+		projectInfo.setProjectImagePath(project.getProjectImagePath());
+
+		List<ProjectConfig> projectConfigList = new ArrayList<>();
+		List<ProjectConfiguration> projectConfigurations = project.getProjectConfigurationList();
+		if (projectConfigurations != null && !projectConfigurations.isEmpty()) {
+			for (ProjectConfiguration projectConfiguration : projectConfigurations) {
+				ProjectConfig projectConfig = new ProjectConfig();
+				projectConfig.setConfigKey(projectConfiguration.getConfigKey());
+				projectConfig.setConfigValue(projectConfiguration.getConfigValue());
+				projectConfigList.add(projectConfig);
+			}
+		}
+		projectInfo.setProjectConfiguration(projectConfigList);
+
+		return projectInfo;
 	}
 
 	@Override
@@ -342,6 +377,11 @@ public class ProjectJpaDAOImpl implements ProjectDAO {
 	@Override
 	public List<Project> getUndeletedProjectsByParentIdAndUserId(Integer parentProjectId, int userId) {
 		return projectRepository.findUndeletedProjectsByProjectParentIdAndUserId(parentProjectId, userId);
+	}
+
+	@Override
+	public List<Project> getProjectsByUserIdAndCompanyId(Integer userId, Integer companyId) {
+		return projectRepository.getProjectsByUserIdAndCompanyId(userId, companyId);
 	}
 
 	@Override

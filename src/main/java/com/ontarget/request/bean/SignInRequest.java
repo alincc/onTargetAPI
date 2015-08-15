@@ -2,6 +2,7 @@ package com.ontarget.request.bean;
 
 import javax.annotation.Generated;
 
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonInclude;

@@ -57,4 +57,9 @@ public interface ProjectDAO {
 	public List<Project> getAlllAssociatedProjectsByUser(int userId);
 
 	public List<Project> getUndeletedProjectsByParentIdAndUserId(Integer parentProjectId, int userId);
+
+	public com.ontarget.response.bean.Project getProjectById(int projectId) throws Exception;
+	
+	public List<Project> getProjectsByUserIdAndCompanyId(Integer userId, Integer companyId);
+	
 }

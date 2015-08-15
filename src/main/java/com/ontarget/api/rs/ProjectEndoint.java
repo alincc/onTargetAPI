@@ -13,6 +13,7 @@ import com.ontarget.request.bean.ProjectCompanyRequest;
 import com.ontarget.request.bean.ProjectDetailRequest;
 import com.ontarget.request.bean.ProjectRequest;
 import com.ontarget.request.bean.ProjectUserRequest;
+import com.ontarget.request.bean.UserProjectRequest;
 
 /**
  * Created by Owner on 11/6/14.
@@ -23,7 +24,7 @@ public interface ProjectEndoint {
 
 	public OnTargetResponse addActivity(@Valid ActivityRequest request);
 
-	public ProjectResponse getProjectDetail(@Valid ProjectDetailRequest projectDetailRequest);
+	public com.ontarget.response.bean.ProjectResponse getProjectDetail(@Valid ProjectDetailRequest projectDetailRequest);
 
 	public com.ontarget.dto.ProjectListResponse getProjectByCompany(@Valid ProjectCompanyRequest projectCompanyRequest);
 
@@ -38,4 +39,8 @@ public interface ProjectEndoint {
 	public ProjectResponse deleteProject(ProjectDetailRequest projectDetailRequest);
 
 	public ProjectListResponse getProjectByUser(@Valid ProjectUserRequest projectUserRequest);
+	
+	public com.ontarget.response.bean.ProjectListResponse getUserProjectsByComapny(@Valid UserProjectRequest useProjectRequest);
+	
+	public com.ontarget.response.bean.ProjectListResponse getActivityOfProject(@Valid ProjectDetailRequest projectDetailRequest);
 }

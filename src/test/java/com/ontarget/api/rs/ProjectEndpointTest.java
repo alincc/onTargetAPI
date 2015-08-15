@@ -192,6 +192,7 @@ public class ProjectEndpointTest extends BaseTest {
 	// System.out.println(output);
 	// }
 	//
+	//new
 	@Test
 	public void getProjectDetail() {
 
@@ -201,7 +202,7 @@ public class ProjectEndpointTest extends BaseTest {
 
 		ProjectDetailRequest request = new ProjectDetailRequest();
 		request.setBaseRequest(baseRequest);
-		request.setProjectId(1);
+		request.setProjectId(2);
 
 		System.out.println("Client request ....getProjectDetail \n");
 		System.out.println(toJsonString(request, true));

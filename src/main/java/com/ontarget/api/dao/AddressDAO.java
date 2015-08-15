@@ -14,4 +14,6 @@ public interface AddressDAO {
     public AddressDTO getAddress(int addressId) throws Exception;
 
     public boolean updateAddress(AddressDTO addressDTO) throws Exception;
+    
+    public com.ontarget.response.bean.Address getAddressById(int addressId) throws Exception;
 }
