@@ -4,15 +4,8 @@ import javax.ws.rs.core.Response;
 
 import org.junit.Test;
 
-import com.ontarget.request.bean.ActivityDetailInfo;
-import com.ontarget.request.bean.ActivityRequest;
 import com.ontarget.request.bean.BaseRequest;
-import com.ontarget.request.bean.ProjectAddressInfo;
-import com.ontarget.request.bean.ProjectCompanyRequest;
-import com.ontarget.request.bean.ProjectDetailInfo;
 import com.ontarget.request.bean.ProjectDetailRequest;
-import com.ontarget.request.bean.ProjectRequest;
-import com.ontarget.request.bean.ProjectUserRequest;
 
 public class ProjectEndpointTest extends BaseTest {
 
@@ -192,28 +185,29 @@ public class ProjectEndpointTest extends BaseTest {
 	// System.out.println(output);
 	// }
 	//
-	//new
-	@Test
-	public void getProjectDetail() {
-
-		BaseRequest baseRequest = new BaseRequest();
-		baseRequest.setLoggedInUserId(1);
-		baseRequest.setLoggedInUserProjectId(1);
-
-		ProjectDetailRequest request = new ProjectDetailRequest();
-		request.setBaseRequest(baseRequest);
-		request.setProjectId(2);
-
-		System.out.println("Client request ....getProjectDetail \n");
-		System.out.println(toJsonString(request, true));
-		Response response = sendRequest("/project/getProject", request);
-		if (response.getStatus() != 200) {
-			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
-		}
-		String output = response.readEntity(String.class);
-		System.out.println("Server response .... \n");
-		System.out.println(output);
-	}
+	// new
+	// @Test
+	// public void getProjectDetail() {
+	//
+	// BaseRequest baseRequest = new BaseRequest();
+	// baseRequest.setLoggedInUserId(1);
+	// baseRequest.setLoggedInUserProjectId(1);
+	//
+	// ProjectDetailRequest request = new ProjectDetailRequest();
+	// request.setBaseRequest(baseRequest);
+	// request.setProjectId(2);
+	//
+	// System.out.println("Client request ....getProjectDetail \n");
+	// System.out.println(toJsonString(request, true));
+	// Response response = sendRequest("/project/getProject", request);
+	// if (response.getStatus() != 200) {
+	// throw new RuntimeException("Failed : HTTP error code : " +
+	// response.getStatus());
+	// }
+	// String output = response.readEntity(String.class);
+	// System.out.println("Server response .... \n");
+	// System.out.println(output);
+	// }
 	//
 	// @Test
 	// public void getProjectMembers() {
@@ -286,26 +280,27 @@ public class ProjectEndpointTest extends BaseTest {
 	// System.out.println(output);
 	// }
 	//
-//	@Test
-//	public void getProjectByUser() {
-//
-//		BaseRequest baseRequest = new BaseRequest();
-//		baseRequest.setLoggedInUserId(1);
-//		baseRequest.setLoggedInUserProjectId(1);
-//
-//		ProjectUserRequest request = new ProjectUserRequest();
-//		request.setUserId(1);
-//
-//		System.out.println("Client request ....getProjectByUser \n");
-//		System.out.println(toJsonString(request, true));
-//		Response response = sendRequest("/project/getProjectsByUser", request);
-//		if (response.getStatus() != 200) {
-//			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
-//		}
-//		String output = response.readEntity(String.class);
-//		System.out.println("Server response .... \n");
-//		System.out.println(output);
-//	}
+	// @Test
+	// public void getProjectByUser() {
+	//
+	// BaseRequest baseRequest = new BaseRequest();
+	// baseRequest.setLoggedInUserId(1);
+	// baseRequest.setLoggedInUserProjectId(1);
+	//
+	// ProjectUserRequest request = new ProjectUserRequest();
+	// request.setUserId(1);
+	//
+	// System.out.println("Client request ....getProjectByUser \n");
+	// System.out.println(toJsonString(request, true));
+	// Response response = sendRequest("/project/getProjectsByUser", request);
+	// if (response.getStatus() != 200) {
+	// throw new RuntimeException("Failed : HTTP error code : " +
+	// response.getStatus());
+	// }
+	// String output = response.readEntity(String.class);
+	// System.out.println("Server response .... \n");
+	// System.out.println(output);
+	// }
 	//
 	// @Test
 	// public void deleteProject() {
@@ -329,5 +324,49 @@ public class ProjectEndpointTest extends BaseTest {
 	// System.out.println("Server response .... \n");
 	// System.out.println(output);
 	// }
+
+	// @Test
+	// public void getUserProjectList() {
+	//
+	// BaseRequest baseRequest = new BaseRequest();
+	// baseRequest.setLoggedInUserId(1);
+	// baseRequest.setLoggedInUserProjectId(2);
+	//
+	// UserProjectRequest request = new UserProjectRequest();
+	// request.setBaseRequest(baseRequest);
+	//
+	// System.out.println("Client request ....getUserProjectList \n");
+	// System.out.println(toJsonString(request, true));
+	// Response response = sendRequest("/project/getUserProjectList", request);
+	// if (response.getStatus() != 200) {
+	// throw new RuntimeException("Failed : HTTP error code : " +
+	// response.getStatus());
+	// }
+	// String output = response.readEntity(String.class);
+	// System.out.println("Server response .... \n");
+	// System.out.println(output);
+	// }
+
+	@Test
+	public void getActivityOfProject() {
+
+		BaseRequest baseRequest = new BaseRequest();
+		baseRequest.setLoggedInUserId(1);
+		baseRequest.setLoggedInUserProjectId(2);
+
+		ProjectDetailRequest request = new ProjectDetailRequest();
+		request.setBaseRequest(baseRequest);
+		request.setProjectId(2);
+
+		System.out.println("Client request ....getActivityOfProject \n");
+		System.out.println(toJsonString(request, true));
+		Response response = sendRequest("/project/getActivityOfProject", request);
+		if (response.getStatus() != 200) {
+			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
+		}
+		String output = response.readEntity(String.class);
+		System.out.println("Server response .... \n");
+		System.out.println(output);
+	}
 
 }

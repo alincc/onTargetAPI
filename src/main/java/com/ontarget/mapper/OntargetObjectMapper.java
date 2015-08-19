@@ -26,6 +26,7 @@ public class OntargetObjectMapper implements ContextResolver<ObjectMapper> {
 
 	private static ObjectMapper createObjectMapper() {
 		ObjectMapper mapper = new ObjectMapper();
+		
 
 		SerializationConfig serConfig = mapper.getSerializationConfig();
 		serConfig.setDateFormat(dateFormat);

@@ -8,6 +8,7 @@ import org.glassfish.jersey.server.ServerProperties;
 
 import com.ontarget.api.config.ValidationConfigurationContextResolver.JsonConfiguration;
 import com.ontarget.api.filter.AuthorizationFilter;
+import com.ontarget.api.filter.CORSResponseFilter;
 import com.ontarget.api.filter.LoggingResponseFilter;
 import com.ontarget.util.JsonDateSerializer;
 
@@ -20,8 +21,8 @@ public class JerseyResourceInitializer extends ResourceConfig {
 		register(ValidationExceptionMapper.class);
 		register(LoggingResponseFilter.class);
 		register(JsonDateSerializer.class);
+		register(CORSResponseFilter.class);
 
-		
 		property(ServerProperties.BV_SEND_ERROR_IN_RESPONSE, true);
 		property(ServerProperties.TRACING, true);
 		property(ServerProperties.BV_DISABLE_VALIDATE_ON_EXECUTABLE_OVERRIDE_CHECK, true);

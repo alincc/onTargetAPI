@@ -60,6 +60,6 @@ public interface ProjectDAO {
 
 	public com.ontarget.response.bean.Project getProjectById(int projectId) throws Exception;
 	
-	public List<Project> getProjectsByUserIdAndCompanyId(Integer userId, Integer companyId);
+	public List<Project> getProjectsByUserId(Integer userId);
 	
 }

@@ -5,7 +5,6 @@ import java.util.List;
 import com.ontarget.bean.Contact;
 import com.ontarget.bean.DocumentDTO;
 import com.ontarget.bean.ProjectTaskInfo;
-import com.ontarget.bean.TaskInfo;
 import com.ontarget.request.bean.Assignee;
 
 /**
@@ -15,12 +14,12 @@ public interface EmailService {
 
 	public boolean sendUserRequestEmail(int userRequestId);
 
-    void sendTaskStatusChangeEmail(ProjectTaskInfo task, int userId);
+	void sendTaskStatusChangeEmail(ProjectTaskInfo task, int userId);
 
-    public boolean sendUserRequestEmailToAdmin(int userRequestId);
+	public boolean sendUserRequestEmailToAdmin(int userRequestId);
 
-	public boolean sendUserRegistrationEmail(String userEmail, String tokenId, String receiverFirstName,
-			String senderFirstName, String senderLastName) throws Exception;
+	public boolean sendUserRegistrationEmail(String userEmail, String tokenId, String receiverFirstName, String senderFirstName,
+			String senderLastName) throws Exception;
 
 	public boolean sendUserRegistrationEmail() throws Exception;
 

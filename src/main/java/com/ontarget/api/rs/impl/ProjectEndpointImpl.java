@@ -260,16 +260,16 @@ public class ProjectEndpointImpl implements ProjectEndoint {
 
 	@Override
 	@POST
-	@Path("/getUserProjectsByComapny")
-	public com.ontarget.response.bean.ProjectListResponse getUserProjectsByComapny(UserProjectRequest userProjectRequest) {
+	@Path("/getUserProjectList")
+	public com.ontarget.response.bean.ProjectListResponse getUserProjectList(UserProjectRequest userProjectRequest) {
 		com.ontarget.response.bean.ProjectListResponse response = new com.ontarget.response.bean.ProjectListResponse();
 		try {
-			response = projectService.getUserProjectsByCompany(userProjectRequest.getUserId(), userProjectRequest.getCompanyId());
+			response = projectService.getUserProjectList(userProjectRequest.getBaseRequest().getLoggedInUserId());
 			response.setReturnVal(OnTargetConstant.SUCCESS);
-			response.setReturnMessage("Successfully retrieved company projects assigned to user");
+			response.setReturnMessage("Successfully retrieved projects assigned to user");
 		} catch (Exception e) {
-			logger.error("Error while getting company projects assigned to user", e);
-			response.setReturnMessage("Error while getting company projects assigned to user");
+			logger.error("Error while getting projects assigned to user", e);
+			response.setReturnMessage("Error while getting projects assigned to user");
 			response.setReturnVal(OnTargetConstant.ERROR);
 		}
 		return response;

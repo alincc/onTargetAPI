@@ -44,7 +44,7 @@ public interface ProjectService {
     
     public UserProjectListResponse getUserAssociatedProjectDetails(int userId) throws Exception;
     
-    public com.ontarget.response.bean.ProjectListResponse getUserProjectsByCompany(Integer userId, Integer companyId) throws Exception;
+    public com.ontarget.response.bean.ProjectListResponse getUserProjectList(Integer userId) throws Exception;
     
     public com.ontarget.response.bean.ProjectListResponse getActivityOfProject(Integer projectId) throws Exception;
 }

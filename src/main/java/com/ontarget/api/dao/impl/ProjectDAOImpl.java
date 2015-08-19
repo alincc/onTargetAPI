@@ -368,7 +368,7 @@ public class ProjectDAOImpl implements ProjectDAO {
 	}
 
 	@Override
-	public List<Project> getProjectsByUserIdAndCompanyId(Integer userId, Integer companyId) {
+	public List<Project> getProjectsByUserId(Integer userId) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -12,6 +12,7 @@ import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.SafetyInfoResponse;
 import com.ontarget.dto.UserImageRequest;
 import com.ontarget.dto.UserProfileRequest;
+import com.ontarget.dto.UserProfileResponse;
 import com.ontarget.dto.UserResponse;
 import com.ontarget.request.bean.CompanyInfoEditRequest;
 import com.ontarget.request.bean.UpdateUserProfileRequest;
@@ -41,4 +42,6 @@ public interface UserProfile {
 	public OnTargetResponse updateCompanyInfo(@Valid CompanyInfoEditRequest request);
 
 	public UserResponse getUserDetails(@Valid UserInfo request);
+	
+	public com.ontarget.response.bean.UserProfileResponse userProfileInfo(@Valid com.ontarget.request.bean.UserProfileRequest request);
 }

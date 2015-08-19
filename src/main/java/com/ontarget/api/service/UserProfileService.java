@@ -53,4 +53,6 @@ public interface UserProfileService {
 	public OnTargetResponse updateCompanyInfo(CompanyInfoEditRequest request) throws Exception;
 	
 	public UserResponse getUserDetails(UserInfo request) throws Exception;
+	
+	public com.ontarget.response.bean.UserProfileResponse getUserProfileInfo(int userId) throws Exception;
 }

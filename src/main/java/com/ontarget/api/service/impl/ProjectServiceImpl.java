@@ -202,7 +202,6 @@ public class ProjectServiceImpl implements ProjectService {
 		} else {
 			throw new Exception("Error while updating activity");
 		}
-
 		return response;
 	}
 
@@ -243,6 +242,9 @@ public class ProjectServiceImpl implements ProjectService {
 			}
 			projectInfo.setProjectConfiguration(projectConfigList);
 		}
+
+		Company company = companyDAO.getCompany(project.getCompanyInfo().getCompanyId());
+		projectInfo.setCompany(company);
 
 		if (project.getAddress() != null) {
 			Address projectAddress = addressDAO.getAddressById(project.getAddress().getAddressId());
@@ -442,9 +444,9 @@ public class ProjectServiceImpl implements ProjectService {
 
 	// new
 	@Override
-	public com.ontarget.response.bean.ProjectListResponse getUserProjectsByCompany(Integer userId, Integer companyId) throws Exception {
+	public com.ontarget.response.bean.ProjectListResponse getUserProjectList(Integer userId) throws Exception {
 		com.ontarget.response.bean.ProjectListResponse projectListResponse = new com.ontarget.response.bean.ProjectListResponse();
-		List<Project> projects = projectDAO.getProjectsByUserIdAndCompanyId(userId, companyId);
+		List<Project> projects = projectDAO.getProjectsByUserId(userId);
 
 		List<com.ontarget.response.bean.Project> projectInfoList = new ArrayList<com.ontarget.response.bean.Project>();
 

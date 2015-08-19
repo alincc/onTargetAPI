@@ -1,10 +1,9 @@
 package com.ontarget.api.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
-
-import com.ontarget.api.dao.*;
-import com.ontarget.entities.Email;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,11 +11,26 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ontarget.api.dao.AuthenticationDAO;
+import com.ontarget.api.dao.CompanyDAO;
+import com.ontarget.api.dao.ContactDAO;
+import com.ontarget.api.dao.EmailDAO;
+import com.ontarget.api.dao.PhoneDAO;
+import com.ontarget.api.dao.ProjectDAO;
+import com.ontarget.api.dao.UserDAO;
+import com.ontarget.api.dao.UserInvitationDAO;
+import com.ontarget.api.dao.UserRegistrationDAO;
+import com.ontarget.api.dao.UserSafetyInfoDAO;
+import com.ontarget.api.repository.UserProfileRepository;
 import com.ontarget.api.service.EmailService;
 import com.ontarget.api.service.UserProfileService;
 import com.ontarget.bean.Company;
 import com.ontarget.bean.Contact;
 import com.ontarget.bean.ContactPhone;
+import com.ontarget.bean.MenuProfileDTO;
+import com.ontarget.bean.PermissionProfileDTO;
+import com.ontarget.bean.ProfileAssignedMenuDTO;
+import com.ontarget.bean.ProfileAssignedPermissionDTO;
 import com.ontarget.bean.ProjectDTO;
 import com.ontarget.bean.UserDTO;
 import com.ontarget.bean.UserRegistration;
@@ -29,7 +43,12 @@ import com.ontarget.dto.UserProfileRequest;
 import com.ontarget.dto.UserProfileResponse;
 import com.ontarget.dto.UserResponse;
 import com.ontarget.entities.CompanyInfo;
+import com.ontarget.entities.Email;
+import com.ontarget.entities.Profile;
+import com.ontarget.entities.ProfileMenu;
+import com.ontarget.entities.ProfilePermission;
 import com.ontarget.entities.User;
+import com.ontarget.entities.UserProfile;
 import com.ontarget.request.bean.CompanyEditInfo;
 import com.ontarget.request.bean.CompanyInfoEditRequest;
 import com.ontarget.request.bean.UpdateUserProfileRequest;
@@ -89,6 +108,9 @@ public class UserProfileServiceImpl implements UserProfileService {
 	@Autowired
 	@Qualifier("emailJpaDAOImpl")
 	private EmailDAO emailDao;
+
+	@Autowired
+	private UserProfileRepository userProfileRepository;
 
 	private Random random = new Random();
 
@@ -482,7 +504,7 @@ public class UserProfileServiceImpl implements UserProfileService {
 			response.setReturnMessage("Username not found");
 			return response;
 		}
-		
+
 		Email email = user.getEmailList().get(0);
 
 		final String forgotPasswordToken = Security.generateRandomValue(OnTargetConstant.TOKEN_LENGTH);
@@ -518,4 +540,65 @@ public class UserProfileServiceImpl implements UserProfileService {
 		return random.nextInt(Integer.MAX_VALUE);
 	}
 
+	@Override
+	@Transactional(rollbackFor = { Exception.class })
+	public com.ontarget.response.bean.UserProfileResponse getUserProfileInfo(int userId) throws Exception {
+		com.ontarget.response.bean.UserProfileResponse response = new com.ontarget.response.bean.UserProfileResponse();
+
+		UserProfile userProfile = userProfileRepository.findByUserId(userId);
+
+		Profile menuProfile = userProfile.getMenuProfile();
+		Profile permissionProfile = userProfile.getPermissionProfile();
+
+		MenuProfileDTO menuProfileDTO = new MenuProfileDTO();
+		menuProfileDTO.setProfileAssignedMenuList(new ArrayList<ProfileAssignedMenuDTO>());
+
+		if (menuProfile != null && menuProfile.getActive().equals(new Character('Y'))) {
+			menuProfileDTO.setProfileName(menuProfile.getName());
+			menuProfileDTO.setProfileDescription(menuProfile.getDescription());
+
+			List<ProfileAssignedMenuDTO> profileAssignedMenuDTOList = new ArrayList<>();
+			List<ProfileMenu> profileMenus = menuProfile.getProfileMenuList();
+			for (ProfileMenu profileMenu : profileMenus) {
+				if (profileMenu.getActive().equals(new Character('Y'))) {
+					if (profileMenu.getApplicationMenu().getActive().equals(new Character('Y'))) {
+						ProfileAssignedMenuDTO profileAssignedMenuDTO = new ProfileAssignedMenuDTO();
+						profileAssignedMenuDTO.setMenuName(profileMenu.getApplicationMenu().getMenuName());
+						profileAssignedMenuDTO.setMenuKey(profileMenu.getApplicationMenu().getMenuKey());
+						profileAssignedMenuDTOList.add(profileAssignedMenuDTO);
+					}
+				}
+			}
+			menuProfileDTO.setProfileAssignedMenuList(profileAssignedMenuDTOList);
+		}
+		response.setMenuProfile(menuProfileDTO);
+
+		PermissionProfileDTO permissionProfileDTO = new PermissionProfileDTO();
+		permissionProfileDTO.setProfileAssignedPermissionList(new ArrayList<ProfileAssignedPermissionDTO>());
+
+		if (permissionProfile != null && permissionProfile.getActive().equals(new Character('Y'))) {
+			permissionProfileDTO.setProfileName(permissionProfile.getName());
+			permissionProfileDTO.setProfileDescription(permissionProfile.getDescription());
+
+			List<ProfileAssignedPermissionDTO> profileAssignedMenuDTOList = new ArrayList<>();
+			List<ProfilePermission> profiePermissionList = permissionProfile.getProfilePermissionList();
+			for (ProfilePermission profilePermission : profiePermissionList) {
+				if (profilePermission.getActive().equals(new Character('Y'))) {
+					if (profilePermission.getApplicationPermission().getActive().equals(new Character('Y'))) {
+						ProfileAssignedPermissionDTO profileAssignedPermissionDTO = new ProfileAssignedPermissionDTO();
+						profileAssignedPermissionDTO.setPermissionName(profilePermission.getApplicationPermission().getPermissionName());
+						profileAssignedPermissionDTO.setPermissionKey(profilePermission.getApplicationPermission().getPermissionKey());
+						profileAssignedMenuDTOList.add(profileAssignedPermissionDTO);
+					}
+				}
+			}
+			permissionProfileDTO.setProfileAssignedPermissionList(profileAssignedMenuDTOList);
+		}
+		response.setPermissionProfile(permissionProfileDTO);
+
+		response.setReturnMessage("Successfully retrieved user profiles");
+		response.setReturnVal(OnTargetConstant.SUCCESS);
+
+		return response;
+	}
 }

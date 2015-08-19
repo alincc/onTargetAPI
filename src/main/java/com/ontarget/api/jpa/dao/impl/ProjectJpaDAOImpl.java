@@ -380,8 +380,8 @@ public class ProjectJpaDAOImpl implements ProjectDAO {
 	}
 
 	@Override
-	public List<Project> getProjectsByUserIdAndCompanyId(Integer userId, Integer companyId) {
-		return projectRepository.getProjectsByUserIdAndCompanyId(userId, companyId);
+	public List<Project> getProjectsByUserId(Integer userId) {
+		return projectRepository.getProjectsByUserId(userId);
 	}
 
 	@Override

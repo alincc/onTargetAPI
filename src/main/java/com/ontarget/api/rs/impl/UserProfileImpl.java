@@ -169,7 +169,6 @@ public class UserProfileImpl implements UserProfile {
 			response.setReturnMessage("Change forgot password failure");
 			response.setReturnVal(OnTargetConstant.ERROR);
 		}
-
 		return response;
 	}
 
@@ -192,7 +191,6 @@ public class UserProfileImpl implements UserProfile {
 			response.setReturnMessage("Error while getting safety info");
 			response.setReturnVal(OnTargetConstant.ERROR);
 		}
-
 		return response;
 	}
 
@@ -214,7 +212,6 @@ public class UserProfileImpl implements UserProfile {
 				response.setReturnVal(OnTargetConstant.ERROR);
 			}
 		}
-
 		return response;
 	}
 
@@ -247,10 +244,24 @@ public class UserProfileImpl implements UserProfile {
 				response.setReturnMessage("Invalid request. Forgot password request expired.");
 				response.setReturnVal(OnTargetConstant.ERROR);
 			}
-
 		} catch (Exception e) {
 			logger.error("Error while validating forgot password token", e);
 			response.setReturnMessage("Error while validating forgot password token.");
+			response.setReturnVal(OnTargetConstant.ERROR);
+		}
+		return response;
+	}
+
+	@Override
+	@POST
+	@Path("/userProfileInfo")
+	public com.ontarget.response.bean.UserProfileResponse userProfileInfo(com.ontarget.request.bean.UserProfileRequest request) {
+		com.ontarget.response.bean.UserProfileResponse response = new com.ontarget.response.bean.UserProfileResponse();
+		try {
+			return userProfileService.getUserProfileInfo(request.getUserId());
+		} catch (Exception e) {
+			logger.error("Error while retrieving user profiles.", e);
+			response.setReturnMessage("Error while retrieving user profiles.");
 			response.setReturnVal(OnTargetConstant.ERROR);
 		}
 		return response;
