@@ -85,6 +85,7 @@ public class TaskJpaDAOImpl implements TaskDAO {
 		projectTask.setEndDate(task.getEndDate());
 		projectTask.setCreatedBy(new User(userId));
 		projectTask.setCreatedDate(new Date());
+		projectTask.setTaskPercentage(0);
 		projectTaskRepository.save(projectTask);
 
 		List<Integer> assignees = task.getAssignees();

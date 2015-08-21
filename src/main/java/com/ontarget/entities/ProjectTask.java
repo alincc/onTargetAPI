@@ -60,8 +60,10 @@ public class ProjectTask implements Serializable {
 	private User modifiedBy;
 	@Column(name = "severity", length = 45)
 	private String severity;
-	@Column(name = "description",length = 65535, columnDefinition = "TEXT")
+	@Column(name = "description", length = 65535, columnDefinition = "TEXT")
 	private String description;
+	@Column(name = "task_percentage")
+	private Integer taskPercentage;
 	@OneToMany(mappedBy = "projectTask", fetch = FetchType.LAZY)
 	private List<ProjectTaskComments> projectTaskCommentsList;
 	@OneToMany(mappedBy = "projectTask", fetch = FetchType.LAZY)
@@ -268,6 +270,14 @@ public class ProjectTask implements Serializable {
 
 	public void setCreatorId(Integer creatorId) {
 		this.creatorId = creatorId;
+	}
+
+	public Integer getTaskPercentage() {
+		return taskPercentage;
+	}
+
+	public void setTaskPercentage(Integer taskPercentage) {
+		this.taskPercentage = taskPercentage;
 	}
 
 	@Override
