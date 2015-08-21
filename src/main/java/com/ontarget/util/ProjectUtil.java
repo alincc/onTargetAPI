@@ -1,10 +1,13 @@
 package com.ontarget.util;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import com.ontarget.api.repository.ProjectTaskRepository;
 import com.ontarget.bean.AddressDTO;
 import com.ontarget.bean.ProjectConfigDTO;
 import com.ontarget.bean.ProjectDTO;
@@ -66,7 +69,7 @@ public class ProjectUtil {
 		return project;
 	}
 
-	public static ProjectDTO convertToProjectDTO(Project projectDetail) {
+	public static ProjectDTO convertToProjectDTO(Project projectDetail, ProjectTaskRepository projectTaskRepository) {
 		ProjectDTO project = new ProjectDTO();
 		project.setProjectId(projectDetail.getProjectId());
 		project.setProjectName(projectDetail.getProjectName());
@@ -92,6 +95,28 @@ public class ProjectUtil {
 			}
 		}
 		project.setProjectConfiguration(projectConfigList);
+
+		if (projectDetail.getType().equalsIgnoreCase(OnTargetConstant.ProjectInfoType.ACTIVITY)) {
+			BigDecimal percentageCompleteSum = projectTaskRepository.getActivityTotalPercentageComplete(project.getProjectId());
+			BigInteger taskCount = projectTaskRepository.getActivityTaskCount(project.getProjectId());
+
+			if (percentageCompleteSum == null || taskCount == null) {
+				project.setPercentageComplete(0);
+			} else {
+				int percentageComplete = CalculatePercentageComplete.calculate(percentageCompleteSum.doubleValue(), taskCount.intValue());
+				project.setPercentageComplete(percentageComplete);
+			}
+		} else if (projectDetail.getType().equalsIgnoreCase(OnTargetConstant.ProjectInfoType.PROJECT)) {
+			BigDecimal percentageCompleteSum = projectTaskRepository.getProjectTotalPercentageComplete(project.getProjectId());
+			BigInteger taskCount = projectTaskRepository.getProjectTaskCount(project.getProjectId());
+			if (percentageCompleteSum == null || taskCount == null) {
+				project.setPercentageComplete(0);
+			} else {
+				int percentageComplete = CalculatePercentageComplete.calculate(percentageCompleteSum.doubleValue(), taskCount.intValue());
+				project.setPercentageComplete(percentageComplete);
+			}
+		}
+
 		if (projectDetail.getAddress() != null) {
 			AddressDTO address = new AddressDTO();
 			address.setAddressId(projectDetail.getAddress().getAddressId());

@@ -19,6 +19,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.ontarget.api.dao.TaskPercentageDAO;
+import com.ontarget.api.repository.ProjectTaskRepository;
 import com.ontarget.api.repository.TaskPercentageLogRepository;
 import com.ontarget.bean.ProjectTaskInfo;
 import com.ontarget.bean.TaskInfo;
@@ -39,6 +40,8 @@ public class TaskPercentageJpaDAOImpl implements TaskPercentageDAO {
 
 	@Resource
 	private TaskPercentageLogRepository taskPercentageLogRepository;
+	@Resource
+	private ProjectTaskRepository projectTaskRepository;
 	@PersistenceContext
 	private EntityManager entityManager;
 
@@ -173,15 +176,28 @@ public class TaskPercentageJpaDAOImpl implements TaskPercentageDAO {
 	}
 
 	@Override
-	public boolean updateTaskPercentageComplete(TaskProgressInfo taskProgressOfTask, int modifiedBy) throws Exception {
-		TaskPercentageLog taskPercentageLog = taskPercentageLogRepository.findByTaskPercentageLogId(taskProgressOfTask
-				.getTaskPercentageLogId());
-		taskPercentageLog.setPercentageComplete(taskProgressOfTask.getPercentageComplete());
-		taskPercentageLog.setModifiedBy(new User(modifiedBy));
-		taskPercentageLog.setModifiedDate(new Date());
-		taskPercentageLogRepository.save(taskPercentageLog);
-		return true;
+	public int updateTaskPercentageComplete(TaskProgress taskProgress, int addedBy) throws Exception {
+		logger.info("Updating task percentage: " + taskProgress);
+		ProjectTask projectTask = projectTaskRepository.findByProjectTaskId(taskProgress.getTaskId());
+		projectTask.setTaskPercentage(taskProgress.getPercentageComplete().intValue());
+		projectTask.setModifiedBy(new User(addedBy));
+		projectTask.setModifiedDate(new Date());
+		projectTaskRepository.save(projectTask);
+		return 1;
 	}
+
+	// @Override
+	// public boolean updateTaskPercentageComplete(TaskProgressInfo
+	// taskProgressOfTask, int modifiedBy) throws Exception {
+	// TaskPercentageLog taskPercentageLog =
+	// taskPercentageLogRepository.findByTaskPercentageLogId(taskProgressOfTask
+	// .getTaskPercentageLogId());
+	// taskPercentageLog.setPercentageComplete(taskProgressOfTask.getPercentageComplete());
+	// taskPercentageLog.setModifiedBy(new User(modifiedBy));
+	// taskPercentageLog.setModifiedDate(new Date());
+	// taskPercentageLogRepository.save(taskPercentageLog);
+	// return true;
+	// }
 
 	@Override
 	public boolean expireTaskPercentage(int taskPercentageLogId) throws Exception {
@@ -201,7 +217,6 @@ public class TaskPercentageJpaDAOImpl implements TaskPercentageDAO {
 		query.setParameter("projectTaskId", projectTaskId);
 		@SuppressWarnings("unchecked")
 		List<TaskPercentageLog> logs = query.getResultList();
-		
 
 		if (logs != null && !logs.isEmpty()) {
 			for (TaskPercentageLog taskPercentageLog : logs) {

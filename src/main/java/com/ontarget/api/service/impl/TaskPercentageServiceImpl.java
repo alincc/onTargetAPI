@@ -36,17 +36,7 @@ public class TaskPercentageServiceImpl implements TaskPercentageService {
 		if (taskProgressList != null && taskProgressList.size() > 0) {
 			for (TaskProgress taskProgress : taskProgressList) {
 
-				// figure if the task for the start date of the month already
-				// exists. if exists expire and add a new one.
-				TaskPercentage tpFromDatabase = taskPercentageDAO.getExistingTaskPercentageForTheMonth(taskProgress.getTaskId());
-				if (tpFromDatabase.getId() > 0) {
-					boolean expired = taskPercentageDAO.expireTaskPercentage(tpFromDatabase.getId());
-					if (!expired) {
-						throw new Exception("Error while expiring task percentage.");
-					}
-				}
-
-				int id = taskPercentageDAO.addTaskPercentageComplete(taskProgress, addedBy);
+				int id = taskPercentageDAO.updateTaskPercentageComplete(taskProgress, addedBy);
 				if (id <= 0) {
 					throw new Exception("Task Percentage could not be added: " + taskProgress);
 				}
@@ -55,6 +45,38 @@ public class TaskPercentageServiceImpl implements TaskPercentageService {
 		return true;
 	}
 
+	// @Override
+	// @Transactional(rollbackFor = { Exception.class })
+	// public boolean addTaskPercentage(List<TaskProgress> taskProgressList, int
+	// addedBy) throws Exception {
+	// logger.debug("adding task percentage info : " + taskProgressList);
+	//
+	// if (taskProgressList != null && taskProgressList.size() > 0) {
+	// for (TaskProgress taskProgress : taskProgressList) {
+	//
+	// // figure if the task for the start date of the month already
+	// // exists. if exists expire and add a new one.
+	// TaskPercentage tpFromDatabase =
+	// taskPercentageDAO.getExistingTaskPercentageForTheMonth(taskProgress.getTaskId());
+	// if (tpFromDatabase.getId() > 0) {
+	// boolean expired =
+	// taskPercentageDAO.expireTaskPercentage(tpFromDatabase.getId());
+	// if (!expired) {
+	// throw new Exception("Error while expiring task percentage.");
+	// }
+	// }
+	//
+	// int id = taskPercentageDAO.addTaskPercentageComplete(taskProgress,
+	// addedBy);
+	// if (id <= 0) {
+	// throw new Exception("Task Percentage could not be added: " +
+	// taskProgress);
+	// }
+	// }
+	// }
+	// return true;
+	// }
+
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
 	public boolean updateTaskPercentage(List<TaskProgressInfo> taskPercentageList, int modifiedBy) throws Exception {
@@ -62,10 +84,11 @@ public class TaskPercentageServiceImpl implements TaskPercentageService {
 
 		if (taskPercentageList != null && taskPercentageList.size() > 0) {
 			for (TaskProgressInfo taskPercentage : taskPercentageList) {
-				boolean updated = taskPercentageDAO.updateTaskPercentageComplete(taskPercentage, modifiedBy);
-				if (!updated) {
-					throw new Exception("Task Percentage could not be updated: " + taskPercentage);
-				}
+			//	boolean updated = taskPercentageDAO.updateTaskPercentageComplete(taskPercentage, modifiedBy);
+				// if (!updated) {
+				// throw new Exception("Task Percentage could not be updated: "
+				// + taskPercentage);
+				// }
 			}
 		}
 		return true;

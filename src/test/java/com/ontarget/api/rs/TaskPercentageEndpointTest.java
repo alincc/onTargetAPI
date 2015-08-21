@@ -17,118 +17,117 @@ import com.ontarget.request.bean.UpdateTaskProgress;
 
 public class TaskPercentageEndpointTest extends BaseTest {
 
-//	@Test
-//	public void addTaskPercentageComplete() {
-//
-//		BaseRequest baseRequest = new BaseRequest();
-//		baseRequest.setLoggedInUserId(1);
-//		baseRequest.setLoggedInUserProjectId(1);
-//
-//		AddTaskProgress request = new AddTaskProgress();
-//		request.setBaseRequest(baseRequest);
-//
-//		List<TaskProgress> taskProgressList = new ArrayList<>();
-//		TaskProgress taskProgress = new TaskProgress();
-//		taskProgress.setPercentageComplete(10.0);
-//		taskProgress.setPercentageType("PERCENTAGE");
-//		taskProgress.setTaskId(6);
-//
-//		taskProgressList.add(taskProgress);
-//
-//		request.setTaskProgressList(taskProgressList);
-//
-//		System.out.println("Client request.... \n");
-//		System.out.println(toJsonString(request, true));
-//		Response response = sendRequest("/task/percentage/add", request);
-//		if (response.getStatus() != 200) {
-//			throw new RuntimeException("Failed : HTTP error code : "
-//					+ response.getStatus());
-//		}
-//		String output = response.readEntity(String.class);
-//		System.out.println("Server response .... \n");
-//		System.out.println(output);
-//
-//	}
-//
-//	@Test
-//	public void updateTaskPercentageComplete() {
-//
-//		BaseRequest baseRequest = new BaseRequest();
-//		baseRequest.setLoggedInUserId(1);
-//		baseRequest.setLoggedInUserProjectId(1);
-//
-//		UpdateTaskProgress request = new UpdateTaskProgress();
-//		request.setBaseRequest(baseRequest);
-//
-//		List<TaskProgressInfo> taskProgressList = new ArrayList<>();
-//		TaskProgressInfo taskProgress = new TaskProgressInfo();
-//		taskProgress.setPercentageComplete(10.0);
-//		taskProgress.setTaskPercentageLogId(15);
-//
-//		taskProgressList.add(taskProgress);
-//
-//		request.setTaskProgressList(taskProgressList);
-//
-//		System.out.println("Client request.... \n");
-//		System.out.println(toJsonString(request, true));
-//		Response response = sendRequest("/task/percentage/update", request);
-//		if (response.getStatus() != 200) {
-//			throw new RuntimeException("Failed : HTTP error code : "
-//					+ response.getStatus());
-//		}
-//		String output = response.readEntity(String.class);
-//		System.out.println("Server response .... \n");
-//		System.out.println(output);
-//
-//	}
-
 	@Test
-	public void getTaskPercentagesByTask() {
+	public void addTaskPercentageComplete() {
 
 		BaseRequest baseRequest = new BaseRequest();
 		baseRequest.setLoggedInUserId(1);
 		baseRequest.setLoggedInUserProjectId(1);
 
-		TaskPercentageOfTask request = new TaskPercentageOfTask();
+		AddTaskProgress request = new AddTaskProgress();
 		request.setBaseRequest(baseRequest);
-		request.setTaskId(1);
+
+		List<TaskProgress> taskProgressList = new ArrayList<>();
+		TaskProgress taskProgress = new TaskProgress();
+		taskProgress.setPercentageComplete(10.0);
+		taskProgress.setPercentageType("PERCENTAGE");
+		taskProgress.setTaskId(1);
+
+		taskProgressList.add(taskProgress);
+
+		request.setTaskProgressList(taskProgressList);
 
 		System.out.println("Client request.... \n");
 		System.out.println(toJsonString(request, true));
-		Response response = sendRequest(
-				"/task/percentage/getPercentageCompleteOfTask", request);
+		Response response = sendRequest("/task/percentage/add", request);
 		if (response.getStatus() != 200) {
-			throw new RuntimeException("Failed : HTTP error code : "
-					+ response.getStatus());
+			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
 		}
 		String output = response.readEntity(String.class);
 		System.out.println("Server response .... \n");
 		System.out.println(output);
 
 	}
+	//
+	// @Test
+	// public void updateTaskPercentageComplete() {
+	//
+	// BaseRequest baseRequest = new BaseRequest();
+	// baseRequest.setLoggedInUserId(1);
+	// baseRequest.setLoggedInUserProjectId(1);
+	//
+	// UpdateTaskProgress request = new UpdateTaskProgress();
+	// request.setBaseRequest(baseRequest);
+	//
+	// List<TaskProgressInfo> taskProgressList = new ArrayList<>();
+	// TaskProgressInfo taskProgress = new TaskProgressInfo();
+	// taskProgress.setPercentageComplete(10.0);
+	// taskProgress.setTaskPercentageLogId(15);
+	//
+	// taskProgressList.add(taskProgress);
+	//
+	// request.setTaskProgressList(taskProgressList);
+	//
+	// System.out.println("Client request.... \n");
+	// System.out.println(toJsonString(request, true));
+	// Response response = sendRequest("/task/percentage/update", request);
+	// if (response.getStatus() != 200) {
+	// throw new RuntimeException("Failed : HTTP error code : "
+	// + response.getStatus());
+	// }
+	// String output = response.readEntity(String.class);
+	// System.out.println("Server response .... \n");
+	// System.out.println(output);
+	//
+	// }
 
-//	@Test
-//	public void getTaskPercentageByProject() {
-//
-//		BaseRequest baseRequest = new BaseRequest();
-//		baseRequest.setLoggedInUserId(1);
-//		baseRequest.setLoggedInUserProjectId(1);
-//
-//		TaskPercentageOfProject request = new TaskPercentageOfProject();
-//		request.setBaseRequest(baseRequest);
-//		request.setProjectId(1);
-//
-//		System.out.println("Client request.... \n");
-//		System.out.println(toJsonString(request, true));
-//		Response response = sendRequest(
-//				"/task/percentage/getTaskPercentageByProject", request);
-//		if (response.getStatus() != 200) {
-//			throw new RuntimeException("Failed : HTTP error code : "
-//					+ response.getStatus());
-//		}
-//		String output = response.readEntity(String.class);
-//		System.out.println("Server response .... \n");
-//		System.out.println(output);
-//
-//	}
+	// @Test
+	// public void getTaskPercentagesByTask() {
+	//
+	// BaseRequest baseRequest = new BaseRequest();
+	// baseRequest.setLoggedInUserId(1);
+	// baseRequest.setLoggedInUserProjectId(1);
+	//
+	// TaskPercentageOfTask request = new TaskPercentageOfTask();
+	// request.setBaseRequest(baseRequest);
+	// request.setTaskId(1);
+	//
+	// System.out.println("Client request.... \n");
+	// System.out.println(toJsonString(request, true));
+	// Response response = sendRequest(
+	// "/task/percentage/getPercentageCompleteOfTask", request);
+	// if (response.getStatus() != 200) {
+	// throw new RuntimeException("Failed : HTTP error code : "
+	// + response.getStatus());
+	// }
+	// String output = response.readEntity(String.class);
+	// System.out.println("Server response .... \n");
+	// System.out.println(output);
+	//
+	// }
+
+	// @Test
+	// public void getTaskPercentageByProject() {
+	//
+	// BaseRequest baseRequest = new BaseRequest();
+	// baseRequest.setLoggedInUserId(1);
+	// baseRequest.setLoggedInUserProjectId(1);
+	//
+	// TaskPercentageOfProject request = new TaskPercentageOfProject();
+	// request.setBaseRequest(baseRequest);
+	// request.setProjectId(1);
+	//
+	// System.out.println("Client request.... \n");
+	// System.out.println(toJsonString(request, true));
+	// Response response = sendRequest(
+	// "/task/percentage/getTaskPercentageByProject", request);
+	// if (response.getStatus() != 200) {
+	// throw new RuntimeException("Failed : HTTP error code : "
+	// + response.getStatus());
+	// }
+	// String output = response.readEntity(String.class);
+	// System.out.println("Server response .... \n");
+	// System.out.println(output);
+	//
+	// }
 }

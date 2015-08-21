@@ -27,6 +27,7 @@ public class ProjectDTO implements Serializable {
 	private String projectImagePath;
 	private String unitOfMeasurement;
 	private List<ProjectConfigDTO> projectConfiguration;
+	private Integer percentageComplete;
 
 	public ProjectDTO() {
 	}
@@ -189,6 +190,14 @@ public class ProjectDTO implements Serializable {
 
 	public void setProjectConfiguration(List<ProjectConfigDTO> projectConfiguration) {
 		this.projectConfiguration = projectConfiguration;
+	}
+
+	public Integer getPercentageComplete() {
+		return percentageComplete;
+	}
+
+	public void setPercentageComplete(Integer percentageComplete) {
+		this.percentageComplete = percentageComplete;
 	}
 
 	@Override

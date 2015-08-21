@@ -1,5 +1,7 @@
 package com.ontarget.api.service.impl;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -20,6 +22,7 @@ import com.ontarget.api.dao.ProjectDAO;
 import com.ontarget.api.dao.TaskDAO;
 import com.ontarget.api.dao.TaskPercentageDAO;
 import com.ontarget.api.dao.UserRegistrationDAO;
+import com.ontarget.api.repository.ProjectTaskRepository;
 import com.ontarget.api.service.ProjectService;
 import com.ontarget.bean.AddressDTO;
 import com.ontarget.bean.Company;
@@ -45,6 +48,7 @@ import com.ontarget.request.bean.ProjectDetailInfo;
 import com.ontarget.request.bean.ProjectRequest;
 import com.ontarget.response.bean.Address;
 import com.ontarget.response.bean.ProjectConfig;
+import com.ontarget.util.CalculatePercentageComplete;
 import com.ontarget.util.ConvertPOJOUtils;
 import com.ontarget.util.ProjectUtil;
 
@@ -83,6 +87,9 @@ public class ProjectServiceImpl implements ProjectService {
 	@Autowired
 	@Qualifier("taskPercentageJpaDAOImpl")
 	private TaskPercentageDAO taskPercentageDAO;
+
+	@Autowired
+	private ProjectTaskRepository projectTaskRepository;
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
@@ -241,6 +248,30 @@ public class ProjectServiceImpl implements ProjectService {
 				projectConfigList.add(projectConfig);
 			}
 			projectInfo.setProjectConfiguration(projectConfigList);
+		}
+
+		if (project.getType().equalsIgnoreCase(OnTargetConstant.ProjectInfoType.ACTIVITY)) {
+			BigDecimal percentageCompleteSum = projectTaskRepository.getActivityTotalPercentageComplete(project.getProjectId());
+			BigInteger taskCount = projectTaskRepository.getActivityTaskCount(project.getProjectId());
+			logger.debug("percentage complete sum: " + percentageCompleteSum);
+			logger.debug("activity task count: " + taskCount);
+			if (percentageCompleteSum == null || taskCount == null) {
+				projectInfo.setPercentageComplete(0);
+			} else {
+				int percentageComplete = CalculatePercentageComplete.calculate(percentageCompleteSum.doubleValue(), taskCount.intValue());
+				projectInfo.setPercentageComplete(percentageComplete);
+			}
+		} else if (project.getType().equalsIgnoreCase(OnTargetConstant.ProjectInfoType.PROJECT)) {
+			BigDecimal percentageCompleteSum = projectTaskRepository.getProjectTotalPercentageComplete(project.getProjectId());
+			BigInteger taskCount = projectTaskRepository.getProjectTaskCount(project.getProjectId());
+			logger.debug("percentage complete sum: " + percentageCompleteSum);
+			logger.debug("activity task count: " + taskCount);
+			if (percentageCompleteSum == null || taskCount == null) {
+				projectInfo.setPercentageComplete(0);
+			} else {
+				int percentageComplete = CalculatePercentageComplete.calculate(percentageCompleteSum.doubleValue(), taskCount.intValue());
+				projectInfo.setPercentageComplete(percentageComplete);
+			}
 		}
 
 		Company company = companyDAO.getCompany(project.getCompanyInfo().getCompanyId());
@@ -430,7 +461,7 @@ public class ProjectServiceImpl implements ProjectService {
 		Project mainProject = projectDAO.getMainProjectByUser(userId);
 
 		if (mainProject != null) {
-			ProjectDTO project = ProjectUtil.convertToProjectDTO(mainProject);
+			ProjectDTO project = ProjectUtil.convertToProjectDTO(mainProject, projectTaskRepository);
 			Company company = companyDAO.getCompany(project.getCompanyId());
 			project.setCompany(company);
 
@@ -493,11 +524,6 @@ public class ProjectServiceImpl implements ProjectService {
 		} else {
 			childProjects = projectDAO.getUndeletedProjectsByParentId(projectDTO.getProjectId());
 		}
-		// List<Project> childProjects =
-		// projectDAO.getUndeletedProjectsByParentId(projectDTO.getProjectId());
-		// List<Project> childProjects =
-		// projectDAO.getUndeletedProjectsByParentIdAndUserId(projectDTO.getProjectId(),
-		// userId);
 		List<ProjectDTO> projectDTOList = convertedProjectList(childProjects, userId);
 
 		if (level < 3 && projectDTOList != null && !projectDTOList.isEmpty()) {
@@ -517,7 +543,7 @@ public class ProjectServiceImpl implements ProjectService {
 
 		if (projects != null && !projects.isEmpty()) {
 			for (Project proj : projects) {
-				ProjectDTO project = ProjectUtil.convertToProjectDTO(proj);
+				ProjectDTO project = ProjectUtil.convertToProjectDTO(proj, projectTaskRepository);
 
 				Company company = companyDAO.getCompany(project.getCompanyId());
 				project.setCompany(company);

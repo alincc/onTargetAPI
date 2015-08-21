@@ -22,6 +22,7 @@ public class Project implements Serializable {
 	private Address projectAddress;
 	private Date startDate;
 	private Date endDate;
+	private int percentageComplete;
 	private String projectImagePath;
 	private List<ProjectConfig> projectConfiguration;
 
@@ -143,6 +144,14 @@ public class Project implements Serializable {
 
 	public void setProjectConfiguration(List<ProjectConfig> projectConfiguration) {
 		this.projectConfiguration = projectConfiguration;
+	}
+
+	public int getPercentageComplete() {
+		return percentageComplete;
+	}
+
+	public void setPercentageComplete(int percentageComplete) {
+		this.percentageComplete = percentageComplete;
 	}
 
 }

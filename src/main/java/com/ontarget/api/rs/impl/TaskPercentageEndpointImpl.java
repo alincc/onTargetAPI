@@ -43,8 +43,8 @@ public class TaskPercentageEndpointImpl implements TaskPercentageEndpoint {
 		OnTargetResponse response = new OnTargetResponse();
 
 		try {
-			boolean added = taskPercentageService.addTaskPercentage(addTaskProgress.getTaskProgressList(), addTaskProgress
-					.getBaseRequest().getLoggedInUserId());
+			boolean added = taskPercentageService.addTaskPercentage(addTaskProgress.getTaskProgressList(), addTaskProgress.getBaseRequest()
+					.getLoggedInUserId());
 			if (added) {
 				response.setReturnMessage("Successfully added task Percentages.");
 				response.setReturnVal(OnTargetConstant.SUCCESS);
@@ -64,7 +64,6 @@ public class TaskPercentageEndpointImpl implements TaskPercentageEndpoint {
 	public OnTargetResponse updateTaskPercentageComplete(UpdateTaskProgress request) {
 		logger.info("update task Percentage");
 		OnTargetResponse response = new OnTargetResponse();
-
 		try {
 			boolean added = taskPercentageService.updateTaskPercentage(request.getTaskProgressList(), request.getBaseRequest()
 					.getLoggedInUserId());
@@ -85,9 +84,7 @@ public class TaskPercentageEndpointImpl implements TaskPercentageEndpoint {
 	@POST
 	@Path("/getPercentageCompleteOfTask")
 	public TaskPercentageListResponse getTaskPercentagesByTask(TaskPercentageOfTask taskPercentageOfTask) {
-
 		TaskPercentageListResponse response = new TaskPercentageListResponse();
-
 		try {
 			response.setTaskPercentageList(taskPercentageService.getTaskPercentageByTask(taskPercentageOfTask.getTaskId()));
 			response.setReturnMessage("Successfully retrieved task percentage");
