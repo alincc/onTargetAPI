@@ -264,7 +264,7 @@ public class ProjectReportServiceImpl implements ProjectReportService {
 		ProjectDTO project = projectDAO.getProject(projectId);
 		Date startDate = project.getStartDate();
 
-		int daysBetweenDates = (int) (new Date().getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24);
+		int daysBetweenDates = (int) ((new Date().getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
 		int numOfAccidents = 0;
 		if (accidents != null && accidents.size() > 0) {
 			numOfAccidents = accidents.size();
@@ -294,6 +294,9 @@ public class ProjectReportServiceImpl implements ProjectReportService {
 			for (Map.Entry<TaskInterval, TaskPercentage> taskIntervalTaskPercentageEntry : monthYearTaskPercentage.entrySet()) {
 				TaskInterval taskInterval = taskIntervalTaskPercentageEntry.getKey();
 				ProjectEarnedValueAnalysisReport rpt = monthYearEarnedValueReportByTask.get(taskInterval);
+                if(rpt == null){
+                    rpt=new ProjectEarnedValueAnalysisReport();
+                }
 				double cumulativeEV = rpt.getCumulativeEarnedValue()
 						+ monthYearTaskPercentage.get(taskInterval).getTaskPercentageComplete() * totalBudgetCost;
 				rpt.setCumulativeEarnedValue(cumulativeEV);
