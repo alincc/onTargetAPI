@@ -4,18 +4,7 @@ import javax.ws.rs.core.Response;
 
 import org.junit.Test;
 
-import com.ontarget.bean.UserAddressInfo;
-import com.ontarget.dto.ChangeUserPasswordRequest;
-import com.ontarget.dto.ForgotPasswordRequest;
-import com.ontarget.dto.UserImageRequest;
-import com.ontarget.dto.UserProfileRequest;
-import com.ontarget.request.bean.CompanyEditInfo;
-import com.ontarget.request.bean.CompanyInfoEditRequest;
-import com.ontarget.request.bean.UpdateUserProfileRequest;
-import com.ontarget.request.bean.UserCompanyInfo;
-import com.ontarget.request.bean.UserContactInfo;
-import com.ontarget.request.bean.UserInfo;
-import com.ontarget.request.bean.UserProfileInfo;
+import com.ontarget.request.bean.BaseRequest;
 
 /**
  * Created by Owner on 11/5/14.
@@ -148,22 +137,24 @@ public class UserProfileTest extends BaseTest {
 	// System.out.println(output);
 	// }
 	//
-	@Test
-	public void forgotPasswordRequest() {
-
-		ForgotPasswordRequest request = new ForgotPasswordRequest();
-		request.setUsername("sanjeev");
-
-		System.out.println("Client request ....(/profile/forgotPasswordRequest) \n");
-		System.out.println(toJsonString(request, true));
-		Response response = sendRequest("/profile/forgotPasswordRequest", request);
-		if (response.getStatus() != 200) {
-			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
-		}
-		String output = response.readEntity(String.class);
-		System.out.println("Server response ...(/profile/forgotPasswordRequest) \n");
-		System.out.println(output);
-	}
+	// @Test
+	// public void forgotPasswordRequest() {
+	//
+	// ForgotPasswordRequest request = new ForgotPasswordRequest();
+	// request.setUsername("sanjeev");
+	//
+	// System.out.println("Client request ....(/profile/forgotPasswordRequest) \n");
+	// System.out.println(toJsonString(request, true));
+	// Response response = sendRequest("/profile/forgotPasswordRequest",
+	// request);
+	// if (response.getStatus() != 200) {
+	// throw new RuntimeException("Failed : HTTP error code : " +
+	// response.getStatus());
+	// }
+	// String output = response.readEntity(String.class);
+	// System.out.println("Server response ...(/profile/forgotPasswordRequest) \n");
+	// System.out.println(output);
+	// }
 	//
 	// @Test
 	// public void changeForgotPassword() {
@@ -253,5 +244,27 @@ public class UserProfileTest extends BaseTest {
 	// System.out.println("Server response ....(/profile/validateForgotPassword/token) \n");
 	// System.out.println(output);
 	// }
+
+	@Test
+	public void userProfileInfo() {
+		
+		 BaseRequest baseRequest = new BaseRequest();
+		 baseRequest.setLoggedInUserId(1);
+		 baseRequest.setLoggedInUserProjectId(1);
+
+		com.ontarget.request.bean.UserProfileRequest request = new com.ontarget.request.bean.UserProfileRequest();
+		request.setBaseRequest(baseRequest);
+		request.setUserId(1);
+
+		System.out.println("Client request ....(/profile/userProfileInfo) \n");
+		System.out.println(toJsonString(request, true));
+		Response response = sendRequest("/profile/userProfileInfo", request);
+		if (response.getStatus() != 200) {
+			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
+		}
+		String output = response.readEntity(String.class);
+		System.out.println("Server response ....(/profile/userProfileInfo) \n");
+		System.out.println(output);
+	}
 
 }

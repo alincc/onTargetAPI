@@ -211,10 +211,12 @@ public class TaskJpaDAOImpl implements TaskDAO {
 		}
 		return tasks;
 	}
+	
+	
 
 	@Override
-	public List<ProjectTask> getTasksByProject(int projectId) throws Exception {
-		List<com.ontarget.entities.ProjectTask> taskList = projectTaskRepository.findUndeletedTasksByProject(projectId);
+	public List<ProjectTask> getTasksByProjectAndUser(int projectId, int userId) throws Exception {
+		List<com.ontarget.entities.ProjectTask> taskList = projectTaskRepository.findUndeletedTasksByProjectAndUser(projectId, userId);
 
 		List<ProjectTask> tasks = new ArrayList<>();
 		Map<Integer, Contact> contactMap = new HashMap<>();
@@ -249,12 +251,6 @@ public class TaskJpaDAOImpl implements TaskDAO {
 					}
 				}
 				task.setComments(comments);
-				// List<TaskPercentage> taskPercentageList =
-				// getTaskPercentageByTask(task.getProjectTaskId());
-				// if (taskPercentageList != null && taskPercentageList.size() >
-				// 0) {
-				// task.setPercentageComplete(taskPercentageList.get(0).getTaskPercentageComplete());
-				// }
 				task.setPercentageComplete(taskObj.getTaskPercentage().doubleValue());
 
 				Set<Integer> assignees = getTaskMembers(task.getProjectTaskId());

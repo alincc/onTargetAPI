@@ -22,7 +22,7 @@ public interface TaskService {
 
 	public List<TaskInfo> getTask(Integer projectId) throws Exception;
 
-	public List<ProjectTask> getTasksByProject(Integer projectId) throws Exception;
+	public List<ProjectTask> getTasksByProjectAndUser(Integer projectId,Integer userId) throws Exception;
 
 	public boolean isTaskAdd(Task task);
 
@@ -56,6 +56,6 @@ public interface TaskService {
 
 	public FieldWorkerResponse getFieldWorkersByTask(int taskId) throws Exception;
 
-	public com.ontarget.response.bean.TaskListResponse getTaskList(Integer projectId) throws Exception;
+	public com.ontarget.response.bean.TaskListResponse getTaskListByProjectAndUser(Integer projectId,Integer userId) throws Exception;
 
 }
