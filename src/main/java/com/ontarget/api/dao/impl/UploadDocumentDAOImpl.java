@@ -20,6 +20,8 @@ import com.ontarget.api.dao.UploadDocumentDAO;
 import com.ontarget.bean.UploadDocument;
 import com.ontarget.constant.OnTargetQuery;
 import com.ontarget.dto.UploadedDocumentDetail;
+import com.ontarget.entities.ProjectFileComment;
+import com.ontarget.request.bean.ProjectFileCommentRequest;
 
 @Repository("uploadDocumentDAOImpl")
 public class UploadDocumentDAOImpl implements UploadDocumentDAO {
@@ -54,8 +56,7 @@ public class UploadDocumentDAOImpl implements UploadDocumentDAO {
 
 		List<UploadedDocumentDetail> resultList = new ArrayList<UploadedDocumentDetail>();
 
-		List<Map<String, Object>> documentList = jdbcTemplate.queryForList(OnTargetQuery.GET_PROJECT_FILE,
-				new Object[] { projectId });
+		List<Map<String, Object>> documentList = jdbcTemplate.queryForList(OnTargetQuery.GET_PROJECT_FILE, new Object[] { projectId });
 		if (documentList != null && documentList.size() > 0) {
 			for (Map<String, Object> taskMap : documentList) {
 				UploadedDocumentDetail documentDetail = new UploadedDocumentDetail();
@@ -71,6 +72,24 @@ public class UploadDocumentDAOImpl implements UploadDocumentDAO {
 
 		return resultList;
 
+	}
+
+	@Override
+	public boolean addComment(ProjectFileCommentRequest request) throws Exception {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean deleteComment(Integer commentId) throws Exception {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public List<ProjectFileComment> getCommentsByFileId(int projectFileId) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

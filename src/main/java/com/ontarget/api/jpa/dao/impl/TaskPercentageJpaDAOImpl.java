@@ -30,7 +30,6 @@ import com.ontarget.entities.ProjectTask;
 import com.ontarget.entities.TaskPercentageLog;
 import com.ontarget.entities.User;
 import com.ontarget.request.bean.TaskProgress;
-import com.ontarget.request.bean.TaskProgressInfo;
 import com.ontarget.util.DateFormater;
 
 @Repository("taskPercentageJpaDAOImpl")

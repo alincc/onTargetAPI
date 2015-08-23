@@ -155,10 +155,13 @@ public class TaskServiceImpl implements TaskService {
 			} else {
 				task.setCompleted(true);
 			}
-			List<TaskPercentage> taskPercentageList = taskDAO.getTaskPercentageByTask(task.getProjectTaskId());
-			if (taskPercentageList != null && taskPercentageList.size() > 0) {
-				task.setPercentageComplete(taskPercentageList.get(0).getTaskPercentageComplete());
-			}
+			task.setPercentageComplete(projectTask.getTaskPercentage().doubleValue());
+			// List<TaskPercentage> taskPercentageList =
+			// taskDAO.getTaskPercentageByTask(task.getProjectTaskId());
+			// if (taskPercentageList != null && taskPercentageList.size() > 0)
+			// {
+			// task.setPercentageComplete(taskPercentageList.get(0).getTaskPercentageComplete());
+			// }
 			taskList.add(task);
 		}
 

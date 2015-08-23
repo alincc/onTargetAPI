@@ -103,6 +103,11 @@ public interface OnTargetConstant {
 		public static final String PENDING = "0";
 		public static final String DELETED = "2";
 	}
+	
+	public interface ProjectFileCommentStatus{
+		public static final String ACTIVE = "ACTIVE";
+		public static final String DELETED = "DELETED";
+	}
 
 	public interface MemberStatus {
 		public static final String ACTIVE = "ACTIVE";

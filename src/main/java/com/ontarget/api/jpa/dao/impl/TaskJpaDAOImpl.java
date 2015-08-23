@@ -249,10 +249,13 @@ public class TaskJpaDAOImpl implements TaskDAO {
 					}
 				}
 				task.setComments(comments);
-				List<TaskPercentage> taskPercentageList = getTaskPercentageByTask(task.getProjectTaskId());
-				if (taskPercentageList != null && taskPercentageList.size() > 0) {
-					task.setPercentageComplete(taskPercentageList.get(0).getTaskPercentageComplete());
-				}
+				// List<TaskPercentage> taskPercentageList =
+				// getTaskPercentageByTask(task.getProjectTaskId());
+				// if (taskPercentageList != null && taskPercentageList.size() >
+				// 0) {
+				// task.setPercentageComplete(taskPercentageList.get(0).getTaskPercentageComplete());
+				// }
+				task.setPercentageComplete(taskObj.getTaskPercentage().doubleValue());
 
 				Set<Integer> assignees = getTaskMembers(task.getProjectTaskId());
 				List<UserDTO> assignedUsers = new ArrayList<>();

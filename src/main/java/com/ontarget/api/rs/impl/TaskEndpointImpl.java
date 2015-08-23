@@ -110,7 +110,6 @@ public class TaskEndpointImpl implements TaskEndpoint {
 			response.setReturnMessage("Error while retrieving task list");
 			response.setReturnVal(OnTargetConstant.ERROR);
 		}
-
 		return response;
 	}
 

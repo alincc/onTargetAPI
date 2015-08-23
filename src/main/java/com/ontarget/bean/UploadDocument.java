@@ -16,6 +16,8 @@ public class UploadDocument implements Serializable {
 	private String fileType;
 	protected Date createdDate;
 	protected Date modifiedDate;
+	private int categoryId;
+	private String description;
 
 	public UploadDocument() {
 	}
@@ -28,6 +30,8 @@ public class UploadDocument implements Serializable {
 		this.fileType = requestData.getFileType();
 		this.createdDate = new Date();
 		this.modifiedDate = new Date();
+		this.categoryId = requestData.getCategoryId();
+		this.description = requestData.getDescription();
 	}
 
 	public int getProjectId() {
@@ -92,6 +96,22 @@ public class UploadDocument implements Serializable {
 
 	public void setModifiedDate(Date modifiedDate) {
 		this.modifiedDate = modifiedDate;
+	}
+
+	public int getCategoryId() {
+		return categoryId;
+	}
+
+	public void setCategoryId(int categoryId) {
+		this.categoryId = categoryId;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 }
