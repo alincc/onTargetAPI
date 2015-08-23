@@ -33,6 +33,8 @@ public class Profile implements Serializable {
 	private Integer profileId;
 	@Column(name = "name", length = 45)
 	private String name;
+	@Column(name = "profile_code", length = 45)
+	private String profileCode;
 	@Column(name = "description", length = 255)
 	private String description;
 	@Column(name = "profile_type", length = 20)
@@ -152,6 +154,14 @@ public class Profile implements Serializable {
 		this.profilePermissionList = profilePermissionList;
 	}
 
+	public String getProfileCode() {
+		return profileCode;
+	}
+
+	public void setProfileCode(String profileCode) {
+		this.profileCode = profileCode;
+	}
+
 	@Override
 	public int hashCode() {
 		int hash = 0;
@@ -167,8 +177,7 @@ public class Profile implements Serializable {
 			return false;
 		}
 		Profile other = (Profile) object;
-		if ((this.profileId == null && other.profileId != null)
-				|| (this.profileId != null && !this.profileId.equals(other.profileId))) {
+		if ((this.profileId == null && other.profileId != null) || (this.profileId != null && !this.profileId.equals(other.profileId))) {
 			return false;
 		}
 		return true;

@@ -21,6 +21,7 @@ import com.ontarget.api.dao.UserDAO;
 import com.ontarget.api.dao.UserInvitationDAO;
 import com.ontarget.api.dao.UserRegistrationDAO;
 import com.ontarget.api.dao.UserSafetyInfoDAO;
+import com.ontarget.api.repository.ProfileRepository;
 import com.ontarget.api.repository.UserProfileRepository;
 import com.ontarget.api.service.EmailService;
 import com.ontarget.api.service.UserProfileService;
@@ -111,6 +112,8 @@ public class UserProfileServiceImpl implements UserProfileService {
 
 	@Autowired
 	private UserProfileRepository userProfileRepository;
+	@Autowired
+	private ProfileRepository profileRepository;
 
 	private Random random = new Random();
 
@@ -125,7 +128,9 @@ public class UserProfileServiceImpl implements UserProfileService {
 		// get company info from the registration request.
 		UserRegistration userRegistration = userRegistrationDAO.getInvitationRegistrationByUser(userInfo.getUserId());
 		Company company = ConvertPOJOUtils.convertToCompany(userRegistration);
+
 		int companyId;
+		int type = 0;
 		if (userRegistration.getCompanyId() != 0) {
 			companyId = userRegistration.getCompanyId();
 		} else {
@@ -206,13 +211,6 @@ public class UserProfileServiceImpl implements UserProfileService {
 
 		boolean updated = userDAO.updateUserProfile(request);
 		if (updated) {
-			// UserDTO returnUser =
-			// authenticationDAO.getUserResponse(request.getUserProfileInfo().getUserId());
-			// returnUser.setContact(contactDAO.getContact(returnUser.getUserId()));
-			// response.setUser(returnUser);
-			// String token = TokenUtil.getLoginToken(returnUser.getUsername());
-			// response.setToken(token);
-
 			response.setReturnMessage("Successfully updated user profile");
 			response.setReturnVal(OnTargetConstant.SUCCESS);
 		} else {
@@ -313,15 +311,6 @@ public class UserProfileServiceImpl implements UserProfileService {
 		return null;
 	}
 
-	// @Override
-	// @Transactional(rollbackFor = { Exception.class })
-	// public boolean saveRegistration(int projectId, String firstName, String
-	// lastName, String email, String tokenId,
-	// String accountStatus) throws Exception {
-	// return userRegistrationDAO.saveRegistrationInvitation(projectId,
-	// firstName, lastName, email, tokenId, accountStatus) != 0;
-	// }
-
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
 	public boolean saveRegistration(UserInvitationRequestDTO request) throws Exception {
@@ -342,43 +331,6 @@ public class UserProfileServiceImpl implements UserProfileService {
 		return userSafetyInfoDAO.getRandomSafetyInfo(user.getDiscipline());
 	}
 
-	// @Override
-	// @Transactional(rollbackFor = { Exception.class })
-	// public OnTargetResponse createNewUserFromInvitation(UserRegistrationInfo
-	// registration) throws Exception {
-	// OnTargetResponse response = new OnTargetResponse();
-	// UserRegistration registrationRequest =
-	// userRegistrationDAO.getInvitationRegistration(registration
-	// .getRegistrationToken());
-	//
-	// if (registrationRequest != null) {
-	// if (!userDAO.usernameAlreadyRegistered(registration.getUsername())) {
-	//
-	// User user = userRegistrationDAO.createNewuser(registration,
-	// registrationRequest.getStatus());
-	//
-	// int updated =
-	// userRegistrationDAO.updateRegistrationRequestUserId(user.getUserId(),
-	// registration.getRegistrationToken());
-	// if (updated <= 0) {
-	// response.setReturnVal(OnTargetConstant.ERROR);
-	// response.setReturnMessage("Error while creating user");
-	// } else {
-	// response.setReturnMessage("Successfully created user based on invitation.");
-	// response.setReturnVal(OnTargetConstant.SUCCESS);
-	// }
-	// } else {
-	// response.setReturnVal(OnTargetConstant.ERROR);
-	// response.setReturnMessage("Username already registered");
-	// }
-	// } else {
-	// response.setReturnVal(OnTargetConstant.ERROR);
-	// response.setReturnMessage("Invalid registration");
-	// }
-	//
-	// return response;
-	// }
-
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
 	public OnTargetResponse createNewUserFromInvitation(UserSignupRequest request) throws Exception {
@@ -398,12 +350,17 @@ public class UserProfileServiceImpl implements UserProfileService {
 				Company company = ConvertPOJOUtils.convertToCompany(registrationRequest);
 				int companyId;
 				logger.info("company id from registration request: " + registrationRequest.getCompanyId());
+				String userType = "RU";
 				if (registrationRequest.getCompanyId() != 0) {
 					companyId = registrationRequest.getCompanyId();
 				} else {
 					companyId = companyDAO.addCompanyInfo(company);
 					userRegistrationDAO.updateRegistrationRequestCompanyId(companyId, request.getRegistrationToken());
+					userType = "SU";
 				}
+
+				userRegistrationDAO.assignProfilesToUser(userType, user.getUserId());
+
 				logger.info("company id: " + companyId);
 
 				Contact contact = ConvertPOJOUtils.convertToContact(request);

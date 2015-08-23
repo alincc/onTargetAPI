@@ -9,16 +9,19 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
 import com.ontarget.api.repository.EmailRepository;
+import com.ontarget.api.repository.ProfileRepository;
 import com.ontarget.api.repository.RegistrationRequestRepository;
+import com.ontarget.api.repository.UserProfileRepository;
 import com.ontarget.api.repository.UserRepository;
-import com.ontarget.api.service.impl.UserProfileServiceImpl;
 import com.ontarget.bean.UserRegistration;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.UserInvitationRequestDTO;
 import com.ontarget.entities.Discipline;
 import com.ontarget.entities.Email;
+import com.ontarget.entities.Profile;
 import com.ontarget.entities.RegistrationRequest;
 import com.ontarget.entities.User;
+import com.ontarget.entities.UserProfile;
 import com.ontarget.entities.UserType;
 import com.ontarget.request.bean.UserSignupRequest;
 import com.ontarget.util.Security;
@@ -33,22 +36,10 @@ public class UserRegistrationJpaDAOImpl implements com.ontarget.api.dao.UserRegi
 	private EmailRepository emailRepository;
 	@Resource
 	private UserRepository userRepository;
-
-	// @Override
-	// public int saveRegistrationInvitation(int projectId, String firstName,
-	// String lastName, String email, String tokenId,
-	// String accountStatus) throws Exception {
-	//
-	// RegistrationRequest registrationRequest = new RegistrationRequest();
-	// registrationRequest.setRegistrationToken(tokenId);
-	// registrationRequest.setFirstName(firstName);
-	// registrationRequest.setLastName(lastName);
-	// registrationRequest.setEmail(email);
-	// registrationRequest.setProjectId(projectId);
-	// registrationRequest.setStatus(accountStatus);
-	// registrationRequestRepository.save(registrationRequest);
-	// return 1;
-	// }
+	@Resource
+	private ProfileRepository profileRepository;
+	@Resource
+	private UserProfileRepository userProfileRepository;
 
 	@Override
 	public boolean saveRegistrationInvitation(UserInvitationRequestDTO userInvitationRequestDTO) throws Exception {
@@ -135,6 +126,18 @@ public class UserRegistrationJpaDAOImpl implements com.ontarget.api.dao.UserRegi
 	}
 
 	@Override
+	public UserProfile assignProfilesToUser(String userType, int userId) {
+		Profile menuProfile = profileRepository.findProfileByTypeAndCode(OnTargetConstant.ProfileType.MENU_PROFILE, userType);
+		Profile permissionProfile = profileRepository.findProfileByTypeAndCode(OnTargetConstant.ProfileType.PERMISSION_PROFILE, userType);
+		UserProfile userProfile = new UserProfile();
+		userProfile.setMenuProfile(menuProfile);
+		userProfile.setPermissionProfile(permissionProfile);
+		userProfile.setUser(new User(userId));
+		userProfileRepository.save(userProfile);
+		return userProfile;
+	}
+
+	@Override
 	public int updateRegistrationRequestUserId(int userId, String tokenId) throws Exception {
 
 		RegistrationRequest registrationRequest = registrationRequestRepository.findByRegistrationToken(tokenId);
@@ -142,10 +145,9 @@ public class UserRegistrationJpaDAOImpl implements com.ontarget.api.dao.UserRegi
 		registrationRequestRepository.save(registrationRequest);
 		return 1;
 	}
-	
+
 	@Override
 	public int updateRegistrationRequestCompanyId(int companyId, String tokenId) throws Exception {
-
 		RegistrationRequest registrationRequest = registrationRequestRepository.findByRegistrationToken(tokenId);
 		registrationRequest.setCompanyId(companyId);
 		registrationRequestRepository.save(registrationRequest);
