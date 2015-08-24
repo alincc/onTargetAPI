@@ -30,8 +30,8 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 
 	@Override
 	public void filter(ContainerRequestContext request) {
-		logger.info("base URI:: " + request.getUriInfo().getBaseUri() + ", path:: " + request.getUriInfo().getPath()
-				+ ", http method:: " + request.getMethod());
+		logger.info("base URI:: " + request.getUriInfo().getBaseUri() + ", path:: " + request.getUriInfo().getPath() + ", http method:: "
+				+ request.getMethod());
 
 		String openEndpointArr[] = OnTargetConstant.OPEN_RS_ENDPOINT.split(",");
 		logger.info("open end points: " + OnTargetConstant.OPEN_RS_ENDPOINT);
