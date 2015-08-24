@@ -86,6 +86,7 @@ public class UploadActivityJpaDAOImpl implements UploadActivityDAO {
 				projectTask.setCreatedBy(new User(userId));
 				projectTask.setCreatedDate(new Date());
 				projectTask.setSeverity(String.valueOf(activityTaskInfo.getPriority()));
+				projectTask.setTaskPercentage(Integer.parseInt(activityTaskInfo.getPercentageComplete()));
 				entityManager.persist(projectTask);
 
 				TaskAssignee taskAssignee = new TaskAssignee();
@@ -95,16 +96,6 @@ public class UploadActivityJpaDAOImpl implements UploadActivityDAO {
 				taskAssignee.setTaskAssignee(userId);
 				taskAssignee.setStatus(OnTargetConstant.TaskAssigneeStatus.ASSIGNED);
 				entityManager.persist(taskAssignee);
-
-				TaskPercentageLog taskPercentageLog = new TaskPercentageLog();
-				taskPercentageLog.setProjectTask(projectTask);
-				taskPercentageLog.setStartDate(new Date());
-				taskPercentageLog.setEndDate(DateFormater.convertToDate("9999-12-31"));
-				taskPercentageLog.setPercentageType("PERCENTAGE");
-				taskPercentageLog.setPercentageComplete(Double.parseDouble(activityTaskInfo.getPercentageComplete()));
-				taskPercentageLog.setCreatedBy(new User(userId));
-				taskPercentageLog.setCreatedDate(new Date());
-				entityManager.persist(taskPercentageLog);
 
 				PlannedActualsCost estimatedCost = new PlannedActualsCost();
 				estimatedCost.setProjectTask(projectTask);
@@ -196,7 +187,7 @@ public class UploadActivityJpaDAOImpl implements UploadActivityDAO {
 		taskNameAttribute.setIndex(activityTaskInfo.getIndex());
 		taskNameAttribute.setValid("Y");
 		entityManager.persist(taskNameAttribute);
-		
+
 		BulkActivityAttribute taskDescriptionAttribute = new BulkActivityAttribute();
 		taskDescriptionAttribute.setAttributeKey(BulkActivityAttributeConstant.taskDescription);
 		taskDescriptionAttribute.setAttributeValue(activityTaskInfo.getTaskDescription());
@@ -294,7 +285,7 @@ public class UploadActivityJpaDAOImpl implements UploadActivityDAO {
 		taskNameAttribute.setIndex(activityTaskRecord.getIndex());
 		taskNameAttribute.setValid("N");
 		entityManager.persist(taskNameAttribute);
-		
+
 		BulkActivityAttribute taskDescriptionAttribute = new BulkActivityAttribute();
 		taskDescriptionAttribute.setAttributeKey(BulkActivityAttributeConstant.taskDescription);
 		taskDescriptionAttribute.setAttributeValue(activityTaskRecord.getTaskDescription());

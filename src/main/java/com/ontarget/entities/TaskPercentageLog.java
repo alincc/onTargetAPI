@@ -21,7 +21,7 @@ import javax.persistence.TemporalType;
  * @author santosh
  */
 @Entity
-@Table(name = "task_percentage_log")
+@Table(name = "audit_task_percentage_log")
 public class TaskPercentageLog implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
@@ -29,16 +29,11 @@ public class TaskPercentageLog implements Serializable {
 	@Basic(optional = false)
 	@Column(name = "task_percentage_log_id", nullable = false)
 	private Integer taskPercentageLogId;
-	@Column(name = "percentage_type", length = 45)
-	private String percentageType;
 	@Column(name = "percentage_complete", precision = 22)
 	private Double percentageComplete;
-	@Column(name = "start_date")
+	@Column(name = "to_date")
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date startDate;
-	@Column(name = "end_date")
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date endDate;
+	private Date toDate;
 	@JoinColumn(name = "created_by", referencedColumnName = "user_id")
 	@ManyToOne()
 	private User createdBy;
@@ -70,36 +65,12 @@ public class TaskPercentageLog implements Serializable {
 		this.taskPercentageLogId = taskPercentageLogId;
 	}
 
-	public String getPercentageType() {
-		return percentageType;
-	}
-
-	public void setPercentageType(String percentageType) {
-		this.percentageType = percentageType;
-	}
-
 	public Double getPercentageComplete() {
 		return percentageComplete;
 	}
 
 	public void setPercentageComplete(Double percentageComplete) {
 		this.percentageComplete = percentageComplete;
-	}
-
-	public Date getStartDate() {
-		return startDate;
-	}
-
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
-	}
-
-	public Date getEndDate() {
-		return endDate;
-	}
-
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
 	}
 
 	public User getCreatedBy() {
@@ -140,6 +111,14 @@ public class TaskPercentageLog implements Serializable {
 
 	public void setProjectTask(ProjectTask projectTask) {
 		this.projectTask = projectTask;
+	}
+
+	public Date getToDate() {
+		return toDate;
+	}
+
+	public void setToDate(Date toDate) {
+		this.toDate = toDate;
 	}
 
 	@Override

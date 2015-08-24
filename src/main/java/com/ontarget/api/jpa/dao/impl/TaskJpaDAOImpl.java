@@ -132,6 +132,7 @@ public class TaskJpaDAOImpl implements TaskDAO {
 				task.setStartDate(taskObj.getStartDate());
 				task.setEndDate(taskObj.getEndDate());
 				task.setStatus(taskObj.getStatus());
+				task.setPercentageComplete(taskObj.getTaskPercentage().doubleValue());
 
 				if (taskObj.getStatus().equalsIgnoreCase("0")) {
 					task.setCompleted(false);
@@ -167,6 +168,7 @@ public class TaskJpaDAOImpl implements TaskDAO {
 				task.setStartDate(taskObj.getStartDate());
 				task.setEndDate(taskObj.getEndDate());
 				task.setStatus(taskObj.getStatus());
+				task.setPercentageComplete(taskObj.getTaskPercentage().doubleValue());
 
 				if (taskObj.getStatus().equalsIgnoreCase("0")) {
 					task.setCompleted(false);
@@ -200,6 +202,7 @@ public class TaskJpaDAOImpl implements TaskDAO {
 				task.setStartDate(taskObj.getStartDate());
 				task.setEndDate(taskObj.getEndDate());
 				task.setStatus(taskObj.getStatus());
+				task.setPercentageComplete(taskObj.getTaskPercentage());
 
 				if (taskObj.getStatus().equalsIgnoreCase("0")) {
 					task.setCompleted(false);
@@ -287,9 +290,6 @@ public class TaskJpaDAOImpl implements TaskDAO {
 
 				TaskPercentage percentage = new TaskPercentage();
 				percentage.setId(taskPercentageLog.getTaskPercentageLogId());
-				percentage.setFromDate(taskPercentageLog.getStartDate());
-				percentage.setToDate(taskPercentageLog.getEndDate());
-				percentage.setTaskPercentageType(taskPercentageLog.getPercentageType());
 				percentage.setTaskPercentageComplete(taskPercentageLog.getPercentageComplete());
 				percentage.setCreatedBy(String.valueOf(taskPercentageLog.getCreatedBy().getUserId()));
 

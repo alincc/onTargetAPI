@@ -200,10 +200,8 @@ public class TaskServiceImpl implements TaskService {
 			}
 		}
 		task.setComments(comments);
-		List<TaskPercentage> taskPercentageList = taskDAO.getTaskPercentageByTask(task.getProjectTaskId());
-		if (taskPercentageList != null && taskPercentageList.size() > 0) {
-			task.setPercentageComplete(taskPercentageList.get(0).getTaskPercentageComplete());
-		}
+
+		task.setPercentageComplete(projectTask.getTaskPercentage().doubleValue());
 
 		Set<Integer> assignees = getTaskMembers(task.getProjectTaskId());
 		List<UserDTO> assignedUsers = new ArrayList<>();
