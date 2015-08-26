@@ -100,7 +100,8 @@ public interface OnTargetConstant {
 
 	public interface TaskStatus {
 		public static final String ACTIVE = "1";
-		public static final String PENDING = "0";
+		public static final String PENDING = "2";
+		public static final String COMPLETED = "3";
 		public static final String DELETED = "4";
 	}
 
@@ -159,7 +160,7 @@ public interface OnTargetConstant {
 		public static final String unitOfMeasurement = "UNIT_OF_MEASUREMENT";
 	}
 
-	public static final String OPEN_RS_ENDPOINT = "/register,/user,/onTargetInvitation,/profile,/project/getProjectsByUser,/project/addProject,/company,/file,/hello,/timeCard/getFieldWorkers,/menuProfile,/permissionProfile";
+	public static final String OPEN_RS_ENDPOINT = "/register,/user,/onTargetInvitation,/profile,/project/getProjectsByUser,/project/addProject,/company,/file,/hello,/timeCard/getFieldWorkers,/menuProfile,/permissionProfile,/uploadActivity";
 
 	public static final double HOUR = 60 * 60 * 1000D;
 
