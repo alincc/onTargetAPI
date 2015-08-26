@@ -32,6 +32,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.ontarget.api.rs.FileEndpoint;
+import com.ontarget.constant.OnTargetConstant;
+import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.UserData;
 
 @Component
@@ -57,7 +59,8 @@ public class FileEndpointImpl implements FileEndpoint {
 	@POST
 	@Path("/upload/excel")
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
-	public Response uploadExcelFile(@FormDataParam("uploadFile") InputStream fileInputStream,
+	@Produces(MediaType.APPLICATION_JSON)
+	public OnTargetResponse uploadExcelFile(@FormDataParam("uploadFile") InputStream fileInputStream,
 			@FormDataParam("uploadFile") FormDataContentDisposition fileFormDataContentDisposition) {
 		logger.info("file path: " + UPLOAD_FILE_SERVER);
 		// local variables
@@ -105,6 +108,7 @@ public class FileEndpointImpl implements FileEndpoint {
 
 					// Get the row object
 					Row row = rowIterator.next();
+					System.out.println("Here");
 
 					// Every row has columns, get the column iterator and
 					// iterate over them
@@ -114,9 +118,17 @@ public class FileEndpointImpl implements FileEndpoint {
 						// Get the Cell object
 						Cell cell = cellIterator.next();
 
+						System.out.println("cell type: " + cell.getCellType());
+
 						// check the cell type and process accordingly
 						switch (cell.getCellType()) {
 						case Cell.CELL_TYPE_STRING:
+
+							// Cell with index 1 contains marks in Maths
+							if (cell.getColumnIndex() == 1) {
+
+							}
+							System.out.println("Random data::" + cell.getStringCellValue());
 							if (firstName.equalsIgnoreCase("")) {
 								firstName = cell.getStringCellValue().trim();
 							} else if (lastName.equalsIgnoreCase("")) {
@@ -147,8 +159,14 @@ public class FileEndpointImpl implements FileEndpoint {
 			logger.info(e);
 		}
 		logger.info("user list: " + userList);
+		System.out.println("user list: " + userList);
 
-		return Response.ok("File uploaded successfully at " + uploadFilePath).build();
+		// return Response.ok("File uploaded successfully at " +
+		// uploadFilePath).build();
+		OnTargetResponse response = new OnTargetResponse();
+		response.setReturnVal(OnTargetConstant.SUCCESS);
+		response.setReturnMessage("File uploaded successfully");
+		return response;
 	}
 
 	@GET

@@ -6,10 +6,12 @@ import javax.ws.rs.core.Response;
 
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 
+import com.ontarget.dto.OnTargetResponse;
+
 public interface FileEndpoint {
 	Response downloadExcelFile();
 
-	Response uploadExcelFile(InputStream fileInputStream, FormDataContentDisposition fileFormDataContentDisposition);
+	OnTargetResponse uploadExcelFile(InputStream fileInputStream, FormDataContentDisposition fileFormDataContentDisposition);
 
 	Response getFile();
 }
