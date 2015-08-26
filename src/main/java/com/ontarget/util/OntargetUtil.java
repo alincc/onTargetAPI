@@ -1,9 +1,13 @@
 package com.ontarget.util;
 
 import com.ontarget.bean.TaskInterval;
+import com.ontarget.bean.WeekInterval;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.*;
 
 /**
@@ -13,7 +17,7 @@ public class OntargetUtil {
 
 
     /**
-     * Get time intervals between two dates
+     * Get time intervals month-year between two dates
      *
      * @param startDate
      * @param endDate
@@ -79,14 +83,62 @@ public class OntargetUtil {
         DateFormat format = new SimpleDateFormat("MMMM d, yyyy", Locale.ENGLISH);
         Date startdate = format.parse(string);
 
-        string = "January 14, 2015";
+        string = "December 14, 2015";
         Date endDate = format.parse(string);
 
-        List<TaskInterval> intervals = getTimeInterval(startdate, endDate);
+        //List<TaskInterval> intervals = getTimeInterval(startdate, endDate);
 
-        System.out.println(intervals);
+        List<WeekInterval> weeks = getAllWeeksBetweenDates(startdate,endDate);
+
+        System.out.println(weeks);
 
     }
+
+
+    /**
+     * Get all the weeks between startdate and end date.
+     * This will return the week name, week start date, week end date
+     * @param startDate
+     * @param endDate
+     * @return
+     */
+    public static List<WeekInterval> getAllWeeksBetweenDates(Date startDate, Date endDate){
+        List<WeekInterval> weeks = new LinkedList<>();
+
+
+        LocalDate today = startDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+        LocalDate projectEndDate = endDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+        int weekNum=1;
+        while(today.isBefore(projectEndDate) || today.isEqual(projectEndDate)) {
+
+            // Go backward to get Monday
+            LocalDate monday = today;
+            while (monday.getDayOfWeek() != DayOfWeek.MONDAY) {
+                monday = monday.minusDays(1);
+            }
+
+            // Go forward to get Sunday
+            LocalDate sunday = today;
+            while (sunday.getDayOfWeek() != DayOfWeek.SUNDAY) {
+                sunday = sunday.plusDays(1);
+            }
+
+            WeekInterval weekInterval = new WeekInterval();
+            weekInterval.setWeekStartDate(Date.from(monday.atStartOfDay(ZoneId.systemDefault()).toInstant()));
+            weekInterval.setWeekEndDate(Date.from(sunday.atStartOfDay(ZoneId.systemDefault()).toInstant()));
+            weekInterval.setWeekNum(weekNum++);
+            weeks.add(weekInterval);
+
+            today = sunday.plusDays(1);
+
+        }
+
+        return weeks;
+    }
+
+
 
 
 }

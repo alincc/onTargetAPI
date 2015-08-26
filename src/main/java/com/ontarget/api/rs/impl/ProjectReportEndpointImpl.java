@@ -2,6 +2,7 @@ package com.ontarget.api.rs.impl;
 
 import com.ontarget.api.response.BIReportResponse;
 import com.ontarget.api.response.ProjectEarnedValueReportResponse;
+import com.ontarget.api.response.TaskBurnDownResponse;
 import com.ontarget.api.rs.ProjectReportEndpoint;
 import com.ontarget.api.service.ProjectReportService;
 import com.ontarget.bean.NoAccidentReport;
@@ -80,5 +81,24 @@ public class ProjectReportEndpointImpl implements ProjectReportEndpoint {
 
 		return response;
 	}
+
+    @Override
+    @POST
+    @Path("/taskBurnDown")
+    public TaskBurnDownResponse getTaskBurnDownReport(ProjectReportInfo projectReportRequest) {
+        TaskBurnDownResponse response = new TaskBurnDownResponse();
+
+        try {
+            response=projectReportService.getTaskBurnDownReport(projectReportRequest.getProjectId());
+            response.setReturnMessage("Successfully retrieved task burndown report.");
+            response.setReturnVal(OnTargetConstant.SUCCESS);
+        } catch (Exception e) {
+            logger.error("Exception while retrieving BI report", e);
+            response.setReturnMessage("Error while retrieving task burn down report.");
+            response.setReturnVal(OnTargetConstant.ERROR);
+        }
+
+        return response;
+    }
 
 }

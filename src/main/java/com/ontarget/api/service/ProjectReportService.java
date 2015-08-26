@@ -1,5 +1,6 @@
 package com.ontarget.api.service;
 
+import com.ontarget.api.response.TaskBurnDownResponse;
 import com.ontarget.bean.NoAccidentReport;
 import com.ontarget.bean.ProjectEarnedValueAnalysisReport;
 import com.ontarget.bean.TimeSaved;
@@ -20,4 +21,6 @@ public interface ProjectReportService {
 	public TreesSaved getTreesSaved(int projectId) throws Exception;
 
 	public NoAccidentReport getNoAccidentReport(int projectId) throws Exception;
+
+    public TaskBurnDownResponse getTaskBurnDownReport(Integer projectId) throws Exception;
 }

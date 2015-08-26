@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.ontarget.api.dao.*;
+import com.ontarget.api.response.TaskBurnDownResponse;
+import com.ontarget.bean.*;
 import com.ontarget.entities.ProjectConfiguration;
 import com.ontarget.enums.ProjectUOM;
 import org.apache.log4j.Logger;
@@ -17,18 +19,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.ontarget.api.service.ProjectReportService;
-import com.ontarget.bean.AccidentReport;
-import com.ontarget.bean.ActivityLog;
-import com.ontarget.bean.DocumentDTO;
-import com.ontarget.bean.NoAccidentReport;
-import com.ontarget.bean.ProjectDTO;
-import com.ontarget.bean.ProjectEarnedValueAnalysisReport;
-import com.ontarget.bean.TaskEstimatedCost;
-import com.ontarget.bean.TaskInfo;
-import com.ontarget.bean.TaskInterval;
-import com.ontarget.bean.TaskPercentage;
-import com.ontarget.bean.TimeSaved;
-import com.ontarget.bean.TreesSaved;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.ActivityLogDTO;
 import com.ontarget.enums.TaskStatus;
@@ -276,7 +266,21 @@ public class ProjectReportServiceImpl implements ProjectReportService {
 		return report;
 	}
 
-	/**
+    @Override
+    public TaskBurnDownResponse getTaskBurnDownReport(Integer projectId) throws Exception {
+        logger.debug("Getting burn down chart for project with id: : " + projectId);
+
+        ProjectDTO project = projectDAO.getProject(projectId);
+        List<WeekInterval> weekIntervals = OntargetUtil.getAllWeeksBetweenDates(project.getStartDate(),project.getEndDate());
+
+
+
+
+
+        return null;
+    }
+
+    /**
 	 * Calculate cumulative earned value
 	 */
 	private void calculateCumulativeEarnedValue(

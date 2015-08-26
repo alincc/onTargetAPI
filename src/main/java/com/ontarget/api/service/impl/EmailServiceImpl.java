@@ -131,9 +131,7 @@ public class EmailServiceImpl implements EmailService {
 			};
 			javaMailSender.send(preparator);
 		} catch (Exception e) {
-			e.printStackTrace();
 			logger.error("Not able to send assigneeUser request email", e);
-			return false;
 		}
 
 		return true;
