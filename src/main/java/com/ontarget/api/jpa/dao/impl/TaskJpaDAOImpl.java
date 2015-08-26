@@ -132,6 +132,7 @@ public class TaskJpaDAOImpl implements TaskDAO {
 				task.setStartDate(taskObj.getStartDate());
 				task.setEndDate(taskObj.getEndDate());
 				task.setStatus(taskObj.getStatus());
+				task.setPercentageComplete(taskObj.getTaskPercentage().doubleValue());
 
 				if (taskObj.getStatus().equalsIgnoreCase("0")) {
 					task.setCompleted(false);
@@ -167,6 +168,7 @@ public class TaskJpaDAOImpl implements TaskDAO {
 				task.setStartDate(taskObj.getStartDate());
 				task.setEndDate(taskObj.getEndDate());
 				task.setStatus(taskObj.getStatus());
+				task.setPercentageComplete(taskObj.getTaskPercentage().doubleValue());
 
 				if (taskObj.getStatus().equalsIgnoreCase("0")) {
 					task.setCompleted(false);
@@ -200,6 +202,7 @@ public class TaskJpaDAOImpl implements TaskDAO {
 				task.setStartDate(taskObj.getStartDate());
 				task.setEndDate(taskObj.getEndDate());
 				task.setStatus(taskObj.getStatus());
+				task.setPercentageComplete(taskObj.getTaskPercentage());
 
 				if (taskObj.getStatus().equalsIgnoreCase("0")) {
 					task.setCompleted(false);
@@ -211,10 +214,12 @@ public class TaskJpaDAOImpl implements TaskDAO {
 		}
 		return tasks;
 	}
+	
+	
 
 	@Override
-	public List<ProjectTask> getTasksByProject(int projectId) throws Exception {
-		List<com.ontarget.entities.ProjectTask> taskList = projectTaskRepository.findUndeletedTasksByProject(projectId);
+	public List<ProjectTask> getTasksByProjectAndUser(int projectId, int userId) throws Exception {
+		List<com.ontarget.entities.ProjectTask> taskList = projectTaskRepository.findUndeletedTasksByProjectAndUser(projectId, userId);
 
 		List<ProjectTask> tasks = new ArrayList<>();
 		Map<Integer, Contact> contactMap = new HashMap<>();
@@ -249,10 +254,7 @@ public class TaskJpaDAOImpl implements TaskDAO {
 					}
 				}
 				task.setComments(comments);
-				List<TaskPercentage> taskPercentageList = getTaskPercentageByTask(task.getProjectTaskId());
-				if (taskPercentageList != null && taskPercentageList.size() > 0) {
-					task.setPercentageComplete(taskPercentageList.get(0).getTaskPercentageComplete());
-				}
+				task.setPercentageComplete(taskObj.getTaskPercentage().doubleValue());
 
 				Set<Integer> assignees = getTaskMembers(task.getProjectTaskId());
 				List<UserDTO> assignedUsers = new ArrayList<>();
@@ -288,9 +290,6 @@ public class TaskJpaDAOImpl implements TaskDAO {
 
 				TaskPercentage percentage = new TaskPercentage();
 				percentage.setId(taskPercentageLog.getTaskPercentageLogId());
-				percentage.setFromDate(taskPercentageLog.getStartDate());
-				percentage.setToDate(taskPercentageLog.getEndDate());
-				percentage.setTaskPercentageType(taskPercentageLog.getPercentageType());
 				percentage.setTaskPercentageComplete(taskPercentageLog.getPercentageComplete());
 				percentage.setCreatedBy(String.valueOf(taskPercentageLog.getCreatedBy().getUserId()));
 

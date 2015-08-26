@@ -41,8 +41,8 @@ public interface OnTargetConstant {
 		public static final String COMPANY_ADDR = "COMPANY";
 		public static final String CONTACT_ADDR = "CONTACT";
 	}
-	
-	interface ProfileType{
+
+	interface ProfileType {
 		public static final String MENU_PROFILE = "MENU";
 		public static final String PERMISSION_PROFILE = "PERMISSION";
 	}
@@ -97,23 +97,28 @@ public interface OnTargetConstant {
 		public static final String PENDING = "0";
 		public static final String DELETED = "2";
 	}
-	
+
 	public interface TaskStatus {
 		public static final String ACTIVE = "1";
 		public static final String PENDING = "0";
-		public static final String DELETED = "2";
+		public static final String DELETED = "4";
+	}
+
+	public interface ProjectFileCommentStatus {
+		public static final String ACTIVE = "ACTIVE";
+		public static final String DELETED = "DELETED";
 	}
 
 	public interface MemberStatus {
 		public static final String ACTIVE = "ACTIVE";
 	}
-	
-	public interface TaskFieldWorkerStatus{
+
+	public interface TaskFieldWorkerStatus {
 		public static final Integer ASSIGNED = new Integer(1);
 		public static final Integer DELETED = new Integer(2);
 	}
-	
-	public interface TaskAssigneeStatus{
+
+	public interface TaskAssigneeStatus {
 		public static final Integer ASSIGNED = new Integer(1);
 		public static final Integer DELETED = new Integer(2);
 	}
@@ -149,13 +154,13 @@ public interface OnTargetConstant {
 		public static final String PROJECT = "PROJECT";
 		public static final String ACTIVITY = "ACTIVITY";
 	}
-	
-	public interface ProjectConfigurationConstant{
+
+	public interface ProjectConfigurationConstant {
 		public static final String unitOfMeasurement = "UNIT_OF_MEASUREMENT";
 	}
 
 	public static final String OPEN_RS_ENDPOINT = "/register,/user,/onTargetInvitation,/profile,/project/getProjectsByUser,/project/addProject,/company,/file,/hello,/timeCard/getFieldWorkers,/menuProfile,/permissionProfile";
 
-    public static final double HOUR = 60 * 60 * 1000D;
+	public static final double HOUR = 60 * 60 * 1000D;
 
 }

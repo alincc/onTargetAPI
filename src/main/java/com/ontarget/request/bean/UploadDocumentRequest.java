@@ -12,8 +12,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "baseRequest", "projectId", "name", "fileType",
-		"createdBy", "modifiedBy" })
+@JsonPropertyOrder({ "baseRequest", "projectId", "name", "fileType", "createdBy", "modifiedBy", "categoryId", "description" })
 public class UploadDocumentRequest {
 	@NotNull
 	@Valid
@@ -34,6 +33,12 @@ public class UploadDocumentRequest {
 	@NotNull
 	@JsonProperty("modifiedBy")
 	private Integer modifiedBy;
+	@NotNull
+	@JsonProperty("categoryId")
+	private Integer categoryId;
+	@NotEmpty
+	@JsonProperty("description")
+	private String description;
 
 	@JsonProperty("baseRequest")
 	public BaseRequest getBaseRequest() {
@@ -93,6 +98,22 @@ public class UploadDocumentRequest {
 	@JsonProperty("modifiedBy")
 	public void setModifiedBy(Integer modifiedBy) {
 		this.modifiedBy = modifiedBy;
+	}
+
+	public Integer getCategoryId() {
+		return categoryId;
+	}
+
+	public void setCategoryId(Integer categoryId) {
+		this.categoryId = categoryId;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 }

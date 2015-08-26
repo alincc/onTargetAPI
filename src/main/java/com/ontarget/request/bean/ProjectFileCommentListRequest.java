@@ -6,11 +6,10 @@ import javax.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public class UserProfileRequest {
+public class ProjectFileCommentListRequest {
 	@NotNull
 	@Valid
 	private BaseRequest baseRequest;
 	@NotNull
-	private Integer userId;
-
+	private Integer projectFileId;
 }

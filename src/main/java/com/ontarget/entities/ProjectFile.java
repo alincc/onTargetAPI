@@ -45,6 +45,12 @@ public class ProjectFile implements Serializable {
 	@JoinColumn(name = "project_id", referencedColumnName = "project_id", nullable = false)
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
 	private Project project;
+	@JoinColumn(name = "project_file_category_id", referencedColumnName = "project_file_category_id", nullable = false)
+	@ManyToOne(optional = false)
+	private ProjectFileCategory projectFileCategory;
+	@Basic(optional = false)
+	@Column(name = "description", length = 255)
+	private String description;
 
 	public ProjectFile() {
 	}
@@ -99,6 +105,22 @@ public class ProjectFile implements Serializable {
 
 	public void setProject(Project project) {
 		this.project = project;
+	}
+
+	public ProjectFileCategory getProjectFileCategory() {
+		return projectFileCategory;
+	}
+
+	public void setProjectFileCategory(ProjectFileCategory projectFileCategory) {
+		this.projectFileCategory = projectFileCategory;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	@Override

@@ -101,7 +101,8 @@ public class TaskEndpointImpl implements TaskEndpoint {
 	public ProjectTaskResponse getTask(ProjectTaskRequest projectTaskRequest) {
 		ProjectTaskResponse response = new ProjectTaskResponse();
 		try {
-			response.setTasks(taskService.getTasksByProject(projectTaskRequest.getProjectId()));
+			response.setTasks(taskService.getTasksByProjectAndUser(projectTaskRequest.getProjectId(), projectTaskRequest.getBaseRequest()
+					.getLoggedInUserId()));
 			response.setReturnMessage("Successfully retrieved tasks");
 			response.setReturnVal(OnTargetConstant.SUCCESS);
 		} catch (Exception e) {
@@ -110,7 +111,6 @@ public class TaskEndpointImpl implements TaskEndpoint {
 			response.setReturnMessage("Error while retrieving task list");
 			response.setReturnVal(OnTargetConstant.ERROR);
 		}
-
 		return response;
 	}
 
@@ -121,7 +121,8 @@ public class TaskEndpointImpl implements TaskEndpoint {
 	public com.ontarget.response.bean.TaskListResponse getProjectTaskList(ProjectTaskRequest projectTaskRequest) {
 		com.ontarget.response.bean.TaskListResponse response = new com.ontarget.response.bean.TaskListResponse();
 		try {
-			response = taskService.getTaskList(projectTaskRequest.getProjectId());
+			response = taskService.getTaskListByProjectAndUser(projectTaskRequest.getProjectId(), projectTaskRequest.getBaseRequest()
+					.getLoggedInUserId());
 			response.setReturnMessage("Successfully retrieved tasks");
 			response.setReturnVal(OnTargetConstant.SUCCESS);
 		} catch (Exception e) {

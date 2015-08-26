@@ -35,4 +35,7 @@ public interface ProfileRepository extends JpaRepository<Profile, Integer> {
 	@Query("select p from Profile p where p.profileType = '" + OnTargetConstant.ProfileType.PERMISSION_PROFILE
 			+ "' and p.active !='D' order by p.name asc")
 	List<Profile> findAllPermissionProfile();
+
+	@Query("select p from Profile p where p.profileType = ?1 and p.profileCode = ?2")
+	Profile findProfileByTypeAndCode(String type, String code);
 }

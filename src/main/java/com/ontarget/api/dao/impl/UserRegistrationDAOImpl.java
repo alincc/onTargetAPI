@@ -19,6 +19,7 @@ import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.constant.OnTargetQuery;
 import com.ontarget.dto.UserInvitationRequestDTO;
 import com.ontarget.entities.User;
+import com.ontarget.entities.UserProfile;
 import com.ontarget.request.bean.UserRegistrationInfo;
 import com.ontarget.request.bean.UserSignupRequest;
 import com.ontarget.util.Security;
@@ -33,14 +34,6 @@ public class UserRegistrationDAOImpl implements com.ontarget.api.dao.UserRegistr
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
-
-//	@Override
-//	public int saveRegistrationInvitation(int projectId, String firstName, String lastName, String email, String tokenId,
-//			String accountStatus) throws Exception {
-//		jdbcTemplate.update(OnTargetQuery.ADD_REGISTRATION_INVITATION, new Object[] { tokenId, firstName, lastName, email,
-//				projectId, accountStatus });
-//		return 1;
-//	}
 
 	@Override
 	public UserRegistration getInvitationRegistration(String tokenId) throws Exception {
@@ -109,8 +102,7 @@ public class UserRegistrationDAOImpl implements com.ontarget.api.dao.UserRegistr
 
 	@Override
 	public UserRegistration getInvitationRegistrationByUser(int userId) throws Exception {
-		Map<String, Object> rs = jdbcTemplate.queryForMap(OnTargetQuery.GET_REGISTRATION_INVITATION_BY_USER,
-				new Object[] { userId });
+		Map<String, Object> rs = jdbcTemplate.queryForMap(OnTargetQuery.GET_REGISTRATION_INVITATION_BY_USER, new Object[] { userId });
 		UserRegistration userRegistration = new UserRegistration();
 		Object d = null;
 		userRegistration.setFirstName((String) rs.get("first_name"));
@@ -144,5 +136,11 @@ public class UserRegistrationDAOImpl implements com.ontarget.api.dao.UserRegistr
 	public int updateRegistrationRequestCompanyId(int companyId, String tokenId) throws Exception {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public UserProfile assignProfilesToUser(String userType, int userId) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

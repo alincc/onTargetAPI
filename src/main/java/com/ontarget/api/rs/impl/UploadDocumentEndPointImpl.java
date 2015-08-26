@@ -18,8 +18,14 @@ import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.FileUploadResponse;
 import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.UploadedDocumentDetail;
+import com.ontarget.request.bean.ProjectFileCategoryRequest;
+import com.ontarget.request.bean.ProjectFileCommentDeleteRequest;
+import com.ontarget.request.bean.ProjectFileCommentListRequest;
+import com.ontarget.request.bean.ProjectFileCommentRequest;
 import com.ontarget.request.bean.UploadDocumentRequest;
 import com.ontarget.request.bean.UploadedFileDetail;
+import com.ontarget.response.bean.ProjectFileCategoryListResponse;
+import com.ontarget.response.bean.ProjectFileCommentListResponse;
 
 /**
  * This class deals with file upload associated with the project
@@ -52,15 +58,60 @@ public class UploadDocumentEndPointImpl implements UploadDocumentEndPoint {
 			response.setResponseCode(OnTargetConstant.SUCCESS_CODE);
 			return response;
 		}
-
 		try {
 			Boolean success = documentService.saveUploadedDocsInfo(requestData);
-			return ((success) ? (new OnTargetResponse(OnTargetConstant.SUCCESS_CODE, OnTargetConstant.SUCCESS,
-					OnTargetConstant.SUCCESS)) : response);
+			return ((success) ? (new OnTargetResponse(OnTargetConstant.SUCCESS_CODE, OnTargetConstant.SUCCESS, OnTargetConstant.SUCCESS))
+					: response);
 		} catch (Exception ex) {
 			logger.error(OnTargetConstant.INTERNAL_SERVER_ERROR_MSG, ex);
 		}
 
+		return response;
+	}
+
+	@Override
+	@Path("/projectFileCategoryList")
+	@POST
+	public ProjectFileCategoryListResponse projectFileCategoryList(ProjectFileCategoryRequest request) {
+		logger.info("Starting call to retrieve projectFileCategoryList");
+		ProjectFileCategoryListResponse response = new ProjectFileCategoryListResponse();
+		try {
+			return documentService.getProjectFileCategories();
+		} catch (Exception ex) {
+			logger.error(ex);
+			response.setReturnVal(OnTargetConstant.ERROR);
+			response.setReturnMessage("Error while retrieving project file category list");
+		}
+		return response;
+	}
+
+	@Override
+	@POST
+	@Path("/addComment")
+	public OnTargetResponse addUpdateComment(ProjectFileCommentRequest request) {
+		OnTargetResponse response = new OnTargetResponse();
+		try {
+			return documentService.addUpdateComment(request);
+		} catch (Exception e) {
+			logger.error("Add/Update project file comment failed." + e);
+			response.setReturnMessage("Add/Update project file comment failed");
+			response.setReturnVal(OnTargetConstant.ERROR);
+		}
+		return response;
+	}
+
+	@Override
+	@POST
+	@Path("/deleteComment")
+	public OnTargetResponse deleteComment(ProjectFileCommentDeleteRequest request) {
+		OnTargetResponse response = new OnTargetResponse();
+		try {
+			return documentService.deleteComment(request.getCommentId());
+		} catch (Exception e) {
+			logger.error("Delete project file comment failed." + e);
+			response.setReturnMessage("Delete project file comment failed");
+			response.setReturnVal(OnTargetConstant.ERROR);
+		}
 		return response;
 	}
 
@@ -83,6 +134,21 @@ public class UploadDocumentEndPointImpl implements UploadDocumentEndPoint {
 			logger.error(OnTargetConstant.INTERNAL_SERVER_ERROR_MSG, ex);
 		}
 
+		return response;
+	}
+
+	@Override
+	@POST
+	@Path("/projectFileCommentList")
+	public ProjectFileCommentListResponse projectFileCommentList(ProjectFileCommentListRequest request) {
+		ProjectFileCommentListResponse response = new ProjectFileCommentListResponse();
+		try {
+			return documentService.getCommentList(request.getProjectFileId());
+		} catch (Exception e) {
+			logger.error("Error while retrieving project file comment list." + e);
+			response.setReturnMessage("Error while retrieving project file comment list.");
+			response.setReturnVal(OnTargetConstant.ERROR);
+		}
 		return response;
 	}
 

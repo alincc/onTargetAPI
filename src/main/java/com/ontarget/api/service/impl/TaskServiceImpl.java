@@ -17,6 +17,7 @@ import com.ontarget.api.dao.ProjectDAO;
 import com.ontarget.api.dao.ProjectTaskFileDAO;
 import com.ontarget.api.dao.TaskDAO;
 import com.ontarget.api.dao.TaskEstimatedCostDAO;
+import com.ontarget.api.repository.ProjectTaskRepository;
 import com.ontarget.api.service.EmailService;
 import com.ontarget.api.service.TaskService;
 import com.ontarget.bean.Contact;
@@ -69,6 +70,9 @@ public class TaskServiceImpl implements TaskService {
 	@Autowired
 	@Qualifier("projectJpaDAOImpl")
 	private ProjectDAO projectDAO;
+
+	@Autowired
+	private ProjectTaskRepository projectTaskRepository;
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
@@ -129,13 +133,14 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public List<ProjectTask> getTasksByProject(Integer projectId) throws Exception {
-		return taskDAO.getTasksByProject(projectId);
+	public List<ProjectTask> getTasksByProjectAndUser(Integer projectId, Integer userId) throws Exception {
+		return taskDAO.getTasksByProjectAndUser(projectId, userId);
 	}
 
 	@Override
-	public com.ontarget.response.bean.TaskListResponse getTaskList(Integer projectId) throws Exception {
-		List<com.ontarget.entities.ProjectTask> projectTaskList = taskDAO.getProjectTaskByProjectId(projectId);
+	public com.ontarget.response.bean.TaskListResponse getTaskListByProjectAndUser(Integer projectId, Integer userId) throws Exception {
+		List<com.ontarget.entities.ProjectTask> projectTaskList = projectTaskRepository.findUndeletedTasksByProjectAndUser(projectId,
+				userId);
 
 		List<com.ontarget.response.bean.Task> taskList = new ArrayList<com.ontarget.response.bean.Task>();
 
@@ -155,10 +160,7 @@ public class TaskServiceImpl implements TaskService {
 			} else {
 				task.setCompleted(true);
 			}
-			List<TaskPercentage> taskPercentageList = taskDAO.getTaskPercentageByTask(task.getProjectTaskId());
-			if (taskPercentageList != null && taskPercentageList.size() > 0) {
-				task.setPercentageComplete(taskPercentageList.get(0).getTaskPercentageComplete());
-			}
+			task.setPercentageComplete(projectTask.getTaskPercentage().doubleValue());
 			taskList.add(task);
 		}
 
@@ -198,10 +200,8 @@ public class TaskServiceImpl implements TaskService {
 			}
 		}
 		task.setComments(comments);
-		List<TaskPercentage> taskPercentageList = taskDAO.getTaskPercentageByTask(task.getProjectTaskId());
-		if (taskPercentageList != null && taskPercentageList.size() > 0) {
-			task.setPercentageComplete(taskPercentageList.get(0).getTaskPercentageComplete());
-		}
+
+		task.setPercentageComplete(projectTask.getTaskPercentage().doubleValue());
 
 		Set<Integer> assignees = getTaskMembers(task.getProjectTaskId());
 		List<UserDTO> assignedUsers = new ArrayList<>();
