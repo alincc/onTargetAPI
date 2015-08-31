@@ -132,15 +132,29 @@ public class TaskServiceImpl implements TaskService {
 		return taskDAO.getTask(projectId);
 	}
 
+
+    /**
+     * get all tasks by activity for that user
+     * @param projectId
+     * @param userId
+     * @return
+     * @throws Exception
+     */
 	@Override
 	public List<ProjectTask> getTasksByProjectAndUser(Integer projectId, Integer userId) throws Exception {
-		return taskDAO.getTasksByProjectAndUser(projectId, userId);
+		return taskDAO.getTasksByActivityAndUser(projectId, userId);
 	}
 
+    /**
+     * get all tasks for that project for a user
+     * @param projectId
+     * @param userId
+     * @return
+     * @throws Exception
+     */
 	@Override
 	public com.ontarget.response.bean.TaskListResponse getTaskListByProjectAndUser(Integer projectId, Integer userId) throws Exception {
-		List<com.ontarget.entities.ProjectTask> projectTaskList = projectTaskRepository.findUndeletedTasksByProjectAndUser(projectId,
-				userId);
+		List<com.ontarget.entities.ProjectTask> projectTaskList = projectTaskRepository.findAllUndeletedTasksByProjectAndUser(projectId,userId);
 
 		List<com.ontarget.response.bean.Task> taskList = new ArrayList<com.ontarget.response.bean.Task>();
 

@@ -30,7 +30,7 @@ public interface TaskDAO {
 
 	public List<TaskObj> getTaskObjList(int projectId) throws Exception;
 
-	public List<ProjectTask> getTasksByProjectAndUser(int projectId,int userId) throws Exception;
+	public List<ProjectTask> getTasksByActivityAndUser(int projectId,int userId) throws Exception;
 
 	public List<com.ontarget.bean.TaskStatusCount> getTaskCountByStatus(int projectId) throws Exception;
 

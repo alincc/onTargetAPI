@@ -97,7 +97,7 @@ public class TaskEndpointImpl implements TaskEndpoint {
 
 	@Override
 	@POST
-	@Path("/getProjectTask")
+	@Path("/getProjectTaskByActivity")
 	public ProjectTaskResponse getTask(ProjectTaskRequest projectTaskRequest) {
 		ProjectTaskResponse response = new ProjectTaskResponse();
 		try {
@@ -117,7 +117,7 @@ public class TaskEndpointImpl implements TaskEndpoint {
 	// new
 	@Override
 	@POST
-	@Path("/getProjectTaskList")
+	@Path("/getProjectTaskByMainProject")
 	public com.ontarget.response.bean.TaskListResponse getProjectTaskList(ProjectTaskRequest projectTaskRequest) {
 		com.ontarget.response.bean.TaskListResponse response = new com.ontarget.response.bean.TaskListResponse();
 		try {

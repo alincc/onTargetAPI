@@ -218,8 +218,8 @@ public class TaskJpaDAOImpl implements TaskDAO {
 	
 
 	@Override
-	public List<ProjectTask> getTasksByProjectAndUser(int projectId, int userId) throws Exception {
-		List<com.ontarget.entities.ProjectTask> taskList = projectTaskRepository.findUndeletedTasksByProjectAndUser(projectId, userId);
+	public List<ProjectTask> getTasksByActivityAndUser(int projectId, int userId) throws Exception {
+		List<com.ontarget.entities.ProjectTask> taskList = projectTaskRepository.findUndeletedTasksByActivityAndUser(projectId, userId);
 
 		List<ProjectTask> tasks = new ArrayList<>();
 		Map<Integer, Contact> contactMap = new HashMap<>();
