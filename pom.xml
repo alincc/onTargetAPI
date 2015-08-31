@@ -390,12 +390,19 @@
 			<version>2.7.7</version>
 		</dependency>
 
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<version>1.16.4</version>
-			<scope>provided</scope>
-		</dependency>
+        <dependency>
+            <groupId>com.jcraft</groupId>
+            <artifactId>jsch</artifactId>
+            <version>0.1.51</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.16.4</version>
+            <scope>provided</scope>
+        </dependency>
+
 	</dependencies>
 
 	<properties>
@@ -450,6 +457,11 @@
 			<id>codehaus</id>
 			<url>http://repository.codehaus.org/org/codehaus</url>
 		</repository>
+
+        <repository>
+            <id>Jsch</id>
+            <url>http://jsch.sf.net/maven2/</url>
+        </repository>
 
 		<repository>
 			<id>spring-snapshots</id>

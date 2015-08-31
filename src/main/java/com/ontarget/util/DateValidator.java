@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class DateValidator {
-	public static final String dateFormat = "dd/MM/yyyy";
+	public static final String dateFormat = "MM/dd/yyyy";
 
 	public static boolean isThisDateValid(String dateToValidate, String dateFromat) {
 		if (dateToValidate == null) {

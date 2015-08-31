@@ -107,8 +107,7 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 			}
 			return false;
 		} catch (Exception e) {
-			e.printStackTrace();
-			logger.error("System error");
+			logger.error("System error",e);
 		}
 		return false;
 	}

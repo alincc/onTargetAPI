@@ -30,8 +30,8 @@ public interface ProjectTaskRepository extends JpaRepository<ProjectTask, Intege
 	@Query("select pt from ProjectTask pt where pt.project.id = ?1 and pt.status !=" + OnTargetConstant.ProjectStatus.DELETED)
 	List<ProjectTask> findUndeletedTasksByProject(Integer projectId);
 
-	@Query("select pt from ProjectTask pt JOIN pt.taskAssigneeList ta WHERE pt.project.id = ?1 and ta.taskAssignee = ?2 and pt.status !="
-			+ OnTargetConstant.ProjectStatus.DELETED)
+	@Query("select pt from ProjectTask pt JOIN pt.taskAssigneeList ta WHERE pt.project.id = ?1 and ta.taskAssignee = ?2 and pt.status !='"
+			+ OnTargetConstant.ProjectStatus.DELETED+"'")
 	List<ProjectTask> findUndeletedTasksByProjectAndUser(Integer projectId, Integer userId);
 
 	@Query(value = "SELECT SUM(pt.task_percentage) from project_task pt WHERE pt.status !='" + OnTargetConstant.ProjectStatus.DELETED + "'"

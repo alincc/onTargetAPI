@@ -10,6 +10,7 @@ import com.ontarget.constant.OnTargetQuery;
 import com.ontarget.entities.*;
 import com.ontarget.response.bean.ProjectConfig;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -23,6 +24,9 @@ import java.util.*;
 
 @Repository("projectJpaDAOImpl")
 public class ProjectJpaDAOImpl implements ProjectDAO {
+
+    private Logger logger = Logger.getLogger(ProjectJpaDAOImpl.class);
+
 	@Resource
 	private ProjectRepository projectRepository;
 	@Resource
@@ -384,7 +388,24 @@ public class ProjectJpaDAOImpl implements ProjectDAO {
 		return projectRepository.getProjectsByUserId(userId);
 	}
 
-	@Override
+    @Override
+    public boolean isExistsProjectFolderName(String projectFolderName) throws Exception {
+        logger.debug("Getting project by project fodler asset name: "+ projectFolderName);
+        Project p = projectRepository.getProjectByProjectFolderName(projectFolderName);
+        return (p!=null);
+    }
+
+    @Override
+    public boolean updateProjectAssetFolderName(Integer projectId, String projectFolderName) throws Exception {
+        Project project = projectRepository.findByProjectId(projectId);
+        if(project!=null){
+            project.setProjectAssetFolderName(projectFolderName);
+        }
+        projectRepository.save(project);
+        return true;
+    }
+
+    @Override
 	public List<ProjectInfo> getChildProjects(int projectId) throws Exception {
 		List<ProjectInfo> projects = new LinkedList<>();
 		List<Project> projectList = projectRepository.findByProjectParentId(projectId);

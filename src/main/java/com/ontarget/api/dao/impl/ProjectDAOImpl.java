@@ -372,4 +372,14 @@ public class ProjectDAOImpl implements ProjectDAO {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+    @Override
+    public boolean isExistsProjectFolderName(String projectFolderName) throws Exception {
+        return false;
+    }
+
+    @Override
+    public boolean updateProjectAssetFolderName(Integer projectId, String projectFolderName) throws Exception {
+        return false;
+    }
 }

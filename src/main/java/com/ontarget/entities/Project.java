@@ -90,6 +90,17 @@ public class Project implements Serializable {
 	@OneToMany(mappedBy = "project",fetch=FetchType.EAGER)
 	private List<ProjectConfiguration> projectConfigurationList;
 
+    @Column(name = "project_asset_folder_name", length = 20)
+    private String projectAssetFolderName;
+
+    public String getProjectAssetFolderName() {
+        return projectAssetFolderName;
+    }
+
+    public void setProjectAssetFolderName(String projectAssetFolderName) {
+        this.projectAssetFolderName = projectAssetFolderName;
+    }
+
 	public Project() {
 	}
 

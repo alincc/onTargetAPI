@@ -9,6 +9,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.ontarget.api.service.BashScriptService;
+import org.apache.commons.lang.RandomStringUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -91,6 +94,9 @@ public class ProjectServiceImpl implements ProjectService {
 	@Autowired
 	private ProjectTaskRepository projectTaskRepository;
 
+    @Autowired
+    BashScriptService bashScriptService;
+
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
 	public OnTargetResponse addProject(ProjectRequest request) throws Exception {
@@ -128,7 +134,42 @@ public class ProjectServiceImpl implements ProjectService {
 			throw new Exception("Error while creating project: projectId: " + projectId);
 		}
 
-		return response;
+
+        try {
+            logger.debug("Executing bash script to create folder structure for this projectId: "+ projectId);
+            // Execute bash script asynchronously to create folder structure
+
+            String projectFolderName = RandomStringUtils.randomAlphanumeric(16) + new Date().getTime();
+
+
+            //do {
+            //      projectFolderName = RandomStringUtils.randomAlphanumeric(16);
+            //      exist = projectDAO.isExistsProjectFolderName(projectFolderName);
+            //} while (exist);
+
+            logger.debug("Creating asset folder with name: "+ projectFolderName +" for project id: "+ projectId);
+            boolean created=false;
+            if(projectFolderName!=null) {
+                created = bashScriptService.runBashScriptInRemoteServer(projectFolderName);
+            }
+            logger.debug("Folder creation successful: "+created);
+
+            //updating project with the  project folder name:
+            logger.debug("updating project "+projectId+" with the  project folder name:"+projectFolderName);
+
+            boolean updated = projectDAO.updateProjectAssetFolderName(projectId,projectFolderName);
+
+            if(updated){
+                logger.debug("Asset folder successfully created and updated.");
+            }
+
+        }catch(Exception e){
+            logger.error("Error while running bash script to create folder for project id: "+ projectId,e);
+        }
+
+
+
+        return response;
 	}
 
 	@Override

@@ -61,5 +61,8 @@ public interface ProjectDAO {
 	public com.ontarget.response.bean.Project getProjectById(int projectId) throws Exception;
 	
 	public List<Project> getProjectsByUserId(Integer userId);
-	
+
+    public boolean isExistsProjectFolderName(String projectFolderName) throws Exception;
+
+    public boolean updateProjectAssetFolderName(Integer projectId, String projectFolderName) throws Exception;
 }

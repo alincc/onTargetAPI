@@ -6,6 +6,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.apache.commons.lang.RandomStringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -52,7 +53,7 @@ public class ProjectEndpointImpl implements ProjectEndoint {
 		if (request.getProject().getProjectId() == null) {
 			try {
 				response = projectService.addProject(request);
-			} catch (Exception e) {
+            } catch (Exception e) {
 				logger.error("Error while adding project", e);
 				response = new OnTargetResponse();
 				response.setReturnMessage("Error while creating project");
@@ -250,7 +251,6 @@ public class ProjectEndpointImpl implements ProjectEndoint {
 				response.setReturnVal(OnTargetConstant.ERROR);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
 			logger.error("Error while getting project", e);
 			response.setReturnMessage("Error while deleting project");
 			response.setReturnVal(OnTargetConstant.ERROR);
