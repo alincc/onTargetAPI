@@ -90,7 +90,7 @@ public class Project implements Serializable {
 	@OneToMany(mappedBy = "project",fetch=FetchType.EAGER)
 	private List<ProjectConfiguration> projectConfigurationList;
 
-    @Column(name = "project_asset_folder_name", length = 20)
+    @Column(name = "project_asset_folder_name", length = 30)
     private String projectAssetFolderName;
 
     public String getProjectAssetFolderName() {

@@ -25,8 +25,17 @@ public class Project implements Serializable {
 	private int percentageComplete;
 	private String projectImagePath;
 	private List<ProjectConfig> projectConfiguration;
+    private String projectAssetFolderName;
 
-	public Integer getProjectId() {
+    public String getProjectAssetFolderName() {
+        return projectAssetFolderName;
+    }
+
+    public void setProjectAssetFolderName(String projectAssetFolderName) {
+        this.projectAssetFolderName = projectAssetFolderName;
+    }
+
+    public Integer getProjectId() {
 		return projectId;
 	}
 
