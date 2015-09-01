@@ -94,7 +94,7 @@ public class BashScriptServiceImpl implements BashScriptService {
             InputStream in = channelExec.getInputStream();
 
             // Run the process
-            String cmd = new StringBuilder("sh "+String.valueOf(BashScriptServiceImpl.class.getResource("/bash_script/create_project_asset_folder.sh")).substring(5))
+            String cmd = new StringBuilder("sh "+String.valueOf("/apps/ontarget/bash_scripts/create_project_asset_folder.sh"))
                     .append(" ")
                     .append(projectAssetEncryptedFolderName)
                     .toString();
