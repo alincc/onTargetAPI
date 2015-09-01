@@ -293,7 +293,7 @@ public class ProjectReportServiceImpl implements ProjectReportService {
 			TaskInfo task = entry.getKey();
 			Map<TaskInterval, TaskPercentage> monthYearTaskPercentage = entry.getValue();
 
-			double totalBudgetCost = totalTaskBudgetCost.get(task);
+			double totalBudgetCost = totalTaskBudgetCost.get(task) == null ? 0.0 : totalTaskBudgetCost.get(task).doubleValue();
 
 			for (Map.Entry<TaskInterval, TaskPercentage> taskIntervalTaskPercentageEntry : monthYearTaskPercentage.entrySet()) {
 				TaskInterval taskInterval = taskIntervalTaskPercentageEntry.getKey();
