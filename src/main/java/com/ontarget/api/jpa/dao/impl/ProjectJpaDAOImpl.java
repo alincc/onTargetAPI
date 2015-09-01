@@ -396,10 +396,11 @@ public class ProjectJpaDAOImpl implements ProjectDAO {
     }
 
     @Override
-    public boolean updateProjectAssetFolderName(Integer projectId, String projectFolderName) throws Exception {
+    public boolean updateProjectAssetFolderName(Integer projectId, Integer userId,String projectFolderName) throws Exception {
         Project project = projectRepository.findByProjectId(projectId);
         if(project!=null){
             project.setProjectAssetFolderName(projectFolderName);
+            project.setModifiedBy(new User(userId));
         }
         projectRepository.save(project);
         return true;

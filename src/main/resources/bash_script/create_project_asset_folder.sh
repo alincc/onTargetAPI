@@ -3,29 +3,31 @@
 #get the project encrypted name passed by the api
 projectFolderEncryptedName=$1
 
+
+#change the directory to projects folder
+cd /apps/ontarget/assets/projects
+
+echo "`date -u` changed directory to folder: "
+printf '%s\n' "${PWD}"
+echo "\n##############################################"
+
+#start making directory
+mkdir -p "${projectFolderEncryptedName}"
+if [[ $? -ne 0 ]] ; then
+    echo "`date -u` Error while creating ${projectFolderEncryptedName} folder"
+    exit 1
+fi
+
+cd "$projectFolderEncryptedName"
+
+
 #Log file setup
-logfile=/apps/ontarget/projects/${projectFolderEncryptedName}.txt
+logfile=/apps/ontarget/assets/projects/${projectFolderEncryptedName}/${projectFolderEncryptedName}.txt
 mkfifo ${logfile}.pipe
 tee < ${logfile}.pipe $logfile &
 exec &> ${logfile}.pipe
 rm ${logfile}.pipe
 #Log file setup end
-
-#change the directory to projects folder
-cd /apps/ontarget/assets
-
-echo "`date -u` changed directory to folder: "
-printf '%s\n' "${PWD}"
-echo "##############################################"
-
-#start making directory
-mkdir -p "${projectFolderEncryptedName}"
-if [[ $? -ne 0 ]] ; then
-    echo "`date -u` Error while creating project folder"
-    exit 1
-fi
-
-cd "$projectFolderEncryptedName"
 
 #start creating default folders
 

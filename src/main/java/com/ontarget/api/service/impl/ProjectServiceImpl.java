@@ -157,7 +157,7 @@ public class ProjectServiceImpl implements ProjectService {
             //updating project with the  project folder name:
             logger.debug("updating project "+projectId+" with the  project folder name:"+projectFolderName);
 
-            boolean updated = projectDAO.updateProjectAssetFolderName(projectId,projectFolderName);
+            boolean updated = projectDAO.updateProjectAssetFolderName(projectId,userId,projectFolderName);
 
             if(updated){
                 logger.debug("Asset folder successfully created and updated.");

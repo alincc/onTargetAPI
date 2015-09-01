@@ -379,7 +379,7 @@ public class ProjectDAOImpl implements ProjectDAO {
     }
 
     @Override
-    public boolean updateProjectAssetFolderName(Integer projectId, String projectFolderName) throws Exception {
+    public boolean updateProjectAssetFolderName(Integer projectId, Integer userId, String projectFolderName) throws Exception {
         return false;
     }
 }
