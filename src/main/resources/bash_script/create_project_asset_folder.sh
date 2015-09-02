@@ -4,6 +4,11 @@
 projectFolderEncryptedName=$1
 
 
+if [ $# -ne 1 ]; then
+    echo "$0: usage: create_project_asset_folder.sh <encrypted folder name>"
+    exit 1
+fi
+
 #change the directory to projects folder
 cd /apps/ontarget/assets/projects
 
