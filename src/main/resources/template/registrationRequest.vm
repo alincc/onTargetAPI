@@ -2,13 +2,22 @@
 <body>
 <h2>Dear ${firstName},</h2>
 
-<p> You have been invited to onTarget. To approve click this link</p>
+<p>Congratulations.Your account has been approved. Thank you for signing up for onTarget.</p>
 
-<p>${url}</p>
+<p>Please register at ${url} to create your user profile to experince working with your virtual project manager.</p>
 
-
-<p>thanks<br>
-    OnTarget team
+<p>
+If you need anything, contact us:<br/>
+support@ontargetcloud.com
 </p>
+
+<p>
+Good Luck!<br/>
+Niran Shrestha<br/>
+Founder & CEO<br/>
+OnTarget Technologies Inc.
+</p>
+
+
 </body>
 </html>

@@ -60,7 +60,15 @@ public class UserInvitationImpl implements UserInvitation {
 			UserInvitationRequestDTO userInvitationRequestDTO = ConvertPOJOUtils.convertToUserInvitationDTO(request, tokenId);
 
 			if (userInvitationService.registrationRequest(userInvitationRequestDTO)) {
-				response.setReturnVal(OnTargetConstant.SUCCESS);
+
+                //send thankyou email to user
+
+
+
+                // send approval email to Admin
+                emailService.sendUserRequestEmailToAdmin();
+
+                response.setReturnVal(OnTargetConstant.SUCCESS);
 				response.setReturnMessage(OnTargetConstant.SUCCESSFULLY_REGISTERED);
 			}
 		} catch (Exception e) {

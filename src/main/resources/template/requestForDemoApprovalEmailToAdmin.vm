@@ -1,0 +1,16 @@
+<html>
+<body>
+<h2>Hi Admin,</h2>
+
+<p>
+    You have received a requet for demo from a client. Please visit following url to approve them.
+</p>
+<p>
+    ${url}
+</p>
+
+<p>
+OnTarget Technologies Inc.
+</p>
+</body>
+</html>

@@ -16,12 +16,11 @@ public interface EmailService {
 
 	void sendTaskStatusChangeEmail(ProjectTaskInfo task, int userId);
 
-	public boolean sendUserRequestEmailToAdmin(int userRequestId);
+	public boolean sendUserRequestEmailToAdmin();
 
 	public boolean sendUserRegistrationEmail(String userEmail, String tokenId, String receiverFirstName, String senderFirstName,
 			String senderLastName) throws Exception;
 
-	public boolean sendUserRegistrationEmail() throws Exception;
 
 	public boolean sendDocumentAssignmentEmails(DocumentDTO document, List<Assignee> assignees);
 

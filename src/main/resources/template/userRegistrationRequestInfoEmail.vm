@@ -2,11 +2,25 @@
 <body>
 <h2>Hi ${name},</h2>
 
-<p> We have successfully received your request. We will review and notify you as soon as possible.Watch out for your
-    email for registration.</p>
+<p>Thank you for signing up with OnTarget -  you’ve taken the first step on the path to Digital Construction Technology. OnTarget was developed to give you a efficient way to
+    track your Budget against Performance, and you can use it, whether you’re on the jobsite, in the truck, at the office – from anywhere to access your Task, 3D Model or Specification.
+At this point you’ve already logged in and started pushing buttons - that’s great. We built OnTarget to be easy to use and Intuitive.
+</p>
+<p>If you are a General Contractors in the FieldLens Network, but we have specific tips for Subcontractors, Designers and Owners as well.<p>
 
-<p>thanks<br>
-    OnTarget team
+    <p>
+We’re proud of what we’ve built here at OnTarget - but we built it for you and we’re excited for you to start using it. We’ll never stop striving to deliver you the best tool for the job,
+    and if you ever have any questions or feedback please email us at help@ontargetcloud.com.
+    </p>
+
+<p>
+Welcome to the OnTarget Network,
+    </p>
+
+<p>
+Niran Shrestha<br/>
+Founder & CEO<br/>
+OnTarget Technologies Inc.
 </p>
 </body>
 </html>
