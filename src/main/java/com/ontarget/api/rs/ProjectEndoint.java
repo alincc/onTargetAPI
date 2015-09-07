@@ -40,7 +40,7 @@ public interface ProjectEndoint {
 
 	public ProjectListResponse getProjectByUser(@Valid ProjectUserRequest projectUserRequest);
 	
-	public com.ontarget.response.bean.ProjectListResponse getUserProjectList(@Valid ProjectUserRequest projectUserRequest);
+	public ProjectListResponse getUserProjectList(@Valid ProjectUserRequest projectUserRequest);
 	
 	public com.ontarget.response.bean.ProjectListResponse getActivityOfProject(@Valid ProjectDetailRequest projectDetailRequest);
 }

@@ -46,13 +46,6 @@ public class ProjectType implements Serializable {
 	@Basic(optional = false)
 	@Column(name = "modified_by", nullable = false, length = 20)
 	private String modifiedBy;
-	@Column(name = "delete_flag", columnDefinition = "TINYINT")
-	private Short deleteFlag;
-	@Column(name = "deleted_date")
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date deletedDate;
-	@Column(name = "deleted_by", length = 20)
-	private String deletedBy;
 	@Basic(optional = false)
 	@Column(name = "status", nullable = false, length = 10)
 	private String status;
@@ -123,30 +116,6 @@ public class ProjectType implements Serializable {
 
 	public void setModifiedBy(String modifiedBy) {
 		this.modifiedBy = modifiedBy;
-	}
-
-	public Short getDeleteFlag() {
-		return deleteFlag;
-	}
-
-	public void setDeleteFlag(Short deleteFlag) {
-		this.deleteFlag = deleteFlag;
-	}
-
-	public Date getDeletedDate() {
-		return deletedDate;
-	}
-
-	public void setDeletedDate(Date deletedDate) {
-		this.deletedDate = deletedDate;
-	}
-
-	public String getDeletedBy() {
-		return deletedBy;
-	}
-
-	public void setDeletedBy(String deletedBy) {
-		this.deletedBy = deletedBy;
 	}
 
 	public String getStatus() {

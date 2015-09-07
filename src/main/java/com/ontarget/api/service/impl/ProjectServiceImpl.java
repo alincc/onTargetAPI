@@ -512,20 +512,36 @@ public class ProjectServiceImpl implements ProjectService {
 		}
 	}
 
-	// new
+    /**
+     * Get all projects by user id. Returns only the project info
+     * @param userId
+     * @return
+     * @throws Exception
+     */
 	@Override
-	public com.ontarget.response.bean.ProjectListResponse getUserProjectList(Integer userId) throws Exception {
-		com.ontarget.response.bean.ProjectListResponse projectListResponse = new com.ontarget.response.bean.ProjectListResponse();
-		List<Project> projects = projectDAO.getProjectsByUserId(userId);
+	public ProjectListResponse getUserProjectList(Integer userId) throws Exception {
+		ProjectListResponse projectListResponse = new ProjectListResponse();
 
-		List<com.ontarget.response.bean.Project> projectInfoList = new ArrayList<com.ontarget.response.bean.Project>();
+        //Add main project as well.
+        Project mainProject = projectDAO.getMainProjectByUser(userId);
+        ProjectDTO mainProjectDTO=null;
+        if (mainProject != null) {
+            mainProjectDTO = ProjectUtil.convertToProjectDTO(mainProject, projectTaskRepository);
+            Company company = companyDAO.getCompany(mainProjectDTO.getCompanyId());
+            mainProjectDTO.setCompany(company);
+        }
+
+        List<Project> projects = projectDAO.getProjectsByUserId(userId);
+
+		List<ProjectDTO> projectInfoList = new ArrayList<ProjectDTO>();
+        mainProjectDTO.setProjects(projectInfoList);
 
 		if (projects != null && !projects.isEmpty()) {
 			for (Project project : projects) {
-				projectInfoList.add(getProjectInfo(project));
+				projectInfoList.add(ProjectUtil.convertToProjectDTO(project, projectTaskRepository));
 			}
 		}
-		projectListResponse.setProjects(projectInfoList);
+		projectListResponse.setMainProject(mainProjectDTO);
 		return projectListResponse;
 	}
 

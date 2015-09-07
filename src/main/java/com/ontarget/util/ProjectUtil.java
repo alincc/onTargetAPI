@@ -66,6 +66,7 @@ public class ProjectUtil {
 		project.setProjectStatus((String) projectDetail.get("project_status"));
 		project.setType((String) projectDetail.get("type"));
 		project.setAddress(new Address((Integer) projectDetail.get("address_id")));
+        project.setProjectAssetFolderName((String)projectDetail.get("project_asset_folder_name"));
 		return project;
 	}
 
@@ -83,6 +84,8 @@ public class ProjectUtil {
 		project.setStatus(projectDetail.getProjectStatus());
 		project.setType(projectDetail.getType());
 		project.setProjectOwnerId(projectDetail.getProjectOwnerId());
+        project.setProjectAssetFolderName(projectDetail.getProjectAssetFolderName());
+
 
 		List<ProjectConfigDTO> projectConfigList = new ArrayList<>();
 		List<ProjectConfiguration> projectConfigurations = projectDetail.getProjectConfigurationList();

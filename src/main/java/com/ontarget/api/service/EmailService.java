@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.ontarget.bean.Contact;
 import com.ontarget.bean.DocumentDTO;
+import com.ontarget.bean.ProjectInfo;
 import com.ontarget.bean.ProjectTaskInfo;
 import com.ontarget.request.bean.Assignee;
 
@@ -19,7 +20,7 @@ public interface EmailService {
 	public boolean sendUserRequestEmailToAdmin();
 
 	public boolean sendUserRegistrationEmail(String userEmail, String tokenId, String receiverFirstName, String senderFirstName,
-			String senderLastName) throws Exception;
+			String senderLastName, ProjectInfo projectInfo) throws Exception;
 
 
 	public boolean sendDocumentAssignmentEmails(DocumentDTO document, List<Assignee> assignees);

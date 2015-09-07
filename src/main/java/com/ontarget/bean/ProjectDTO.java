@@ -28,6 +28,15 @@ public class ProjectDTO implements Serializable {
 	private String unitOfMeasurement;
 	private List<ProjectConfigDTO> projectConfiguration;
 	private Integer percentageComplete;
+    private String projectAssetFolderName;
+
+    public String getProjectAssetFolderName() {
+        return projectAssetFolderName;
+    }
+
+    public void setProjectAssetFolderName(String projectAssetFolderName) {
+        this.projectAssetFolderName = projectAssetFolderName;
+    }
 
 	public ProjectDTO() {
 	}

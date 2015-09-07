@@ -81,7 +81,7 @@ public class UserRegistrationImpl implements com.ontarget.api.rs.UserRegistratio
 					senderFirstName = c.getFirstName();
 					senderLastName = c.getLastName();
 
-					emailService.sendUserRegistrationEmail(email, tokenId, firstName, senderFirstName, senderLastName);
+					emailService.sendUserRegistrationEmail(email, tokenId, firstName, senderFirstName, senderLastName, res);
 					response.setReturnMessage("Email sent. Please check mail");
 					response.setReturnVal(OnTargetConstant.SUCCESS);
 				} else {

@@ -1,32 +1,20 @@
 package com.ontarget.api.rs.impl;
 
+import com.ontarget.api.rs.ProjectEndoint;
+import com.ontarget.api.service.ProjectService;
+import com.ontarget.api.service.UserProfileService;
+import com.ontarget.constant.OnTargetConstant;
+import com.ontarget.dto.*;
+import com.ontarget.request.bean.*;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-
-import org.apache.commons.lang.RandomStringUtils;
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import com.ontarget.api.rs.ProjectEndoint;
-import com.ontarget.api.service.ProjectService;
-import com.ontarget.api.service.UserProfileService;
-import com.ontarget.constant.OnTargetConstant;
-import com.ontarget.dto.CompanyListResponse;
-import com.ontarget.dto.OnTargetResponse;
-import com.ontarget.dto.ProjectListResponse;
-import com.ontarget.dto.ProjectMemberListResponse;
-import com.ontarget.dto.ProjectResponse;
-import com.ontarget.dto.UserProjectListResponse;
-import com.ontarget.request.bean.ActivityRequest;
-import com.ontarget.request.bean.ProjectCompanyRequest;
-import com.ontarget.request.bean.ProjectDetailRequest;
-import com.ontarget.request.bean.ProjectRequest;
-import com.ontarget.request.bean.ProjectUserRequest;
-import com.ontarget.request.bean.UserProjectRequest;
 
 /**
  * Created by Owner on 11/6/14.
@@ -261,8 +249,8 @@ public class ProjectEndpointImpl implements ProjectEndoint {
 	@Override
 	@POST
 	@Path("/getUserProjectList")
-	public com.ontarget.response.bean.ProjectListResponse getUserProjectList(ProjectUserRequest projectUserRequest) {
-		com.ontarget.response.bean.ProjectListResponse response = new com.ontarget.response.bean.ProjectListResponse();
+	public ProjectListResponse getUserProjectList(ProjectUserRequest projectUserRequest) {
+		ProjectListResponse response = new ProjectListResponse();
 		try {
 			response = projectService.getUserProjectList(projectUserRequest.getUserId());
 			response.setReturnVal(OnTargetConstant.SUCCESS);
