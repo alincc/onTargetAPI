@@ -1,6 +1,8 @@
 package com.ontarget.api.rs;
 
 import javax.validation.Valid;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
 
 import com.ontarget.dto.NotificationResponse;
 import com.ontarget.dto.OnTargetResponse;
@@ -13,5 +15,7 @@ import com.ontarget.request.bean.NotificationStatusUpdateRequest;
 public interface NotificationEndpoint {
 	NotificationResponse getNotifications(@Valid NotificationRequest notificationRequest);
 
-	OnTargetResponse markNotificationAsSeen(@Valid NotificationStatusUpdateRequest notificationStatusUpdateRequest);
+    NotificationResponse getNotificationsByUserByProject(@Valid NotificationRequest notificationRequest);
+
+    OnTargetResponse markNotificationAsSeen(@Valid NotificationStatusUpdateRequest notificationStatusUpdateRequest);
 }

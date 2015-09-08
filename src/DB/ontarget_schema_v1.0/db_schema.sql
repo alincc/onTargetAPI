@@ -1085,6 +1085,8 @@ CREATE TABLE `user_notification` (
   CONSTRAINT `FK_hrv2lmyjlt3ken6hk2f4sg1e` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=155 DEFAULT CHARSET=latin1;
 
+ALTER TABLE `ontarget`.`user_notification`
+ADD COLUMN `project_id` BIGINT(20) NULL AFTER `notification_type`;
 
 /*Table structure for table `user_notification_attribute` */
 
@@ -1361,8 +1363,8 @@ DELIMITER $$
 	DECLARE userNotificationId BIGINT;
 
 	INSERT INTO activity_log (TEXT, user_id,category,ts_insert) VALUES
-	(CONCAT("New task ", NEW.title, " added by ", get_userNameById(NEW.created_by)),
-	New.created_by,4, NOW());
+	(CONCAT("New task ", NEW.title, " added by ", get_userNameById(NEW.created_by),project_id),
+	New.created_by,4, NOW(),NEW.project_id);
 
 	INSERT INTO user_notification (TEXT, STATUS,user_id, ts_insert,notification_type)
 	VALUES (CONCAT("New task ", NEW.title, " added by ", get_userNameById(NEW.created_by)),
