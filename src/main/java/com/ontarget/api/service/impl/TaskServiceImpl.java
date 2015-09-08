@@ -175,6 +175,22 @@ public class TaskServiceImpl implements TaskService {
 				task.setCompleted(true);
 			}
 			task.setPercentageComplete(projectTask.getTaskPercentage().doubleValue());
+
+            // add assigned to as well.
+
+            Set<Integer> assignees = getTaskMembers(task.getProjectTaskId());
+            List<UserDTO> assignedUsers = new ArrayList<>();
+            task.setAssignee(assignedUsers);
+            if (assignees != null && assignees.size() > 0) {
+                for (Integer id : assignees) {
+                    Contact contact = taskDAO.getContact(id);
+                    UserDTO assignedToUser = new UserDTO();
+                    assignedToUser.setContact(contact);
+                    assignedToUser.setUserId((id.intValue()));
+                    assignedUsers.add(assignedToUser);
+                }
+            }
+
 			taskList.add(task);
 		}
 

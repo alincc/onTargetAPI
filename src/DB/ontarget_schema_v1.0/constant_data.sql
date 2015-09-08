@@ -141,6 +141,11 @@ insert  into `project_file_category`(`project_file_category_id`,`active`,`name`)
 
 
 
+insert  into `task_status`(`task_status_id`,`status_code`,`status_name`,`status_description`) values
+  (1,'ACTIVE','Active','Active Status'),
+  (2,'PENDING','Pending','Pending Status'),
+  (3,'COMPLETED','Completed','Completed Status'),
+  (4,'DELETED','Deleted','Deleted Status');
 
 
 
