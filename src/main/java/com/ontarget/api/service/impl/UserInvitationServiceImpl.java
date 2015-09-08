@@ -50,7 +50,7 @@ public class UserInvitationServiceImpl implements UserInvitationService {
 	}
 
     @Override
-    public boolean rejectPendingRequest(int id) {
+    public boolean rejectPendingRequest(int id) throws Exception{
         return userInvitationDAO.rejectNewAccountRequest(id);
     }
 
