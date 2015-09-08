@@ -27,4 +27,6 @@ public interface UserInvitationDAO {
     RegistrationRequestResponseDTO findRegRequestByUserId(long userId);
     
     public boolean updateRegistrationRequestProjectIdByUser(int projectId,int userId);
+
+    public boolean rejectNewAccountRequest(int id) throws Exception;
 }

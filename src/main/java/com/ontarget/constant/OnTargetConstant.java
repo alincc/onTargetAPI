@@ -35,8 +35,9 @@ public interface OnTargetConstant {
 	public static final String APPROVED = "APPROVED";
 	public static final String TOKEN_VERIFIED = "Token verification successful";
 	public static final String TOKEN_VERIFICATION_FAILED = "Token verification failed";
+    public static final String REGISTRATION_REQUEST_REJECTED = "REJECTED";
 
-	interface AddressType {
+    interface AddressType {
 		public static final String PROJECT_ADDR = "PROJECT";
 		public static final String COMPANY_ADDR = "COMPANY";
 		public static final String CONTACT_ADDR = "CONTACT";

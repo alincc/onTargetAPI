@@ -49,4 +49,9 @@ public class UserInvitationServiceImpl implements UserInvitationService {
 		return userInvitationDAO.findRegRequestByEmail(email);
 	}
 
+    @Override
+    public boolean rejectPendingRequest(int id) {
+        return userInvitationDAO.rejectNewAccountRequest(id);
+    }
+
 }
