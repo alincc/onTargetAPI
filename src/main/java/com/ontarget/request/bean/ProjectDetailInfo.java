@@ -54,7 +54,20 @@ public class ProjectDetailInfo {
 	@JsonProperty("unitOfMeasurement")
 	private String unitOfMeasurement;
 
-	/**
+    @JsonProperty("projectAssetFolderName")
+    private String projectAssetFolderName;
+
+    @JsonProperty("projectAssetFolderName")
+    public String getProjectAssetFolderName() {
+        return projectAssetFolderName;
+    }
+
+    @JsonProperty("projectAssetFolderName")
+    public void setProjectAssetFolderName(String projectAssetFolderName) {
+        this.projectAssetFolderName = projectAssetFolderName;
+    }
+
+    /**
 	 * 
 	 * @return The projectParentId
 	 */

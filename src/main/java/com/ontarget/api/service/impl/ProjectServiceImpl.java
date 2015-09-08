@@ -135,6 +135,9 @@ public class ProjectServiceImpl implements ProjectService {
 		}
 
 
+        /**
+         * turning this off as UI is doing this
+         *
         try {
             logger.debug("Executing bash script to create folder structure for this projectId: "+ projectId);
             // Execute bash script asynchronously to create folder structure
@@ -167,7 +170,7 @@ public class ProjectServiceImpl implements ProjectService {
             logger.error("Error while running bash script to create folder for project id: "+ projectId,e);
         }
 
-
+    */
 
         return response;
 	}
@@ -533,14 +536,9 @@ public class ProjectServiceImpl implements ProjectService {
 
         List<Project> projects = projectDAO.getProjectsByUserId(userId);
 
-		List<ProjectDTO> projectInfoList = new ArrayList<ProjectDTO>();
+        List<ProjectDTO> projectInfoList = convertedProjectList(projects, userId);
         mainProjectDTO.setProjects(projectInfoList);
 
-		if (projects != null && !projects.isEmpty()) {
-			for (Project project : projects) {
-				projectInfoList.add(ProjectUtil.convertToProjectDTO(project, projectTaskRepository));
-			}
-		}
 		projectListResponse.setMainProject(mainProjectDTO);
 		return projectListResponse;
 	}
