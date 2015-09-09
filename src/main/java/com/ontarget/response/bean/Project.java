@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.ontarget.bean.Company;
+import com.ontarget.bean.TaskStatusCount;
 
 public class Project implements Serializable {
 
@@ -26,6 +27,15 @@ public class Project implements Serializable {
 	private String projectImagePath;
 	private List<ProjectConfig> projectConfiguration;
     private String projectAssetFolderName;
+    private List<TaskStatusCount> taskCountByStatus;
+
+    public List<TaskStatusCount> getTaskCountByStatus() {
+        return taskCountByStatus;
+    }
+
+    public void setTaskCountByStatus(List<TaskStatusCount> taskCountByStatus) {
+        this.taskCountByStatus = taskCountByStatus;
+    }
 
     public String getProjectAssetFolderName() {
         return projectAssetFolderName;

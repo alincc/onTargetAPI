@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.ontarget.api.service.BashScriptService;
+import com.ontarget.bean.*;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.log4j.Logger;
@@ -27,16 +28,6 @@ import com.ontarget.api.dao.TaskPercentageDAO;
 import com.ontarget.api.dao.UserRegistrationDAO;
 import com.ontarget.api.repository.ProjectTaskRepository;
 import com.ontarget.api.service.ProjectService;
-import com.ontarget.bean.AddressDTO;
-import com.ontarget.bean.Company;
-import com.ontarget.bean.Contact;
-import com.ontarget.bean.ProjectDTO;
-import com.ontarget.bean.ProjectInfo;
-import com.ontarget.bean.ProjectMember;
-import com.ontarget.bean.TaskComment;
-import com.ontarget.bean.TaskInfo;
-import com.ontarget.bean.TaskPercentage;
-import com.ontarget.bean.UserDTO;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.ProjectListResponse;
@@ -306,6 +297,12 @@ public class ProjectServiceImpl implements ProjectService {
 				int percentageComplete = CalculatePercentageComplete.calculate(percentageCompleteSum.doubleValue(), taskCount.intValue());
 				projectInfo.setPercentageComplete(percentageComplete);
 			}
+
+            //count of active pending completed and deleted task for that activity
+            List<TaskStatusCount> statusCount = taskDAO.getTaskCountByStatus(project.getProjectId());
+            projectInfo.setTaskCountByStatus(statusCount);
+
+
 		} else if (project.getType().equalsIgnoreCase(OnTargetConstant.ProjectInfoType.PROJECT)) {
 			BigDecimal percentageCompleteSum = projectTaskRepository.getProjectTotalPercentageComplete(project.getProjectId());
 			BigInteger taskCount = projectTaskRepository.getProjectTaskCount(project.getProjectId());

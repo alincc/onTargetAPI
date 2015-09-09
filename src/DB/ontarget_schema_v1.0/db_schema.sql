@@ -1085,8 +1085,7 @@ CREATE TABLE `user_notification` (
   CONSTRAINT `FK_hrv2lmyjlt3ken6hk2f4sg1e` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=155 DEFAULT CHARSET=latin1;
 
-ALTER TABLE `ontarget`.`user_notification`
-ADD COLUMN `project_id` BIGINT(20) NULL AFTER `notification_type`;
+ALTER TABLE `ontarget`.`user_notification` ADD COLUMN `project_id` BIGINT(20) NULL AFTER `notification_type`;
 
 /*Table structure for table `user_notification_attribute` */
 

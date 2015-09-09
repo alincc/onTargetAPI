@@ -19,7 +19,7 @@ public class JerseyResourceInitializer extends ResourceConfig {
 		register(AuthorizationFilter.class);
 		register(ValidationConfigurationContextResolver.class);
 		register(ValidationExceptionMapper.class);
-		register(LoggingResponseFilter.class);
+		//register(LoggingResponseFilter.class);
 		register(JsonDateSerializer.class);
 		register(CORSResponseFilter.class);
 

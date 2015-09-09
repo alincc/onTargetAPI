@@ -351,7 +351,7 @@ public class TaskJpaDAOImpl implements TaskDAO {
 	@Override
 	public List<TaskStatusCount> getTaskCountByStatus(int projectId) throws Exception {
 		List<Map<String, Object>> taskList = jdbcTemplate.queryForList(OnTargetQuery.GET_PROJECT_TASK_COUNT_BY_STATUS,
-				new Object[] { projectId });
+				new Object[] { projectId,projectId });
 		List<TaskStatusCount> taskCountByStatus = new ArrayList<>();
 
 		if (taskList != null && taskList.size() > 0) {

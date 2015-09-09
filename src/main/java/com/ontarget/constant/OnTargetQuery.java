@@ -58,8 +58,8 @@ public interface OnTargetQuery {
     public static final String GET_COMPANY_BY_PROJECT = "select b.* from project as a join company_info as b on a.company_id=b.company_id where a.project_id=?";
 
     public static final String GET_PROJECT_TASK_COUNT_BY_STATUS = new StringBuilder("select t.status_name, if(j.count is null,0,j.count) as count from task_status t")
-            .append(" left outer join (select p.status, count(p.status) as count from project_task p where project_id in ")
-            .append(" (select project_id from project where  project_parent_id=? and type='ACTIVITY') group by status) j")
+            .append(" left outer join (select p.status, count(p.status) as count from project_task p where (project_id=? or project_id in ")
+            .append(" (select project_id from project where  project_parent_id=? and type='ACTIVITY')) group by status) j")
             .append(" on t.task_status_id=j.status").toString();
 
     public static final String GET_PROJECT_AND_TASKS = new StringBuilder("select p.project_id, p.project_parent_id, t.* from project p left outer join project_task t")
