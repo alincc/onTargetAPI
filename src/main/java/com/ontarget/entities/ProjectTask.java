@@ -65,8 +65,6 @@ public class ProjectTask implements Serializable {
 	@Column(name = "task_percentage")
 	private Integer taskPercentage;
 	@OneToMany(mappedBy = "projectTask", fetch = FetchType.LAZY)
-	private List<ProjectTaskComments> projectTaskCommentsList;
-	@OneToMany(mappedBy = "projectTask", fetch = FetchType.LAZY)
 	private List<DependentTask> dependentTaskList;
 	@OneToMany(mappedBy = "projectTask", fetch = FetchType.LAZY)
 	private List<ProjectTaskFiles> projectTaskFilesList;
@@ -190,14 +188,6 @@ public class ProjectTask implements Serializable {
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public List<ProjectTaskComments> getProjectTaskCommentsList() {
-		return projectTaskCommentsList;
-	}
-
-	public void setProjectTaskCommentsList(List<ProjectTaskComments> projectTaskCommentsList) {
-		this.projectTaskCommentsList = projectTaskCommentsList;
 	}
 
 	public List<ProjectTaskFiles> getProjectTaskFilesList() {

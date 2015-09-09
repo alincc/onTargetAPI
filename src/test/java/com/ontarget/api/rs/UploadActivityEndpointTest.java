@@ -48,14 +48,14 @@ public class UploadActivityEndpointTest extends BaseTest {
 			}
 			activityTaskRecord.setActivityCode("ACT-00" + index);
 			activityTaskRecord.setActivityName("activity" + index);
-			activityTaskRecord.setActivityStartDate("17/06/2015");
-			activityTaskRecord.setActivityEndDate("22/06/2015");
+			activityTaskRecord.setActivityStartDate("06/17/2015");
+			activityTaskRecord.setActivityEndDate("10/22/2015");
 
 			activityTaskRecord.setTaskCode("TASK-00" + i);
 			activityTaskRecord.setTaskName("task" + i);
 			activityTaskRecord.setTaskDescription("");
-			activityTaskRecord.setTaskStartDate("17/06/2015");
-			activityTaskRecord.setTaskEndDate("22/06/2015");
+			activityTaskRecord.setTaskStartDate("06/17/2015");
+			activityTaskRecord.setTaskEndDate("09/22/2015");
 			activityTaskRecord.setActualCost("500");
 			activityTaskRecord.setEstimatedCost("200");
 			activityTaskRecord.setPercentageComplete("20");

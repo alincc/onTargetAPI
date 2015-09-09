@@ -94,8 +94,8 @@ public class ProjectServiceImpl implements ProjectService {
 	@Autowired
 	private ProjectTaskRepository projectTaskRepository;
 
-    @Autowired
-    BashScriptService bashScriptService;
+	@Autowired
+	BashScriptService bashScriptService;
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
@@ -134,42 +134,38 @@ public class ProjectServiceImpl implements ProjectService {
 			throw new Exception("Error while creating project: projectId: " + projectId);
 		}
 
+		try {
+			logger.debug("Executing bash script to create folder structure for this projectId: " + projectId);
+			// Execute bash script asynchronously to create folder structure
 
-        try {
-            logger.debug("Executing bash script to create folder structure for this projectId: "+ projectId);
-            // Execute bash script asynchronously to create folder structure
+			String projectFolderName = RandomStringUtils.randomAlphanumeric(16) + new Date().getTime();
 
-            String projectFolderName = RandomStringUtils.randomAlphanumeric(16) + new Date().getTime();
+			// do {
+			// projectFolderName = RandomStringUtils.randomAlphanumeric(16);
+			// exist = projectDAO.isExistsProjectFolderName(projectFolderName);
+			// } while (exist);
 
+			logger.debug("Creating asset folder with name: " + projectFolderName + " for project id: " + projectId);
+			boolean created = false;
+			if (projectFolderName != null) {
+				created = bashScriptService.runBashScriptInRemoteServer(projectFolderName);
+			}
+			logger.debug("Folder creation successful: " + created);
 
-            //do {
-            //      projectFolderName = RandomStringUtils.randomAlphanumeric(16);
-            //      exist = projectDAO.isExistsProjectFolderName(projectFolderName);
-            //} while (exist);
+			// updating project with the project folder name:
+			logger.debug("updating project " + projectId + " with the  project folder name:" + projectFolderName);
 
-            logger.debug("Creating asset folder with name: "+ projectFolderName +" for project id: "+ projectId);
-            boolean created=false;
-            if(projectFolderName!=null) {
-                created = bashScriptService.runBashScriptInRemoteServer(projectFolderName);
-            }
-            logger.debug("Folder creation successful: "+created);
+			boolean updated = projectDAO.updateProjectAssetFolderName(projectId, userId, projectFolderName);
 
-            //updating project with the  project folder name:
-            logger.debug("updating project "+projectId+" with the  project folder name:"+projectFolderName);
+			if (updated) {
+				logger.debug("Asset folder successfully created and updated.");
+			}
 
-            boolean updated = projectDAO.updateProjectAssetFolderName(projectId,userId,projectFolderName);
+		} catch (Exception e) {
+			logger.error("Error while running bash script to create folder for project id: " + projectId, e);
+		}
 
-            if(updated){
-                logger.debug("Asset folder successfully created and updated.");
-            }
-
-        }catch(Exception e){
-            logger.error("Error while running bash script to create folder for project id: "+ projectId,e);
-        }
-
-
-
-        return response;
+		return response;
 	}
 
 	@Override
@@ -278,7 +274,7 @@ public class ProjectServiceImpl implements ProjectService {
 		projectInfo.setStartDate(project.getProjectStartDate());
 		projectInfo.setEndDate(project.getProjectEndDate());
 		projectInfo.setProjectImagePath(project.getProjectImagePath());
-        projectInfo.setProjectAssetFolderName(project.getProjectAssetFolderName());
+		projectInfo.setProjectAssetFolderName(project.getProjectAssetFolderName());
 
 		List<ProjectConfig> projectConfigList = new ArrayList<>();
 		List<ProjectConfiguration> projectConfigurations = project.getProjectConfigurationList();

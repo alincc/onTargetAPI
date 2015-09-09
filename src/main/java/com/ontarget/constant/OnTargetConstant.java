@@ -121,6 +121,10 @@ public interface OnTargetConstant {
 		public static final Integer ASSIGNED = new Integer(1);
 		public static final Integer DELETED = new Integer(2);
 	}
+	
+	public interface TaskCommentStatus{
+		public static final String ACTIVE = "ACTIVE";
+	}
 
 	public interface TaskAssigneeStatus {
 		public static final Integer ASSIGNED = new Integer(1);

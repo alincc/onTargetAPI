@@ -40,7 +40,7 @@ public class ProjectFile implements Serializable {
 	@ManyToOne()
 	private User createdBy;
 	@Basic(optional = false)
-	@Column(name = "file_type", nullable = false, length = 45)
+	@Column(name = "file_type", nullable = false, length = 80)
 	private String fileType;
 	@JoinColumn(name = "project_id", referencedColumnName = "project_id", nullable = false)
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)

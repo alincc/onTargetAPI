@@ -18,8 +18,11 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.glassfish.jersey.message.internal.ReaderWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.ontarget.api.repository.PermissionMappedRequestRepository;
 import com.ontarget.api.service.AuthorizationService;
 import com.ontarget.constant.OnTargetConstant;
+import com.ontarget.entities.ApplicationPermission;
+import com.ontarget.entities.PermissionMappedRequest;
 
 @Provider
 public class AuthorizationFilter implements ContainerRequestFilter {
@@ -27,11 +30,15 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 
 	@Autowired
 	private AuthorizationService authorizationService;
+	@Autowired
+	private PermissionMappedRequestRepository permissionMappedRequestRepository;
 
 	@Override
 	public void filter(ContainerRequestContext request) {
 		logger.info("base URI:: " + request.getUriInfo().getBaseUri() + ", path:: " + request.getUriInfo().getPath() + ", http method:: "
 				+ request.getMethod());
+
+		String requestPath = request.getUriInfo().getPath();
 
 		String openEndpointArr[] = OnTargetConstant.OPEN_RS_ENDPOINT.split(",");
 		logger.info("open end points: " + OnTargetConstant.OPEN_RS_ENDPOINT);
@@ -57,18 +64,29 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 				throw new WebApplicationException(unauthorizedResponse());
 			}
 
-			if (authenticate(jsonPost)) {
-				request.setEntityStream(new ByteArrayInputStream(requestEntity));
-				return;
+			String authorizedApiRequest = requestApiAuthorized(jsonPost, requestPath);
+			logger.debug("authorizedApiRequest: " + authorizedApiRequest);
+
+			if (authorizedApiRequest.equalsIgnoreCase("UNAUTHORIZED")) {
+
+				throw new WebApplicationException(unauthorizedResponse());
+
 			}
+
+			String authorized = authenticate(jsonPost, requestPath);
+			logger.debug("authorized: " + authorized);
+
+			if (authorized.equalsIgnoreCase("UNAUTHORIZED")) {
+				throw new WebApplicationException(unauthorizedResponse());
+			}
+
+			request.setEntityStream(new ByteArrayInputStream(requestEntity));
+			return;
 
 		} catch (IOException ex) {
 			ex.printStackTrace();
 			throw new WebApplicationException(unauthorizedResponse());
 		}
-
-		throw new WebApplicationException(unauthorizedResponse());
-
 	}
 
 	private Response unauthorizedResponse() {
@@ -83,7 +101,47 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 		return b.toString();
 	}
 
-	private boolean authenticate(String jsonData) {
+	private String requestApiAuthorized(String jsonData, String requestPath) {
+		try {
+
+			ObjectMapper mapper = new ObjectMapper();
+
+			JsonNode actualObj = mapper.readTree(jsonData);
+
+			JsonNode baseRequestObj = actualObj.get("baseRequest");
+
+			JsonNode userObjNode = baseRequestObj.get("loggedInUserId");
+			Integer userId = userObjNode.getIntValue();
+
+			PermissionMappedRequest permissionMappedRequest = permissionMappedRequestRepository
+					.findPermissionMappedByRequestPath(requestPath);
+
+			logger.debug("permission mapped request: " + permissionMappedRequest);
+
+			if (permissionMappedRequest != null) {
+				logger.debug("has permission: " + permissionMappedRequest.getHasPermission());
+				if (permissionMappedRequest.getHasPermission().equals(new Character('N'))) {
+
+					return "UNAUTHORIZED";
+				} else {
+					ApplicationPermission applicationPermission = permissionMappedRequestRepository.hasPermissionToUser(userId,
+							permissionMappedRequest.getApplicationPermission().getApplicationPermissionId());
+					logger.debug("application permission: " + applicationPermission);
+					if (applicationPermission == null) {
+						return "UNAUTHORIZED";
+					}
+				}
+			}
+
+			return "AUTHORIZED";
+
+		} catch (Exception e) {
+			logger.error("System error", e);
+		}
+		return "UNAUTHORIZED";
+	}
+
+	private String authenticate(String jsonData, String requestPath) {
 		try {
 
 			ObjectMapper mapper = new ObjectMapper();
@@ -100,16 +158,14 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 
 			boolean authorized = authorizationService.validateUserOnProject(userId, projectId);
 
-			logger.info("Authorized: " + authorized);
-
 			if (authorized) {
-				return true;
+				return "AUTHORIZED";
 			}
-			return false;
+
 		} catch (Exception e) {
-			logger.error("System error",e);
+			logger.error("System error", e);
 		}
-		return false;
+		return "UNAUTHORIZED";
 	}
 
 }

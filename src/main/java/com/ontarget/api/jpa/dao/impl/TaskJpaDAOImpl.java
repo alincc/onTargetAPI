@@ -214,8 +214,6 @@ public class TaskJpaDAOImpl implements TaskDAO {
 		}
 		return tasks;
 	}
-	
-	
 
 	@Override
 	public List<ProjectTask> getTasksByActivityAndUser(int projectId, int userId) throws Exception {
@@ -381,7 +379,7 @@ public class TaskJpaDAOImpl implements TaskDAO {
 		taskComment.setComment(comment.getComment());
 		taskComment.setCommentedBy(new User(comment.getCommentedBy()));
 		taskComment.setCommentedDate(new Date());
-		taskComment.setCommentStatus("ACTIVE");
+		taskComment.setCommentStatus(OnTargetConstant.TaskCommentStatus.ACTIVE);
 		entityManager.persist(taskComment);
 		return taskComment.getTaskCommentId();
 	}
