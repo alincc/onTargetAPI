@@ -59,6 +59,7 @@ public class ProjectJpaDAOImpl implements ProjectDAO {
 		project.setCreatedDate(new Date());
 		project.setProjectImagePath(projectDTO.getProjectImagePath());
 		project.setProjectOwnerId(projectDTO.getProjectOwnerId());
+        project.setProjectAssetFolderName(projectDTO.getProjectAssetFolderName());
 
 		project.setType(OnTargetConstant.ProjectInfoType.PROJECT);
 		projectRepository.save(project);

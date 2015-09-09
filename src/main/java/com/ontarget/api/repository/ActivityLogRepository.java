@@ -13,7 +13,7 @@ public interface ActivityLogRepository extends JpaRepository<ActivityLog, Long>{
 	
 	List<ActivityLog> findByIdGreaterThan(Long id);
 	
-	@Query("select u from ActivityLog u where u.projectId = ? order by u.id desc")
+	@Query("select u from ActivityLog u where u.projectId = ?1 or  u.projectId in (select projectId from Project where projectParentId=?1) order by u.id desc")
 	Page<ActivityLog> findActivityLogsByProjectId(Integer projectId, Pageable pageable);
 
 }

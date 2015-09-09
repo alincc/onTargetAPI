@@ -124,6 +124,33 @@ public class UserInvitationImpl implements UserInvitation {
 		return response;
 	}
 
+
+    @Override
+    @POST
+    @Path("/rejectRequest")
+    public OnTargetResponse rejectNewAccountRequest(@QueryParam("id") int id) {
+        OnTargetResponse response = new OnTargetResponse();
+        try {
+            boolean success = userInvitationService.rejectPendingRequest(id);
+            if (success) {
+                emailService.sendInvitationEmailForRegistration(id);
+                response.setReturnVal(OnTargetConstant.SUCCESS);
+                response.setReturnMessage(OnTargetConstant.REGISTRATION_APPROVAL_REQUEST_SUCCESS);
+                logger.info("Approved successfully for id:: " + id);
+            } else {
+                logger.error("Approval request failed.");
+                response.setReturnMessage(OnTargetConstant.REGISTRATION_APPROVAL_REQUEST_FAILED);
+                response.setReturnVal(OnTargetConstant.ERROR);
+            }
+        } catch (Exception e) {
+            logger.error("Error while saving registration request.", e);
+            response.setReturnMessage(OnTargetConstant.REGISTRATION_APPROVAL_REQUEST_FAILED);
+            response.setReturnVal(OnTargetConstant.ERROR);
+        }
+        return response;
+    }
+
+
 	@Override
 	@GET
 	@Path("/validateLink")

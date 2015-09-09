@@ -116,6 +116,11 @@ public class UserInvitationDAOImpl implements UserInvitationDAO {
     	return true;
     }
 
+    @Override
+    public boolean rejectNewAccountRequest(int id) throws Exception {
+        return false;
+    }
+
     class UserRegistrationRowMapper implements RowMapper<Object> {
 
 		@Override

@@ -25,4 +25,9 @@ public class NotificationServiceImpl implements com.ontarget.api.service.Notific
 	public boolean updateStatusToSeen(Long userNotificationId) throws Exception{
 		return notificationDAO.updateStatusToSeen(userNotificationId);
 	}
+
+    @Override
+    public UserNotificationDTO getNotifications(Integer pageNumber, Integer perPageLimit, Integer userId, Long loggedInUserProjectId) throws Exception {
+        return notificationDAO.getUserNotifications(pageNumber, perPageLimit, userId, loggedInUserProjectId);
+    }
 }

@@ -1,18 +1,9 @@
 package com.ontarget.api.dao.impl;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.LinkedList;
-import java.util.List;
-
+import com.ontarget.dto.UserNotificationDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-
-import com.ontarget.bean.Notification;
-import com.ontarget.constant.OnTargetQuery;
-import com.ontarget.dto.UserNotificationDTO;
 
 /**
  * Created by sumit on 12/26/14.
@@ -48,12 +39,16 @@ public class NotificationDAOImpl implements com.ontarget.api.dao.NotificationDAO
 
 	@Override
 	public UserNotificationDTO getUserNotifications(int pageNumber, int perPageLimit, int userId) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+        throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public boolean updateStatusToSeen(Long userNotificationId) throws Exception {
 		throw new UnsupportedOperationException();
 	}
+
+    @Override
+    public UserNotificationDTO getUserNotifications(Integer pageNumber, Integer perPageLimit, Integer userId, Long loggedInUserProjectId) throws Exception {
+        throw new UnsupportedOperationException();
+    }
 }

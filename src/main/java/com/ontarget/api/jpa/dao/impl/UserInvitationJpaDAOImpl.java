@@ -172,7 +172,15 @@ public class UserInvitationJpaDAOImpl implements UserInvitationDAO {
 		return false;
 	}
 
-	@Override
+    @Override
+    public boolean rejectNewAccountRequest(int id) throws Exception {
+        RegistrationRequest registrationRequest = registrationRequestRepository.findById((long) id);
+        registrationRequest.setStatus(OnTargetConstant.REGISTRATION_REQUEST_REJECTED);
+        registrationRequestRepository.save(registrationRequest);
+        return true;
+    }
+
+    @Override
 	public RegistrationRequestResponseDTO findRegRequestByUserId(long userId) {
 		try {
 			String hql = "SELECT r FROM RegistrationRequest r WHERE r.userId = :userId order by r.id desc";

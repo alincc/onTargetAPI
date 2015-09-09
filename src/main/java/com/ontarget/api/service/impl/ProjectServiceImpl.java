@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.ontarget.api.service.BashScriptService;
+import com.ontarget.bean.*;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.log4j.Logger;
@@ -27,16 +28,6 @@ import com.ontarget.api.dao.TaskPercentageDAO;
 import com.ontarget.api.dao.UserRegistrationDAO;
 import com.ontarget.api.repository.ProjectTaskRepository;
 import com.ontarget.api.service.ProjectService;
-import com.ontarget.bean.AddressDTO;
-import com.ontarget.bean.Company;
-import com.ontarget.bean.Contact;
-import com.ontarget.bean.ProjectDTO;
-import com.ontarget.bean.ProjectInfo;
-import com.ontarget.bean.ProjectMember;
-import com.ontarget.bean.TaskComment;
-import com.ontarget.bean.TaskInfo;
-import com.ontarget.bean.TaskPercentage;
-import com.ontarget.bean.UserDTO;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.ProjectListResponse;
@@ -94,8 +85,8 @@ public class ProjectServiceImpl implements ProjectService {
 	@Autowired
 	private ProjectTaskRepository projectTaskRepository;
 
-	@Autowired
-	BashScriptService bashScriptService;
+    @Autowired
+    BashScriptService bashScriptService;
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
@@ -134,38 +125,45 @@ public class ProjectServiceImpl implements ProjectService {
 			throw new Exception("Error while creating project: projectId: " + projectId);
 		}
 
-		try {
-			logger.debug("Executing bash script to create folder structure for this projectId: " + projectId);
-			// Execute bash script asynchronously to create folder structure
 
-			String projectFolderName = RandomStringUtils.randomAlphanumeric(16) + new Date().getTime();
+        /**
+         * turning this off as UI is doing this
+         *
+        try {
+            logger.debug("Executing bash script to create folder structure for this projectId: "+ projectId);
+            // Execute bash script asynchronously to create folder structure
 
-			// do {
-			// projectFolderName = RandomStringUtils.randomAlphanumeric(16);
-			// exist = projectDAO.isExistsProjectFolderName(projectFolderName);
-			// } while (exist);
+            String projectFolderName = RandomStringUtils.randomAlphanumeric(16) + new Date().getTime();
 
-			logger.debug("Creating asset folder with name: " + projectFolderName + " for project id: " + projectId);
-			boolean created = false;
-			if (projectFolderName != null) {
-				created = bashScriptService.runBashScriptInRemoteServer(projectFolderName);
-			}
-			logger.debug("Folder creation successful: " + created);
 
-			// updating project with the project folder name:
-			logger.debug("updating project " + projectId + " with the  project folder name:" + projectFolderName);
+            //do {
+            //      projectFolderName = RandomStringUtils.randomAlphanumeric(16);
+            //      exist = projectDAO.isExistsProjectFolderName(projectFolderName);
+            //} while (exist);
 
-			boolean updated = projectDAO.updateProjectAssetFolderName(projectId, userId, projectFolderName);
+            logger.debug("Creating asset folder with name: "+ projectFolderName +" for project id: "+ projectId);
+            boolean created=false;
+            if(projectFolderName!=null) {
+                created = bashScriptService.runBashScriptInRemoteServer(projectFolderName);
+            }
+            logger.debug("Folder creation successful: "+created);
 
-			if (updated) {
-				logger.debug("Asset folder successfully created and updated.");
-			}
+            //updating project with the  project folder name:
+            logger.debug("updating project "+projectId+" with the  project folder name:"+projectFolderName);
 
-		} catch (Exception e) {
-			logger.error("Error while running bash script to create folder for project id: " + projectId, e);
-		}
+            boolean updated = projectDAO.updateProjectAssetFolderName(projectId,userId,projectFolderName);
 
-		return response;
+            if(updated){
+                logger.debug("Asset folder successfully created and updated.");
+            }
+
+        }catch(Exception e){
+            logger.error("Error while running bash script to create folder for project id: "+ projectId,e);
+        }
+
+    */
+
+        return response;
 	}
 
 	@Override
@@ -274,7 +272,7 @@ public class ProjectServiceImpl implements ProjectService {
 		projectInfo.setStartDate(project.getProjectStartDate());
 		projectInfo.setEndDate(project.getProjectEndDate());
 		projectInfo.setProjectImagePath(project.getProjectImagePath());
-		projectInfo.setProjectAssetFolderName(project.getProjectAssetFolderName());
+        projectInfo.setProjectAssetFolderName(project.getProjectAssetFolderName());
 
 		List<ProjectConfig> projectConfigList = new ArrayList<>();
 		List<ProjectConfiguration> projectConfigurations = project.getProjectConfigurationList();
@@ -299,6 +297,12 @@ public class ProjectServiceImpl implements ProjectService {
 				int percentageComplete = CalculatePercentageComplete.calculate(percentageCompleteSum.doubleValue(), taskCount.intValue());
 				projectInfo.setPercentageComplete(percentageComplete);
 			}
+
+            //count of active pending completed and deleted task for that activity
+            List<TaskStatusCount> statusCount = taskDAO.getTaskCountByStatus(project.getProjectId());
+            projectInfo.setTaskCountByStatus(statusCount);
+
+
 		} else if (project.getType().equalsIgnoreCase(OnTargetConstant.ProjectInfoType.PROJECT)) {
 			BigDecimal percentageCompleteSum = projectTaskRepository.getProjectTotalPercentageComplete(project.getProjectId());
 			BigInteger taskCount = projectTaskRepository.getProjectTaskCount(project.getProjectId());
@@ -508,20 +512,31 @@ public class ProjectServiceImpl implements ProjectService {
 		}
 	}
 
-	// new
+    /**
+     * Get all projects by user id. Returns only the project info
+     * @param userId
+     * @return
+     * @throws Exception
+     */
 	@Override
-	public com.ontarget.response.bean.ProjectListResponse getUserProjectList(Integer userId) throws Exception {
-		com.ontarget.response.bean.ProjectListResponse projectListResponse = new com.ontarget.response.bean.ProjectListResponse();
-		List<Project> projects = projectDAO.getProjectsByUserId(userId);
+	public ProjectListResponse getUserProjectList(Integer userId) throws Exception {
+		ProjectListResponse projectListResponse = new ProjectListResponse();
 
-		List<com.ontarget.response.bean.Project> projectInfoList = new ArrayList<com.ontarget.response.bean.Project>();
+        //Add main project as well.
+        Project mainProject = projectDAO.getMainProjectByUser(userId);
+        ProjectDTO mainProjectDTO=null;
+        if (mainProject != null) {
+            mainProjectDTO = ProjectUtil.convertToProjectDTO(mainProject, projectTaskRepository);
+            Company company = companyDAO.getCompany(mainProjectDTO.getCompanyId());
+            mainProjectDTO.setCompany(company);
+        }
 
-		if (projects != null && !projects.isEmpty()) {
-			for (Project project : projects) {
-				projectInfoList.add(getProjectInfo(project));
-			}
-		}
-		projectListResponse.setProjects(projectInfoList);
+        List<Project> projects = projectDAO.getProjectsByUserId(userId);
+
+        List<ProjectDTO> projectInfoList = convertedProjectList(projects, userId);
+        mainProjectDTO.setProjects(projectInfoList);
+
+		projectListResponse.setMainProject(mainProjectDTO);
 		return projectListResponse;
 	}
 

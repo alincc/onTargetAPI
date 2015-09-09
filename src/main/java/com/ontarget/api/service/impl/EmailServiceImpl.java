@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import com.ontarget.bean.*;
 import org.apache.log4j.Logger;
 import org.apache.velocity.app.VelocityEngine;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +26,6 @@ import com.ontarget.api.dao.ContactDAO;
 import com.ontarget.api.dao.EmailDAO;
 import com.ontarget.api.dao.UserInvitationDAO;
 import com.ontarget.api.service.EmailService;
-import com.ontarget.bean.Contact;
-import com.ontarget.bean.DocumentDTO;
-import com.ontarget.bean.ProjectTaskInfo;
-import com.ontarget.bean.UserDTO;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.entity.pojo.RegistrationRequestResponseDTO;
 import com.ontarget.request.bean.Assignee;
@@ -233,7 +230,7 @@ public class EmailServiceImpl implements EmailService {
      */
 	@Override
 	public boolean sendUserRegistrationEmail(String userEmail, String tokenId, String receiverFirstName, String senderFirstName,
-			String senderLastName) {
+			String senderLastName, ProjectInfo projectInfo) {
 		try {
 			MimeMessagePreparator preparator = new MimeMessagePreparator() {
 				@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -252,6 +249,7 @@ public class EmailServiceImpl implements EmailService {
 					}
 					model.put("receiverFirstName", receiverFirstName);
 					model.put("url", baseUrl + OnTargetConstant.URL.SIGNUP_URL + "?q=" + tokenId);
+                    model.put("projectName", projectInfo.getProjectName());
 
 					String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "/template/registrationRequestsApproval.vm",
 							"UTF-8", model);

@@ -155,6 +155,7 @@ public class ConvertPOJOUtils {
 		projectDTO.setProjectAddress(addressDTO);
 		projectDTO.setUnitOfMeasurement(project.getUnitOfMeasurement());
 		projectDTO.setProjectImagePath(project.getProjectImagePath());
+        projectDTO.setProjectAssetFolderName(project.getProjectAssetFolderName());
 		return projectDTO;
 	}
 
