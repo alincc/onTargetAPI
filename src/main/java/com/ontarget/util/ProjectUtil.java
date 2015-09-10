@@ -44,7 +44,7 @@ public class ProjectUtil {
 			project.setProjectImagePath((String) projectDetail.get("project_image_path"));
 			project.setProjectStartDate((Date) projectDetail.get("project_start_date"));
 			project.setProjectEndDate((Date) projectDetail.get("project_end_date"));
-			project.setProjectStatus((String) projectDetail.get("project_status"));
+			project.setProjectStatus((Integer) projectDetail.get("project_status"));
 			project.setType((String) projectDetail.get("type"));
 			project.setAddress(new Address((Integer) projectDetail.get("address_id")));
 			projects.add(project);
@@ -63,10 +63,10 @@ public class ProjectUtil {
 		project.setProjectImagePath((String) projectDetail.get("project_image_path"));
 		project.setProjectStartDate((Date) projectDetail.get("project_start_date"));
 		project.setProjectEndDate((Date) projectDetail.get("project_end_date"));
-		project.setProjectStatus((String) projectDetail.get("project_status"));
+		project.setProjectStatus((Integer) projectDetail.get("project_status"));
 		project.setType((String) projectDetail.get("type"));
 		project.setAddress(new Address((Integer) projectDetail.get("address_id")));
-        project.setProjectAssetFolderName((String)projectDetail.get("project_asset_folder_name"));
+		project.setProjectAssetFolderName((String) projectDetail.get("project_asset_folder_name"));
 		return project;
 	}
 
@@ -81,11 +81,10 @@ public class ProjectUtil {
 		project.setProjectImagePath(projectDetail.getProjectImagePath());
 		project.setStartDate(projectDetail.getProjectStartDate());
 		project.setEndDate(projectDetail.getProjectEndDate());
-		project.setStatus(projectDetail.getProjectStatus());
+		project.setStatus(String.valueOf(projectDetail.getProjectStatus()));
 		project.setType(projectDetail.getType());
 		project.setProjectOwnerId(projectDetail.getProjectOwnerId());
-        project.setProjectAssetFolderName(projectDetail.getProjectAssetFolderName());
-
+		project.setProjectAssetFolderName(projectDetail.getProjectAssetFolderName());
 
 		List<ProjectConfigDTO> projectConfigList = new ArrayList<>();
 		List<ProjectConfiguration> projectConfigurations = projectDetail.getProjectConfigurationList();

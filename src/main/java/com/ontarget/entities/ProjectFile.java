@@ -51,6 +51,15 @@ public class ProjectFile implements Serializable {
 	@Basic(optional = false)
 	@Column(name = "description", length = 255)
 	private String description;
+	@Basic(optional = false)
+	@Column(name = "status", nullable = false, length = 10)
+	private String status;
+	@Column(name = "modified_date")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date modifiedDate;
+	@JoinColumn(name = "modified_by", referencedColumnName = "user_id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	private User modifiedBy;
 
 	public ProjectFile() {
 	}
@@ -121,6 +130,30 @@ public class ProjectFile implements Serializable {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public Date getModifiedDate() {
+		return modifiedDate;
+	}
+
+	public void setModifiedDate(Date modifiedDate) {
+		this.modifiedDate = modifiedDate;
+	}
+
+	public User getModifiedBy() {
+		return modifiedBy;
+	}
+
+	public void setModifiedBy(User modifiedBy) {
+		this.modifiedBy = modifiedBy;
 	}
 
 	@Override

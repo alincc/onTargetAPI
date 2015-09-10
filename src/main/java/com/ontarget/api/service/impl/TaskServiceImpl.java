@@ -132,29 +132,31 @@ public class TaskServiceImpl implements TaskService {
 		return taskDAO.getTask(projectId);
 	}
 
-
-    /**
-     * get all tasks by activity for that user
-     * @param projectId
-     * @param userId
-     * @return
-     * @throws Exception
-     */
+	/**
+	 * get all tasks by activity for that user
+	 * 
+	 * @param projectId
+	 * @param userId
+	 * @return
+	 * @throws Exception
+	 */
 	@Override
 	public List<ProjectTask> getTasksByProjectAndUser(Integer projectId, Integer userId) throws Exception {
 		return taskDAO.getTasksByActivityAndUser(projectId, userId);
 	}
 
-    /**
-     * get all tasks for that project for a user
-     * @param projectId
-     * @param userId
-     * @return
-     * @throws Exception
-     */
+	/**
+	 * get all tasks for that project for a user
+	 * 
+	 * @param projectId
+	 * @param userId
+	 * @return
+	 * @throws Exception
+	 */
 	@Override
 	public com.ontarget.response.bean.TaskListResponse getTaskListByProjectAndUser(Integer projectId, Integer userId) throws Exception {
-		List<com.ontarget.entities.ProjectTask> projectTaskList = projectTaskRepository.findAllUndeletedTasksByProjectAndUser(projectId,userId);
+		List<com.ontarget.entities.ProjectTask> projectTaskList = projectTaskRepository.findAllUndeletedTasksByProjectAndUser(projectId,
+				userId);
 
 		List<com.ontarget.response.bean.Task> taskList = new ArrayList<com.ontarget.response.bean.Task>();
 
@@ -162,34 +164,33 @@ public class TaskServiceImpl implements TaskService {
 			com.ontarget.response.bean.Task task = new com.ontarget.response.bean.Task();
 			task.setTitle(projectTask.getTitle());
 			task.setDescription(projectTask.getDescription());
-			task.setStatus(projectTask.getStatus());
+			task.setStatus(String.valueOf(projectTask.getStatus()));
 			task.setSeverity(projectTask.getSeverity());
 			task.setProjectTaskId(projectTask.getProjectTaskId());
 			task.setStartDate(projectTask.getStartDate());
 			task.setEndDate(projectTask.getEndDate());
-			task.setStatus(projectTask.getStatus());
 
-			if (projectTask.getStatus().equalsIgnoreCase("0")) {
-				task.setCompleted(false);
-			} else {
+			if (projectTask.getStatus() == OnTargetConstant.TaskStatus.COMPLETED) {
 				task.setCompleted(true);
+			} else {
+				task.setCompleted(false);
 			}
 			task.setPercentageComplete(projectTask.getTaskPercentage().doubleValue());
 
-            // add assigned to as well.
+			// add assigned to as well.
 
-            Set<Integer> assignees = getTaskMembers(task.getProjectTaskId());
-            List<UserDTO> assignedUsers = new ArrayList<>();
-            task.setAssignee(assignedUsers);
-            if (assignees != null && assignees.size() > 0) {
-                for (Integer id : assignees) {
-                    Contact contact = taskDAO.getContact(id);
-                    UserDTO assignedToUser = new UserDTO();
-                    assignedToUser.setContact(contact);
-                    assignedToUser.setUserId((id.intValue()));
-                    assignedUsers.add(assignedToUser);
-                }
-            }
+			Set<Integer> assignees = getTaskMembers(task.getProjectTaskId());
+			List<UserDTO> assignedUsers = new ArrayList<>();
+			task.setAssignee(assignedUsers);
+			if (assignees != null && assignees.size() > 0) {
+				for (Integer id : assignees) {
+					Contact contact = taskDAO.getContact(id);
+					UserDTO assignedToUser = new UserDTO();
+					assignedToUser.setContact(contact);
+					assignedToUser.setUserId((id.intValue()));
+					assignedUsers.add(assignedToUser);
+				}
+			}
 
 			taskList.add(task);
 		}
@@ -203,17 +204,16 @@ public class TaskServiceImpl implements TaskService {
 		com.ontarget.response.bean.Task task = new com.ontarget.response.bean.Task();
 		task.setTitle(projectTask.getTitle());
 		task.setDescription(projectTask.getDescription());
-		task.setStatus(projectTask.getStatus());
+		task.setStatus(String.valueOf(projectTask.getStatus()));
 		task.setSeverity(projectTask.getSeverity());
 		task.setProjectTaskId(projectTask.getProjectTaskId());
 		task.setStartDate(projectTask.getStartDate());
 		task.setEndDate(projectTask.getEndDate());
-		task.setStatus(projectTask.getStatus());
 
-		if (projectTask.getStatus().equalsIgnoreCase("0")) {
-			task.setCompleted(false);
-		} else {
+		if (projectTask.getStatus() == OnTargetConstant.TaskStatus.COMPLETED) {
 			task.setCompleted(true);
+		} else {
+			task.setCompleted(false);
 		}
 
 		Map<Integer, Contact> contactMap = new HashMap<>();

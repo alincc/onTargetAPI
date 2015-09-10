@@ -41,7 +41,6 @@ public class AuthenticationImpl implements Authentication {
 	@POST
 	@Path("/signin")
 	public UserLoginResponse signIn(SignInRequest signInRequest) {
-		System.out.println("username: "+signInRequest.getUsername());	
 		logger.info("Sign in request: " + signInRequest);
 		UserLoginResponse response = new UserLoginResponse();
 		try {

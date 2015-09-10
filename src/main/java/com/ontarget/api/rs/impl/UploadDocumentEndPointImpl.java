@@ -22,6 +22,7 @@ import com.ontarget.request.bean.ProjectFileCategoryRequest;
 import com.ontarget.request.bean.ProjectFileCommentDeleteRequest;
 import com.ontarget.request.bean.ProjectFileCommentListRequest;
 import com.ontarget.request.bean.ProjectFileCommentRequest;
+import com.ontarget.request.bean.ProjectFileDeleteRequest;
 import com.ontarget.request.bean.UploadDocumentRequest;
 import com.ontarget.request.bean.UploadedFileDetail;
 import com.ontarget.response.bean.ProjectFileCategoryListResponse;
@@ -66,6 +67,21 @@ public class UploadDocumentEndPointImpl implements UploadDocumentEndPoint {
 			logger.error(OnTargetConstant.INTERNAL_SERVER_ERROR_MSG, ex);
 		}
 
+		return response;
+	}
+
+	@Override
+	@POST
+	@Path("/delete")
+	public OnTargetResponse deleteProjectFile(ProjectFileDeleteRequest request) {
+		OnTargetResponse response = new OnTargetResponse();
+		try {
+			return documentService.deleteProjectFile(request.getProjectFileId(), request.getBaseRequest().getLoggedInUserId());
+		} catch (Exception e) {
+			logger.error("Delete project file failed." + e);
+			response.setReturnMessage("Delete project file failed");
+			response.setReturnVal(OnTargetConstant.ERROR);
+		}
 		return response;
 	}
 

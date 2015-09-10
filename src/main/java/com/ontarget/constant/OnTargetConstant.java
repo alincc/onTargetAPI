@@ -35,9 +35,9 @@ public interface OnTargetConstant {
 	public static final String APPROVED = "APPROVED";
 	public static final String TOKEN_VERIFIED = "Token verification successful";
 	public static final String TOKEN_VERIFICATION_FAILED = "Token verification failed";
-    public static final String REGISTRATION_REQUEST_REJECTED = "REJECTED";
+	public static final String REGISTRATION_REQUEST_REJECTED = "REJECTED";
 
-    interface AddressType {
+	interface AddressType {
 		public static final String PROJECT_ADDR = "PROJECT";
 		public static final String COMPANY_ADDR = "COMPANY";
 		public static final String CONTACT_ADDR = "CONTACT";
@@ -63,14 +63,14 @@ public interface OnTargetConstant {
 		public static final String INVITE_USER_TO_ACCOUNT_SUBJECT = "Invitation to OnTarget";
 		public static final String TASK_ASSIGNED_SUBJECT = "Task Assigned";
 		public static final String FORGOT_PASSWORD_SUBJECT = "Forgot Password";
-        public static final String FROM_NAME = "Uncle Atlas";
-        public static final String REQUEST_FOR_DEMO_APPROVE_URL = "/#/app/pending-account-request";
-        public static final String USER_INVITE_TO_COLLABORATE = "Invite to Collaborate";
-    }
+		public static final String FROM_NAME = "Uncle Atlas";
+		public static final String REQUEST_FOR_DEMO_APPROVE_URL = "/#/app/pending-account-request";
+		public static final String USER_INVITE_TO_COLLABORATE = "Invite to Collaborate";
+	}
 
 	public interface USER_STATUS {
-		public static final String ACTIVE = "1";
-		public static final String PENDING = "0";
+		public static final int ACTIVE = 1;
+		public static final int PENDING = 0;
 
 	}
 
@@ -97,16 +97,16 @@ public interface OnTargetConstant {
 	}
 
 	public interface ProjectStatus {
-		public static final String ACTIVE = "1";
-		public static final String PENDING = "0";
-		public static final String DELETED = "2";
+		public static final int ACTIVE = 1;
+		public static final int PENDING = 0;
+		public static final int DELETED = 2;
 	}
 
 	public interface TaskStatus {
-		public static final String ACTIVE = "1";
-		public static final String PENDING = "2";
-		public static final String COMPLETED = "3";
-		public static final String DELETED = "4";
+		public static final int ACTIVE = 1;
+		public static final int PENDING = 2;
+		public static final int COMPLETED = 3;
+		public static final int DELETED = 4;
 	}
 
 	public interface ProjectFileCommentStatus {
@@ -122,8 +122,8 @@ public interface OnTargetConstant {
 		public static final Integer ASSIGNED = new Integer(1);
 		public static final Integer DELETED = new Integer(2);
 	}
-	
-	public interface TaskCommentStatus{
+
+	public interface TaskCommentStatus {
 		public static final String ACTIVE = "ACTIVE";
 	}
 
@@ -162,6 +162,11 @@ public interface OnTargetConstant {
 		public static final String MAIN_PROJECT = "MAIN_PROJECT";
 		public static final String PROJECT = "PROJECT";
 		public static final String ACTIVITY = "ACTIVITY";
+	}
+
+	public interface ProjectFileStatus {
+		public static final String ACTIVE = "ACTIVE";
+		public static final String DELETED = "DELETED";
 	}
 
 	public interface ProjectConfigurationConstant {

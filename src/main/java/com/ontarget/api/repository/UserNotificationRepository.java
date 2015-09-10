@@ -1,6 +1,5 @@
 package com.ontarget.api.repository;
 
-import java.math.BigInteger;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -20,7 +19,6 @@ public interface UserNotificationRepository extends JpaRepository<UserNotificati
 
 	UserNotification findById(Long id);
 
-
-    @Query("select u from UserNotification u where u.user.userId = ?1 and (u.projectId=?2 or u.projectId in (select projectId from Project p where p.projectParentId=?2)) order by u.id desc")
-    Page<UserNotification> findNotifcationByUserId(Integer userId, Long loggedInUserProjectId, Pageable pageable);
+	@Query("select u from UserNotification u where u.user.userId = ?1 and (u.projectId=?2 or u.projectId in (select projectId from Project p where p.projectParentId=?2)) order by u.id desc")
+	Page<UserNotification> findNotifcationByUserId(Integer userId, Long loggedInUserProjectId, Pageable pageable);
 }

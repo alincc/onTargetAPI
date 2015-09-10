@@ -25,7 +25,7 @@ import java.util.*;
 @Repository("projectJpaDAOImpl")
 public class ProjectJpaDAOImpl implements ProjectDAO {
 
-    private Logger logger = Logger.getLogger(ProjectJpaDAOImpl.class);
+	private Logger logger = Logger.getLogger(ProjectJpaDAOImpl.class);
 
 	@Resource
 	private ProjectRepository projectRepository;
@@ -50,7 +50,7 @@ public class ProjectJpaDAOImpl implements ProjectDAO {
 		project.setProjectType(new ProjectType(projectDTO.getProjectTypeId()));
 		project.setCompanyInfo(new CompanyInfo(projectDTO.getCompanyId()));
 		project.setAddress(new Address(projectDTO.getProjectAddress().getAddressId()));
-		project.setProjectStatus(projectDTO.getStatus());
+		project.setProjectStatus(Integer.parseInt(projectDTO.getStatus()));
 		project.setProjectParentId(projectDTO.getProjectParentId());
 
 		project.setProjectStartDate(projectDTO.getStartDate());
@@ -59,7 +59,7 @@ public class ProjectJpaDAOImpl implements ProjectDAO {
 		project.setCreatedDate(new Date());
 		project.setProjectImagePath(projectDTO.getProjectImagePath());
 		project.setProjectOwnerId(projectDTO.getProjectOwnerId());
-        project.setProjectAssetFolderName(projectDTO.getProjectAssetFolderName());
+		project.setProjectAssetFolderName(projectDTO.getProjectAssetFolderName());
 
 		project.setType(OnTargetConstant.ProjectInfoType.PROJECT);
 		projectRepository.save(project);
@@ -86,7 +86,7 @@ public class ProjectJpaDAOImpl implements ProjectDAO {
 		project.setProjectDescription(projectDTO.getProjectDescription());
 		project.setProjectType(new ProjectType(projectDTO.getProjectTypeId()));
 		project.setCompanyInfo(new CompanyInfo(projectDTO.getCompanyId()));
-		project.setProjectStatus(projectDTO.getStatus());
+		project.setProjectStatus(Integer.parseInt(projectDTO.getStatus()));
 		project.setProjectParentId(projectDTO.getProjectParentId());
 		project.setProjectStartDate(projectDTO.getStartDate());
 		project.setProjectEndDate(projectDTO.getEndDate());
@@ -118,7 +118,7 @@ public class ProjectJpaDAOImpl implements ProjectDAO {
 		project.setProjectType(new ProjectType(projectDTO.getProjectTypeId()));
 		project.setCompanyInfo(new CompanyInfo(companyInfo.getCompanyId()));
 		project.setAddress(address);
-		project.setProjectStatus("1");
+		project.setProjectStatus(OnTargetConstant.ProjectStatus.ACTIVE);
 		project.setProjectParentId(0);
 		project.setProjectStartDate(projectDTO.getStartDate());
 		project.setProjectEndDate(projectDTO.getEndDate());
@@ -242,7 +242,7 @@ public class ProjectJpaDAOImpl implements ProjectDAO {
 		project.setProjectName(projectDTO.getProjectName());
 		project.setProjectDescription(projectDTO.getProjectDescription());
 		project.setProjectType(new ProjectType(projectDTO.getProjectTypeId()));
-		project.setProjectStatus(projectDTO.getStatus());
+		project.setProjectStatus(Integer.parseInt(projectDTO.getStatus()));
 		project.setProjectParentId(projectDTO.getProjectParentId());
 		project.setProjectStartDate(projectDTO.getStartDate());
 		project.setProjectEndDate(projectDTO.getEndDate());
@@ -270,7 +270,7 @@ public class ProjectJpaDAOImpl implements ProjectDAO {
 		project.setProjectName(projectDTO.getProjectName());
 		project.setProjectDescription(projectDTO.getProjectDescription());
 		project.setProjectType(new ProjectType(projectDTO.getProjectTypeId()));
-		project.setProjectStatus(projectDTO.getStatus());
+		project.setProjectStatus(Integer.parseInt(projectDTO.getStatus()));
 		project.setProjectParentId(projectDTO.getProjectParentId());
 		project.setProjectStartDate(projectDTO.getStartDate());
 		project.setProjectEndDate(projectDTO.getEndDate());
@@ -389,25 +389,25 @@ public class ProjectJpaDAOImpl implements ProjectDAO {
 		return projectRepository.getProjectsByUserId(userId);
 	}
 
-    @Override
-    public boolean isExistsProjectFolderName(String projectFolderName) throws Exception {
-        logger.debug("Getting project by project fodler asset name: "+ projectFolderName);
-        Project p = projectRepository.getProjectByProjectFolderName(projectFolderName);
-        return (p!=null);
-    }
+	@Override
+	public boolean isExistsProjectFolderName(String projectFolderName) throws Exception {
+		logger.debug("Getting project by project fodler asset name: " + projectFolderName);
+		Project p = projectRepository.getProjectByProjectFolderName(projectFolderName);
+		return (p != null);
+	}
 
-    @Override
-    public boolean updateProjectAssetFolderName(Integer projectId, Integer userId,String projectFolderName) throws Exception {
-        Project project = projectRepository.findByProjectId(projectId);
-        if(project!=null){
-            project.setProjectAssetFolderName(projectFolderName);
-            project.setModifiedBy(new User(userId));
-        }
-        projectRepository.save(project);
-        return true;
-    }
+	@Override
+	public boolean updateProjectAssetFolderName(Integer projectId, Integer userId, String projectFolderName) throws Exception {
+		Project project = projectRepository.findByProjectId(projectId);
+		if (project != null) {
+			project.setProjectAssetFolderName(projectFolderName);
+			project.setModifiedBy(new User(userId));
+		}
+		projectRepository.save(project);
+		return true;
+	}
 
-    @Override
+	@Override
 	public List<ProjectInfo> getChildProjects(int projectId) throws Exception {
 		List<ProjectInfo> projects = new LinkedList<>();
 		List<Project> projectList = projectRepository.findByProjectParentId(projectId);

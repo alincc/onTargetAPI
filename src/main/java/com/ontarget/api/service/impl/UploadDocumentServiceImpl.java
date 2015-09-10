@@ -86,6 +86,21 @@ public class UploadDocumentServiceImpl implements UploadDocumentService {
 	}
 
 	@Override
+	@Transactional(rollbackFor = { Exception.class })
+	public OnTargetResponse deleteProjectFile(Integer projectFileId,int userId) throws Exception {
+		OnTargetResponse response = new OnTargetResponse();
+		boolean success = uploadDocumentDAO.deleteProjectFile(projectFileId,userId);
+		if (success) {
+			response.setReturnVal(OnTargetConstant.SUCCESS);
+			response.setReturnMessage("Project file deleted successfully");
+		} else {
+			response.setReturnVal(OnTargetConstant.ERROR);
+			response.setReturnMessage("Project file delete request failed");
+		}
+		return response;
+	}
+
+	@Override
 	public ProjectFileCommentListResponse getCommentList(Integer projectFileId) throws Exception {
 		ProjectFileCommentListResponse response = new ProjectFileCommentListResponse();
 		List<ProjectFileComment> commentList = uploadDocumentDAO.getCommentsByFileId(projectFileId);

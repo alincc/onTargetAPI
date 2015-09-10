@@ -30,29 +30,29 @@ public interface ProjectTaskRepository extends JpaRepository<ProjectTask, Intege
 	@Query("select pt from ProjectTask pt where pt.project.id = ?1 and pt.status !=" + OnTargetConstant.TaskStatus.DELETED)
 	List<ProjectTask> findUndeletedTasksByProject(Integer projectId);
 
-	@Query("select pt from ProjectTask pt JOIN pt.taskAssigneeList ta WHERE pt.project.id = ?1 and ta.taskAssignee = ?2 and pt.status !='"
-			+ OnTargetConstant.TaskStatus.DELETED+"'")
+	@Query("select pt from ProjectTask pt JOIN pt.taskAssigneeList ta WHERE pt.project.id = ?1 and ta.taskAssignee = ?2 and pt.status !="
+			+ OnTargetConstant.TaskStatus.DELETED)
 	List<ProjectTask> findUndeletedTasksByActivityAndUser(Integer projectId, Integer userId);
 
 	@Query(value = "SELECT SUM(pt.task_percentage) from project_task pt WHERE pt.status !='" + OnTargetConstant.TaskStatus.DELETED + "'"
 			+ " AND pt.project_id = :activityId", nativeQuery = true)
 	BigDecimal getActivityTotalPercentageComplete(@Param("activityId") Integer activityId);
 
-	@Query(value = "SELECT COUNT(pt.task_percentage) from project_task pt WHERE pt.status !='" + OnTargetConstant.TaskStatus.DELETED
-			+ "' AND pt.project_id = :activityId", nativeQuery = true)
+	@Query(value = "SELECT COUNT(pt.task_percentage) from project_task pt WHERE pt.status !=" + OnTargetConstant.TaskStatus.DELETED
+			+ " AND pt.project_id = :activityId", nativeQuery = true)
 	BigInteger getActivityTaskCount(@Param("activityId") Integer activityId);
 
 	@Query(value = "SELECT SUM(pt.task_percentage) from project p JOIN project_task pt ON(pt.project_id=p.project_id) "
-			+ " WHERE pt.status !='" + OnTargetConstant.TaskStatus.DELETED + "' AND p.project_status !='"
-			+ OnTargetConstant.ProjectStatus.DELETED + "' and p.project_parent_id = :projectId", nativeQuery = true)
+			+ " WHERE pt.status !=" + OnTargetConstant.TaskStatus.DELETED + " AND p.project_status !="
+			+ OnTargetConstant.ProjectStatus.DELETED + " and p.project_parent_id = :projectId", nativeQuery = true)
 	BigDecimal getProjectTotalPercentageComplete(@Param("projectId") Integer projectId);
 
 	@Query(value = "SELECT COUNT(pt.task_percentage) from project p JOIN project_task pt ON(pt.project_id=p.project_id) "
-			+ " WHERE pt.status !='" + OnTargetConstant.TaskStatus.DELETED + "' AND p.project_status !='"
-			+ OnTargetConstant.ProjectStatus.DELETED + "' and p.project_parent_id = :projectId", nativeQuery = true)
+			+ " WHERE pt.status !=" + OnTargetConstant.TaskStatus.DELETED + " AND p.project_status !="
+			+ OnTargetConstant.ProjectStatus.DELETED + " and p.project_parent_id = :projectId", nativeQuery = true)
 	BigInteger getProjectTaskCount(@Param("projectId") Integer projectId);
 
-    @Query("select pt from ProjectTask pt JOIN pt.taskAssigneeList ta WHERE pt.project.id in (select projectId from  Project where projectParentId=?1 and project_status!="+OnTargetConstant.ProjectStatus.DELETED+") and ta.taskAssignee = ?2 and pt.status !='"
-            + OnTargetConstant.TaskStatus.DELETED+"'")
-    List<ProjectTask> findAllUndeletedTasksByProjectAndUser(Integer projectId, Integer userId);
+	@Query("select pt from ProjectTask pt JOIN pt.taskAssigneeList ta WHERE pt.project.id in (select projectId from  Project where projectParentId=?1 and project_status!="
+			+ OnTargetConstant.ProjectStatus.DELETED + ") and ta.taskAssignee = ?2 and pt.status !=" + OnTargetConstant.TaskStatus.DELETED)
+	List<ProjectTask> findAllUndeletedTasksByProjectAndUser(Integer projectId, Integer userId);
 }

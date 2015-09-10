@@ -79,7 +79,7 @@ public class TaskJpaDAOImpl implements TaskDAO {
 		projectTask.setProject(new Project(task.getProjectId()));
 		projectTask.setTitle(task.getTitle());
 		projectTask.setDescription(task.getDescription());
-		projectTask.setStatus(task.getStatus());
+		projectTask.setStatus(Integer.parseInt(task.getStatus()));
 		projectTask.setSeverity(task.getSeverity());
 		projectTask.setStartDate(task.getStartDate());
 		projectTask.setEndDate(task.getEndDate());
@@ -126,18 +126,17 @@ public class TaskJpaDAOImpl implements TaskDAO {
 				TaskInfo task = new TaskInfo();
 				task.setTitle(taskObj.getTitle());
 				task.setDescription(taskObj.getDescription());
-				task.setStatus(taskObj.getStatus());
+				task.setStatus(String.valueOf(taskObj.getStatus()));
 				task.setSeverity(taskObj.getSeverity());
 				task.setProjectTaskId(taskObj.getProjectTaskId());
 				task.setStartDate(taskObj.getStartDate());
 				task.setEndDate(taskObj.getEndDate());
-				task.setStatus(taskObj.getStatus());
 				task.setPercentageComplete(taskObj.getTaskPercentage().doubleValue());
 
-				if (taskObj.getStatus().equalsIgnoreCase("0")) {
-					task.setCompleted(false);
-				} else {
+				if (taskObj.getStatus() == OnTargetConstant.TaskStatus.COMPLETED) {
 					task.setCompleted(true);
+				} else {
+					task.setCompleted(false);
 				}
 				tasks.add(task);
 			}
@@ -162,18 +161,17 @@ public class TaskJpaDAOImpl implements TaskDAO {
 				TaskInfo task = new TaskInfo();
 				task.setTitle(taskObj.getTitle());
 				task.setDescription(taskObj.getDescription());
-				task.setStatus(taskObj.getStatus());
+				task.setStatus(String.valueOf(taskObj.getStatus()));
 				task.setSeverity(taskObj.getSeverity());
 				task.setProjectTaskId(taskObj.getProjectTaskId());
 				task.setStartDate(taskObj.getStartDate());
 				task.setEndDate(taskObj.getEndDate());
-				task.setStatus(taskObj.getStatus());
 				task.setPercentageComplete(taskObj.getTaskPercentage().doubleValue());
 
-				if (taskObj.getStatus().equalsIgnoreCase("0")) {
-					task.setCompleted(false);
-				} else {
+				if (taskObj.getStatus() == OnTargetConstant.TaskStatus.COMPLETED) {
 					task.setCompleted(true);
+				} else {
+					task.setCompleted(false);
 				}
 				tasks.add(task);
 			}
@@ -196,18 +194,17 @@ public class TaskJpaDAOImpl implements TaskDAO {
 				TaskObj task = new TaskObj();
 				task.setTitle(taskObj.getTitle());
 				task.setDescription(taskObj.getDescription());
-				task.setStatus(taskObj.getStatus());
+				task.setStatus(String.valueOf(taskObj.getStatus()));
 				task.setSeverity(taskObj.getSeverity());
 				task.setProjectTaskId(taskObj.getProjectTaskId());
 				task.setStartDate(taskObj.getStartDate());
 				task.setEndDate(taskObj.getEndDate());
-				task.setStatus(taskObj.getStatus());
 				task.setPercentageComplete(taskObj.getTaskPercentage());
 
-				if (taskObj.getStatus().equalsIgnoreCase("0")) {
-					task.setCompleted(false);
-				} else {
+				if (taskObj.getStatus() == OnTargetConstant.TaskStatus.COMPLETED) {
 					task.setCompleted(true);
+				} else {
+					task.setCompleted(false);
 				}
 				tasks.add(task);
 			}
@@ -226,17 +223,16 @@ public class TaskJpaDAOImpl implements TaskDAO {
 				ProjectTask task = new ProjectTask();
 				task.setTitle(taskObj.getTitle());
 				task.setDescription(taskObj.getDescription());
-				task.setStatus(taskObj.getStatus());
+				task.setStatus(String.valueOf(taskObj.getStatus()));
 				task.setSeverity(taskObj.getSeverity());
 				task.setProjectTaskId(taskObj.getProjectTaskId());
 				task.setStartDate(taskObj.getStartDate());
 				task.setEndDate(taskObj.getEndDate());
-				task.setStatus(taskObj.getStatus());
 
-				if (taskObj.getStatus().equalsIgnoreCase("0")) {
-					task.setCompleted(false);
-				} else {
+				if (taskObj.getStatus() == OnTargetConstant.TaskStatus.COMPLETED) {
 					task.setCompleted(true);
+				} else {
+					task.setCompleted(false);
 				}
 				tasks.add(task);
 
@@ -348,8 +344,8 @@ public class TaskJpaDAOImpl implements TaskDAO {
 
 	@Override
 	public List<TaskStatusCount> getTaskCountByStatus(int projectId) throws Exception {
-		List<Map<String, Object>> taskList = jdbcTemplate.queryForList(OnTargetQuery.GET_PROJECT_TASK_COUNT_BY_STATUS,
-				new Object[] { projectId,projectId });
+		List<Map<String, Object>> taskList = jdbcTemplate.queryForList(OnTargetQuery.GET_PROJECT_TASK_COUNT_BY_STATUS, new Object[] {
+				projectId, projectId });
 		List<TaskStatusCount> taskCountByStatus = new ArrayList<>();
 
 		if (taskList != null && taskList.size() > 0) {
@@ -412,7 +408,7 @@ public class TaskJpaDAOImpl implements TaskDAO {
 		com.ontarget.entities.ProjectTask projectTask = projectTaskRepository.findByProjectTaskId(task.getProjectTaskId());
 		projectTask.setTitle(task.getTitle());
 		projectTask.setDescription(task.getDescription());
-		projectTask.setStatus(task.getStatus());
+		projectTask.setStatus(Integer.parseInt(task.getStatus()));
 		projectTask.setStartDate(task.getStartDate());
 		projectTask.setEndDate(task.getEndDate());
 		projectTask.setSeverity(task.getSeverity());
@@ -425,7 +421,7 @@ public class TaskJpaDAOImpl implements TaskDAO {
 	@Override
 	public boolean updateTaskStatus(int taskId, String taskStatus, int userId) throws Exception {
 		com.ontarget.entities.ProjectTask projectTask = projectTaskRepository.findByProjectTaskId(taskId);
-		projectTask.setStatus(taskStatus);
+		projectTask.setStatus(Integer.parseInt(taskStatus));
 		projectTask.setModifiedBy(new User(userId));
 		projectTask.setModifiedDate(new Date());
 		projectTaskRepository.save(projectTask);
@@ -563,7 +559,7 @@ public class TaskJpaDAOImpl implements TaskDAO {
 
 		task.setProjectTaskId(projectTask.getProjectTaskId());
 		task.setTitle(projectTask.getTitle());
-		task.setStatus(projectTask.getStatus());
+		task.setStatus(String.valueOf(projectTask.getStatus()));
 		task.setStartDate(projectTask.getStartDate());
 		task.setEndDate(projectTask.getEndDate());
 		task.setDescription(projectTask.getDescription());
@@ -582,7 +578,7 @@ public class TaskJpaDAOImpl implements TaskDAO {
 		task.setProjectTaskId(projectTask.getProjectTaskId());
 		task.setTitle(projectTask.getTitle());
 		task.setProjectId(projectTask.getProject().getProjectId());
-		task.setStatus(projectTask.getStatus());
+		task.setStatus(String.valueOf(projectTask.getStatus()));
 		task.setStartDate(projectTask.getStartDate());
 		task.setEndDate(projectTask.getEndDate());
 		task.setDescription(projectTask.getDescription());
@@ -602,17 +598,16 @@ public class TaskJpaDAOImpl implements TaskDAO {
 				ProjectTask task = new ProjectTask();
 				task.setTitle(projTask.getTitle());
 				task.setDescription(projTask.getDescription());
-				task.setStatus(projTask.getStatus());
+				task.setStatus(String.valueOf(projTask.getStatus()));
 				task.setSeverity(projTask.getSeverity());
 				task.setProjectTaskId(projTask.getProjectTaskId());
 				task.setStartDate(projTask.getStartDate());
 				task.setEndDate(projTask.getEndDate());
-				task.setStatus(projTask.getStatus());
 
-				if (projTask.getStatus().equalsIgnoreCase("0")) {
-					task.setCompleted(false);
-				} else {
+				if (projTask.getStatus() == OnTargetConstant.TaskStatus.COMPLETED) {
 					task.setCompleted(true);
+				} else {
+					task.setCompleted(false);
 				}
 				tasks.add(task);
 			}
@@ -632,7 +627,7 @@ public class TaskJpaDAOImpl implements TaskDAO {
 				ProjectTask task = new ProjectTask();
 				task.setProjectTaskId(projectTask.getProjectTaskId());
 				task.setTitle(projectTask.getTitle());
-				task.setStatus(projectTask.getStatus());
+				task.setStatus(String.valueOf(projectTask.getStatus()));
 				task.setStartDate(projectTask.getStartDate());
 				task.setEndDate(projectTask.getEndDate());
 				task.setDescription(projectTask.getDescription());
@@ -653,7 +648,7 @@ public class TaskJpaDAOImpl implements TaskDAO {
 				ProjectTask task = new ProjectTask();
 				task.setProjectTaskId(projectTask.getProjectTaskId());
 				task.setTitle(projectTask.getTitle());
-				task.setStatus(projectTask.getStatus());
+				task.setStatus(String.valueOf(projectTask.getStatus()));
 				task.setStartDate(projectTask.getStartDate());
 				task.setEndDate(projectTask.getEndDate());
 				task.setDescription(projectTask.getDescription());
@@ -688,15 +683,16 @@ public class TaskJpaDAOImpl implements TaskDAO {
 				TaskInfo task = new TaskInfo();
 				task.setProjectTaskId(projectTask.getProjectTaskId());
 				task.setTitle(projectTask.getTitle());
-				task.setStatus(projectTask.getStatus());
+				task.setStatus(String.valueOf(projectTask.getStatus()));
 				task.setStartDate(projectTask.getStartDate());
 				task.setEndDate(projectTask.getEndDate());
 				task.setDescription(projectTask.getDescription());
 				task.setSeverity(projectTask.getSeverity());
-				if (projectTask.getStatus().equalsIgnoreCase("0")) {
-					task.setCompleted(false);
-				} else {
+
+				if (projectTask.getStatus() == OnTargetConstant.TaskStatus.COMPLETED) {
 					task.setCompleted(true);
+				} else {
+					task.setCompleted(false);
 				}
 				tasks.add(task);
 			}

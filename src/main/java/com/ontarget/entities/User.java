@@ -39,7 +39,7 @@ public class User implements Serializable {
 	@Column(name = "salt", columnDefinition = "TEXT")
 	private String salt;
 	@Column(name = "user_status", length = 2)
-	private String userStatus;
+	private Integer userStatus;
 	@JoinColumn(name = "discipline", referencedColumnName = "id")
 	@ManyToOne
 	private Discipline discipline;
@@ -103,11 +103,11 @@ public class User implements Serializable {
 		this.salt = salt;
 	}
 
-	public String getUserStatus() {
+	public Integer getUserStatus() {
 		return userStatus;
 	}
 
-	public void setUserStatus(String userStatus) {
+	public void setUserStatus(Integer userStatus) {
 		this.userStatus = userStatus;
 	}
 

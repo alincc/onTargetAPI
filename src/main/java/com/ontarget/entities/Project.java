@@ -52,8 +52,8 @@ public class Project implements Serializable {
 	@Column(name = "project_end_date")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date projectEndDate;
-	@Column(name = "project_status", length = 10)
-	private String projectStatus;
+	@Column(name = "project_status", length = 1)
+	private Integer projectStatus;
 	@Column(name = "created_date")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createdDate;
@@ -87,19 +87,19 @@ public class Project implements Serializable {
 	private Address address;
 	@OneToMany(mappedBy = "project", fetch = FetchType.LAZY)
 	private List<ProjectFile> projectFileList;
-	@OneToMany(mappedBy = "project",fetch=FetchType.EAGER)
+	@OneToMany(mappedBy = "project", fetch = FetchType.EAGER)
 	private List<ProjectConfiguration> projectConfigurationList;
 
-    @Column(name = "project_asset_folder_name", length = 30)
-    private String projectAssetFolderName;
+	@Column(name = "project_asset_folder_name", length = 30)
+	private String projectAssetFolderName;
 
-    public String getProjectAssetFolderName() {
-        return projectAssetFolderName;
-    }
+	public String getProjectAssetFolderName() {
+		return projectAssetFolderName;
+	}
 
-    public void setProjectAssetFolderName(String projectAssetFolderName) {
-        this.projectAssetFolderName = projectAssetFolderName;
-    }
+	public void setProjectAssetFolderName(String projectAssetFolderName) {
+		this.projectAssetFolderName = projectAssetFolderName;
+	}
 
 	public Project() {
 	}
@@ -193,11 +193,11 @@ public class Project implements Serializable {
 		this.projectEndDate = projectEndDate;
 	}
 
-	public String getProjectStatus() {
+	public Integer getProjectStatus() {
 		return projectStatus;
 	}
 
-	public void setProjectStatus(String projectStatus) {
+	public void setProjectStatus(Integer projectStatus) {
 		this.projectStatus = projectStatus;
 	}
 
@@ -328,8 +328,7 @@ public class Project implements Serializable {
 			return false;
 		}
 		Project other = (Project) object;
-		if ((this.projectId == null && other.projectId != null)
-				|| (this.projectId != null && !this.projectId.equals(other.projectId))) {
+		if ((this.projectId == null && other.projectId != null) || (this.projectId != null && !this.projectId.equals(other.projectId))) {
 			return false;
 		}
 		return true;

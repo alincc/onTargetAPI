@@ -39,6 +39,7 @@ public class UploadDocumentJpaDAOImpl implements UploadDocumentDAO {
 		projectFile.setProjectFileCategory(new ProjectFileCategory(documentBean.getCategoryId()));
 		projectFile.setCreatedBy(new User(documentBean.getCreatedBy()));
 		projectFile.setCreatedDate(new Date());
+		projectFile.setStatus(OnTargetConstant.ProjectFileStatus.ACTIVE);
 		projectFileRepository.save(projectFile);
 
 		documentBean.setProjectFileId(projectFile.getProjectFileId());
@@ -64,6 +65,17 @@ public class UploadDocumentJpaDAOImpl implements UploadDocumentDAO {
 		}
 
 		return resultList;
+
+	}
+
+	@Override
+	public boolean deleteProjectFile(Integer projectFileId, int userId) throws Exception {
+		ProjectFile projectFile = projectFileRepository.findById(projectFileId);
+		projectFile.setStatus(OnTargetConstant.ProjectFileStatus.DELETED);
+		projectFile.setModifiedBy(new User(userId));
+		projectFile.setModifiedDate(new Date());
+		projectFileRepository.save(projectFile);
+		return true;
 
 	}
 

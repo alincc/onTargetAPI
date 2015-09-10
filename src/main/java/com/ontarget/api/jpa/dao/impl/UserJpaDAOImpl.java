@@ -67,7 +67,7 @@ public class UserJpaDAOImpl extends BaseGenericDAOImpl<UserDTO> implements UserD
 		userDTO.setUsername(user.getUserName());
 		userDTO.setUserId((int) userId);
 		userDTO.setAccountStatus(user.getAccountStatus());
-		userDTO.setUserStatus(user.getUserStatus());
+		userDTO.setUserStatus(String.valueOf(user.getUserStatus()));
 		userDTO.setUserTypeId(user.getUserType().getUserTypeId());
 		userDTO.setDiscipline(user.getDiscipline().getId());
 		userDTO.setPassword(user.getPassword());
@@ -89,8 +89,7 @@ public class UserJpaDAOImpl extends BaseGenericDAOImpl<UserDTO> implements UserD
 
 	@Override
 	public Map<String, Object> getForgotPasswordRequest(String forgotPasswordToken) throws Exception {
-		ForgotPasswordRequest forgotPasswordRequest = forgotPasswordRequestRepository
-				.findExpiredRequestByToken(forgotPasswordToken);
+		ForgotPasswordRequest forgotPasswordRequest = forgotPasswordRequestRepository.findExpiredRequestByToken(forgotPasswordToken);
 		if (forgotPasswordRequest != null) {
 			Map<String, Object> forgotPwdMap = new HashMap<>();
 			forgotPwdMap.put("user_id", (int) forgotPasswordRequest.getUserId());
@@ -160,11 +159,11 @@ public class UserJpaDAOImpl extends BaseGenericDAOImpl<UserDTO> implements UserD
 		}
 		return false;
 	}
-	
+
 	@Override
-	public User findUserByUsername(String username) throws Exception{
-		List<User> userList =  userRepository.findUserByUsername(username);
-		if(userList !=null && !userList.isEmpty()){
+	public User findUserByUsername(String username) throws Exception {
+		List<User> userList = userRepository.findUserByUsername(username);
+		if (userList != null && !userList.isEmpty()) {
 			return userList.get(0);
 		}
 		return null;

@@ -40,8 +40,8 @@ public class AuthenticationJpaDAOImpl implements AuthenticationDAO {
 	private UserSessionInfoRepository userSessionInfoRepository;
 	@PersistenceContext
 	private EntityManager entityManager;
-    @Resource
-    private EmailRepository emailRepository;
+	@Resource
+	private EmailRepository emailRepository;
 
 	@Override
 	public UserLoginInfo getUserSignInInfo(SignInRequest signInRequest) throws Exception {
@@ -53,11 +53,7 @@ public class AuthenticationJpaDAOImpl implements AuthenticationDAO {
 
 			if (hashedPassword.equals(user.getPassword())) {
 				UserLoginInfo userDTO = new UserLoginInfo();
-				// userDTO.setDiscipline(user.getDiscipline().getId());
 				userDTO.setUserId(user.getUserId());
-				// userDTO.setAccountStatus(user.getAccountStatus());
-				// userDTO.setUserStatus(user.getUserStatus());
-				// userDTO.setUserTypeId(user.getUserType().getUserTypeId());
 				return userDTO;
 			}
 
@@ -74,7 +70,7 @@ public class AuthenticationJpaDAOImpl implements AuthenticationDAO {
 			userDTO.setDiscipline(user.getDiscipline().getId());
 			userDTO.setUserId(user.getUserId());
 			userDTO.setAccountStatus(user.getAccountStatus());
-			userDTO.setUserStatus(user.getUserStatus());
+			userDTO.setUserStatus(String.valueOf(user.getUserStatus()));
 			userDTO.setUserTypeId(user.getUserType().getUserTypeId());
 			return userDTO;
 		}
@@ -190,8 +186,7 @@ public class AuthenticationJpaDAOImpl implements AuthenticationDAO {
 
 		UserDTO userDTO = new UserDTO();
 		userDTO.setUsername(user.getUserName());
-        userDTO.setUserId(user.getUserId());
-
+		userDTO.setUserId(user.getUserId());
 
 		return userDTO;
 	}

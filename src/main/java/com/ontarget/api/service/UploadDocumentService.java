@@ -13,6 +13,8 @@ public interface UploadDocumentService {
 	public boolean saveUploadedDocsInfo(UploadDocumentRequest documentInfo) throws Exception;
 
 	public List<UploadedDocumentDetail> getUploadedFile(int projectId) throws Exception;
+	
+	public OnTargetResponse deleteProjectFile(Integer projectFileId,int userId) throws Exception;
 
 	public ProjectFileCategoryListResponse getProjectFileCategories() throws Exception;
 

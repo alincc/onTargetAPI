@@ -78,7 +78,7 @@ public class UserRegistrationDAOImpl implements com.ontarget.api.dao.UserRegistr
 				ps.setString(3, hashedPassword);
 				ps.setString(4, salt);
 				ps.setInt(5, registration.getDiscipline());
-				ps.setString(6, OnTargetConstant.USER_STATUS.ACTIVE);
+				ps.setInt(6, OnTargetConstant.USER_STATUS.ACTIVE);
 				ps.setInt(7, 1);
 				ps.setString(8, status);
 				// ps.setInt(9, userId);

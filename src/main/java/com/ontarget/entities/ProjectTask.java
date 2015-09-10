@@ -36,8 +36,8 @@ public class ProjectTask implements Serializable {
 	private String title;
 	@Column(name = "parent_task_id")
 	private Integer parentTaskId;
-	@Column(name = "status", length = 10)
-	private String status;
+	@Column(name = "status", length = 1)
+	private Integer status;
 	@Column(name = "start_date")
 	@Temporal(TemporalType.DATE)
 	private Date startDate;
@@ -118,11 +118,11 @@ public class ProjectTask implements Serializable {
 		this.parentTaskId = parentTaskId;
 	}
 
-	public String getStatus() {
+	public Integer getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(Integer status) {
 		this.status = status;
 	}
 
