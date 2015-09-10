@@ -42,4 +42,10 @@ public class ProjectTaskFileDAOImpl implements com.ontarget.api.dao.ProjectTaskF
 
 		return attachments;
 	}
+
+	@Override
+	public boolean deleteTaskAttachment(Integer taskFileId, int userId) throws Exception {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

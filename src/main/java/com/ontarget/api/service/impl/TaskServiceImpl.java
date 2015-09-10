@@ -27,12 +27,12 @@ import com.ontarget.bean.ProjectDTO;
 import com.ontarget.bean.ProjectTaskInfo;
 import com.ontarget.bean.TaskComment;
 import com.ontarget.bean.TaskInfo;
-import com.ontarget.bean.TaskPercentage;
 import com.ontarget.bean.TaskStatusCount;
 import com.ontarget.bean.UserDTO;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.FieldWorkerInfo;
 import com.ontarget.dto.FieldWorkerResponse;
+import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.ProjectTask;
 import com.ontarget.entities.FieldWorker;
 import com.ontarget.entities.TaskFieldWorker;
@@ -354,6 +354,21 @@ public class TaskServiceImpl implements TaskService {
 		}
 
 		return taskAttachments;
+	}
+
+	@Override
+	@Transactional(rollbackFor = { Exception.class })
+	public OnTargetResponse deleteTaskAttachment(Integer taskFileId, int userId) throws Exception {
+		OnTargetResponse response = new OnTargetResponse();
+		boolean success = projectTaskFileDAO.deleteTaskAttachment(taskFileId, userId);
+		if (success) {
+			response.setReturnVal(OnTargetConstant.SUCCESS);
+			response.setReturnMessage("Task attachment deleted successfully");
+		} else {
+			response.setReturnVal(OnTargetConstant.ERROR);
+			response.setReturnMessage("Task attachment delete request failed");
+		}
+		return response;
 	}
 
 	@Override

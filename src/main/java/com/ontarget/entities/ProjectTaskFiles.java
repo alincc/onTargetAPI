@@ -45,6 +45,15 @@ public class ProjectTaskFiles implements Serializable {
 	@JoinColumn(name = "project_task_id", referencedColumnName = "project_task_id", nullable = false)
 	@ManyToOne(optional = false)
 	private ProjectTask projectTask;
+	@Basic(optional = false)
+	@Column(name = "status", nullable = false, length = 10)
+	private String status;
+	@Column(name = "modified_date")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date modifiedDate;
+	@JoinColumn(name = "modified_by", referencedColumnName = "user_id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	private User modifiedBy;
 
 	public ProjectTaskFiles() {
 	}
@@ -53,8 +62,7 @@ public class ProjectTaskFiles implements Serializable {
 		this.taskFileId = taskFileId;
 	}
 
-	public ProjectTaskFiles(Integer taskFileId, String fileName,
-			String location, Date createdDate, int createdBy) {
+	public ProjectTaskFiles(Integer taskFileId, String fileName, String location, Date createdDate, int createdBy) {
 		this.taskFileId = taskFileId;
 		this.fileName = fileName;
 		this.location = location;
@@ -110,6 +118,30 @@ public class ProjectTaskFiles implements Serializable {
 		this.projectTask = projectTask;
 	}
 
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public Date getModifiedDate() {
+		return modifiedDate;
+	}
+
+	public void setModifiedDate(Date modifiedDate) {
+		this.modifiedDate = modifiedDate;
+	}
+
+	public User getModifiedBy() {
+		return modifiedBy;
+	}
+
+	public void setModifiedBy(User modifiedBy) {
+		this.modifiedBy = modifiedBy;
+	}
+
 	@Override
 	public int hashCode() {
 		int hash = 0;
@@ -125,9 +157,7 @@ public class ProjectTaskFiles implements Serializable {
 			return false;
 		}
 		ProjectTaskFiles other = (ProjectTaskFiles) object;
-		if ((this.taskFileId == null && other.taskFileId != null)
-				|| (this.taskFileId != null && !this.taskFileId
-						.equals(other.taskFileId))) {
+		if ((this.taskFileId == null && other.taskFileId != null) || (this.taskFileId != null && !this.taskFileId.equals(other.taskFileId))) {
 			return false;
 		}
 		return true;
@@ -135,8 +165,7 @@ public class ProjectTaskFiles implements Serializable {
 
 	@Override
 	public String toString() {
-		return "com.ontarget.entities.ProjectTaskFiles[taskFileId="
-				+ taskFileId + "]";
+		return "com.ontarget.entities.ProjectTaskFiles[taskFileId=" + taskFileId + "]";
 	}
 
 }

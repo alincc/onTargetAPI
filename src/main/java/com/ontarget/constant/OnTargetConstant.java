@@ -168,6 +168,11 @@ public interface OnTargetConstant {
 		public static final String ACTIVE = "ACTIVE";
 		public static final String DELETED = "DELETED";
 	}
+	
+	public interface ProjectTaskFileStatus {
+		public static final String ACTIVE = "ACTIVE";
+		public static final String DELETED = "DELETED";
+	}
 
 	public interface ProjectConfigurationConstant {
 		public static final String unitOfMeasurement = "UNIT_OF_MEASUREMENT";

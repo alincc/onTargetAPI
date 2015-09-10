@@ -8,6 +8,7 @@ import com.ontarget.bean.DependentTaskDTO;
 import com.ontarget.bean.FileAttachment;
 import com.ontarget.bean.TaskInfo;
 import com.ontarget.dto.FieldWorkerResponse;
+import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.ProjectTask;
 import com.ontarget.request.bean.Task;
 import com.ontarget.request.bean.TaskCommentRequest;
@@ -43,6 +44,8 @@ public interface TaskService {
 	public long saveTaskFile(int taskid, int userId, String fileName, String location) throws Exception;
 
 	public List<FileAttachment> getTaskAttachments(int taskId) throws Exception;
+	
+	public OnTargetResponse deleteTaskAttachment(Integer taskFileId,int userId) throws Exception;
 
 	public void assignTaskToUser(int taskId, List<Integer> users, int assigningUser) throws Exception;
 

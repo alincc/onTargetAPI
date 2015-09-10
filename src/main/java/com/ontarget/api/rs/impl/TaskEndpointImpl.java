@@ -31,6 +31,7 @@ import com.ontarget.exception.DateAfterException;
 import com.ontarget.exception.DateBeforeException;
 import com.ontarget.request.bean.DependentTaskDetail;
 import com.ontarget.request.bean.DependentTaskRequest;
+import com.ontarget.request.bean.ProjectTaskFileDeleteRequest;
 import com.ontarget.request.bean.ProjectTaskRequest;
 import com.ontarget.request.bean.Task;
 import com.ontarget.request.bean.TaskAttachmentRequest;
@@ -295,6 +296,21 @@ public class TaskEndpointImpl implements TaskEndpoint {
 		} catch (Exception e) {
 			e.printStackTrace();
 			response.setReturnMessage("error getting task file");
+			response.setReturnVal(OnTargetConstant.ERROR);
+		}
+		return response;
+	}
+
+	@Override
+	@POST
+	@Path("/deleteTaskAttachment")
+	public OnTargetResponse deleteTaskAttachment(ProjectTaskFileDeleteRequest request) {
+		OnTargetResponse response = new OnTargetResponse();
+		try {
+			return taskService.deleteTaskAttachment(request.getTaskFileId(), request.getBaseRequest().getLoggedInUserId());
+		} catch (Exception e) {
+			logger.error("Delete project task attachment failed." + e);
+			response.setReturnMessage("Delete project task attachment failed");
 			response.setReturnVal(OnTargetConstant.ERROR);
 		}
 		return response;

@@ -844,15 +844,15 @@ CREATE TABLE `project_file` (
   KEY `FK_2v0bylp54dbusaabhxg3qbtdn` (`created_by`),
   KEY `FK_pitnp5i4rcjntirjfbqpo2ka3` (`project_file_category_id`),
   KEY `FK_dfitgtopdcx3ra8n4t29wus0n` (`modified_by`),
-  CONSTRAINT `FK_dfitgtopdcx3ra8n4t29wus0n` FOREIGN KEY (`modified_by`) REFERENCES `user` (`user_id`),
   CONSTRAINT `FK_2v0bylp54dbusaabhxg3qbtdn` FOREIGN KEY (`created_by`) REFERENCES `user` (`user_id`),
+  CONSTRAINT `FK_dfitgtopdcx3ra8n4t29wus0n` FOREIGN KEY (`modified_by`) REFERENCES `user` (`user_id`),
   CONSTRAINT `FK_pitnp5i4rcjntirjfbqpo2ka3` FOREIGN KEY (`project_file_category_id`) REFERENCES `project_file_category` (`project_file_category_id`),
   CONSTRAINT `project_file_fk` FOREIGN KEY (`project_id`) REFERENCES `project` (`project_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 /*Data for the table `project_file` */
 
-insert  into `project_file`(`project_file_id`,`file_name`,`project_id`,`created_date`,`created_by`,`file_type`,`description`,`project_file_category_id`,`status`,`modified_date`,`modified_by`) values (1,'bsn_bsn.jpg',1,'2015-03-13 16:35:15',1,'image/jpeg','',1,'ACTIVE',NULL,NULL),(2,'IMG_7491.JPG',1,'2015-03-13 16:36:26',1,'image/jpeg','',1,'ACTIVE',NULL,NULL),(3,'file.pdf',1,'2015-03-14 12:37:33',1,'application/pdf','',1,'ACTIVE',NULL,NULL),(4,'Details 3.pdf',1,'2015-03-28 19:46:51',1,'application/pdf','',1,'ACTIVE',NULL,NULL),(5,'handson-nodejs-sample.pdf',1,'2015-03-31 23:45:46',1,'application/pdf','',1,'ACTIVE',NULL,NULL),(7,'Details 3.pdf',1,'2015-07-13 22:54:42',1,'application/pdf','',1,'ACTIVE',NULL,NULL),(8,'Details 3.pdf',4,'2015-07-26 20:15:53',1,'application/pdf','',1,'ACTIVE',NULL,NULL),(9,'a2.jpeg',2,'2015-08-22 12:00:05',1,'image/jpeg','',1,'DELETED','2015-09-10 07:51:30',1),(10,'Details 3.pdf',2,'2015-08-22 14:09:50',1,'application/pdf','Project image',1,'ACTIVE',NULL,NULL);
+insert  into `project_file`(`project_file_id`,`file_name`,`project_id`,`created_date`,`created_by`,`file_type`,`description`,`project_file_category_id`,`status`,`modified_date`,`modified_by`) values (1,'bsn_bsn.jpg',1,'2015-03-13 16:35:15',1,'image/jpeg','',1,'ACTIVE',NULL,NULL),(2,'IMG_7491.JPG',1,'2015-03-13 16:36:26',1,'image/jpeg','',1,'ACTIVE',NULL,NULL),(3,'file.pdf',1,'2015-03-14 12:37:33',1,'application/pdf','',1,'ACTIVE',NULL,NULL),(4,'Details 3.pdf',1,'2015-03-28 19:46:51',1,'application/pdf','',1,'ACTIVE',NULL,NULL),(5,'handson-nodejs-sample.pdf',1,'2015-03-31 23:45:46',1,'application/pdf','',1,'ACTIVE',NULL,NULL),(7,'Details 3.pdf',1,'2015-07-13 22:54:42',1,'application/pdf','',1,'ACTIVE',NULL,NULL),(8,'Details 3.pdf',4,'2015-07-26 20:15:53',1,'application/pdf','',1,'ACTIVE',NULL,NULL),(9,'a2.jpeg',2,'2015-08-22 12:00:05',1,'image/jpeg','',1,'ACTIVE','2015-09-10 07:51:30',1),(10,'Details 3.pdf',2,'2015-08-22 14:09:50',1,'application/pdf','Project image',1,'ACTIVE',NULL,NULL);
 
 /*Table structure for table `project_file_category` */
 
@@ -954,14 +954,19 @@ CREATE TABLE `project_task_files` (
   `location` varchar(255) NOT NULL,
   `created_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `created_by` int(12) NOT NULL,
+  `modified_date` datetime DEFAULT NULL,
+  `status` varchar(10) NOT NULL,
+  `modified_by` int(11) DEFAULT NULL,
   PRIMARY KEY (`task_file_id`),
   KEY `project_task_files_fk` (`project_task_id`),
+  KEY `FK_8prh9dk6yobl5jv80k8jmwglq` (`modified_by`),
+  CONSTRAINT `FK_8prh9dk6yobl5jv80k8jmwglq` FOREIGN KEY (`modified_by`) REFERENCES `user` (`user_id`),
   CONSTRAINT `project_task_files_fk` FOREIGN KEY (`project_task_id`) REFERENCES `project_task` (`project_task_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 /*Data for the table `project_task_files` */
 
-insert  into `project_task_files`(`task_file_id`,`project_task_id`,`file_name`,`location`,`created_date`,`created_by`) values (1,1,'a2.jpeg','/assets/task/','2015-07-05 23:08:17',1),(2,1,'3d-building-construction-image_1600x1200_78628.jpg','/assets/task/','2015-07-12 18:58:22',1),(3,1,'3d-building-construction-image_1600x1200_78628.jpg','/assets/task/','2015-07-12 18:58:27',1),(4,1,'1.jpg','/assets/task/','2015-07-12 18:59:00',1),(5,1,'1.jpg','/assets/task/','2015-07-12 18:59:42',1),(6,1,'3d-building-construction-image_1600x1200_78628.jpg','/assets/task/','2015-07-12 19:45:57',1),(7,1,'1111.jpeg','/assets/task/','2015-07-13 08:28:18',1),(8,1,'1.jpg','/assets/task/','2015-07-13 08:30:02',1),(9,1,'office.jpg','/assets/task/','2015-07-13 08:30:26',1),(10,1,'const3.jpeg','/assets/task/','2015-07-16 22:36:27',1),(11,1,'1.jpg','/assets/task/','2015-07-16 22:42:04',1),(12,1,'sa.jpg','D:	est','2015-07-26 20:07:21',1);
+insert  into `project_task_files`(`task_file_id`,`project_task_id`,`file_name`,`location`,`created_date`,`created_by`,`modified_date`,`status`,`modified_by`) values (1,1,'a2.jpeg','/assets/task/','2015-09-10 20:06:08',1,NULL,'ACTIVE',NULL),(2,1,'3d-building-construction-image_1600x1200_78628.jpg','/assets/task/','2015-09-10 20:06:08',1,NULL,'ACTIVE',NULL),(3,1,'3d-building-construction-image_1600x1200_78628.jpg','/assets/task/','2015-09-10 20:06:08',1,NULL,'ACTIVE',NULL),(4,1,'1.jpg','/assets/task/','2015-09-10 20:06:08',1,NULL,'ACTIVE',NULL),(5,1,'1.jpg','/assets/task/','2015-09-10 20:06:08',1,NULL,'ACTIVE',NULL),(6,1,'3d-building-construction-image_1600x1200_78628.jpg','/assets/task/','2015-09-10 20:06:08',1,NULL,'ACTIVE',NULL),(7,1,'1111.jpeg','/assets/task/','2015-09-10 20:06:08',1,NULL,'ACTIVE',NULL),(8,1,'1.jpg','/assets/task/','2015-09-10 20:06:08',1,NULL,'ACTIVE',NULL),(9,1,'office.jpg','/assets/task/','2015-09-10 20:06:08',1,NULL,'ACTIVE',NULL),(10,1,'const3.jpeg','/assets/task/','2015-09-10 20:06:08',1,NULL,'ACTIVE',NULL),(11,1,'1.jpg','/assets/task/','2015-09-10 20:06:08',1,NULL,'ACTIVE',NULL),(12,1,'sa.jpg','D:	est','2015-09-10 20:06:08',1,'2015-09-10 20:08:58','DELETED',1);
 
 /*Table structure for table `project_type` */
 

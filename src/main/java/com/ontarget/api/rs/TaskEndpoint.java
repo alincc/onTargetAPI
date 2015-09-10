@@ -13,6 +13,7 @@ import com.ontarget.dto.TaskDetailResponse;
 import com.ontarget.dto.UserResponse;
 import com.ontarget.request.bean.DependentTaskDetail;
 import com.ontarget.request.bean.DependentTaskRequest;
+import com.ontarget.request.bean.ProjectTaskFileDeleteRequest;
 import com.ontarget.request.bean.ProjectTaskRequest;
 import com.ontarget.request.bean.TaskAttachmentRequest;
 import com.ontarget.request.bean.TaskCommentRequest;
@@ -45,6 +46,8 @@ public interface TaskEndpoint {
 	public OnTargetResponse addTaskMember(@Valid TaskMemberRequest taskMemberRequest);
 
 	public InsertResponse saveTaskFile(@Valid TaskFileSaveRequest request);
+
+	public OnTargetResponse deleteTaskAttachment(@Valid ProjectTaskFileDeleteRequest request);
 
 	public OnTargetResponse assignTaskToUser(@Valid TaskMemberRequest taskMemberRequest);
 

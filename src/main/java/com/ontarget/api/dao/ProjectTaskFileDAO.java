@@ -11,4 +11,6 @@ public interface ProjectTaskFileDAO {
     long saveTaskFile(int taskId, String fileName, int owner, String location) throws Exception;
 
     public List<FileAttachment> getTaskAttachments(int taskId) throws Exception;
+    
+    public boolean deleteTaskAttachment(Integer taskFileId, int userId) throws Exception;
 }

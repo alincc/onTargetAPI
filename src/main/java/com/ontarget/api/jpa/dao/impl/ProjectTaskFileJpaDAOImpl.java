@@ -1,6 +1,7 @@
 package com.ontarget.api.jpa.dao.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -10,8 +11,10 @@ import org.springframework.stereotype.Repository;
 import com.ontarget.api.dao.ProjectTaskFileDAO;
 import com.ontarget.api.repository.ProjectTaskFilesRepository;
 import com.ontarget.bean.FileAttachment;
+import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.entities.ProjectTask;
 import com.ontarget.entities.ProjectTaskFiles;
+import com.ontarget.entities.User;
 
 @Repository("projectTaskFileJpaDAOImpl")
 public class ProjectTaskFileJpaDAOImpl implements ProjectTaskFileDAO {
@@ -39,6 +42,7 @@ public class ProjectTaskFileJpaDAOImpl implements ProjectTaskFileDAO {
 		if (projectTaskFiles != null && projectTaskFiles.size() > 0) {
 			for (ProjectTaskFiles projectTaskFile : projectTaskFiles) {
 				FileAttachment attachment = new FileAttachment();
+				attachment.setTaskFileId(projectTaskFile.getTaskFileId());
 				attachment.setFileName(projectTaskFile.getFileName());
 				attachment.setLocation(projectTaskFile.getLocation());
 				attachment.setTaskId(projectTaskFile.getProjectTask().getProjectTaskId());
@@ -48,5 +52,16 @@ public class ProjectTaskFileJpaDAOImpl implements ProjectTaskFileDAO {
 		}
 
 		return attachments;
+	}
+
+	@Override
+	public boolean deleteTaskAttachment(Integer taskFileId, int userId) throws Exception {
+		ProjectTaskFiles projectTaskFiles = projectTaskFilesRepository.findByTaskFileId(taskFileId);
+		projectTaskFiles.setStatus(OnTargetConstant.ProjectFileStatus.DELETED);
+		projectTaskFiles.setModifiedBy(new User(userId));
+		projectTaskFiles.setModifiedDate(new Date());
+		projectTaskFilesRepository.save(projectTaskFiles);
+		return true;
+
 	}
 }
