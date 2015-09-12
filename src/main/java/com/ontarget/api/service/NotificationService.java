@@ -10,5 +10,8 @@ public interface NotificationService {
 
 	public boolean updateStatusToSeen(Long userNotificationId) throws Exception;
 
-    public UserNotificationDTO getNotifications(Integer pageNumber, Integer perPageLimit, Integer userId, Long loggedInUserProjectId) throws Exception;
+	public UserNotificationDTO getNotifications(Integer pageNumber, Integer perPageLimit, Integer userId, Long loggedInUserProjectId)
+			throws Exception;
+
+	public boolean updateAllStatusToSeen(Integer userId) throws Exception;
 }
