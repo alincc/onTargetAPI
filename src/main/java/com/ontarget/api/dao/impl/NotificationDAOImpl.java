@@ -1,6 +1,7 @@
 package com.ontarget.api.dao.impl;
 
 import com.ontarget.dto.UserNotificationDTO;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -39,7 +40,7 @@ public class NotificationDAOImpl implements com.ontarget.api.dao.NotificationDAO
 
 	@Override
 	public UserNotificationDTO getUserNotifications(int pageNumber, int perPageLimit, int userId) throws Exception {
-        throw new UnsupportedOperationException();
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
@@ -47,8 +48,15 @@ public class NotificationDAOImpl implements com.ontarget.api.dao.NotificationDAO
 		throw new UnsupportedOperationException();
 	}
 
-    @Override
-    public UserNotificationDTO getUserNotifications(Integer pageNumber, Integer perPageLimit, Integer userId, Long loggedInUserProjectId) throws Exception {
-        throw new UnsupportedOperationException();
-    }
+	@Override
+	public UserNotificationDTO getUserNotifications(Integer pageNumber, Integer perPageLimit, Integer userId, Long loggedInUserProjectId)
+			throws Exception {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public boolean updateAllStatusToSeen(Integer userId) throws Exception {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

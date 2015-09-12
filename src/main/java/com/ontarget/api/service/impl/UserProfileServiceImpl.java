@@ -58,6 +58,7 @@ import com.ontarget.request.bean.UserInfo;
 import com.ontarget.request.bean.UserSignupRequest;
 import com.ontarget.util.ConvertPOJOUtils;
 import com.ontarget.util.Security;
+import com.ontarget.util.UserType;
 
 /**
  * Created by Owner on 11/4/14.
@@ -350,13 +351,17 @@ public class UserProfileServiceImpl implements UserProfileService {
 				Company company = ConvertPOJOUtils.convertToCompany(registrationRequest);
 				int companyId;
 				logger.info("company id from registration request: " + registrationRequest.getCompanyId());
-				String userType = "RU";
+				String userType = UserType.SUPERUSER.getCode();
+
+				if (registrationRequest.getStatus().equalsIgnoreCase(OnTargetConstant.AccountStatus.ACCOUNT_INVITATION)) {
+					userType = UserType.REGULARUSER.getCode();
+				}
+
 				if (registrationRequest.getCompanyId() != 0) {
 					companyId = registrationRequest.getCompanyId();
 				} else {
 					companyId = companyDAO.addCompanyInfo(company);
 					userRegistrationDAO.updateRegistrationRequestCompanyId(companyId, request.getRegistrationToken());
-					userType = "SU";
 				}
 
 				userRegistrationDAO.assignProfilesToUser(userType, user.getUserId());
