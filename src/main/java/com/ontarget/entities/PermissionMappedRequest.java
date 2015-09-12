@@ -17,8 +17,8 @@ import javax.persistence.Table;
  *
  * @author santosh
  */
-//@Entity
-//@Table(name = "permission_mapped_request")
+@Entity
+@Table(name = "permission_mapped_request")
 public class PermissionMappedRequest implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id

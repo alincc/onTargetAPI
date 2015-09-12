@@ -28,13 +28,13 @@ insert  into `application_permission`(`application_permission_id`,`active`,`perm
 profile - need to figure out the user id who added and modified it initially.
  */
 
-insert  into `profile`(`profile_id`,`active`,`added_date`,`modified_date`,`name`,`profile_type`,`added_by`,`modified_by`,`description`,`profile_code`) values
-  (1,'Y',now(),now(),'Super User','MENU',9,9,'Super User menu profile','SU'),
-  (2,'Y',now(),now(),'Project Manager','MENU',9,9,'Project Manager Profile','PM'),
-  (3,'Y',now(),now(),'Regular User','MENU',9,9,'Regular User','RU'),
-  (4,'Y',now(),now(),'Super User','PERMISSION',9,9,'Super User permission profile','SU'),
-  (5,'Y',now(),now(),'Project Manager','PERMISSION',9,9,'Project Manager permission profile','PM'),
-  (6,'Y',now(),now(),'Regular User','PERMISSION',9,9,'Regular User permission profile','RU');
+insert  into `profile`(`profile_id`,`active`,`added_date`,`modified_date`,`name`,`profile_type`,`description`,`profile_code`) values
+  (1,'Y',now(),now(),'Super User','MENU','Super User menu profile','SU'),
+  (2,'Y',now(),now(),'Project Manager','MENU','Project Manager Profile','PM'),
+  (3,'Y',now(),now(),'Regular User','MENU','Regular User','RU'),
+  (4,'Y',now(),now(),'Super User','PERMISSION','Super User permission profile','SU'),
+  (5,'Y',now(),now(),'Project Manager','PERMISSION','Project Manager permission profile','PM'),
+  (6,'Y',now(),now(),'Regular User','PERMISSION','Regular User permission profile','RU');
 
 
 insert  into `profile_menu`(`profile_menu_id`,`active`,`application_menu_id`,`profile_id`) values
@@ -75,8 +75,6 @@ insert  into `profile_menu`(`profile_menu_id`,`active`,`application_menu_id`,`pr
   (37,'Y',7,6);
 
 
-insert  into `user_profile`(`user_profile_id`,`menu_profile_id`,`permission_profile_id`,`user_id`) values
-  (1,1,4,9);
 
 
 /* user safety info by discipline*/
@@ -149,8 +147,9 @@ insert  into `task_status`(`task_status_id`,`status_code`,`status_name`,`status_
 
 
 
+/*
+modify this for that user to set the permission
+ */
 
-
-
-
-
+insert  into `user_profile`(`user_profile_id`,`menu_profile_id`,`permission_profile_id`,`user_id`) values
+  (1,1,4,9);
