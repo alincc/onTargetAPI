@@ -25,7 +25,7 @@ public interface ProjectTaskRepository extends JpaRepository<ProjectTask, Intege
 
 	@Query("select pt from ProjectTask pt where pt.project.id in(select projectId from Project where projectId = ?1 and projectParentId = ?2)"
 			+ " and pt.status = ?3 and pt.modifiedDate <= pt.endDate")
-	List<ProjectTask> getTasksByProjectIdAndStatus(Integer projectId, Integer projectParentId, String status);
+	List<ProjectTask> getTasksByProjectIdAndStatus(Integer projectId, Integer projectParentId, int status);
 
 	@Query("select pt from ProjectTask pt where pt.project.id = ?1 and pt.status !=" + OnTargetConstant.TaskStatus.DELETED)
 	List<ProjectTask> findUndeletedTasksByProject(Integer projectId);

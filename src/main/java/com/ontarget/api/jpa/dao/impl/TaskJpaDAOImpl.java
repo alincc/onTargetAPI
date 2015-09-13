@@ -674,8 +674,7 @@ public class TaskJpaDAOImpl implements TaskDAO {
 
 	@Override
 	public List<TaskInfo> getTask(int projectId, int completed) throws Exception {
-		List<com.ontarget.entities.ProjectTask> assigneeTasks = projectTaskRepository.getTasksByProjectIdAndStatus(projectId, projectId,
-				String.valueOf(completed));
+		List<com.ontarget.entities.ProjectTask> assigneeTasks = projectTaskRepository.getTasksByProjectIdAndStatus(projectId, projectId, completed);
 		List<TaskInfo> tasks = new LinkedList<>();
 
 		if (assigneeTasks != null && !assigneeTasks.isEmpty()) {
