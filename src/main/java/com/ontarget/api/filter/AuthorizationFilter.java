@@ -64,6 +64,9 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 				throw new WebApplicationException(unauthorizedResponse());
 			}
 
+            /* commented for time being unless data in db is finaliSEd
+
+            
 			String authorizedApiRequest = requestApiAuthorized(jsonPost, requestPath);
 			logger.debug("authorizedApiRequest: " + authorizedApiRequest);
 
@@ -72,6 +75,7 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 				throw new WebApplicationException(unauthorizedResponse());
 
 			}
+			*/
 
 			String authorized = authenticate(jsonPost, requestPath);
 			logger.debug("authorized: " + authorized);

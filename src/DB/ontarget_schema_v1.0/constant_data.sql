@@ -75,7 +75,7 @@ insert  into `profile_menu`(`profile_menu_id`,`active`,`application_menu_id`,`pr
   (37,'Y',7,6);
 
 
-
+insert  into `profile_permission`(`profile_permission_id`,`active`,`application_permission_id`,`profile_id`) values (1,'Y',2,4);
 
 /* user safety info by discipline*/
 
@@ -150,6 +150,5 @@ insert  into `task_status`(`task_status_id`,`status_code`,`status_name`,`status_
 /*
 modify this for that user to set the permission
  */
-
 insert  into `user_profile`(`user_profile_id`,`menu_profile_id`,`permission_profile_id`,`user_id`) values
   (1,1,4,9);
