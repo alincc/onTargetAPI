@@ -128,8 +128,8 @@ public interface OnTargetConstant {
 	}
 
 	public interface TaskAssigneeStatus {
-		public static final Integer ASSIGNED = new Integer(1);
-		public static final Integer DELETED = new Integer(2);
+		public static final int ASSIGNED = 1;
+		public static final int DELETED = 2;
 	}
 
 	public interface PhoneType {
