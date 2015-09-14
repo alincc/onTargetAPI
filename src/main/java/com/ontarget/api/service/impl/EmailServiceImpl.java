@@ -160,6 +160,7 @@ public class EmailServiceImpl implements EmailService {
 					createdBy.setContact(contactDAO.getContact(createdBy.getUserId()));
 
 					MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
+                    message.setFrom(new InternetAddress(OnTargetConstant.EmailServiceConstants.EMAIL_FROM));
 					message.setTo(assigneeUser.getContact().getEmail());
 					message.setSubject(OnTargetConstant.EmailServiceConstants.TASK_ASSIGNED_SUBJECT);
 					message.setSentDate(new Date());
@@ -281,7 +282,7 @@ public class EmailServiceImpl implements EmailService {
 					public void prepare(MimeMessage mimeMessage) throws Exception {
 						MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
 
-						message.setFrom(new InternetAddress(OnTargetConstant.EmailServiceConstants.DOCUMENT_APPROVAL_FROM));
+                        message.setFrom(new InternetAddress(OnTargetConstant.EmailServiceConstants.EMAIL_FROM));
 						message.setSubject(OnTargetConstant.EmailServiceConstants.DOCUMENT_APPROVAL_SUBJECT);
 						message.setSentDate(new Date());
 
@@ -327,6 +328,7 @@ public class EmailServiceImpl implements EmailService {
 					createdBy.setContact(contactDAO.getContact(createdBy.getUserId()));
 
 					MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
+                    message.setFrom(new InternetAddress(OnTargetConstant.EmailServiceConstants.EMAIL_FROM));
 					message.setTo(assigneeUser.getContact().getEmail());
 					message.setSubject(OnTargetConstant.EmailServiceConstants.TASK_ASSIGNED_SUBJECT);
 					message.setSentDate(new Date());

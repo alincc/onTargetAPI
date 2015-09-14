@@ -249,7 +249,6 @@ public class TaskEndpointImpl implements TaskEndpoint {
 					response.setReturnVal(OnTargetConstant.SUCCESS);
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
 				response.setReturnMessage("error while reading task members");
 				response.setReturnVal(OnTargetConstant.ERROR);
 			}
