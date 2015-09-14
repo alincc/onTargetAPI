@@ -16,7 +16,7 @@ public class Project implements Serializable {
 	private Integer projectTypeId;
 	private String type;
 	private Integer projectOwnerId;
-	private String status;
+	private Integer status;
 	private Integer companyId;
 	private Company company;
 	private Integer projectParentId;
@@ -93,11 +93,11 @@ public class Project implements Serializable {
 		this.projectOwnerId = projectOwnerId;
 	}
 
-	public String getStatus() {
+	public Integer getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(Integer status) {
 		this.status = status;
 	}
 

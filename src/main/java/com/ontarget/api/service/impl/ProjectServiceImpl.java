@@ -273,8 +273,10 @@ public class ProjectServiceImpl implements ProjectService {
 		projectInfo.setEndDate(project.getProjectEndDate());
 		projectInfo.setProjectImagePath(project.getProjectImagePath());
         projectInfo.setProjectAssetFolderName(project.getProjectAssetFolderName());
+        projectInfo.setStatus(project.getProjectStatus());
+        projectInfo.setProjectParentId(project.getProjectParentId());
 
-		List<ProjectConfig> projectConfigList = new ArrayList<>();
+        List<ProjectConfig> projectConfigList = new ArrayList<>();
 		List<ProjectConfiguration> projectConfigurations = project.getProjectConfigurationList();
 		if (projectConfigurations != null && !projectConfigurations.isEmpty()) {
 			for (ProjectConfiguration projectConfiguration : projectConfigurations) {
