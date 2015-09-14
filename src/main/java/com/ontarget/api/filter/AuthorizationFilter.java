@@ -66,7 +66,7 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 
             /* commented for time being unless data in db is finaliSEd
 
-            
+
 			String authorizedApiRequest = requestApiAuthorized(jsonPost, requestPath);
 			logger.debug("authorizedApiRequest: " + authorizedApiRequest);
 
