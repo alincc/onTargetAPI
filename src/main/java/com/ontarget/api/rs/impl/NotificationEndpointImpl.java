@@ -66,6 +66,7 @@ public class NotificationEndpointImpl implements com.ontarget.api.rs.Notificatio
 							.getLoggedInUserProjectId().longValue());
 			response.setNotificationList(userNotificationDTO.getUserNotificationList());
 			response.setTotalNotification(userNotificationDTO.getTotalNotification());
+            response.setTotalUnreadNotification(userNotificationDTO.getTotalUnReadNotification());
 			response.setReturnVal(OnTargetConstant.SUCCESS);
 			response.setReturnMessage("notification read");
 		} catch (Exception e) {

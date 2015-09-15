@@ -11,8 +11,17 @@ public class NotificationResponse extends OnTargetResponse {
 	private static final long serialVersionUID = 1L;
 	List<Notification> notificationList;
 	private long totalNotification;
+    private long totalUnreadNotification;
 
-	public List<Notification> getNotificationList() {
+    public long getTotalUnreadNotification() {
+        return totalUnreadNotification;
+    }
+
+    public void setTotalUnreadNotification(long totalUnreadNotification) {
+        this.totalUnreadNotification = totalUnreadNotification;
+    }
+
+    public List<Notification> getNotificationList() {
 		return notificationList;
 	}
 

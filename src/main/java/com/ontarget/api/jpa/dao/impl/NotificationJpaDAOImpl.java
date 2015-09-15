@@ -111,6 +111,12 @@ public class NotificationJpaDAOImpl implements NotificationDAO {
 			}
 		}
 		userNotificationDTO.setTotalNotification(userNotifications.getTotalElements());
+
+        Page<UserNotification> unReadUserNotifications = userNotificationRepository.countSeenNotificationById(userId, loggedInUserProjectId,
+                pageable);
+
+        userNotificationDTO.setTotalUnReadNotification(unReadUserNotifications.getTotalElements());
+
 		userNotificationDTO.setUserNotificationList(notifications);
 		return userNotificationDTO;
 	}
