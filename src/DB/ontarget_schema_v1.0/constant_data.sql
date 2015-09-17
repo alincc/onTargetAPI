@@ -135,7 +135,18 @@ insert  into `user_type`(`user_type_id`,`user_type`,`user_type_desc`,`created_da
   (3,'SUPER_USER','Super Admin User',now(),'SYSTEM',now(),'SYSTEM','0');
 
 
-insert  into `project_file_category`(`project_file_category_id`,`active`,`name`) values (1,'Y','Drawing'),(2,'Y','Painting'),(3,'Y','Furnishing');
+
+insert  into `project_file_category`(`project_file_category_id`,`active`,`name`) values
+  (1,'Y','Shop Drawings'),
+  (2,'Y','Specifications'),
+  (3,'Y','Invoice RFIs'),
+  (4,'Y','Submittals'),
+  (5,'Y','Site Photographs'),
+  (6,'Y','Transmittal'),
+  (7,'Y','Confirmed Set'),
+  (8,'Y','As-builts'),
+  (9,'Y','Punchlists'),
+  (10,'Y','Change Orders');
 
 
 
