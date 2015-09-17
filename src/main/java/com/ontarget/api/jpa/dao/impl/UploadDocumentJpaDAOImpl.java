@@ -60,6 +60,8 @@ public class UploadDocumentJpaDAOImpl implements UploadDocumentDAO {
 				documentDetail.setFileType(file.getFileType());
 				documentDetail.setCreatedBy(file.getCreatedBy().getUserId());
 				documentDetail.setCreatedDate(file.getCreatedDate());
+                documentDetail.setProjectFileCategoryId(file.getProjectFileCategory());
+                documentDetail.setDescription(file.getDescription());
 				resultList.add(documentDetail);
 			}
 		}
