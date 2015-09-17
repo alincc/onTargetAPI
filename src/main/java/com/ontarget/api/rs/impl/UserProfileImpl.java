@@ -256,12 +256,13 @@ public class UserProfileImpl implements UserProfile {
 	@POST
 	@Path("/userProfileInfo")
 	public com.ontarget.response.bean.UserProfileResponse userProfileInfo(com.ontarget.request.bean.UserProfileRequest request) {
+		logger.info("getting user profile info of user");
 		com.ontarget.response.bean.UserProfileResponse response = new com.ontarget.response.bean.UserProfileResponse();
 		try {
 			return userProfileService.getUserProfileInfo(request.getUserId());
 		} catch (Exception e) {
-			logger.error("Error while retrieving user profiles.", e);
-			response.setReturnMessage("Error while retrieving user profiles.");
+			logger.error("Error while retrieving user profile details.", e);
+			response.setReturnMessage("Error while retrieving user profile details.");
 			response.setReturnVal(OnTargetConstant.ERROR);
 		}
 		return response;

@@ -3,7 +3,6 @@ package com.ontarget.entities;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -37,8 +36,6 @@ public class Profile implements Serializable {
 	private String profileCode;
 	@Column(name = "description", length = 255)
 	private String description;
-	@Column(name = "profile_type", length = 20)
-	private String profileType;
 	@Column(name = "active", length = 1)
 	private Character active;
 	@Column(name = "added_date")
@@ -53,10 +50,10 @@ public class Profile implements Serializable {
 	@JoinColumn(name = "modified_by", referencedColumnName = "user_id")
 	@ManyToOne(fetch = FetchType.LAZY)
 	private User modifiedBy;
-	@OneToMany(mappedBy = "profile", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "profile", fetch = FetchType.LAZY)
 	private List<ProfileMenu> profileMenuList;
-	@OneToMany(mappedBy = "profile", fetch = FetchType.EAGER)
-	private List<ProfilePermission> profilePermissionList;
+	@OneToMany(mappedBy = "profile", fetch = FetchType.LAZY)
+	private List<ProfileFeature> profileFeatureList;
 
 	public Profile() {
 	}
@@ -88,14 +85,6 @@ public class Profile implements Serializable {
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public String getProfileType() {
-		return profileType;
-	}
-
-	public void setProfileType(String profileType) {
-		this.profileType = profileType;
 	}
 
 	public Character getActive() {
@@ -146,12 +135,12 @@ public class Profile implements Serializable {
 		this.profileMenuList = profileMenuList;
 	}
 
-	public List<ProfilePermission> getProfilePermissionList() {
-		return profilePermissionList;
+	public List<ProfileFeature> getProfileFeatureList() {
+		return profileFeatureList;
 	}
 
-	public void setProfilePermissionList(List<ProfilePermission> profilePermissionList) {
-		this.profilePermissionList = profilePermissionList;
+	public void setProfileFeatureList(List<ProfileFeature> profileFeatureList) {
+		this.profileFeatureList = profileFeatureList;
 	}
 
 	public String getProfileCode() {

@@ -36,7 +36,7 @@ public class MenuProfileJpaDAOImpl implements MenuProfileDAO {
 		profile.setActive(new Character('Y'));
 		profile.setAddedBy(new User(request.getUserId()));
 		profile.setAddedDate(new Date());
-		profile.setProfileType(OnTargetConstant.ProfileType.MENU_PROFILE);
+		// profile.setProfileType(OnTargetConstant.ProfileType.MENU_PROFILE);
 		profileRepository.save(profile);
 
 		List<Integer> assignedMenuList = request.getAssignedMenuList();
@@ -53,42 +53,45 @@ public class MenuProfileJpaDAOImpl implements MenuProfileDAO {
 	@Override
 	public boolean editMenuProfile(EditMenuProfileRequest request) throws Exception {
 		Profile profile = profileRepository.findByProfileId(request.getProfileId());
-		if (profile.getProfileType().equalsIgnoreCase(OnTargetConstant.ProfileType.MENU_PROFILE)) {
-			profile.setActive(request.getActive().charAt(0));
-			profile.setName(request.getName().trim());
-			profile.setDescription(request.getDescription());
-			profile.setModifiedBy(new User(request.getUserId()));
-			profile.setModifiedDate(new Date());
-			profileRepository.save(profile);
-
-			List<Integer> assignedMenuList = request.getAssignedMenuList();
-
-			List<ProfileMenu> profileMenuList = profile.getProfileMenuList();
-			for (ProfileMenu profileMenu : profileMenuList) {
-				if (!assignedMenuList.contains(profileMenu.getProfileMenuId())) {
-					profileMenu.setActive(new Character('N'));
-					profileMenuRepository.save(profileMenu);
-				}
-			}
-
-			for (Integer menuId : assignedMenuList) {
-				ProfileMenu profileMenu = profileMenuRepository
-						.findByMenuIdAndProfileId(menuId, profile.getProfileId());
-				if (profileMenu != null) {
-					profileMenu.setActive(new Character('Y'));
-					profileMenuRepository.save(profileMenu);
-				} else {
-					profileMenu = new ProfileMenu();
-					profileMenu.setActive(new Character('Y'));
-					profileMenu.setProfile(profile);
-					profileMenu.setApplicationMenu(new ApplicationMenu(menuId));
-					profileMenuRepository.save(profileMenu);
-				}
-			}
-			return true;
-		} else {
-			return false;
-		}
+		// if
+		// (profile.getProfileType().equalsIgnoreCase(OnTargetConstant.ProfileType.MENU_PROFILE))
+		// {
+		// profile.setActive(request.getActive().charAt(0));
+		// profile.setName(request.getName().trim());
+		// profile.setDescription(request.getDescription());
+		// profile.setModifiedBy(new User(request.getUserId()));
+		// profile.setModifiedDate(new Date());
+		// profileRepository.save(profile);
+		//
+		// List<Integer> assignedMenuList = request.getAssignedMenuList();
+		//
+		// List<ProfileMenu> profileMenuList = profile.getProfileMenuList();
+		// for (ProfileMenu profileMenu : profileMenuList) {
+		// if (!assignedMenuList.contains(profileMenu.getProfileMenuId())) {
+		// profileMenu.setActive(new Character('N'));
+		// profileMenuRepository.save(profileMenu);
+		// }
+		// }
+		//
+		// for (Integer menuId : assignedMenuList) {
+		// ProfileMenu profileMenu = profileMenuRepository
+		// .findByMenuIdAndProfileId(menuId, profile.getProfileId());
+		// if (profileMenu != null) {
+		// profileMenu.setActive(new Character('Y'));
+		// profileMenuRepository.save(profileMenu);
+		// } else {
+		// profileMenu = new ProfileMenu();
+		// profileMenu.setActive(new Character('Y'));
+		// profileMenu.setProfile(profile);
+		// profileMenu.setApplicationMenu(new ApplicationMenu(menuId));
+		// profileMenuRepository.save(profileMenu);
+		// }
+		// }
+		// return true;
+		// } else {
+		// return false;
+		// }
+		return false;
 	}
 
 	@Override

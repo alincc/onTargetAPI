@@ -21,6 +21,8 @@ import com.ontarget.api.dao.UserDAO;
 import com.ontarget.api.dao.UserInvitationDAO;
 import com.ontarget.api.dao.UserRegistrationDAO;
 import com.ontarget.api.dao.UserSafetyInfoDAO;
+import com.ontarget.api.repository.ProfileFeatureRepository;
+import com.ontarget.api.repository.ProfileMenuRepository;
 import com.ontarget.api.repository.ProfileRepository;
 import com.ontarget.api.repository.UserProfileRepository;
 import com.ontarget.api.service.EmailService;
@@ -28,10 +30,8 @@ import com.ontarget.api.service.UserProfileService;
 import com.ontarget.bean.Company;
 import com.ontarget.bean.Contact;
 import com.ontarget.bean.ContactPhone;
-import com.ontarget.bean.MenuProfileDTO;
-import com.ontarget.bean.PermissionProfileDTO;
-import com.ontarget.bean.ProfileAssignedMenuDTO;
-import com.ontarget.bean.ProfileAssignedPermissionDTO;
+import com.ontarget.bean.ProfileFeatureInfo;
+import com.ontarget.bean.ProfileMenuInfo;
 import com.ontarget.bean.ProjectDTO;
 import com.ontarget.bean.UserDTO;
 import com.ontarget.bean.UserRegistration;
@@ -46,8 +46,8 @@ import com.ontarget.dto.UserResponse;
 import com.ontarget.entities.CompanyInfo;
 import com.ontarget.entities.Email;
 import com.ontarget.entities.Profile;
+import com.ontarget.entities.ProfileFeature;
 import com.ontarget.entities.ProfileMenu;
-import com.ontarget.entities.ProfilePermission;
 import com.ontarget.entities.User;
 import com.ontarget.entities.UserProfile;
 import com.ontarget.request.bean.CompanyEditInfo;
@@ -115,6 +115,10 @@ public class UserProfileServiceImpl implements UserProfileService {
 	private UserProfileRepository userProfileRepository;
 	@Autowired
 	private ProfileRepository profileRepository;
+	@Autowired
+	private ProfileMenuRepository profileMenuRepository;
+	@Autowired
+	private ProfileFeatureRepository profileFeatureRepository;
 
 	private Random random = new Random();
 
@@ -131,7 +135,7 @@ public class UserProfileServiceImpl implements UserProfileService {
 		Company company = ConvertPOJOUtils.convertToCompany(userRegistration);
 
 		int companyId;
-		int type = 0;
+
 		if (userRegistration.getCompanyId() != 0) {
 			companyId = userRegistration.getCompanyId();
 		} else {
@@ -509,58 +513,43 @@ public class UserProfileServiceImpl implements UserProfileService {
 
 		UserProfile userProfile = userProfileRepository.findByUserId(userId);
 
-		Profile menuProfile = userProfile.getMenuProfile();
-		Profile permissionProfile = userProfile.getPermissionProfile();
+		Profile profile = userProfile.getProfile();
+		logger.debug("profile id: " + profile.getProfileId());
 
-		MenuProfileDTO menuProfileDTO = new MenuProfileDTO();
-		menuProfileDTO.setProfileAssignedMenuList(new ArrayList<ProfileAssignedMenuDTO>());
+		List<ProfileMenu> profileMenuList = profileMenuRepository.findByProfileId(profile.getProfileId());
+		List<ProfileFeature> profileFeatureList = profileFeatureRepository.findByProfileId(profile.getProfileId());
 
-		if (menuProfile != null && menuProfile.getActive().equals(new Character('Y'))) {
-			menuProfileDTO.setProfileName(menuProfile.getName());
-			menuProfileDTO.setProfileDescription(menuProfile.getDescription());
+		logger.debug("profile menu list:" + profileMenuList.size());
+		logger.debug("profile feature list:" + profileFeatureList.size());
 
-			List<ProfileAssignedMenuDTO> profileAssignedMenuDTOList = new ArrayList<>();
-			List<ProfileMenu> profileMenus = menuProfile.getProfileMenuList();
-			for (ProfileMenu profileMenu : profileMenus) {
+		List<ProfileMenuInfo> menuList = new ArrayList<ProfileMenuInfo>();
+		List<ProfileFeatureInfo> featureList = new ArrayList<ProfileFeatureInfo>();
+
+		if (profileMenuList != null && !profileMenuList.isEmpty()) {
+			for (ProfileMenu profileMenu : profileMenuList) {
 				if (profileMenu.getActive().equals(new Character('Y'))) {
-					if (profileMenu.getApplicationMenu().getActive().equals(new Character('Y'))) {
-						ProfileAssignedMenuDTO profileAssignedMenuDTO = new ProfileAssignedMenuDTO();
-						profileAssignedMenuDTO.setMenuName(profileMenu.getApplicationMenu().getMenuName());
-						profileAssignedMenuDTO.setMenuKey(profileMenu.getApplicationMenu().getMenuKey());
-						profileAssignedMenuDTOList.add(profileAssignedMenuDTO);
-					}
+					ProfileMenuInfo profileMenuInfo = new ProfileMenuInfo();
+					profileMenuInfo.setMenuKey(profileMenu.getApplicationMenu().getMenuKey());
+					profileMenuInfo.setMenuName(profileMenu.getApplicationMenu().getMenuName());
+					menuList.add(profileMenuInfo);
 				}
 			}
-			menuProfileDTO.setProfileAssignedMenuList(profileAssignedMenuDTOList);
 		}
-		response.setMenuProfile(menuProfileDTO);
 
-		PermissionProfileDTO permissionProfileDTO = new PermissionProfileDTO();
-		permissionProfileDTO.setProfileAssignedPermissionList(new ArrayList<ProfileAssignedPermissionDTO>());
-
-		if (permissionProfile != null && permissionProfile.getActive().equals(new Character('Y'))) {
-			permissionProfileDTO.setProfileName(permissionProfile.getName());
-			permissionProfileDTO.setProfileDescription(permissionProfile.getDescription());
-
-			List<ProfileAssignedPermissionDTO> profileAssignedMenuDTOList = new ArrayList<>();
-			List<ProfilePermission> profiePermissionList = permissionProfile.getProfilePermissionList();
-			for (ProfilePermission profilePermission : profiePermissionList) {
-				if (profilePermission.getActive().equals(new Character('Y'))) {
-					if (profilePermission.getApplicationPermission().getActive().equals(new Character('Y'))) {
-						ProfileAssignedPermissionDTO profileAssignedPermissionDTO = new ProfileAssignedPermissionDTO();
-						profileAssignedPermissionDTO.setPermissionName(profilePermission.getApplicationPermission().getPermissionName());
-						profileAssignedPermissionDTO.setPermissionKey(profilePermission.getApplicationPermission().getPermissionKey());
-						profileAssignedMenuDTOList.add(profileAssignedPermissionDTO);
-					}
+		if (profileFeatureList != null && !profileFeatureList.isEmpty()) {
+			for (ProfileFeature profileFeature : profileFeatureList) {
+				if (profileFeature.getActive().equals(new Character('Y'))) {
+					ProfileFeatureInfo profileFeatureInfo = new ProfileFeatureInfo();
+					profileFeatureInfo.setFeatureKey(profileFeature.getApplicationFeature().getFeatureKey());
+					profileFeatureInfo.setFeatureName(profileFeature.getApplicationFeature().getFeatureName());
+					featureList.add(profileFeatureInfo);
 				}
 			}
-			permissionProfileDTO.setProfileAssignedPermissionList(profileAssignedMenuDTOList);
 		}
-		response.setPermissionProfile(permissionProfileDTO);
-
-		response.setReturnMessage("Successfully retrieved user profiles");
+		response.setMenuList(menuList);
+		response.setFeatureList(featureList);
+		response.setReturnMessage("Successfully retrieved user profile details");
 		response.setReturnVal(OnTargetConstant.SUCCESS);
-
 		return response;
 	}
 }

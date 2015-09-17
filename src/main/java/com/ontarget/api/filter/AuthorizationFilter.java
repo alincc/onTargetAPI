@@ -18,11 +18,11 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.glassfish.jersey.message.internal.ReaderWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.ontarget.api.repository.PermissionMappedRequestRepository;
+import com.ontarget.api.repository.FeatureRequestMapperRepository;
 import com.ontarget.api.service.AuthorizationService;
 import com.ontarget.constant.OnTargetConstant;
-import com.ontarget.entities.ApplicationPermission;
-import com.ontarget.entities.PermissionMappedRequest;
+import com.ontarget.entities.ApplicationFeature;
+import com.ontarget.entities.FeatureRequestMapper;
 
 @Provider
 public class AuthorizationFilter implements ContainerRequestFilter {
@@ -31,7 +31,7 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 	@Autowired
 	private AuthorizationService authorizationService;
 	@Autowired
-	private PermissionMappedRequestRepository permissionMappedRequestRepository;
+	private FeatureRequestMapperRepository featureRequestMapperRepository;
 
 	@Override
 	public void filter(ContainerRequestContext request) {
@@ -64,18 +64,12 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 				throw new WebApplicationException(unauthorizedResponse());
 			}
 
-            /* commented for time being unless data in db is finaliSEd
-
-
 			String authorizedApiRequest = requestApiAuthorized(jsonPost, requestPath);
 			logger.debug("authorizedApiRequest: " + authorizedApiRequest);
 
 			if (authorizedApiRequest.equalsIgnoreCase("UNAUTHORIZED")) {
-
 				throw new WebApplicationException(unauthorizedResponse());
-
 			}
-			*/
 
 			String authorized = authenticate(jsonPost, requestPath);
 			logger.debug("authorized: " + authorized);
@@ -117,21 +111,19 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 			JsonNode userObjNode = baseRequestObj.get("loggedInUserId");
 			Integer userId = userObjNode.getIntValue();
 
-			PermissionMappedRequest permissionMappedRequest = permissionMappedRequestRepository
-					.findPermissionMappedByRequestPath(requestPath);
+			FeatureRequestMapper featureRequestMapper = featureRequestMapperRepository.findByRequestPath(requestPath);
 
-			logger.debug("permission mapped request: " + permissionMappedRequest);
+			logger.debug("feature request mapper: " + featureRequestMapper);
 
-			if (permissionMappedRequest != null) {
-				logger.debug("has permission: " + permissionMappedRequest.getHasPermission());
-				if (permissionMappedRequest.getHasPermission().equals(new Character('N'))) {
-
+			if (featureRequestMapper != null) {
+				logger.debug("has feature: " + featureRequestMapper.getHasFeature());
+				if (featureRequestMapper.getHasFeature().equals(new Character('N'))) {
 					return "UNAUTHORIZED";
 				} else {
-					ApplicationPermission applicationPermission = permissionMappedRequestRepository.hasPermissionToUser(userId,
-							permissionMappedRequest.getApplicationPermission().getApplicationPermissionId());
-					logger.debug("application permission: " + applicationPermission);
-					if (applicationPermission == null) {
+					ApplicationFeature applicationFeature = featureRequestMapperRepository.hasPermissionToUser(userId, featureRequestMapper
+							.getApplicationFeature().getApplicationFeatureId());
+					logger.debug("application feature: " + applicationFeature);
+					if (applicationFeature == null) {
 						return "UNAUTHORIZED";
 					}
 				}

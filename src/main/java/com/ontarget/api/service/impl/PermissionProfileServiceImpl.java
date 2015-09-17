@@ -12,16 +12,16 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ontarget.api.dao.PermissionProfileDAO;
 import com.ontarget.api.service.PermissionProfileService;
 import com.ontarget.bean.ApplicationPermissionDTO;
-import com.ontarget.bean.PermissionProfileDTO;
-import com.ontarget.bean.ProfileAssignedPermissionDTO;
+import com.ontarget.bean.ProfilePermissionDTO;
+import com.ontarget.bean.ProfileFeatureInfo;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.PermissionListReponse;
 import com.ontarget.dto.PermissionProfileListResponse;
 import com.ontarget.dto.PermissionProfileResponse;
-import com.ontarget.entities.ApplicationPermission;
+import com.ontarget.entities.ApplicationFeature;
 import com.ontarget.entities.Profile;
-import com.ontarget.entities.ProfilePermission;
+import com.ontarget.entities.ProfileFeature;
 import com.ontarget.request.bean.AddPermissionProfileRequest;
 import com.ontarget.request.bean.EditPermissionProfileRequest;
 
@@ -64,8 +64,7 @@ public class PermissionProfileServiceImpl implements PermissionProfileService {
 
 		OnTargetResponse response = new OnTargetResponse();
 
-		if (permissionProfileDAO.isProfileNameAlreadyAdded(request.getProfileId(), request.getName().trim()
-				.toUpperCase())) {
+		if (permissionProfileDAO.isProfileNameAlreadyAdded(request.getProfileId(), request.getName().trim().toUpperCase())) {
 			response.setReturnMessage("Profile name already added");
 			response.setReturnVal(OnTargetConstant.ERROR);
 			return response;
@@ -86,16 +85,16 @@ public class PermissionProfileServiceImpl implements PermissionProfileService {
 	public PermissionListReponse getApplicationPermissions() throws Exception {
 		PermissionListReponse response = new PermissionListReponse();
 
-		List<ApplicationPermission> permissionList = permissionProfileDAO.getApplicationPermissionList();
+		List<ApplicationFeature> permissionList = permissionProfileDAO.getApplicationPermissionList();
 
 		List<ApplicationPermissionDTO> applicationPermissionDTOList = new ArrayList<>();
 
 		if (permissionList != null && !permissionList.isEmpty()) {
-			for (ApplicationPermission applicationPermission : permissionList) {
+			for (ApplicationFeature applicationPermission : permissionList) {
 				ApplicationPermissionDTO applicationPermissionDTO = new ApplicationPermissionDTO();
-				applicationPermissionDTO.setApplicationPermissionId(applicationPermission.getApplicationPermissionId());
-				applicationPermissionDTO.setPermissionKey(applicationPermission.getPermissionKey());
-				applicationPermissionDTO.setPermissionName(applicationPermission.getPermissionName());
+				// applicationPermissionDTO.setApplicationPermissionId(applicationPermission.getApplicationPermissionId());
+				// applicationPermissionDTO.setPermissionKey(applicationPermission.getPermissionKey());
+				// applicationPermissionDTO.setPermissionName(applicationPermission.getPermissionName());
 				applicationPermissionDTOList.add(applicationPermissionDTO);
 			}
 		}
@@ -111,11 +110,11 @@ public class PermissionProfileServiceImpl implements PermissionProfileService {
 
 		List<Profile> profileList = permissionProfileDAO.getProfileList();
 
-		List<PermissionProfileDTO> permissionProfileDTOList = new ArrayList<>();
+		List<ProfilePermissionDTO> permissionProfileDTOList = new ArrayList<>();
 
 		if (profileList != null && !profileList.isEmpty()) {
 			for (Profile profile : profileList) {
-				PermissionProfileDTO permissionProfileDTO = new PermissionProfileDTO();
+				ProfilePermissionDTO permissionProfileDTO = new ProfilePermissionDTO();
 				permissionProfileDTO.setPermissionProfileId(profile.getProfileId());
 				permissionProfileDTO.setActive(profile.getActive().toString());
 				permissionProfileDTO.setProfileName(profile.getName());
@@ -123,21 +122,29 @@ public class PermissionProfileServiceImpl implements PermissionProfileService {
 				permissionProfileDTO.setAddedBy(profile.getAddedBy().getUserName());
 				permissionProfileDTO.setAddedDate(profile.getAddedDate());
 
-				List<ProfileAssignedPermissionDTO> profileAssignedPermissionDTOList = new ArrayList<>();
-				List<ProfilePermission> profilePermissionList = profile.getProfilePermissionList();
-				for (ProfilePermission profilePermission : profilePermissionList) {
-					ProfileAssignedPermissionDTO profileAssignedMenuDTO = new ProfileAssignedPermissionDTO();
-					profileAssignedMenuDTO.setActive(profilePermission.getActive().toString());
-					profileAssignedMenuDTO.setApplicationPermissionId(profilePermission.getApplicationPermission()
-							.getApplicationPermissionId());
-					profileAssignedMenuDTO.setPermissionName(profilePermission.getApplicationPermission()
-							.getPermissionName());
-					profileAssignedMenuDTO.setPermissionKey(profilePermission.getApplicationPermission()
-							.getPermissionKey());
-					profileAssignedMenuDTO.setProfilePermissionId(profilePermission.getProfilePermissionId());
-					profileAssignedPermissionDTOList.add(profileAssignedMenuDTO);
-				}
-				permissionProfileDTO.setProfileAssignedPermissionList(profileAssignedPermissionDTOList);
+				// List<ProfileFeatureInfo> profileAssignedPermissionDTOList =
+				// new ArrayList<>();
+				// List<ProfileFeature> profilePermissionList =
+				// profile.getProfilePermissionList();
+				// for (ProfileFeature profilePermission :
+				// profilePermissionList) {
+				// ProfileFeatureInfo profileAssignedMenuDTO = new
+				// ProfileFeatureInfo();
+				// profileAssignedMenuDTO.setActive(profilePermission.getActive().toString());
+				// //
+				// profileAssignedMenuDTO.setApplicationPermissionId(profilePermission.getApplicationPermission()
+				// // .getApplicationPermissionId());
+				// //
+				// profileAssignedMenuDTO.setPermissionName(profilePermission.getApplicationPermission()
+				// // .getPermissionName());
+				// //
+				// profileAssignedMenuDTO.setPermissionKey(profilePermission.getApplicationPermission()
+				// // .getPermissionKey());
+				// //
+				// profileAssignedMenuDTO.setProfilePermissionId(profilePermission.getProfilePermissionId());
+				// profileAssignedPermissionDTOList.add(profileAssignedMenuDTO);
+				// }
+				// permissionProfileDTO.setProfileAssignedPermissionList(profileAssignedPermissionDTOList);
 
 				permissionProfileDTOList.add(permissionProfileDTO);
 			}
@@ -154,39 +161,47 @@ public class PermissionProfileServiceImpl implements PermissionProfileService {
 
 		Profile profile = permissionProfileDAO.getProfileById(profileId);
 
-		if (profile != null
-				&& profile.getProfileType().equalsIgnoreCase(OnTargetConstant.ProfileType.PERMISSION_PROFILE)) {
-			if (profile.getActive().equals(new Character('Y'))) {
-				PermissionProfileDTO permissionProfileDTO = new PermissionProfileDTO();
-				permissionProfileDTO.setProfileName(profile.getName());
-				permissionProfileDTO.setProfileDescription(profile.getDescription());
-
-				List<ProfileAssignedPermissionDTO> profileAssignedMenuDTOList = new ArrayList<>();
-				List<ProfilePermission> profiePermissionList = profile.getProfilePermissionList();
-				for (ProfilePermission profilePermission : profiePermissionList) {
-					if (profilePermission.getActive().equals(new Character('Y'))) {
-						if (profilePermission.getApplicationPermission().getActive().equals(new Character('Y'))) {
-							ProfileAssignedPermissionDTO profileAssignedPermissionDTO = new ProfileAssignedPermissionDTO();
-							profileAssignedPermissionDTO.setPermissionName(profilePermission.getApplicationPermission()
-									.getPermissionName());
-							profileAssignedPermissionDTO.setPermissionKey(profilePermission.getApplicationPermission()
-									.getPermissionKey());
-							profileAssignedMenuDTOList.add(profileAssignedPermissionDTO);
-						}
-					}
-				}
-				permissionProfileDTO.setProfileAssignedPermissionList(profileAssignedMenuDTOList);
-				response.setPermissionProfile(permissionProfileDTO);
-				response.setReturnMessage("Successfully retrieved permission profile info.");
-				response.setReturnVal(OnTargetConstant.SUCCESS);
-			} else {
-				response.setReturnMessage("Profile is blocked.");
-				response.setReturnVal(OnTargetConstant.ERROR);
-			}
-		} else {
-			response.setReturnMessage("Error while retrieving permission profile info.");
-			response.setReturnVal(OnTargetConstant.ERROR);
-		}
+		// if (profile != null
+		// &&
+		// profile.getProfileType().equalsIgnoreCase(OnTargetConstant.ProfileType.PERMISSION_PROFILE))
+		// {
+		// if (profile.getActive().equals(new Character('Y'))) {
+		// PermissionProfileDTO permissionProfileDTO = new
+		// PermissionProfileDTO();
+		// permissionProfileDTO.setProfileName(profile.getName());
+		// permissionProfileDTO.setProfileDescription(profile.getDescription());
+		//
+		// List<ProfileAssignedPermissionDTO> profileAssignedMenuDTOList = new
+		// ArrayList<>();
+		// List<ProfileFeature> profiePermissionList =
+		// profile.getProfilePermissionList();
+		// for (ProfileFeature profilePermission : profiePermissionList) {
+		// if (profilePermission.getActive().equals(new Character('Y'))) {
+		// if
+		// (profilePermission.getApplicationPermission().getActive().equals(new
+		// Character('Y'))) {
+		// ProfileAssignedPermissionDTO profileAssignedPermissionDTO = new
+		// ProfileAssignedPermissionDTO();
+		// profileAssignedPermissionDTO.setPermissionName(profilePermission.getApplicationPermission()
+		// .getPermissionName());
+		// profileAssignedPermissionDTO.setPermissionKey(profilePermission.getApplicationPermission()
+		// .getPermissionKey());
+		// profileAssignedMenuDTOList.add(profileAssignedPermissionDTO);
+		// }
+		// }
+		// }
+		// permissionProfileDTO.setProfileAssignedPermissionList(profileAssignedMenuDTOList);
+		// response.setPermissionProfile(permissionProfileDTO);
+		// response.setReturnMessage("Successfully retrieved permission profile info.");
+		// response.setReturnVal(OnTargetConstant.SUCCESS);
+		// } else {
+		// response.setReturnMessage("Profile is blocked.");
+		// response.setReturnVal(OnTargetConstant.ERROR);
+		// }
+		// } else {
+		// response.setReturnMessage("Error while retrieving permission profile info.");
+		// response.setReturnVal(OnTargetConstant.ERROR);
+		// }
 		return response;
 	}
 

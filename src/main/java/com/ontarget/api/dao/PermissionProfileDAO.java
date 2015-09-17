@@ -2,7 +2,7 @@ package com.ontarget.api.dao;
 
 import java.util.List;
 
-import com.ontarget.entities.ApplicationPermission;
+import com.ontarget.entities.ApplicationFeature;
 import com.ontarget.entities.Profile;
 import com.ontarget.request.bean.AddPermissionProfileRequest;
 import com.ontarget.request.bean.EditPermissionProfileRequest;
@@ -17,7 +17,7 @@ public interface PermissionProfileDAO {
 
 	boolean isProfileNameAlreadyAdded(Integer profileId, String name) throws Exception;
 
-	List<ApplicationPermission> getApplicationPermissionList() throws Exception;
+	List<ApplicationFeature> getApplicationPermissionList() throws Exception;
 
 	List<Profile> getProfileList() throws Exception;
 
