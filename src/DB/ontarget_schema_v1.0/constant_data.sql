@@ -143,7 +143,7 @@ insert  into `task_status`(`task_status_id`,`status_code`,`status_name`,`status_
   (1,'ACTIVE','Active','Active Status'),
   (2,'PENDING','Pending','Pending Status'),
   (3,'COMPLETED','Completed','Completed Status'),
-  (4,'DELETED','Deleted','Deleted Status');
+  (4,'EXPIRED','Expired','Expired Status');
 
 
 
