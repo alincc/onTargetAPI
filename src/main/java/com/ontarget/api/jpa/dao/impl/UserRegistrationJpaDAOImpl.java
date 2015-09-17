@@ -127,11 +127,9 @@ public class UserRegistrationJpaDAOImpl implements com.ontarget.api.dao.UserRegi
 
 	@Override
 	public UserProfile assignProfilesToUser(String userType, int userId) {
-		Profile menuProfile = profileRepository.findProfileByTypeAndCode(OnTargetConstant.ProfileType.MENU_PROFILE, userType);
-		Profile permissionProfile = profileRepository.findProfileByTypeAndCode(OnTargetConstant.ProfileType.PERMISSION_PROFILE, userType);
+		Profile profile = profileRepository.findProfileByCode(userType);
 		UserProfile userProfile = new UserProfile();
-		userProfile.setMenuProfile(menuProfile);
-		userProfile.setPermissionProfile(permissionProfile);
+		userProfile.setProfile(profile);
 		userProfile.setUser(new User(userId));
 		userProfileRepository.save(userProfile);
 		return userProfile;

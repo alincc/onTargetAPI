@@ -25,12 +25,9 @@ public class UserProfile implements Serializable {
 	@Basic(optional = false)
 	@Column(name = "user_profile_id", nullable = false)
 	private Integer userProfileId;
-	@JoinColumn(name = "menu_profile_id", referencedColumnName = "profile_id")
+	@JoinColumn(name = "profile_id", referencedColumnName = "profile_id")
 	@ManyToOne()
-	private Profile menuProfile;
-	@JoinColumn(name = "permission_profile_id", referencedColumnName = "profile_id")
-	@ManyToOne()
-	private Profile permissionProfile;
+	private Profile profile;
 	@JoinColumn(name = "user_id", referencedColumnName = "user_id")
 	@ManyToOne()
 	private User user;
@@ -50,20 +47,12 @@ public class UserProfile implements Serializable {
 		this.userProfileId = userProfileId;
 	}
 
-	public Profile getMenuProfile() {
-		return menuProfile;
+	public Profile getProfile() {
+		return profile;
 	}
 
-	public void setMenuProfile(Profile menuProfile) {
-		this.menuProfile = menuProfile;
-	}
-
-	public Profile getPermissionProfile() {
-		return permissionProfile;
-	}
-
-	public void setPermissionProfile(Profile permissionProfile) {
-		this.permissionProfile = permissionProfile;
+	public void setProfile(Profile profile) {
+		this.profile = profile;
 	}
 
 	public User getUser() {

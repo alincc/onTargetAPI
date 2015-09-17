@@ -12,7 +12,7 @@ public class MenuProfileDTO implements Serializable {
 	private String active;
 	private Date addedDate;
 	private String addedBy;
-	private List<ProfileAssignedMenuDTO> profileAssignedMenuList;
+	private List<ProfileMenuInfo> profileAssignedMenuList;
 
 	public Integer getMenuProfileId() {
 		return menuProfileId;
@@ -62,11 +62,11 @@ public class MenuProfileDTO implements Serializable {
 		this.addedBy = addedBy;
 	}
 
-	public List<ProfileAssignedMenuDTO> getProfileAssignedMenuList() {
+	public List<ProfileMenuInfo> getProfileAssignedMenuList() {
 		return profileAssignedMenuList;
 	}
 
-	public void setProfileAssignedMenuList(List<ProfileAssignedMenuDTO> profileAssignedMenuList) {
+	public void setProfileAssignedMenuList(List<ProfileMenuInfo> profileAssignedMenuList) {
 		this.profileAssignedMenuList = profileAssignedMenuList;
 	}
 

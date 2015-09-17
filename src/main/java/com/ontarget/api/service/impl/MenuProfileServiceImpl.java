@@ -13,7 +13,7 @@ import com.ontarget.api.dao.MenuProfileDAO;
 import com.ontarget.api.service.MenuProfileService;
 import com.ontarget.bean.ApplicationMenuDTO;
 import com.ontarget.bean.MenuProfileDTO;
-import com.ontarget.bean.ProfileAssignedMenuDTO;
+import com.ontarget.bean.ProfileMenuInfo;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.MenuListResponse;
 import com.ontarget.dto.MenuProfileListResponse;
@@ -123,19 +123,19 @@ public class MenuProfileServiceImpl implements MenuProfileService {
 				menuProfileDTO.setAddedBy(profile.getAddedBy().getUserName());
 				menuProfileDTO.setAddedDate(profile.getAddedDate());
 
-				List<ProfileAssignedMenuDTO> profileAssignedMenuDTOList = new ArrayList<>();
-				List<ProfileMenu> profileMenus = profile.getProfileMenuList();
-				for (ProfileMenu profileMenu : profileMenus) {
-					ProfileAssignedMenuDTO profileAssignedMenuDTO = new ProfileAssignedMenuDTO();
-					profileAssignedMenuDTO.setActive(profileMenu.getActive().toString());
-					profileAssignedMenuDTO
-							.setApplicationMenuId(profileMenu.getApplicationMenu().getApplicationMenuId());
-					profileAssignedMenuDTO.setMenuName(profileMenu.getApplicationMenu().getMenuName());
-					profileAssignedMenuDTO.setMenuKey(profileMenu.getApplicationMenu().getMenuKey());
-					profileAssignedMenuDTO.setProfileMenuId(profileMenu.getProfileMenuId());
-					profileAssignedMenuDTOList.add(profileAssignedMenuDTO);
-				}
-				menuProfileDTO.setProfileAssignedMenuList(profileAssignedMenuDTOList);
+//				List<ProfileMenuInfo> profileAssignedMenuDTOList = new ArrayList<>();
+//				List<ProfileMenu> profileMenus = profile.getProfileMenuList();
+//				for (ProfileMenu profileMenu : profileMenus) {
+//					ProfileMenuInfo profileAssignedMenuDTO = new ProfileMenuInfo();
+//					profileAssignedMenuDTO.setActive(profileMenu.getActive().toString());
+//					profileAssignedMenuDTO
+//							.setApplicationMenuId(profileMenu.getApplicationMenu().getApplicationMenuId());
+//					profileAssignedMenuDTO.setMenuName(profileMenu.getApplicationMenu().getMenuName());
+//					profileAssignedMenuDTO.setMenuKey(profileMenu.getApplicationMenu().getMenuKey());
+//					profileAssignedMenuDTO.setProfileMenuId(profileMenu.getProfileMenuId());
+//					profileAssignedMenuDTOList.add(profileAssignedMenuDTO);
+//				}
+//				menuProfileDTO.setProfileAssignedMenuList(profileAssignedMenuDTOList);
 
 				menuProfileDTOList.add(menuProfileDTO);
 			}
@@ -152,18 +152,18 @@ public class MenuProfileServiceImpl implements MenuProfileService {
 
 		Profile profile = menuProfileDAO.getProfileById(profileId);
 
-		if (profile != null && profile.getProfileType().equalsIgnoreCase(OnTargetConstant.ProfileType.MENU_PROFILE)) {
+		//if (profile != null && profile.getProfileType().equalsIgnoreCase(OnTargetConstant.ProfileType.MENU_PROFILE)) {
 			if (profile.getActive().equals(new Character('Y'))) {
 				MenuProfileDTO menuProfileDTO = new MenuProfileDTO();
 				menuProfileDTO.setProfileName(profile.getName());
 				menuProfileDTO.setProfileDescription(profile.getDescription());
 
-				List<ProfileAssignedMenuDTO> profileAssignedMenuDTOList = new ArrayList<>();
+				List<ProfileMenuInfo> profileAssignedMenuDTOList = new ArrayList<>();
 				List<ProfileMenu> profileMenus = profile.getProfileMenuList();
 				for (ProfileMenu profileMenu : profileMenus) {
 					if (profileMenu.getActive().equals(new Character('Y'))) {
 						if (profileMenu.getApplicationMenu().getActive().equals(new Character('Y'))) {
-							ProfileAssignedMenuDTO profileAssignedMenuDTO = new ProfileAssignedMenuDTO();
+							ProfileMenuInfo profileAssignedMenuDTO = new ProfileMenuInfo();
 							profileAssignedMenuDTO.setMenuName(profileMenu.getApplicationMenu().getMenuName());
 							profileAssignedMenuDTO.setMenuKey(profileMenu.getApplicationMenu().getMenuKey());
 							profileAssignedMenuDTOList.add(profileAssignedMenuDTO);
@@ -178,10 +178,10 @@ public class MenuProfileServiceImpl implements MenuProfileService {
 				response.setReturnMessage("Profile is blocked.");
 				response.setReturnVal(OnTargetConstant.ERROR);
 			}
-		} else {
-			response.setReturnMessage("Error while retrieving menu profile info.");
-			response.setReturnVal(OnTargetConstant.ERROR);
-		}
+//		} else {
+//			response.setReturnMessage("Error while retrieving menu profile info.");
+//			response.setReturnVal(OnTargetConstant.ERROR);
+//		}
 		return response;
 	}
 

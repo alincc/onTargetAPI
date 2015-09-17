@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class PermissionProfileDTO implements Serializable {
+public class ProfilePermissionDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Integer permissionProfileId;
 	private String profileName;
@@ -12,7 +12,7 @@ public class PermissionProfileDTO implements Serializable {
 	private String active;
 	private Date addedDate;
 	private String addedBy;
-	private List<ProfileAssignedPermissionDTO> profileAssignedPermissionList;
+	private List<ProfileFeatureInfo> profileAssignedPermissionList;
 
 	public Integer getPermissionProfileId() {
 		return permissionProfileId;
@@ -62,11 +62,11 @@ public class PermissionProfileDTO implements Serializable {
 		this.addedBy = addedBy;
 	}
 
-	public List<ProfileAssignedPermissionDTO> getProfileAssignedPermissionList() {
+	public List<ProfileFeatureInfo> getProfileAssignedPermissionList() {
 		return profileAssignedPermissionList;
 	}
 
-	public void setProfileAssignedPermissionList(List<ProfileAssignedPermissionDTO> profileAssignedPermissionList) {
+	public void setProfileAssignedPermissionList(List<ProfileFeatureInfo> profileAssignedPermissionList) {
 		this.profileAssignedPermissionList = profileAssignedPermissionList;
 	}
 

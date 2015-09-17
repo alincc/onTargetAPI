@@ -2,17 +2,17 @@ package com.ontarget.dto;
 
 import java.util.List;
 
-import com.ontarget.bean.PermissionProfileDTO;
+import com.ontarget.bean.ProfilePermissionDTO;
 
 public class PermissionProfileListResponse extends OnTargetResponse {
 	private static final long serialVersionUID = 1L;
-	private List<PermissionProfileDTO> permissionProfileList;
+	private List<ProfilePermissionDTO> permissionProfileList;
 
-	public List<PermissionProfileDTO> getPermissionProfileList() {
+	public List<ProfilePermissionDTO> getPermissionProfileList() {
 		return permissionProfileList;
 	}
 
-	public void setPermissionProfileList(List<PermissionProfileDTO> permissionProfileList) {
+	public void setPermissionProfileList(List<ProfilePermissionDTO> permissionProfileList) {
 		this.permissionProfileList = permissionProfileList;
 	}
 
