@@ -64,12 +64,12 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 				throw new WebApplicationException(unauthorizedResponse());
 			}
 
-			String authorizedApiRequest = requestApiAuthorized(jsonPost, requestPath);
-			logger.debug("authorizedApiRequest: " + authorizedApiRequest);
-
-			if (authorizedApiRequest.equalsIgnoreCase("UNAUTHORIZED")) {
-				throw new WebApplicationException(unauthorizedResponse());
-			}
+//			String authorizedApiRequest = requestApiAuthorized(jsonPost, requestPath);
+//			logger.debug("authorizedApiRequest: " + authorizedApiRequest);
+//
+//			if (authorizedApiRequest.equalsIgnoreCase("UNAUTHORIZED")) {
+//				throw new WebApplicationException(unauthorizedResponse());
+//			}
 
 			String authorized = authenticate(jsonPost, requestPath);
 			logger.debug("authorized: " + authorized);

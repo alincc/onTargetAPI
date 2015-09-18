@@ -27,14 +27,11 @@ insert  into `application_permission`(`application_permission_id`,`active`,`perm
 /**
 profile - need to figure out the user id who added and modified it initially.
  */
+INSERT INTO `profile` (`profile_id`, `active`, `added_date`, `modified_date`, `name`, `added_by`, `modified_by`, `description`, `profile_code`) VALUES
+  (1,'Y','2015-08-23 17:27:48',NULL,'Super User',10,NULL,'Super User Profile','SU'),
+  (2,'Y','2015-08-23 17:28:09',NULL,'Project Manager',10,NULL,'Project Manager Profile','PM'),
+  (3,'Y','2015-08-23 17:28:27',NULL,'Regular User',10,NULL,'Regular User','RU');
 
-insert  into `profile`(`profile_id`,`active`,`added_date`,`modified_date`,`name`,`profile_type`,`description`,`profile_code`) values
-  (1,'Y',now(),now(),'Super User','MENU','Super User menu profile','SU'),
-  (2,'Y',now(),now(),'Project Manager','MENU','Project Manager Profile','PM'),
-  (3,'Y',now(),now(),'Regular User','MENU','Regular User','RU'),
-  (4,'Y',now(),now(),'Super User','PERMISSION','Super User permission profile','SU'),
-  (5,'Y',now(),now(),'Project Manager','PERMISSION','Project Manager permission profile','PM'),
-  (6,'Y',now(),now(),'Regular User','PERMISSION','Regular User permission profile','RU');
 
 
 insert  into `profile_menu`(`profile_menu_id`,`active`,`application_menu_id`,`profile_id`) values

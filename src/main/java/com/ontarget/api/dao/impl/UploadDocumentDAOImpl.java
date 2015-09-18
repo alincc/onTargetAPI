@@ -92,7 +92,12 @@ public class UploadDocumentDAOImpl implements UploadDocumentDAO {
 		return null;
 	}
 
-	@Override
+    @Override
+    public UploadedDocumentDetail getFilesByProjectAndFileId(Integer projectId, Integer projectFileId) throws Exception {
+        return null;
+    }
+
+    @Override
 	public boolean deleteProjectFile(Integer projectFileId,int userId) throws Exception {
 		// TODO Auto-generated method stub
 		return false;

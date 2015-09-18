@@ -507,12 +507,11 @@ public class UserProfileServiceImpl implements UserProfileService {
 	}
 
 	@Override
-	@Transactional(rollbackFor = { Exception.class })
 	public com.ontarget.response.bean.UserProfileResponse getUserProfileInfo(int userId) throws Exception {
 		com.ontarget.response.bean.UserProfileResponse response = new com.ontarget.response.bean.UserProfileResponse();
-
-		UserProfile userProfile = userProfileRepository.findByUserId(userId);
-
+        logger.debug("Getting user profile info for user: "+ userId);
+		UserProfile userProfile = userProfileRepository.getUserProfielbyUserId(userId);
+        logger.debug("Getting user profile info for user: "+ userProfile);
 		Profile profile = userProfile.getProfile();
 		logger.debug("profile id: " + profile.getProfileId());
 
