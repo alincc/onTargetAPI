@@ -60,6 +60,8 @@ public class UploadDocumentJpaDAOImpl implements UploadDocumentDAO {
 				documentDetail.setFileType(file.getFileType());
 				documentDetail.setCreatedBy(file.getCreatedBy().getUserId());
 				documentDetail.setCreatedDate(file.getCreatedDate());
+                documentDetail.setProjectFileCategoryId(file.getProjectFileCategory());
+                documentDetail.setDescription(file.getDescription());
 				resultList.add(documentDetail);
 			}
 		}
@@ -84,7 +86,23 @@ public class UploadDocumentJpaDAOImpl implements UploadDocumentDAO {
 		return projectFileCommentRepository.findCommentsByFileId(projectFileId);
 	}
 
-	@Override
+    @Override
+    public UploadedDocumentDetail getFilesByProjectAndFileId(Integer projectId, Integer projectFileId) throws Exception {
+
+        ProjectFile file = projectFileRepository.findByIdAndProjectId(projectId, projectFileId);
+        UploadedDocumentDetail documentDetail = new UploadedDocumentDetail();
+        documentDetail.setFileId(file.getProjectFileId());
+        documentDetail.setName(file.getFileName());
+        documentDetail.setFileType(file.getFileType());
+        documentDetail.setCreatedBy(file.getCreatedBy().getUserId());
+        documentDetail.setCreatedDate(file.getCreatedDate());
+        documentDetail.setProjectFileCategoryId(file.getProjectFileCategory());
+        documentDetail.setDescription(file.getDescription());
+
+        return documentDetail;
+    }
+
+    @Override
 	public boolean addComment(ProjectFileCommentRequest request) throws Exception {
 		ProjectFileComment projectFileComment;
 		if (request.getCommentId() != null) {

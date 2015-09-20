@@ -256,7 +256,7 @@ public class UserProfileImpl implements UserProfile {
 	@POST
 	@Path("/userProfileInfo")
 	public com.ontarget.response.bean.UserProfileResponse userProfileInfo(com.ontarget.request.bean.UserProfileRequest request) {
-		logger.info("getting user profile info of user");
+		logger.info("getting user profile info of userID: "+ request.getUserId());
 		com.ontarget.response.bean.UserProfileResponse response = new com.ontarget.response.bean.UserProfileResponse();
 		try {
 			return userProfileService.getUserProfileInfo(request.getUserId());

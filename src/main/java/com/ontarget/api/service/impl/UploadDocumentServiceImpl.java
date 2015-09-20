@@ -137,7 +137,17 @@ public class UploadDocumentServiceImpl implements UploadDocumentService {
 		return response;
 	}
 
-	@Override
+    @Override
+    public UploadedDocumentDetail getUploadedFileByProjectFileId(Integer projectId, Integer projectFileId) throws Exception {
+        logger.info("service call initiated to fetch uploaded file for project id" + projectId);
+        UploadedDocumentDetail detail = uploadDocumentDAO.getFilesByProjectAndFileId(projectId, projectFileId);
+        int createdBy = detail.getCreatedBy();
+        Contact c = contactDAO.getContact(createdBy);
+        detail.setCreatedByContact(c);
+        return detail;
+    }
+
+    @Override
 	public ProjectFileCategoryListResponse getProjectFileCategories() throws Exception {
 		ProjectFileCategoryListResponse response = new ProjectFileCategoryListResponse();
 

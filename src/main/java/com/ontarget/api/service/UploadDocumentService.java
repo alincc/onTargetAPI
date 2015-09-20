@@ -23,4 +23,6 @@ public interface UploadDocumentService {
 	public OnTargetResponse deleteComment(Integer commentId) throws Exception;
 	
 	public ProjectFileCommentListResponse getCommentList(Integer projectFileId) throws Exception;
+
+    public UploadedDocumentDetail getUploadedFileByProjectFileId(Integer projectId, Integer porjectFileId) throws Exception;
 }
