@@ -188,6 +188,12 @@ public class ProjectReportServiceImpl implements ProjectReportService {
 
 	}
 
+    /**
+     * Get time saved by project id
+     * @param projectId
+     * @return
+     * @throws Exception
+     */
 	@Override
 	public TimeSaved getTimeSaved(int projectId) throws Exception {
 
