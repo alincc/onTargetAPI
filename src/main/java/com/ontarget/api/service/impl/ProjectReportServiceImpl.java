@@ -37,7 +37,7 @@ public class ProjectReportServiceImpl implements ProjectReportService {
 	private TaskBudgetDAO taskBudgetDAO;
 
 	@Autowired
-	@Qualifier("taskPercentageDAOImpl")
+	@Qualifier("taskPercentageJpaDAOImpl")
 	private TaskPercentageDAO taskPercentageDAO;
 
 	@Autowired
@@ -81,9 +81,9 @@ public class ProjectReportServiceImpl implements ProjectReportService {
 
         if (uom.equals(ProjectUOM.HOUR.name())) {
             // task actual cost
-            taskActualCostByMonthAndYear = timeCardDAO.calculateActualCostByMonthYear(projectId);
+            taskActualCostByMonthAndYear = taskPlannedCostByMonthAndYear;//timeCardDAO.calculateActualCostByMonthYear(projectId);
         }else{
-            taskActualCostByMonthAndYear = taskPlannedCostByMonthAndYear;//taskBudgetDAO.getTaskToCostMapByMonthYearDouble(projectId, OnTargetConstant.CostType.ACTUAL);
+            taskActualCostByMonthAndYear = taskBudgetDAO.getTaskToCostMapByMonthYearDouble(projectId, OnTargetConstant.CostType.ACTUAL);
         }
 
 		// task percentage
@@ -302,7 +302,7 @@ public class ProjectReportServiceImpl implements ProjectReportService {
                     rpt=new ProjectEarnedValueAnalysisReport();
                 }
 				double cumulativeEV = rpt.getCumulativeEarnedValue()
-						+ monthYearTaskPercentage.get(taskInterval).getTaskPercentageComplete() * totalBudgetCost;
+						+ (monthYearTaskPercentage.get(taskInterval).getTaskPercentageComplete() * totalBudgetCost)/100;
 				rpt.setCumulativeEarnedValue(cumulativeEV);
 			}
 		}

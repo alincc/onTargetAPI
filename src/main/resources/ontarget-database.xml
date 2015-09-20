@@ -52,7 +52,7 @@
 	<bean
 		class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor" />
 
-	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
 		<property name="driverClassName" value="${driverClassName}"></property>
 		<property name="url" value="${driverUrl}"></property>
 		<property name="username" value="${username}"></property>
@@ -62,6 +62,7 @@
 		<property name="maxActive" value="${maxActive}"></property>
 		<property name="minIdle" value="${minIdle}"></property>
 		<property name="maxWait" value="${maxWait}"></property>
+        <property name="maxIdle" value="${maxIdle}"></property>
 		<property name="minEvictableIdleTimeMillis" value="${minEvictableIdleTimeMillis}"></property>
 		<property name="timeBetweenEvictionRunsMillis" value="${timeBetweenEvictionRunsMillis}"></property>
 		<property name="testWhileIdle" value="${testWhileIdle}"></property>
