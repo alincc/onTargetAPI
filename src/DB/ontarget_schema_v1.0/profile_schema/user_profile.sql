@@ -10,4 +10,4 @@ create table `user_profile` (
 	`profile_id` int (11),
 	`user_id` int (11)
 ); 
-insert into `user_profile` (`user_profile_id`, `profile_id`, `user_id`) values('1','1','1');
+insert into `user_profile` (`user_profile_id`, `profile_id`, `user_id`) values('2','1','10');

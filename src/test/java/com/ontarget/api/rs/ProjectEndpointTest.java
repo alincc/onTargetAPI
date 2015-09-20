@@ -5,58 +5,57 @@ import javax.ws.rs.core.Response;
 import org.junit.Test;
 
 import com.ontarget.request.bean.BaseRequest;
-import com.ontarget.request.bean.ProjectDetailRequest;
+import com.ontarget.request.bean.ProjectAddressInfo;
+import com.ontarget.request.bean.ProjectDetailInfo;
+import com.ontarget.request.bean.ProjectRequest;
 
 public class ProjectEndpointTest extends BaseTest {
 
-	// @Test
-	// public void addProject() {
-	//
-	// BaseRequest baseRequest = new BaseRequest();
-	// baseRequest.setLoggedInUserId(1);
-	// baseRequest.setLoggedInUserProjectId(1);
-	//
-	// ProjectRequest request = new ProjectRequest();
-	// request.setBaseRequest(baseRequest);
-	// request.setUserId(1);
-	// request.setAccountStatus("ACTIVE");
-	//
-	// ProjectDetailInfo projectDetailInfo = new ProjectDetailInfo();
-	// projectDetailInfo.setCompanyId(1);
-	// projectDetailInfo.setEndDate(new java.sql.Date(new
-	// java.util.Date().getTime()));
-	// projectDetailInfo.setProjectDescription("project desc");
-	// projectDetailInfo.setProjectName("project name");
-	// projectDetailInfo.setProjectParentId(2);
-	// projectDetailInfo.setProjectTypeId(1);
-	// projectDetailInfo.setStartDate(new java.sql.Date(new
-	// java.util.Date().getTime()));
-	// projectDetailInfo.setStatus("1");
-	// projectDetailInfo.setUnitOfMeasurement("HOUR");
-	// projectDetailInfo.setProjectImagePath("/home/santosh/project1.jpg");
-	//
-	// ProjectAddressInfo projectAddressInfo = new ProjectAddressInfo();
-	// projectAddressInfo.setAddress1("address1");
-	// projectAddressInfo.setAddress2("address2");
-	// projectAddressInfo.setCity("city");
-	// projectAddressInfo.setCountry("country");
-	// projectAddressInfo.setState("state");
-	// projectAddressInfo.setZip("zip");
-	// projectDetailInfo.setProjectAddress(projectAddressInfo);
-	//
-	// request.setProject(projectDetailInfo);
-	//
-	// System.out.println("Client request .... addProject\n");
-	// System.out.println(toJsonString(request, true));
-	// Response response = sendRequest("/project/addProject", request);
-	// if (response.getStatus() != 200) {
-	// throw new RuntimeException("Failed : HTTP error code : " +
-	// response.getStatus());
-	// }
-	// String output = response.readEntity(String.class);
-	// System.out.println("Server response .... \n");
-	// System.out.println(output);
-	// }
+	@Test
+	public void addProject() {
+
+		BaseRequest baseRequest = new BaseRequest();
+		baseRequest.setLoggedInUserId(10);
+		baseRequest.setLoggedInUserProjectId(42);
+
+		ProjectRequest request = new ProjectRequest();
+		request.setBaseRequest(baseRequest);
+		request.setUserId(10);
+		request.setAccountStatus("ACTIVE");
+
+		ProjectDetailInfo projectDetailInfo = new ProjectDetailInfo();
+		projectDetailInfo.setCompanyId(5);
+		projectDetailInfo.setEndDate(new java.sql.Date(new java.util.Date().getTime()));
+		projectDetailInfo.setProjectDescription("project desc");
+		projectDetailInfo.setProjectName("project name");
+		projectDetailInfo.setProjectParentId(42);
+		projectDetailInfo.setProjectTypeId(1);
+		projectDetailInfo.setStartDate(new java.sql.Date(new java.util.Date().getTime()));
+		projectDetailInfo.setStatus("1");
+		projectDetailInfo.setUnitOfMeasurement("HOUR");
+		projectDetailInfo.setProjectImagePath("/home/santosh/project1.jpg");
+
+		ProjectAddressInfo projectAddressInfo = new ProjectAddressInfo();
+		projectAddressInfo.setAddress1("address1");
+		projectAddressInfo.setAddress2("address2");
+		projectAddressInfo.setCity("city");
+		projectAddressInfo.setCountry("country");
+		projectAddressInfo.setState("state");
+		projectAddressInfo.setZip("zip");
+		projectDetailInfo.setProjectAddress(projectAddressInfo);
+
+		request.setProject(projectDetailInfo);
+
+		System.out.println("Client request .... addProject\n");
+		System.out.println(toJsonString(request, true));
+		Response response = sendRequest("/project/addProject", request);
+		if (response.getStatus() != 200) {
+			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
+		}
+		String output = response.readEntity(String.class);
+		System.out.println("Server response .... \n");
+		System.out.println(output);
+	}
 
 	// @Test
 	// public void addActivity() {
@@ -302,27 +301,28 @@ public class ProjectEndpointTest extends BaseTest {
 	// System.out.println(output);
 	// }
 	//
-	@Test
-	public void deleteProject() {
-
-		BaseRequest baseRequest = new BaseRequest();
-		baseRequest.setLoggedInUserId(1);
-		baseRequest.setLoggedInUserProjectId(1);
-
-		ProjectDetailRequest request = new ProjectDetailRequest();
-		request.setBaseRequest(baseRequest);
-		request.setProjectId(8);
-
-		System.out.println("Client request ....deleteProject \n");
-		System.out.println(toJsonString(request, true));
-		Response response = sendRequest("/project/deleteProject", request);
-		if (response.getStatus() != 200) {
-			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
-		}
-		String output = response.readEntity(String.class);
-		System.out.println("Server response .... \n");
-		System.out.println(output);
-	}
+	// @Test
+	// public void deleteProject() {
+	//
+	// BaseRequest baseRequest = new BaseRequest();
+	// baseRequest.setLoggedInUserId(1);
+	// baseRequest.setLoggedInUserProjectId(1);
+	//
+	// ProjectDetailRequest request = new ProjectDetailRequest();
+	// request.setBaseRequest(baseRequest);
+	// request.setProjectId(8);
+	//
+	// System.out.println("Client request ....deleteProject \n");
+	// System.out.println(toJsonString(request, true));
+	// Response response = sendRequest("/project/deleteProject", request);
+	// if (response.getStatus() != 200) {
+	// throw new RuntimeException("Failed : HTTP error code : " +
+	// response.getStatus());
+	// }
+	// String output = response.readEntity(String.class);
+	// System.out.println("Server response .... \n");
+	// System.out.println(output);
+	// }
 
 	// @Test
 	// public void getUserProjectList() {

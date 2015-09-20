@@ -168,7 +168,7 @@ public interface OnTargetConstant {
 		public static final String ACTIVE = "ACTIVE";
 		public static final String DELETED = "DELETED";
 	}
-	
+
 	public interface ProjectTaskFileStatus {
 		public static final String ACTIVE = "ACTIVE";
 		public static final String DELETED = "DELETED";
@@ -178,7 +178,9 @@ public interface OnTargetConstant {
 		public static final String unitOfMeasurement = "UNIT_OF_MEASUREMENT";
 	}
 
-	public static final String OPEN_RS_ENDPOINT = "/register,/user,/onTargetInvitation,/profile,/project/getProjectsByUser,/project/getUserProjectList,/project/addProject,/company,/file,/hello,/timeCard/getFieldWorkers,/menuProfile,/permissionProfile,/uploadActivity";
+	public static final String OPEN_RS_ENDPOINT = "/register,/user,/onTargetInvitation,/profile,"
+			+ "/project/getProjectsByUser,/project/getUserProjectList,"
+			+ "/company,/file,/hello,/timeCard/getFieldWorkers,/menuProfile,/permissionProfile,/uploadActivity";
 
 	public static final double HOUR = 60 * 60 * 1000D;
 

@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.container.ContainerRequestContext;
@@ -111,11 +112,12 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 			JsonNode userObjNode = baseRequestObj.get("loggedInUserId");
 			Integer userId = userObjNode.getIntValue();
 
-			FeatureRequestMapper featureRequestMapper = featureRequestMapperRepository.findByRequestPath(requestPath);
+			List<FeatureRequestMapper> featureRequestMapperList = featureRequestMapperRepository.findByRequestPath(requestPath);
 
-			logger.debug("feature request mapper: " + featureRequestMapper);
+			logger.debug("feature request mapper: " + featureRequestMapperList);
 
-			if (featureRequestMapper != null) {
+			if (featureRequestMapperList != null) {
+				FeatureRequestMapper featureRequestMapper = featureRequestMapperList.get(0);
 				logger.debug("has feature: " + featureRequestMapper.getHasFeature());
 				if (featureRequestMapper.getHasFeature().equals(new Character('N'))) {
 					return "UNAUTHORIZED";
