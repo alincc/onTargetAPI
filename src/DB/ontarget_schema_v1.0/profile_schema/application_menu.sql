@@ -22,3 +22,4 @@ insert into `application_menu` (`application_menu_id`, `active`, `menu_key`, `me
 insert into `application_menu` (`application_menu_id`, `active`, `menu_key`, `menu_name`) values('9','Y','INVITETOCOLLABORATE','inviteToCollaborate');
 insert into `application_menu` (`application_menu_id`, `active`, `menu_key`, `menu_name`) values('10','Y','SEARCH','search');
 insert into `application_menu` (`application_menu_id`, `active`, `menu_key`, `menu_name`) values('11','Y','GANTTCHART','ganttChart');
+insert into `application_menu` (`application_menu_id`, `active`, `menu_key`, `menu_name`) values('12','Y','NOTIFICATION','notification');

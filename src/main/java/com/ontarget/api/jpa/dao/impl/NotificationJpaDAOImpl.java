@@ -68,8 +68,8 @@ public class NotificationJpaDAOImpl implements NotificationDAO {
 	}
 
 	@Override
-	public boolean updateAllStatusToSeen(Integer userId) throws Exception {
-		userNotificationRepository.setAllNotificationAsSeen(OnTargetConstant.UserNotificationStatus.SEEN, new Date(), userId);
+	public boolean updateAllStatusToSeen(Integer userId, Integer projectId) throws Exception {
+		userNotificationRepository.setAllNotificationAsSeen(OnTargetConstant.UserNotificationStatus.SEEN, new Date(), userId,projectId);
 		return true;
 	}
 

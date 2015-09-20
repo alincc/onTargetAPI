@@ -59,3 +59,6 @@ insert into `application_feature` (`application_feature_id`, `active`, `feature_
 insert into `application_feature` (`application_feature_id`, `active`, `feature_key`, `feature_name`) values('46','Y','ONFILE_VIEW','OnFile View');
 insert into `application_feature` (`application_feature_id`, `active`, `feature_key`, `feature_name`) values('47','Y','ONFILE_APPROVE','OnFile Approve');
 insert into `application_feature` (`application_feature_id`, `active`, `feature_key`, `feature_name`) values('48','Y','ONFILE_REJECT','OnFIle Reject');
+
+insert into `application_feature` (`application_feature_id`, `active`, `feature_key`, `feature_name`) values('49','Y','VIEW_NOTIFICATION','View Notificaiton');
+insert into `application_feature` (`application_feature_id`, `active`, `feature_key`, `feature_name`) values('50','Y','MARK_NOTIFICATION_SEEN','Mark Notificaiton Seen');

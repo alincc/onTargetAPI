@@ -26,8 +26,8 @@ public interface UserNotificationRepository extends JpaRepository<UserNotificati
 	@Modifying
 	@Transactional
 	@Query("update UserNotification u set u.status = ?1,u.lastSeenAt = ?2" + " where u.status = '"
-			+ OnTargetConstant.UserNotificationStatus.NEW + "' and u.user.userId = ?3")
-	int setAllNotificationAsSeen(String status, Date seenAt, Integer userId);
+			+ OnTargetConstant.UserNotificationStatus.NEW + "' and u.user.userId = ?3 and u.projectId=?4")
+	int setAllNotificationAsSeen(String status, Date seenAt, Integer userId, Integer projectId);
 
 	@Query("select u from UserNotification u where u.user.userId = ?1 and (u.projectId=?2 or u.projectId in (select projectId from Project p where p.projectParentId=?2)) order by u.id desc")
 	Page<UserNotification> findNotifcationByUserId(Integer userId, Long loggedInUserProjectId, Pageable pageable);

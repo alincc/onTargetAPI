@@ -118,3 +118,11 @@ insert into `profile_feature` (`profile_feature_id`, `active`, `application_feat
 insert into `profile_feature` (`profile_feature_id`, `active`, `application_feature_id`, `profile_id`) values('107','Y','41','3');
 insert into `profile_feature` (`profile_feature_id`, `active`, `application_feature_id`, `profile_id`) values('108','Y','42','3');
 insert into `profile_feature` (`profile_feature_id`, `active`, `application_feature_id`, `profile_id`) values('109','Y','43','3');
+
+insert into `profile_feature` (`profile_feature_id`, `active`, `application_feature_id`, `profile_id`) values('110','Y','49','1');
+insert into `profile_feature` (`profile_feature_id`, `active`, `application_feature_id`, `profile_id`) values('111','Y','49','2');
+insert into `profile_feature` (`profile_feature_id`, `active`, `application_feature_id`, `profile_id`) values('112','Y','49','3');
+
+insert into `profile_feature` (`profile_feature_id`, `active`, `application_feature_id`, `profile_id`) values('113','Y','50','1');
+insert into `profile_feature` (`profile_feature_id`, `active`, `application_feature_id`, `profile_id`) values('114','Y','50','2');
+insert into `profile_feature` (`profile_feature_id`, `active`, `application_feature_id`, `profile_id`) values('115','Y','50','3');

@@ -107,7 +107,7 @@ public class NotificationEndpointImpl implements com.ontarget.api.rs.Notificatio
 	public OnTargetResponse markAllNotificationAsSeen(NotificationAllSeenRequest request) {
 		OnTargetResponse response = new OnTargetResponse();
 		try {
-			boolean updated = notificationService.updateAllStatusToSeen(request.getBaseRequest().getLoggedInUserId());
+			boolean updated = notificationService.updateAllStatusToSeen(request.getBaseRequest().getLoggedInUserId(), request.getBaseRequest().getLoggedInUserProjectId());
 			if (updated) {
 				response.setReturnVal(OnTargetConstant.SUCCESS);
 				response.setReturnMessage("All notification status set as seen");

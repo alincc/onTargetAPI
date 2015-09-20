@@ -65,17 +65,17 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 				throw new WebApplicationException(unauthorizedResponse());
 			}
 
-//			String authorizedApiRequest = requestApiAuthorized(jsonPost, requestPath);
-//			logger.debug("authorizedApiRequest: " + authorizedApiRequest);
-//
-//			if (authorizedApiRequest.equalsIgnoreCase("UNAUTHORIZED")) {
-//				throw new WebApplicationException(unauthorizedResponse());
-//			}
+			String authorizedApiRequest = requestApiAuthorized(jsonPost, requestPath);
+			logger.debug("authorizedApiRequest: " + authorizedApiRequest);
+
+			if (authorizedApiRequest.equalsIgnoreCase(OnTargetConstant.ApplicationPermission.UNAUTHORIZED)) {
+				throw new WebApplicationException(unauthorizedResponse());
+			}
 
 			String authorized = authenticate(jsonPost, requestPath);
 			logger.debug("authorized: " + authorized);
 
-			if (authorized.equalsIgnoreCase("UNAUTHORIZED")) {
+			if (authorized.equalsIgnoreCase(OnTargetConstant.ApplicationPermission.UNAUTHORIZED)) {
 				throw new WebApplicationException(unauthorizedResponse());
 			}
 
@@ -112,31 +112,35 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 			JsonNode userObjNode = baseRequestObj.get("loggedInUserId");
 			Integer userId = userObjNode.getIntValue();
 
+            logger.debug("Checking feature request mapping permission for path: "+ requestPath);
+
 			List<FeatureRequestMapper> featureRequestMapperList = featureRequestMapperRepository.findByRequestPath(requestPath);
 
 			logger.debug("feature request mapper: " + featureRequestMapperList);
 
-			if (featureRequestMapperList != null) {
+			if (featureRequestMapperList != null && featureRequestMapperList.size() > 0) {
 				FeatureRequestMapper featureRequestMapper = featureRequestMapperList.get(0);
 				logger.debug("has feature: " + featureRequestMapper.getHasFeature());
 				if (featureRequestMapper.getHasFeature().equals(new Character('N'))) {
-					return "UNAUTHORIZED";
+                    return OnTargetConstant.ApplicationPermission.UNAUTHORIZED;
 				} else {
 					ApplicationFeature applicationFeature = featureRequestMapperRepository.hasPermissionToUser(userId, featureRequestMapper
 							.getApplicationFeature().getApplicationFeatureId());
 					logger.debug("application feature: " + applicationFeature);
 					if (applicationFeature == null) {
-						return "UNAUTHORIZED";
+                        return OnTargetConstant.ApplicationPermission.UNAUTHORIZED;
 					}
 				}
-			}
+			}else{
+                return OnTargetConstant.ApplicationPermission.UNAUTHORIZED;
+            }
 
-			return "AUTHORIZED";
+            return OnTargetConstant.ApplicationPermission.AUTHORIZED;
 
 		} catch (Exception e) {
 			logger.error("System error", e);
 		}
-		return "UNAUTHORIZED";
+        return OnTargetConstant.ApplicationPermission.UNAUTHORIZED;
 	}
 
 	private String authenticate(String jsonData, String requestPath) {

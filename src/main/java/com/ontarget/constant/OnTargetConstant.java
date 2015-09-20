@@ -184,4 +184,9 @@ public interface OnTargetConstant {
 
 	public static final double HOUR = 60 * 60 * 1000D;
 
+    public interface ApplicationPermission{
+        public static final String AUTHORIZED="AUTHORIZED";
+        public static final String UNAUTHORIZED="UNAUTHORIZED";
+    }
+
 }

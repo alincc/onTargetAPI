@@ -55,7 +55,7 @@ public class NotificationDAOImpl implements com.ontarget.api.dao.NotificationDAO
 	}
 
 	@Override
-	public boolean updateAllStatusToSeen(Integer userId) throws Exception {
+	public boolean updateAllStatusToSeen(Integer userId, Integer projectId) throws Exception {
 		// TODO Auto-generated method stub
 		return false;
 	}

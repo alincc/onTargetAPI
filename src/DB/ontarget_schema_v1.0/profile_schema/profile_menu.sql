@@ -34,3 +34,7 @@ insert into `profile_menu` (`profile_menu_id`, `active`, `application_menu_id`, 
 insert into `profile_menu` (`profile_menu_id`, `active`, `application_menu_id`, `profile_id`) values('21','Y','2','3');
 insert into `profile_menu` (`profile_menu_id`, `active`, `application_menu_id`, `profile_id`) values('22','Y','3','3');
 insert into `profile_menu` (`profile_menu_id`, `active`, `application_menu_id`, `profile_id`) values('23','Y','11','3');
+
+insert into `profile_menu` (`profile_menu_id`, `active`, `application_menu_id`, `profile_id`) values('24','Y','12','1');
+insert into `profile_menu` (`profile_menu_id`, `active`, `application_menu_id`, `profile_id`) values('25','Y','12','2');
+insert into `profile_menu` (`profile_menu_id`, `active`, `application_menu_id`, `profile_id`) values('26','Y','12','3');
