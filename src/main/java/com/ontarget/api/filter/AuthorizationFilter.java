@@ -157,17 +157,17 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 
 			JsonNode projectObjNode = baseRequestObj.get("loggedInUserProjectId");
 			Integer projectId = projectObjNode.getIntValue();
-
+            logger.debug("Validating user:: "+ userId+" with project: "+projectId);
 			boolean authorized = authorizationService.validateUserOnProject(userId, projectId);
 
 			if (authorized) {
-				return "AUTHORIZED";
+				return OnTargetConstant.ApplicationPermission.AUTHORIZED;
 			}
 
 		} catch (Exception e) {
 			logger.error("System error", e);
 		}
-		return "UNAUTHORIZED";
+		return OnTargetConstant.ApplicationPermission.UNAUTHORIZED;
 	}
 
 }
