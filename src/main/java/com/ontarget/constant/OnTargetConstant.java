@@ -180,7 +180,7 @@ public interface OnTargetConstant {
 
 	public static final String OPEN_RS_ENDPOINT = "/register,/user,/onTargetInvitation,/profile,"
 			+ "/project/getProjectsByUser,/project/getUserProjectList,"
-			+ "/company,/file,/hello,/timeCard/getFieldWorkers,/menuProfile,/permissionProfile,/uploadActivity";
+			+ "/company,/file,/hello,/timeCard/getFieldWorkers,/menuProfile,/permissionProfile,/uploadActivity,/profile/userProfileInfo";
 
 	public static final double HOUR = 60 * 60 * 1000D;
 

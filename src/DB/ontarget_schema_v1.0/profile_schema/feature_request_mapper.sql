@@ -62,3 +62,5 @@ insert into `feature_request_mapper` (`feature_request_mapper_id`, `has_feature`
 insert into `feature_request_mapper` (`feature_request_mapper_id`, `has_feature`, `request_path`, `application_feature_id`) values('48','Y','/notification/getNotificationsByUserByProject','49');
 insert into `feature_request_mapper` (`feature_request_mapper_id`, `has_feature`, `request_path`, `application_feature_id`) values('49','Y','/notification/markAllAsSeen','50');
 insert into `feature_request_mapper` (`feature_request_mapper_id`, `has_feature`, `request_path`, `application_feature_id`) values('50','Y','/notification/markAsSeen','50');
+
+insert into `feature_request_mapper` (`feature_request_mapper_id`, `has_feature`, `request_path`, `application_feature_id`) values('51','Y','/upload/getDocumentById','37');

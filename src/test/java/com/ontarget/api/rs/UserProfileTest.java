@@ -248,12 +248,8 @@ public class UserProfileTest extends BaseTest {
 	@Test
 	public void userProfileInfo() {
 		
-		 BaseRequest baseRequest = new BaseRequest();
-		 baseRequest.setLoggedInUserId(10);
-		 baseRequest.setLoggedInUserProjectId(42);
 
 		com.ontarget.request.bean.UserProfileRequest request = new com.ontarget.request.bean.UserProfileRequest();
-		request.setBaseRequest(baseRequest);
 		request.setUserId(10);
 
 		System.out.println("Client request ....(/profile/userProfileInfo) \n");
