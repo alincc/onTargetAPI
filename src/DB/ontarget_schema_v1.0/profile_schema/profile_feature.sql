@@ -130,3 +130,6 @@ insert into `profile_feature` (`profile_feature_id`, `active`, `application_feat
 insert into `profile_feature` (`profile_feature_id`, `active`, `application_feature_id`, `profile_id`) values('116','Y','37','1');
 insert into `profile_feature` (`profile_feature_id`, `active`, `application_feature_id`, `profile_id`) values('117','Y','37','1');
 insert into `profile_feature` (`profile_feature_id`, `active`, `application_feature_id`, `profile_id`) values('118','Y','37','1');
+
+insert into `profile_feature` (`profile_feature_id`, `active`, `application_feature_id`, `profile_id`) values('119','Y','46','3');
+
