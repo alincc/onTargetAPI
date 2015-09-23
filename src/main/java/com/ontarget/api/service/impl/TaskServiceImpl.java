@@ -169,6 +169,7 @@ public class TaskServiceImpl implements TaskService {
 			task.setProjectTaskId(projectTask.getProjectTaskId());
 			task.setStartDate(projectTask.getStartDate());
 			task.setEndDate(projectTask.getEndDate());
+            task.setActivityId(projectTask.getProject().getProjectId());
 
 			if (projectTask.getStatus() == OnTargetConstant.TaskStatus.COMPLETED) {
 				task.setCompleted(true);
