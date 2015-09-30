@@ -7,7 +7,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class DateFormater {
-	private static final DateFormat yearMonthDayFormat = new SimpleDateFormat("yyyy-MM-dd");
+	public static final DateFormat yearMonthDayFormat = new SimpleDateFormat("yyyy-MM-dd");
 
 	public static java.util.Date getFormattedDate(Date date) {
 		try {

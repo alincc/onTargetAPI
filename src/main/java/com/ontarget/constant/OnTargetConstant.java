@@ -128,8 +128,8 @@ public interface OnTargetConstant {
 	}
 
 	public interface TaskAssigneeStatus {
-		public static final Integer ASSIGNED = new Integer(1);
-		public static final Integer DELETED = new Integer(2);
+		public static final int ASSIGNED = 1;
+		public static final int DELETED = 2;
 	}
 
 	public interface PhoneType {
@@ -168,7 +168,7 @@ public interface OnTargetConstant {
 		public static final String ACTIVE = "ACTIVE";
 		public static final String DELETED = "DELETED";
 	}
-	
+
 	public interface ProjectTaskFileStatus {
 		public static final String ACTIVE = "ACTIVE";
 		public static final String DELETED = "DELETED";
@@ -178,8 +178,15 @@ public interface OnTargetConstant {
 		public static final String unitOfMeasurement = "UNIT_OF_MEASUREMENT";
 	}
 
-	public static final String OPEN_RS_ENDPOINT = "/register,/user,/onTargetInvitation,/profile,/project/getProjectsByUser,/project/getUserProjectList,/project/addProject,/company,/file,/hello,/timeCard/getFieldWorkers,/menuProfile,/permissionProfile,/uploadActivity";
+	public static final String OPEN_RS_ENDPOINT = "/register,/user,/onTargetInvitation,/profile,"
+			+ "/project/getProjectsByUser,/project/getUserProjectList,"
+			+ "/company,/file,/hello,/timeCard/getFieldWorkers,/menuProfile,/permissionProfile,/uploadActivity,/profile/userProfileInfo";
 
 	public static final double HOUR = 60 * 60 * 1000D;
+
+    public interface ApplicationPermission{
+        public static final String AUTHORIZED="AUTHORIZED";
+        public static final String UNAUTHORIZED="UNAUTHORIZED";
+    }
 
 }

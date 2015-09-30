@@ -56,7 +56,7 @@ public class ProjectTask implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date modifiedDate;
 	@JoinColumn(name = "modified_by", referencedColumnName = "user_id")
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne()
 	private User modifiedBy;
 	@Column(name = "severity", length = 45)
 	private String severity;

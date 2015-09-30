@@ -17,11 +17,14 @@ public interface EmailService {
 
 	void sendTaskStatusChangeEmail(ProjectTaskInfo task, int userId);
 
+	public void sendTaskCommentEmail(ProjectTaskInfo task, Contact commentedBy, int assigneeUserId);
+
+	public void sendTaskAttachmentEmail(ProjectTaskInfo task, Contact attachmentDoneBy, int assigneeUserId);
+
 	public boolean sendUserRequestEmailToAdmin();
 
 	public boolean sendUserRegistrationEmail(String userEmail, String tokenId, String receiverFirstName, String senderFirstName,
 			String senderLastName, ProjectInfo projectInfo) throws Exception;
-
 
 	public boolean sendDocumentAssignmentEmails(DocumentDTO document, List<Assignee> assignees);
 

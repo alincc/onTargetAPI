@@ -36,6 +36,6 @@ public interface ProjectRepository extends JpaRepository<Project, Integer> {
 			+ OnTargetConstant.ProjectStatus.DELETED)
 	List<Project> getProjectsByUserId(Integer userId);
 
-    @Query("select p from Project p where p.projectAssetFolderName=?1")
-    Project getProjectByProjectFolderName(String projectFolderName);
+	@Query("select p from Project p where p.projectAssetFolderName=?1")
+	Project getProjectByProjectFolderName(String projectFolderName);
 }

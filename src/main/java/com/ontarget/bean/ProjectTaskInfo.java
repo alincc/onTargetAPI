@@ -23,6 +23,7 @@ public class ProjectTaskInfo implements Serializable {
 	private String endDateText;
 
 	private Integer creatorId;
+	private Integer modifierId;
 
 	private Date startDate;
 	private Date endDate;
@@ -156,6 +157,14 @@ public class ProjectTaskInfo implements Serializable {
 
 	public void setCreatorId(Integer creatorId) {
 		this.creatorId = creatorId;
+	}
+
+	public Integer getModifierId() {
+		return modifierId;
+	}
+
+	public void setModifierId(Integer modifierId) {
+		this.modifierId = modifierId;
 	}
 
 }
