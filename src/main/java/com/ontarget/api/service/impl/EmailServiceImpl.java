@@ -146,7 +146,7 @@ public class EmailServiceImpl implements EmailService {
 
 					message.setTo(info.getEmail());
 
-					Map model = new HashMap();
+					Map model = getDefaultMapProperties(new HashMap());
 					model.put(EmailConstant.EmailParameter.FIRST_NAME, info.getFirstName());
 					model.put("url", baseUrl + OnTargetConstant.URL.SIGNUP_URL + "?q=" + info.getRegistrationToken());
 

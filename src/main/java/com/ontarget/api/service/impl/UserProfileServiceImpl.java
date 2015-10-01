@@ -509,9 +509,9 @@ public class UserProfileServiceImpl implements UserProfileService {
 	@Override
 	public com.ontarget.response.bean.UserProfileResponse getUserProfileInfo(int userId) throws Exception {
 		com.ontarget.response.bean.UserProfileResponse response = new com.ontarget.response.bean.UserProfileResponse();
-        logger.debug("Getting user profile info for user: "+ userId);
+		logger.debug("Getting user profile info for user: " + userId);
 		UserProfile userProfile = userProfileRepository.getUserProfielbyUserId(userId);
-        logger.debug("Getting user profile info for user: "+ userProfile);
+		logger.debug("Getting user profile info for user: " + userProfile);
 		Profile profile = userProfile.getProfile();
 		logger.debug("profile id: " + profile.getProfileId());
 
