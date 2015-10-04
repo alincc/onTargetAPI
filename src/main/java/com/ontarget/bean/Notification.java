@@ -4,82 +4,22 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import lombok.Data;
+
 /**
  * Created by sumit on 12/26/14.
  */
+@Data
 public class Notification implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private long id;
+	private long userNotificationId;
 	private String text;
 	private String notificationType;
+	private String action;
 	private long tsInsert;
 	private int userId;
 	private String status;
 	private Date lastSeenAt;
 	private List<NotificationAttribute> notificationAttributes;
-
-	public int getUserId() {
-		return userId;
-	}
-
-	public void setUserId(int userId) {
-		this.userId = userId;
-	}
-
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
-
-	public String getText() {
-		return text;
-	}
-
-	public void setText(String text) {
-		this.text = text;
-	}
-
-	public String getNotificationType() {
-		return notificationType;
-	}
-
-	public void setNotificationType(String notificationType) {
-		this.notificationType = notificationType;
-	}
-
-	public long getTsInsert() {
-		return tsInsert;
-	}
-
-	public void setTsInsert(long tsInsert) {
-		this.tsInsert = tsInsert;
-	}
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
-	public Date getLastSeenAt() {
-		return lastSeenAt;
-	}
-
-	public void setLastSeenAt(Date lastSeenAt) {
-		this.lastSeenAt = lastSeenAt;
-	}
-
-	public List<NotificationAttribute> getNotificationAttributes() {
-		return notificationAttributes;
-	}
-
-	public void setNotificationAttributes(List<NotificationAttribute> notificationAttributes) {
-		this.notificationAttributes = notificationAttributes;
-	}
 
 }

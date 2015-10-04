@@ -26,4 +26,13 @@ public class FileUtils {
 		}
 	}
 
+	public static String getFileNameFromPath(String path) {
+		String filename = "";
+		if (path.indexOf("/") > 0) {
+			filename = path.substring(path.lastIndexOf("/") + 1);
+		} else {
+			filename = path;
+		}
+		return filename;
+	}
 }

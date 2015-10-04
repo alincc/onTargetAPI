@@ -37,7 +37,6 @@ public class NotificationEndpointImpl implements com.ontarget.api.rs.Notificatio
 	public NotificationResponse getNotifications(NotificationRequest notificationRequest) {
 		NotificationResponse response = new NotificationResponse();
 		try {
-
 			UserNotificationDTO userNotificationDTO = notificationService.getNotifications(notificationRequest.getPageNumber(),
 					notificationRequest.getPerPageLimit(), notificationRequest.getUserId());
 			response.setNotificationList(userNotificationDTO.getUserNotificationList());
@@ -53,29 +52,27 @@ public class NotificationEndpointImpl implements com.ontarget.api.rs.Notificatio
 		return response;
 	}
 
+	@Override
+	@POST
+	@Path("/getNotificationsByUserByProject")
+	public NotificationResponse getNotificationsByUserByProject(NotificationRequest notificationRequest) {
+		NotificationResponse response = new NotificationResponse();
+		try {
+			UserNotificationDTO userNotificationDTO = notificationService.getNotifications(notificationRequest.getPageNumber(),
+					notificationRequest.getPerPageLimit(), notificationRequest.getUserId(), notificationRequest.getBaseRequest()
+							.getLoggedInUserProjectId().longValue());
+			response.setNotificationList(userNotificationDTO.getUserNotificationList());
+			response.setTotalNotification(userNotificationDTO.getTotalNotification());
+			response.setReturnVal(OnTargetConstant.SUCCESS);
+			response.setReturnMessage("notification read");
+		} catch (Exception e) {
+			e.printStackTrace();
+			response.setReturnMessage(e.getMessage());
+			response.setReturnVal(OnTargetConstant.ERROR);
+		}
 
-    @Override
-    @POST
-    @Path("/getNotificationsByUserByProject")
-    public NotificationResponse getNotificationsByUserByProject(NotificationRequest notificationRequest) {
-        NotificationResponse response = new NotificationResponse();
-        try {
-
-            UserNotificationDTO userNotificationDTO = notificationService.getNotifications(notificationRequest.getPageNumber(),
-                    notificationRequest.getPerPageLimit(), notificationRequest.getUserId(),notificationRequest.getBaseRequest().getLoggedInUserProjectId().longValue());
-            response.setNotificationList(userNotificationDTO.getUserNotificationList());
-            response.setTotalNotification(userNotificationDTO.getTotalNotification());
-            response.setReturnVal(OnTargetConstant.SUCCESS);
-            response.setReturnMessage("notification read");
-        } catch (Exception e) {
-            e.printStackTrace();
-            response.setReturnMessage(e.getMessage());
-            response.setReturnVal(OnTargetConstant.ERROR);
-        }
-
-        return response;
-    }
-
+		return response;
+	}
 
 	@Override
 	@POST
@@ -96,7 +93,6 @@ public class NotificationEndpointImpl implements com.ontarget.api.rs.Notificatio
 			response.setReturnVal(OnTargetConstant.ERROR);
 			response.setReturnMessage("Notification status update failed");
 		}
-
 		return response;
 	}
 }

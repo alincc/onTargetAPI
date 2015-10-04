@@ -1,10 +1,19 @@
 package com.ontarget.entities;
 
-import javax.persistence.*;
 import java.io.Serializable;
-import java.math.BigInteger;
 import java.util.Date;
-import java.util.List;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
@@ -17,58 +26,34 @@ public class UserNotification implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Basic(optional = false)
-	@Column(name = "id", nullable = false)
-	private Long id;
-	@Column(name = "notification_type", length = 20, nullable = false)
-	private String notificationType;
-	@Column(name = "text", columnDefinition = "TEXT")
-	private String text;
+	@Column(name = "user_notification_id", nullable = false)
+	private Long userNotificationId;
 	@JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false)
 	@ManyToOne(optional = false)
 	private User user;
-	@Basic(optional = false)
-	@Column(name = "ts_insert", nullable = false)
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date tsInsert;
 	@Column(name = "status", length = 4)
 	private String status;
 	@Column(name = "last_seen_at", nullable = true)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date lastSeenAt;
-	@OneToMany(mappedBy = "userNotification", fetch = FetchType.EAGER)
-	private List<UserNotificationAttribute> userNotificationAttributeList;
-    @Column(name = "project_id", nullable = false)
-    private Long projectId;
+	@JoinColumn(name = "notification_id", referencedColumnName = "notification_id", nullable = false)
+	@ManyToOne(optional = false)
+	private Notification notification;
 
-    public Long getProjectId() {
-        return projectId;
-    }
-
-    public void setProjectId(Long projectId) {
-        this.projectId = projectId;
-    }
-
-    public UserNotification() {
+	public UserNotification() {
 	}
 
-	public UserNotification(Long id) {
-		this.id = id;
+	public UserNotification(Long userNotificationId) {
+		super();
+		this.userNotificationId = userNotificationId;
 	}
 
-	public Long getId() {
-		return id;
+	public Long getUserNotificationId() {
+		return userNotificationId;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getText() {
-		return text;
-	}
-
-	public void setText(String text) {
-		this.text = text;
+	public void setUserNotificationId(Long userNotificationId) {
+		this.userNotificationId = userNotificationId;
 	}
 
 	public User getUser() {
@@ -77,14 +62,6 @@ public class UserNotification implements Serializable {
 
 	public void setUser(User user) {
 		this.user = user;
-	}
-
-	public Date getTsInsert() {
-		return tsInsert;
-	}
-
-	public void setTsInsert(Date tsInsert) {
-		this.tsInsert = tsInsert;
 	}
 
 	public String getStatus() {
@@ -103,26 +80,18 @@ public class UserNotification implements Serializable {
 		this.lastSeenAt = lastSeenAt;
 	}
 
-	public String getNotificationType() {
-		return notificationType;
+	public Notification getNotification() {
+		return notification;
 	}
 
-	public void setNotificationType(String notificationType) {
-		this.notificationType = notificationType;
-	}
-
-	public List<UserNotificationAttribute> getUserNotificationAttributeList() {
-		return userNotificationAttributeList;
-	}
-
-	public void setUserNotificationAttributeList(List<UserNotificationAttribute> userNotificationAttributeList) {
-		this.userNotificationAttributeList = userNotificationAttributeList;
+	public void setNotification(Notification notification) {
+		this.notification = notification;
 	}
 
 	@Override
 	public int hashCode() {
 		int hash = 0;
-		hash += (id != null ? id.hashCode() : 0);
+		hash += (userNotificationId != null ? userNotificationId.hashCode() : 0);
 		return hash;
 	}
 
@@ -134,7 +103,8 @@ public class UserNotification implements Serializable {
 			return false;
 		}
 		UserNotification other = (UserNotification) object;
-		if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+		if ((this.userNotificationId == null && other.userNotificationId != null)
+				|| (this.userNotificationId != null && !this.userNotificationId.equals(other.userNotificationId))) {
 			return false;
 		}
 		return true;
@@ -142,7 +112,7 @@ public class UserNotification implements Serializable {
 
 	@Override
 	public String toString() {
-		return "com.ontarget.entities.UserNotification[id=" + id + "]";
+		return "com.ontarget.entities.UserNotification[userNotificationId=" + userNotificationId + "]";
 	}
 
 }

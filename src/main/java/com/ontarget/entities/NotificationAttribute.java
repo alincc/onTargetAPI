@@ -18,35 +18,36 @@ import javax.persistence.Table;
  * @author santosh
  */
 @Entity
-@Table(name = "user_notification_attribute")
-public class UserNotificationAttribute implements Serializable {
+@Table(name = "notification_attribute")
+public class NotificationAttribute implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Basic(optional = false)
-	@Column(name = "id", nullable = false)
-	private Long id;
+	@Column(name = "notification_attribute_id", nullable = false)
+	private Long notificationAttributeId;
 	@Column(name = "attribute_key", length = 20, nullable = false)
 	private String attributeKey;
 	@Column(name = "attribute_value", length = 20, nullable = false)
 	private String attributeValue;
-	@JoinColumn(name = "user_notification_id", referencedColumnName = "id", nullable = false)
+	@JoinColumn(name = "notification_id", referencedColumnName = "notification_id", nullable = false)
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
-	private UserNotification userNotification;
+	private Notification notification;
 
-	public UserNotificationAttribute() {
+	public NotificationAttribute() {
 	}
 
-	public UserNotificationAttribute(Long id) {
-		this.id = id;
+	public NotificationAttribute(Long notificationAttributeId) {
+		super();
+		this.notificationAttributeId = notificationAttributeId;
 	}
 
-	public Long getId() {
-		return id;
+	public Long getNotificationAttributeId() {
+		return notificationAttributeId;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setNotificationAttributeId(Long notificationAttributeId) {
+		this.notificationAttributeId = notificationAttributeId;
 	}
 
 	public String getAttributeKey() {
@@ -65,18 +66,18 @@ public class UserNotificationAttribute implements Serializable {
 		this.attributeValue = attributeValue;
 	}
 
-	public UserNotification getUserNotification() {
-		return userNotification;
+	public Notification getNotification() {
+		return notification;
 	}
 
-	public void setUserNotification(UserNotification userNotification) {
-		this.userNotification = userNotification;
+	public void setNotification(Notification notification) {
+		this.notification = notification;
 	}
 
 	@Override
 	public int hashCode() {
 		int hash = 0;
-		hash += (id != null ? id.hashCode() : 0);
+		hash += (notificationAttributeId != null ? notificationAttributeId.hashCode() : 0);
 		return hash;
 	}
 
@@ -84,11 +85,12 @@ public class UserNotificationAttribute implements Serializable {
 	public boolean equals(Object object) {
 		// TODO: Warning - this method won't work in the case the id fields are
 		// not set
-		if (!(object instanceof UserNotificationAttribute)) {
+		if (!(object instanceof NotificationAttribute)) {
 			return false;
 		}
-		UserNotificationAttribute other = (UserNotificationAttribute) object;
-		if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+		NotificationAttribute other = (NotificationAttribute) object;
+		if ((this.notificationAttributeId == null && other.notificationAttributeId != null)
+				|| (this.notificationAttributeId != null && !this.notificationAttributeId.equals(other.notificationAttributeId))) {
 			return false;
 		}
 		return true;
@@ -96,7 +98,7 @@ public class UserNotificationAttribute implements Serializable {
 
 	@Override
 	public String toString() {
-		return "com.ontarget.entities.UserNotification[id=" + id + "]";
+		return "com.ontarget.entities.NotificationAttribute[notificationAttributeId=" + notificationAttributeId + "]";
 	}
 
 }
