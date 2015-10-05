@@ -17,16 +17,16 @@ public class NotificationDAOTest extends BaseTest {
 
 	@Test
 	public void getUserNotifications() {
-		int pageNumber = 1;
-		int perPageLimit = 5;
-		int userId = 1;
-		try {
-			UserNotificationDTO notificationDTO = notificationDAO.getUserNotifications(pageNumber, perPageLimit, userId);
-			Assert.assertTrue(notificationDTO != null);
-		} catch (Exception e) {
-			logger.error("Error while retrieving user notifications", e);
-			fail();
-		}
+//		int pageNumber = 1;
+//		int perPageLimit = 5;
+//		int userId = 1;
+//		try {
+//			UserNotificationDTO notificationDTO = notificationDAO.getUserNotifications(pageNumber, perPageLimit, userId);
+//			Assert.assertTrue(notificationDTO != null);
+//		} catch (Exception e) {
+//			logger.error("Error while retrieving user notifications", e);
+//			fail();
+//		}
 	}
 
 }

@@ -1,8 +1,6 @@
 package com.ontarget.api.jpa.dao.impl;
 
 import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -13,13 +11,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import com.ontarget.api.dao.NotificationDAO;
+import com.ontarget.api.repository.NotificationRepository;
 import com.ontarget.api.repository.UserNotificationRepository;
-import com.ontarget.bean.Notification;
 import com.ontarget.constant.OnTargetConstant;
-import com.ontarget.dto.UserNotificationDTO;
 import com.ontarget.entities.UserNotification;
-import com.ontarget.entities.UserNotificationAttribute;
-import com.ontarget.util.NotificationUtil;
 
 @Repository("notificationJpaDAOImpl")
 public class NotificationJpaDAOImpl implements NotificationDAO {
@@ -27,35 +22,14 @@ public class NotificationJpaDAOImpl implements NotificationDAO {
 	private Logger logger = Logger.getLogger(NotificationJpaDAOImpl.class);
 
 	@Resource
+	private NotificationRepository notificationRepository;
+	@Resource
 	private UserNotificationRepository userNotificationRepository;
 
 	@Override
-	public UserNotificationDTO getUserNotifications(int pageNumber, int perPageLimit, int userId) throws Exception {
+	public Page<UserNotification> getUserNotifications(int pageNumber, int perPageLimit, int userId) throws Exception {
 		Pageable pageable = new PageRequest(pageNumber - 1, perPageLimit);
-		Page<UserNotification> userNotifications = userNotificationRepository.findNotifcationByUserId(userId, pageable);
-
-		UserNotificationDTO userNotificationDTO = new UserNotificationDTO();
-		List<Notification> notifications = new LinkedList<>();
-
-		if (userNotifications != null && userNotifications.getTotalPages() > 0) {
-			for (UserNotification userNotification : userNotifications) {
-				Notification notification = new Notification();
-				notification.setId(userNotification.getId());
-				notification.setTsInsert(userNotification.getTsInsert().getTime());
-				notification.setText(userNotification.getText());
-				notification.setUserId(userNotification.getUser().getUserId());
-				notification.setStatus(userNotification.getStatus());
-				notification.setLastSeenAt(userNotification.getLastSeenAt());
-				notification.setNotificationType(userNotification.getNotificationType());
-
-				List<UserNotificationAttribute> notificationAttributes = userNotification.getUserNotificationAttributeList();
-				NotificationUtil.setNotificationAttributes(notification, notificationAttributes);
-				notifications.add(notification);
-			}
-		}
-		userNotificationDTO.setTotalNotification(userNotifications.getTotalElements());
-		userNotificationDTO.setUserNotificationList(notifications);
-		return userNotificationDTO;
+		return notificationRepository.findUserNotificationByUserId(userId, pageable);
 	}
 
 	@Override
@@ -64,12 +38,6 @@ public class NotificationJpaDAOImpl implements NotificationDAO {
 		userNotification.setStatus(OnTargetConstant.UserNotificationStatus.SEEN);
 		userNotification.setLastSeenAt(new Date());
 		userNotificationRepository.save(userNotification);
-		return true;
-	}
-
-	@Override
-	public boolean updateAllStatusToSeen(Integer userId) throws Exception {
-		userNotificationRepository.setAllNotificationAsSeen(OnTargetConstant.UserNotificationStatus.SEEN, new Date(), userId);
 		return true;
 	}
 
@@ -84,35 +52,10 @@ public class NotificationJpaDAOImpl implements NotificationDAO {
 	 * @throws Exception
 	 */
 	@Override
-	public UserNotificationDTO getUserNotifications(Integer pageNumber, Integer perPageLimit, Integer userId, Long loggedInUserProjectId)
+	public Page<UserNotification> getUserNotifications(Integer pageNumber, Integer perPageLimit, Integer userId, Long loggedInUserProjectId)
 			throws Exception {
-		logger.debug("Getting user notifications for user: " + userId + " and project: " + loggedInUserProjectId);
 		Pageable pageable = new PageRequest(pageNumber - 1, perPageLimit);
-		Page<UserNotification> userNotifications = userNotificationRepository.findNotifcationByUserId(userId, loggedInUserProjectId,
-				pageable);
-
-		UserNotificationDTO userNotificationDTO = new UserNotificationDTO();
-		List<Notification> notifications = new LinkedList<>();
-
-		if (userNotifications != null && userNotifications.getTotalPages() > 0) {
-			for (UserNotification userNotification : userNotifications) {
-				Notification notification = new Notification();
-				notification.setId(userNotification.getId());
-				notification.setTsInsert(userNotification.getTsInsert().getTime());
-				notification.setText(userNotification.getText());
-				notification.setUserId(userNotification.getUser().getUserId());
-				notification.setStatus(userNotification.getStatus());
-				notification.setLastSeenAt(userNotification.getLastSeenAt());
-				notification.setNotificationType(userNotification.getNotificationType());
-
-				List<UserNotificationAttribute> notificationAttributes = userNotification.getUserNotificationAttributeList();
-				NotificationUtil.setNotificationAttributes(notification, notificationAttributes);
-				notifications.add(notification);
-			}
-		}
-		userNotificationDTO.setTotalNotification(userNotifications.getTotalElements());
-		userNotificationDTO.setUserNotificationList(notifications);
-		return userNotificationDTO;
+		return notificationRepository.findNotifcationByUserId(userId, loggedInUserProjectId,pageable);
 	}
 
 }

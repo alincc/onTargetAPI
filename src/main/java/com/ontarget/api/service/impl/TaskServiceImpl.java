@@ -292,6 +292,16 @@ public class TaskServiceImpl implements TaskService {
 			int taskCommentId = taskDAO.addComment(comment);
 			if (taskCommentId > 0) {
 				Contact contact = contactDAO.getContact(comment.getCommentedBy());
+
+				ProjectTaskInfo task = taskDAO.getTaskInfo(comment.getTaskId());
+
+				Set<Integer> assignees = this.getTaskMembers(comment.getTaskId());
+				if (assignees != null && assignees.size() > 0) {
+					for (Integer assignee : assignees) {
+						emailService.sendTaskCommentEmail(task, contact, assignee.intValue());
+					}
+				}
+
 				return contact;
 			} else {
 				throw new Exception("Task not added");
@@ -316,7 +326,6 @@ public class TaskServiceImpl implements TaskService {
 					emailService.sendTaskStatusChangeEmail(task, assignee.intValue());
 				}
 			}
-
 		}
 		return taskStatusUpdated;
 	}
@@ -335,7 +344,20 @@ public class TaskServiceImpl implements TaskService {
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
 	public long saveTaskFile(int taskid, int userId, String fileName, String location) throws Exception {
-		return projectTaskFileDAO.saveTaskFile(taskid, fileName, userId, location);
+		long attachmentId = projectTaskFileDAO.saveTaskFile(taskid, fileName, userId, location);
+		if (attachmentId > 0) {
+			Contact contact = contactDAO.getContact(userId);
+
+			ProjectTaskInfo task = taskDAO.getTaskInfo(taskid);
+
+			Set<Integer> assignees = this.getTaskMembers(taskid);
+			if (assignees != null && assignees.size() > 0) {
+				for (Integer assignee : assignees) {
+					emailService.sendTaskAttachmentEmail(task, contact, assignee.intValue());
+				}
+			}
+		}
+		return attachmentId;
 	}
 
 	@Override

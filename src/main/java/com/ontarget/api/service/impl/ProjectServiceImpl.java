@@ -9,10 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.ontarget.api.service.BashScriptService;
-import com.ontarget.bean.*;
-import org.apache.commons.lang.RandomStringUtils;
-import org.apache.commons.lang.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -27,7 +23,19 @@ import com.ontarget.api.dao.TaskDAO;
 import com.ontarget.api.dao.TaskPercentageDAO;
 import com.ontarget.api.dao.UserRegistrationDAO;
 import com.ontarget.api.repository.ProjectTaskRepository;
+import com.ontarget.api.service.BashScriptService;
 import com.ontarget.api.service.ProjectService;
+import com.ontarget.bean.AddressDTO;
+import com.ontarget.bean.Company;
+import com.ontarget.bean.Contact;
+import com.ontarget.bean.ProjectDTO;
+import com.ontarget.bean.ProjectInfo;
+import com.ontarget.bean.ProjectMember;
+import com.ontarget.bean.TaskComment;
+import com.ontarget.bean.TaskInfo;
+import com.ontarget.bean.TaskPercentage;
+import com.ontarget.bean.TaskStatusCount;
+import com.ontarget.bean.UserDTO;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.ProjectListResponse;
@@ -514,6 +522,8 @@ public class ProjectServiceImpl implements ProjectService {
 		}
 	}
 
+	
+	
     /**
      * Get all projects by user id. Returns only the project info
      * @param userId
@@ -542,6 +552,30 @@ public class ProjectServiceImpl implements ProjectService {
 		return projectListResponse;
 	}
 
+	@Override
+	public ProjectListResponse getSuperUserProjectList(Integer userId) throws Exception {
+		ProjectListResponse projectListResponse = new ProjectListResponse();
+
+        //Add main project as well.
+        Project mainProject = projectDAO.getMainProjectByUser(userId);
+        ProjectDTO mainProjectDTO=null;
+        if (mainProject != null) {
+            mainProjectDTO = ProjectUtil.convertToProjectDTO(mainProject, projectTaskRepository);
+            Company company = companyDAO.getCompany(mainProjectDTO.getCompanyId());
+            mainProjectDTO.setCompany(company);
+        }
+
+        List<Project> projects = projectDAO.getProjectsByUserId(userId);
+
+        List<ProjectDTO> projectInfoList = convertedProjectList(projects, userId);
+        mainProjectDTO.setProjects(projectInfoList);
+
+		projectListResponse.setMainProject(mainProjectDTO);
+		return projectListResponse;
+	}
+
+	
+	
 	// new
 	@Override
 	public com.ontarget.response.bean.ProjectListResponse getActivityOfProject(Integer projectId) throws Exception {

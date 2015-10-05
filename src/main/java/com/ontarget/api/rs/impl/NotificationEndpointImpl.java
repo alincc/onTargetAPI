@@ -15,7 +15,6 @@ import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.NotificationResponse;
 import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.UserNotificationDTO;
-import com.ontarget.request.bean.NotificationAllSeenRequest;
 import com.ontarget.request.bean.NotificationRequest;
 import com.ontarget.request.bean.NotificationStatusUpdateRequest;
 
@@ -38,7 +37,6 @@ public class NotificationEndpointImpl implements com.ontarget.api.rs.Notificatio
 	public NotificationResponse getNotifications(NotificationRequest notificationRequest) {
 		NotificationResponse response = new NotificationResponse();
 		try {
-
 			UserNotificationDTO userNotificationDTO = notificationService.getNotifications(notificationRequest.getPageNumber(),
 					notificationRequest.getPerPageLimit(), notificationRequest.getUserId());
 			response.setNotificationList(userNotificationDTO.getUserNotificationList());
@@ -60,7 +58,6 @@ public class NotificationEndpointImpl implements com.ontarget.api.rs.Notificatio
 	public NotificationResponse getNotificationsByUserByProject(NotificationRequest notificationRequest) {
 		NotificationResponse response = new NotificationResponse();
 		try {
-
 			UserNotificationDTO userNotificationDTO = notificationService.getNotifications(notificationRequest.getPageNumber(),
 					notificationRequest.getPerPageLimit(), notificationRequest.getUserId(), notificationRequest.getBaseRequest()
 							.getLoggedInUserProjectId().longValue());
@@ -96,30 +93,6 @@ public class NotificationEndpointImpl implements com.ontarget.api.rs.Notificatio
 			response.setReturnVal(OnTargetConstant.ERROR);
 			response.setReturnMessage("Notification status update failed");
 		}
-
 		return response;
 	}
-
-	@Override
-	@POST
-	@Path("/markAllAsSeen")
-	public OnTargetResponse markAllNotificationAsSeen(NotificationAllSeenRequest request) {
-		OnTargetResponse response = new OnTargetResponse();
-		try {
-			boolean updated = notificationService.updateAllStatusToSeen(request.getBaseRequest().getLoggedInUserId());
-			if (updated) {
-				response.setReturnVal(OnTargetConstant.SUCCESS);
-				response.setReturnMessage("All notification status set as seen");
-			} else {
-				response.setReturnVal(OnTargetConstant.ERROR);
-				response.setReturnMessage("All Notification status update failed");
-			}
-		} catch (Exception e) {
-			logger.error(e);
-			response.setReturnVal(OnTargetConstant.ERROR);
-			response.setReturnMessage("Mark all notification status as seen request failed");
-		}
-		return response;
-	}
-
 }
