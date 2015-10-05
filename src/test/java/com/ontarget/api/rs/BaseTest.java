@@ -1,18 +1,11 @@
 package com.ontarget.api.rs;
 
-import java.util.Date;
-
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-
-import org.codehaus.jackson.Version;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.SerializationConfig;
-import org.codehaus.jackson.map.module.SimpleModule;
+import com.fasterxml.jackson.core.Version;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.ontarget.api.config.JerseyResourceInitializer;
+import com.ontarget.util.JsonDateSerializer;
 import org.glassfish.jersey.client.ClientConfig;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -21,8 +14,13 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ontarget.api.config.JerseyResourceInitializer;
-import com.ontarget.util.JsonDateSerializer;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.util.Date;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/applicationContext.xml" })
@@ -36,11 +34,13 @@ public class BaseTest extends AbstractTransactionalJUnit4SpringContextTests {
 	private Response response;
 	private String BASE_URI = "http://localhost:8080/ontargetrs/services";
 
+
+
 	protected <T> String toJsonString(T obj, boolean format) {
 		try {
 			ObjectMapper mapper = new ObjectMapper();
-			mapper.configure(SerializationConfig.Feature.INDENT_OUTPUT, format);
-			SimpleModule simpleModule = new SimpleModule("SimpleModule", new Version(2, 0, 0, null));
+			mapper.configure(SerializationFeature.INDENT_OUTPUT, format);
+			SimpleModule simpleModule = new SimpleModule("SimpleModule", new Version(2,0,0,null));
 			simpleModule.addSerializer(Date.class, new JsonDateSerializer());
 			mapper.registerModule(simpleModule);
 			String json = mapper.writeValueAsString(obj);
@@ -57,7 +57,7 @@ public class BaseTest extends AbstractTransactionalJUnit4SpringContextTests {
 			client.register(JerseyResourceInitializer.class);
 
 			ObjectMapper mapper = new ObjectMapper();
-			mapper.configure(SerializationConfig.Feature.INDENT_OUTPUT, true);
+			mapper.configure(SerializationFeature.INDENT_OUTPUT, true);
 			config = new ClientConfig();
 			client = ClientBuilder.newClient(config);
 			String fullUri = BASE_URI + path;
@@ -78,7 +78,7 @@ public class BaseTest extends AbstractTransactionalJUnit4SpringContextTests {
 			client.register(JerseyResourceInitializer.class);
 
 			ObjectMapper mapper = new ObjectMapper();
-			mapper.configure(SerializationConfig.Feature.INDENT_OUTPUT, true);
+			mapper.configure(SerializationFeature.INDENT_OUTPUT, true);
 			config = new ClientConfig();
 			client = ClientBuilder.newClient(config);
 			String fullUri = BASE_URI + path;

@@ -22,5 +22,4 @@ public class DateValidator {
 		}
 		return true;
 	}
-
 }

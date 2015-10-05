@@ -1,10 +1,15 @@
 package com.ontarget.api.filter;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.List;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ontarget.api.repository.FeatureRequestMapperRepository;
+import com.ontarget.api.service.AuthorizationService;
+import com.ontarget.constant.OnTargetConstant;
+import com.ontarget.entities.ApplicationFeature;
+import com.ontarget.entities.FeatureRequestMapper;
+import org.apache.log4j.Logger;
+import org.glassfish.jersey.message.internal.ReaderWriter;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.container.ContainerRequestContext;
@@ -12,18 +17,11 @@ import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.ext.Provider;
-
-import org.apache.log4j.Logger;
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.glassfish.jersey.message.internal.ReaderWriter;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.ontarget.api.repository.FeatureRequestMapperRepository;
-import com.ontarget.api.service.AuthorizationService;
-import com.ontarget.constant.OnTargetConstant;
-import com.ontarget.entities.ApplicationFeature;
-import com.ontarget.entities.FeatureRequestMapper;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
 
 @Provider
 public class AuthorizationFilter implements ContainerRequestFilter {
@@ -110,7 +108,7 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 			JsonNode baseRequestObj = actualObj.get("baseRequest");
 
 			JsonNode userObjNode = baseRequestObj.get("loggedInUserId");
-			Integer userId = userObjNode.getIntValue();
+			Integer userId = userObjNode.intValue();
 
             logger.debug("Checking feature request mapping permission for path: "+ requestPath);
 
@@ -153,10 +151,10 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 			JsonNode baseRequestObj = actualObj.get("baseRequest");
 
 			JsonNode userObjNode = baseRequestObj.get("loggedInUserId");
-			Integer userId = userObjNode.getIntValue();
+			Integer userId = userObjNode.intValue();
 
 			JsonNode projectObjNode = baseRequestObj.get("loggedInUserProjectId");
-			Integer projectId = projectObjNode.getIntValue();
+			Integer projectId = projectObjNode.intValue();
             logger.debug("Validating user:: "+ userId+" with project: "+projectId);
 			boolean authorized = authorizationService.validateUserOnProject(userId, projectId);
 

@@ -1,8 +1,9 @@
 package com.ontarget.mapper;
 
-import org.codehaus.jackson.map.DeserializationConfig;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.SerializationConfig;
+import com.fasterxml.jackson.databind.DeserializationConfig;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationConfig;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.ext.ContextResolver;
@@ -29,13 +30,13 @@ public class OntargetObjectMapper implements ContextResolver<ObjectMapper> {
 		
 
 		SerializationConfig serConfig = mapper.getSerializationConfig();
-		serConfig.setDateFormat(dateFormat);
+		serConfig.with(dateFormat);
 
 		DeserializationConfig deserializationConfig = mapper.getDeserializationConfig();
-		deserializationConfig.setDateFormat(dateFormat);
+		deserializationConfig.with(dateFormat);
 
-		mapper.configure(SerializationConfig.Feature.WRITE_DATES_AS_TIMESTAMPS, false);
-		mapper.configure(SerializationConfig.Feature.INDENT_OUTPUT, true);
+		mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+		mapper.configure(SerializationFeature.INDENT_OUTPUT, true);
 		return mapper;
 	}
 
