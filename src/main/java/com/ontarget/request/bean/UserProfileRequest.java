@@ -7,8 +7,7 @@ import lombok.Data;
 
 @Data
 public class UserProfileRequest {
-	@NotNull
-	@Valid
+
 	private BaseRequest baseRequest;
 	@NotNull
 	private Integer userId;

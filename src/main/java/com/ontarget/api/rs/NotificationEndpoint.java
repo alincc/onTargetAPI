@@ -18,5 +18,4 @@ public interface NotificationEndpoint {
 
 	OnTargetResponse markNotificationAsSeen(@Valid NotificationStatusUpdateRequest notificationStatusUpdateRequest);
 
-	OnTargetResponse markAllNotificationAsSeen(@Valid NotificationAllSeenRequest request);
 }
