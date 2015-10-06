@@ -1,5 +1,7 @@
 package com.ontarget.api.dao;
 
+import org.springframework.data.domain.Page;
+
 import com.ontarget.dto.ActivityLogDTO;
 
 /**
@@ -7,6 +9,8 @@ import com.ontarget.dto.ActivityLogDTO;
  */
 public interface ActivityDAO {
 
-	public ActivityLogDTO getActivityLog(int pageNumber, int perPageLimit, int projectId) throws Exception;
+	Page<com.ontarget.entities.ActivityLog> getActivityLogList(int pageNumber, int perPageLimit, int projectId) throws Exception;
+	
+	ActivityLogDTO getActivityLog(int pageNumber, int perPageLimit, int projectId) throws Exception;
 
 }

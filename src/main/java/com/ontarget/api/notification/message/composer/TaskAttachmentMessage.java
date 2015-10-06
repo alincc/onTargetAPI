@@ -1,4 +1,4 @@
-package com.ontarget.api.notification.message;
+package com.ontarget.api.notification.message.composer;
 
 import java.util.Map;
 
@@ -6,7 +6,7 @@ import com.ontarget.entities.ProjectTask;
 import com.ontarget.entities.User;
 import com.ontarget.util.NotificationConstant;
 
-public class TaskCommentNotificationMessage extends NotificationMessageComposer {
+public class TaskAttachmentMessage extends MessageComposer {
 	private User user;
 	private ProjectTask projectTask;
 
@@ -20,11 +20,12 @@ public class TaskCommentNotificationMessage extends NotificationMessageComposer 
 
 	@Override
 	public void composeMessage() {
-		notificationMessage = new NotificationMessage();
-		String messageTemplate = notificationTemplateConfig.getTaskCommentTemplate();
+		notificationMessage = new Message();
+		String messageTemplate = notificationTemplateConfig.getTaskAttachmentTemplate();
 		messageTemplate = messageTemplate.replace(NotificationConstant.NotificationMessageTemplateKeyConstant.user,
 				user.getContactList().get(0).getFirstName() + " " + user.getContactList().get(0).getLastName()).replace(
 				NotificationConstant.NotificationMessageTemplateKeyConstant.taskTitle, projectTask.getTitle());
 		notificationMessage.setMessage(messageTemplate);
 	}
+
 }

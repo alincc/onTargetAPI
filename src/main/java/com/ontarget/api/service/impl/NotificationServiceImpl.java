@@ -11,10 +11,10 @@ import org.springframework.stereotype.Service;
 
 import com.ontarget.api.dao.NotificationDAO;
 import com.ontarget.api.dao.NotificationMessageDAO;
-import com.ontarget.api.notification.message.NotificationMessage;
-import com.ontarget.api.notification.message.NotificationMessageComposer;
-import com.ontarget.api.notification.message.NotificationMessageFactory;
-import com.ontarget.api.notification.message.NotificationTemplateConfig;
+import com.ontarget.api.notification.message.composer.Message;
+import com.ontarget.api.notification.message.composer.MessageComposer;
+import com.ontarget.api.notification.message.composer.MessageFactory;
+import com.ontarget.api.notification.message.composer.MessageTemplateConfig;
 import com.ontarget.dto.UserNotificationDTO;
 import com.ontarget.entities.Notification;
 import com.ontarget.entities.NotificationAttribute;
@@ -33,7 +33,7 @@ public class NotificationServiceImpl implements com.ontarget.api.service.Notific
 	@Autowired
 	private NotificationMessageDAO notificationMessageDAO;
 	@Autowired
-	private NotificationTemplateConfig notificationTemplateConfig;
+	private MessageTemplateConfig notificationTemplateConfig;
 
 	@Override
 	public UserNotificationDTO getNotifications(int pageNumber, int perPageLimit, int userId) throws Exception {
@@ -54,10 +54,10 @@ public class NotificationServiceImpl implements com.ontarget.api.service.Notific
 				if (fetch) {
 					List<NotificationAttribute> notificationAttributes = notification.getNotificationAttributeList();
 
-					NotificationMessageComposer messageComposer = NotificationMessageFactory.getNotificationComposer(NotificationUtil
-							.getNotificationKey(notification));
+					MessageComposer messageComposer = MessageFactory.getMessageComposer(NotificationUtil.getActivityType(
+							notification.getNotificationType(), notification.getAction()));
 					if (messageComposer != null) {
-						NotificationMessage notificationMessage = messageComposer.getMessage(
+						Message notificationMessage = messageComposer.getMessage(
 								NotificationUtil.getNotificationKeyValueMap(notificationAttributes), notificationMessageDAO,
 								notificationTemplateConfig);
 						formattedMessage = notificationMessage.getMessage();
@@ -128,10 +128,10 @@ public class NotificationServiceImpl implements com.ontarget.api.service.Notific
 				if (fetch) {
 					List<NotificationAttribute> notificationAttributes = notification.getNotificationAttributeList();
 
-					NotificationMessageComposer messageComposer = NotificationMessageFactory.getNotificationComposer(NotificationUtil
-							.getNotificationKey(notification));
+					MessageComposer messageComposer = MessageFactory.getMessageComposer(NotificationUtil.getActivityType(
+							notification.getNotificationType(), notification.getAction()));
 					if (messageComposer != null) {
-						NotificationMessage notificationMessage = messageComposer.getMessage(
+						Message notificationMessage = messageComposer.getMessage(
 								NotificationUtil.getNotificationKeyValueMap(notificationAttributes), notificationMessageDAO,
 								notificationTemplateConfig);
 						formattedMessage = notificationMessage.getMessage();

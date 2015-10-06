@@ -1,10 +1,10 @@
-package com.ontarget.api.notification.message;
+package com.ontarget.api.notification.message.composer;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-public class NotificationTemplateConfig {
+public class MessageTemplateConfig {
 	@Value("${task.assign.notification}")
 	private String taskAssignTemplate;
 
@@ -43,6 +43,12 @@ public class NotificationTemplateConfig {
 
 	@Value("${onsite.document.comment.notification}")
 	private String documentCommentTemplate;
+
+	@Value("${task.cost.create.notification}")
+	private String taskCostCreateTemplate;
+
+	@Value("${task.cost.update.notification}")
+	private String taskCostUpdateTemplate;
 
 	public String getTaskStatusChangeTemplate() {
 		return taskStatusChangeTemplate;
@@ -94,6 +100,14 @@ public class NotificationTemplateConfig {
 
 	public String getTaskPercentageChangeTemplate() {
 		return taskPercentageChangeTemplate;
+	}
+
+	public String getTaskCostCreateTemplate() {
+		return taskCostCreateTemplate;
+	}
+
+	public String getTaskCostUpdateTemplate() {
+		return taskCostUpdateTemplate;
 	}
 
 }

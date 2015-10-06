@@ -16,6 +16,8 @@ public class NotificationConstant {
 		public static final String projectFileCraete = "PROJECT_FILE_CREATE";
 		public static final String projectFileCommentCreate = "PROJECT_FILE_COMMENT_CREATE";
 		public static final String taskPercentageChangeUpdate = "TASK_PERCENTAGE_UPDATE";
+		public static final String taskCostCreate = "TASK_COST_CREATE";
+		public static final String taskCostUpdate = "TASK_COST_UPDATE";
 	}
 
 	public static interface NotificationKeyConstant {
