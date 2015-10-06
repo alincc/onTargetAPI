@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -30,8 +31,7 @@ public class ActivityDAOImpl implements Serializable, com.ontarget.api.dao.Activ
 			@Override
 			public ActivityLog mapRow(ResultSet resultSet, int i) throws SQLException {
 				ActivityLog activityLog = new ActivityLog();
-				activityLog.setCategory(resultSet.getLong("category"));
-				activityLog.setId(resultSet.getLong("id"));
+
 				activityLog.setTsInsert(resultSet.getTimestamp("ts_insert").getTime());
 				activityLog.setText(resultSet.getString("text"));
 				activityLogs.add(activityLog);
@@ -43,8 +43,15 @@ public class ActivityDAOImpl implements Serializable, com.ontarget.api.dao.Activ
 	}
 
 	@Override
+	public Page<com.ontarget.entities.ActivityLog> getActivityLogList(int pageNumber, int perPageLimit, int projectId) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
 	public ActivityLogDTO getActivityLog(int pageNumber, int perPageLimit, int projectId) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 }

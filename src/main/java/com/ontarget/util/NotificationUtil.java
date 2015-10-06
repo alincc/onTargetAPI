@@ -10,39 +10,6 @@ import com.ontarget.bean.NotificationAttribute;
 
 public class NotificationUtil {
 
-	// public static void setNotificationAttributes(Notification notification,
-	// List<NotificationAttribute> userNotificationAttributes) {
-	// List<NotificationAttribute> notificationAttributes = new
-	// ArrayList<NotificationAttribute>();
-	//
-	// String key = "";
-	// String value = "";
-	// int i = 0;
-	// for (NotificationAttribute userNotificationAttribute :
-	// userNotificationAttributes) {
-	// i++;
-	// // if
-	// //
-	// (userNotificationAttribute.getAttributeKey().equalsIgnoreCase("notificationType"))
-	// // {
-	// // key = userNotificationAttribute.getAttributeValue();
-	// // } else if
-	// //
-	// (userNotificationAttribute.getAttributeKey().equalsIgnoreCase("notificationId"))
-	// // {
-	// // value = userNotificationAttribute.getAttributeValue();
-	// // }
-	// // if (i % 2 == 0) {
-	// // NotificationAttribute attribute = new NotificationAttribute();
-	// // attribute.setKey(key);
-	// // attribute.setValue(value);
-	// // notificationAttributes.add(attribute);
-	// // }
-	// }
-	// notification.setNotificationAttributes(notificationAttributes);
-	//
-	// }
-
 	public static void setNotificationAttributes(Notification notification,
 			List<com.ontarget.entities.NotificationAttribute> userNotificationAttributes) {
 		List<NotificationAttribute> notificationAttributes = new ArrayList<NotificationAttribute>();
@@ -56,8 +23,8 @@ public class NotificationUtil {
 		notification.setNotificationAttributes(notificationAttributes);
 	}
 
-	public static String getNotificationKey(com.ontarget.entities.Notification notification) {
-		StringBuilder sb = new StringBuilder(notification.getNotificationType()).append("_").append(notification.getAction());
+	public static String getActivityType(String type, String action) {
+		StringBuilder sb = new StringBuilder(type).append("_").append(action);
 		return sb.toString();
 	}
 
@@ -65,6 +32,14 @@ public class NotificationUtil {
 		Map<String, String> keyValueMap = new HashMap<String, String>();
 		for (com.ontarget.entities.NotificationAttribute notificationAttribute : notificationAttributes) {
 			keyValueMap.put(notificationAttribute.getAttributeKey(), notificationAttribute.getAttributeValue());
+		}
+		return keyValueMap;
+	}
+
+	public static Map<String, String> getActivityKeyValueMap(List<com.ontarget.entities.ActivityLogAttribute> activityLogAttributes) {
+		Map<String, String> keyValueMap = new HashMap<String, String>();
+		for (com.ontarget.entities.ActivityLogAttribute activityLogAttribute : activityLogAttributes) {
+			keyValueMap.put(activityLogAttribute.getAttributeKey(), activityLogAttribute.getAttributeValue());
 		}
 		return keyValueMap;
 	}

@@ -1,13 +1,12 @@
-package com.ontarget.api.notification.message;
+package com.ontarget.api.notification.message.composer;
 
 import java.util.Map;
 
 import com.ontarget.entities.Project;
 import com.ontarget.entities.User;
 import com.ontarget.util.NotificationConstant;
-import com.ontarget.util.NotificationUtil;
 
-public class ActivityCreateNotificationMessage extends NotificationMessageComposer {
+public class ActivityUpdateMessage extends MessageComposer {
 	private User user;
 	private Project project;
 
@@ -21,8 +20,8 @@ public class ActivityCreateNotificationMessage extends NotificationMessageCompos
 
 	@Override
 	public void composeMessage() {
-		notificationMessage = new NotificationMessage();
-		String messageTemplate = notificationTemplateConfig.getActivityCreateTemplate();
+		notificationMessage = new Message();
+		String messageTemplate = notificationTemplateConfig.getActivityUpdateTemplate();
 		messageTemplate = messageTemplate.replace(NotificationConstant.NotificationMessageTemplateKeyConstant.user,
 				user.getContactList().get(0).getFirstName() + " " + user.getContactList().get(0).getLastName()).replace(
 				NotificationConstant.NotificationMessageTemplateKeyConstant.activityTitle, project.getProjectName());

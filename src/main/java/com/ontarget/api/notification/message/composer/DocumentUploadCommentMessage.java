@@ -1,4 +1,4 @@
-package com.ontarget.api.notification.message;
+package com.ontarget.api.notification.message.composer;
 
 import java.util.Map;
 
@@ -7,7 +7,7 @@ import com.ontarget.entities.User;
 import com.ontarget.util.FileUtils;
 import com.ontarget.util.NotificationConstant;
 
-public class DocumentUploadNotificationMessage extends NotificationMessageComposer {
+public class DocumentUploadCommentMessage extends MessageComposer {
 	private User user;
 	private ProjectFile projectFile;
 
@@ -21,8 +21,8 @@ public class DocumentUploadNotificationMessage extends NotificationMessageCompos
 
 	@Override
 	public void composeMessage() {
-		notificationMessage = new NotificationMessage();
-		String messageTemplate = notificationTemplateConfig.getDocumentUploadTemplate();
+		notificationMessage = new Message();
+		String messageTemplate = notificationTemplateConfig.getDocumentCommentTemplate();
 		messageTemplate = messageTemplate.replace(NotificationConstant.NotificationMessageTemplateKeyConstant.user,
 				user.getContactList().get(0).getFirstName() + " " + user.getContactList().get(0).getLastName()).replace(
 				NotificationConstant.NotificationMessageTemplateKeyConstant.documentName,

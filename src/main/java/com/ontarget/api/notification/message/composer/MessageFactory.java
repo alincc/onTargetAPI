@@ -1,47 +1,52 @@
-package com.ontarget.api.notification.message;
+package com.ontarget.api.notification.message.composer;
 
 import org.apache.log4j.Logger;
 
 import com.ontarget.util.NotificationConstant;
 
-public class NotificationMessageFactory {
-	private static Logger logger = Logger.getLogger(NotificationMessageFactory.class);
+public class MessageFactory {
+	private static Logger logger = Logger.getLogger(MessageFactory.class);
 
-	public static NotificationMessageComposer getNotificationComposer(String notificationType) {
+	public static MessageComposer getMessageComposer(String notificationType) {
 		if (notificationType == null) {
 			return null;
 		}
 
 		logger.debug("notification type: " + notificationType);
 
-		NotificationMessageComposer notificationMessageComposer = null;
+		MessageComposer notificationMessageComposer = null;
 		if (notificationType.equalsIgnoreCase(NotificationConstant.NotificationTypeConstant.taskStatusUpdate)) {
-			notificationMessageComposer = new TaskStatusNotificationMessage();
+			notificationMessageComposer = new TaskStatusMessage();
 		} else if (notificationType.equalsIgnoreCase(NotificationConstant.NotificationTypeConstant.taskAssignCreate)) {
-			notificationMessageComposer = new TaskAssignNotificationMessage();
+			notificationMessageComposer = new TaskAssignMessage();
 		} else if (notificationType.equalsIgnoreCase(NotificationConstant.NotificationTypeConstant.taskCommentCreate)) {
-			notificationMessageComposer = new TaskCommentNotificationMessage();
+			notificationMessageComposer = new TaskCommentMessage();
 		} else if (notificationType.equalsIgnoreCase(NotificationConstant.NotificationTypeConstant.taskAttachmentCreate)) {
-			notificationMessageComposer = new TaskAttachmentNotificationMessage();
+			notificationMessageComposer = new TaskAttachmentMessage();
 		} else if (notificationType.equalsIgnoreCase(NotificationConstant.NotificationTypeConstant.taskCreate)) {
-			notificationMessageComposer = new TaskCreateNotificationMessage();
+			notificationMessageComposer = new TaskCreateMessage();
 		} else if (notificationType.equalsIgnoreCase(NotificationConstant.NotificationTypeConstant.taskUpdate)) {
-			notificationMessageComposer = new TaskUpdateNotificationMessage();
+			notificationMessageComposer = new TaskUpdateMessage();
 		} else if (notificationType.equalsIgnoreCase(NotificationConstant.NotificationTypeConstant.projectCreate)) {
-			notificationMessageComposer = new ProjectCreateNotificationMessage();
+			notificationMessageComposer = new ProjectCreateMessage();
 		} else if (notificationType.equalsIgnoreCase(NotificationConstant.NotificationTypeConstant.projectUpdate)) {
-			notificationMessageComposer = new ProjectUpdateNotificationMessage();
+			notificationMessageComposer = new ProjectUpdateMessage();
 		} else if (notificationType.equalsIgnoreCase(NotificationConstant.NotificationTypeConstant.activityCreate)) {
-			notificationMessageComposer = new ActivityCreateNotificationMessage();
+			notificationMessageComposer = new ActivityCreateMessage();
 		} else if (notificationType.equalsIgnoreCase(NotificationConstant.NotificationTypeConstant.activityUpdate)) {
-			notificationMessageComposer = new ActivityUpdateNotificationMessage();
+			notificationMessageComposer = new ActivityUpdateMessage();
 		} else if (notificationType.equalsIgnoreCase(NotificationConstant.NotificationTypeConstant.projectFileCraete)) {
-			notificationMessageComposer = new DocumentUploadNotificationMessage();
+			notificationMessageComposer = new DocumentUploadMessage();
 		} else if (notificationType.equalsIgnoreCase(NotificationConstant.NotificationTypeConstant.projectFileCommentCreate)) {
-			notificationMessageComposer = new DocumentUploadCommentNotificationMessage();
+			notificationMessageComposer = new DocumentUploadCommentMessage();
 		} else if (notificationType.equalsIgnoreCase(NotificationConstant.NotificationTypeConstant.taskPercentageChangeUpdate)) {
-			notificationMessageComposer = new TaskPercentageChangeNotificationMessage();
+			notificationMessageComposer = new TaskPercentageChangeMessage();
+		} else if (notificationType.equalsIgnoreCase(NotificationConstant.NotificationTypeConstant.taskCostCreate)) {
+			notificationMessageComposer = new TaskCostCreateMessage();
+		} else if (notificationType.equalsIgnoreCase(NotificationConstant.NotificationTypeConstant.taskCostUpdate)) {
+			notificationMessageComposer = new TaskCostUpdateMessage();
 		}
+
 		logger.debug("composer: " + notificationMessageComposer);
 		return notificationMessageComposer;
 	}

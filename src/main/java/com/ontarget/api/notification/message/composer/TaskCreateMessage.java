@@ -1,30 +1,30 @@
-package com.ontarget.api.notification.message;
+package com.ontarget.api.notification.message.composer;
 
 import java.util.Map;
 
+import com.ontarget.entities.ProjectTask;
 import com.ontarget.entities.User;
 import com.ontarget.util.NotificationConstant;
-import com.ontarget.util.TaskStatusEnum;
 
-public class TaskStatusNotificationMessage extends NotificationMessageComposer {
+public class TaskCreateMessage extends MessageComposer {
 	private User user;
-	private String taskStatus;
+	private ProjectTask projectTask;
 
 	@Override
 	public void fetchData(Map<String, String> notificationKeyValueMap) {
 		user = notificationMessageDAO.getUserById(Integer.parseInt(notificationKeyValueMap
 				.get(NotificationConstant.NotificationKeyConstant.userId)));
-		taskStatus = TaskStatusEnum.getStatusTextByStatus(Integer.parseInt(notificationKeyValueMap
-				.get(NotificationConstant.NotificationKeyConstant.status)));
+		projectTask = notificationMessageDAO.getProjectTaskById(Integer.parseInt(notificationKeyValueMap
+				.get(NotificationConstant.NotificationKeyConstant.taskId)));
 	}
 
 	@Override
 	public void composeMessage() {
-		notificationMessage = new NotificationMessage();
-		String messageTemplate = notificationTemplateConfig.getTaskStatusChangeTemplate();
+		notificationMessage = new Message();
+		String messageTemplate = notificationTemplateConfig.getTaskCreateTemplate();
 		messageTemplate = messageTemplate.replace(NotificationConstant.NotificationMessageTemplateKeyConstant.user,
 				user.getContactList().get(0).getFirstName() + " " + user.getContactList().get(0).getLastName()).replace(
-				NotificationConstant.NotificationMessageTemplateKeyConstant.taskStatus, taskStatus);
+				NotificationConstant.NotificationMessageTemplateKeyConstant.taskTitle, projectTask.getTitle());
 		notificationMessage.setMessage(messageTemplate);
 	}
 }

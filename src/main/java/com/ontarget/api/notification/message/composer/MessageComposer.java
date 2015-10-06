@@ -1,16 +1,16 @@
-package com.ontarget.api.notification.message;
+package com.ontarget.api.notification.message.composer;
 
 import java.util.Map;
 
 import com.ontarget.api.dao.NotificationMessageDAO;
 
-public abstract class NotificationMessageComposer {
-	protected NotificationMessage notificationMessage;
+public abstract class MessageComposer {
+	protected Message notificationMessage;
 	protected NotificationMessageDAO notificationMessageDAO;
-	protected NotificationTemplateConfig notificationTemplateConfig;
+	protected MessageTemplateConfig notificationTemplateConfig;
 
-	public NotificationMessage getMessage(Map<String, String> notificationKeyValueMap, NotificationMessageDAO notificationMessageDAO,
-			NotificationTemplateConfig notificationTemplateConfig) {
+	public Message getMessage(Map<String, String> notificationKeyValueMap, NotificationMessageDAO notificationMessageDAO,
+			MessageTemplateConfig notificationTemplateConfig) {
 
 		this.notificationMessageDAO = notificationMessageDAO;
 		this.notificationTemplateConfig = notificationTemplateConfig;

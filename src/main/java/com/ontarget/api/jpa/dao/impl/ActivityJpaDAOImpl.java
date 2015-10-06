@@ -22,25 +22,27 @@ public class ActivityJpaDAOImpl implements ActivityDAO {
 	private ActivityLogRepository activityLogRepository;
 
 	@Override
-	public ActivityLogDTO getActivityLog(int pageNumber, int perPageLimit, int projectId) throws Exception {
-
+	public Page<com.ontarget.entities.ActivityLog> getActivityLogList(int pageNumber, int perPageLimit, int projectId) throws Exception {
 		Pageable pageable = new PageRequest(pageNumber - 1, perPageLimit);
-		Page<com.ontarget.entities.ActivityLog> activityLogList = activityLogRepository.findActivityLogsByProjectId(
-				projectId, pageable);
+		return activityLogRepository.findActivityLogsByProjectId(projectId, pageable);
+	}
 
+	@Override
+	public ActivityLogDTO getActivityLog(int pageNumber, int perPageLimit, int projectId) throws Exception {
+		Pageable pageable = new PageRequest(pageNumber - 1, perPageLimit);
+		Page<com.ontarget.entities.ActivityLog> activityLogList = activityLogRepository.findActivityLogsByProjectId(projectId, pageable);
 		ActivityLogDTO activityLogDTO = new ActivityLogDTO();
 		List<ActivityLog> activityLogs = new LinkedList<>();
 
 		if (activityLogList != null && activityLogList.getTotalPages() > 0) {
 			for (com.ontarget.entities.ActivityLog activity : activityLogList) {
 				ActivityLog activityLog = new ActivityLog();
-				activityLog.setCategory(activity.getCategory().longValue());
-				activityLog.setId(activity.getId());
+				activityLog.setActivityLogId(activity.getActivityLogId());
 				activityLog.setTsInsert(activity.getTsInsert().getTime());
-				activityLog.setText(activity.getText());
+				activityLog.setActivityType(activity.getActivityType());
 				activityLog.setUserImage("N/A");
 				User user = activity.getUser();
-				
+
 				String userImage = "";
 				if (user != null) {
 					if (user.getContactList() != null && !user.getContactList().isEmpty()) {
