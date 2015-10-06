@@ -120,6 +120,7 @@ public class ProjectBIMFileServiceTest extends BaseTest {
             UpdateBIMThumbnailPathRequest updateBIMThumbPathrequest=new UpdateBIMThumbnailPathRequest();
             updateBIMThumbPathrequest.setProjectBimFileId(poid.getProjectBimFileId());
             updateBIMThumbPathrequest.setBimThumbnailPath("/project/def.jpg");
+            updateBIMThumbPathrequest.setBaseRequest(baseRequest);
             boolean deleted = projectBIMFileService.updateBimThumbnailPath(updateBIMThumbPathrequest);
             Assert.assertTrue(deleted);
 

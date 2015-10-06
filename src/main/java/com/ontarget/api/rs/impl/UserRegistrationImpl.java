@@ -76,8 +76,8 @@ public class UserRegistrationImpl implements com.ontarget.api.rs.UserRegistratio
 					String senderFirstName = "";
 					String senderLastName = "";
 					ProjectInfo res = projectService.getProject(projectId);
-					long owner = res.getProjectOwnerId();
-					Contact c = userProfileService.getContact(owner);
+
+					Contact c = userProfileService.getContact(inviteUserIntoProjectRequest.getBaseRequest().getLoggedInUserId());
 					senderFirstName = c.getFirstName();
 					senderLastName = c.getLastName();
 

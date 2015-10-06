@@ -238,7 +238,9 @@ public class EmailServiceImpl implements EmailService {
 				public void prepare(MimeMessage mimeMessage) throws Exception {
 					MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
 					message.setTo(userEmail);
-					message.setFrom(new InternetAddress(OnTargetConstant.EmailServiceConstants.EMAIL_FROM));
+
+                    String emailFrom = new StringBuilder().append(senderFirstName).append(" ").append(senderLastName).append(OnTargetConstant.EmailServiceConstants.EMAIL_FROM).toString();
+					message.setFrom(new InternetAddress(emailFrom));
 					message.setSubject(OnTargetConstant.EmailServiceConstants.USER_INVITE_TO_COLLABORATE);
 					message.setSentDate(new Date());
 

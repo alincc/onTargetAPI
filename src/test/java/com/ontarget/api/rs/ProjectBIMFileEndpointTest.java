@@ -1,17 +1,11 @@
 package com.ontarget.api.rs;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ontarget.request.bean.BaseRequest;
-import com.ontarget.request.bean.DeleteBIMRequest;
-import com.ontarget.request.bean.GetBIMRequest;
-import com.ontarget.request.bean.SaveBIMRequest;
-import junit.framework.Assert;
+import com.ontarget.request.bean.*;
 import org.junit.Test;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
 import static junit.framework.Assert.fail;
 
@@ -23,6 +17,7 @@ public class ProjectBIMFileEndpointTest extends BaseJerseyTest{
     private static final String SAVE_BIM_ENDPOINT_URI=baseURI + "/bim/save";
     private static final String GET_BIM_POID_ENDPOINT_URI=baseURI + "/bim/getAll";
     private static final String DELETE_BIM_ENDPOINT_URI=baseURI + "/bim/delete";
+    private static final String UPDATE_BIM_THUMB_PATH_ENDPOINT_URI=baseURI + "/bim/updateThumbnailPath";
 
     @Test
     public void saveBIMPoid(){
@@ -36,14 +31,13 @@ public class ProjectBIMFileEndpointTest extends BaseJerseyTest{
             baseRequest.setLoggedInUserProjectId(42);
             request.setBaseRequest(baseRequest);
 
-            System.out.println("Request: "+new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(request));
+           logger.debug("Request: "+new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(request));
 
              String response= client.target(SAVE_BIM_ENDPOINT_URI).request().accept(MediaType.APPLICATION_JSON_TYPE).post(Entity.entity(request, MediaType.APPLICATION_JSON_TYPE),String.class);
             // int status = response.getStatus();
 
             //Assert.assertTrue(status == 200);
-            System.out.println(response);
-
+           logger.debug(response);
 
         } catch (Exception e) {
             logger.error("Error while saving bim poid",e);
@@ -64,13 +58,13 @@ public class ProjectBIMFileEndpointTest extends BaseJerseyTest{
             request.setBaseRequest(baseRequest);
             request.setProjectid(42L);
 
-            System.out.println("Request: "+new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(request));
+            logger.debug("Request: "+new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(request));
 
             String response= client.target(GET_BIM_POID_ENDPOINT_URI).request().accept(MediaType.APPLICATION_JSON_TYPE).post(Entity.entity(request, MediaType.APPLICATION_JSON_TYPE),String.class);
             // int status = response.getStatus();
 
             //Assert.assertTrue(status == 200);
-            System.out.println("Response:"+response);
+            logger.debug("Response:"+response);
 
 
         } catch (Exception e) {
@@ -93,7 +87,7 @@ public class ProjectBIMFileEndpointTest extends BaseJerseyTest{
             request.setBaseRequest(baseRequest);
             request.setProjectBimFileId(12);
 
-            System.out.println("Request: "+new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(request));
+           logger.debug("Request: "+new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(request));
 
             String response= client.target(DELETE_BIM_ENDPOINT_URI).request().accept(MediaType.APPLICATION_JSON_TYPE).post(Entity.entity(request, MediaType.APPLICATION_JSON_TYPE),String.class);
             // int status = response.getStatus();
@@ -101,8 +95,35 @@ public class ProjectBIMFileEndpointTest extends BaseJerseyTest{
             
 
             //Assert.assertTrue(status == 200);
-            System.out.println("Response:"+response);
+           logger.debug("Response:"+response);
 
+
+        } catch (Exception e) {
+            logger.error("Error while fetching bim poid",e);
+            fail();
+        }
+    }
+
+
+    @Test
+    public void updateBIMThumbPath(){
+
+        try {
+            UpdateBIMThumbnailPathRequest request=new UpdateBIMThumbnailPathRequest();
+            request.setProjectBimFileId(24);
+            request.setBimThumbnailPath("/project/def.jpg");
+            BaseRequest baseRequest=new BaseRequest();
+            baseRequest.setLoggedInUserId(10);
+            baseRequest.setLoggedInUserProjectId(42);
+            request.setBaseRequest(baseRequest);
+
+           logger.debug("Request: "+new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(request));
+
+            String response= client.target(UPDATE_BIM_THUMB_PATH_ENDPOINT_URI).request().accept(MediaType.APPLICATION_JSON_TYPE).post(Entity.entity(request, MediaType.APPLICATION_JSON_TYPE),String.class);
+            // int status = response.getStatus();
+
+            //Assert.assertTrue(status == 200);
+           logger.debug("Response:"+response);
 
         } catch (Exception e) {
             logger.error("Error while fetching bim poid",e);

@@ -72,3 +72,9 @@ insert  into `task_status`(`task_status_id`,`status_code`,`status_name`,`status_
   (2,'PENDING','Pending','Pending Status'),
   (3,'COMPLETED','Completed','Completed Status'),
   (4,'EXPIRED','Expired','Expired Status');
+
+
+INSERT INTO `document_template` (`name`,`created_by`,`created_date`,`modified_by`,`modfied_date`) VALUES ('Purchase Order','SYSTEM','2015-01-09 13:19:58','SYSTEM','2015-01-09 13:19:58');
+INSERT INTO `document_template` (`name`,`created_by`,`created_date`,`modified_by`,`modfied_date`) VALUES ('Change Order','SYSTEM','2015-01-09 13:19:58','SYSTEM','2015-01-09 13:19:58');
+INSERT INTO `document_template` (`name`,`created_by`,`created_date`,`modified_by`,`modfied_date`) VALUES ('Request For Information','SYSTEM','2015-01-09 13:19:58','SYSTEM','2015-01-09 13:19:58');
+INSERT INTO `document_template` (`name`,`created_by`,`created_date`,`modified_by`,`modfied_date`) VALUES ('Transmittal','SYSTEM','2015-01-09 13:19:58','SYSTEM','2015-01-09 13:19:58');

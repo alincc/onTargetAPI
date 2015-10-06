@@ -55,15 +55,15 @@ public interface OnTargetConstant {
 	interface EmailServiceConstants {
 		public static final String USER_REGISTRATION_SUBJECT = "OnTarget Registration Request";
 		public static final String EMAIL_FROM = "Uncle Atlas <donotreply@ontargetcloud.com>";
+        public static final String DO_NOT_REPLY_EMAIL = "<donotreply@ontargetcloud.com>";
 		public static final String ONBOARDING_TO_ONTARGET_SUBJECT = "Onboarding to OnTarget";
 
-		public static final String DOCUMENT_APPROVAL_FROM = "Uncle Atlas <donotreply@ontargetcloud.com>";
 		public static final String DOCUMENT_APPROVAL_SUBJECT = "New document available for approval";
 		public static final String USER_REGISTRATION_ADMIN_EMAIL = "niran@ontargetcloud.com";
 		public static final String INVITE_USER_TO_ACCOUNT_SUBJECT = "Invitation to OnTarget";
 		public static final String TASK_ASSIGNED_SUBJECT = "Task Assigned";
 		public static final String FORGOT_PASSWORD_SUBJECT = "Forgot Password";
-		public static final String FROM_NAME = "Uncle Atlas";
+
 		public static final String REQUEST_FOR_DEMO_APPROVE_URL = "/#/app/pending-account-request";
 		public static final String USER_INVITE_TO_COLLABORATE = "Invite to Collaborate";
 	}
