@@ -19,6 +19,7 @@ cd /apps/ontarget/deployment/build
 #pull the changes for a particular branch.
 #
 if [ -d "ontargetrs" ]; then
+  logit "Pulling latest tag $tagname"
   cd ontargetrs
   git pull origin $tagname
     if [[ $? -ne 0 ]] ; then
@@ -56,6 +57,7 @@ fi
 
 logit "done building with maven"
 
+logit "#########Stopping tomcat########"
 #### stop tomcat
 sudo /usr/local/tomcat8/bin/shutdown.sh
 
@@ -64,6 +66,7 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
+logit "#########removing ontarget war########"
 #undeploy current folder
 sudo rm -rf /usr/local/tomcat8/webapps/ontargetrs
 
@@ -77,7 +80,7 @@ if [ $? -ne 0 ]; then
     echo "$0: Error while deleting ontargetrs.war from tomcat"
     exit 1
 fi
-
+logit "#########Copying ontarget war########"
 
 #copy the new war generated from target directory to tomcat directory
 sudo cp target/ontargetrs.war /usr/local/tomcat8/webapps/
@@ -86,7 +89,7 @@ if [ $? -ne 0 ]; then
     echo "$0: Error while copying ontargetrs.war to tomcat"
     exit 1
 fi
-
+logit "#########Starting tomcat########"
 # restart tomcat
 sudo /usr/local/tomcat8/bin/startup.sh
 
