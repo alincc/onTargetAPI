@@ -1,5 +1,6 @@
 package com.ontarget.api.notification.message.composer;
 
+import java.text.MessageFormat;
 import java.util.Map;
 
 import com.ontarget.entities.ProjectTask;
@@ -18,8 +19,7 @@ public class TaskCostCreateMessage extends MessageComposer {
 	public void composeMessage() {
 		notificationMessage = new Message();
 		String messageTemplate = notificationTemplateConfig.getTaskCreateTemplate();
-		messageTemplate = messageTemplate.replace(NotificationConstant.NotificationMessageTemplateKeyConstant.taskTitle,
-				projectTask.getTitle());
+        messageTemplate= MessageFormat.format(messageTemplate, projectTask.getTitle());
 		notificationMessage.setMessage(messageTemplate);
 	}
 }

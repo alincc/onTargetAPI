@@ -1,5 +1,6 @@
 package com.ontarget.api.notification.message.composer;
 
+import java.text.MessageFormat;
 import java.util.Map;
 
 import com.ontarget.entities.ProjectTask;
@@ -22,9 +23,7 @@ public class TaskPercentageChangeMessage extends MessageComposer {
 	public void composeMessage() {
 		notificationMessage = new Message();
 		String messageTemplate = notificationTemplateConfig.getTaskPercentageChangeTemplate();
-		messageTemplate = messageTemplate.replace(NotificationConstant.NotificationMessageTemplateKeyConstant.user,
-				user.getContactList().get(0).getFirstName() + " " + user.getContactList().get(0).getLastName()).replace(
-				NotificationConstant.NotificationMessageTemplateKeyConstant.taskTitle, projectTask.getTitle());
+        messageTemplate= MessageFormat.format(messageTemplate, user.getContactList().get(0).getFirstName() + " " + user.getContactList().get(0).getLastName(), projectTask.getTitle());
 		notificationMessage.setMessage(messageTemplate);
 	}
 }

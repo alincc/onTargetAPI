@@ -1,5 +1,6 @@
 package com.ontarget.api.notification.message.composer;
 
+import java.text.MessageFormat;
 import java.util.Map;
 
 import com.ontarget.entities.User;
@@ -22,9 +23,7 @@ public class TaskStatusMessage extends MessageComposer {
 	public void composeMessage() {
 		notificationMessage = new Message();
 		String messageTemplate = notificationTemplateConfig.getTaskStatusChangeTemplate();
-		messageTemplate = messageTemplate.replace(NotificationConstant.NotificationMessageTemplateKeyConstant.user,
-				user.getContactList().get(0).getFirstName() + " " + user.getContactList().get(0).getLastName()).replace(
-				NotificationConstant.NotificationMessageTemplateKeyConstant.taskStatus, taskStatus);
+        messageTemplate= MessageFormat.format(messageTemplate, user.getContactList().get(0).getFirstName() + " " + user.getContactList().get(0).getLastName(), taskStatus);
 		notificationMessage.setMessage(messageTemplate);
 	}
 }

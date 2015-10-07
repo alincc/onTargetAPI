@@ -1,9 +1,11 @@
 package com.ontarget.api.notification.message.composer;
 
+import java.text.MessageFormat;
 import java.util.Map;
 
 import com.ontarget.entities.Project;
 import com.ontarget.entities.User;
+import com.ontarget.util.FileUtils;
 import com.ontarget.util.NotificationConstant;
 
 public class ProjectCreateMessage extends MessageComposer {
@@ -22,9 +24,7 @@ public class ProjectCreateMessage extends MessageComposer {
 	public void composeMessage() {
 		notificationMessage = new Message();
 		String messageTemplate = notificationTemplateConfig.getProjectCreateTemplate();
-		messageTemplate = messageTemplate.replace(NotificationConstant.NotificationMessageTemplateKeyConstant.user,
-				user.getContactList().get(0).getFirstName() + " " + user.getContactList().get(0).getLastName()).replace(
-				NotificationConstant.NotificationMessageTemplateKeyConstant.projectTitle, project.getProjectName());
+        messageTemplate= MessageFormat.format(messageTemplate, user.getContactList().get(0).getFirstName() + " " + user.getContactList().get(0).getLastName(), project.getProjectName());
 		notificationMessage.setMessage(messageTemplate);
 	}
 }
