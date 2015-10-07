@@ -24,20 +24,20 @@ public class DocumentEndpointTest extends BaseTest {
 	@Test
 	public void addDocument() {
 		BaseRequest baseRequest = new BaseRequest();
-		baseRequest.setLoggedInUserId(1);
-		baseRequest.setLoggedInUserProjectId(1);
+		baseRequest.setLoggedInUserId(10);
+		baseRequest.setLoggedInUserProjectId(42);
 
 		AddDocumentRequest documentRequest = new AddDocumentRequest();
 		documentRequest.setBaseRequest(baseRequest);
 
-		documentRequest.setDocumentTemplateId(20);
+		documentRequest.setDocumentTemplateId(1);
 		documentRequest.setDocumentName("test doc");
 		documentRequest.setDueDate(new java.sql.Date(new Date().getTime()));
-		documentRequest.setProjectId(1);
+		documentRequest.setProjectId(42);
 
 		List<Assignee> assignees = new ArrayList<>();
 		Assignee assignee = new Assignee();
-		assignee.setUserId(1);
+		assignee.setUserId(10);
 		assignee.setUsername("santosh8pun@gmail.com");
 		assignees.add(assignee);
 
@@ -56,7 +56,7 @@ public class DocumentEndpointTest extends BaseTest {
 
 		gridKeyValues.add(documentGridKeyValue);
 
-		documentRequest.setSubmittedBy(1);
+		documentRequest.setSubmittedBy(10);
 		documentRequest.setAssignees(assignees);
 		documentRequest.setKeyValues(keyValues);
 		documentRequest.setGridKeyValues(gridKeyValues);
@@ -77,11 +77,11 @@ public class DocumentEndpointTest extends BaseTest {
 	public void updateDocumentData() {
 
 		BaseRequest baseRequest = new BaseRequest();
-		baseRequest.setLoggedInUserId(1);
-		baseRequest.setLoggedInUserProjectId(1);
+		baseRequest.setLoggedInUserId(10);
+		baseRequest.setLoggedInUserProjectId(42);
 
 		UpdateDocumentRequest request = new UpdateDocumentRequest();
-		request.setDocumentId(5);
+		request.setDocumentId(2);
 		request.setDueDate(new java.sql.Date(new Date().getTime()));
 
 		request.setBaseRequest(baseRequest);
@@ -104,7 +104,7 @@ public class DocumentEndpointTest extends BaseTest {
 
 		request.setGridKeyValues(gridKeyValues);
 
-		request.setSubmittedBy(1);
+		request.setSubmittedBy(10);
 
 		System.out.println("Client request....updateDocumentData \n");
 		System.out.println(toJsonString(request, true));
@@ -121,15 +121,15 @@ public class DocumentEndpointTest extends BaseTest {
 	@Test
 	public void status() {
 		BaseRequest baseRequest = new BaseRequest();
-		baseRequest.setLoggedInUserId(1);
-		baseRequest.setLoggedInUserProjectId(1);
+		baseRequest.setLoggedInUserId(10);
+		baseRequest.setLoggedInUserProjectId(42);
 
 		UpdateDocumentStatus request = new UpdateDocumentStatus();
-		request.setDocumentId(5);
+		request.setDocumentId(2);
 
 		request.setBaseRequest(baseRequest);
 
-		request.setModifiedBy(1);
+		request.setModifiedBy(10);
 		request.setNewStatus("SUBMITTED");
 
 		System.out.println("Client request....status \n");
@@ -148,12 +148,12 @@ public class DocumentEndpointTest extends BaseTest {
 	public void getDocuments() {
 
 		BaseRequest baseRequest = new BaseRequest();
-		baseRequest.setLoggedInUserId(1);
-		baseRequest.setLoggedInUserProjectId(1);
+		baseRequest.setLoggedInUserId(10);
+		baseRequest.setLoggedInUserProjectId(42);
 
 		UserDocument request = new UserDocument();
 		request.setBaseRequest(baseRequest);
-		request.setProjectId(1);
+		request.setProjectId(42);
 
 		System.out.println("Client request....getDocuments \n");
 		System.out.println(toJsonString(request, true));
@@ -170,12 +170,12 @@ public class DocumentEndpointTest extends BaseTest {
 	@Test
 	public void getDocument() {
 		BaseRequest baseRequest = new BaseRequest();
-		baseRequest.setLoggedInUserId(1);
-		baseRequest.setLoggedInUserProjectId(1);
+		baseRequest.setLoggedInUserId(10);
+		baseRequest.setLoggedInUserProjectId(42);
 
 		DocumentDetail request = new DocumentDetail();
 		request.setBaseRequest(baseRequest);
-		request.setDcoumentId(5);
+		request.setDcoumentId(2);
 
 		System.out.println("Client request....getDocument \n");
 		System.out.println(toJsonString(request, true));
@@ -192,13 +192,13 @@ public class DocumentEndpointTest extends BaseTest {
 	@Test
 	public void addDocumentAttachment() {
 		BaseRequest baseRequest = new BaseRequest();
-		baseRequest.setLoggedInUserId(1);
-		baseRequest.setLoggedInUserProjectId(1);
+		baseRequest.setLoggedInUserId(10);
+		baseRequest.setLoggedInUserProjectId(42);
 
 		AddDocumentAttachment request = new AddDocumentAttachment();
 		request.setBaseRequest(baseRequest);
-		request.setAddedBy(1);
-		request.setDocumentId(5);
+		request.setAddedBy(10);
+		request.setDocumentId(2);
 		request.setFilePath("/home/ontargetrs/sa.jpg");
 
 		System.out.println("Client request....addDocumentAttachment \n");
