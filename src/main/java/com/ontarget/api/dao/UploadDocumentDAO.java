@@ -19,4 +19,6 @@ public interface UploadDocumentDAO {
 	public boolean deleteComment(Integer commentId) throws Exception;
 
 	public List<ProjectFileComment> getCommentsByFileId(int projectFileId);
+
+    public UploadedDocumentDetail getFilesByProjectAndFileId(Integer projectId, Integer projectFileId) throws Exception;
 }

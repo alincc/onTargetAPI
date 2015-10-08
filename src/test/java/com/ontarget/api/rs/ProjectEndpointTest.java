@@ -28,9 +28,15 @@ public class ProjectEndpointTest extends BaseTest {
 		ProjectDetailInfo projectDetailInfo = new ProjectDetailInfo();
 		projectDetailInfo.setCompanyId(5);
 		projectDetailInfo.setEndDate(new java.sql.Date(new java.util.Date().getTime()));
+<<<<<<< HEAD
 		projectDetailInfo.setProjectDescription("project2 desc");
 		projectDetailInfo.setProjectName("project2 name");
 		projectDetailInfo.setProjectParentId(41);
+=======
+		projectDetailInfo.setProjectDescription("project desc");
+		projectDetailInfo.setProjectName("project name");
+		projectDetailInfo.setProjectParentId(42);
+>>>>>>> ontarget.phase4
 		projectDetailInfo.setProjectTypeId(1);
 		projectDetailInfo.setStartDate(new java.sql.Date(new java.util.Date().getTime()));
 		projectDetailInfo.setStatus("1");

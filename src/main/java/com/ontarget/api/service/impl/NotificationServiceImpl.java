@@ -103,7 +103,12 @@ public class NotificationServiceImpl implements com.ontarget.api.service.Notific
 
 	@Override
 	public boolean updateStatusToSeen(Long userNotificationId) throws Exception {
-		return notificationDAO.updateStatusToSeen(userNotificationId);
+        return notificationDAO.updateStatusToSeen(userNotificationId);
+    }
+
+
+	public boolean updateAllStatusToSeen(Integer userId, Integer projectId) throws Exception {
+		return notificationDAO.updateAllStatusToSeen(userId, projectId);
 	}
 
 	@Override

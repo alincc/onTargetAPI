@@ -15,4 +15,6 @@ public interface NotificationDAO {
 
 	public Page<UserNotification> getUserNotifications(Integer pageNumber, Integer perPageLimit, Integer userId, Long loggedInUserProjectId)
 			throws Exception;
+
+	public boolean updateAllStatusToSeen(Integer userId, Integer projectId) throws Exception;
 }

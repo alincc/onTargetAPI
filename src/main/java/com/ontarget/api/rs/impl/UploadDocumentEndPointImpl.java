@@ -8,6 +8,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import com.ontarget.dto.ProjectFileResponse;
+import com.ontarget.request.bean.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -18,13 +20,6 @@ import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.FileUploadResponse;
 import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.UploadedDocumentDetail;
-import com.ontarget.request.bean.ProjectFileCategoryRequest;
-import com.ontarget.request.bean.ProjectFileCommentDeleteRequest;
-import com.ontarget.request.bean.ProjectFileCommentListRequest;
-import com.ontarget.request.bean.ProjectFileCommentRequest;
-import com.ontarget.request.bean.ProjectFileDeleteRequest;
-import com.ontarget.request.bean.UploadDocumentRequest;
-import com.ontarget.request.bean.UploadedFileDetail;
 import com.ontarget.response.bean.ProjectFileCategoryListResponse;
 import com.ontarget.response.bean.ProjectFileCommentListResponse;
 
@@ -152,6 +147,29 @@ public class UploadDocumentEndPointImpl implements UploadDocumentEndPoint {
 
 		return response;
 	}
+
+    @Override
+    @POST
+    @Path("/getDocumentById")
+    public ProjectFileResponse getUploadedFileByDocumentId(ProjectFileRequest projectFileRequest) {
+        logger.info("Starting call to retrieve uploaded document by project id");
+        ProjectFileResponse response = new ProjectFileResponse();
+
+        response.setProjectId(projectFileRequest.getProjectId());
+        response.setProjectFileId(projectFileRequest.getProjectFileId());
+        UploadedDocumentDetail projectFile = null;
+        try {
+            projectFile = documentService.getUploadedFileByProjectFileId(projectFileRequest.getProjectId(), projectFileRequest.getProjectFileId());
+            response.setProjectFile(projectFile);
+            response.setResponseCode(OnTargetConstant.SUCCESS_CODE);
+            response.setReturnVal(OnTargetConstant.SUCCESS);
+            response.setReturnMessage(OnTargetConstant.DEFAULT_SUCCESS_MESSAGE);
+        } catch (Exception ex) {
+            logger.error(OnTargetConstant.INTERNAL_SERVER_ERROR_MSG, ex);
+        }
+
+        return response;
+    }
 
 	@Override
 	@POST

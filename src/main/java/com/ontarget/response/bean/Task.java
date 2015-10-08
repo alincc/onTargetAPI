@@ -19,6 +19,7 @@ public class Task implements Serializable {
 	private Integer projectTaskId;
 	private Date startDate;
 	private Date endDate;
+    private Integer activityId;
 	private boolean completed;
 	private double percentageComplete;
 	private List<UserDTO> assignee;

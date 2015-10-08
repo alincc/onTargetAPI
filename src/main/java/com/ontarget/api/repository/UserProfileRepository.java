@@ -7,7 +7,11 @@ import com.ontarget.entities.UserProfile;
 
 public interface UserProfileRepository extends JpaRepository<UserProfile, Integer> {
 
+<<<<<<< HEAD
 	@Query(value = "select up from UserProfile up where up.user.userId=?1")
+=======
+    @Query(value = "select up from UserProfile up where up.user.userId=?1")
+>>>>>>> ontarget.phase4
 	UserProfile getUserProfielbyUserId(Integer userId);
 
 }

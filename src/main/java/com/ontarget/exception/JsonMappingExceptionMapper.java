@@ -1,6 +1,6 @@
 package com.ontarget.exception;
 
-import org.codehaus.jackson.map.JsonMappingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import org.springframework.validation.Errors;
 
 @SuppressWarnings("serial")

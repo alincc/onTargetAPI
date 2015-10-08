@@ -29,8 +29,12 @@ public class NotificationDAOImpl implements com.ontarget.api.dao.NotificationDAO
 	}
 
 	@Override
+<<<<<<< HEAD
 	public Page<UserNotification> getUserNotifications(Integer pageNumber, Integer perPageLimit, Integer userId, Long loggedInUserProjectId)
 			throws Exception {
+=======
+	public boolean updateAllStatusToSeen(Integer userId, Integer projectId) throws Exception {
+>>>>>>> ontarget.phase4
 		// TODO Auto-generated method stub
 		return null;
 	}

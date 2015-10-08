@@ -21,6 +21,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
 	public boolean validateUserOnProject(Integer userId, Integer projectId) throws Exception {
+        logger.debug("Validating user:: "+ userId+" with project: "+projectId);
 		return authorizationDAO.validateUserOnProject(userId, projectId);
 	}
 

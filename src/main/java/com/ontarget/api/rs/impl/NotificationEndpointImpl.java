@@ -63,6 +63,7 @@ public class NotificationEndpointImpl implements com.ontarget.api.rs.Notificatio
 							.getLoggedInUserProjectId().longValue());
 			response.setNotificationList(userNotificationDTO.getUserNotificationList());
 			response.setTotalNotification(userNotificationDTO.getTotalNotification());
+            response.setTotalUnreadNotification(userNotificationDTO.getTotalUnReadNotification());
 			response.setReturnVal(OnTargetConstant.SUCCESS);
 			response.setReturnMessage("notification read");
 		} catch (Exception e) {
@@ -93,6 +94,32 @@ public class NotificationEndpointImpl implements com.ontarget.api.rs.Notificatio
 			response.setReturnVal(OnTargetConstant.ERROR);
 			response.setReturnMessage("Notification status update failed");
 		}
+<<<<<<< HEAD
+=======
+
+		return response;
+	}
+
+	@Override
+	@POST
+	@Path("/markAllAsSeen")
+	public OnTargetResponse markAllNotificationAsSeen(NotificationAllSeenRequest request) {
+		OnTargetResponse response = new OnTargetResponse();
+		try {
+			boolean updated = notificationService.updateAllStatusToSeen(request.getBaseRequest().getLoggedInUserId(), request.getBaseRequest().getLoggedInUserProjectId());
+			if (updated) {
+				response.setReturnVal(OnTargetConstant.SUCCESS);
+				response.setReturnMessage("All notification status set as seen");
+			} else {
+				response.setReturnVal(OnTargetConstant.ERROR);
+				response.setReturnMessage("All Notification status update failed");
+			}
+		} catch (Exception e) {
+			logger.error(e);
+			response.setReturnVal(OnTargetConstant.ERROR);
+			response.setReturnMessage("Mark all notification status as seen request failed");
+		}
+>>>>>>> ontarget.phase4
 		return response;
 	}
 }

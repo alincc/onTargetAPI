@@ -55,9 +55,9 @@ public class TaskPercentageJpaDAOImpl implements TaskPercentageDAO {
 		jdbcTemplate.query(OnTargetQuery.GET_TASK_PERCENTAGE, new Object[] { projectId }, (resultSet, i) -> {
 			TaskPercentage percentage = new TaskPercentage();
 			percentage.setId(resultSet.getInt("task_percentage_log_id"));
-			Date fromDate = resultSet.getDate("start_date");
+			Date fromDate = resultSet.getDate("created_date");
 			percentage.setFromDate(fromDate);
-			percentage.setToDate(resultSet.getDate("end_date"));
+			percentage.setToDate(resultSet.getDate("to_date"));
 			percentage.setTaskPercentageType(resultSet.getString("percentage_type"));
 			percentage.setTaskPercentageComplete(resultSet.getDouble("percentage_complete"));
 
@@ -104,10 +104,9 @@ public class TaskPercentageJpaDAOImpl implements TaskPercentageDAO {
 		jdbcTemplate.query(OnTargetQuery.GET_TASK_PERCENTAGE, new Object[] { projectId }, (resultSet, i) -> {
 			TaskPercentage percentage = new TaskPercentage();
 			percentage.setId(resultSet.getInt("task_percentage_log_id"));
-			Date fromDate = resultSet.getDate("start_date");
+			Date fromDate = resultSet.getDate("created_date");
 			percentage.setFromDate(fromDate);
-			percentage.setToDate(resultSet.getDate("end_date"));
-			percentage.setTaskPercentageType(resultSet.getString("percentage_type"));
+			percentage.setToDate(resultSet.getDate("to_date"));
 			percentage.setTaskPercentageComplete(resultSet.getDouble("percentage_complete"));
 
 			int year = 0;

@@ -6,7 +6,17 @@ import java.util.List;
 import com.ontarget.bean.Notification;
 
 public class UserNotificationDTO implements Serializable {
-	private long totalNotification;
+	private long totalUnReadNotification;
+
+    public long getTotalUnReadNotification() {
+        return totalUnReadNotification;
+    }
+
+    public void setTotalUnReadNotification(long totalUnReadNotification) {
+        this.totalUnReadNotification = totalUnReadNotification;
+    }
+
+    private long totalNotification;
 	private List<Notification> userNotificationList;
 
 	public long getTotalNotification() {

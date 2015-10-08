@@ -18,4 +18,9 @@ public interface NotificationEndpoint {
 
 	OnTargetResponse markNotificationAsSeen(@Valid NotificationStatusUpdateRequest notificationStatusUpdateRequest);
 
+<<<<<<< HEAD
+=======
+    public OnTargetResponse markAllNotificationAsSeen(NotificationAllSeenRequest request);
+
+>>>>>>> ontarget.phase4
 }

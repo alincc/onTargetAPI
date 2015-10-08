@@ -189,6 +189,7 @@ public class EmailServiceImpl implements EmailService {
 					assigneeUser.setContact(getContactDetails(assigneeUser.getUserId()));
 
 					MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
+                    message.setFrom(new InternetAddress(OnTargetConstant.EmailServiceConstants.EMAIL_FROM));
 					message.setTo(assigneeUser.getContact().getEmail());
 					message.setSubject(OnTargetConstant.EmailServiceConstants.TASK_ASSIGNED_SUBJECT);
 					message.setSentDate(new Date());
@@ -354,7 +355,9 @@ public class EmailServiceImpl implements EmailService {
 				public void prepare(MimeMessage mimeMessage) throws Exception {
 					MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
 					message.setTo(userEmail);
-					message.setFrom(new InternetAddress(OnTargetConstant.EmailServiceConstants.EMAIL_FROM));
+
+                    String emailFrom = new StringBuilder().append(senderFirstName).append(" ").append(senderLastName).append(OnTargetConstant.EmailServiceConstants.EMAIL_FROM).toString();
+					message.setFrom(new InternetAddress(emailFrom));
 					message.setSubject(OnTargetConstant.EmailServiceConstants.USER_INVITE_TO_COLLABORATE);
 					message.setSentDate(new Date());
 
@@ -398,7 +401,7 @@ public class EmailServiceImpl implements EmailService {
 					public void prepare(MimeMessage mimeMessage) throws Exception {
 						MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
 
-						message.setFrom(new InternetAddress(OnTargetConstant.EmailServiceConstants.DOCUMENT_APPROVAL_FROM));
+                        message.setFrom(new InternetAddress(OnTargetConstant.EmailServiceConstants.EMAIL_FROM));
 						message.setSubject(OnTargetConstant.EmailServiceConstants.DOCUMENT_APPROVAL_SUBJECT);
 						message.setSentDate(new Date());
 
@@ -441,6 +444,7 @@ public class EmailServiceImpl implements EmailService {
 					assigneeUser.setContact(getContactDetails(assigneeUser.getUserId()));
 
 					MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
+                    message.setFrom(new InternetAddress(OnTargetConstant.EmailServiceConstants.EMAIL_FROM));
 					message.setTo(assigneeUser.getContact().getEmail());
 					message.setSubject(OnTargetConstant.EmailServiceConstants.TASK_ASSIGNED_SUBJECT);
 					message.setSentDate(new Date());

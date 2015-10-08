@@ -247,13 +247,20 @@ public class UserProfileTest extends BaseTest {
 
 	@Test
 	public void userProfileInfo() {
+<<<<<<< HEAD
+=======
+		
+>>>>>>> ontarget.phase4
 
 		BaseRequest baseRequest = new BaseRequest();
 		baseRequest.setLoggedInUserId(10);
 		baseRequest.setLoggedInUserProjectId(42);
 		com.ontarget.request.bean.UserProfileRequest request = new com.ontarget.request.bean.UserProfileRequest();
 		request.setUserId(10);
+<<<<<<< HEAD
 		request.setBaseRequest(baseRequest);
+=======
+>>>>>>> ontarget.phase4
 
 		System.out.println("Client request ....(/profile/userProfileInfo) \n");
 		System.out.println(toJsonString(request, true));
