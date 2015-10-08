@@ -25,11 +25,7 @@ public interface ProjectTaskRepository extends JpaRepository<ProjectTask, Intege
 
 	@Query("select pt from ProjectTask pt where pt.project.id in (select projectId from Project where projectId = ?1 and projectParentId = ?2)"
 			+ " and pt.status = ?3 and pt.modifiedDate <= pt.endDate")
-<<<<<<< HEAD
 	List<ProjectTask> getTasksByProjectIdAndStatus(Integer projectId, Integer projectParentId, Integer status);
-=======
-	List<ProjectTask> getTasksByProjectIdAndStatus(Integer projectId, Integer projectParentId, int status);
->>>>>>> ontarget.phase4
 
 	@Query("select pt from ProjectTask pt where pt.project.id = ?1 and pt.status !=" + OnTargetConstant.TaskStatus.DELETED)
 	List<ProjectTask> findUndeletedTasksByProject(Integer projectId);
@@ -55,11 +51,6 @@ public interface ProjectTaskRepository extends JpaRepository<ProjectTask, Intege
 			+ OnTargetConstant.ProjectStatus.DELETED + " and p.project_parent_id = :projectId", nativeQuery = true)
 	BigInteger getProjectTaskCount(@Param("projectId") Integer projectId);
 
-<<<<<<< HEAD
 	@Query(value = "select pt.* from project_task pt , task_assignee ta WHERE pt.project_task_id=ta.project_task_id and pt.project_id in (select project_id from  project where project_parent_id=?1 and project_status!=2) and ta.task_Assignee =?2 and pt.status !=4",nativeQuery = true)
-=======
-	@Query("select distinct pt from ProjectTask pt JOIN pt.taskAssigneeList ta WHERE pt.project.id in (select projectId from  Project where projectParentId=?1 and project_status!="
-			+ OnTargetConstant.ProjectStatus.DELETED + ") and  (pt.createdBy.userId=?2 OR (ta.taskAssignee = ?2  and pt.status !=" + OnTargetConstant.TaskStatus.DELETED + " and ta.status!="+OnTargetConstant.TaskAssigneeStatus.DELETED+"))")
->>>>>>> ontarget.phase4
 	List<ProjectTask> findAllUndeletedTasksByProjectAndUser(Integer projectId, Integer userId);
 }

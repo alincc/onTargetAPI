@@ -6,6 +6,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import com.ontarget.request.bean.NotificationAllSeenRequest;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -94,8 +95,6 @@ public class NotificationEndpointImpl implements com.ontarget.api.rs.Notificatio
 			response.setReturnVal(OnTargetConstant.ERROR);
 			response.setReturnMessage("Notification status update failed");
 		}
-<<<<<<< HEAD
-=======
 
 		return response;
 	}
@@ -119,7 +118,6 @@ public class NotificationEndpointImpl implements com.ontarget.api.rs.Notificatio
 			response.setReturnVal(OnTargetConstant.ERROR);
 			response.setReturnMessage("Mark all notification status as seen request failed");
 		}
->>>>>>> ontarget.phase4
 		return response;
 	}
 }

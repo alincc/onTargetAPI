@@ -254,11 +254,6 @@ public class ProjectJpaDAOImpl implements ProjectDAO {
         if(projectDTO.getProjectImagePath()!=null && projectDTO.getProjectImagePath().length() > 0) {
             project.setProjectImagePath(projectDTO.getProjectImagePath());
         }
-
-<<<<<<< HEAD
-
-=======
->>>>>>> ontarget.phase4
 		projectRepository.save(project);
 
 		List<ProjectConfiguration> projectConfigurationList = project.getProjectConfigurationList();

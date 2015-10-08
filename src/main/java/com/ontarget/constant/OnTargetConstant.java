@@ -189,11 +189,8 @@ public interface OnTargetConstant {
         public static final String UNAUTHORIZED="UNAUTHORIZED";
     }
 
-<<<<<<< HEAD
-=======
     public interface GenericStatus {
         public static final String ACTIVE = "ACTIVE";
         public static final String DELETED = "DELETED";
     }
->>>>>>> ontarget.phase4
 }

@@ -29,11 +29,7 @@ public class ProjectTaskFileJpaDAOImpl implements ProjectTaskFileDAO {
 		projectTaskFiles.setCreatedBy(owner);
 		projectTaskFiles.setLocation(location);
 		projectTaskFiles.setProjectTask(new ProjectTask(taskId));
-<<<<<<< HEAD
 		projectTaskFiles.setStatus(OnTargetConstant.ProjectTaskFileStatus.ACTIVE);
-=======
-        projectTaskFiles.setStatus(OnTargetConstant.ProjectFileStatus.ACTIVE);
->>>>>>> ontarget.phase4
 		projectTaskFilesRepository.save(projectTaskFiles);
 
 		return projectTaskFiles.getTaskFileId();
