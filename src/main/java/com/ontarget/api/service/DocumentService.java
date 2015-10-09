@@ -6,10 +6,7 @@ import com.ontarget.dto.GetDocumentAttachmentsResponse;
 import com.ontarget.dto.GetDocumentResponse;
 import com.ontarget.dto.GetDocumentsResponse;
 import com.ontarget.dto.OnTargetResponse;
-import com.ontarget.request.bean.AddDocumentAttachment;
-import com.ontarget.request.bean.AddDocumentRequest;
-import com.ontarget.request.bean.UpdateDocumentRequest;
-import com.ontarget.request.bean.UpdateDocumentStatus;
+import com.ontarget.request.bean.*;
 
 public interface DocumentService {
 	public AddDocumentResponse addDocument(AddDocumentRequest request)
@@ -24,7 +21,9 @@ public interface DocumentService {
 	public OnTargetResponse updateStatus(UpdateDocumentStatus request)
 			throws Exception;
 
-	public GetDocumentResponse getDocument(int documentId) throws Exception;
+    public AddDocumentAttachmentResponse deleteDocumentAttachment(DeleteDocumentAttachmentRequest request) throws Exception;
+
+    public GetDocumentResponse getDocument(int documentId) throws Exception;
 
 	public AddDocumentAttachmentResponse addDocumentAttachment(
 			AddDocumentAttachment request) throws Exception;

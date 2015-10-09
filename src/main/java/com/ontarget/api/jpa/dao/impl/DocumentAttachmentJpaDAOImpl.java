@@ -6,6 +6,9 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.ontarget.api.service.impl.DocumentServiceImpl;
+import com.ontarget.constant.OnTargetConstant;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
 import com.ontarget.api.dao.DocumentAttachmentDAO;
@@ -18,6 +21,9 @@ import com.ontarget.entities.User;
 
 @Repository("documentAttachmentJpaDAOImpl")
 public class DocumentAttachmentJpaDAOImpl extends BaseGenericDAOImpl<DocumentAttachmentDTO> implements DocumentAttachmentDAO {
+
+    private Logger logger = Logger.getLogger(DocumentAttachmentJpaDAOImpl.class);
+
 	@Resource
 	private DocumentAttachmentRepository documentAttachmentRepository;
 
@@ -28,6 +34,7 @@ public class DocumentAttachmentJpaDAOImpl extends BaseGenericDAOImpl<DocumentAtt
 		documentAttachment.setFilePath(documentAttachmentDTO.getFilePath());
 		documentAttachment.setCreatedBy(new User(documentAttachmentDTO.getAddedBy()));
 		documentAttachment.setCreatedDate(new Date());
+        documentAttachment.setStatus(OnTargetConstant.DocumentAttachmentStatus.ACTIVE);
 		documentAttachmentRepository.save(documentAttachment);
 		documentAttachmentDTO.setDocumentAttachmentId(documentAttachment.getDocumentAttachmentId());
 		return documentAttachmentDTO;
@@ -58,5 +65,16 @@ public class DocumentAttachmentJpaDAOImpl extends BaseGenericDAOImpl<DocumentAtt
 		}
 		return documentAttachmentDTOList;
 	}
+
+
+    @Override
+    public boolean delete(long documentAttachmentId, int modifiedBy){
+        logger.debug("Updating attachment to delete status.");
+        DocumentAttachment attachment = documentAttachmentRepository.findOne((int) documentAttachmentId);
+        attachment.setModifiedBy(new User(modifiedBy));
+        attachment.setStatus(OnTargetConstant.DocumentAttachmentStatus.DELETED);
+       documentAttachmentRepository.save(attachment);
+       return true;
+    }
 
 }

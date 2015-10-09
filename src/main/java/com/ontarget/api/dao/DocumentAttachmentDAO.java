@@ -8,4 +8,5 @@ public interface DocumentAttachmentDAO extends GenericDAO<DocumentAttachmentDTO>
 	
 	List<DocumentAttachmentDTO> getByDocumentId(long documentId);
 
+    boolean delete(long documentAttachmentId, int modifiedBY);
 }
