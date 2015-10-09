@@ -65,4 +65,9 @@ public class DocumentAttachmentDAOImpl extends BaseGenericDAOImpl<DocumentAttach
 		return documentAttachments;
 	}
 
+    @Override
+    public boolean delete(long documentAttachmentId, int modifiedBY) {
+        throw new UnsupportedOperationException();
+    }
+
 }

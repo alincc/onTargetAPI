@@ -7,6 +7,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import com.ontarget.request.bean.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,12 +21,6 @@ import com.ontarget.dto.AddDocumentResponse;
 import com.ontarget.dto.GetDocumentResponse;
 import com.ontarget.dto.GetDocumentsResponse;
 import com.ontarget.dto.OnTargetResponse;
-import com.ontarget.request.bean.AddDocumentAttachment;
-import com.ontarget.request.bean.AddDocumentRequest;
-import com.ontarget.request.bean.DocumentDetail;
-import com.ontarget.request.bean.UpdateDocumentRequest;
-import com.ontarget.request.bean.UpdateDocumentStatus;
-import com.ontarget.request.bean.UserDocument;
 
 @Component
 @Path("/documents")
@@ -124,5 +119,20 @@ public class DocumentEndpointImpl implements DocumentEndpoint {
 			return response;
 		}
 	}
+
+    @PUT
+    @Path("/attachment/delete")
+    @Override
+    public AddDocumentAttachmentResponse deleteDocumentAttachment(DeleteDocumentAttachmentRequest request) {
+        try {
+            AddDocumentAttachmentResponse response = documentService.deleteDocumentAttachment(request);
+            return response;
+        } catch (Throwable t) {
+            AddDocumentAttachmentResponse response = new AddDocumentAttachmentResponse();
+            response.setReturnVal(OnTargetConstant.ERROR);
+            response.setReturnMessage(t.getMessage());
+            return response;
+        }
+    }
 
 }

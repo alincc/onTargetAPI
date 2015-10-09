@@ -2,6 +2,7 @@ package com.ontarget.api.service.impl;
 
 import java.util.List;
 
+import com.ontarget.request.bean.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -29,13 +30,6 @@ import com.ontarget.dto.GetDocumentAttachmentsResponse;
 import com.ontarget.dto.GetDocumentResponse;
 import com.ontarget.dto.GetDocumentsResponse;
 import com.ontarget.dto.OnTargetResponse;
-import com.ontarget.request.bean.AddDocumentAttachment;
-import com.ontarget.request.bean.AddDocumentRequest;
-import com.ontarget.request.bean.Assignee;
-import com.ontarget.request.bean.DocumentGridKeyValue;
-import com.ontarget.request.bean.DocumentKeyValue;
-import com.ontarget.request.bean.UpdateDocumentRequest;
-import com.ontarget.request.bean.UpdateDocumentStatus;
 
 @Service
 public class DocumentServiceImpl implements DocumentService {
@@ -274,6 +268,22 @@ public class DocumentServiceImpl implements DocumentService {
 			throw new Exception("Unable to add document attachment");
 		}
 	}
+
+    @Override
+    public AddDocumentAttachmentResponse deleteDocumentAttachment(DeleteDocumentAttachmentRequest request) throws Exception {
+        try {
+            AddDocumentAttachmentResponse response = new AddDocumentAttachmentResponse();
+            if(documentAttachmentDAO.delete(request.getDocumentAttachmentId(),request.getBaseRequest().getLoggedInUserId())){
+                response.setDocumentAttachmentId(request.getDocumentAttachmentId().intValue());
+                response.setReturnVal(OnTargetConstant.SUCCESS);
+                response.setReturnMessage("Document attachment succefully deleted.");
+            }
+            return response;
+        } catch (Throwable t) {
+            logger.error("Unable to add document attachment", t);
+            throw new Exception("Unable to delete document attachment");
+        }
+    }
 
 	@Override
 	public GetDocumentResponse getDocument(int documentId) throws Exception {

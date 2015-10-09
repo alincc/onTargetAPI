@@ -42,13 +42,25 @@ public class DocumentAttachment implements Serializable {
 	@JoinColumn(name = "modified_by", referencedColumnName = "user_id")
 	@ManyToOne(fetch = FetchType.LAZY)
 	private User modifiedBy;
-	@Basic(optional = false)
-	@Column(name = "modified_date", nullable = false)
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date modifiedDate;
 	@JoinColumn(name = "document_id", referencedColumnName = "document_id", nullable = false)
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
 	private Document document;
+
+    @Basic(optional = false)
+    @Column(name = "modified_date", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date modifiedDate;
+
+    @Column(name = "status")
+    private String status;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
 	public DocumentAttachment() {
 	}

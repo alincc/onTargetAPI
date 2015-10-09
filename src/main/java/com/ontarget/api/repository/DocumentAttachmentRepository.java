@@ -11,4 +11,10 @@ public interface DocumentAttachmentRepository extends JpaRepository<DocumentAtta
 
 	@Query("select d from DocumentAttachment d where d.document.documentId = ?1")
 	List<DocumentAttachment> findByDocumentId(Integer documentId);
+
+
+    @Query("update DocumentAttachment d set d.status='DELETED', d.modifiedBy.userId=?2 where d.documentAttachmentId=?1")
+    Boolean delete(Integer documentAttachmentId, Integer modifiedBy);
+
+
 }
