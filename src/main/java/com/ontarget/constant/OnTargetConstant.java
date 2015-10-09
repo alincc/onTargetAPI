@@ -193,7 +193,7 @@ public interface OnTargetConstant {
         public static final String ACTIVE = "ACTIVE";
         public static final String DELETED = "DELETED";
     }
-    
+
     public interface DocumentAttachmentStatus {
         public static final String ACTIVE="ACTIVE";
         public static final String DELETED="DELETED";
