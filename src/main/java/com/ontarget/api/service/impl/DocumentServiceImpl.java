@@ -1,20 +1,21 @@
 package com.ontarget.api.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
+import com.ontarget.api.dao.*;
+import com.ontarget.entities.Document;
+import com.ontarget.entities.DocumentResponse;
+import com.ontarget.entities.User;
 import com.ontarget.request.bean.*;
+import com.ontarget.response.bean.GetDocumentQuestionResponse;
+import com.ontarget.response.bean.UpdateDocumentQuestionResponse;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ontarget.api.dao.DocumentAttachmentDAO;
-import com.ontarget.api.dao.DocumentDAO;
-import com.ontarget.api.dao.DocumentGridKeyValueDAO;
-import com.ontarget.api.dao.DocumentKeyValueDAO;
-import com.ontarget.api.dao.DocumentSubmittalDAO;
-import com.ontarget.api.dao.DocumentTemplateDAO;
 import com.ontarget.api.service.DocumentService;
 import com.ontarget.api.service.EmailService;
 import com.ontarget.bean.DocumentAttachmentDTO;
@@ -62,6 +63,10 @@ public class DocumentServiceImpl implements DocumentService {
 	@Autowired
 	@Qualifier("documentAttachmentJpaDAOImpl")
 	private DocumentAttachmentDAO documentAttachmentDAO;
+
+    @Autowired
+    @Qualifier("documentResponseJpaDAOImpl")
+    private DocumentResponseDAO documentResponseDAO;
 
 	@Transactional(rollbackFor = { Exception.class })
 	@Override
@@ -247,7 +252,92 @@ public class DocumentServiceImpl implements DocumentService {
 		}
 	}
 
-	@Override
+    @Override
+    public GetDocumentQuestionResponse getDocumentQuestionsResponses(GetDocumentQuestionResponseRequest request) throws Exception {
+        logger.debug("Getting list for responses for document id: "+ request.getDocumentId());
+        GetDocumentQuestionResponse response=new GetDocumentQuestionResponse();
+        List<DocumentResponse> documentResponses = documentResponseDAO.findDocumentReponseByDocumentId(request.getDocumentId());
+        if(documentResponses!=null) {
+            response.setDocumentId(request.getDocumentId());
+            response.setDocumentResponses(documentResponses);
+            response.setReturnMessage("Successfully retrieved document responses");
+            response.setReturnVal(OnTargetConstant.SUCCESS);
+        }
+        return response;
+    }
+
+    @Override
+    public UpdateDocumentQuestionResponse updateDocumentQuestionResponse(UpdateDocumentQuestionResponseRequest request) throws Exception {
+        logger.debug("updating response for document response id: "+ request.getDocumentResponseId());
+
+        if(request.getResponse() == null ){
+            throw new Exception("Response text cannot  be null");
+        }
+        DocumentResponse documentResponse=new DocumentResponse();
+        documentResponse.setResponse(request.getResponse());
+        documentResponse.setResponseModifiedBY(new User(request.getBaseRequest().getLoggedInUserId()));
+        documentResponse.setResponseModifiedDate(new Date());
+        documentResponse.setDocumentResponseId(request.getDocumentResponseId());
+
+        documentResponse = documentResponseDAO.update(documentResponse);
+        UpdateDocumentQuestionResponse response=new UpdateDocumentQuestionResponse();
+        if(documentResponse!=null){
+            response.setReturnVal(OnTargetConstant.SUCCESS);
+            response.setReturnMessage("Successfully updated document response");
+            response.setResponse(documentResponse);
+        }
+
+        return response;
+    }
+
+
+    @Override
+    public UpdateDocumentQuestionResponse saveDocumentQuestionResponse(UpdateDocumentQuestionResponseRequest request) throws Exception {
+        logger.debug("saving new response for document  id: "+ request.getDocumentId());
+
+        if(request.getDocumentId() == null ){
+            throw new Exception("document id cannot  be null");
+        }
+        DocumentResponse documentResponse=new DocumentResponse();
+        documentResponse.setResponse(request.getResponse());
+        documentResponse.setResponseBy(new User(request.getBaseRequest().getLoggedInUserId()));
+        documentResponse.setResponseDate(new Date());
+        Document document=new Document();
+        document.setDocumentId(request.getDocumentId());
+        documentResponse.setDocument(document);
+        documentResponse.setStatus(OnTargetConstant.GenericStatus.ACTIVE);
+
+        documentResponse = documentResponseDAO.save(documentResponse);
+        UpdateDocumentQuestionResponse response=new UpdateDocumentQuestionResponse();
+        if(documentResponse!=null){
+            response.setReturnVal(OnTargetConstant.SUCCESS);
+            response.setReturnMessage("Successfully saved document response");
+            response.setResponse(documentResponse);
+        }
+
+        return response;
+    }
+
+
+    @Override
+    public UpdateDocumentQuestionResponse deleteDocumentQuestionResponse(UpdateDocumentQuestionResponseRequest request) throws Exception {
+        logger.debug("deleting response for document response id: "+ request.getDocumentResponseId());
+        DocumentResponse documentResponse=new DocumentResponse();
+        documentResponse.setResponseModifiedBY(new User(request.getBaseRequest().getLoggedInUserId()));
+        documentResponse.setResponseModifiedDate(new Date());
+        documentResponse.setDocumentResponseId(request.getDocumentResponseId());
+
+        documentResponse = documentResponseDAO.delete(documentResponse);
+        UpdateDocumentQuestionResponse response=new UpdateDocumentQuestionResponse();
+        if(documentResponse!=null){
+            response.setReturnVal(OnTargetConstant.SUCCESS);
+            response.setReturnMessage("Successfully updated document response");
+        }
+        return response;
+    }
+
+
+    @Override
 	public AddDocumentAttachmentResponse addDocumentAttachment(AddDocumentAttachment request) throws Exception {
 		try {
 			String filePath = request.getFilePath();
