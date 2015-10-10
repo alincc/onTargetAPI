@@ -43,8 +43,8 @@ public class ProjectFileTaggingServiceImpl implements ProjectFileTaggingService 
 			String tagType = tagBean.getTagType();
 			logger.debug("tag type " + tagType);
 			if (TagType.getType(tagType) == null) {
-				logger.error("tag type " + tagType + " is invalid for tag " + tagBean.getTag());
-				response.setReturnMessage("Tag type is invalid for tag " + tagBean.getTag());
+				logger.error("tag type " + tagType + " is invalid for tag " + tagBean.getTitle());
+				response.setReturnMessage("Tag type is invalid for tag " + tagBean.getTitle());
 				response.setReturnVal(OnTargetConstant.ERROR);
 				return response;
 			}

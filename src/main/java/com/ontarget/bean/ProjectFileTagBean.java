@@ -19,8 +19,6 @@ public class ProjectFileTagBean implements Serializable {
 	private Long projectFileTagId;
 	private Long parentFileTagId;
 	@NotEmpty
-	private String tag;
-	@NotEmpty
 	private String title;
 	private float lattitude;
 	private float longitude;
@@ -30,7 +28,6 @@ public class ProjectFileTagBean implements Serializable {
 	private String status;
 	private Contact addedBy;
 	private Date addedDate;
-	
 
 	@NotNull
 	@Valid

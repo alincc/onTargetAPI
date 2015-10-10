@@ -36,7 +36,6 @@ public class ProjectFileTaggingJpaDAOImpl implements ProjectFileTaggingDAO {
 			ProjectFileTag projectFileTag = new ProjectFileTag();
 			projectFileTag.setLongitude(tagBean.getLongitude());
 			projectFileTag.setLattitude(tagBean.getLattitude());
-			projectFileTag.setTag(tagBean.getTag());
 			projectFileTag.setTagTitle(tagBean.getTitle());
 			projectFileTag.setTagType(tagBean.getTagType());
 			if (tagBean.getTagFilePath() == null) {

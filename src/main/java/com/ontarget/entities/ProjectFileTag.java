@@ -46,8 +46,6 @@ public class ProjectFileTag implements Serializable {
 	@Column(name = "modified_date")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date modifiedDate;
-	@Column(name = "tag", length = 25, nullable = false)
-	private String tag;
 	@Column(name = "tag_title", length = 50, nullable = false)
 	private String tagTitle;
 	@Column(name = "tag_type", length = 20, nullable = false)

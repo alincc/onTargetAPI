@@ -10,7 +10,6 @@ public class ProjectFileTagUtil {
 	public static ProjectFileTagBean getProjectFileTagBeanFromEntity(ProjectFileTag projectFileTag) {
 		ProjectFileTagBean tagBean = new ProjectFileTagBean();
 		tagBean.setProjectFileTagId(projectFileTag.getProjectFileTagId());
-		tagBean.setTag(projectFileTag.getTag());
 		tagBean.setTagType(projectFileTag.getTagType());
 		tagBean.setTitle(projectFileTag.getTagTitle());
 		tagBean.setTagFilePath(projectFileTag.getTagFilePath());

@@ -33,7 +33,6 @@ public class ProjectFileTaggingServiceTest extends BaseTest {
 		try {
 			List<ProjectFileTagBean> tags = new ArrayList<ProjectFileTagBean>();
 			ProjectFileTagBean tagBean = new ProjectFileTagBean();
-			tagBean.setTag("BIM not correct");
 			tagBean.setTitle("BIM not correct");
 			tagBean.setTagType("TAG");
 			tagBean.setTagFilePath("/home/santosh/test.pdf");
