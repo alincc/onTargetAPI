@@ -9,7 +9,7 @@ import com.ontarget.response.bean.ProjectFileTagResponse;
 
 public interface ProjectFileTagging {
 
-	OnTargetResponse addTag(@Valid AddProjectFileTagRequest request);
+	OnTargetResponse save(@Valid AddProjectFileTagRequest request);
 
 	ProjectFileTagResponse getProjectFileTags(@Valid GetProjectFileTagRequest request);
 }

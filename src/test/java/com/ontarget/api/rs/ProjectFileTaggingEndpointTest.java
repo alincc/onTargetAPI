@@ -29,7 +29,8 @@ public class ProjectFileTaggingEndpointTest extends BaseTest {
 		ProjectFileTagBean tagBean = new ProjectFileTagBean();
 		tagBean.setTag("BIM not correct");
 		tagBean.setTitle("BIM not correct");
-		tagBean.setTagType("BIM not correct");
+		tagBean.setTagType("TAG");
+		tagBean.setTagFilePath("/home/santosh/test.pdf");
 		tagBean.setLattitude(10.01f);
 		tagBean.setLongitude(10.00f);
 		tagBean.setProjectFileId(13);
@@ -47,7 +48,7 @@ public class ProjectFileTaggingEndpointTest extends BaseTest {
 
 		System.out.println("Client request .... \n");
 		System.out.println(toJsonString(request, true));
-		Response response = sendRequest("/projectFile/addTag", request);
+		Response response = sendRequest("/project/file/tag/save", request);
 		if (response.getStatus() != 200) {
 			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
 		}
@@ -69,7 +70,7 @@ public class ProjectFileTaggingEndpointTest extends BaseTest {
 
 		System.out.println("Client request .... \n");
 		System.out.println(toJsonString(request, true));
-		Response response = sendRequest("/projectFile/getProjectFileTags", request);
+		Response response = sendRequest("/project/file/tag/get", request);
 		if (response.getStatus() != 200) {
 			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
 		}

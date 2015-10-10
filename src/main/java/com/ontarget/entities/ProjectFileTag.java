@@ -54,6 +54,8 @@ public class ProjectFileTag implements Serializable {
 	private String tagType;
 	@Column(name = "status", length = 10, nullable = false)
 	private String status;
+	@Column(name = "tag_file_path", length = 200)
+	private String tagFilePath;
 	@Column(name = "lattitude", nullable = false)
 	private float lattitude;
 	@Column(name = "longitude", nullable = false)

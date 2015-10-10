@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.ontarget.api.rs.BaseTest;
 import com.ontarget.bean.ProjectFileTagAttributeBean;
 import com.ontarget.bean.ProjectFileTagBean;
+import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.request.bean.BaseRequest;
 import com.ontarget.request.bean.GetProjectFileTagRequest;
 
@@ -34,7 +35,8 @@ public class ProjectFileTaggingServiceTest extends BaseTest {
 			ProjectFileTagBean tagBean = new ProjectFileTagBean();
 			tagBean.setTag("BIM not correct");
 			tagBean.setTitle("BIM not correct");
-			tagBean.setTagType("BIM not correct");
+			tagBean.setTagType("TAG");
+			tagBean.setTagFilePath("/home/santosh/test.pdf");
 			tagBean.setLattitude(10.01f);
 			tagBean.setLongitude(10.00f);
 			tagBean.setProjectFileId(13);
@@ -48,9 +50,9 @@ public class ProjectFileTaggingServiceTest extends BaseTest {
 			tagBean.setAttributes(attributes);
 			tags.add(tagBean);
 
-			boolean success = projectFileTaggingService.addTag(tags, 11);
+			OnTargetResponse onTargetResponse = projectFileTaggingService.save(tags, 11);
 
-			Assert.assertTrue(success);
+			Assert.assertTrue(onTargetResponse != null);
 		} catch (Exception e) {
 			logger.error("Error while adding tag.", e);
 			fail();

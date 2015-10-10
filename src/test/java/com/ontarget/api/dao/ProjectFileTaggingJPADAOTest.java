@@ -34,6 +34,7 @@ public class ProjectFileTaggingJPADAOTest extends BaseTest {
 			tagBean.setTag("BIM not correct");
 			tagBean.setTitle("BIM not correct");
 			tagBean.setTagType("BIM not correct");
+			tagBean.setTagFilePath("/home/santosh/test.pdf");
 			tagBean.setLattitude(10.01f);
 			tagBean.setLongitude(10.00f);
 			tagBean.setProjectFileId(13);
@@ -47,7 +48,7 @@ public class ProjectFileTaggingJPADAOTest extends BaseTest {
 			tagBean.setAttributes(attributes);
 			tags.add(tagBean);
 
-			boolean saved = projectFileTaggingDAO.addTag(tags, 11);
+			boolean saved = projectFileTaggingDAO.save(tags, 11);
 
 			Assert.assertTrue(saved);
 		} catch (Exception e) {

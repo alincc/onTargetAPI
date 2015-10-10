@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "loggedInUserId", "loggedInUserprojectId" })
+@JsonPropertyOrder({ "loggedInUserId", "loggedInUserProjectId" })
 public class BaseRequest {
 	@NotNull
 	@JsonProperty("loggedInUserId")
@@ -41,7 +41,7 @@ public class BaseRequest {
 	 * 
 	 * @return The loggedInUserprojectId
 	 */
-	@JsonProperty("loggedInUserprojectId")
+	@JsonProperty("loggedInUserProjectId")
 	public Integer getLoggedInUserProjectId() {
 		return loggedInUserProjectId;
 	}
@@ -51,7 +51,7 @@ public class BaseRequest {
 	 * @param loggedInUserprojectId
 	 *            The loggedInUserprojectId
 	 */
-	@JsonProperty("loggedInUserprojectId")
+	@JsonProperty("loggedInUserProjectId")
 	public void setLoggedInUserProjectId(Integer loggedInUserprojectId) {
 		this.loggedInUserProjectId = loggedInUserprojectId;
 	}

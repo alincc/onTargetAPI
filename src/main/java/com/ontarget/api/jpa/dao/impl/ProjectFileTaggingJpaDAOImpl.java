@@ -29,8 +29,8 @@ public class ProjectFileTaggingJpaDAOImpl implements ProjectFileTaggingDAO {
 	private ProjectFileTagAttributeRepository projectFileTagAttributeRepository;
 
 	@Override
-	public boolean addTag(List<ProjectFileTagBean> tags, int userId) throws Exception {
-		logger.debug("tag list: " + tags);
+	public boolean save(List<ProjectFileTagBean> tags, int userId) throws Exception {
+		logger.debug("Saving tag information: " + tags);
 
 		for (ProjectFileTagBean tagBean : tags) {
 			ProjectFileTag projectFileTag = new ProjectFileTag();
@@ -39,6 +39,11 @@ public class ProjectFileTaggingJpaDAOImpl implements ProjectFileTaggingDAO {
 			projectFileTag.setTag(tagBean.getTag());
 			projectFileTag.setTagTitle(tagBean.getTitle());
 			projectFileTag.setTagType(tagBean.getTagType());
+			if (tagBean.getTagFilePath() == null) {
+				projectFileTag.setTagFilePath("");
+			} else {
+				projectFileTag.setTagFilePath(tagBean.getTagFilePath());
+			}
 			projectFileTag.setStatus(OnTargetConstant.GenericStatus.ACTIVE);
 			projectFileTag.setCreatedBy(new User(userId));
 			projectFileTag.setCreatedDate(new Date());
@@ -72,7 +77,7 @@ public class ProjectFileTaggingJpaDAOImpl implements ProjectFileTaggingDAO {
 
 	@Override
 	public List<ProjectFileTag> getProjectFileTags(int projectFileId) throws Exception {
-		logger.debug("project file id: " + projectFileId);
+		logger.debug("Getting tags for project file id: " + projectFileId);
 		return projectFileTagRepository.findRecentByProjectFileId(projectFileId, new PageRequest(0, 1));
 	}
 

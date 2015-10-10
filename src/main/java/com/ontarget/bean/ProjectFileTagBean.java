@@ -26,9 +26,11 @@ public class ProjectFileTagBean implements Serializable {
 	private float longitude;
 	@NotEmpty
 	private String tagType;
+	private String tagFilePath;
 	private String status;
 	private Contact addedBy;
 	private Date addedDate;
+	
 
 	@NotNull
 	@Valid

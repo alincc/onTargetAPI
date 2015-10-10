@@ -22,7 +22,7 @@ import com.ontarget.request.bean.GetProjectFileTagRequest;
 import com.ontarget.response.bean.ProjectFileTagResponse;
 
 @Component
-@Path("/projectFile")
+@Path("/project/file/tag")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class ProjectFileTaggingImpl implements ProjectFileTagging {
@@ -32,19 +32,12 @@ public class ProjectFileTaggingImpl implements ProjectFileTagging {
 
 	@Override
 	@POST
-	@Path("/addTag")
-	public OnTargetResponse addTag(AddProjectFileTagRequest request) {
+	@Path("/save")
+	public OnTargetResponse save(AddProjectFileTagRequest request) {
+		logger.debug("Saving project file tags: " + request.getTags());
 		OnTargetResponse response = new OnTargetResponse();
 		try {
-			boolean success = projectFileTaggingService.addTag(request.getTags(), request.getBaseRequest().getLoggedInUserId());
-			logger.info("addTag success: " + success);
-			if (success) {
-				response.setReturnVal(OnTargetConstant.SUCCESS);
-				response.setReturnMessage("Successfully added tagging for a document");
-			} else {
-				response.setReturnMessage("Sorry!, Could not add project file tagging.");
-				response.setReturnVal(OnTargetConstant.ERROR);
-			}
+			return projectFileTaggingService.save(request.getTags(), request.getBaseRequest().getLoggedInUserId());
 		} catch (Exception e) {
 			logger.error(e);
 			response.setReturnMessage(OnTargetConstant.INTERNAL_SERVER_ERROR_MSG);
@@ -55,8 +48,9 @@ public class ProjectFileTaggingImpl implements ProjectFileTagging {
 
 	@Override
 	@POST
-	@Path("/getProjectFileTags")
+	@Path("/get")
 	public ProjectFileTagResponse getProjectFileTags(GetProjectFileTagRequest request) {
+		logger.debug("Getting project file tags for file id: " + request.getProjectFileId());
 		ProjectFileTagResponse response = new ProjectFileTagResponse();
 		try {
 			List<ProjectFileTagBean> projectFileTags = projectFileTaggingService.getProjectFileTags(request);
