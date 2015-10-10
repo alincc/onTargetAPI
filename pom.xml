@@ -65,22 +65,22 @@
                 </configuration>
             </plugin>
 
-            <plugin>
-                <groupId>com.qmino</groupId>
-                <artifactId>miredot-plugin</artifactId>
-                <version>1.5</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>restdoc</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <licence>UHJvamVjdHxjb20ub250YXJnZXQuYXBpLnJzLm9udGFyZ2V0cnN8MjAxNi0xMS0yOXxmYWxzZSNNQ3dDRkh2NVcweW5ybWttNkhVRGNXY3BUUGFsR3JJMUFoUjVJNEFxd0ZBZTRuTGpGT0VtN0phQjdPYmYyQT09</licence>
-                    <!-- insert other configuration here (optional) -->
-                </configuration>
-            </plugin>
+            <!--<plugin>-->
+                <!--<groupId>com.qmino</groupId>-->
+                <!--<artifactId>miredot-plugin</artifactId>-->
+                <!--<version>1.5</version>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<goals>-->
+                            <!--<goal>restdoc</goal>-->
+                        <!--</goals>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+                <!--<configuration>-->
+                    <!--<licence>UHJvamVjdHxjb20ub250YXJnZXQuYXBpLnJzLm9udGFyZ2V0cnN8MjAxNi0xMS0yOXxmYWxzZSNNQ3dDRkh2NVcweW5ybWttNkhVRGNXY3BUUGFsR3JJMUFoUjVJNEFxd0ZBZTRuTGpGT0VtN0phQjdPYmYyQT09</licence>-->
+                    <!--&lt;!&ndash; insert other configuration here (optional) &ndash;&gt;-->
+                <!--</configuration>-->
+            <!--</plugin>-->
 
 
         </plugins>
@@ -92,6 +92,18 @@
         <!-- <artifactId>jersey-test-framework-provider-grizzly2</artifactId> -->
         <!-- <version>2.17</version> -->
         <!-- </dependency> -->
+        <dependency>
+            <groupId>org.glassfish.jersey.containers</groupId>
+            <artifactId>jersey-container-jdk-http</artifactId>
+            <version>2.22.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.glassfish.jersey.containers</groupId>
+            <artifactId>jersey-container-servlet</artifactId>
+            <version>2.22.1</version>
+            <scope>provided</scope>
+        </dependency>
         <dependency>
             <groupId>org.glassfish.grizzly</groupId>
             <artifactId>grizzly-http-servlet</artifactId>
@@ -117,24 +129,24 @@
         <dependency>
             <groupId>com.fasterxml.jackson.jaxrs</groupId>
             <artifactId>jackson-jaxrs-json-provider</artifactId>
-            <version>2.3.0</version>
+            <version>2.6.2</version>
         </dependency>
 
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
-            <version>2.2.2</version>
+            <version>2.6.2</version>
         </dependency>
 
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
-            <version>2.2.3</version>
+            <version>2.6.2</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.2.3</version>
+            <version>2.6.2</version>
         </dependency>
 
         <dependency>
@@ -283,11 +295,6 @@
             <version>1.6.4</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>1.6.4</version>
-        </dependency>
 
         <!-- java mail -->
         <dependency>
@@ -440,9 +447,9 @@
             </properties>
         </profile>
         <profile>
-            <id>demo</id>
+            <id>beta</id>
             <properties>
-                <env>demo</env>
+                <env>beta</env>
             </properties>
         </profile>
         <profile>
@@ -459,10 +466,6 @@
             <name>Java.net Maven 2 Repository</name>
             <url>http://download.java.net/maven/2</url>
             <layout>default</layout>
-        </repository>
-        <repository>
-            <id>codehaus</id>
-            <url>http://repository.codehaus.org/org/codehaus</url>
         </repository>
 
         <repository>
@@ -494,16 +497,12 @@
             <url>http://download.java.net/maven/2</url>
             <layout>default</layout>
         </pluginRepository>
-        <pluginRepository>
-            <id>codehaus</id>
-            <url>http://repository.codehaus.org/org/codehaus</url>
-        </pluginRepository>
 
-        <pluginRepository>
-            <id>miredot</id>
-            <name>MireDot Releases</name>
-            <url>http://nexus.qmino.com/content/repositories/miredot</url>
-        </pluginRepository>
+        <!--<pluginRepository>-->
+            <!--<id>miredot</id>-->
+            <!--<name>MireDot Releases</name>-->
+            <!--<url>http://nexus.qmino.com/content/repositories/miredot</url>-->
+        <!--</pluginRepository>-->
     </pluginRepositories>
 
 </project>
