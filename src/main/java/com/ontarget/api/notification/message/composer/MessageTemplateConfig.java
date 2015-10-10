@@ -1,9 +1,13 @@
 package com.ontarget.api.notification.message.composer;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 
-@Component
+@Configuration
+@ComponentScan(basePackages = { "com.ontarget.api.notification.message.composer" })
+@PropertySource("classpath:notification-message.properties")
 public class MessageTemplateConfig {
 	@Value("${task.assign.notification}")
 	private String taskAssignTemplate;
