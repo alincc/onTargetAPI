@@ -17,7 +17,7 @@ import static junit.framework.Assert.fail;
 public class DocumentResponseEndpointTest extends BaseJerseyTest {
 
     private static final String DOCUMENT_RESPONSE_SAVE_ENDPOINT_URI=baseURI + "/document/response/save";
-    private static final String DOCUMENT_RESPONSE_UPDATE_ENDPOINT_URI=baseURI + "document/response/update";
+    private static final String DOCUMENT_RESPONSE_UPDATE_ENDPOINT_URI=baseURI + "/document/response/update";
     private static final String DOCUMENT_RESPONSE_DELETE_ENDPOINT_URI=baseURI + "/document/response/delete";
     private static final String DOCUMENT_RESPONSE_GET_ENDPOINT_URI=baseURI + "/document/response";
 
@@ -52,6 +52,10 @@ public class DocumentResponseEndpointTest extends BaseJerseyTest {
         try {
 
             GetDocumentQuestionResponseRequest request=new GetDocumentQuestionResponseRequest();
+            BaseRequest baseRequest=new BaseRequest();
+            baseRequest.setLoggedInUserId(10);
+            baseRequest.setLoggedInUserProjectId(42);
+            request.setBaseRequest(baseRequest);
             request.setDocumentId(2);
 
             logger.debug("Request: "+new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(request));
@@ -73,7 +77,8 @@ public class DocumentResponseEndpointTest extends BaseJerseyTest {
     @Test
     public void updateDocumentResponseTest(){
         UpdateDocumentQuestionResponseRequest responseRequest=new UpdateDocumentQuestionResponseRequest();
-        responseRequest.setResponse("This is a new response");
+        responseRequest.setResponse("This is a new updated response");
+        responseRequest.setDocumentResponseId(15);
         BaseRequest baseRequest=new BaseRequest();
         baseRequest.setLoggedInUserId(10);
         baseRequest.setLoggedInUserProjectId(42);
@@ -81,17 +86,10 @@ public class DocumentResponseEndpointTest extends BaseJerseyTest {
 
         try {
 
-            GetDocumentQuestionResponseRequest request=new GetDocumentQuestionResponseRequest();
-            request.setDocumentId(2);
+            logger.debug("Request: "+new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(responseRequest));
+            String response= client.target(DOCUMENT_RESPONSE_UPDATE_ENDPOINT_URI).request().accept(MediaType.APPLICATION_JSON_TYPE).post(Entity.entity(responseRequest, MediaType.APPLICATION_JSON_TYPE),String.class);
+            logger.debug(response);
 
-            String response= client.target(DOCUMENT_RESPONSE_SAVE_ENDPOINT_URI).request().accept(MediaType.APPLICATION_JSON_TYPE).put(Entity.entity(request, MediaType.APPLICATION_JSON_TYPE),String.class);
-
-
-            responseRequest.setResponse("this is updated response");
-            //responseRequest.setDocumentResponseId((int)response.getResponse().getDocumentResponseId());
-
-            //response =  documentService.updateDocumentQuestionResponse(responseRequest);
-            //Assert.assertTrue(response.getResponse().getResponse().equals("this is updated response"));
 
         } catch (Exception e) {
             logger.error("Error while saving document response.",e);
@@ -103,15 +101,16 @@ public class DocumentResponseEndpointTest extends BaseJerseyTest {
     @Test
     public void deleteDocumentResponseTest(){
         UpdateDocumentQuestionResponseRequest responseRequest=new UpdateDocumentQuestionResponseRequest();
-        responseRequest.setDocumentId(2);
-        responseRequest.setResponse("This is a new response");
+        responseRequest.setDocumentResponseId(13);
         BaseRequest baseRequest=new BaseRequest();
         baseRequest.setLoggedInUserId(10);
         baseRequest.setLoggedInUserProjectId(42);
         responseRequest.setBaseRequest(baseRequest);
 
         try {
-
+            logger.debug("Request: "+new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(responseRequest));
+            String response= client.target(DOCUMENT_RESPONSE_DELETE_ENDPOINT_URI).request().accept(MediaType.APPLICATION_JSON_TYPE).post(Entity.entity(responseRequest, MediaType.APPLICATION_JSON_TYPE),String.class);
+            logger.debug(response);
 
         } catch (Exception e) {
             logger.error("Error while saving document response.",e);

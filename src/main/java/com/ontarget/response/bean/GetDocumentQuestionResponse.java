@@ -1,7 +1,7 @@
 package com.ontarget.response.bean;
 
+import com.ontarget.bean.DocumentResponseDTO;
 import com.ontarget.dto.OnTargetResponse;
-import com.ontarget.entities.DocumentResponse;
 import lombok.Data;
 
 import java.util.List;
@@ -12,7 +12,8 @@ import java.util.List;
 @Data
 public class GetDocumentQuestionResponse extends OnTargetResponse{
 
-    private long documentId;
-    private List<DocumentResponse> documentResponses;
+    public Long documentId;
+
+    public List<DocumentResponseDTO> documentResponses;
 
 }

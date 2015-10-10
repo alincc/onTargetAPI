@@ -142,7 +142,8 @@ public class DocumentEndpointImpl implements DocumentEndpoint {
     @Override
     public GetDocumentQuestionResponse getDocumentQuestionResponse(GetDocumentQuestionResponseRequest request) {
         try {
-            return documentService.getDocumentQuestionsResponses(request);
+            GetDocumentQuestionResponse response =  documentService.getDocumentQuestionsResponses(request);
+            return response;
         } catch (Throwable t) {
             GetDocumentQuestionResponse response = new GetDocumentQuestionResponse();
             response.setReturnVal(OnTargetConstant.ERROR);
@@ -152,7 +153,7 @@ public class DocumentEndpointImpl implements DocumentEndpoint {
     }
 
     @PUT
-    @Path("/response/add")
+    @Path("/response/save")
     @Override
     public UpdateDocumentQuestionResponse addDocumentQuestionResponse(UpdateDocumentQuestionResponseRequest request) {
         try {
@@ -184,7 +185,7 @@ public class DocumentEndpointImpl implements DocumentEndpoint {
     @Override
     public UpdateDocumentQuestionResponse deleteDocumentQuestionResponse(UpdateDocumentQuestionResponseRequest request) {
         try {
-            return documentService.updateDocumentQuestionResponse(request);
+            return documentService.deleteDocumentQuestionResponse(request);
         } catch (Throwable t) {
             UpdateDocumentQuestionResponse response = new UpdateDocumentQuestionResponse();
             response.setReturnVal(OnTargetConstant.ERROR);

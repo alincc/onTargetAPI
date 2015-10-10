@@ -11,7 +11,7 @@ import java.util.List;
  */
 public interface DocumentResponseRepository extends JpaRepository<DocumentResponse, Long> {
 
-    @Query(value = "select dr from DocumentResponse dr where dr.document.documentId=?1")
+    @Query(value = "select dr from DocumentResponse dr where dr.document.documentId=?1 and dr.status='ACTIVE'")
     public List<DocumentResponse> findByDocumentId(Integer documentId);
 
 }

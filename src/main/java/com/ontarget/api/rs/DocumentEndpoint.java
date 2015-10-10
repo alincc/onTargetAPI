@@ -28,19 +28,11 @@ public interface DocumentEndpoint {
 
     public AddDocumentAttachmentResponse deleteDocumentAttachment(@Valid DeleteDocumentAttachmentRequest request);
 
-    @POST
-    @Path("/document/response")
-    GetDocumentQuestionResponse getDocumentQuestionResponse(GetDocumentQuestionResponseRequest request);
+    GetDocumentQuestionResponse getDocumentQuestionResponse(@Valid GetDocumentQuestionResponseRequest request);
 
-    @POST
-    @Path("/document/response/add")
-    UpdateDocumentQuestionResponse addDocumentQuestionResponse(UpdateDocumentQuestionResponseRequest request);
+    UpdateDocumentQuestionResponse addDocumentQuestionResponse(@Valid UpdateDocumentQuestionResponseRequest request);
 
-    @POST
-    @Path("/response/update")
-    UpdateDocumentQuestionResponse updateDocumentQuestionResponse(UpdateDocumentQuestionResponseRequest request);
+    UpdateDocumentQuestionResponse updateDocumentQuestionResponse(@Valid UpdateDocumentQuestionResponseRequest request);
 
-    @POST
-    @Path("/response/delete")
-    UpdateDocumentQuestionResponse deleteDocumentQuestionResponse(UpdateDocumentQuestionResponseRequest request);
+    UpdateDocumentQuestionResponse deleteDocumentQuestionResponse(@Valid UpdateDocumentQuestionResponseRequest request);
 }

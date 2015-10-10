@@ -1,15 +1,18 @@
 package com.ontarget.api.service.impl;
 
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import com.ontarget.api.dao.*;
+import com.ontarget.bean.*;
 import com.ontarget.entities.Document;
 import com.ontarget.entities.DocumentResponse;
 import com.ontarget.entities.User;
 import com.ontarget.request.bean.*;
 import com.ontarget.response.bean.GetDocumentQuestionResponse;
 import com.ontarget.response.bean.UpdateDocumentQuestionResponse;
+import com.ontarget.util.DocumentUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -18,12 +21,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ontarget.api.service.DocumentService;
 import com.ontarget.api.service.EmailService;
-import com.ontarget.bean.DocumentAttachmentDTO;
-import com.ontarget.bean.DocumentDTO;
-import com.ontarget.bean.DocumentGridKeyValueDTO;
-import com.ontarget.bean.DocumentKeyValueDTO;
-import com.ontarget.bean.DocumentSubmittalDTO;
-import com.ontarget.bean.DocumentTemplateDTO;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.AddDocumentAttachmentResponse;
 import com.ontarget.dto.AddDocumentResponse;
@@ -67,6 +64,10 @@ public class DocumentServiceImpl implements DocumentService {
     @Autowired
     @Qualifier("documentResponseJpaDAOImpl")
     private DocumentResponseDAO documentResponseDAO;
+
+    @Autowired
+    @Qualifier("contactJpaDAOImpl")
+    private ContactDAO contactDAO;
 
 	@Transactional(rollbackFor = { Exception.class })
 	@Override
@@ -234,7 +235,6 @@ public class DocumentServiceImpl implements DocumentService {
 		}
 	}
 
-	@Transactional(rollbackFor = { Exception.class })
 	@Override
 	public GetDocumentAttachmentsResponse getDocumentAttachments(int documentId) throws Exception {
 		if (documentId == 0) {
@@ -257,9 +257,23 @@ public class DocumentServiceImpl implements DocumentService {
         logger.debug("Getting list for responses for document id: "+ request.getDocumentId());
         GetDocumentQuestionResponse response=new GetDocumentQuestionResponse();
         List<DocumentResponse> documentResponses = documentResponseDAO.findDocumentReponseByDocumentId(request.getDocumentId());
+
+        List<DocumentResponseDTO> documentResponseDTOs=new LinkedList<>();
+        for(DocumentResponse documentResponse : documentResponses){
+            DocumentResponseDTO documentResponseDTO=DocumentUtil.getDocumentResponseDTOFromDocumentResponseEntity(documentResponse);
+            documentResponseDTOs.add(documentResponseDTO);
+            //get responsed by user detail
+            UserDTO userDTO=documentResponseDTO.getResponsedBy();
+            Contact contact=contactDAO.getContact(userDTO.getUserId());
+            userDTO.setContact(contact);
+
+            //get modified by user detail
+        }
+
+
         if(documentResponses!=null) {
-            response.setDocumentId(request.getDocumentId());
-            response.setDocumentResponses(documentResponses);
+            response.setDocumentId(request.getDocumentId().longValue());
+            response.setDocumentResponses(documentResponseDTOs);
             response.setReturnMessage("Successfully retrieved document responses");
             response.setReturnVal(OnTargetConstant.SUCCESS);
         }
@@ -267,6 +281,7 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
+    @Transactional(rollbackFor = { Exception.class })
     public UpdateDocumentQuestionResponse updateDocumentQuestionResponse(UpdateDocumentQuestionResponseRequest request) throws Exception {
         logger.debug("updating response for document response id: "+ request.getDocumentResponseId());
 
@@ -280,11 +295,14 @@ public class DocumentServiceImpl implements DocumentService {
         documentResponse.setDocumentResponseId(request.getDocumentResponseId());
 
         documentResponse = documentResponseDAO.update(documentResponse);
+        DocumentResponseDTO documentResponseDTO = DocumentUtil.getDocumentResponseDTOFromDocumentResponseEntity(documentResponse);
+        Contact contact=contactDAO.getContact(documentResponseDTO.getResponsedBy().getUserId());
+        documentResponseDTO.getResponsedBy().setContact(contact);
         UpdateDocumentQuestionResponse response=new UpdateDocumentQuestionResponse();
         if(documentResponse!=null){
             response.setReturnVal(OnTargetConstant.SUCCESS);
             response.setReturnMessage("Successfully updated document response");
-            response.setResponse(documentResponse);
+            response.setResponse(documentResponseDTO);
         }
 
         return response;
@@ -292,6 +310,7 @@ public class DocumentServiceImpl implements DocumentService {
 
 
     @Override
+    @Transactional(rollbackFor = { Exception.class })
     public UpdateDocumentQuestionResponse saveDocumentQuestionResponse(UpdateDocumentQuestionResponseRequest request) throws Exception {
         logger.debug("saving new response for document  id: "+ request.getDocumentId());
 
@@ -308,11 +327,16 @@ public class DocumentServiceImpl implements DocumentService {
         documentResponse.setStatus(OnTargetConstant.GenericStatus.ACTIVE);
 
         documentResponse = documentResponseDAO.save(documentResponse);
+
+        DocumentResponseDTO documentResponseDTO = DocumentUtil.getDocumentResponseDTOFromDocumentResponseEntity(documentResponse);
+        Contact contact=contactDAO.getContact(documentResponseDTO.getResponsedBy().getUserId());
+        documentResponseDTO.getResponsedBy().setContact(contact);
+
         UpdateDocumentQuestionResponse response=new UpdateDocumentQuestionResponse();
         if(documentResponse!=null){
             response.setReturnVal(OnTargetConstant.SUCCESS);
             response.setReturnMessage("Successfully saved document response");
-            response.setResponse(documentResponse);
+            response.setResponse(documentResponseDTO);
         }
 
         return response;
@@ -320,6 +344,7 @@ public class DocumentServiceImpl implements DocumentService {
 
 
     @Override
+    @Transactional(rollbackFor = { Exception.class })
     public UpdateDocumentQuestionResponse deleteDocumentQuestionResponse(UpdateDocumentQuestionResponseRequest request) throws Exception {
         logger.debug("deleting response for document response id: "+ request.getDocumentResponseId());
         DocumentResponse documentResponse=new DocumentResponse();
@@ -331,13 +356,14 @@ public class DocumentServiceImpl implements DocumentService {
         UpdateDocumentQuestionResponse response=new UpdateDocumentQuestionResponse();
         if(documentResponse!=null){
             response.setReturnVal(OnTargetConstant.SUCCESS);
-            response.setReturnMessage("Successfully updated document response");
+            response.setReturnMessage("Successfully deleted document response");
         }
         return response;
     }
 
 
     @Override
+    @Transactional(rollbackFor = { Exception.class })
 	public AddDocumentAttachmentResponse addDocumentAttachment(AddDocumentAttachment request) throws Exception {
 		try {
 			String filePath = request.getFilePath();
@@ -360,6 +386,7 @@ public class DocumentServiceImpl implements DocumentService {
 	}
 
     @Override
+    @Transactional(rollbackFor = { Exception.class })
     public AddDocumentAttachmentResponse deleteDocumentAttachment(DeleteDocumentAttachmentRequest request) throws Exception {
         try {
             AddDocumentAttachmentResponse response = new AddDocumentAttachmentResponse();

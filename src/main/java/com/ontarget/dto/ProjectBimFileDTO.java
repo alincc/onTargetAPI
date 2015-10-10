@@ -3,13 +3,14 @@ package com.ontarget.dto;
 import com.ontarget.bean.Contact;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by sanjeevghimire on 10/2/15.
  */
 @Data
-public class ProjectBimFileDTO {
+public class ProjectBimFileDTO implements Serializable{
 
     private int projectBimFileId;
     private long poid;

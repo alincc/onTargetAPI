@@ -1,5 +1,6 @@
 package com.ontarget.response.bean;
 
+import com.ontarget.bean.DocumentResponseDTO;
 import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.entities.DocumentResponse;
 import lombok.Data;
@@ -10,5 +11,5 @@ import lombok.Data;
 @Data
 public class UpdateDocumentQuestionResponse extends OnTargetResponse{
 
-    public DocumentResponse response;
+    public DocumentResponseDTO response;
 }
