@@ -55,7 +55,7 @@ public interface OnTargetConstant {
 	interface EmailServiceConstants {
 		public static final String USER_REGISTRATION_SUBJECT = "OnTarget Registration Request";
 		public static final String EMAIL_FROM = "Uncle Atlas <donotreply@ontargetcloud.com>";
-        public static final String DO_NOT_REPLY_EMAIL = "<donotreply@ontargetcloud.com>";
+		public static final String DO_NOT_REPLY_EMAIL = "<donotreply@ontargetcloud.com>";
 		public static final String ONBOARDING_TO_ONTARGET_SUBJECT = "Onboarding to OnTarget";
 
 		public static final String DOCUMENT_APPROVAL_SUBJECT = "New document available for approval";
@@ -184,13 +184,14 @@ public interface OnTargetConstant {
 
 	public static final double HOUR = 60 * 60 * 1000D;
 
-    public interface ApplicationPermission{
-        public static final String AUTHORIZED="AUTHORIZED";
-        public static final String UNAUTHORIZED="UNAUTHORIZED";
-    }
+	public interface ApplicationPermission {
+		public static final String AUTHORIZED = "AUTHORIZED";
+		public static final String UNAUTHORIZED = "UNAUTHORIZED";
+	}
 
-    public interface GenericStatus {
-        public static final String ACTIVE = "ACTIVE";
-        public static final String DELETED = "DELETED";
-    }
+	public interface GenericStatus {
+		public static final String ACTIVE = "ACTIVE";
+		public static final String DELETED = "DELETED";
+	}
+
 }
