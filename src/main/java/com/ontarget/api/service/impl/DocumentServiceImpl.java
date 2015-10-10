@@ -1,27 +1,26 @@
 package com.ontarget.api.service.impl;
 
+import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
+import com.ontarget.api.dao.*;
+import com.ontarget.bean.*;
+import com.ontarget.entities.Document;
+import com.ontarget.entities.DocumentResponse;
+import com.ontarget.entities.User;
+import com.ontarget.request.bean.*;
+import com.ontarget.response.bean.GetDocumentQuestionResponse;
+import com.ontarget.response.bean.UpdateDocumentQuestionResponse;
+import com.ontarget.util.DocumentUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ontarget.api.dao.DocumentAttachmentDAO;
-import com.ontarget.api.dao.DocumentDAO;
-import com.ontarget.api.dao.DocumentGridKeyValueDAO;
-import com.ontarget.api.dao.DocumentKeyValueDAO;
-import com.ontarget.api.dao.DocumentSubmittalDAO;
-import com.ontarget.api.dao.DocumentTemplateDAO;
 import com.ontarget.api.service.DocumentService;
 import com.ontarget.api.service.EmailService;
-import com.ontarget.bean.DocumentAttachmentDTO;
-import com.ontarget.bean.DocumentDTO;
-import com.ontarget.bean.DocumentGridKeyValueDTO;
-import com.ontarget.bean.DocumentKeyValueDTO;
-import com.ontarget.bean.DocumentSubmittalDTO;
-import com.ontarget.bean.DocumentTemplateDTO;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.AddDocumentAttachmentResponse;
 import com.ontarget.dto.AddDocumentResponse;
@@ -29,13 +28,6 @@ import com.ontarget.dto.GetDocumentAttachmentsResponse;
 import com.ontarget.dto.GetDocumentResponse;
 import com.ontarget.dto.GetDocumentsResponse;
 import com.ontarget.dto.OnTargetResponse;
-import com.ontarget.request.bean.AddDocumentAttachment;
-import com.ontarget.request.bean.AddDocumentRequest;
-import com.ontarget.request.bean.Assignee;
-import com.ontarget.request.bean.DocumentGridKeyValue;
-import com.ontarget.request.bean.DocumentKeyValue;
-import com.ontarget.request.bean.UpdateDocumentRequest;
-import com.ontarget.request.bean.UpdateDocumentStatus;
 
 @Service
 public class DocumentServiceImpl implements DocumentService {
@@ -68,6 +60,14 @@ public class DocumentServiceImpl implements DocumentService {
 	@Autowired
 	@Qualifier("documentAttachmentJpaDAOImpl")
 	private DocumentAttachmentDAO documentAttachmentDAO;
+
+    @Autowired
+    @Qualifier("documentResponseJpaDAOImpl")
+    private DocumentResponseDAO documentResponseDAO;
+
+    @Autowired
+    @Qualifier("contactJpaDAOImpl")
+    private ContactDAO contactDAO;
 
 	@Transactional(rollbackFor = { Exception.class })
 	@Override
@@ -235,7 +235,6 @@ public class DocumentServiceImpl implements DocumentService {
 		}
 	}
 
-	@Transactional(rollbackFor = { Exception.class })
 	@Override
 	public GetDocumentAttachmentsResponse getDocumentAttachments(int documentId) throws Exception {
 		if (documentId == 0) {
@@ -253,7 +252,118 @@ public class DocumentServiceImpl implements DocumentService {
 		}
 	}
 
-	@Override
+    @Override
+    public GetDocumentQuestionResponse getDocumentQuestionsResponses(GetDocumentQuestionResponseRequest request) throws Exception {
+        logger.debug("Getting list for responses for document id: "+ request.getDocumentId());
+        GetDocumentQuestionResponse response=new GetDocumentQuestionResponse();
+        List<DocumentResponse> documentResponses = documentResponseDAO.findDocumentReponseByDocumentId(request.getDocumentId());
+
+        List<DocumentResponseDTO> documentResponseDTOs=new LinkedList<>();
+        for(DocumentResponse documentResponse : documentResponses){
+            DocumentResponseDTO documentResponseDTO=DocumentUtil.getDocumentResponseDTOFromDocumentResponseEntity(documentResponse);
+            documentResponseDTOs.add(documentResponseDTO);
+            //get responsed by user detail
+            UserDTO userDTO=documentResponseDTO.getResponsedBy();
+            Contact contact=contactDAO.getContact(userDTO.getUserId());
+            userDTO.setContact(contact);
+
+            //get modified by user detail
+        }
+
+
+        if(documentResponses!=null) {
+            response.setDocumentId(request.getDocumentId().longValue());
+            response.setDocumentResponses(documentResponseDTOs);
+            response.setReturnMessage("Successfully retrieved document responses");
+            response.setReturnVal(OnTargetConstant.SUCCESS);
+        }
+        return response;
+    }
+
+    @Override
+    @Transactional(rollbackFor = { Exception.class })
+    public UpdateDocumentQuestionResponse updateDocumentQuestionResponse(UpdateDocumentQuestionResponseRequest request) throws Exception {
+        logger.debug("updating response for document response id: "+ request.getDocumentResponseId());
+
+        if(request.getResponse() == null ){
+            throw new Exception("Response text cannot  be null");
+        }
+        DocumentResponse documentResponse=new DocumentResponse();
+        documentResponse.setResponse(request.getResponse());
+        documentResponse.setResponseModifiedBY(new User(request.getBaseRequest().getLoggedInUserId()));
+        documentResponse.setResponseModifiedDate(new Date());
+        documentResponse.setDocumentResponseId(request.getDocumentResponseId());
+
+        documentResponse = documentResponseDAO.update(documentResponse);
+        DocumentResponseDTO documentResponseDTO = DocumentUtil.getDocumentResponseDTOFromDocumentResponseEntity(documentResponse);
+        Contact contact=contactDAO.getContact(documentResponseDTO.getResponsedBy().getUserId());
+        documentResponseDTO.getResponsedBy().setContact(contact);
+        UpdateDocumentQuestionResponse response=new UpdateDocumentQuestionResponse();
+        if(documentResponse!=null){
+            response.setReturnVal(OnTargetConstant.SUCCESS);
+            response.setReturnMessage("Successfully updated document response");
+            response.setResponse(documentResponseDTO);
+        }
+
+        return response;
+    }
+
+
+    @Override
+    @Transactional(rollbackFor = { Exception.class })
+    public UpdateDocumentQuestionResponse saveDocumentQuestionResponse(UpdateDocumentQuestionResponseRequest request) throws Exception {
+        logger.debug("saving new response for document  id: "+ request.getDocumentId());
+
+        if(request.getDocumentId() == null ){
+            throw new Exception("document id cannot  be null");
+        }
+        DocumentResponse documentResponse=new DocumentResponse();
+        documentResponse.setResponse(request.getResponse());
+        documentResponse.setResponseBy(new User(request.getBaseRequest().getLoggedInUserId()));
+        documentResponse.setResponseDate(new Date());
+        Document document=new Document();
+        document.setDocumentId(request.getDocumentId());
+        documentResponse.setDocument(document);
+        documentResponse.setStatus(OnTargetConstant.GenericStatus.ACTIVE);
+
+        documentResponse = documentResponseDAO.save(documentResponse);
+
+        DocumentResponseDTO documentResponseDTO = DocumentUtil.getDocumentResponseDTOFromDocumentResponseEntity(documentResponse);
+        Contact contact=contactDAO.getContact(documentResponseDTO.getResponsedBy().getUserId());
+        documentResponseDTO.getResponsedBy().setContact(contact);
+
+        UpdateDocumentQuestionResponse response=new UpdateDocumentQuestionResponse();
+        if(documentResponse!=null){
+            response.setReturnVal(OnTargetConstant.SUCCESS);
+            response.setReturnMessage("Successfully saved document response");
+            response.setResponse(documentResponseDTO);
+        }
+
+        return response;
+    }
+
+
+    @Override
+    @Transactional(rollbackFor = { Exception.class })
+    public UpdateDocumentQuestionResponse deleteDocumentQuestionResponse(UpdateDocumentQuestionResponseRequest request) throws Exception {
+        logger.debug("deleting response for document response id: "+ request.getDocumentResponseId());
+        DocumentResponse documentResponse=new DocumentResponse();
+        documentResponse.setResponseModifiedBY(new User(request.getBaseRequest().getLoggedInUserId()));
+        documentResponse.setResponseModifiedDate(new Date());
+        documentResponse.setDocumentResponseId(request.getDocumentResponseId());
+
+        documentResponse = documentResponseDAO.delete(documentResponse);
+        UpdateDocumentQuestionResponse response=new UpdateDocumentQuestionResponse();
+        if(documentResponse!=null){
+            response.setReturnVal(OnTargetConstant.SUCCESS);
+            response.setReturnMessage("Successfully deleted document response");
+        }
+        return response;
+    }
+
+
+    @Override
+    @Transactional(rollbackFor = { Exception.class })
 	public AddDocumentAttachmentResponse addDocumentAttachment(AddDocumentAttachment request) throws Exception {
 		try {
 			String filePath = request.getFilePath();
@@ -274,6 +384,23 @@ public class DocumentServiceImpl implements DocumentService {
 			throw new Exception("Unable to add document attachment");
 		}
 	}
+
+    @Override
+    @Transactional(rollbackFor = { Exception.class })
+    public AddDocumentAttachmentResponse deleteDocumentAttachment(DeleteDocumentAttachmentRequest request) throws Exception {
+        try {
+            AddDocumentAttachmentResponse response = new AddDocumentAttachmentResponse();
+            if(documentAttachmentDAO.delete(request.getDocumentAttachmentId(),request.getBaseRequest().getLoggedInUserId())){
+                response.setDocumentAttachmentId(request.getDocumentAttachmentId().intValue());
+                response.setReturnVal(OnTargetConstant.SUCCESS);
+                response.setReturnMessage("Document attachment succefully deleted.");
+            }
+            return response;
+        } catch (Throwable t) {
+            logger.error("Unable to add document attachment", t);
+            throw new Exception("Unable to delete document attachment");
+        }
+    }
 
 	@Override
 	public GetDocumentResponse getDocument(int documentId) throws Exception {

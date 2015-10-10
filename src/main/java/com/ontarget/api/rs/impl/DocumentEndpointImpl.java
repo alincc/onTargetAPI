@@ -7,6 +7,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import com.ontarget.request.bean.*;
+import com.ontarget.response.bean.GetDocumentQuestionResponse;
+import com.ontarget.response.bean.UpdateDocumentQuestionResponse;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,15 +23,9 @@ import com.ontarget.dto.AddDocumentResponse;
 import com.ontarget.dto.GetDocumentResponse;
 import com.ontarget.dto.GetDocumentsResponse;
 import com.ontarget.dto.OnTargetResponse;
-import com.ontarget.request.bean.AddDocumentAttachment;
-import com.ontarget.request.bean.AddDocumentRequest;
-import com.ontarget.request.bean.DocumentDetail;
-import com.ontarget.request.bean.UpdateDocumentRequest;
-import com.ontarget.request.bean.UpdateDocumentStatus;
-import com.ontarget.request.bean.UserDocument;
 
 @Component
-@Path("/documents")
+@Path("/document")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class DocumentEndpointImpl implements DocumentEndpoint {
@@ -111,7 +108,7 @@ public class DocumentEndpointImpl implements DocumentEndpoint {
 	}
 
 	@PUT
-	@Path("/attachments")
+	@Path("/attachment")
 	@Override
 	public AddDocumentAttachmentResponse addDocumentAttachment(AddDocumentAttachment request) {
 		try {
@@ -124,5 +121,77 @@ public class DocumentEndpointImpl implements DocumentEndpoint {
 			return response;
 		}
 	}
+
+    @PUT
+    @Path("/attachment/delete")
+    @Override
+    public AddDocumentAttachmentResponse deleteDocumentAttachment(DeleteDocumentAttachmentRequest request) {
+        try {
+            AddDocumentAttachmentResponse response = documentService.deleteDocumentAttachment(request);
+            return response;
+        } catch (Throwable t) {
+            AddDocumentAttachmentResponse response = new AddDocumentAttachmentResponse();
+            response.setReturnVal(OnTargetConstant.ERROR);
+            response.setReturnMessage(t.getMessage());
+            return response;
+        }
+    }
+
+    @POST
+    @Path("/response")
+    @Override
+    public GetDocumentQuestionResponse getDocumentQuestionResponse(GetDocumentQuestionResponseRequest request) {
+        try {
+            GetDocumentQuestionResponse response =  documentService.getDocumentQuestionsResponses(request);
+            return response;
+        } catch (Throwable t) {
+            GetDocumentQuestionResponse response = new GetDocumentQuestionResponse();
+            response.setReturnVal(OnTargetConstant.ERROR);
+            response.setReturnMessage(t.getMessage());
+            return response;
+        }
+    }
+
+    @PUT
+    @Path("/response/save")
+    @Override
+    public UpdateDocumentQuestionResponse addDocumentQuestionResponse(UpdateDocumentQuestionResponseRequest request) {
+        try {
+            return documentService.saveDocumentQuestionResponse(request);
+        } catch (Throwable t) {
+            UpdateDocumentQuestionResponse response = new UpdateDocumentQuestionResponse();
+            response.setReturnVal(OnTargetConstant.ERROR);
+            response.setReturnMessage(t.getMessage());
+            return response;
+        }
+    }
+
+    @POST
+    @Path("/response/update")
+    @Override
+    public UpdateDocumentQuestionResponse updateDocumentQuestionResponse(UpdateDocumentQuestionResponseRequest request) {
+        try {
+            return documentService.updateDocumentQuestionResponse(request);
+        } catch (Throwable t) {
+            UpdateDocumentQuestionResponse response = new UpdateDocumentQuestionResponse();
+            response.setReturnVal(OnTargetConstant.ERROR);
+            response.setReturnMessage(t.getMessage());
+            return response;
+        }
+    }
+
+    @POST
+    @Path("/response/delete")
+    @Override
+    public UpdateDocumentQuestionResponse deleteDocumentQuestionResponse(UpdateDocumentQuestionResponseRequest request) {
+        try {
+            return documentService.deleteDocumentQuestionResponse(request);
+        } catch (Throwable t) {
+            UpdateDocumentQuestionResponse response = new UpdateDocumentQuestionResponse();
+            response.setReturnVal(OnTargetConstant.ERROR);
+            response.setReturnMessage(t.getMessage());
+            return response;
+        }
+    }
 
 }

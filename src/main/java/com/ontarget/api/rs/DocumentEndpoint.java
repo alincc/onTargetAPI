@@ -2,20 +2,12 @@ package com.ontarget.api.rs;
 
 import javax.validation.Valid;
 
-import com.ontarget.dto.AddDocumentResponse;
-import com.ontarget.dto.GetDocumentResponse;
-import com.ontarget.dto.GetDocumentsResponse;
-import com.ontarget.dto.OnTargetResponse;
-import com.ontarget.request.bean.AddDocumentAttachment;
-import com.ontarget.request.bean.AddDocumentRequest;
-import com.ontarget.request.bean.DocumentDetail;
-import com.ontarget.request.bean.UpdateDocumentRequest;
-import com.ontarget.request.bean.UpdateDocumentStatus;
-import com.ontarget.request.bean.UserDocument;
+import com.ontarget.dto.*;
+import com.ontarget.request.bean.*;
+import com.ontarget.response.bean.GetDocumentQuestionResponse;
+import com.ontarget.response.bean.UpdateDocumentQuestionResponse;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
+import javax.ws.rs.*;
 
 public interface DocumentEndpoint {
 
@@ -33,4 +25,14 @@ public interface DocumentEndpoint {
 
 	public OnTargetResponse addDocumentAttachment(
 			@Valid AddDocumentAttachment request);
+
+    public AddDocumentAttachmentResponse deleteDocumentAttachment(@Valid DeleteDocumentAttachmentRequest request);
+
+    GetDocumentQuestionResponse getDocumentQuestionResponse(@Valid GetDocumentQuestionResponseRequest request);
+
+    UpdateDocumentQuestionResponse addDocumentQuestionResponse(@Valid UpdateDocumentQuestionResponseRequest request);
+
+    UpdateDocumentQuestionResponse updateDocumentQuestionResponse(@Valid UpdateDocumentQuestionResponseRequest request);
+
+    UpdateDocumentQuestionResponse deleteDocumentQuestionResponse(@Valid UpdateDocumentQuestionResponseRequest request);
 }

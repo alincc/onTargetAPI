@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.ontarget.api.config.JerseyResourceInitializer;
-import com.ontarget.api.filter.LoggingResponseFilter;
 import com.ontarget.util.JsonDateSerializer;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
