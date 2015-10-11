@@ -40,9 +40,11 @@ public class DocumentResponseJpaDAOImpl implements DocumentResponseDAO {
         DocumentResponse documentResponse=documentResponseRepository.findOne(response.getDocumentResponseId());
         documentResponse.setResponseModifiedBY(response.getResponseModifiedBY());
         documentResponse.setResponseModifiedDate(response.getResponseModifiedDate());
+        documentResponse.setStatus(OnTargetConstant.GenericStatus.DELETED);
         documentResponseRepository.save(documentResponse);
 
         logger.debug("saving the new response.");
+        response.setDocumentResponseId(0L);
         response.setResponseBy(documentResponse.getResponseBy());
         response.setResponseDate(documentResponse.getResponseDate());
         response.setStatus(OnTargetConstant.GenericStatus.ACTIVE);
