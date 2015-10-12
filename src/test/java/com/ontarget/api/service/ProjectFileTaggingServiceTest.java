@@ -12,6 +12,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ontarget.api.rs.BaseTest;
+import com.ontarget.bean.CommentDTO;
 import com.ontarget.bean.ProjectFileTagAttributeBean;
 import com.ontarget.bean.ProjectFileTagBean;
 import com.ontarget.dto.OnTargetResponse;
@@ -73,9 +74,48 @@ public class ProjectFileTaggingServiceTest extends BaseTest {
 
 			List<ProjectFileTagBean> tags = projectFileTaggingService.getProjectFileTags(request);
 
-			Assert.assertTrue(tags.size() >= 0);
+			Assert.assertTrue(tags != null);
 		} catch (Exception e) {
 			logger.error("Error while getting project file tags.", e);
+			fail();
+		}
+
+	}
+
+	@Test
+	public void addUpdateComment() {
+		try {
+			OnTargetResponse respone = projectFileTaggingService.addUpdateComment(1l, "this is test comment", 1l, 11);
+
+			Assert.assertTrue(respone != null);
+		} catch (Exception e) {
+			logger.error("Error while add/update comment.", e);
+			fail();
+		}
+
+	}
+
+	@Test
+	public void deleteComment() {
+		try {
+			boolean success = projectFileTaggingService.deleteComment(1l, 11);
+
+			Assert.assertTrue(success);
+		} catch (Exception e) {
+			logger.error("Error while deleting comment.", e);
+			fail();
+		}
+
+	}
+
+	@Test
+	public void getComments() {
+		try {
+			List<CommentDTO> comments = projectFileTaggingService.getComments(1l);
+
+			Assert.assertTrue(comments != null);
+		} catch (Exception e) {
+			logger.error("Error while retrieving comments.", e);
 			fail();
 		}
 

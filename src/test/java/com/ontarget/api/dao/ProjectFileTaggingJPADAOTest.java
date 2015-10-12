@@ -15,6 +15,7 @@ import com.ontarget.api.rs.BaseTest;
 import com.ontarget.bean.ProjectFileTagAttributeBean;
 import com.ontarget.bean.ProjectFileTagBean;
 import com.ontarget.entities.ProjectFileTag;
+import com.ontarget.entities.ProjectFileTagComment;
 
 /**
  * Created by sanjeevghimire on 10/2/15.
@@ -63,9 +64,48 @@ public class ProjectFileTaggingJPADAOTest extends BaseTest {
 
 			List<ProjectFileTag> tags = projectFileTaggingDAO.getProjectFileTags(13);
 
-			Assert.assertTrue(tags.size() >= 0);
+			Assert.assertTrue(tags != null);
 		} catch (Exception e) {
 			logger.error("Error while getting project file tags.", e);
+			fail();
+		}
+
+	}
+
+	@Test
+	public void saveComment() {
+		try {
+			boolean success = projectFileTaggingDAO.saveComment(1l, "this is comment", 1l, 11);
+
+			Assert.assertTrue(success);
+		} catch (Exception e) {
+			logger.error("Error while add/update comment.", e);
+			fail();
+		}
+
+	}
+
+	@Test
+	public void deleteComment() {
+		try {
+			boolean success = projectFileTaggingDAO.deleteComment(1l, 11);
+
+			Assert.assertTrue(success);
+		} catch (Exception e) {
+			logger.error("Error while deleting comment.", e);
+			fail();
+		}
+
+	}
+
+	@Test
+	public void getComments() {
+		try {
+			List<ProjectFileTagComment> comments = projectFileTaggingDAO.getComments(1l);
+
+			Assert.assertTrue(comments != null);
+		} catch (Exception e) {
+			logger.error("Error while retrieving comments.", e);
 			fail();
 		}
 

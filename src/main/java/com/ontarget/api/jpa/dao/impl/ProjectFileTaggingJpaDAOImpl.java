@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.ontarget.api.dao.ProjectFileTaggingDAO;
 import com.ontarget.api.repository.ProjectFileTagAttributeRepository;
+import com.ontarget.api.repository.ProjectFileTagCommentRepository;
 import com.ontarget.api.repository.ProjectFileTagRepository;
 import com.ontarget.bean.ProjectFileTagAttributeBean;
 import com.ontarget.bean.ProjectFileTagBean;
@@ -17,6 +18,7 @@ import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.entities.ProjectFile;
 import com.ontarget.entities.ProjectFileTag;
 import com.ontarget.entities.ProjectFileTagAttribute;
+import com.ontarget.entities.ProjectFileTagComment;
 import com.ontarget.entities.User;
 
 @Repository
@@ -27,6 +29,8 @@ public class ProjectFileTaggingJpaDAOImpl implements ProjectFileTaggingDAO {
 	private ProjectFileTagRepository projectFileTagRepository;
 	@Autowired
 	private ProjectFileTagAttributeRepository projectFileTagAttributeRepository;
+	@Autowired
+	private ProjectFileTagCommentRepository projectFileTagCommentRepository;
 
 	@Override
 	public boolean save(List<ProjectFileTagBean> tags, int userId) throws Exception {
@@ -78,6 +82,40 @@ public class ProjectFileTaggingJpaDAOImpl implements ProjectFileTaggingDAO {
 	public List<ProjectFileTag> getProjectFileTags(int projectFileId) throws Exception {
 		logger.debug("Getting tags for project file id: " + projectFileId);
 		return projectFileTagRepository.findRecentByProjectFileId(projectFileId, new PageRequest(0, 1));
+	}
+
+	@Override
+	public boolean saveComment(Long projectFileTagId, String comment, Long commentId, int userId) throws Exception {
+		ProjectFileTagComment projectFileTagComment;
+		if (commentId != null && commentId > 0) {
+			projectFileTagComment = projectFileTagCommentRepository.findById(commentId);
+			projectFileTagComment.setModifiedBy(new User(userId));
+			projectFileTagComment.setModifiedDate(new Date());
+		} else {
+			projectFileTagComment = new ProjectFileTagComment();
+			projectFileTagComment.setStatus(OnTargetConstant.GenericStatus.ACTIVE);
+			projectFileTagComment.setCreatedBy(new User(userId));
+			projectFileTagComment.setProjectFileTag(new ProjectFileTag(projectFileTagId));
+			projectFileTagComment.setCreatedDate(new Date());
+		}
+		projectFileTagComment.setComment(comment);
+		projectFileTagCommentRepository.save(projectFileTagComment);
+		return true;
+	}
+
+	@Override
+	public boolean deleteComment(Long commentId, int userId) throws Exception {
+		ProjectFileTagComment projectFileTagComment = projectFileTagCommentRepository.findById(commentId);
+		projectFileTagComment.setModifiedBy(new User(userId));
+		projectFileTagComment.setModifiedDate(new Date());
+		projectFileTagComment.setStatus(OnTargetConstant.GenericStatus.DELETED);
+		projectFileTagCommentRepository.save(projectFileTagComment);
+		return true;
+	}
+
+	@Override
+	public List<ProjectFileTagComment> getComments(Long projectFileTagId) throws Exception {
+		return projectFileTagCommentRepository.findCommentsByFileTag(projectFileTagId);
 	}
 
 }

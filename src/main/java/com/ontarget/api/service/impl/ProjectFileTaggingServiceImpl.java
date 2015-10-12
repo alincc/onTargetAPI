@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ontarget.api.dao.ContactDAO;
 import com.ontarget.api.dao.ProjectFileTaggingDAO;
 import com.ontarget.api.service.ProjectFileTaggingService;
+import com.ontarget.bean.CommentDTO;
 import com.ontarget.bean.Contact;
 import com.ontarget.bean.ProjectFileTagAttributeBean;
 import com.ontarget.bean.ProjectFileTagBean;
@@ -19,8 +20,10 @@ import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.entities.ProjectFileTag;
 import com.ontarget.entities.ProjectFileTagAttribute;
+import com.ontarget.entities.ProjectFileTagComment;
 import com.ontarget.enums.TagType;
 import com.ontarget.request.bean.GetProjectFileTagRequest;
+import com.ontarget.response.bean.ProjectFileTagCommentResponse;
 import com.ontarget.util.ProjectFileTagUtil;
 
 @Service
@@ -95,4 +98,66 @@ public class ProjectFileTaggingServiceImpl implements ProjectFileTaggingService 
 		}
 		return projectFileTagBeans;
 	}
+
+	@Override
+	@Transactional(rollbackFor = { Exception.class })
+	public OnTargetResponse addUpdateComment(Long projectFileTagId, String comment, Long commentId, int userId) throws Exception {
+		logger.debug("Add/Update project file comment for project file tag id : " + projectFileTagId);
+
+		OnTargetResponse response = new OnTargetResponse();
+
+		boolean success = projectFileTaggingDAO.saveComment(projectFileTagId, comment.trim(), commentId, userId);
+		logger.debug("success " + success);
+
+		if (commentId != null && commentId > 0) {
+
+			if (success) {
+				response.setReturnVal(OnTargetConstant.SUCCESS);
+				response.setReturnMessage("Successfully updated comment.");
+			} else {
+				response.setReturnMessage("Sorry!, Could not update comment.");
+				response.setReturnVal(OnTargetConstant.ERROR);
+			}
+		} else {
+			if (success) {
+				response.setReturnVal(OnTargetConstant.SUCCESS);
+				response.setReturnMessage("Successfully added comment.");
+			} else {
+				response.setReturnMessage("Sorry!, Could not add comment.");
+				response.setReturnVal(OnTargetConstant.ERROR);
+			}
+		}
+		return response;
+	}
+
+	@Override
+	@Transactional(rollbackFor = { Exception.class })
+	public boolean deleteComment(Long commentId, int userId) throws Exception {
+		logger.debug("Delete project file comment for id : " + commentId);
+		return projectFileTaggingDAO.deleteComment(commentId, userId);
+	}
+
+	@Override
+	public List<CommentDTO> getComments(Long projectFileTagId) throws Exception {
+		logger.debug("Getting project file tag coments for file tag id: " + projectFileTagId);
+
+		List<ProjectFileTagComment> commentList = projectFileTaggingDAO.getComments(projectFileTagId);
+
+		List<CommentDTO> comments = new ArrayList<CommentDTO>();
+
+		if (commentList != null && !commentList.isEmpty()) {
+			for (ProjectFileTagComment projectFileTagComment : commentList) {
+				CommentDTO comment = new CommentDTO();
+				comment.setCommentId(projectFileTagComment.getProjectFileTagCommentId());
+				comment.setComment(projectFileTagComment.getComment());
+				comment.setCommentedBy(projectFileTagComment.getCreatedBy().getUserId());
+				Contact contact = contactDAO.getContact(projectFileTagComment.getCreatedBy().getUserId());
+				comment.setCommenterContact(contact);
+				comment.setCommentedDate(projectFileTagComment.getCreatedDate());
+				comments.add(comment);
+			}
+		}
+		return comments;
+	}
+
 }
