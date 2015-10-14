@@ -10,7 +10,6 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Repository;
 
 import com.ontarget.api.dao.UserDAO;
-import com.ontarget.api.dao.impl.BaseGenericDAOImpl;
 import com.ontarget.api.repository.ContactRepository;
 import com.ontarget.api.repository.EmailRepository;
 import com.ontarget.api.repository.ForgotPasswordRequestRepository;
@@ -28,7 +27,7 @@ import com.ontarget.request.bean.UserProfileInfo;
 import com.ontarget.util.DateFormater;
 
 @Repository("userJpaDAOImpl")
-public class UserJpaDAOImpl extends BaseGenericDAOImpl<UserDTO> implements UserDAO {
+public class UserJpaDAOImpl implements UserDAO {
 	@Resource
 	private UserRepository userRepository;
 	@Resource

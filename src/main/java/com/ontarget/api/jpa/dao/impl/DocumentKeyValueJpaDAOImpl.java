@@ -9,7 +9,6 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Repository;
 
 import com.ontarget.api.dao.DocumentKeyValueDAO;
-import com.ontarget.api.dao.impl.BaseGenericDAOImpl;
 import com.ontarget.api.repository.DocumentKeyValueRepository;
 import com.ontarget.bean.DocumentKeyValueDTO;
 import com.ontarget.entities.Document;
@@ -17,7 +16,7 @@ import com.ontarget.entities.DocumentKeyValue;
 import com.ontarget.entities.User;
 
 @Repository("documentKeyValueJpaDAOImpl")
-public class DocumentKeyValueJpaDAOImpl extends BaseGenericDAOImpl<DocumentKeyValueDTO> implements DocumentKeyValueDAO {
+public class DocumentKeyValueJpaDAOImpl implements DocumentKeyValueDAO {
 	@Resource
 	private DocumentKeyValueRepository documentKeyValueRepository;
 

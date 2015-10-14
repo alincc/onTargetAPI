@@ -6,21 +6,19 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import com.ontarget.api.service.impl.DocumentServiceImpl;
-import com.ontarget.constant.OnTargetConstant;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
 import com.ontarget.api.dao.DocumentAttachmentDAO;
-import com.ontarget.api.dao.impl.BaseGenericDAOImpl;
 import com.ontarget.api.repository.DocumentAttachmentRepository;
 import com.ontarget.bean.DocumentAttachmentDTO;
+import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.entities.Document;
 import com.ontarget.entities.DocumentAttachment;
 import com.ontarget.entities.User;
 
 @Repository("documentAttachmentJpaDAOImpl")
-public class DocumentAttachmentJpaDAOImpl extends BaseGenericDAOImpl<DocumentAttachmentDTO> implements DocumentAttachmentDAO {
+public class DocumentAttachmentJpaDAOImpl implements DocumentAttachmentDAO {
 
     private Logger logger = Logger.getLogger(DocumentAttachmentJpaDAOImpl.class);
 

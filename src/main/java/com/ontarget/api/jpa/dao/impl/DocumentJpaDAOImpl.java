@@ -13,7 +13,6 @@ import org.springframework.stereotype.Repository;
 
 import com.ontarget.api.dao.ContactDAO;
 import com.ontarget.api.dao.DocumentDAO;
-import com.ontarget.api.dao.impl.BaseGenericDAOImpl;
 import com.ontarget.api.repository.DocumentRepository;
 import com.ontarget.bean.Contact;
 import com.ontarget.bean.DocumentDTO;
@@ -23,7 +22,7 @@ import com.ontarget.entities.DocumentTemplate;
 import com.ontarget.entities.User;
 
 @Repository("documentJpaDAOImpl")
-public class DocumentJpaDAOImpl extends BaseGenericDAOImpl<DocumentDTO> implements DocumentDAO {
+public class DocumentJpaDAOImpl implements DocumentDAO {
 
 	@Resource
 	private DocumentRepository documentRepository;
@@ -31,7 +30,7 @@ public class DocumentJpaDAOImpl extends BaseGenericDAOImpl<DocumentDTO> implemen
 	@Qualifier("contactJpaDAOImpl")
 	private ContactDAO contactDAO;
 
-	private static final Logger logger = Logger.getLogger(BaseGenericDAOImpl.class);
+	private static final Logger logger = Logger.getLogger(DocumentJpaDAOImpl.class);
 
 	@Override
 	public DocumentDTO insert(DocumentDTO documentDTO) {

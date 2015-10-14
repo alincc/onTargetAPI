@@ -11,7 +11,6 @@ import javax.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 
 import com.ontarget.api.dao.DocumentGridKeyValueDAO;
-import com.ontarget.api.dao.impl.BaseGenericDAOImpl;
 import com.ontarget.api.repository.DocumentGridKeyValueRepository;
 import com.ontarget.bean.DocumentGridKeyValueDTO;
 import com.ontarget.entities.Document;
@@ -19,8 +18,7 @@ import com.ontarget.entities.DocumentGridKeyValue;
 import com.ontarget.entities.User;
 
 @Repository("documentGridKeyValueJpaDAOImpl")
-public class DocumentGridKeyValueJpaDAOImpl extends BaseGenericDAOImpl<DocumentGridKeyValueDTO> implements
-		DocumentGridKeyValueDAO {
+public class DocumentGridKeyValueJpaDAOImpl implements DocumentGridKeyValueDAO {
 	@Resource
 	private DocumentGridKeyValueRepository documentGridKeyValueRepository;
 	@PersistenceContext
@@ -74,8 +72,8 @@ public class DocumentGridKeyValueJpaDAOImpl extends BaseGenericDAOImpl<DocumentG
 	@Override
 	public List<DocumentGridKeyValueDTO> getByDocumentIdAndGridId(int documentId, String gridId) {
 
-		DocumentGridKeyValue docGridKeyValue = documentGridKeyValueRepository.getDocumentgridKeyValuesByDocumentIdAndGridId(
-				documentId, gridId);
+		DocumentGridKeyValue docGridKeyValue = documentGridKeyValueRepository.getDocumentgridKeyValuesByDocumentIdAndGridId(documentId,
+				gridId);
 
 		List<DocumentGridKeyValueDTO> gridKeyValues = new ArrayList<>();
 
@@ -101,8 +99,8 @@ public class DocumentGridKeyValueJpaDAOImpl extends BaseGenericDAOImpl<DocumentG
 		// query.setParameter("gridRowIndex", gridRowIndex);
 		// query.executeUpdate();
 
-		DocumentGridKeyValue documentGridKeyValue = documentGridKeyValueRepository
-				.getDocumentGridKeyValueByDocumentIdGridIdAndRowIndex(documentId, gridId, gridRowIndex);
+		DocumentGridKeyValue documentGridKeyValue = documentGridKeyValueRepository.getDocumentGridKeyValueByDocumentIdGridIdAndRowIndex(
+				documentId, gridId, gridRowIndex);
 		documentGridKeyValue.setValue(newValue);
 		documentGridKeyValue.setModifiedBy(new User(modifiedBy));
 		documentGridKeyValue.setModifiedDate(new Date());

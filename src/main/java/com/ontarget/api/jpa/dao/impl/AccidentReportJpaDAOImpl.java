@@ -8,12 +8,11 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Repository;
 
 import com.ontarget.api.dao.AccidentReportDAO;
-import com.ontarget.api.dao.impl.BaseGenericDAOImpl;
 import com.ontarget.api.repository.AccidentReportRepository;
 import com.ontarget.bean.AccidentReport;
 
 @Repository("accidentReportJpaDAOImpl")
-public class AccidentReportJpaDAOImpl extends BaseGenericDAOImpl<AccidentReport> implements AccidentReportDAO {
+public class AccidentReportJpaDAOImpl implements AccidentReportDAO {
 	@Resource
 	private AccidentReportRepository accidentReportRepository;
 

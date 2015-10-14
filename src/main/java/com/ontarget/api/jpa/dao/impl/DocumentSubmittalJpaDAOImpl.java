@@ -7,7 +7,6 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Repository;
 
 import com.ontarget.api.dao.DocumentSubmittalDAO;
-import com.ontarget.api.dao.impl.BaseGenericDAOImpl;
 import com.ontarget.api.repository.DocumentSubmittalRepository;
 import com.ontarget.bean.DocumentSubmittalDTO;
 import com.ontarget.entities.Document;
@@ -15,7 +14,7 @@ import com.ontarget.entities.DocumentSubmittal;
 import com.ontarget.entities.User;
 
 @Repository("documentSubmittalJpaDAOImpl")
-public class DocumentSubmittalJpaDAOImpl extends BaseGenericDAOImpl<DocumentSubmittalDTO> implements DocumentSubmittalDAO {
+public class DocumentSubmittalJpaDAOImpl implements DocumentSubmittalDAO {
 	@Resource
 	private DocumentSubmittalRepository documentSubmittalRepository;
 

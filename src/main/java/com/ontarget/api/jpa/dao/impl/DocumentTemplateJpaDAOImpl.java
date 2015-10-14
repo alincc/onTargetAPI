@@ -7,14 +7,13 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Repository;
 
 import com.ontarget.api.dao.DocumentTemplateDAO;
-import com.ontarget.api.dao.impl.BaseGenericDAOImpl;
 import com.ontarget.api.repository.DocumentTemplateRepository;
 import com.ontarget.bean.DocumentTemplateDTO;
 import com.ontarget.entities.DocumentTemplate;
 import com.ontarget.entities.User;
 
 @Repository("documentTemplateJpaDAOImpl")
-public class DocumentTemplateJpaDAOImpl extends BaseGenericDAOImpl<DocumentTemplateDTO> implements DocumentTemplateDAO {
+public class DocumentTemplateJpaDAOImpl implements DocumentTemplateDAO {
 
 	@Resource
 	private DocumentTemplateRepository documentTemplateRepository;
