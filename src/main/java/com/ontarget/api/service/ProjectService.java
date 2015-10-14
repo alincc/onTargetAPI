@@ -16,37 +16,35 @@ import com.ontarget.request.bean.ProjectRequest;
  */
 public interface ProjectService {
 
-    public OnTargetResponse addProject(ProjectRequest request) throws Exception;
-    
-    public OnTargetResponse updateProject(ProjectRequest request) throws Exception;
-    
-    public OnTargetResponse addActivity(ActivityRequest request) throws Exception;
-    
-    public OnTargetResponse updateActivity(ActivityRequest request) throws Exception;
+	public OnTargetResponse addProject(ProjectRequest request) throws Exception;
 
-    public com.ontarget.response.bean.ProjectResponse getProjectDetail(int projectId);
+	public OnTargetResponse updateProject(ProjectRequest request) throws Exception;
 
-    public ProjectListResponse getProjectsByCompany(int companyId, int userId) throws Exception;
+	public OnTargetResponse addActivity(ActivityRequest request) throws Exception;
 
-    public List<Company> getCompanyByProject(int projectId) throws Exception;
+	public OnTargetResponse updateActivity(ActivityRequest request) throws Exception;
 
-    public ProjectListResponse getProjectsByUser(int userId) throws Exception;
+	public com.ontarget.response.bean.ProjectResponse getProjectDetail(int projectId);
 
-    public ProjectMemberListResponse getProjectMembers(int projectId) throws Exception;
+	public ProjectListResponse getProjectsByCompany(int companyId, int userId) throws Exception;
 
-    public ProjectInfo getProject(int projectId) throws Exception;
+	public List<Company> getCompanyByProject(int projectId) throws Exception;
 
-    public ProjectInfo getProjectTree(int projectId) throws Exception;
-    
-    public ProjectListResponse getUserProjectDetails(int userId) throws Exception;
-    
-    public boolean deleteProject(int projectId,int userId);
-    
-    public UserProjectListResponse getUserAssociatedProjectDetails(int userId) throws Exception;
-    
-    public ProjectListResponse getUserProjectList(Integer userId) throws Exception;
-    
-    public ProjectListResponse getSuperUserProjectList(Integer userId) throws Exception;
-    
-    public com.ontarget.response.bean.ProjectListResponse getActivityOfProject(Integer projectId) throws Exception;
+	public ProjectListResponse getProjectsByUser(int userId) throws Exception;
+
+	public ProjectMemberListResponse getProjectMembers(int projectId) throws Exception;
+
+	public ProjectInfo getProject(int projectId) throws Exception;
+
+	public ProjectInfo getProjectTree(int projectId) throws Exception;
+
+	public ProjectListResponse getUserProjectDetails(int userId) throws Exception;
+
+	public boolean deleteProject(int projectId, int userId);
+
+	public UserProjectListResponse getUserAssociatedProjectDetails(int userId) throws Exception;
+
+	public ProjectListResponse getUserProjectList(Integer userId) throws Exception;
+
+	public com.ontarget.response.bean.ProjectListResponse getActivityOfProject(Integer projectId) throws Exception;
 }

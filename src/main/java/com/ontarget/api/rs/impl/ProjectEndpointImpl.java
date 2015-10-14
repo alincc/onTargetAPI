@@ -41,7 +41,7 @@ public class ProjectEndpointImpl implements ProjectEndoint {
 		if (request.getProject().getProjectId() == null) {
 			try {
 				response = projectService.addProject(request);
-            } catch (Exception e) {
+			} catch (Exception e) {
 				logger.error("Error while adding project", e);
 				response = new OnTargetResponse();
 				response.setReturnMessage("Error while creating project");
@@ -127,24 +127,6 @@ public class ProjectEndpointImpl implements ProjectEndoint {
 
 	@Override
 	@POST
-	@Path("/getProjectsByCompany")
-	public ProjectListResponse getProjectByCompany(ProjectCompanyRequest projectCompanyRequest) {
-		ProjectListResponse response = new ProjectListResponse();
-		try {
-			response = projectService.getProjectsByCompany(projectCompanyRequest.getCompanyId(), projectCompanyRequest.getBaseRequest()
-					.getLoggedInUserId());
-			response.setReturnVal(OnTargetConstant.SUCCESS);
-			response.setReturnMessage("Successfully retrieved project info");
-		} catch (Exception e) {
-			logger.error("Error while getting project by company", e);
-			response.setReturnMessage("Error while getting project by company");
-			response.setReturnVal(OnTargetConstant.ERROR);
-		}
-		return response;
-	}
-
-	@Override
-	@POST
 	@Path("/getCompanyByProject")
 	public CompanyListResponse getCompanyByProject(ProjectDetailRequest projectDetailRequest) {
 		CompanyListResponse response = new CompanyListResponse();
@@ -164,28 +146,9 @@ public class ProjectEndpointImpl implements ProjectEndoint {
 
 	@Override
 	@POST
-	@Path("/getAllProjectsByUser")
-	public UserProjectListResponse getAllProjectsByUser(ProjectUserRequest projectUserRequest) {
-
-		UserProjectListResponse response = new UserProjectListResponse();
-		try {
-			response = projectService.getUserAssociatedProjectDetails(projectUserRequest.getUserId());
-			if (response.getResponseCode().equalsIgnoreCase("SUCC")) {
-				response.setReturnVal(OnTargetConstant.SUCCESS);
-				response.setReturnMessage("Successfully retrieved project info");
-			}
-		} catch (Exception e) {
-			logger.error("Error while getting project by user", e);
-			response.setReturnMessage("Error while getting project by user");
-			response.setReturnVal(OnTargetConstant.ERROR);
-		}
-		return response;
-	}
-
-	@Override
-	@POST
 	@Path("/getProjectsByUser")
 	public ProjectListResponse getProjectByUser(ProjectUserRequest projectUserRequest) {
+		logger.info("Getting project detail list of user id: " + projectUserRequest.getUserId());
 
 		ProjectListResponse response = new ProjectListResponse();
 		try {
@@ -200,23 +163,6 @@ public class ProjectEndpointImpl implements ProjectEndoint {
 			}
 		} catch (Exception e) {
 			logger.error("Error while getting project by user", e);
-			response.setReturnMessage("Error while getting project by user");
-			response.setReturnVal(OnTargetConstant.ERROR);
-		}
-		return response;
-	}
-
-	@Override
-	@POST
-	@Path("/getUserProjectDetails")
-	public ProjectListResponse getUserProjectDetails(ProjectUserRequest projectUserRequest) {
-		ProjectListResponse response = new ProjectListResponse();
-		try {
-			response = projectService.getProjectsByUser(projectUserRequest.getUserId());
-			response.setReturnVal(OnTargetConstant.SUCCESS);
-			response.setReturnMessage("Successfully retrieved project info");
-		} catch (Exception e) {
-			logger.error("Error while getting project by company", e);
 			response.setReturnMessage("Error while getting project by user");
 			response.setReturnVal(OnTargetConstant.ERROR);
 		}
@@ -250,6 +196,7 @@ public class ProjectEndpointImpl implements ProjectEndoint {
 	@POST
 	@Path("/getUserProjectList")
 	public ProjectListResponse getUserProjectList(ProjectUserRequest projectUserRequest) {
+		logger.info("Getting project list of user id: " + projectUserRequest.getUserId());
 		ProjectListResponse response = new ProjectListResponse();
 		try {
 			response = projectService.getUserProjectList(projectUserRequest.getUserId());

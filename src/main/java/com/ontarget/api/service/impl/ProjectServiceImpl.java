@@ -93,8 +93,8 @@ public class ProjectServiceImpl implements ProjectService {
 	@Autowired
 	private ProjectTaskRepository projectTaskRepository;
 
-    @Autowired
-    BashScriptService bashScriptService;
+	@Autowired
+	BashScriptService bashScriptService;
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
@@ -133,45 +133,46 @@ public class ProjectServiceImpl implements ProjectService {
 			throw new Exception("Error while creating project: projectId: " + projectId);
 		}
 
+		/**
+		 * turning this off as UI is doing this
+		 *
+		 * try { logger.debug(
+		 * "Executing bash script to create folder structure for this projectId: "
+		 * + projectId); // Execute bash script asynchronously to create folder
+		 * structure
+		 * 
+		 * String projectFolderName = RandomStringUtils.randomAlphanumeric(16) +
+		 * new Date().getTime();
+		 * 
+		 * 
+		 * //do { // projectFolderName =
+		 * RandomStringUtils.randomAlphanumeric(16); // exist =
+		 * projectDAO.isExistsProjectFolderName(projectFolderName); //} while
+		 * (exist);
+		 * 
+		 * logger.debug("Creating asset folder with name: "+ projectFolderName
+		 * +" for project id: "+ projectId); boolean created=false;
+		 * if(projectFolderName!=null) { created =
+		 * bashScriptService.runBashScriptInRemoteServer(projectFolderName); }
+		 * logger.debug("Folder creation successful: "+created);
+		 * 
+		 * //updating project with the project folder name:
+		 * logger.debug("updating project "
+		 * +projectId+" with the  project folder name:"+projectFolderName);
+		 * 
+		 * boolean updated =
+		 * projectDAO.updateProjectAssetFolderName(projectId,userId
+		 * ,projectFolderName);
+		 * 
+		 * if(updated){
+		 * logger.debug("Asset folder successfully created and updated."); }
+		 * 
+		 * }catch(Exception e){ logger.error(
+		 * "Error while running bash script to create folder for project id: "+
+		 * projectId,e); }
+		 */
 
-        /**
-         * turning this off as UI is doing this
-         *
-        try {
-            logger.debug("Executing bash script to create folder structure for this projectId: "+ projectId);
-            // Execute bash script asynchronously to create folder structure
-
-            String projectFolderName = RandomStringUtils.randomAlphanumeric(16) + new Date().getTime();
-
-
-            //do {
-            //      projectFolderName = RandomStringUtils.randomAlphanumeric(16);
-            //      exist = projectDAO.isExistsProjectFolderName(projectFolderName);
-            //} while (exist);
-
-            logger.debug("Creating asset folder with name: "+ projectFolderName +" for project id: "+ projectId);
-            boolean created=false;
-            if(projectFolderName!=null) {
-                created = bashScriptService.runBashScriptInRemoteServer(projectFolderName);
-            }
-            logger.debug("Folder creation successful: "+created);
-
-            //updating project with the  project folder name:
-            logger.debug("updating project "+projectId+" with the  project folder name:"+projectFolderName);
-
-            boolean updated = projectDAO.updateProjectAssetFolderName(projectId,userId,projectFolderName);
-
-            if(updated){
-                logger.debug("Asset folder successfully created and updated.");
-            }
-
-        }catch(Exception e){
-            logger.error("Error while running bash script to create folder for project id: "+ projectId,e);
-        }
-
-    */
-
-        return response;
+		return response;
 	}
 
 	@Override
@@ -280,11 +281,11 @@ public class ProjectServiceImpl implements ProjectService {
 		projectInfo.setStartDate(project.getProjectStartDate());
 		projectInfo.setEndDate(project.getProjectEndDate());
 		projectInfo.setProjectImagePath(project.getProjectImagePath());
-        projectInfo.setProjectAssetFolderName(project.getProjectAssetFolderName());
-        projectInfo.setStatus(project.getProjectStatus());
-        projectInfo.setProjectParentId(project.getProjectParentId());
+		projectInfo.setProjectAssetFolderName(project.getProjectAssetFolderName());
+		projectInfo.setStatus(project.getProjectStatus());
+		projectInfo.setProjectParentId(project.getProjectParentId());
 
-        List<ProjectConfig> projectConfigList = new ArrayList<>();
+		List<ProjectConfig> projectConfigList = new ArrayList<>();
 		List<ProjectConfiguration> projectConfigurations = project.getProjectConfigurationList();
 		if (projectConfigurations != null && !projectConfigurations.isEmpty()) {
 			for (ProjectConfiguration projectConfiguration : projectConfigurations) {
@@ -308,10 +309,10 @@ public class ProjectServiceImpl implements ProjectService {
 				projectInfo.setPercentageComplete(percentageComplete);
 			}
 
-            //count of active pending completed and deleted task for that activity
-            List<TaskStatusCount> statusCount = taskDAO.getTaskCountByStatus(project.getProjectId());
-            projectInfo.setTaskCountByStatus(statusCount);
-
+			// count of active pending completed and deleted task for that
+			// activity
+			List<TaskStatusCount> statusCount = taskDAO.getTaskCountByStatus(project.getProjectId());
+			projectInfo.setTaskCountByStatus(statusCount);
 
 		} else if (project.getType().equalsIgnoreCase(OnTargetConstant.ProjectInfoType.PROJECT)) {
 			BigDecimal percentageCompleteSum = projectTaskRepository.getProjectTotalPercentageComplete(project.getProjectId());
@@ -493,7 +494,7 @@ public class ProjectServiceImpl implements ProjectService {
 		UserProjectListResponse response = new UserProjectListResponse();
 
 		List<Project> projectList = projectDAO.getAlllAssociatedProjectsByUser(userId);
-		List<ProjectDTO> projectDTOList = convertedProjectList(projectList, userId);
+		List<ProjectDTO> projectDTOList = convertedProjectList(projectList);
 		response.setProjects(projectDTOList);
 
 		for (ProjectDTO projectDTO : projectDTOList) {
@@ -507,75 +508,56 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Override
 	public ProjectListResponse getUserProjectDetails(int userId) throws Exception {
-		Project mainProject = projectDAO.getMainProjectByUser(userId);
+		logger.info("Obtaining user project list of user id: " + userId);
+		ProjectListResponse response = new ProjectListResponse();
 
-		if (mainProject != null) {
-			ProjectDTO project = ProjectUtil.convertToProjectDTO(mainProject, projectTaskRepository);
-			Company company = companyDAO.getCompany(project.getCompanyId());
-			project.setCompany(company);
+		List<Project> projects = projectDAO.getProjectsByUserId(userId);
 
-			return this.getUserProjectResponse(project, userId);
-		} else {
-			ProjectListResponse response = new ProjectListResponse();
-			response.setResponseCode("PNF");
-			return response;
+		List<ProjectDTO> projectDTOList = convertedProjectList(projects);
+		response.setProjects(projectDTOList);
+
+		for (ProjectDTO projectDTO : projectDTOList) {
+			setSubProjects(projectDTO, userId, 1);
 		}
+		response.setResponseCode("SUCC");
+		return response;
 	}
 
-	
-	
-    /**
-     * Get all projects by user id. Returns only the project info
-     * @param userId
-     * @return
-     * @throws Exception
-     */
+	public void setSubProjects(ProjectDTO projectDTO, int userId, int level) throws Exception {
+		logger.info("fetching project list of parent project id: " + projectDTO.getProjectId());
+
+		List<Project> childProjects = projectDAO.getUndeletedProjectsByParentId(projectDTO.getProjectId());
+
+		List<ProjectDTO> projectDTOList = convertedProjectList(childProjects);
+
+		if (level < 3 && projectDTOList != null && !projectDTOList.isEmpty()) {
+			level++;
+			for (ProjectDTO p : projectDTOList) {
+				p.setTaskList(new ArrayList<>());
+				getProjectTasks(userId, p);
+				setSubProjects(p, userId, level);
+			}
+		}
+		projectDTO.setProjects(projectDTOList);
+	}
+
+	/**
+	 * Get all projects by user id. Returns only the project info
+	 * 
+	 * @param userId
+	 * @return
+	 * @throws Exception
+	 */
 	@Override
 	public ProjectListResponse getUserProjectList(Integer userId) throws Exception {
 		ProjectListResponse projectListResponse = new ProjectListResponse();
 
-        //Add main project as well.
-        Project mainProject = projectDAO.getMainProjectByUser(userId);
-        ProjectDTO mainProjectDTO=null;
-        if (mainProject != null) {
-            mainProjectDTO = ProjectUtil.convertToProjectDTO(mainProject, projectTaskRepository);
-            Company company = companyDAO.getCompany(mainProjectDTO.getCompanyId());
-            mainProjectDTO.setCompany(company);
-        }
+		List<Project> projects = projectDAO.getProjectsByUserId(userId);
 
-        List<Project> projects = projectDAO.getProjectsByUserId(userId);
-
-        List<ProjectDTO> projectInfoList = convertedProjectList(projects, userId);
-        mainProjectDTO.setProjects(projectInfoList);
-
-		projectListResponse.setMainProject(mainProjectDTO);
+		projectListResponse.setProjects(convertedProjectList(projects));
 		return projectListResponse;
 	}
 
-	@Override
-	public ProjectListResponse getSuperUserProjectList(Integer userId) throws Exception {
-		ProjectListResponse projectListResponse = new ProjectListResponse();
-
-        //Add main project as well.
-        Project mainProject = projectDAO.getMainProjectByUser(userId);
-        ProjectDTO mainProjectDTO=null;
-        if (mainProject != null) {
-            mainProjectDTO = ProjectUtil.convertToProjectDTO(mainProject, projectTaskRepository);
-            Company company = companyDAO.getCompany(mainProjectDTO.getCompanyId());
-            mainProjectDTO.setCompany(company);
-        }
-
-        List<Project> projects = projectDAO.getProjectsByUserId(userId);
-
-        List<ProjectDTO> projectInfoList = convertedProjectList(projects, userId);
-        mainProjectDTO.setProjects(projectInfoList);
-
-		projectListResponse.setMainProject(mainProjectDTO);
-		return projectListResponse;
-	}
-
-	
-	
 	// new
 	@Override
 	public com.ontarget.response.bean.ProjectListResponse getActivityOfProject(Integer projectId) throws Exception {
@@ -593,38 +575,7 @@ public class ProjectServiceImpl implements ProjectService {
 		return projectListResponse;
 	}
 
-	private ProjectListResponse getUserProjectResponse(ProjectDTO project, int userId) throws Exception {
-		ProjectListResponse response = new ProjectListResponse();
-		project.setTaskList(new ArrayList<>());
-		response.setMainProject(project);
-
-		setSubProjects(project, userId, 1);
-		response.setResponseCode("SUCC");
-		return response;
-	}
-
-	public void setSubProjects(ProjectDTO projectDTO, int userId, int level) throws Exception {
-		List<Project> childProjects;
-		if (level == 1) {
-			childProjects = projectDAO.getUndeletedProjectsByParentIdAndUserId(projectDTO.getProjectId(), userId);
-		} else {
-			childProjects = projectDAO.getUndeletedProjectsByParentId(projectDTO.getProjectId());
-		}
-		List<ProjectDTO> projectDTOList = convertedProjectList(childProjects, userId);
-
-		if (level < 3 && projectDTOList != null && !projectDTOList.isEmpty()) {
-			level++;
-			for (ProjectDTO p : projectDTOList) {
-				p.setTaskList(new ArrayList<>());
-				getProjectTasks(userId, p);
-				setSubProjects(p, userId, level);
-			}
-		}
-
-		projectDTO.setProjects(projectDTOList);
-	}
-
-	private List<ProjectDTO> convertedProjectList(List<Project> projects, int userId) throws Exception {
+	private List<ProjectDTO> convertedProjectList(List<Project> projects) throws Exception {
 		List<ProjectDTO> projectDTOList = new ArrayList<>();
 
 		if (projects != null && !projects.isEmpty()) {
