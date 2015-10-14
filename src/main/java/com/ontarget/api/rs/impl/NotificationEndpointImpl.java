@@ -64,7 +64,7 @@ public class NotificationEndpointImpl implements com.ontarget.api.rs.Notificatio
 							.getLoggedInUserProjectId().longValue());
 			response.setNotificationList(userNotificationDTO.getUserNotificationList());
 			response.setTotalNotification(userNotificationDTO.getTotalNotification());
-            response.setTotalUnreadNotification(userNotificationDTO.getTotalUnReadNotification());
+			response.setTotalUnreadNotification(userNotificationDTO.getTotalUnReadNotification());
 			response.setReturnVal(OnTargetConstant.SUCCESS);
 			response.setReturnMessage("notification read");
 		} catch (Exception e) {
@@ -105,7 +105,8 @@ public class NotificationEndpointImpl implements com.ontarget.api.rs.Notificatio
 	public OnTargetResponse markAllNotificationAsSeen(NotificationAllSeenRequest request) {
 		OnTargetResponse response = new OnTargetResponse();
 		try {
-			boolean updated = notificationService.updateAllStatusToSeen(request.getBaseRequest().getLoggedInUserId(), request.getBaseRequest().getLoggedInUserProjectId());
+			boolean updated = notificationService.updateAllStatusToSeen(request.getBaseRequest().getLoggedInUserId(), request
+					.getBaseRequest().getLoggedInUserProjectId());
 			if (updated) {
 				response.setReturnVal(OnTargetConstant.SUCCESS);
 				response.setReturnMessage("All notification status set as seen");

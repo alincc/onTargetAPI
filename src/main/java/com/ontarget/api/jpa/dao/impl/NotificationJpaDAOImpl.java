@@ -41,11 +41,12 @@ public class NotificationJpaDAOImpl implements NotificationDAO {
 		return true;
 	}
 
-
 	@Override
 	public boolean updateAllStatusToSeen(Integer userId, Integer projectId) throws Exception {
-        logger.debug("Updating all notification for user: "+ userId +" project: "+ projectId);
-		//userNotificationRepository.setAllNotificationAsSeen(OnTargetConstant.UserNotificationStatus.SEEN, new Date(), userId,projectId.longValue());
+		logger.debug("Updating all notification for user: " + userId + " project: " + projectId);
+		int updated = userNotificationRepository.setAllNotificationAsSeen(OnTargetConstant.UserNotificationStatus.SEEN, new Date(), userId,
+				projectId.longValue());
+		logger.debug("total user notification maked as seen: " + updated);
 		return true;
 	}
 
@@ -63,7 +64,7 @@ public class NotificationJpaDAOImpl implements NotificationDAO {
 	public Page<UserNotification> getUserNotifications(Integer pageNumber, Integer perPageLimit, Integer userId, Long loggedInUserProjectId)
 			throws Exception {
 		Pageable pageable = new PageRequest(pageNumber - 1, perPageLimit);
-		return notificationRepository.findNotifcationByUserId(userId, loggedInUserProjectId,pageable);
+		return notificationRepository.findNotifcationByUserId(userId, loggedInUserProjectId, pageable);
 	}
 
 }

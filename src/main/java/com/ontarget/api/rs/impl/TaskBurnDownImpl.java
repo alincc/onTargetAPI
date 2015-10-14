@@ -17,7 +17,7 @@ import com.ontarget.request.bean.ProjectDetailRequest;
 import com.ontarget.response.bean.TaskBurnDownListResponse;
 
 @Component
-@Path("/taskBurnDown")
+@Path("/task/burndown")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class TaskBurnDownImpl implements TaskBurnDown {
