@@ -1,16 +1,13 @@
 package com.ontarget.request.bean;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-
 import lombok.Data;
+
+import javax.validation.constraints.NotNull;
 
 @Data
 public class UserProfileRequest {
-	@NotNull
-	@Valid
-	private BaseRequest baseRequest;
-	@NotNull
+
+    @NotNull
 	private Integer userId;
 
 }
