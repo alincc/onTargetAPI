@@ -249,11 +249,10 @@ public class ProjectJpaDAOImpl implements ProjectDAO {
 		project.setModifiedBy(new User(updatingUserId));
 		project.setModifiedDate(new Date());
 
-
-        //also update the project image if available.
-        if(projectDTO.getProjectImagePath()!=null && projectDTO.getProjectImagePath().length() > 0) {
-            project.setProjectImagePath(projectDTO.getProjectImagePath());
-        }
+		// also update the project image if available.
+		if (projectDTO.getProjectImagePath() != null && projectDTO.getProjectImagePath().length() > 0) {
+			project.setProjectImagePath(projectDTO.getProjectImagePath());
+		}
 		projectRepository.save(project);
 
 		List<ProjectConfiguration> projectConfigurationList = project.getProjectConfigurationList();
@@ -354,6 +353,19 @@ public class ProjectJpaDAOImpl implements ProjectDAO {
 			projectMemberRepository.save(mainProjectMember);
 		}
 
+		com.ontarget.entities.ProjectMember projectMember = new com.ontarget.entities.ProjectMember();
+		projectMember.setProject(new Project(projectId));
+		projectMember.setMemberStatus(OnTargetConstant.MemberStatus.ACTIVE);
+		projectMember.setUser(new User(userId));
+		projectMemberRepository.save(projectMember);
+		if (projectMember.getProjectMemberId() != null) {
+			return projectMember.getProjectMemberId();
+		}
+		return 0;
+	}
+
+	@Override
+	public int addMemberToProject(int projectId, int userId) throws Exception {
 		com.ontarget.entities.ProjectMember projectMember = new com.ontarget.entities.ProjectMember();
 		projectMember.setProject(new Project(projectId));
 		projectMember.setMemberStatus(OnTargetConstant.MemberStatus.ACTIVE);

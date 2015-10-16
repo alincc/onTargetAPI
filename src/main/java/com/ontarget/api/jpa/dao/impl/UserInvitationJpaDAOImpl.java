@@ -116,6 +116,16 @@ public class UserInvitationJpaDAOImpl implements UserInvitationDAO {
 		registrationRequestDTO.setTsCreate(registrationRequest.getTsCreate().getTime());
 		return registrationRequestDTO;
 	}
+	
+	@Override
+	public RegistrationRequest findRecentRegRequestByEmail(String email){
+		return registrationRequestRepository.findTopByEmailOrderByIdDesc(email);
+	}
+	
+	@Override
+	public RegistrationRequest findRecentRegRequestByEmailAndProjectId(String email,Integer projectId){
+		return registrationRequestRepository.findTopByEmailAndProjectIdOrderByIdDesc(email, projectId);
+	}
 
 	@Override
 	public RegistrationRequestResponseDTO findRegRequestByEmail(String email) {

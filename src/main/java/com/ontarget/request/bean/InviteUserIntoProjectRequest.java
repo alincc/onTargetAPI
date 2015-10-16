@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({ "projectId", "firstName", "lastName", "email", "registrationToken", "companyName", "companyAddress1",
-	"companyAddress2", "companyCity", "companyState", "companyZip", "companyCountry"  })
+		"companyAddress2", "companyCity", "companyState", "companyZip", "companyCountry" })
 public class InviteUserIntoProjectRequest {
 	@NotNull
 	@JsonProperty("projectId")
@@ -51,7 +51,7 @@ public class InviteUserIntoProjectRequest {
 	private Integer companyId;
 	@JsonProperty("companyTypeId")
 	private Integer companyTypeId;
-    @NotNull
-    @Valid
-    private BaseRequest baseRequest;
+	@NotNull
+	@Valid
+	private BaseRequest baseRequest;
 }

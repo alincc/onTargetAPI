@@ -13,6 +13,10 @@ public interface RegistrationRequestRepository extends JpaRepository<Registratio
 
 	RegistrationRequest findByEmail(String email);
 
+	RegistrationRequest findTopByEmailOrderByIdDesc(String email);
+
+	RegistrationRequest findTopByEmailAndProjectIdOrderByIdDesc(String email, Integer projectId);
+
 	RegistrationRequest findByRegistrationToken(String token);
 
 	RegistrationRequest findByUserId(Integer userId);

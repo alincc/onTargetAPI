@@ -42,14 +42,14 @@ public class UserRegistrationJpaDAOImpl implements com.ontarget.api.dao.UserRegi
 	private UserProfileRepository userProfileRepository;
 
 	@Override
-	public boolean saveRegistrationInvitation(UserInvitationRequestDTO userInvitationRequestDTO) throws Exception {
+	public boolean saveRegistrationInvitation(UserInvitationRequestDTO userInvitationRequestDTO, String status) throws Exception {
 		RegistrationRequest registrationRequest = new RegistrationRequest();
 		registrationRequest.setFirstName(userInvitationRequestDTO.getFirstName());
 		registrationRequest.setLastName(userInvitationRequestDTO.getLastName());
 		registrationRequest.setEmail(userInvitationRequestDTO.getEmail());
 		registrationRequest.setPhoneNumber(userInvitationRequestDTO.getPhoneNumber());
 		registrationRequest.setMsg(userInvitationRequestDTO.getMsg());
-		registrationRequest.setStatus(OnTargetConstant.AccountStatus.ACCOUNT_INVITATION);
+		registrationRequest.setStatus(status);
 		registrationRequest.setRegistrationToken(userInvitationRequestDTO.getToken());
 		registrationRequest.setCompanyName(userInvitationRequestDTO.getCompanyName());
 		registrationRequest.setCompanyAddress1(userInvitationRequestDTO.getCompanyAddress1());

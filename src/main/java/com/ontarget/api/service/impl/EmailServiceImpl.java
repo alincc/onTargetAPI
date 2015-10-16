@@ -189,7 +189,7 @@ public class EmailServiceImpl implements EmailService {
 					assigneeUser.setContact(getContactDetails(assigneeUser.getUserId()));
 
 					MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
-                    message.setFrom(new InternetAddress(OnTargetConstant.EmailServiceConstants.EMAIL_FROM));
+					message.setFrom(new InternetAddress(OnTargetConstant.EmailServiceConstants.EMAIL_FROM));
 					message.setTo(assigneeUser.getContact().getEmail());
 					message.setSubject(OnTargetConstant.EmailServiceConstants.TASK_ASSIGNED_SUBJECT);
 					message.setSentDate(new Date());
@@ -348,7 +348,7 @@ public class EmailServiceImpl implements EmailService {
 	 */
 	@Override
 	public boolean sendUserRegistrationEmail(String userEmail, String tokenId, String receiverFirstName, String senderFirstName,
-			String senderLastName, ProjectInfo projectInfo) {
+			String senderLastName, String projectName) {
 		try {
 			MimeMessagePreparator preparator = new MimeMessagePreparator() {
 				@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -356,7 +356,8 @@ public class EmailServiceImpl implements EmailService {
 					MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
 					message.setTo(userEmail);
 
-                    String emailFrom = new StringBuilder().append(senderFirstName).append(" ").append(senderLastName).append(OnTargetConstant.EmailServiceConstants.EMAIL_FROM).toString();
+					String emailFrom = new StringBuilder().append(senderFirstName).append(" ").append(senderLastName)
+							.append(OnTargetConstant.EmailServiceConstants.EMAIL_FROM).toString();
 					message.setFrom(new InternetAddress(emailFrom));
 					message.setSubject(OnTargetConstant.EmailServiceConstants.USER_INVITE_TO_COLLABORATE);
 					message.setSentDate(new Date());
@@ -369,9 +370,59 @@ public class EmailServiceImpl implements EmailService {
 					}
 					model.put("receiverFirstName", receiverFirstName);
 					model.put("url", baseUrl + OnTargetConstant.URL.SIGNUP_URL + "?q=" + tokenId);
-					model.put("projectName", projectInfo.getProjectName());
+					model.put("projectName", projectName);
 
 					String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "/template/registrationRequestsApproval.vm",
+							"UTF-8", model);
+					message.setText(text, true);
+				}
+			};
+			javaMailSender.send(preparator);
+		} catch (Exception e) {
+			logger.error("Unable to send assigneeUser registration email.", e);
+		}
+
+		return true;
+	}
+	
+	
+	/**
+	 * Invite user into project email.
+	 * 
+	 * @param userEmail
+	 * @param tokenId
+	 * @param receiverFirstName
+	 * @param senderFirstName
+	 * @param senderLastName
+	 * @return
+	 */
+	@Override
+	public boolean sendInviteUserToProjectEmail(String userEmail, String tokenId, String receiverFirstName, String senderFirstName,
+			String senderLastName, String projectName) {
+		try {
+			MimeMessagePreparator preparator = new MimeMessagePreparator() {
+				@SuppressWarnings({ "rawtypes", "unchecked" })
+				public void prepare(MimeMessage mimeMessage) throws Exception {
+					MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
+					message.setTo(userEmail);
+
+					String emailFrom = new StringBuilder().append(senderFirstName).append(" ").append(senderLastName)
+							.append(OnTargetConstant.EmailServiceConstants.EMAIL_FROM).toString();
+					message.setFrom(new InternetAddress(emailFrom));
+					message.setSubject(OnTargetConstant.EmailServiceConstants.USER_INVITE_TO_COLLABORATE);
+					message.setSentDate(new Date());
+
+					Map model = new HashMap();
+					if (senderFirstName != null && senderFirstName.trim().length() > 0) {
+						model.put("senderName", senderFirstName + " " + senderLastName);
+					} else {
+						model.put("senderName", OnTargetConstant.EmailServiceConstants.EMAIL_FROM);
+					}
+					model.put("receiverFirstName", receiverFirstName);
+					model.put("url", baseUrl + OnTargetConstant.URL.INVITE_TO_PROJECT_URL + "?q=" + tokenId);
+					model.put("project", projectName);
+
+					String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "/template/inviteUserIntoProject.vm",
 							"UTF-8", model);
 					message.setText(text, true);
 				}
@@ -401,7 +452,7 @@ public class EmailServiceImpl implements EmailService {
 					public void prepare(MimeMessage mimeMessage) throws Exception {
 						MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
 
-                        message.setFrom(new InternetAddress(OnTargetConstant.EmailServiceConstants.EMAIL_FROM));
+						message.setFrom(new InternetAddress(OnTargetConstant.EmailServiceConstants.EMAIL_FROM));
 						message.setSubject(OnTargetConstant.EmailServiceConstants.DOCUMENT_APPROVAL_SUBJECT);
 						message.setSentDate(new Date());
 
@@ -444,7 +495,7 @@ public class EmailServiceImpl implements EmailService {
 					assigneeUser.setContact(getContactDetails(assigneeUser.getUserId()));
 
 					MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
-                    message.setFrom(new InternetAddress(OnTargetConstant.EmailServiceConstants.EMAIL_FROM));
+					message.setFrom(new InternetAddress(OnTargetConstant.EmailServiceConstants.EMAIL_FROM));
 					message.setTo(assigneeUser.getContact().getEmail());
 					message.setSubject(OnTargetConstant.EmailServiceConstants.TASK_ASSIGNED_SUBJECT);
 					message.setSentDate(new Date());

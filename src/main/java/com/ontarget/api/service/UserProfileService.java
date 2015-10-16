@@ -10,6 +10,8 @@ import com.ontarget.dto.UserInvitationRequestDTO;
 import com.ontarget.dto.UserProfileRequest;
 import com.ontarget.dto.UserProfileResponse;
 import com.ontarget.dto.UserResponse;
+import com.ontarget.entities.Email;
+import com.ontarget.entities.RegistrationRequest;
 import com.ontarget.request.bean.CompanyInfoEditRequest;
 import com.ontarget.request.bean.UpdateUserProfileRequest;
 import com.ontarget.request.bean.UserInfo;
@@ -26,7 +28,7 @@ public interface UserProfileService {
 
 	public boolean changeUserPassword(Integer userId, String newPassword, String currentPassword) throws Exception;
 
-	public boolean saveRegistration(UserInvitationRequestDTO request) throws Exception;
+	public boolean saveRegistration(UserInvitationRequestDTO request, String status) throws Exception;
 
 	public Contact getContact(long userId) throws Exception;
 
@@ -51,8 +53,14 @@ public interface UserProfileService {
 	public int generateUserId() throws Exception;
 
 	public OnTargetResponse updateCompanyInfo(CompanyInfoEditRequest request) throws Exception;
-	
+
 	public UserResponse getUserDetails(UserInfo request) throws Exception;
-	
+
 	public com.ontarget.response.bean.UserProfileResponse getUserProfileInfo(int userId) throws Exception;
+
+	public Email findEmailByEmailAddres(String emailAddress) throws Exception;
+
+	public boolean assignProjectToMember(RegistrationRequest registrationRequest) throws Exception;
+	
+	public RegistrationRequest findRegistrationRequestByToken(String token) throws Exception;
 }

@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.ontarget.bean.Contact;
 import com.ontarget.bean.DocumentDTO;
-import com.ontarget.bean.ProjectInfo;
 import com.ontarget.bean.ProjectTaskInfo;
 import com.ontarget.request.bean.Assignee;
 
@@ -24,7 +23,7 @@ public interface EmailService {
 	public boolean sendUserRequestEmailToAdmin();
 
 	public boolean sendUserRegistrationEmail(String userEmail, String tokenId, String receiverFirstName, String senderFirstName,
-			String senderLastName, ProjectInfo projectInfo) throws Exception;
+			String senderLastName, String projectName) throws Exception;
 
 	public boolean sendDocumentAssignmentEmails(DocumentDTO document, List<Assignee> assignees);
 
@@ -35,5 +34,8 @@ public interface EmailService {
 	public void sendForgotPasswordEmail(String emailAddress, String name, String forgotPasswordToken);
 
 	public boolean sendInvitationEmailForRegistration(int userRequestId);
+
+	public boolean sendInviteUserToProjectEmail(String userEmail, String tokenId, String receiverFirstName, String senderFirstName,
+			String senderLastName, String projectName);
 
 }

@@ -80,6 +80,13 @@ public interface OnTargetConstant {
 		public static final String ACCOUNT_INVITATION = "ACCT_INVITE";
 		public static final String ACCT_NEW = "ACCT_NEW";
 	}
+	
+	public interface RegistrationRequestStatus{
+		public static final String PENDING = "PENDING";
+		public static final String ACCT_INVITE = "ACCT_INVITE";
+		public static final String ACCT_NEW = "ACCT_NEW";
+		public static final String PROJECT_MEMBER_INVITE = "PROJECT_MEMBER_INVITE";
+	}
 
 	public interface CompanyStatus {
 		public static final String STATUS = "ACTIVE";
@@ -143,6 +150,7 @@ public interface OnTargetConstant {
 	public interface URL {
 		public static final String forgotPasswordUrl = "/#/pages/reset-password";
 		public static final String SIGNUP_URL = "/#/pages/signup";
+		public static final String INVITE_TO_PROJECT_URL = "/#/pages/invite-to-project";
 
 	}
 

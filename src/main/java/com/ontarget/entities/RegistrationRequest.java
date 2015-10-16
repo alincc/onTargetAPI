@@ -43,7 +43,7 @@ public class RegistrationRequest implements Serializable {
 	private String phoneNumber;
 	@Column(name = "msg", columnDefinition = "TEXT")
 	private String msg;
-	@Column(name = "status", length = 20)
+	@Column(name = "status", length = 25)
 	private String status;
 	@Basic(optional = false)
 	@Column(name = "ts_create", nullable = false)

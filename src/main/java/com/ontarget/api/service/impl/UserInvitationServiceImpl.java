@@ -11,6 +11,7 @@ import com.ontarget.api.dao.UserInvitationDAO;
 import com.ontarget.api.service.UserInvitationService;
 import com.ontarget.dto.UserInvitationApprovalResponse;
 import com.ontarget.dto.UserInvitationRequestDTO;
+import com.ontarget.entities.RegistrationRequest;
 import com.ontarget.entity.pojo.RegistrationRequestResponseDTO;
 
 @Service
@@ -42,6 +43,16 @@ public class UserInvitationServiceImpl implements UserInvitationService {
 	@Override
 	public RegistrationRequestResponseDTO getRequestByToken(String token) throws Exception {
 		return userInvitationDAO.findRequestByToken(token);
+	}
+
+	@Override
+	public RegistrationRequest findRecentRegRequestByEmail(String email) {
+		return userInvitationDAO.findRecentRegRequestByEmail(email);
+	}
+	
+	@Override
+	public RegistrationRequest findRecentRegRequestByEmailAndProjectId(String email,Integer projectId) {
+		return userInvitationDAO.findRecentRegRequestByEmailAndProjectId(email, projectId);
 	}
 
 	@Override

@@ -17,14 +17,18 @@ import org.springframework.stereotype.Component;
 
 import com.ontarget.api.service.EmailService;
 import com.ontarget.api.service.ProjectService;
+import com.ontarget.api.service.UserInvitationService;
 import com.ontarget.api.service.UserProfileService;
 import com.ontarget.bean.Contact;
-import com.ontarget.bean.ProjectInfo;
 import com.ontarget.bean.UserRegistration;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.UserInvitationRequestDTO;
 import com.ontarget.dto.UserInviteResponse;
+import com.ontarget.entities.Email;
+import com.ontarget.entities.Project;
+import com.ontarget.entities.RegistrationRequest;
+import com.ontarget.request.bean.AssignUserToProjectRequest;
 import com.ontarget.request.bean.InviteUserIntoProjectRequest;
 import com.ontarget.request.bean.UserSignupRequest;
 import com.ontarget.util.ConvertPOJOUtils;
@@ -50,38 +54,102 @@ public class UserRegistrationImpl implements com.ontarget.api.rs.UserRegistratio
 	@Autowired
 	private ProjectService projectService;
 
+	@Autowired
+	private UserInvitationService userInvitationService;
+
 	@Override
 	@POST
 	@Path("/inviteUserIntoProject")
-	public OnTargetResponse inviteUserIntoProject(InviteUserIntoProjectRequest inviteUserIntoProjectRequest) {
-
-		Integer projectId = inviteUserIntoProjectRequest.getProjectId();
-		String firstName = inviteUserIntoProjectRequest.getFirstName();
-		String lastName = inviteUserIntoProjectRequest.getLastName();
-		String email = inviteUserIntoProjectRequest.getEmail();
+	public OnTargetResponse inviteUserIntoProject(InviteUserIntoProjectRequest request) {
+		logger.info("Inviting user into project id: " + request.getProjectId() + ", invited email: " + request.getEmail());
+		Integer projectId = request.getProjectId();
+		String firstName = request.getFirstName();
+		String lastName = request.getLastName();
+		String email = request.getEmail();
 		OnTargetResponse response = new OnTargetResponse();
 		if (projectId > 0) {
-			logger.info("This is first name " + firstName + " last name " + lastName + " and email" + email);
-
-			final String tokenId = Security.generateRandomValue(OnTargetConstant.TOKEN_LENGTH);
+			logger.info("first name " + firstName + " last name " + lastName + " and email" + email + ", project id " + projectId);
 
 			try {
-				UserInvitationRequestDTO userInvitationRequestDTO = ConvertPOJOUtils.convertToUserInvitationDTO(
-						inviteUserIntoProjectRequest, tokenId);
+				Email emailEntity = userProfileService.findEmailByEmailAddres(email);
+				logger.debug("email entity for email address: " + email);
 
-				if (userProfileService.saveRegistration(userInvitationRequestDTO)) {
+				boolean signup = true;
+
+				if (emailEntity == null) {
+					/** new signup user **/
+
+					RegistrationRequest registrationRequest = userInvitationService.findRecentRegRequestByEmail(email);
+					logger.info("registration request by email: " + registrationRequest);
+
+					if (registrationRequest != null) {
+						if (System.currentTimeMillis() - registrationRequest.getTsCreate().getTime() <= OnTargetConstant.TOKEN_MAX_LIFE) {
+							response.setReturnVal(OnTargetConstant.ERROR);
+							response.setReturnMessage("User with provided email address is already invited");
+							return response;
+						}
+					}
+				} else {
+					/** project member invite request **/
+					signup = false;
+
+					/**
+					 * already registered user so let's check if user with
+					 * provided email is already invited to the project
+					 * 
+					 */
+					RegistrationRequest registrationRequestWithProjectId = userInvitationService.findRecentRegRequestByEmailAndProjectId(
+							email, projectId);
+					logger.info("registration request with project id: " + registrationRequestWithProjectId);
+
+					if (registrationRequestWithProjectId != null) {
+
+						if (registrationRequestWithProjectId.getUserId() == null) {
+							/**
+							 * user is not assigned to project yet and waiting
+							 * for approval from user
+							 *
+							 */
+							if (System.currentTimeMillis() - registrationRequestWithProjectId.getTsCreate().getTime() <= OnTargetConstant.TOKEN_MAX_LIFE) {
+								response.setReturnVal(OnTargetConstant.ERROR);
+								response.setReturnMessage("User has been already invited to the project and waiting for approval from user");
+								return response;
+							}
+
+						} else {
+							response.setReturnVal(OnTargetConstant.ERROR);
+							response.setReturnMessage("User is already a member of invited project");
+							return response;
+						}
+					}
+				}
+
+				final String tokenId = Security.generateRandomValue(OnTargetConstant.TOKEN_LENGTH);
+
+				UserInvitationRequestDTO userInvitationRequestDTO = ConvertPOJOUtils.convertToUserInvitationDTO(request, tokenId);
+
+				String status = signup ? OnTargetConstant.RegistrationRequestStatus.ACCT_INVITE
+						: OnTargetConstant.RegistrationRequestStatus.PROJECT_MEMBER_INVITE;
+				logger.debug("status for registration request: " + status);
+
+				if (userProfileService.saveRegistration(userInvitationRequestDTO, status)) {
 					response.setReturnVal(OnTargetConstant.SUCCESS);
 					response.setReturnMessage(OnTargetConstant.SUCCESSFULLY_REGISTERED);
 
-					String senderFirstName = "";
-					String senderLastName = "";
-					ProjectInfo res = projectService.getProject(projectId);
+					Project project = projectService.findProjectById(projectId);
+					logger.info("project name: "+project.getProjectName());
 
-					Contact c = userProfileService.getContact(inviteUserIntoProjectRequest.getBaseRequest().getLoggedInUserId());
-					senderFirstName = c.getFirstName();
-					senderLastName = c.getLastName();
+					Contact contact = userProfileService.getContact(request.getBaseRequest().getLoggedInUserId());
+					String senderFirstName = contact.getFirstName();
+					String senderLastName = contact.getLastName();
 
-					emailService.sendUserRegistrationEmail(email, tokenId, firstName, senderFirstName, senderLastName, res);
+					if (signup) {
+						emailService.sendUserRegistrationEmail(email, tokenId, firstName, senderFirstName, senderLastName,
+								project.getProjectName());
+					} else {
+						emailService.sendInviteUserToProjectEmail(email, tokenId, firstName, senderFirstName, senderLastName,
+								project.getProjectName());
+					}
 					response.setReturnMessage("Email sent. Please check mail");
 					response.setReturnVal(OnTargetConstant.SUCCESS);
 				} else {
@@ -172,6 +240,48 @@ public class UserRegistrationImpl implements com.ontarget.api.rs.UserRegistratio
 			logger.error("Error while activating account.");
 			response.setReturnMessage("Error while activating account");
 			response.setReturnVal(OnTargetConstant.ERROR);
+		}
+		return response;
+	}
+
+	@Override
+	@POST
+	@Path("/assignInvitedProjectToMember")
+	public OnTargetResponse assignInvitedProjectToMember(AssignUserToProjectRequest request) {
+		logger.info("Assigning invited project to member: token " + request.getToken());
+		OnTargetResponse response = new OnTargetResponse();
+		try {
+			RegistrationRequest registrationRequest = userProfileService.findRegistrationRequestByToken(request.getToken());
+
+			logger.debug("registration request: " + registrationRequest);
+
+			if (registrationRequest == null) {
+				response.setReturnVal(OnTargetConstant.ERROR);
+				response.setReturnMessage("Not a valid request");
+				return response;
+			}
+
+			if (System.currentTimeMillis() - registrationRequest.getTsCreate().getTime() > OnTargetConstant.TOKEN_MAX_LIFE) {
+				response.setReturnVal(OnTargetConstant.ERROR);
+				response.setReturnMessage("expired link. Please try with new link");
+				return response;
+			}
+
+			boolean success = userProfileService.assignProjectToMember(registrationRequest);
+
+			logger.debug("success: " + success);
+
+			if (success) {
+				response.setReturnVal(OnTargetConstant.SUCCESS);
+				response.setReturnMessage("You have been successfully added to the invited project.");
+			} else {
+				response.setReturnVal(OnTargetConstant.ERROR);
+				response.setReturnMessage("Adding user into project has been failed.");
+			}
+		} catch (Exception e) {
+			logger.error("Error assigning project to member:  " + e);
+			response.setReturnVal(OnTargetConstant.ERROR);
+			response.setReturnMessage("Error while assigning project to member");
 		}
 		return response;
 	}

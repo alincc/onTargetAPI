@@ -653,4 +653,9 @@ public class ProjectServiceImpl implements ProjectService {
 			return false;
 		}
 	}
+
+	@Override
+	public com.ontarget.entities.Project findProjectById(int projectId) throws Exception {
+		return projectDAO.findProjectById(projectId);
+	}
 }

@@ -8,6 +8,7 @@ import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.ProjectListResponse;
 import com.ontarget.dto.ProjectMemberListResponse;
 import com.ontarget.dto.UserProjectListResponse;
+import com.ontarget.entities.Project;
 import com.ontarget.request.bean.ActivityRequest;
 import com.ontarget.request.bean.ProjectRequest;
 
@@ -47,4 +48,6 @@ public interface ProjectService {
 	public ProjectListResponse getUserProjectList(Integer userId) throws Exception;
 
 	public com.ontarget.response.bean.ProjectListResponse getActivityOfProject(Integer projectId) throws Exception;
+
+	public com.ontarget.entities.Project findProjectById(int projectId) throws Exception;
 }

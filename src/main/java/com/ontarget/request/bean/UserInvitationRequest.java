@@ -12,8 +12,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "firstName", "lastName", "email", "phoneNumber", "msg", "companyName", "companyAddress1",
-		"companyAddress2", "companyCity", "companyState", "companyZip", "companyCountry" })
+@JsonPropertyOrder({ "firstName", "lastName", "email", "phoneNumber", "msg", "companyName", "companyAddress1", "companyAddress2",
+		"companyCity", "companyState", "companyZip", "companyCountry" })
 public class UserInvitationRequest {
 	@NotEmpty
 	@JsonProperty("firstName")

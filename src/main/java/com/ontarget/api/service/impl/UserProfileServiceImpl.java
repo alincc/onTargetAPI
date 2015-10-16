@@ -21,9 +21,11 @@ import com.ontarget.api.dao.UserDAO;
 import com.ontarget.api.dao.UserInvitationDAO;
 import com.ontarget.api.dao.UserRegistrationDAO;
 import com.ontarget.api.dao.UserSafetyInfoDAO;
+import com.ontarget.api.repository.EmailRepository;
 import com.ontarget.api.repository.ProfileFeatureRepository;
 import com.ontarget.api.repository.ProfileMenuRepository;
 import com.ontarget.api.repository.ProfileRepository;
+import com.ontarget.api.repository.RegistrationRequestRepository;
 import com.ontarget.api.repository.UserProfileRepository;
 import com.ontarget.api.service.EmailService;
 import com.ontarget.api.service.UserProfileService;
@@ -48,6 +50,7 @@ import com.ontarget.entities.Email;
 import com.ontarget.entities.Profile;
 import com.ontarget.entities.ProfileFeature;
 import com.ontarget.entities.ProfileMenu;
+import com.ontarget.entities.RegistrationRequest;
 import com.ontarget.entities.User;
 import com.ontarget.entities.UserProfile;
 import com.ontarget.request.bean.CompanyEditInfo;
@@ -119,6 +122,10 @@ public class UserProfileServiceImpl implements UserProfileService {
 	private ProfileMenuRepository profileMenuRepository;
 	@Autowired
 	private ProfileFeatureRepository profileFeatureRepository;
+	@Autowired
+	private EmailRepository emailRepository;
+	@Autowired
+	private RegistrationRequestRepository registrationRequestRepository;
 
 	private Random random = new Random();
 
@@ -318,8 +325,8 @@ public class UserProfileServiceImpl implements UserProfileService {
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
-	public boolean saveRegistration(UserInvitationRequestDTO request) throws Exception {
-		return userRegistrationDAO.saveRegistrationInvitation(request);
+	public boolean saveRegistration(UserInvitationRequestDTO request, String status) throws Exception {
+		return userRegistrationDAO.saveRegistrationInvitation(request, status);
 	}
 
 	public UserRegistration getRegistration(String token) throws Exception {
@@ -509,9 +516,9 @@ public class UserProfileServiceImpl implements UserProfileService {
 	@Override
 	public com.ontarget.response.bean.UserProfileResponse getUserProfileInfo(int userId) throws Exception {
 		com.ontarget.response.bean.UserProfileResponse response = new com.ontarget.response.bean.UserProfileResponse();
-        logger.debug("Getting user profile info for user: "+ userId);
+		logger.debug("Getting user profile info for user: " + userId);
 		UserProfile userProfile = userProfileRepository.getUserProfielbyUserId(userId);
-        logger.debug("Getting user profile info for user: "+ userProfile);
+		logger.debug("Getting user profile info for user: " + userProfile);
 		Profile profile = userProfile.getProfile();
 		logger.debug("profile id: " + profile.getProfileId());
 
@@ -550,5 +557,34 @@ public class UserProfileServiceImpl implements UserProfileService {
 		response.setReturnMessage("Successfully retrieved user profile details");
 		response.setReturnVal(OnTargetConstant.SUCCESS);
 		return response;
+	}
+
+	@Override
+	public Email findEmailByEmailAddres(String emailAddress) throws Exception {
+		return emailRepository.getByEmailAddress(emailAddress);
+	}
+
+	@Override
+	public RegistrationRequest findRegistrationRequestByToken(String token) throws Exception {
+		return registrationRequestRepository.findByRegistrationToken(token);
+	}
+
+	@Override
+	public boolean assignProjectToMember(RegistrationRequest registrationRequest) throws Exception {
+		logger.info("Adding user into invited project");
+
+		User user = userDAO.findUserByEmailAddress(registrationRequest.getEmail());
+		logger.debug("user: " + user);
+
+		if (user == null) {
+			return false;
+		}
+
+		int added = projectDAO.addMemberToProject(registrationRequest.getProjectId(), user.getUserId());
+		logger.debug("added: " + added);
+		if (added <= 0) {
+			throw new Exception("Error while adding project member");
+		}
+		return true;
 	}
 }

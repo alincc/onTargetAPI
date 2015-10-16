@@ -11,7 +11,7 @@ import com.ontarget.request.bean.UserSignupRequest;
  */
 public interface UserRegistrationDAO {
 
-	public boolean saveRegistrationInvitation(UserInvitationRequestDTO userInvitationRequestDTO) throws Exception;
+	public boolean saveRegistrationInvitation(UserInvitationRequestDTO userInvitationRequestDTO,String status) throws Exception;
 
 	public UserRegistration getInvitationRegistration(String tokenId) throws Exception;
 
