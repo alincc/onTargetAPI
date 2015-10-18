@@ -60,6 +60,12 @@ public class MessageTemplateConfig {
 	@Value("${onfile.status.change.notification}")
 	private String onFileStatusChangeTemplate;
 
+	@Value("${onfile.rfi.reply.notification}")
+	private String onFileRFIReplyTemplate;
+
+	@Value("${onfile.rfi.close.notification}")
+	private String onFileRFICloseTemplate;
+
 	public String getTaskStatusChangeTemplate() {
 		return taskStatusChangeTemplate;
 	}
@@ -128,4 +134,11 @@ public class MessageTemplateConfig {
 		return onFileStatusChangeTemplate;
 	}
 
+	public String getOnFileRFIReplyTemplate() {
+		return onFileRFIReplyTemplate;
+	}
+
+	public String getOnFileRFICloseTemplate() {
+		return onFileRFICloseTemplate;
+	}
 }

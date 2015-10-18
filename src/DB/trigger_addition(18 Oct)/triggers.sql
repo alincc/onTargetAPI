@@ -96,15 +96,7 @@ DELIMITER $$
 		VALUES('UPDATE','DOCUMENT_STATUS',NEW.modified_by,projectId,NOW());
 			
 		SET activityLogId = LAST_INSERT_ID();
-			
-		INSERT INTO notification(ACTION,notification_type,project_id,ts_insert)
-		VALUES('UPDATE','DOCUMENT_STATUS',projectId,NOW());
-			
-		SET notificationId = LAST_INSERT_ID();
-				
-		INSERT INTO user_notification(STATUS,notification_id,user_id)
-		VALUES('NEW',notificationId,NEW.modified_by);
-			
+		
 		INSERT INTO activity_log_attribute(attribute_key,attribute_value,activity_log_id)
 		VALUES('documentId',documentId,activityLogId);
 			
@@ -113,6 +105,14 @@ DELIMITER $$
 		
 		INSERT INTO activity_log_attribute(attribute_key,attribute_value,activity_log_id)
 		VALUES('status',NEW.status,activityLogId);
+			
+		INSERT INTO notification(ACTION,notification_type,project_id,ts_insert)
+		VALUES('UPDATE','DOCUMENT_STATUS',projectId,NOW());
+			
+		SET notificationId = LAST_INSERT_ID();
+				
+		INSERT INTO user_notification(STATUS,notification_id,user_id)
+		VALUES('NEW',notificationId,NEW.modified_by);
 		
 		INSERT INTO notification_attribute(attribute_key,attribute_value,notification_id)
 		VALUES('documentId',documentId,notificationId);
@@ -135,20 +135,6 @@ DELIMITER $$
 					IF done THEN
 						LEAVE cursor_loop;
 					END IF;
-					
-						INSERT INTO activity_log(ACTION,activity_type,user_id,project_id,ts_insert)
-						VALUES('UPDATE','DOCUMENT_STATUS',assignedTo,projectId,NOW());
-					
-						SET activityLogId = LAST_INSERT_ID();
-						
-						INSERT INTO activity_log_attribute(attribute_key,attribute_value,activity_log_id)
-						VALUES('documentId',documentId,activityLogId);
-					
-						INSERT INTO activity_log_attribute(attribute_key,attribute_value,activity_log_id)
-						VALUES('userId',NEW.modified_by,activityLogId);
-				
-						INSERT INTO activity_log_attribute(attribute_key,attribute_value,activity_log_id)
-						VALUES('status',NEW.status,activityLogId);
 					
 						INSERT INTO notification(ACTION,notification_type,project_id,ts_insert)
 						VALUES('UPDATE','DOCUMENT_STATUS',projectId,NOW());
@@ -183,6 +169,188 @@ END */$$
 
 DELIMITER ;
 
+/* Trigger structure for table `document_response` */
+
+DELIMITER $$
+
+/*!50003 DROP TRIGGER*//*!50032 IF EXISTS */ /*!50003 `document_response_after_insert` */$$
+
+/*!50003 CREATE */ /*!50017 DEFINER = 'root'@'localhost' */ /*!50003 TRIGGER `document_response_after_insert` AFTER INSERT ON `document_response` FOR EACH ROW BEGIN
+	
+	DECLARE notificationId BIGINT;
+	DECLARE activityLogId BIGINT;
+	DECLARE documentId INT(10);
+	DECLARE projectId INT(10);
+	DECLARE creatorId INT(10);
+	DECLARE done INT DEFAULT FALSE;
+	DECLARE assignedTo BIGINT;
+	
+	DECLARE assigneeCursor CURSOR FOR SELECT assignee_user_id FROM document_submittal WHERE document_id=NEW.document_id;
+	DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+	
+	SET documentId 	= NEW.document_id;
+	
+	SET projectId = (SELECT project_id FROM  document WHERE document_id= NEW.document_id);    
+	SET creatorId = (SELECT created_by FROM document where document_id = NEW.document_id);
+	
+	INSERT INTO activity_log(action,activity_type,user_id,project_id,ts_insert)
+	VALUES('CREATE','DOCUMENT_RESPONSE',creatorId,projectId,NOW());
+		
+	SET activityLogId = LAST_INSERT_ID();
+		
+	INSERT INTO notification(action,notification_type,project_id,ts_insert)
+	VALUES('CREATE','DOCUMENT_RESPONSE',projectId,NOW());
+		
+	SET notificationId = LAST_INSERT_ID();
+			
+	INSERT INTO user_notification(status,notification_id,user_id)
+	VALUES('NEW',notificationId,creatorId);
+		
+	INSERT INTO activity_log_attribute(attribute_key,attribute_value,activity_log_id)
+	VALUES('documentId',documentId,activityLogId);
+		
+	INSERT INTO activity_log_attribute(attribute_key,attribute_value,activity_log_id)
+	VALUES('userId',NEW.response_by,activityLogId);
+	
+	INSERT INTO notification_attribute(attribute_key,attribute_value,notification_id)
+	VALUES('documentId',documentId,notificationId);
+		
+	INSERT INTO notification_attribute(attribute_key,attribute_value,notification_id)
+	VALUES('projectId',projectId,notificationId);
+			
+	INSERT INTO notification_attribute(attribute_key,attribute_value,notification_id)
+	VALUES('userId',NEW.response_by,notificationId);
+	
+	
+	OPEN assigneeCursor;
+	    
+			    cursor_loop:REPEAT
+				
+				FETCH assigneeCursor INTO assignedTo;
+					
+					IF done THEN
+						LEAVE cursor_loop;
+					END IF;
+					
+						INSERT INTO notification(ACTION,notification_type,project_id,ts_insert)
+						VALUES('CREATE','DOCUMENT_RESPONSE',projectId,NOW());
+					
+						SET notificationId = LAST_INSERT_ID();
+						
+						INSERT INTO user_notification(STATUS,notification_id,user_id)
+						VALUES('NEW',notificationId,assignedTo);
+						
+						INSERT INTO notification_attribute(attribute_key,attribute_value,notification_id)
+						VALUES('documentId',documentId,notificationId);
+					
+						INSERT INTO notification_attribute(attribute_key,attribute_value,notification_id)
+						VALUES('projectId',projectId,notificationId);
+				
+						INSERT INTO notification_attribute(attribute_key,attribute_value,notification_id)
+						VALUES('userId',NEW.response_by,notificationId);
+						
+			    UNTIL done
+	    
+			END REPEAT;
+	    
+		CLOSE assigneeCursor;
+	
+END */$$
+
+
+DELIMITER ;
+
+/* Trigger structure for table `document_response` */
+
+DELIMITER $$
+
+/*!50003 DROP TRIGGER*//*!50032 IF EXISTS */ /*!50003 `document_response_after_update` */$$
+
+/*!50003 CREATE */ /*!50017 DEFINER = 'root'@'localhost' */ /*!50003 TRIGGER `document_response_after_update` AFTER UPDATE ON `document_response` FOR EACH ROW BEGIN
+	
+	DECLARE notificationId BIGINT;
+	DECLARE activityLogId BIGINT;
+	DECLARE documentId INT(10);
+	DECLARE projectId INT(10);
+	DECLARE creatorId INT(10);
+	DECLARE done INT DEFAULT FALSE;
+	DECLARE assignedTo BIGINT;
+	
+	DECLARE assigneeCursor CURSOR FOR SELECT assignee_user_id FROM document_submittal WHERE document_id=NEW.document_id;
+	DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+	
+	SET documentId 	= NEW.document_id;
+	
+	SET projectId = (SELECT project_id FROM  document WHERE document_id= NEW.document_id);    
+	SET creatorId = (SELECT created_by FROM document where document_id = NEW.document_id);
+	
+	INSERT INTO activity_log(action,activity_type,user_id,project_id,ts_insert)
+	VALUES('UPDATE','DOCUMENT_RESPONSE',creatorId,projectId,NOW());
+		
+	SET activityLogId = LAST_INSERT_ID();
+		
+	INSERT INTO notification(action,notification_type,project_id,ts_insert)
+	VALUES('UPDATE','DOCUMENT_RESPONSE',projectId,NOW());
+		
+	SET notificationId = LAST_INSERT_ID();
+			
+	INSERT INTO user_notification(status,notification_id,user_id)
+	VALUES('NEW',notificationId,creatorId);
+		
+	INSERT INTO activity_log_attribute(attribute_key,attribute_value,activity_log_id)
+	VALUES('documentId',documentId,activityLogId);
+		
+	INSERT INTO activity_log_attribute(attribute_key,attribute_value,activity_log_id)
+	VALUES('userId',NEW.response_modified_by,activityLogId);
+	
+	INSERT INTO notification_attribute(attribute_key,attribute_value,notification_id)
+	VALUES('documentId',documentId,notificationId);
+		
+	INSERT INTO notification_attribute(attribute_key,attribute_value,notification_id)
+	VALUES('projectId',projectId,notificationId);
+			
+	INSERT INTO notification_attribute(attribute_key,attribute_value,notification_id)
+	VALUES('userId',NEW.response_modified_by,notificationId);
+	
+	
+	OPEN assigneeCursor;
+	    
+			    cursor_loop:REPEAT
+				
+				FETCH assigneeCursor INTO assignedTo;
+					
+					IF done THEN
+						LEAVE cursor_loop;
+					END IF;
+					
+						INSERT INTO notification(ACTION,notification_type,project_id,ts_insert)
+						VALUES('UPDATE','DOCUMENT_RESPONSE',projectId,NOW());
+					
+						SET notificationId = LAST_INSERT_ID();
+						
+						INSERT INTO user_notification(STATUS,notification_id,user_id)
+						VALUES('NEW',notificationId,assignedTo);
+						
+						INSERT INTO notification_attribute(attribute_key,attribute_value,notification_id)
+						VALUES('documentId',documentId,notificationId);
+					
+						INSERT INTO notification_attribute(attribute_key,attribute_value,notification_id)
+						VALUES('projectId',projectId,notificationId);
+				
+						INSERT INTO notification_attribute(attribute_key,attribute_value,notification_id)
+						VALUES('userId',NEW.response_modified_by,notificationId);
+						
+			    UNTIL done
+	    
+			END REPEAT;
+	    
+		CLOSE assigneeCursor;
+	
+END */$$
+
+
+DELIMITER ;
+
 /* Trigger structure for table `document_submittal` */
 
 DELIMITER $$
@@ -198,12 +366,7 @@ DELIMITER $$
 	
 	SET projectId		= (SELECT project_id FROM document WHERE document_id=NEW.document_id);
 	SET documentId 	= NEW.document_id;
-		
-	INSERT INTO activity_log(ACTION,activity_type,user_id,project_id,ts_insert)
-	VALUES('CREATE','DOCUMENT',NEW.assignee_user_id,projectId,NOW());
-		
-	SET activityLogId = LAST_INSERT_ID();
-		
+			
 	INSERT INTO notification(ACTION,notification_type,project_id,ts_insert)
 	VALUES('CREATE','DOCUMENT',projectId,NOW());
 		
@@ -211,12 +374,6 @@ DELIMITER $$
 			
 	INSERT INTO user_notification(STATUS,notification_id,user_id)
 	VALUES('NEW',notificationId,NEW.assignee_user_id);
-		
-	INSERT INTO activity_log_attribute(attribute_key,attribute_value,activity_log_id)
-	VALUES('documentId',documentId,activityLogId);
-		
-	INSERT INTO activity_log_attribute(attribute_key,attribute_value,activity_log_id)
-	VALUES('userId',NEW.created_by,activityLogId);
 	
 	INSERT INTO notification_attribute(attribute_key,attribute_value,notification_id)
 	VALUES('documentId',documentId,notificationId);

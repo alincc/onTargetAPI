@@ -20,6 +20,8 @@ public class NotificationConstant {
 		public static final String taskCostUpdate = "TASK_COST_UPDATE";
 		public static final String documentCreate = "DOCUMENT_CREATE";
 		public static final String documentStatusUpdate = "DOCUMENT_STATUS_UPDATE";
+		public static final String documentResponseCreate = "DOCUMENT_RESPONSE_CREATE";
+		public static final String documentResponseUpdate = "DOCUMENT_RESPONSE_UPDATE";
 	}
 
 	public static interface NotificationKeyConstant {

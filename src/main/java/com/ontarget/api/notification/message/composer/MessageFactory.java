@@ -49,8 +49,11 @@ public class MessageFactory {
 			notificationMessageComposer = new OnFileSubmittalMessage();
 		} else if (notificationType.equalsIgnoreCase(NotificationConstant.NotificationTypeConstant.documentStatusUpdate)) {
 			notificationMessageComposer = new OnFileStatusChangeMessage();
+		} else if (notificationType.equalsIgnoreCase(NotificationConstant.NotificationTypeConstant.documentResponseCreate)) {
+			notificationMessageComposer = new DocumentResponseCreateMessage();
+		} else if (notificationType.equalsIgnoreCase(NotificationConstant.NotificationTypeConstant.documentResponseUpdate)) {
+			notificationMessageComposer = new DocumentResponseUpdateMessage();
 		}
-
 		logger.debug("composer: " + notificationMessageComposer);
 		return notificationMessageComposer;
 	}

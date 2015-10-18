@@ -14,7 +14,7 @@ import javax.validation.constraints.NotNull;
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({"baseRequest" , "documentResponseId","response"})
+@JsonPropertyOrder({"baseRequest" , "documentResponseId","response","documentId"})
 public class UpdateDocumentQuestionResponseRequest {
 
     @JsonProperty("baseRequest")

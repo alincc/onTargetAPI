@@ -55,7 +55,6 @@ public class ProjectBIMFileEndpointImpl implements ProjectBIMFileEndpoint {
 			response = new GetBIMResponse();
 			response.setReturnVal("false");
 			response.setReturnMessage("Error while fetching BIM files.");
-
 		}
 		return response;
 	}
