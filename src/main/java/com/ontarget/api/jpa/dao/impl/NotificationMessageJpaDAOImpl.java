@@ -5,10 +5,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.ontarget.api.dao.NotificationMessageDAO;
+import com.ontarget.api.repository.DocumentRepository;
 import com.ontarget.api.repository.ProjectFileRepository;
 import com.ontarget.api.repository.ProjectRepository;
 import com.ontarget.api.repository.ProjectTaskRepository;
 import com.ontarget.api.repository.UserRepository;
+import com.ontarget.entities.Document;
 import com.ontarget.entities.Project;
 import com.ontarget.entities.ProjectFile;
 import com.ontarget.entities.User;
@@ -25,6 +27,8 @@ public class NotificationMessageJpaDAOImpl implements NotificationMessageDAO {
 	private ProjectRepository projectRepository;
 	@Autowired
 	private ProjectFileRepository projectFileRepository;
+	@Autowired
+	private DocumentRepository documentRepository;
 
 	@Override
 	public User getUserById(Integer userId) {
@@ -44,6 +48,11 @@ public class NotificationMessageJpaDAOImpl implements NotificationMessageDAO {
 	@Override
 	public ProjectFile findProjectFileById(int projectFileId) {
 		return projectFileRepository.findById(projectFileId);
+	}
+
+	@Override
+	public Document findDocumentById(int documentId) {
+		return documentRepository.findByDocumentId(documentId);
 	}
 
 }

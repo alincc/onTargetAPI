@@ -18,6 +18,8 @@ public class NotificationConstant {
 		public static final String taskPercentageChangeUpdate = "TASK_PERCENTAGE_UPDATE";
 		public static final String taskCostCreate = "TASK_COST_CREATE";
 		public static final String taskCostUpdate = "TASK_COST_UPDATE";
+		public static final String documentCreate = "DOCUMENT_CREATE";
+		public static final String documentStatusUpdate = "DOCUMENT_STATUS_UPDATE";
 	}
 
 	public static interface NotificationKeyConstant {
@@ -28,15 +30,6 @@ public class NotificationConstant {
 		public static final String activityId = "activityId";
 		public static final String projectFileId = "projectFileId";
 		public static final String projectFileCommentId = "projectFileCommentId";
+		public static final String documentId = "documentId";
 	}
-
-	public static interface NotificationMessageTemplateKeyConstant {
-		public static final String user = "<user>";
-		public static final String taskStatus = "<taskStatus>";
-		public static final String taskTitle = "<taskTitle>";
-		public static final String projectTitle = "<projectTitle>";
-		public static final String activityTitle = "<activityTitle>";
-		public static final String documentName = "<documentName>";
-	}
-
 }

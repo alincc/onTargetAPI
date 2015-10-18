@@ -5,7 +5,6 @@ import java.util.Map;
 
 import com.ontarget.entities.Project;
 import com.ontarget.entities.User;
-import com.ontarget.util.FileUtils;
 import com.ontarget.util.NotificationConstant;
 
 public class ProjectCreateMessage extends MessageComposer {

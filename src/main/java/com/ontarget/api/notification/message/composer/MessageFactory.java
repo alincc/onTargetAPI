@@ -45,6 +45,10 @@ public class MessageFactory {
 			notificationMessageComposer = new TaskCostCreateMessage();
 		} else if (notificationType.equalsIgnoreCase(NotificationConstant.NotificationTypeConstant.taskCostUpdate)) {
 			notificationMessageComposer = new TaskCostUpdateMessage();
+		} else if (notificationType.equalsIgnoreCase(NotificationConstant.NotificationTypeConstant.documentCreate)) {
+			notificationMessageComposer = new OnFileSubmittalMessage();
+		} else if (notificationType.equalsIgnoreCase(NotificationConstant.NotificationTypeConstant.documentStatusUpdate)) {
+			notificationMessageComposer = new OnFileStatusChangeMessage();
 		}
 
 		logger.debug("composer: " + notificationMessageComposer);

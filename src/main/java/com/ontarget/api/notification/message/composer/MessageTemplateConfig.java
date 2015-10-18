@@ -54,6 +54,12 @@ public class MessageTemplateConfig {
 	@Value("${task.cost.update.notification}")
 	private String taskCostUpdateTemplate;
 
+	@Value("${onfile.submittal.notification}")
+	private String onFileSubmittalTemplate;
+
+	@Value("${onfile.status.change.notification}")
+	private String onFileStatusChangeTemplate;
+
 	public String getTaskStatusChangeTemplate() {
 		return taskStatusChangeTemplate;
 	}
@@ -112,6 +118,14 @@ public class MessageTemplateConfig {
 
 	public String getTaskCostUpdateTemplate() {
 		return taskCostUpdateTemplate;
+	}
+
+	public String getOnFileSubmittalTemplate() {
+		return onFileSubmittalTemplate;
+	}
+
+	public String getOnFileStatusChangeTemplate() {
+		return onFileStatusChangeTemplate;
 	}
 
 }
