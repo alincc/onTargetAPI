@@ -78,8 +78,8 @@ public class DocumentEndpointTest extends BaseTest {
 	public void updateDocumentData() {
 
 		BaseRequest baseRequest = new BaseRequest();
-		baseRequest.setLoggedInUserId(10);
-		baseRequest.setLoggedInUserProjectId(42);
+		baseRequest.setLoggedInUserId(11);
+		baseRequest.setLoggedInUserProjectId(45);
 
 		UpdateDocumentRequest request = new UpdateDocumentRequest();
 		request.setDocumentId(2);
@@ -105,11 +105,11 @@ public class DocumentEndpointTest extends BaseTest {
 
 		request.setGridKeyValues(gridKeyValues);
 
-		request.setSubmittedBy(10);
+		request.setSubmittedBy(11);
 
 		System.out.println("Client request....updateDocumentData \n");
 		System.out.println(toJsonString(request, true));
-		Response response = sendRequest("/documents", request);
+		Response response = sendRequest("/document", request);
 		if (response.getStatus() != 200) {
 			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
 		}
@@ -149,16 +149,16 @@ public class DocumentEndpointTest extends BaseTest {
 	public void getDocuments() {
 
 		BaseRequest baseRequest = new BaseRequest();
-		baseRequest.setLoggedInUserId(10);
-		baseRequest.setLoggedInUserProjectId(42);
+		baseRequest.setLoggedInUserId(11);
+		baseRequest.setLoggedInUserProjectId(45);
 
 		UserDocument request = new UserDocument();
 		request.setBaseRequest(baseRequest);
-		request.setProjectId(42);
+		request.setProjectId(45);
 
 		System.out.println("Client request....getDocuments \n");
 		System.out.println(toJsonString(request, true));
-		Response response = sendRequest("/documents/getUserDocument", request);
+		Response response = sendRequest("/document/getUserDocument", request);
 		if (response.getStatus() != 200) {
 			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
 		}
@@ -171,16 +171,16 @@ public class DocumentEndpointTest extends BaseTest {
 	@Test
 	public void getDocument() {
 		BaseRequest baseRequest = new BaseRequest();
-		baseRequest.setLoggedInUserId(10);
-		baseRequest.setLoggedInUserProjectId(42);
+		baseRequest.setLoggedInUserId(11);
+		baseRequest.setLoggedInUserProjectId(45);
 
 		DocumentDetail request = new DocumentDetail();
 		request.setBaseRequest(baseRequest);
-		request.setDcoumentId(2);
+		request.setDcoumentId(1);
 
 		System.out.println("Client request....getDocument \n");
 		System.out.println(toJsonString(request, true));
-		Response response = sendRequest("/documents/getDocument", request);
+		Response response = sendRequest("/document/getDocument", request);
 		if (response.getStatus() != 200) {
 			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
 		}
