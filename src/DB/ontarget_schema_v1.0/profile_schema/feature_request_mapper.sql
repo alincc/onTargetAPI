@@ -50,11 +50,11 @@ insert into `feature_request_mapper` (`feature_request_mapper_id`, `has_feature`
 insert into `feature_request_mapper` (`feature_request_mapper_id`, `has_feature`, `request_path`, `application_feature_id`) values('37','Y','/upload/projectFileCommentList','43');
 insert into `feature_request_mapper` (`feature_request_mapper_id`, `has_feature`, `request_path`, `application_feature_id`) values('38','Y','/uploadActivity','26');
 insert into `feature_request_mapper` (`feature_request_mapper_id`, `has_feature`, `request_path`, `application_feature_id`) values('39','Y','/project/getProjectMembers','44');
-insert into `feature_request_mapper` (`feature_request_mapper_id`, `has_feature`, `request_path`, `application_feature_id`) values('40','Y','/documents','45');
-insert into `feature_request_mapper` (`feature_request_mapper_id`, `has_feature`, `request_path`, `application_feature_id`) values('41','Y','/documents/getUserDocument','46');
-insert into `feature_request_mapper` (`feature_request_mapper_id`, `has_feature`, `request_path`, `application_feature_id`) values('42','Y','/documents/getDocument','46');
-insert into `feature_request_mapper` (`feature_request_mapper_id`, `has_feature`, `request_path`, `application_feature_id`) values('43','Y','/documents/approve','47');
-insert into `feature_request_mapper` (`feature_request_mapper_id`, `has_feature`, `request_path`, `application_feature_id`) values('44','Y','/documents/approve','48');
+insert into `feature_request_mapper` (`feature_request_mapper_id`, `has_feature`, `request_path`, `application_feature_id`) values('40','Y','/document','45');
+insert into `feature_request_mapper` (`feature_request_mapper_id`, `has_feature`, `request_path`, `application_feature_id`) values('41','Y','/document/getUserDocument','46');
+insert into `feature_request_mapper` (`feature_request_mapper_id`, `has_feature`, `request_path`, `application_feature_id`) values('42','Y','/document/getDocument','46');
+insert into `feature_request_mapper` (`feature_request_mapper_id`, `has_feature`, `request_path`, `application_feature_id`) values('43','Y','/document/status','47');
+insert into `feature_request_mapper` (`feature_request_mapper_id`, `has_feature`, `request_path`, `application_feature_id`) values('44','Y','/document/status','48');
 insert into `feature_request_mapper` (`feature_request_mapper_id`, `has_feature`, `request_path`, `application_feature_id`) values('45','Y','/task/getTaskCountsOfProject','1');
 insert into `feature_request_mapper` (`feature_request_mapper_id`, `has_feature`, `request_path`, `application_feature_id`) values('46','Y','/project/getUserProjectList','1');
 insert into `feature_request_mapper` (`feature_request_mapper_id`, `has_feature`, `request_path`, `application_feature_id`) values('47','Y','/task/getProjectTaskByMainProject','12');
@@ -64,3 +64,43 @@ insert into `feature_request_mapper` (`feature_request_mapper_id`, `has_feature`
 insert into `feature_request_mapper` (`feature_request_mapper_id`, `has_feature`, `request_path`, `application_feature_id`) values('50','Y','/notification/markAsSeen','50');
 
 insert into `feature_request_mapper` (`feature_request_mapper_id`, `has_feature`, `request_path`, `application_feature_id`) values('51','Y','/upload/getDocumentById','37');
+
+
+/*
+phase 2
+ */
+
+
+insert into `feature_request_mapper` (`feature_request_mapper_id`, `has_feature`, `request_path`, `application_feature_id`) values('52','Y','/document','51');
+insert into `feature_request_mapper` (`feature_request_mapper_id`, `has_feature`, `request_path`, `application_feature_id`) values('53','Y','/document/attachment/save','52');
+insert into `feature_request_mapper` (`feature_request_mapper_id`, `has_feature`, `request_path`, `application_feature_id`) values('54','Y','/project/file/tag/save','53');
+insert into `feature_request_mapper` (`feature_request_mapper_id`, `has_feature`, `request_path`, `application_feature_id`) values('55','Y','/project/file/tag/update','54');
+insert into `feature_request_mapper` (`feature_request_mapper_id`, `has_feature`, `request_path`, `application_feature_id`) values('56','Y','/project/file/tag/comment/add','55');
+insert into `feature_request_mapper` (`feature_request_mapper_id`, `has_feature`, `request_path`, `application_feature_id`) values('57','Y','/project/file/tag/comment/add','56');
+insert into `feature_request_mapper` (`feature_request_mapper_id`, `has_feature`, `request_path`, `application_feature_id`) values('58','Y','/project/file/tag/comment/delete','57');
+
+insert into `feature_request_mapper` (`feature_request_mapper_id`, `has_feature`, `request_path`, `application_feature_id`) values('59','Y','/bim/save','58');
+insert into `feature_request_mapper` (`feature_request_mapper_id`, `has_feature`, `request_path`, `application_feature_id`) values('60','Y','/bim/save','59');
+insert into `feature_request_mapper` (`feature_request_mapper_id`, `has_feature`, `request_path`, `application_feature_id`) values('61','Y','/bim/save','60');
+insert into `feature_request_mapper` (`feature_request_mapper_id`, `has_feature`, `request_path`, `application_feature_id`) values('62','Y','/bim/delete','61');
+insert into `feature_request_mapper` (`feature_request_mapper_id`, `has_feature`, `request_path`, `application_feature_id`) values('63','Y','/bim/getAll','62');
+insert into `feature_request_mapper` (`feature_request_mapper_id`, `has_feature`, `request_path`, `application_feature_id`) values('64','Y','/document/attachment/getAll','63');
+insert into `feature_request_mapper` (`feature_request_mapper_id`, `has_feature`, `request_path`, `application_feature_id`) values('65','Y','/document/attachment/delete','64');
+
+
+insert into `feature_request_mapper` (`feature_request_mapper_id`, `has_feature`, `request_path`, `application_feature_id`) values('66','Y','/project/file/tag/comment/list','65');
+insert into `feature_request_mapper` (`feature_request_mapper_id`, `has_feature`, `request_path`, `application_feature_id`) values('67','Y','/project/file/tag/get','66');
+insert into `feature_request_mapper` (`feature_request_mapper_id`, `has_feature`, `request_path`, `application_feature_id`) values('68','Y','/bim/updateThumbnailPath','67');
+
+
+insert into `feature_request_mapper` (`feature_request_mapper_id`, `has_feature`, `request_path`, `application_feature_id`) values('69','Y','/bim/comment/save','68');
+insert into `feature_request_mapper` (`feature_request_mapper_id`, `has_feature`, `request_path`, `application_feature_id`) values('70','Y','/bim/comment/save','69');
+insert into `feature_request_mapper` (`feature_request_mapper_id`, `has_feature`, `request_path`, `application_feature_id`) values('71','Y','/bim/comment/delete','70');
+insert into `feature_request_mapper` (`feature_request_mapper_id`, `has_feature`, `request_path`, `application_feature_id`) values('72','Y','/bim/comment/list','71');
+
+
+insert into `feature_request_mapper` (`feature_request_mapper_id`, `has_feature`, `request_path`, `application_feature_id`) values('73','Y','/document/response/save','72');
+insert into `feature_request_mapper` (`feature_request_mapper_id`, `has_feature`, `request_path`, `application_feature_id`) values('74','Y','/document/response/update','73');
+insert into `feature_request_mapper` (`feature_request_mapper_id`, `has_feature`, `request_path`, `application_feature_id`) values('75','Y','/document/response/delete','74');
+insert into `feature_request_mapper` (`feature_request_mapper_id`, `has_feature`, `request_path`, `application_feature_id`) values('76','Y','/document/response','75');
+

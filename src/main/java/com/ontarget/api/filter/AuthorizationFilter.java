@@ -41,12 +41,12 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 		logger.info("base URI:: " + request.getUriInfo().getBaseUri() + ", path:: " + request.getUriInfo().getPath() + ", http method:: "
 				+ request.getMethod());
 
-		String requestPath = request.getUriInfo().getPath();
+		String requestPath = new StringBuilder("/").append(request.getUriInfo().getPath()).toString();
 
 		String openEndpointArr[] = OnTargetConstant.OPEN_RS_ENDPOINT.split(",");
 		logger.info("open end points: " + OnTargetConstant.OPEN_RS_ENDPOINT);
 		for (String openEndpoint : openEndpointArr) {
-			if (request.getUriInfo().getPath().startsWith(openEndpoint)) {
+			if (requestPath.startsWith(openEndpoint)) {
 				return;
 			}
 		}
