@@ -6,9 +6,13 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.ontarget.api.dao.ContactDAO;
 import com.ontarget.api.service.impl.DocumentServiceImpl;
+import com.ontarget.bean.Contact;
 import com.ontarget.constant.OnTargetConstant;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import com.ontarget.api.dao.DocumentAttachmentDAO;
@@ -26,6 +30,10 @@ public class DocumentAttachmentJpaDAOImpl extends BaseGenericDAOImpl<DocumentAtt
 
 	@Resource
 	private DocumentAttachmentRepository documentAttachmentRepository;
+
+    @Autowired
+    @Qualifier("contactJpaDAOImpl")
+    private ContactDAO contactDAO;
 
 	@Override
 	public DocumentAttachmentDTO insert(DocumentAttachmentDTO documentAttachmentDTO) {
@@ -51,15 +59,19 @@ public class DocumentAttachmentJpaDAOImpl extends BaseGenericDAOImpl<DocumentAtt
 	}
 
 	@Override
-	public List<DocumentAttachmentDTO> getByDocumentId(long documentId) {
+	public List<DocumentAttachmentDTO> getByDocumentId(long documentId) throws Exception{
 		List<DocumentAttachment> documentAttachments = documentAttachmentRepository.findByDocumentId((int) documentId);
 
 		List<DocumentAttachmentDTO> documentAttachmentDTOList = new ArrayList<DocumentAttachmentDTO>();
 		if (documentAttachments != null && !documentAttachments.isEmpty()) {
 			for (DocumentAttachment documentAttachment : documentAttachments) {
 				DocumentAttachmentDTO documentAttachmentDTO = new DocumentAttachmentDTO();
-				documentAttachment.setDocumentAttachmentId(documentAttachment.getDocumentAttachmentId());
-				documentAttachment.setFilePath(documentAttachment.getFilePath());
+                documentAttachmentDTO.setDocumentAttachmentId(documentAttachment.getDocumentAttachmentId());
+                documentAttachmentDTO.setFilePath(documentAttachment.getFilePath());
+
+                Contact c = contactDAO.getContact(documentAttachment.getCreatedBy().getUserId());
+                documentAttachmentDTO.setCreatedByContact(c);
+
 				documentAttachmentDTOList.add(documentAttachmentDTO);
 			}
 		}

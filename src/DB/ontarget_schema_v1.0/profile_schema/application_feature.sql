@@ -62,3 +62,24 @@ insert into `application_feature` (`application_feature_id`, `active`, `feature_
 
 insert into `application_feature` (`application_feature_id`, `active`, `feature_key`, `feature_name`) values('49','Y','VIEW_NOTIFICATION','View Notificaiton');
 insert into `application_feature` (`application_feature_id`, `active`, `feature_key`, `feature_name`) values('50','Y','MARK_NOTIFICATION_SEEN','Mark Notificaiton Seen');
+
+/*
+New changes for phase 2.
+ */
+
+insert into `application_feature` (`application_feature_id`, `active`, `feature_key`, `feature_name`) values('51','Y','ONFILE_UPDATE','OnFile UPDATE');
+insert into `application_feature` (`application_feature_id`, `active`, `feature_key`, `feature_name`) values('52','Y','ONFILE_ATTACHMENT','OnFile Attachment');
+
+insert into `application_feature` (`application_feature_id`, `active`, `feature_key`, `feature_name`) values('53','Y','ONSITE_MARKUP_TAG_ADD','OnSite Upload');
+insert into `application_feature` (`application_feature_id`, `active`, `feature_key`, `feature_name`) values('54','Y','ONSITE_MARKUP_TAG_UPDATE','OnSite Upload');
+insert into `application_feature` (`application_feature_id`, `active`, `feature_key`, `feature_name`) values('55','Y','ONSITE_MARKUP_TAG_ADD_COMMENT','OnSite Upload');
+insert into `application_feature` (`application_feature_id`, `active`, `feature_key`, `feature_name`) values('56','Y','ONSITE_MARKUP_TAG_UPDATE_COMMENT','OnSite Upload');
+insert into `application_feature` (`application_feature_id`, `active`, `feature_key`, `feature_name`) values('57','Y','ONSITE_MARKUP_TAG_DELETE_COMMENT','OnSite Upload');
+
+
+insert into `application_feature` (`application_feature_id`, `active`, `feature_key`, `feature_name`) values('58','Y','ONBIM_ADD','onBim Add');
+insert into `application_feature` (`application_feature_id`, `active`, `feature_key`, `feature_name`) values('59','Y','ONBIM_UPLOAD','onBim upload');
+insert into `application_feature` (`application_feature_id`, `active`, `feature_key`, `feature_name`) values('60','Y','ONBIM_UPDATE','onBim update');
+insert into `application_feature` (`application_feature_id`, `active`, `feature_key`, `feature_name`) values('61','Y','ONBIM_DELETE','OnFile delete');
+insert into `application_feature` (`application_feature_id`, `active`, `feature_key`, `feature_name`) values('62','Y','ONBIM_VIEW','onBim View');
+

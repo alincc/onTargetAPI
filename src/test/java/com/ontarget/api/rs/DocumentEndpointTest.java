@@ -6,19 +6,8 @@ import java.util.List;
 
 import javax.ws.rs.core.Response;
 
+import com.ontarget.request.bean.*;
 import org.junit.Test;
-
-import com.ontarget.request.bean.AddDocumentAttachment;
-import com.ontarget.request.bean.AddDocumentRequest;
-import com.ontarget.request.bean.Assignee;
-import com.ontarget.request.bean.BaseRequest;
-import com.ontarget.request.bean.DocumentDetail;
-import com.ontarget.request.bean.DocumentGridKeyValue;
-import com.ontarget.request.bean.DocumentKeyValue;
-import com.ontarget.request.bean.UpdateDocumentQuestionResponseRequest;
-import com.ontarget.request.bean.UpdateDocumentRequest;
-import com.ontarget.request.bean.UpdateDocumentStatus;
-import com.ontarget.request.bean.UserDocument;
 
 public class DocumentEndpointTest extends BaseTest {
 
@@ -193,18 +182,18 @@ public class DocumentEndpointTest extends BaseTest {
 	@Test
 	public void addDocumentAttachment() {
 		BaseRequest baseRequest = new BaseRequest();
-		baseRequest.setLoggedInUserId(10);
-		baseRequest.setLoggedInUserProjectId(42);
+		baseRequest.setLoggedInUserId(11);
+		baseRequest.setLoggedInUserProjectId(45);
 
 		AddDocumentAttachment request = new AddDocumentAttachment();
 		request.setBaseRequest(baseRequest);
-		request.setAddedBy(10);
-		request.setDocumentId(2);
+		request.setAddedBy(11);
+		request.setDocumentId(1);
 		request.setFilePath("/home/ontargetrs/sa.jpg");
 
 		System.out.println("Client request....addDocumentAttachment \n");
 		System.out.println(toJsonString(request, true));
-		Response response = sendPutRequest("/documents/attachments", request);
+		Response response = sendPutRequest("/document/attachment/save", request);
 		if (response.getStatus() != 200) {
 			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
 		}
@@ -213,6 +202,31 @@ public class DocumentEndpointTest extends BaseTest {
 		System.out.println(output);
 
 	}
+
+
+    @Test
+    public void getDocumentAttachment() {
+        BaseRequest baseRequest = new BaseRequest();
+        baseRequest.setLoggedInUserId(11);
+        baseRequest.setLoggedInUserProjectId(45);
+
+        GetDocumentAttachmentRequest request=new GetDocumentAttachmentRequest();
+        request.setDocumentId(1);
+        request.setBaseRequest(baseRequest);
+
+        System.out.println("Client request....getDocumentAttachment \n");
+        System.out.println(toJsonString(request, true));
+        Response response = sendRequest("/document/attachment/getAll", request);
+        if (response.getStatus() != 200) {
+            throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
+        }
+        String output = response.readEntity(String.class);
+        System.out.println("Server response .... \n");
+        System.out.println(output);
+
+    }
+
+
 
 	@Test
 	public void addDocumentQuestionResponse() {

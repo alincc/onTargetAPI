@@ -9,13 +9,13 @@ import javax.annotation.Generated;
 import javax.validation.constraints.NotNull;
 
 /**
- * Created by sanjeevghimire on 10/9/15.
+ * Created by sanjeevghimire on 10/20/15.
  */
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({"baseRequest" , "documentId"})
-public class GetDocumentQuestionResponseRequest {
+public class GetDocumentAttachmentRequest {
 
     @NotNull
     @JsonProperty("baseRequest")
