@@ -75,9 +75,9 @@ public class ProjectFileTaggingJPADAOTest extends BaseTest {
 	@Test
 	public void saveComment() {
 		try {
-			boolean success = projectFileTaggingDAO.saveComment(1l, "this is comment", 1l, 11);
+			ProjectFileTagComment comment = projectFileTaggingDAO.saveComment(1l, "this is comment", 1l, 11);
 
-			Assert.assertTrue(success);
+			Assert.assertTrue(comment.getProjectFileTagCommentId() > 0);
 		} catch (Exception e) {
 			logger.error("Error while add/update comment.", e);
 			fail();

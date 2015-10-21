@@ -70,11 +70,11 @@ New changes for phase 2.
 insert into `application_feature` (`application_feature_id`, `active`, `feature_key`, `feature_name`) values('51','Y','ONFILE_UPDATE','OnFile UPDATE');
 insert into `application_feature` (`application_feature_id`, `active`, `feature_key`, `feature_name`) values('52','Y','ONFILE_DOCUMENT_ATTACHMENT_UPLOAD','OnFile Attachment UPLOAD');
 
-insert into `application_feature` (`application_feature_id`, `active`, `feature_key`, `feature_name`) values('53','Y','ONSITE_MARKUP_TAG_ADD','OnSite Upload');
-insert into `application_feature` (`application_feature_id`, `active`, `feature_key`, `feature_name`) values('54','Y','ONSITE_MARKUP_TAG_UPDATE','OnSite Upload');
-insert into `application_feature` (`application_feature_id`, `active`, `feature_key`, `feature_name`) values('55','Y','ONSITE_MARKUP_TAG_ADD_COMMENT','OnSite Upload');
-insert into `application_feature` (`application_feature_id`, `active`, `feature_key`, `feature_name`) values('56','Y','ONSITE_MARKUP_TAG_UPDATE_COMMENT','OnSite Upload');
-insert into `application_feature` (`application_feature_id`, `active`, `feature_key`, `feature_name`) values('57','Y','ONSITE_MARKUP_TAG_DELETE_COMMENT','OnSite Upload');
+insert into `application_feature` (`application_feature_id`, `active`, `feature_key`, `feature_name`) values('53','Y','ONSITE_MARKUP_TAG_ADD','OnSite markup tag add');
+insert into `application_feature` (`application_feature_id`, `active`, `feature_key`, `feature_name`) values('54','Y','ONSITE_MARKUP_TAG_UPDATE','OnSite markup tag delete');
+insert into `application_feature` (`application_feature_id`, `active`, `feature_key`, `feature_name`) values('55','Y','ONSITE_MARKUP_TAG_ADD_COMMENT','OnSite markup tag comment add');
+insert into `application_feature` (`application_feature_id`, `active`, `feature_key`, `feature_name`) values('56','Y','ONSITE_MARKUP_TAG_UPDATE_COMMENT','OnSite markup tag comment update');
+insert into `application_feature` (`application_feature_id`, `active`, `feature_key`, `feature_name`) values('57','Y','ONSITE_MARKUP_TAG_DELETE_COMMENT','OnSite markup tag comment delete');
 
 
 insert into `application_feature` (`application_feature_id`, `active`, `feature_key`, `feature_name`) values('58','Y','ONBIM_ADD','onBim Add');
@@ -99,10 +99,10 @@ insert into `application_feature` (`application_feature_id`, `active`, `feature_
 insert into `application_feature` (`application_feature_id`, `active`, `feature_key`, `feature_name`) values('71','Y','ONBIM_COMMENT_VIEW','onBim comment VIEW');
 
 
-insert into `application_feature` (`application_feature_id`, `active`, `feature_key`, `feature_name`) values('72','Y','ONFILE_DOCUMENT_RESPONSE_SAVE','onBim response save');
-insert into `application_feature` (`application_feature_id`, `active`, `feature_key`, `feature_name`) values('73','Y','ONFILE_DOCUMENT_RESPONSE_UPDATE','onBim response update');
-insert into `application_feature` (`application_feature_id`, `active`, `feature_key`, `feature_name`) values('74','Y','ONFILE_DOCUMENT_RESPONSE_DELETE','onBim response delete');
-insert into `application_feature` (`application_feature_id`, `active`, `feature_key`, `feature_name`) values('75','Y','ONFILE_DOCUMENT_RESPONSE_VIEW','onBim response VIEW');
+insert into `application_feature` (`application_feature_id`, `active`, `feature_key`, `feature_name`) values('72','Y','ONFILE_DOCUMENT_RESPONSE_SAVE','onfile document response save');
+insert into `application_feature` (`application_feature_id`, `active`, `feature_key`, `feature_name`) values('73','Y','ONFILE_DOCUMENT_RESPONSE_UPDATE','onfile document response update');
+insert into `application_feature` (`application_feature_id`, `active`, `feature_key`, `feature_name`) values('74','Y','ONFILE_DOCUMENT_RESPONSE_DELETE','onfile document response delete');
+insert into `application_feature` (`application_feature_id`, `active`, `feature_key`, `feature_name`) values('75','Y','ONFILE_DOCUMENT_RESPONSE_VIEW','onfile document response VIEW');
 
 
 

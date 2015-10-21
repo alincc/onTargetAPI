@@ -81,11 +81,11 @@ public class ProjectFileTaggingJpaDAOImpl implements ProjectFileTaggingDAO {
 	@Override
 	public List<ProjectFileTag> getProjectFileTags(int projectFileId) throws Exception {
 		logger.debug("Getting tags for project file id: " + projectFileId);
-		return projectFileTagRepository.findRecentByProjectFileId(projectFileId, new PageRequest(0, 1));
+		return projectFileTagRepository.findRecentByProjectFileId(projectFileId, new PageRequest(0, 100));
 	}
 
 	@Override
-	public boolean saveComment(Long projectFileTagId, String comment, Long commentId, int userId) throws Exception {
+	public ProjectFileTagComment saveComment(Long projectFileTagId, String comment, Long commentId, int userId) throws Exception {
 		ProjectFileTagComment projectFileTagComment;
 		if (commentId != null && commentId > 0) {
 			projectFileTagComment = projectFileTagCommentRepository.findById(commentId);
@@ -99,8 +99,7 @@ public class ProjectFileTaggingJpaDAOImpl implements ProjectFileTaggingDAO {
 			projectFileTagComment.setCreatedDate(new Date());
 		}
 		projectFileTagComment.setComment(comment);
-		projectFileTagCommentRepository.save(projectFileTagComment);
-		return true;
+		return projectFileTagCommentRepository.save(projectFileTagComment);
 	}
 
 	@Override
