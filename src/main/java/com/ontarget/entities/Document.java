@@ -45,7 +45,7 @@ public class Document implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createdDate;
 	@JoinColumn(name = "modified_by", referencedColumnName = "user_id")
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne()
 	private User modifiedBy;
 	@Basic(optional = false)
 	@Column(name = "modified_date", nullable = false)
