@@ -16,7 +16,7 @@ public interface DocumentGridKeyValueRepository extends JpaRepository<DocumentGr
 	@Query("select d from DocumentGridKeyValue d where d.document.id = ?1 and d.gridId = ?2")
 	DocumentGridKeyValue getDocumentgridKeyValuesByDocumentIdAndGridId(Integer documentId, String gridId);
 
-	@Query("select d from DocumentGridKeyValue d where d.document.id = ?1 and d.gridId = ?2 and d.gridRowIndex = ?3")
-	DocumentGridKeyValue getDocumentGridKeyValueByDocumentIdGridIdAndRowIndex(Integer documentId, String gridId, Integer gridRowIndex);
+	@Query("select d from DocumentGridKeyValue d where d.document.id = ?1 and d.gridId = ?2 and d.gridRowIndex = ?3 and d.key=?4")
+	DocumentGridKeyValue getDocumentGridKeyValueByDocumentIdGridIdAndRowIndex(Integer documentId, String gridId, Integer gridRowIndex, String key);
 
 }

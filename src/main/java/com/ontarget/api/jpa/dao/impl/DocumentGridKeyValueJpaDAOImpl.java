@@ -102,7 +102,7 @@ public class DocumentGridKeyValueJpaDAOImpl extends BaseGenericDAOImpl<DocumentG
 		// query.executeUpdate();
 
 		DocumentGridKeyValue documentGridKeyValue = documentGridKeyValueRepository
-				.getDocumentGridKeyValueByDocumentIdGridIdAndRowIndex(documentId, gridId, gridRowIndex);
+				.getDocumentGridKeyValueByDocumentIdGridIdAndRowIndex(documentId, gridId, gridRowIndex,key);
 		documentGridKeyValue.setValue(newValue);
 		documentGridKeyValue.setModifiedBy(new User(modifiedBy));
 		documentGridKeyValue.setModifiedDate(new Date());

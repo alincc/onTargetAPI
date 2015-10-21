@@ -26,7 +26,6 @@ public class UpdateDocumentRequest {
 	@JsonProperty("keyValues")
 	private List<DocumentKeyValue> keyValues;
 	@Valid
-	@NotNull
 	@Size(min = 1)
 	@JsonProperty("gridKeyValues")
 	private List<DocumentGridKeyValue> gridKeyValues;
