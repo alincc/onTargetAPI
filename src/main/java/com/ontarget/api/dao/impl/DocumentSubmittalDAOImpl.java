@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.ontarget.entities.DocumentSubmittal;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -51,7 +52,12 @@ public class DocumentSubmittalDAOImpl extends BaseGenericDAOImpl<DocumentSubmitt
 		return false;
 	}
 
-	static class DocumentSubmittalRowMapper implements RowMapper<DocumentSubmittalDTO> {
+    @Override
+    public DocumentSubmittal getDocumentSubmittalByDocumentId(int documentId) {
+        return null;
+    }
+
+    static class DocumentSubmittalRowMapper implements RowMapper<DocumentSubmittalDTO> {
 		@Override
 		public DocumentSubmittalDTO mapRow(ResultSet rs, int index) throws SQLException {
 			DocumentSubmittalDTO docSub = new DocumentSubmittalDTO();

@@ -8,6 +8,7 @@ import com.ontarget.api.dao.*;
 import com.ontarget.bean.*;
 import com.ontarget.entities.Document;
 import com.ontarget.entities.DocumentResponse;
+import com.ontarget.entities.DocumentSubmittal;
 import com.ontarget.entities.User;
 import com.ontarget.request.bean.*;
 import com.ontarget.response.bean.GetDocumentQuestionResponse;
@@ -187,6 +188,24 @@ public class DocumentServiceImpl implements DocumentService {
 				doc.setKeyValues(keyValues);
 				List<DocumentGridKeyValueDTO> gridKeyValues = documentGridKeyValueDAO.getByDocumentId(doc.getDocumentId());
 				doc.setGridKeyValues(gridKeyValues);
+
+                DocumentSubmittal documentSubmittal=documentSubmittalDAO.getDocumentSubmittalByDocumentId(doc.getDocumentId());
+                // get submitted to
+                Contact submittedTo = contactDAO.getContact(documentSubmittal.getUser().getUserId());
+                UserDTO submittedToUser=new UserDTO();
+                submittedToUser.setContact(submittedTo);
+                doc.setSubmittedTo(submittedToUser);
+
+
+                // get submitted to
+                if(doc.getModifiedBy() > 0) {
+                    Contact modifiedBy = contactDAO.getContact(doc.getModifiedBy());
+                    UserDTO modifiedByUser = new UserDTO();
+                    modifiedByUser.setContact(modifiedBy);
+                    doc.setSubmittedTo(modifiedByUser);
+
+                }
+
 			}
 
 			List<DocumentDTO> approvals = documentDAO.getByAssigneeUsername(userId, projectId);
@@ -197,6 +216,24 @@ public class DocumentServiceImpl implements DocumentService {
 				doc.setKeyValues(keyValues);
 				List<DocumentGridKeyValueDTO> gridKeyValues = documentGridKeyValueDAO.getByDocumentId(doc.getDocumentId());
 				doc.setGridKeyValues(gridKeyValues);
+
+                DocumentSubmittal documentSubmittal=documentSubmittalDAO.getDocumentSubmittalByDocumentId(doc.getDocumentId());
+                // get submitted to
+                Contact submittedTo = contactDAO.getContact(documentSubmittal.getUser().getUserId());
+                UserDTO submittedToUser=new UserDTO();
+                submittedToUser.setContact(submittedTo);
+                doc.setSubmittedTo(submittedToUser);
+
+                // get submitted to
+                if(doc.getModifiedBy() > 0) {
+                    Contact modifiedBy = contactDAO.getContact(doc.getModifiedBy());
+                    UserDTO modifiedByUser = new UserDTO();
+                    modifiedByUser.setContact(modifiedBy);
+                    doc.setSubmittedTo(modifiedByUser);
+
+                }
+
+
 			}
 
 			GetDocumentsResponse response = new GetDocumentsResponse();

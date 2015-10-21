@@ -45,4 +45,8 @@ public class DocumentSubmittalJpaDAOImpl extends BaseGenericDAOImpl<DocumentSubm
 		throw new UnsupportedOperationException();
 	}
 
+    @Override
+    public DocumentSubmittal getDocumentSubmittalByDocumentId(int documentId) {
+        return documentSubmittalRepository.findDocumentSubmittalByDocumentId(documentId);
+    }
 }
