@@ -21,7 +21,7 @@ public class DocumentDTO implements Serializable {
 	private List<DocumentKeyValueDTO> keyValues;
 	private List<DocumentGridKeyValueDTO> gridKeyValues;
 
-    private UserDTO submittedTo;
+    private List<UserDTO> submittedTo;
 
     private UserDTO modifiedByUser;
     private Date modifiedDate;

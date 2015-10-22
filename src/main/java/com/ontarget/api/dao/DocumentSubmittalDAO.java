@@ -3,7 +3,9 @@ package com.ontarget.api.dao;
 import com.ontarget.bean.DocumentSubmittalDTO;
 import com.ontarget.entities.DocumentSubmittal;
 
+import java.util.List;
+
 public interface DocumentSubmittalDAO extends GenericDAO<DocumentSubmittalDTO> {
 
-    DocumentSubmittal getDocumentSubmittalByDocumentId(int documentId);
+    List<DocumentSubmittal> getDocumentSubmittalByDocumentId(int documentId);
 }

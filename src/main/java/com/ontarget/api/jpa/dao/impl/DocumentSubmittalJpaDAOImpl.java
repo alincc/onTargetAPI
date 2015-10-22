@@ -1,6 +1,7 @@
 package com.ontarget.api.jpa.dao.impl;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -46,7 +47,7 @@ public class DocumentSubmittalJpaDAOImpl extends BaseGenericDAOImpl<DocumentSubm
 	}
 
     @Override
-    public DocumentSubmittal getDocumentSubmittalByDocumentId(int documentId) {
+    public List<DocumentSubmittal> getDocumentSubmittalByDocumentId(int documentId) {
         return documentSubmittalRepository.findDocumentSubmittalByDocumentId(documentId);
     }
 }

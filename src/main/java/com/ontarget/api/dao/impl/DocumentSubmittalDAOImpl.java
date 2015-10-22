@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 import com.ontarget.entities.DocumentSubmittal;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -53,7 +54,7 @@ public class DocumentSubmittalDAOImpl extends BaseGenericDAOImpl<DocumentSubmitt
 	}
 
     @Override
-    public DocumentSubmittal getDocumentSubmittalByDocumentId(int documentId) {
+    public List<DocumentSubmittal> getDocumentSubmittalByDocumentId(int documentId) {
         return null;
     }
 
