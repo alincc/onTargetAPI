@@ -8,7 +8,7 @@ import com.ontarget.entities.ProjectFileComment;
 import com.ontarget.request.bean.ProjectFileCommentRequest;
 
 public interface UploadDocumentDAO {
-	public UploadDocument saveUploadedDocsInfo(UploadDocument documentBean) throws Exception;
+	public UploadedDocumentDetail saveUploadedDocsInfo(UploadDocument documentBean) throws Exception;
 
 	public List<UploadedDocumentDetail> getFilesByProjectId(int projectId);
 

@@ -30,7 +30,7 @@ public class UploadDocumentJpaDAOImpl implements UploadDocumentDAO {
 	private ProjectFileCommentRepository projectFileCommentRepository;
 
 	@Override
-	public UploadDocument saveUploadedDocsInfo(UploadDocument documentBean) throws Exception {
+	public UploadedDocumentDetail saveUploadedDocsInfo(UploadDocument documentBean) throws Exception {
 		ProjectFile projectFile = new ProjectFile();
 		projectFile.setFileName(documentBean.getName());
 		projectFile.setFileType(documentBean.getFileType());
@@ -42,8 +42,16 @@ public class UploadDocumentJpaDAOImpl implements UploadDocumentDAO {
 		projectFile.setStatus(OnTargetConstant.ProjectFileStatus.ACTIVE);
 		projectFileRepository.save(projectFile);
 
-		documentBean.setProjectFileId(projectFile.getProjectFileId());
-		return documentBean;
+        UploadedDocumentDetail documentDetail = new UploadedDocumentDetail();
+        documentDetail.setFileId(projectFile.getProjectFileId());
+        documentDetail.setName(projectFile.getFileName());
+        documentDetail.setFileType(projectFile.getFileType());
+        documentDetail.setCreatedBy(projectFile.getCreatedBy().getUserId());
+        documentDetail.setCreatedDate(projectFile.getCreatedDate());
+        documentDetail.setProjectFileCategoryId(projectFile.getProjectFileCategory());
+        documentDetail.setDescription(projectFile.getDescription());
+
+		return documentDetail;
 	}
 
 	@Override

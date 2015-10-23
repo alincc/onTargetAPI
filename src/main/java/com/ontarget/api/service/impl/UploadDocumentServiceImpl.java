@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.ontarget.response.bean.UploadDocumentDetailResponse;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -52,17 +53,19 @@ public class UploadDocumentServiceImpl implements UploadDocumentService {
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
-	public boolean saveUploadedDocsInfo(UploadDocumentRequest documentInfo) throws Exception {
+	public UploadDocumentDetailResponse saveUploadedDocsInfo(UploadDocumentRequest documentInfo) throws Exception {
 		logger.info("service call initiated for document upload");
 		UploadDocument documentBean = new UploadDocument(documentInfo);
-		documentBean = uploadDocumentDAO.saveUploadedDocsInfo(documentBean);
+		UploadedDocumentDetail documentDetail = uploadDocumentDAO.saveUploadedDocsInfo(documentBean);
 
-		if (documentBean.getProjectFileId() >= 1) {
+        UploadDocumentDetailResponse response = new UploadDocumentDetailResponse();
+        response.setDocumentDetail(documentDetail);
+		if (documentDetail.getFileId() >= 1) {
 			logger.info("Information saved successfully");
-			return Boolean.TRUE;
+			return response;
 		}
-		logger.info("failed to save information");
-		return Boolean.FALSE;
+
+		return null;
 	}
 
 	@Override

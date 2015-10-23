@@ -31,7 +31,7 @@ public class UploadDocumentDAOImpl implements UploadDocumentDAO {
 	private JdbcTemplate jdbcTemplate;
 
 	@Override
-	public UploadDocument saveUploadedDocsInfo(UploadDocument documentBean) throws Exception {
+	public UploadedDocumentDetail saveUploadedDocsInfo(UploadDocument documentBean) throws Exception {
 		logger.info("Saving uploaded document information" + documentBean);
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		jdbcTemplate.update(new PreparedStatementCreator() {
@@ -47,7 +47,7 @@ public class UploadDocumentDAOImpl implements UploadDocumentDAO {
 		logger.debug("Added document path  with id: " + keyHolder.getKey().intValue());
 		documentBean.setProjectFileId(keyHolder.getKey().intValue());
 
-		return documentBean;
+		return null;
 
 	}
 
