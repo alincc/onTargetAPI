@@ -405,14 +405,8 @@ public class EmailServiceImpl implements EmailService {
 						message.setSubject(OnTargetConstant.EmailServiceConstants.DOCUMENT_APPROVAL_SUBJECT);
 						message.setSentDate(new Date());
 
-						// Map<String, Object> contact =
-						// contactDAO.getContactDetail(assignee.getUserId());
-						// Email email =
-						// emailDAO.getByContactId(((Integer)contact.get("contact_id")).intValue());
-						// message.setTo(email.getEmailAddress());
-
-						message.setTo(assignee.getUsername());
-
+                        Contact contact=contactDAO.getContact(assignee.getUserId());
+						message.setTo(contact.getEmail());
 						Map model = new HashMap();
 						model.put("document", document);
 						model.put("assignee", assignee);

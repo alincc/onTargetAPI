@@ -205,6 +205,29 @@ public class DocumentEndpointTest extends BaseTest {
 
 
     @Test
+    public void deleteDocumentAttachment() {
+        BaseRequest baseRequest = new BaseRequest();
+        baseRequest.setLoggedInUserId(11);
+        baseRequest.setLoggedInUserProjectId(45);
+
+        DeleteDocumentAttachmentRequest request = new DeleteDocumentAttachmentRequest();
+        request.setBaseRequest(baseRequest);
+        request.setDocumentAttachmentId(1L);
+
+        System.out.println("Client request....deleteDocumentAttachment \n");
+        System.out.println(toJsonString(request, true));
+        Response response = sendPutRequest("/document/attachment/delete", request);
+        if (response.getStatus() != 200) {
+            throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
+        }
+        String output = response.readEntity(String.class);
+        System.out.println("Server response .... \n");
+        System.out.println(output);
+
+    }
+
+
+    @Test
     public void getDocumentAttachment() {
         BaseRequest baseRequest = new BaseRequest();
         baseRequest.setLoggedInUserId(11);

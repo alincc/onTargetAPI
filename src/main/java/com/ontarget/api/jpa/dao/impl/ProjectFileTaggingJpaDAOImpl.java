@@ -3,6 +3,7 @@ package com.ontarget.api.jpa.dao.impl;
 import java.util.Date;
 import java.util.List;
 
+import com.ontarget.bean.CommentDTO;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -74,6 +75,16 @@ public class ProjectFileTaggingJpaDAOImpl implements ProjectFileTaggingDAO {
 					projectFileTagAttributeRepository.save(projectFileTagAttribute);
 				}
 			}
+
+            //save the comment as well. markup will not have comments.
+            List<CommentDTO> comments = tagBean.getComment();
+            if(comments!=null && comments.size() > 0) {
+                for (CommentDTO comment : comments) {
+                    ProjectFileTagComment tagComment = this.saveComment(projectFileTag.getProjectFileTagId(), comment.getComment(), 0L, userId);
+                }
+            }
+            // end.
+
 		}
 		return true;
 	}

@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.ws.rs.core.Response;
 
+import com.ontarget.bean.CommentDTO;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import com.ontarget.bean.ProjectFileTagAttributeBean;
@@ -25,7 +26,7 @@ public class ProjectFileTaggingEndpointTest extends BaseTest {
 
 		BaseRequest baseRequestBean = new BaseRequest();
 		baseRequestBean.setLoggedInUserId(11);
-		baseRequestBean.setLoggedInUserProjectId(44);
+		baseRequestBean.setLoggedInUserProjectId(45);
 
 		request.setBaseRequest(baseRequestBean);
 
@@ -45,6 +46,13 @@ public class ProjectFileTaggingEndpointTest extends BaseTest {
 		attributes.add(attribute);
 
 		tagBean.setAttributes(attributes);
+
+        List<CommentDTO> commentDTOs=new ArrayList<>();
+        CommentDTO commentDTO=new CommentDTO();
+        commentDTO.setComment("This is test comment");
+        commentDTOs.add(commentDTO);
+        tagBean.setComment(commentDTOs);
+
 		tags.add(tagBean);
 
 		request.setTags(tags);

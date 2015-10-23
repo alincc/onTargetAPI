@@ -39,9 +39,9 @@ public class ProjectFileTaggingImpl implements ProjectFileTagging {
 	@Override
 	@POST
 	@Path("/save")
-	public OnTargetResponse save(AddProjectFileTagRequest request) {
+	public ProjectFileTagResponse save(AddProjectFileTagRequest request) {
 		logger.debug("Saving project file tags: " + request.getTags());
-		OnTargetResponse response = new OnTargetResponse();
+        ProjectFileTagResponse response = new ProjectFileTagResponse();
 		try {
 			return projectFileTaggingService.save(request.getTags(), request.getBaseRequest().getLoggedInUserId());
 		} catch (Exception e) {

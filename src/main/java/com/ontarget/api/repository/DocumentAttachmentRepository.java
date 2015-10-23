@@ -9,7 +9,7 @@ import com.ontarget.entities.DocumentAttachment;
 
 public interface DocumentAttachmentRepository extends JpaRepository<DocumentAttachment, Integer> {
 
-	@Query("select d from DocumentAttachment d where d.document.documentId = ?1")
+	@Query("select d from DocumentAttachment d where d.document.documentId = ?1 and d.status='ACTIVE'")
 	List<DocumentAttachment> findByDocumentId(Integer documentId);
 
 

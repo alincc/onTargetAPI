@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.ontarget.response.bean.AddUpdateTagCommentResponse;
+import com.ontarget.response.bean.ProjectFileTagResponse;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -38,10 +39,10 @@ public class ProjectFileTaggingServiceImpl implements ProjectFileTaggingService 
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
-	public OnTargetResponse save(List<ProjectFileTagBean> tags, int userId) throws Exception {
+	public ProjectFileTagResponse save(List<ProjectFileTagBean> tags, int userId) throws Exception {
 		logger.debug("Saving project file tags: " + tags);
 
-		OnTargetResponse response = new OnTargetResponse();
+        ProjectFileTagResponse response = new ProjectFileTagResponse();
 
 		for (ProjectFileTagBean tagBean : tags) {
 			String tagType = tagBean.getTagType();
@@ -94,6 +95,11 @@ public class ProjectFileTaggingServiceImpl implements ProjectFileTaggingService 
 					}
 				}
 				tagBean.setAttributes(attributes);
+
+                //get the tag comments.
+                List<CommentDTO> commentDTOs = this.getComments(projectFileTag.getProjectFileTagId());
+                tagBean.setComment(commentDTOs);
+
 				projectFileTagBeans.add(tagBean);
 			}
 		}

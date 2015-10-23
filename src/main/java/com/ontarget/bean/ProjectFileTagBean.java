@@ -32,4 +32,7 @@ public class ProjectFileTagBean implements Serializable {
 	@NotNull
 	@Valid
 	private List<ProjectFileTagAttributeBean> attributes;
+
+    private List<CommentDTO> comment;
+
 }
