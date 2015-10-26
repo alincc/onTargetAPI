@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import com.ontarget.bean.DocumentDTO;
 import org.springframework.stereotype.Repository;
 
 import com.ontarget.api.dao.DocumentGridKeyValueDAO;
@@ -103,10 +104,30 @@ public class DocumentGridKeyValueJpaDAOImpl extends BaseGenericDAOImpl<DocumentG
 
 		DocumentGridKeyValue documentGridKeyValue = documentGridKeyValueRepository
 				.getDocumentGridKeyValueByDocumentIdGridIdAndRowIndex(documentId, gridId, gridRowIndex,key);
-		documentGridKeyValue.setValue(newValue);
-		documentGridKeyValue.setModifiedBy(new User(modifiedBy));
-		documentGridKeyValue.setModifiedDate(new Date());
-		documentGridKeyValueRepository.save(documentGridKeyValue);
+
+//        if(documentGridKeyValue == null){// this means while update new row was added
+//            DocumentGridKeyValueDTO documentGridKeyValueDTO = new DocumentGridKeyValueDTO();
+//            DocumentDTO documentDTO = new DocumentDTO();
+//            documentDTO.setDocumentId(documentId);
+//            documentGridKeyValueDTO.setDocument(documentDTO);
+//            documentGridKeyValueDTO.setKey(key);
+//            documentGridKeyValueDTO.setValue(newValue);
+//            documentGridKeyValueDTO.setGridId(gridId);
+//            documentGridKeyValueDTO.setGridRowIndex(gridRowIndex);
+//            documentGridKeyValueDTO.setCreatedBy(modifiedBy);
+//            documentGridKeyValueDTO.setModifiedBy(modifiedBy);
+//            this.insert(documentGridKeyValueDTO);
+//        }else {
+//            documentGridKeyValue.setValue(newValue);
+//            documentGridKeyValue.setModifiedBy(new User(modifiedBy));
+//            documentGridKeyValue.setModifiedDate(new Date());
+//            documentGridKeyValueRepository.save(documentGridKeyValue);
+//        }
+
+        documentGridKeyValue.setValue(newValue);
+        documentGridKeyValue.setModifiedBy(new User(modifiedBy));
+        documentGridKeyValue.setModifiedDate(new Date());
+        documentGridKeyValueRepository.save(documentGridKeyValue);
 		return true;
 	}
 

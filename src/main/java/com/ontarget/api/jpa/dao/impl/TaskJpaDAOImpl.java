@@ -584,7 +584,7 @@ public class TaskJpaDAOImpl implements TaskDAO {
 		task.setDescription(projectTask.getDescription());
 		task.setSeverity(projectTask.getSeverity());
 		task.setCreatorId(projectTask.getCreatedBy().getUserId());
-		task.setModifierId(projectTask.getModifiedBy().getUserId());
+		task.setModifierId(projectTask.getModifiedBy()!=null ? projectTask.getModifiedBy().getUserId() : 0);
 		return task;
 	}
 

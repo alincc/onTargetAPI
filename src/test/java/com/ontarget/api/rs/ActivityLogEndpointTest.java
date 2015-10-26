@@ -13,13 +13,13 @@ public class ActivityLogEndpointTest extends BaseTest {
 	public void fetchLogs() {
 		ActivityLogRequest request = new ActivityLogRequest();
 		BaseRequest baseRequestBean = new BaseRequest();
-		baseRequestBean.setLoggedInUserId(10);
-		baseRequestBean.setLoggedInUserProjectId(42);
+		baseRequestBean.setLoggedInUserId(11);
+		baseRequestBean.setLoggedInUserProjectId(45);
 
 		request.setBaseRequest(baseRequestBean);
 		request.setPageNumber(1);
 		request.setPerPageLimit(10);
-		request.setProjectId(53);
+		request.setProjectId(45);
 
 		System.out.println("Client request .... \n");
 		System.out.println(toJsonString(request, true));

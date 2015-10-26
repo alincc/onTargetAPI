@@ -193,6 +193,33 @@ insert into `profile_feature` (`profile_feature_id`, `active`, `application_feat
 
 insert into `profile_feature` (`profile_feature_id`, `active`, `application_feature_id`, `profile_id`) values('167','Y','51','1');
 
+-- regular user can add/edit/view markup tag
+insert into `profile_feature` ( `active`, `application_feature_id`, `profile_id`) values('Y','53','3');
+insert into `profile_feature` ( `active`, `application_feature_id`, `profile_id`) values('Y','54','3');
+insert into `profile_feature` (`active`, `application_feature_id`, `profile_id`) values('Y','55','3');
+insert into `profile_feature` (`active`, `application_feature_id`, `profile_id`) values('Y','56','3');
+insert into `profile_feature` (`active`, `application_feature_id`, `profile_id`) values('Y','65','3');
+insert into `profile_feature` (`active`, `application_feature_id`, `profile_id`) values('Y','66','3');
+
+-- get contact list allowed for regular user;
+
+insert into `profile_feature` ( `active`, `application_feature_id`, `profile_id`) values('Y','44','3');
+
+-- onfile getdocument and get response access.
+insert into `profile_feature` ( `active`, `application_feature_id`, `profile_id`) values('Y','63','3');
+insert into `profile_feature` ( `active`, `application_feature_id`, `profile_id`) values('Y','75','3');
+insert into `profile_feature` ( `active`, `application_feature_id`, `profile_id`) values('Y','72','3');
+insert into `profile_feature` ( `active`, `application_feature_id`, `profile_id`) values('Y','73','3');
+insert into `profile_feature` ( `active`, `application_feature_id`, `profile_id`) values('Y','74','3');
+insert into `profile_feature` ( `active`, `application_feature_id`, `profile_id`) values('Y','52','3');
+
+insert into `profile_feature` ( `active`, `application_feature_id`, `profile_id`) values('Y','45','3');
+insert into `profile_feature` ( `active`, `application_feature_id`, `profile_id`) values('Y','46','3');
+insert into `profile_feature` ( `active`, `application_feature_id`, `profile_id`) values('Y','47','3');
+insert into `profile_feature` ( `active`, `application_feature_id`, `profile_id`) values('Y','48','3');
+insert into `profile_feature` ( `active`, `application_feature_id`, `profile_id`) values('Y','51','3');
+
+
 
 
 
