@@ -382,7 +382,7 @@ public class ProjectReportServiceImpl implements ProjectReportService {
 			if (report.getCumulativePlannedValue() > 0) {
 				schedulePerformanceIndex = report.getCumulativeEarnedValue() / report.getCumulativePlannedValue();
 			}
-			report.setCostPerformanceIndex(schedulePerformanceIndex);
+			report.setSchedulePerformanceIndex(schedulePerformanceIndex);
 
 			/**
 			 * calculate estimated cost at completion.
