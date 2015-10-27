@@ -15,6 +15,7 @@ import com.ontarget.api.notification.message.composer.Message;
 import com.ontarget.api.notification.message.composer.MessageComposer;
 import com.ontarget.api.notification.message.composer.MessageFactory;
 import com.ontarget.api.notification.message.composer.MessageTemplateConfig;
+import com.ontarget.api.repository.NotificationRepository;
 import com.ontarget.dto.UserNotificationDTO;
 import com.ontarget.entities.Notification;
 import com.ontarget.entities.NotificationAttribute;
@@ -103,9 +104,8 @@ public class NotificationServiceImpl implements com.ontarget.api.service.Notific
 
 	@Override
 	public boolean updateStatusToSeen(Long userNotificationId) throws Exception {
-        return notificationDAO.updateStatusToSeen(userNotificationId);
-    }
-
+		return notificationDAO.updateStatusToSeen(userNotificationId);
+	}
 
 	public boolean updateAllStatusToSeen(Integer userId, Integer projectId) throws Exception {
 		return notificationDAO.updateAllStatusToSeen(userId, projectId);
@@ -164,6 +164,7 @@ public class NotificationServiceImpl implements com.ontarget.api.service.Notific
 		}
 		userNotificationDTO.setTotalNotification(userNotifications.getTotalElements());
 		userNotificationDTO.setUserNotificationList(notifications);
+		userNotificationDTO.setTotalUnReadNotification(notificationDAO.countNewNotification(userId, loggedInUserProjectId).longValue());
 		return userNotificationDTO;
 
 	}

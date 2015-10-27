@@ -1,5 +1,7 @@
 package com.ontarget.api.dao.impl;
 
+import java.math.BigInteger;
+
 import com.ontarget.dto.UserNotificationDTO;
 import com.ontarget.entities.UserNotification;
 
@@ -31,11 +33,17 @@ public class NotificationDAOImpl implements com.ontarget.api.dao.NotificationDAO
 	@Override
 	public Page<UserNotification> getUserNotifications(Integer pageNumber, Integer perPageLimit, Integer userId, Long loggedInUserProjectId)
 			throws Exception {
-        return null;
-    }
+		return null;
+	}
 
 	public boolean updateAllStatusToSeen(Integer userId, Integer projectId) throws Exception {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public BigInteger countNewNotification(Integer userId, Long loggedInUserProjectId) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
