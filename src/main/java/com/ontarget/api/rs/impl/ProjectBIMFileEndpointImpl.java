@@ -46,10 +46,10 @@ public class ProjectBIMFileEndpointImpl implements ProjectBIMFileEndpoint {
 	@POST
 	@Path("/getAll")
 	public GetBIMResponse getBIMPoids(GetBIMRequest request) {
-		logger.debug("Getting BIM projects for project: " + request.getProjectid());
+		logger.debug("Getting BIM projects for project: " + request.getProjectId());
 		GetBIMResponse response = null;
 		try {
-			response = projectBIMFileService.getBIMPoids(request.getProjectid());
+			response = projectBIMFileService.getBIMPoids(request.getProjectId());
 		} catch (Exception e) {
 			logger.error("Error while getting poids: ", e);
 			response = new GetBIMResponse();

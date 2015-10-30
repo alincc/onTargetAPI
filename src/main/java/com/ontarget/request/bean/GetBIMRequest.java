@@ -22,5 +22,5 @@ public class GetBIMRequest {
 
     @NotNull
     @JsonProperty("projectId")
-    public Long projectid;
+    public Long projectId;
 }

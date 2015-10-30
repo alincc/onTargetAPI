@@ -54,11 +54,11 @@ public class ProjectBIMFileEndpointTest extends BaseJerseyTest {
 
 		try {
 			BaseRequest baseRequest = new BaseRequest();
-			baseRequest.setLoggedInUserId(10);
-			baseRequest.setLoggedInUserProjectId(42);
+			baseRequest.setLoggedInUserId(11);
+			baseRequest.setLoggedInUserProjectId(45);
 			GetBIMRequest request = new GetBIMRequest();
 			request.setBaseRequest(baseRequest);
-			request.setProjectid(42L);
+			request.setProjectId(45L);
 
 			logger.debug("Request: " + new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(request));
 
