@@ -66,6 +66,7 @@ public class ProjectBIMFileServiceImpl implements ProjectBIMFileService {
 				dto.setProjectBimFileId(projectBimFile.getProjectBimFileId());
 				dto.setCreatedDate(projectBimFile.getCreatedDate());
 				dto.setPoid(projectBimFile.getBimPoid().longValue());
+                dto.setBimThumbnailPath(projectBimFile.getBimThumbnailFileLocation());
 				Contact c = contactDAO.getContact(projectBimFile.getCreatedBy().getUserId());
 				dto.setCreatedByContact(c);
 				poidDtos.add(dto);

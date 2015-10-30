@@ -532,6 +532,9 @@ public class ProjectServiceImpl implements ProjectService {
      */
 	@Override
 	public ProjectListResponse getUserProjectList(Integer userId) throws Exception {
+
+        logger.debug("Getting all list of projects by user: "+ userId);
+
 		ProjectListResponse projectListResponse = new ProjectListResponse();
 
         //Add main project as well.

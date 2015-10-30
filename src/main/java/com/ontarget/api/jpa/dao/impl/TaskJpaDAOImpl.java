@@ -310,7 +310,7 @@ public class TaskJpaDAOImpl implements TaskDAO {
 	public Contact getContact(int userId) throws Exception {
 		User userObj = userRepository.findByUserId(userId);
 
-		List<com.ontarget.entities.Contact> contactList = contactRepository.findByUserId(userId);
+		List<com.ontarget.entities.Contact> contactList = userObj.getContactList();//contactRepository.findByUserId(userId);
 
 		if (contactList == null || contactList.isEmpty()) {
 			throw new Exception("User " + userId + " does not exist");
@@ -320,7 +320,7 @@ public class TaskJpaDAOImpl implements TaskDAO {
 		Contact contact = new Contact();
 		contact.setContactId(contactObj.getContactId());
 		UserDTO user = new UserDTO();
-		user.setUserId((int) userId);
+		user.setUserId(userId);
 		contact.setUser(user);
 		contact.setFirstName(contactObj.getFirstName());
 		contact.setLastName(contactObj.getLastName());

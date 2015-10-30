@@ -2,9 +2,16 @@ package com.ontarget.api.jpa.dao.impl;
 
 import java.math.BigInteger;
 import java.util.Date;
+import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.ontarget.api.notification.message.composer.Message;
+import com.ontarget.api.notification.message.composer.MessageComposer;
+import com.ontarget.api.notification.message.composer.MessageFactory;
+import com.ontarget.entities.Notification;
+import com.ontarget.entities.NotificationAttribute;
+import com.ontarget.util.NotificationUtil;
 import org.apache.log4j.Logger;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -42,11 +49,23 @@ public class NotificationJpaDAOImpl implements NotificationDAO {
 		return true;
 	}
 
+    /**
+     * Mark all status as seen
+     * @param userId
+     * @param projectId
+     * @return
+     * @throws Exception
+     */
 	@Override
 	public boolean updateAllStatusToSeen(Integer userId, Integer projectId) throws Exception {
 		logger.debug("Updating all notification for user: " + userId + " project: " + projectId);
-		// userNotificationRepository.setAllNotificationAsSeen(OnTargetConstant.UserNotificationStatus.SEEN,
-		// new Date(), userId,projectId.longValue());
+        Pageable pageable = new PageRequest(0, 100);
+        Page<UserNotification> notificitaionByUserIdAndProjectId = notificationRepository.findNotifcationByUserId(userId, projectId.longValue(), pageable);
+        for (UserNotification userNotification : notificitaionByUserIdAndProjectId) {
+            userNotification.setLastSeenAt(new Date());
+            userNotification.setStatus(OnTargetConstant.UserNotificationStatus.SEEN);
+            userNotificationRepository.save(userNotification);
+         }
 		return true;
 	}
 

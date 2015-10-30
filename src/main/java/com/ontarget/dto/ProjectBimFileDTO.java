@@ -16,5 +16,6 @@ public class ProjectBimFileDTO implements Serializable{
     private long poid;
     private Date createdDate;
     private Contact createdByContact;
+    private String bimThumbnailPath;
 
 }
