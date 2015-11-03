@@ -88,8 +88,8 @@ public class NotificationEndpointTest extends BaseTest {
 		NotificationAllSeenRequest request = new NotificationAllSeenRequest();
 
 		BaseRequest baseRequestBean = new BaseRequest();
-		baseRequestBean.setLoggedInUserId(1);
-		baseRequestBean.setLoggedInUserProjectId(2);
+		baseRequestBean.setLoggedInUserId(11);
+		baseRequestBean.setLoggedInUserProjectId(45);
 
 		request.setBaseRequest(baseRequestBean);
 

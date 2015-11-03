@@ -58,15 +58,17 @@ public class NotificationJpaDAOImpl implements NotificationDAO {
      */
 	@Override
 	public boolean updateAllStatusToSeen(Integer userId, Integer projectId) throws Exception {
-		logger.debug("Updating all notification for user: " + userId + " project: " + projectId);
-        Pageable pageable = new PageRequest(0, 100);
-        Page<UserNotification> notificitaionByUserIdAndProjectId = notificationRepository.findNotifcationByUserId(userId, projectId.longValue(), pageable);
-        for (UserNotification userNotification : notificitaionByUserIdAndProjectId) {
-            userNotification.setLastSeenAt(new Date());
-            userNotification.setStatus(OnTargetConstant.UserNotificationStatus.SEEN);
-            userNotificationRepository.save(userNotification);
-         }
-		return true;
+        logger.debug("Updating all notification for user: "+ userId +" project: "+ projectId);
+
+        List<UserNotification> userNotifications=userNotificationRepository.findNotifcationByUserId(userId,projectId.longValue());
+        if(userNotifications!=null && userNotifications.size() > 0){
+           for(UserNotification userNotification : userNotifications){
+               userNotification.setStatus(OnTargetConstant.UserNotificationStatus.SEEN);
+               userNotification.setLastSeenAt(new Date());
+               userNotificationRepository.save(userNotification);
+           }
+        }
+        return true;
 	}
 
 	/**

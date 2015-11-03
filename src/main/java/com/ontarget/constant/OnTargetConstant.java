@@ -54,8 +54,9 @@ public interface OnTargetConstant {
 
 	interface EmailServiceConstants {
 		public static final String USER_REGISTRATION_SUBJECT = "OnTarget Registration Request";
-		public static final String EMAIL_FROM = "Uncle Atlas <donotreply@ontargetcloud.com>";
-		public static final String DO_NOT_REPLY_EMAIL = "<donotreply@ontargetcloud.com>";
+		public static final String EMAIL_FROM = "Uncle Atlas <no-reply@ontargetcloud.com>";
+        public static final String EMAIL_FROM_WITHOUT_NAME = "no-reply@ontargetcloud.com";
+		public static final String DO_NOT_REPLY_EMAIL = "<no-reply@ontargetcloud.com>";
 		public static final String ONBOARDING_TO_ONTARGET_SUBJECT = "Onboarding to OnTarget";
 
 		public static final String DOCUMENT_APPROVAL_SUBJECT = "New document available for approval";

@@ -1,18 +1,13 @@
 package com.ontarget.api.jpa.dao.impl;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import com.ontarget.util.OntargetUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -101,6 +96,8 @@ public class TaskPercentageJpaDAOImpl implements TaskPercentageDAO {
 		logger.info("getting percentage for project Id: " + projectId);
 		Map<TaskInfo, Map<TaskInterval, TaskPercentage>> taskToPercentageMap = new LinkedHashMap<>();
 
+        Map<TaskInfo, String> startDateEndDateEmptyDataFiller = new HashMap<>();
+
 		jdbcTemplate.query(OnTargetQuery.GET_TASK_PERCENTAGE, new Object[] { projectId }, (resultSet, i) -> {
 			TaskPercentage percentage = new TaskPercentage();
 			percentage.setId(resultSet.getInt("task_percentage_log_id"));
@@ -128,14 +125,44 @@ public class TaskPercentageJpaDAOImpl implements TaskPercentageDAO {
 			if (percentageMapByMonthYear == null) {
 				percentageMapByMonthYear = new LinkedHashMap<>();
 			}
+
+
+            //get all the task intervals and check if they have percentage if not use previous month.
+            Date startDateOfTask = null;
+            if(startDateEndDateEmptyDataFiller.get(task) == null) {
+                ProjectTask projectTask = projectTaskRepository.findOne(task.getProjectTaskId());
+                startDateOfTask=projectTask.getStartDate();
+                List<TaskInterval> taskIntervals = OntargetUtil.getTimeInterval(projectTask.getStartDate(), projectTask.getEndDate());
+                if (taskIntervals != null && taskIntervals.size() > 0) {
+                    for (TaskInterval taskInterval : taskIntervals) {
+                        if (percentageMapByMonthYear.get(taskInterval) == null) {
+                            percentageMapByMonthYear.put(taskInterval, new TaskPercentage(0d));
+                        }
+                    }
+                    startDateEndDateEmptyDataFiller.put(task, "Y");
+                }
+            }
+
 			percentageMapByMonthYear.put(new TaskInterval(month, year), percentage);
 
 			/**
 			 * if percentage complete is zero for this month year, use the
 			 * previous month/year
 			 */
+            TaskInterval timeIntervalOfStartDateofTask=null;
+            if (startDateOfTask != null) {
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(startDateOfTask);
+                year = cal.get(Calendar.YEAR);
+                month = cal.get(Calendar.MONTH) + 1;
+                timeIntervalOfStartDateofTask=new TaskInterval(month, year);
+            }
+
+            /**
+             * loop until the start date is equal to the from date of the task.
+             */
 			double percentageComplete = percentage.getTaskPercentageComplete();
-			while (percentageComplete == 0) {
+			while (percentageComplete == 0 && !timeIntervalOfStartDateofTask.equals(fromDate)) {
 				Calendar cal = Calendar.getInstance();
 				cal.setTime(fromDate);
 				cal.add(Calendar.MONTH, -1);
