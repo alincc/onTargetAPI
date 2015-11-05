@@ -487,7 +487,12 @@ public class TaskDAOImpl implements TaskDAO {
 		return null;
 	}
 
-	@Override
+    @Override
+    public int getCompletedTaskCount(int projectId) throws Exception {
+        return 0;
+    }
+
+    @Override
 	public List<ProjectTask> getTasksByActivityAndUser(int projectId, int userId) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
