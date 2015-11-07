@@ -159,7 +159,12 @@ public class TaskPercentageDAOImpl implements TaskPercentageDAO {
 		return taskToPercentageMap;
 	}
 
-	@Override
+    @Override
+    public Map<TaskInfo, Map<TaskInterval, TaskPercentage>> getTaskPercentageCompletesByMonthYearTemp(Integer projectId) throws Exception {
+        return null;
+    }
+
+    @Override
 	public int addTaskPercentageComplete(TaskProgress taskProgress, int addedBy) throws Exception {
 		logger.info("Adding task percentage: " + taskProgress);
 		KeyHolder keyHolder = new GeneratedKeyHolder();

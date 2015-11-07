@@ -306,7 +306,12 @@ public class TaskJpaDAOImpl implements TaskDAO {
 		return taskPercentageList;
 	}
 
-	@Override
+    @Override
+    public int getCompletedTaskCount(int projectId) throws Exception {
+        return projectTaskRepository.getCountOfAllCompletedTasks(projectId).intValue();
+    }
+
+    @Override
 	public Contact getContact(int userId) throws Exception {
 		User userObj = userRepository.findByUserId(userId);
 

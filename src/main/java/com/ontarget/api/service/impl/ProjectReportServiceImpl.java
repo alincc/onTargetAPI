@@ -1,5 +1,7 @@
 package com.ontarget.api.service.impl;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -86,9 +88,9 @@ public class ProjectReportServiceImpl implements ProjectReportService {
             taskActualCostByMonthAndYear = taskBudgetDAO.getTaskToCostMapByMonthYearDouble(projectId, OnTargetConstant.CostType.ACTUAL);
         }
 
-		// task percentage
+		// task percentage temporary solution. making all interval the same percentage.
 		Map<TaskInfo, Map<TaskInterval, TaskPercentage>> taskPercentageByMonthAndYear = taskPercentageDAO
-				.getTaskPercentageCompletesByMonthYear(projectId);
+				.getTaskPercentageCompletesByMonthYearTemp(projectId);
 
 		// Total budgeted cost
 		Map<TaskInfo, Double> totalTaskBudgetCost = new HashMap<>();
@@ -198,10 +200,9 @@ public class ProjectReportServiceImpl implements ProjectReportService {
 	public TimeSaved getTimeSaved(int projectId) throws Exception {
 
 		// get all task done within time.
-		List<TaskInfo> tasks = taskDAO.getTask(projectId, TaskStatus.COMPLETED.getTaskStatusId());
+		int countOfCompletedTask = taskDAO.getCompletedTaskCount(projectId);
 
 		// get all approved documents on time.
-
 		List<DocumentDTO> documents = documentDAO.getDocumentsByProject(projectId, OnTargetConstant.APPROVED);
 
 		int approvedDocumentsOnTime = documents.size();
@@ -222,10 +223,11 @@ public class ProjectReportServiceImpl implements ProjectReportService {
 			}
 		}
 
-		double timeSavedVal = tasks.size() * approvedDocumentsOnTime * spi;
+		BigDecimal timeSavedVal = new BigDecimal(countOfCompletedTask * approvedDocumentsOnTime * spi);
+        timeSavedVal = timeSavedVal.setScale(2, BigDecimal.ROUND_UP);
 
 		TimeSaved timeSaved = new TimeSaved();
-		timeSaved.setTimeSavedValue(timeSavedVal);
+		timeSaved.setTimeSavedValue(timeSavedVal.doubleValue());
 
 		return timeSaved;
 	}
@@ -398,5 +400,4 @@ public class ProjectReportServiceImpl implements ProjectReportService {
 
 		return projectEarnedValueAnalysisReports;
 	}
-
 }
