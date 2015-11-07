@@ -13,7 +13,7 @@ import com.ontarget.bean.UserAddressInfo;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "companyId", "companyName", "companyTypeId", "address" })
+@JsonPropertyOrder({ "companyId", "companyName", "companyTypeId", "logoPath", "address" })
 public class CompanyEditInfo {
 	@NotNull
 	@JsonProperty("companyId")
@@ -24,6 +24,8 @@ public class CompanyEditInfo {
 	@NotNull
 	@JsonProperty("companyTypeId")
 	private Integer companyTypeId;
+	@JsonProperty("logoPath")
+	private String logoPath;
 	@NotNull
 	@Valid
 	@JsonProperty("address")
@@ -67,6 +69,16 @@ public class CompanyEditInfo {
 	@JsonProperty("address")
 	public void setAddress(UserAddressInfo address) {
 		this.address = address;
+	}
+
+	@JsonProperty("logoPath")
+	public String getLogoPath() {
+		return logoPath;
+	}
+
+	@JsonProperty("logoPath")
+	public void setLogoPath(String logoPath) {
+		this.logoPath = logoPath;
 	}
 
 }

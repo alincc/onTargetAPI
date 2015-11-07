@@ -1,6 +1,7 @@
 package com.ontarget.api.jpa.dao.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +21,7 @@ import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.constant.OnTargetQuery;
 import com.ontarget.entities.CompanyInfo;
 import com.ontarget.entities.CompanyType;
+import com.ontarget.entities.User;
 import com.ontarget.request.bean.CompanyEditInfo;
 
 @Repository("companyJpaDAOImpl")
@@ -31,7 +33,7 @@ public class CompanyJpaDAOImpl implements CompanyDAO {
 	private JdbcTemplate jdbcTemplate;
 
 	@Override
-	public int addCompanyInfo(Company company) throws Exception {
+	public int addCompanyInfo(Company company, int userId) throws Exception {
 		CompanyInfo companyInfo = new CompanyInfo();
 		companyInfo.setCompanyName(company.getCompanyName());
 		AddressDTO addressDTO = company.getAddress();
@@ -44,13 +46,16 @@ public class CompanyJpaDAOImpl implements CompanyDAO {
 		companyInfo.setWebsite(company.getWebsite());
 		companyInfo.setStatus(OnTargetConstant.CompanyStatus.STATUS);
 		companyInfo.setCompanyType(new CompanyType(company.getCompanyTypeId()));
+		companyInfo.setLogoPath(company.getCompanyLogoPath());
+		companyInfo.setAddedBy(new User(userId));
+		companyInfo.setAddedDate(new Date());
 		companyInfoRepository.save(companyInfo);
 		logger.info("persist company: " + companyInfo.getCompanyId());
 		return companyInfo.getCompanyId();
 	}
 
 	@Override
-	public boolean update(CompanyEditInfo company) throws Exception {
+	public boolean update(CompanyEditInfo company, int modifiedBy) throws Exception {
 		CompanyInfo companyInfo = companyInfoRepository.findByCompanyId(company.getCompanyId());
 		companyInfo.setCompanyName(company.getCompanyName());
 		companyInfo.setCompanyType(new CompanyType(company.getCompanyTypeId()));
@@ -62,7 +67,9 @@ public class CompanyJpaDAOImpl implements CompanyDAO {
 		companyInfo.setState(addressDTO.getState());
 		companyInfo.setZipcode(addressDTO.getZip());
 		companyInfo.setCountry(addressDTO.getCountry());
-
+		companyInfo.setLogoPath(company.getLogoPath());
+		companyInfo.setModifiedDate(new Date());
+		companyInfo.setModifiedBy(new User(modifiedBy));
 		companyInfoRepository.save(companyInfo);
 		return true;
 	}
@@ -79,6 +86,7 @@ public class CompanyJpaDAOImpl implements CompanyDAO {
 		company.setCompanyName(companyInfo.getCompanyName());
 		company.setCompanyId(companyInfo.getCompanyId());
 		company.setCompanyTypeId(companyInfo.getCompanyType().getCompanyTypeId());
+		company.setCompanyLogoPath(companyInfo.getLogoPath());
 
 		AddressDTO address = new AddressDTO();
 		address.setAddress1(companyInfo.getAddress1());

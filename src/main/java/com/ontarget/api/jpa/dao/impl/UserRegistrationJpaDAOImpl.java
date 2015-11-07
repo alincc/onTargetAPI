@@ -60,6 +60,7 @@ public class UserRegistrationJpaDAOImpl implements com.ontarget.api.dao.UserRegi
 		registrationRequest.setCompanyZip(userInvitationRequestDTO.getCompanyZip());
 		registrationRequest.setCompanyId(userInvitationRequestDTO.getCompanyId());
 		registrationRequest.setCompanyTypeId(userInvitationRequestDTO.getCompanyTypeId());
+		registrationRequest.setCompanyLogoPath(userInvitationRequestDTO.getCompanyLogoPath());
 		if (registrationRequest.getCompanyTypeId() == null) {
 			registrationRequest.setCompanyTypeId(0);
 		}
@@ -91,6 +92,7 @@ public class UserRegistrationJpaDAOImpl implements com.ontarget.api.dao.UserRegi
 		userRegistration.setCompanyCountry(registrationRequest.getCompanyCountry());
 		userRegistration.setCompanyId(registrationRequest.getCompanyId());
 		userRegistration.setCompanyTypeId(registrationRequest.getCompanyTypeId());
+		userRegistration.setCompanyLogoPath(registrationRequest.getCompanyLogoPath());
 		userRegistration.setInvitedProjectId(registrationRequest.getProjectId());
 		return userRegistration;
 	}

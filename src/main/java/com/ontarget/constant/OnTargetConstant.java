@@ -55,7 +55,7 @@ public interface OnTargetConstant {
 	interface EmailServiceConstants {
 		public static final String USER_REGISTRATION_SUBJECT = "OnTarget Registration Request";
 		public static final String EMAIL_FROM = "Uncle Atlas <no-reply@ontargetcloud.com>";
-        public static final String EMAIL_FROM_WITHOUT_NAME = "no-reply@ontargetcloud.com";
+		public static final String EMAIL_FROM_WITHOUT_NAME = "no-reply@ontargetcloud.com";
 		public static final String DO_NOT_REPLY_EMAIL = "<no-reply@ontargetcloud.com>";
 		public static final String ONBOARDING_TO_ONTARGET_SUBJECT = "Onboarding to OnTarget";
 
@@ -200,4 +200,9 @@ public interface OnTargetConstant {
 		public static final String DELETED = "DELETED";
 	}
 
+	public interface UserType {
+		public static final String NORMAL_USER = "USER";
+		public static final String PROJECT_MANAGER = "PROJECT_MANAGER";
+		public static final String SUPER_USER = "SUPER_USER";
+	}
 }

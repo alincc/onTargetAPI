@@ -13,6 +13,7 @@ public class Company implements Serializable {
 	private AddressDTO address;
 	private String email;
 	private String website;
+	private String companyLogoPath;
 
 	public Company() {
 	}
@@ -65,11 +66,17 @@ public class Company implements Serializable {
 		this.website = website;
 	}
 
+	public String getCompanyLogoPath() {
+		return companyLogoPath;
+	}
+
+	public void setCompanyLogoPath(String companyLogoPath) {
+		this.companyLogoPath = companyLogoPath;
+	}
+
 	@Override
 	public String toString() {
-		return "Company{" + "companyId=" + companyId + ", companyName='"
-				+ companyName + '\'' + ", companyTypeId=" + companyTypeId
-				+ ", address=" + address + ", email='" + email + '\''
-				+ ", website='" + website + '\'' + '}';
+		return "Company{" + "companyId=" + companyId + ", companyName='" + companyName + '\'' + ", companyTypeId=" + companyTypeId
+				+ ", address=" + address + ", email='" + email + '\'' + ", website='" + website + '\'' + '}';
 	}
 }

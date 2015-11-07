@@ -78,7 +78,7 @@ public class DocumentEndpointTest extends BaseTest {
 
 		List<DocumentKeyValue> keyValues = new ArrayList<>();
 		DocumentKeyValue documentKeyValue = new DocumentKeyValue();
-		documentKeyValue.setKey("name");
+		documentKeyValue.setKey("name1");
 		documentKeyValue.setValue("keyvalue123");
 		keyValues.add(documentKeyValue);
 
@@ -86,9 +86,9 @@ public class DocumentEndpointTest extends BaseTest {
 
 		List<DocumentGridKeyValue> gridKeyValues = new ArrayList<>();
 		DocumentGridKeyValue documentGridKeyValue = new DocumentGridKeyValue();
-		documentGridKeyValue.setGridId("C000");
+		documentGridKeyValue.setGridId("C0001");
 		documentGridKeyValue.setGridRowIndex(1);
-		documentGridKeyValue.setKey("gridkey1");
+		documentGridKeyValue.setKey("gridkey2");
 		documentGridKeyValue.setValue("** PC1");
 		gridKeyValues.add(documentGridKeyValue);
 
@@ -203,53 +203,49 @@ public class DocumentEndpointTest extends BaseTest {
 
 	}
 
+	@Test
+	public void deleteDocumentAttachment() {
+		BaseRequest baseRequest = new BaseRequest();
+		baseRequest.setLoggedInUserId(11);
+		baseRequest.setLoggedInUserProjectId(45);
 
-    @Test
-    public void deleteDocumentAttachment() {
-        BaseRequest baseRequest = new BaseRequest();
-        baseRequest.setLoggedInUserId(11);
-        baseRequest.setLoggedInUserProjectId(45);
+		DeleteDocumentAttachmentRequest request = new DeleteDocumentAttachmentRequest();
+		request.setBaseRequest(baseRequest);
+		request.setDocumentAttachmentId(1L);
 
-        DeleteDocumentAttachmentRequest request = new DeleteDocumentAttachmentRequest();
-        request.setBaseRequest(baseRequest);
-        request.setDocumentAttachmentId(1L);
+		System.out.println("Client request....deleteDocumentAttachment \n");
+		System.out.println(toJsonString(request, true));
+		Response response = sendPutRequest("/document/attachment/delete", request);
+		if (response.getStatus() != 200) {
+			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
+		}
+		String output = response.readEntity(String.class);
+		System.out.println("Server response .... \n");
+		System.out.println(output);
 
-        System.out.println("Client request....deleteDocumentAttachment \n");
-        System.out.println(toJsonString(request, true));
-        Response response = sendPutRequest("/document/attachment/delete", request);
-        if (response.getStatus() != 200) {
-            throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
-        }
-        String output = response.readEntity(String.class);
-        System.out.println("Server response .... \n");
-        System.out.println(output);
+	}
 
-    }
+	@Test
+	public void getDocumentAttachment() {
+		BaseRequest baseRequest = new BaseRequest();
+		baseRequest.setLoggedInUserId(11);
+		baseRequest.setLoggedInUserProjectId(45);
 
+		GetDocumentAttachmentRequest request = new GetDocumentAttachmentRequest();
+		request.setDocumentId(1);
+		request.setBaseRequest(baseRequest);
 
-    @Test
-    public void getDocumentAttachment() {
-        BaseRequest baseRequest = new BaseRequest();
-        baseRequest.setLoggedInUserId(11);
-        baseRequest.setLoggedInUserProjectId(45);
+		System.out.println("Client request....getDocumentAttachment \n");
+		System.out.println(toJsonString(request, true));
+		Response response = sendRequest("/document/attachment/getAll", request);
+		if (response.getStatus() != 200) {
+			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
+		}
+		String output = response.readEntity(String.class);
+		System.out.println("Server response .... \n");
+		System.out.println(output);
 
-        GetDocumentAttachmentRequest request=new GetDocumentAttachmentRequest();
-        request.setDocumentId(1);
-        request.setBaseRequest(baseRequest);
-
-        System.out.println("Client request....getDocumentAttachment \n");
-        System.out.println(toJsonString(request, true));
-        Response response = sendRequest("/document/attachment/getAll", request);
-        if (response.getStatus() != 200) {
-            throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
-        }
-        String output = response.readEntity(String.class);
-        System.out.println("Server response .... \n");
-        System.out.println(output);
-
-    }
-
-
+	}
 
 	@Test
 	public void addDocumentQuestionResponse() {

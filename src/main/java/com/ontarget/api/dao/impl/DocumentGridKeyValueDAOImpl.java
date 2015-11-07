@@ -72,4 +72,10 @@ public class DocumentGridKeyValueDAOImpl extends BaseGenericDAOImpl<DocumentGrid
 		return gridKeyValues;
 	}
 
+	@Override
+	public void deleteDocumentGridKeyValue(int documentId, List<String> usedKeys) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

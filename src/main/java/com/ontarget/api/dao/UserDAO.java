@@ -23,4 +23,6 @@ public interface UserDAO extends GenericDAO<UserDTO> {
     public boolean usernameAlreadyRegistered(String username) throws Exception;
     
     public User findUserByUsername(String username) throws Exception;
+    
+    public User findUserById(int userId) throws Exception;
 }
