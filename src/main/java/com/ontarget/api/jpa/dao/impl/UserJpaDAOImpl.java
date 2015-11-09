@@ -169,4 +169,9 @@ public class UserJpaDAOImpl extends BaseGenericDAOImpl<UserDTO> implements UserD
 		return null;
 	}
 
+	@Override
+	public User findUserById(int userId) throws Exception {
+		return userRepository.findByUserId(userId);
+	}
+
 }

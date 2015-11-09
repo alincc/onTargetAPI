@@ -34,7 +34,7 @@ public class CompanyDAOImpl implements CompanyDAO {
 	private JdbcTemplate jdbcTemplate;
 
 	@Override
-	public int addCompanyInfo(Company company) throws Exception {
+	public int addCompanyInfo(Company company,int userId) throws Exception {
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		jdbcTemplate.update(new PreparedStatementCreator() {
 			public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
@@ -103,7 +103,7 @@ public class CompanyDAOImpl implements CompanyDAO {
 	}
 
 	@Override
-	public boolean update(CompanyEditInfo company) throws Exception {
+	public boolean update(CompanyEditInfo company,int modifiedBy) throws Exception {
 		throw new UnsupportedOperationException();
 	}
 	

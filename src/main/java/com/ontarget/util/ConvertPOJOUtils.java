@@ -61,6 +61,7 @@ public class ConvertPOJOUtils {
 		userInvitationRequestDTO.setCompanyCountry(userInvitationRequest.getCompanyCountry());
 		userInvitationRequestDTO.setCompanyZip(userInvitationRequest.getCompanyZip());
 		userInvitationRequestDTO.setCompanyTypeId(userInvitationRequest.getCompanyTypeId());
+		userInvitationRequestDTO.setCompanyLogoPath(userInvitationRequest.getCompanyLogoPath());
 		userInvitationRequestDTO.setProjectId(userInvitationRequest.getProjectId());
 		return userInvitationRequestDTO;
 	}
@@ -95,6 +96,7 @@ public class ConvertPOJOUtils {
 			company.setCompanyTypeId(userRegistration.getCompanyTypeId());
 		}
 		company.setWebsite(userRegistration.getCompanyWebsite());
+		company.setCompanyLogoPath(userRegistration.getCompanyLogoPath());
 
 		AddressDTO addressDTO = new AddressDTO();
 		addressDTO.setAddress1(userRegistration.getCompanyAddress1());
@@ -155,7 +157,7 @@ public class ConvertPOJOUtils {
 		projectDTO.setProjectAddress(addressDTO);
 		projectDTO.setUnitOfMeasurement(project.getUnitOfMeasurement());
 		projectDTO.setProjectImagePath(project.getProjectImagePath());
-        projectDTO.setProjectAssetFolderName(project.getProjectAssetFolderName());
+		projectDTO.setProjectAssetFolderName(project.getProjectAssetFolderName());
 		return projectDTO;
 	}
 

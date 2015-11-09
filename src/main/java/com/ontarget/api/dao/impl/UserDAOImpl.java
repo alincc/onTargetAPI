@@ -131,4 +131,10 @@ public class UserDAOImpl extends BaseGenericDAOImpl<UserDTO> implements UserDAO 
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public User findUserById(int userId) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

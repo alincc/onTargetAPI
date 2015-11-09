@@ -56,4 +56,10 @@ public class DocumentKeyValueDAOImpl extends BaseGenericDAOImpl<DocumentKeyValue
 		return (count > 0);
 	}
 
+	@Override
+	public void deleteDocumentKeyValue(int documentId, List<String> usedKeys) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

@@ -1,5 +1,6 @@
 package com.ontarget.api.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -14,6 +15,7 @@ import com.ontarget.request.bean.*;
 import com.ontarget.response.bean.GetDocumentQuestionResponse;
 import com.ontarget.response.bean.UpdateDocumentQuestionResponse;
 import com.ontarget.util.DocumentUtil;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -152,19 +154,26 @@ public class DocumentServiceImpl implements DocumentService {
 
 			List<DocumentKeyValue> keyValues = updateDocumentRequest.getKeyValues();
 			if (keyValues != null) {
+				List<String> usedKeys = new ArrayList<String>();
 				for (DocumentKeyValue keyValue : keyValues) {
+					usedKeys.add(keyValue.getKey());
 					documentKeyValueDAO.updateValue(documentId, keyValue.getKey(), keyValue.getValue(),
 							updateDocumentRequest.getSubmittedBy());
 				}
+				documentKeyValueDAO.deleteDocumentKeyValue(documentId, usedKeys);
 			}
 
 			List<DocumentGridKeyValue> gridKeyValues = updateDocumentRequest.getGridKeyValues();
 			if (gridKeyValues != null) {
+				List<String> usedKeys = new ArrayList<String>();
 				for (DocumentGridKeyValue gridKeyValue : gridKeyValues) {
+
+					usedKeys.add(gridKeyValue.getKey());
 
 					documentGridKeyValueDAO.updateValue(documentId, gridKeyValue.getGridId(), gridKeyValue.getGridRowIndex(),
 							gridKeyValue.getKey(), gridKeyValue.getValue(), updateDocumentRequest.getSubmittedBy());
 				}
+				documentGridKeyValueDAO.deleteDocumentGridKeyValue(documentId, usedKeys);
 			}
 			OnTargetResponse response = new OnTargetResponse(null, OnTargetConstant.SUCCESS, "Document data succefully updated.");
 			return response;
@@ -183,33 +192,32 @@ public class DocumentServiceImpl implements DocumentService {
 			List<DocumentDTO> submittals = documentDAO.getByCreatedBy(userId, projectId);
 
 			for (DocumentDTO doc : submittals) {
-                doc.setDocumentTemplate(documentTemplateDAO.getByDocumentId(doc.getDocumentId()));
-                List<DocumentKeyValueDTO> keyValues = documentKeyValueDAO.getByDocumentId(doc.getDocumentId());
-                doc.setKeyValues(keyValues);
-                List<DocumentGridKeyValueDTO> gridKeyValues = documentGridKeyValueDAO.getByDocumentId(doc.getDocumentId());
-                doc.setGridKeyValues(gridKeyValues);
+				doc.setDocumentTemplate(documentTemplateDAO.getByDocumentId(doc.getDocumentId()));
+				List<DocumentKeyValueDTO> keyValues = documentKeyValueDAO.getByDocumentId(doc.getDocumentId());
+				doc.setKeyValues(keyValues);
+				List<DocumentGridKeyValueDTO> gridKeyValues = documentGridKeyValueDAO.getByDocumentId(doc.getDocumentId());
+				doc.setGridKeyValues(gridKeyValues);
 
-                List<DocumentSubmittal> documentSubmittalList = documentSubmittalDAO.getDocumentSubmittalByDocumentId(doc.getDocumentId());
-                List<UserDTO> documentSubmittalDTOs=new LinkedList<>();
-                doc.setSubmittedTo(documentSubmittalDTOs);
-                for (DocumentSubmittal documentSubmittal : documentSubmittalList){
-                    // get submitted to
-                    Contact submittedTo = contactDAO.getContact(documentSubmittal.getUser().getUserId());
-                    UserDTO submittedToUser = new UserDTO();
-                    submittedToUser.setContact(submittedTo);
-                    documentSubmittalDTOs.add(submittedToUser);
+				List<DocumentSubmittal> documentSubmittalList = documentSubmittalDAO.getDocumentSubmittalByDocumentId(doc.getDocumentId());
+				List<UserDTO> documentSubmittalDTOs = new LinkedList<>();
+				doc.setSubmittedTo(documentSubmittalDTOs);
+				for (DocumentSubmittal documentSubmittal : documentSubmittalList) {
+					// get submitted to
+					Contact submittedTo = contactDAO.getContact(documentSubmittal.getUser().getUserId());
+					UserDTO submittedToUser = new UserDTO();
+					submittedToUser.setContact(submittedTo);
+					documentSubmittalDTOs.add(submittedToUser);
 
-                }
+				}
 
+				// get submitted to
+				if (doc.getModifiedBy() > 0) {
+					Contact modifiedBy = contactDAO.getContact(doc.getModifiedBy());
+					UserDTO modifiedByUser = new UserDTO();
+					modifiedByUser.setContact(modifiedBy);
+					doc.setModifiedByUser(modifiedByUser);
 
-                // get submitted to
-                if(doc.getModifiedBy() > 0) {
-                    Contact modifiedBy = contactDAO.getContact(doc.getModifiedBy());
-                    UserDTO modifiedByUser = new UserDTO();
-                    modifiedByUser.setContact(modifiedBy);
-                    doc.setModifiedByUser(modifiedByUser);
-
-                }
+				}
 
 			}
 
@@ -222,27 +230,26 @@ public class DocumentServiceImpl implements DocumentService {
 				List<DocumentGridKeyValueDTO> gridKeyValues = documentGridKeyValueDAO.getByDocumentId(doc.getDocumentId());
 				doc.setGridKeyValues(gridKeyValues);
 
-                List<DocumentSubmittal> documentSubmittalList = documentSubmittalDAO.getDocumentSubmittalByDocumentId(doc.getDocumentId());
-                List<UserDTO> documentSubmittalDTOs=new LinkedList<>();
-                doc.setSubmittedTo(documentSubmittalDTOs);
-                for (DocumentSubmittal documentSubmittal : documentSubmittalList){
-                    // get submitted to
-                    Contact submittedTo = contactDAO.getContact(documentSubmittal.getUser().getUserId());
-                    UserDTO submittedToUser = new UserDTO();
-                    submittedToUser.setContact(submittedTo);
-                    documentSubmittalDTOs.add(submittedToUser);
+				List<DocumentSubmittal> documentSubmittalList = documentSubmittalDAO.getDocumentSubmittalByDocumentId(doc.getDocumentId());
+				List<UserDTO> documentSubmittalDTOs = new LinkedList<>();
+				doc.setSubmittedTo(documentSubmittalDTOs);
+				for (DocumentSubmittal documentSubmittal : documentSubmittalList) {
+					// get submitted to
+					Contact submittedTo = contactDAO.getContact(documentSubmittal.getUser().getUserId());
+					UserDTO submittedToUser = new UserDTO();
+					submittedToUser.setContact(submittedTo);
+					documentSubmittalDTOs.add(submittedToUser);
 
-                }
+				}
 
-                // get submitted to
-                if(doc.getModifiedBy() > 0) {
-                    Contact modifiedBy = contactDAO.getContact(doc.getModifiedBy());
-                    UserDTO modifiedByUser = new UserDTO();
-                    modifiedByUser.setContact(modifiedBy);
-                    doc.setModifiedByUser(modifiedByUser);
+				// get submitted to
+				if (doc.getModifiedBy() > 0) {
+					Contact modifiedBy = contactDAO.getContact(doc.getModifiedBy());
+					UserDTO modifiedByUser = new UserDTO();
+					modifiedByUser.setContact(modifiedBy);
+					doc.setModifiedByUser(modifiedByUser);
 
-                }
-
+				}
 
 			}
 

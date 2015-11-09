@@ -67,6 +67,8 @@ public class RegistrationRequest implements Serializable {
 	private int companyId;
 	@Column(name = "company_type_id")
 	private Integer companyTypeId;
+	@Column(name = "company_logo_path", length = 255)
+	private String companyLogoPath;
 
 	public RegistrationRequest() {
 	}
@@ -231,6 +233,14 @@ public class RegistrationRequest implements Serializable {
 
 	public void setCompanyTypeId(Integer companyTypeId) {
 		this.companyTypeId = companyTypeId;
+	}
+
+	public String getCompanyLogoPath() {
+		return companyLogoPath;
+	}
+
+	public void setCompanyLogoPath(String companyLogoPath) {
+		this.companyLogoPath = companyLogoPath;
 	}
 
 	@Override

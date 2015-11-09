@@ -18,6 +18,7 @@ public class UserInvitationRequestDTO implements Serializable {
 	private String companyCountry;
 	private int companyId;
 	private Integer companyTypeId;
+	private String companyLogoPath;
 	private Integer projectId;
 
 	public int getCompanyId() {
@@ -146,6 +147,14 @@ public class UserInvitationRequestDTO implements Serializable {
 
 	public void setProjectId(Integer projectId) {
 		this.projectId = projectId;
+	}
+
+	public String getCompanyLogoPath() {
+		return companyLogoPath;
+	}
+
+	public void setCompanyLogoPath(String companyLogoPath) {
+		this.companyLogoPath = companyLogoPath;
 	}
 
 }

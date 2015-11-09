@@ -4,7 +4,10 @@ import javax.ws.rs.core.Response;
 
 import org.junit.Test;
 
+import com.ontarget.bean.UserAddressInfo;
 import com.ontarget.request.bean.BaseRequest;
+import com.ontarget.request.bean.CompanyEditInfo;
+import com.ontarget.request.bean.CompanyInfoEditRequest;
 
 /**
  * Created by Owner on 11/5/14.
@@ -103,39 +106,44 @@ public class UserProfileTest extends BaseTest {
 	// System.out.println(output);
 	// }
 
-	// @Test
-	// public void updateCompanyInfo() {
-	//
-	// CompanyInfoEditRequest request = new CompanyInfoEditRequest();
-	//
-	// CompanyEditInfo company = new CompanyEditInfo();
-	// company.setCompanyId(1);
-	// company.setCompanyName("SIMON AND BARRON WEA RESIDENTIAL");
-	// company.setCompanyTypeId(1);
-	//
-	// UserAddressInfo address = new UserAddressInfo();
-	// address.setAddress1("363 23rd st");
-	// address.setAddress2("Suite 2098");
-	// address.setCity("New York");
-	// address.setCountry("USA");
-	// address.setState("NY");
-	// address.setZip("10001");
-	//
-	// company.setAddress(address);
-	//
-	// request.setCompany(company);
-	//
-	// System.out.println("Client request ....(/profile/updateCompanyInfo) \n");
-	// System.out.println(toJsonString(request, true));
-	// Response response = sendRequest("/profile/updateCompanyInfo", request);
-	// if (response.getStatus() != 200) {
-	// throw new RuntimeException("Failed : HTTP error code : " +
-	// response.getStatus());
-	// }
-	// String output = response.readEntity(String.class);
-	// System.out.println("Server response ....(/profile/updateUserProfile) \n");
-	// System.out.println(output);
-	// }
+	@Test
+	public void updateCompanyInfo() {
+		
+		BaseRequest baseRequest = new BaseRequest();
+		baseRequest.setLoggedInUserId(11);
+		baseRequest.setLoggedInUserProjectId(45);
+
+		CompanyInfoEditRequest request = new CompanyInfoEditRequest();
+
+		CompanyEditInfo company = new CompanyEditInfo();
+		company.setCompanyId(9);
+		company.setCompanyName("SIMON AND BARRON WEA RESIDENTIAL");
+		company.setCompanyTypeId(1);
+		company.setLogoPath("sa.jpg");
+
+		UserAddressInfo address = new UserAddressInfo();
+		address.setAddress1("363 23rd st");
+		address.setAddress2("Suite 2098");
+		address.setCity("New York");
+		address.setCountry("USA");
+		address.setState("NY");
+		address.setZip("10001");
+
+		company.setAddress(address);
+
+		request.setCompany(company);
+		request.setBaseRequest(baseRequest);
+
+		System.out.println("Client request ....(/profile/updateCompanyInfo) \n");
+		System.out.println(toJsonString(request, true));
+		Response response = sendRequest("/profile/updateCompanyInfo", request);
+		if (response.getStatus() != 200) {
+			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
+		}
+		String output = response.readEntity(String.class);
+		System.out.println("Server response ....(/profile/updateUserProfile) \n");
+		System.out.println(output);
+	}
 	//
 	// @Test
 	// public void forgotPasswordRequest() {
@@ -245,24 +253,26 @@ public class UserProfileTest extends BaseTest {
 	// System.out.println(output);
 	// }
 
-	@Test
-	public void userProfileInfo() {
-		BaseRequest baseRequest = new BaseRequest();
-		baseRequest.setLoggedInUserId(10);
-		baseRequest.setLoggedInUserProjectId(42);
-		com.ontarget.request.bean.UserProfileRequest request = new com.ontarget.request.bean.UserProfileRequest();
-		request.setUserId(10);
-		request.setBaseRequest(baseRequest);
-
-		System.out.println("Client request ....(/profile/userProfileInfo) \n");
-		System.out.println(toJsonString(request, true));
-		Response response = sendRequest("/profile/userProfileInfo", request);
-		if (response.getStatus() != 200) {
-			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
-		}
-		String output = response.readEntity(String.class);
-		System.out.println("Server response ....(/profile/userProfileInfo) \n");
-		System.out.println(output);
-	}
+	// @Test
+	// public void userProfileInfo() {
+	// BaseRequest baseRequest = new BaseRequest();
+	// baseRequest.setLoggedInUserId(10);
+	// baseRequest.setLoggedInUserProjectId(42);
+	// com.ontarget.request.bean.UserProfileRequest request = new
+	// com.ontarget.request.bean.UserProfileRequest();
+	// request.setUserId(10);
+	// request.setBaseRequest(baseRequest);
+	//
+	// System.out.println("Client request ....(/profile/userProfileInfo) \n");
+	// System.out.println(toJsonString(request, true));
+	// Response response = sendRequest("/profile/userProfileInfo", request);
+	// if (response.getStatus() != 200) {
+	// throw new RuntimeException("Failed : HTTP error code : " +
+	// response.getStatus());
+	// }
+	// String output = response.readEntity(String.class);
+	// System.out.println("Server response ....(/profile/userProfileInfo) \n");
+	// System.out.println(output);
+	// }
 
 }
