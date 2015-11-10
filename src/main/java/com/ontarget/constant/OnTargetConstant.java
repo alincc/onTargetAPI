@@ -201,6 +201,7 @@ public interface OnTargetConstant {
 	}
 
     public interface UserType {
+    	
         public static final String PROJECT_MANAGER = "PM";
     }
 }
