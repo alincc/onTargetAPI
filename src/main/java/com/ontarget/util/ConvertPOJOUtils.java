@@ -42,6 +42,7 @@ public class ConvertPOJOUtils {
 		userInvitationRequestDTO.setCompanyState(userInvitationRequest.getCompanyState());
 		userInvitationRequestDTO.setCompanyCountry(userInvitationRequest.getCompanyCountry());
 		userInvitationRequestDTO.setCompanyZip(userInvitationRequest.getCompanyZip());
+		userInvitationRequestDTO.setCompanyLogoPath(userInvitationRequest.getCompanyLogoPath());
 		userInvitationRequestDTO.setCompanyTypeId(userInvitationRequest.getCompanyTypeId());
 		return userInvitationRequestDTO;
 	}
