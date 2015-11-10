@@ -23,4 +23,8 @@ public interface UploadDocumentDAO {
 	public List<ProjectFileComment> getCommentsByFileId(int projectFileId);
 
     public UploadedDocumentDetail getFilesByProjectAndFileId(Integer projectId, Integer projectFileId) throws Exception;
+
+    public int getVersionNumberByParentProjectFileId(int parentProjectFileId) throws Exception;
+
+    public boolean updateConversionComplete(Integer projectFileId, Integer loggedInUserId, String isConversionComplete);
 }

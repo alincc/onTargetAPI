@@ -57,6 +57,16 @@ public class UploadDocumentServiceImpl implements UploadDocumentService {
 		logger.info("service call initiated for document upload");
 		UploadDocument documentBean = new UploadDocument(documentInfo);
 
+        //get the latest version no for this project file id and set it to the new one.
+        if(documentBean.getProjectFileId() <=0 && documentBean.getParentProjectFileId()<=0){
+            documentBean.setVersionNo(OnTargetConstant.VersionOne);
+        }else if(documentBean.getProjectFileId()<=0 && documentBean.getParentProjectFileId() > 0){
+            //this means version
+            int currentVersionNum=uploadDocumentDAO.getVersionNumberByParentProjectFileId(documentBean.getParentProjectFileId());
+            documentBean.setVersionNo(currentVersionNum + 1);
+        }
+
+
         UploadedDocumentDetail documentDetail=null;
         if(documentInfo.getProjectFileId() > 0){
             documentDetail = uploadDocumentDAO.updateProjectFile(documentBean);
@@ -154,6 +164,14 @@ public class UploadDocumentServiceImpl implements UploadDocumentService {
         Contact c = contactDAO.getContact(createdBy);
         detail.setCreatedByContact(c);
         return detail;
+    }
+
+    @Override
+    public OnTargetResponse udpateConversionComplete(Integer projectFileId, Integer loggedInUserId, Boolean isConversioinComplete) throws Exception {
+
+        boolean updated = uploadDocumentDAO.updateConversionComplete(projectFileId,loggedInUserId,isConversioinComplete == true ? "Y" : "N");
+
+        return null;
     }
 
     @Override

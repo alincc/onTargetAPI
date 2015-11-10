@@ -26,4 +26,6 @@ public interface UploadDocumentService {
 	public ProjectFileCommentListResponse getCommentList(Integer projectFileId) throws Exception;
 
     public UploadedDocumentDetail getUploadedFileByProjectFileId(Integer projectId, Integer porjectFileId) throws Exception;
+
+    public OnTargetResponse udpateConversionComplete(Integer projectFileId, Integer loggedInUserId, Boolean isConversioinComplete) throws Exception;
 }

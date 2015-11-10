@@ -19,6 +19,12 @@ public class UploadDocument implements Serializable {
 	private int categoryId;
 	private String description;
 
+    private String thumbnailImageName;
+    private int parentProjectFileId;
+    private int versionNo;
+    private boolean isConversionComplete;
+
+
 	public UploadDocument() {
 	}
 
@@ -33,6 +39,9 @@ public class UploadDocument implements Serializable {
 		this.categoryId = requestData.getCategoryId();
 		this.description = requestData.getDescription();
         this.projectFileId=requestData.getProjectFileId();
+        this.thumbnailImageName=requestData.getThumbnailImageName();
+        this.parentProjectFileId=requestData.getParentProjectFileId();
+        this.isConversionComplete=requestData.getIsConversioinComplete();
 	}
 
 	public int getProjectId() {
@@ -115,4 +124,35 @@ public class UploadDocument implements Serializable {
 		this.description = description;
 	}
 
+    public String getThumbnailImageName() {
+        return thumbnailImageName;
+    }
+
+    public void setThumbnailImageName(String thumbnailImageName) {
+        this.thumbnailImageName = thumbnailImageName;
+    }
+
+    public int getParentProjectFileId() {
+        return parentProjectFileId;
+    }
+
+    public void setParentProjectFileId(int parentProjectFileId) {
+        this.parentProjectFileId = parentProjectFileId;
+    }
+
+    public int getVersionNo() {
+        return versionNo;
+    }
+
+    public void setVersionNo(int versionNo) {
+        this.versionNo = versionNo;
+    }
+
+    public boolean isConversionComplete() {
+        return isConversionComplete;
+    }
+
+    public void setConversionComplete(boolean isConversionComplete) {
+        this.isConversionComplete = isConversionComplete;
+    }
 }

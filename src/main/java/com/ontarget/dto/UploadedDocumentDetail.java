@@ -4,6 +4,7 @@ import com.ontarget.bean.Contact;
 import com.ontarget.entities.ProjectFileCategory;
 
 import java.util.Date;
+import java.util.List;
 
 public class UploadedDocumentDetail{
 	
@@ -15,6 +16,52 @@ public class UploadedDocumentDetail{
     private Contact createdByContact;
     private ProjectFileCategory projectFileCategoryId;
     private String description;
+    List<UploadedDocumentDetail> versionProjectFiles;
+
+    private String thumbnailImageName;
+    private int parentProjectFileId;
+    private int versionNo;
+    private boolean isConversionComplete;
+
+    public String getThumbnailImageName() {
+        return thumbnailImageName;
+    }
+
+    public void setThumbnailImageName(String thumbnailImageName) {
+        this.thumbnailImageName = thumbnailImageName;
+    }
+
+    public int getParentProjectFileId() {
+        return parentProjectFileId;
+    }
+
+    public void setParentProjectFileId(int parentProjectFileId) {
+        this.parentProjectFileId = parentProjectFileId;
+    }
+
+    public int getVersionNo() {
+        return versionNo;
+    }
+
+    public void setVersionNo(int versionNo) {
+        this.versionNo = versionNo;
+    }
+
+    public boolean isConversionComplete() {
+        return isConversionComplete;
+    }
+
+    public void setConversionComplete(boolean isConversionComplete) {
+        this.isConversionComplete = isConversionComplete;
+    }
+
+    public List<UploadedDocumentDetail> getVersionProjectFiles() {
+        return versionProjectFiles;
+    }
+
+    public void setVersionProjectFiles(List<UploadedDocumentDetail> versionProjectFiles) {
+        this.versionProjectFiles = versionProjectFiles;
+    }
 
     public ProjectFileCategory getProjectFileCategoryId() {
         return projectFileCategoryId;

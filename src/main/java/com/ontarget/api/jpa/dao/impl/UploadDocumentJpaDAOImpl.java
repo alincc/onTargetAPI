@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import com.ontarget.api.dao.UploadDocumentDAO;
@@ -40,6 +42,11 @@ public class UploadDocumentJpaDAOImpl implements UploadDocumentDAO {
 		projectFile.setCreatedBy(new User(documentBean.getCreatedBy()));
 		projectFile.setCreatedDate(new Date());
 		projectFile.setStatus(OnTargetConstant.ProjectFileStatus.ACTIVE);
+        projectFile.setParentProjectFileId(documentBean.getParentProjectFileId());
+        projectFile.setThumbnailImageName(documentBean.getThumbnailImageName());
+        projectFile.setIsConversionComplete(documentBean.isConversionComplete() ? "Y" : "N");
+        projectFile.setVersionNo(documentBean.getVersionNo());
+
 		projectFileRepository.save(projectFile);
 
         UploadedDocumentDetail documentDetail = new UploadedDocumentDetail();
@@ -50,6 +57,12 @@ public class UploadDocumentJpaDAOImpl implements UploadDocumentDAO {
         documentDetail.setCreatedDate(projectFile.getCreatedDate());
         documentDetail.setProjectFileCategoryId(projectFile.getProjectFileCategory());
         documentDetail.setDescription(projectFile.getDescription());
+        documentDetail.setParentProjectFileId(projectFile.getParentProjectFileId());
+        documentDetail.setThumbnailImageName(projectFile.getThumbnailImageName());
+        documentDetail.setVersionNo(projectFile.getVersionNo());
+        documentDetail.setConversionComplete(projectFile.getIsConversionComplete().equals("Y") ? true : false);
+
+
 
 		return documentDetail;
 	}
@@ -70,6 +83,32 @@ public class UploadDocumentJpaDAOImpl implements UploadDocumentDAO {
 				documentDetail.setCreatedDate(file.getCreatedDate());
                 documentDetail.setProjectFileCategoryId(file.getProjectFileCategory());
                 documentDetail.setDescription(file.getDescription());
+                documentDetail.setParentProjectFileId(file.getParentProjectFileId());
+                documentDetail.setThumbnailImageName(file.getThumbnailImageName());
+                documentDetail.setVersionNo(file.getVersionNo());
+                documentDetail.setConversionComplete(file.getIsConversionComplete().equals("Y") ? true : false);
+                
+                
+                List<ProjectFile> versionedFiles=projectFileRepository.getProjectFileByParentProjectFileIdAndVersionNumSortedDescLimitOne(file.getProjectFileId(), new PageRequest(0, 100));
+                if(versionedFiles!=null && versionedFiles.size() > 0) {
+                    for (ProjectFile versionedFile : versionedFiles) {
+                        UploadedDocumentDetail documentDetailV = new UploadedDocumentDetail();
+                        documentDetailV.setFileId(versionedFile.getProjectFileId());
+                        documentDetailV.setName(versionedFile.getFileName());
+                        documentDetailV.setFileType(versionedFile.getFileType());
+                        documentDetailV.setCreatedBy(versionedFile.getCreatedBy().getUserId());
+                        documentDetailV.setCreatedDate(versionedFile.getCreatedDate());
+                        documentDetailV.setProjectFileCategoryId(versionedFile.getProjectFileCategory());
+                        documentDetailV.setDescription(versionedFile.getDescription());
+                        documentDetailV.setParentProjectFileId(versionedFile.getParentProjectFileId());
+                        documentDetailV.setThumbnailImageName(versionedFile.getThumbnailImageName());
+                        documentDetailV.setVersionNo(versionedFile.getVersionNo());
+                        documentDetailV.setConversionComplete(versionedFile.getIsConversionComplete().equals("Y") ? true : false);
+                    }
+                }
+                
+                
+                
 				resultList.add(documentDetail);
 			}
 		}
@@ -84,6 +123,7 @@ public class UploadDocumentJpaDAOImpl implements UploadDocumentDAO {
         ProjectFile projectFile = projectFileRepository.findById(documentBean.getProjectFileId());
         projectFile.setDescription(documentBean.getDescription());
         projectFile.setFileName(documentBean.getName());
+        projectFile.setThumbnailImageName(documentBean.getThumbnailImageName());
         projectFile.setProjectFileCategory(new ProjectFileCategory(documentBean.getCategoryId()));
         projectFile.setModifiedBy(new User(documentBean.getModifiedBy()));
         projectFile.setModifiedDate(new Date());
@@ -97,6 +137,10 @@ public class UploadDocumentJpaDAOImpl implements UploadDocumentDAO {
         documentDetail.setCreatedDate(projectFile.getCreatedDate());
         documentDetail.setProjectFileCategoryId(projectFile.getProjectFileCategory());
         documentDetail.setDescription(projectFile.getDescription());
+        documentDetail.setParentProjectFileId(projectFile.getParentProjectFileId());
+        documentDetail.setThumbnailImageName(projectFile.getThumbnailImageName());
+        documentDetail.setVersionNo(projectFile.getVersionNo());
+        documentDetail.setConversionComplete(projectFile.getIsConversionComplete().equals("Y") ? true : false);
 
         return documentDetail;
 
@@ -132,6 +176,26 @@ public class UploadDocumentJpaDAOImpl implements UploadDocumentDAO {
         documentDetail.setDescription(file.getDescription());
 
         return documentDetail;
+    }
+
+    @Override
+    public int getVersionNumberByParentProjectFileId(int parentProjectFileId) throws Exception {
+        Pageable topOne = new PageRequest(0, 1);
+        List<ProjectFile> projectFiles=projectFileRepository.getProjectFileByParentProjectFileIdAndVersionNumSortedDescLimitOne(parentProjectFileId,topOne);
+        if(projectFiles!=null && projectFiles.size() > 0){
+            return projectFiles.get(0).getVersionNo();
+        }
+        return 0;
+    }
+
+    @Override
+    public boolean updateConversionComplete(Integer projectFileId, Integer loggedInUserId, String isConversionComplete) {
+        ProjectFile projectFile = projectFileRepository.findById(projectFileId);
+        projectFile.setIsConversionComplete(isConversionComplete);
+        projectFile.setModifiedBy(new User(loggedInUserId));
+        projectFile.setModifiedDate(new Date());
+        projectFileRepository.save(projectFile);
+        return projectFile.getIsConversionComplete().equals(isConversionComplete);
     }
 
     @Override

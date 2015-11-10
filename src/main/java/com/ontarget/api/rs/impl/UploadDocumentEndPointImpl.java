@@ -8,6 +8,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import com.ontarget.api.request.UpdateIsConversionCompleteRequest;
 import com.ontarget.dto.ProjectFileResponse;
 import com.ontarget.request.bean.*;
 import com.ontarget.response.bean.UploadDocumentDetailResponse;
@@ -68,6 +69,21 @@ public class UploadDocumentEndPointImpl implements UploadDocumentEndPoint {
 
 		return response;
 	}
+
+
+    public OnTargetResponse updateIsConversionComplete(UpdateIsConversionCompleteRequest request){
+        OnTargetResponse response = new OnTargetResponse();
+        try {
+            return documentService.udpateConversionComplete(request.getProjectFileId(), request.getBaseRequest().getLoggedInUserId(), request.getIsConversioinComplete());
+        } catch (Exception e) {
+            logger.error("Delete project file failed." + e);
+            response.setReturnMessage("Delete project file failed");
+            response.setReturnVal(OnTargetConstant.ERROR);
+        }
+        return response;
+    }
+
+
 
 	@Override
 	@POST

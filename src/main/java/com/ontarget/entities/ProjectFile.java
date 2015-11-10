@@ -61,10 +61,56 @@ public class ProjectFile implements Serializable {
 	@ManyToOne(fetch = FetchType.LAZY)
 	private User modifiedBy;
 
+    @Column(name = "parent_project_file_id", nullable = false)
+    private Integer parentProjectFileId;
+
+    @Basic(optional = false)
+    @Column(name = "thumbnail_name", nullable = false, length = 255)
+    private String thumbnailImageName;
+
+    @Column(name = "version_no", nullable = false)
+    private Integer versionNo;
+
+    @Column(name = "is_conversion_complete", nullable = false)
+    private String isConversionComplete;
+
+
 	public ProjectFile() {
 	}
 
-	public ProjectFile(Integer projectFileId) {
+    public Integer getParentProjectFileId() {
+        return parentProjectFileId;
+    }
+
+    public void setParentProjectFileId(Integer parentProjectFileId) {
+        this.parentProjectFileId = parentProjectFileId;
+    }
+
+    public String getThumbnailImageName() {
+        return thumbnailImageName;
+    }
+
+    public void setThumbnailImageName(String thumbnailImageName) {
+        this.thumbnailImageName = thumbnailImageName;
+    }
+
+    public Integer getVersionNo() {
+        return versionNo;
+    }
+
+    public void setVersionNo(Integer versionNo) {
+        this.versionNo = versionNo;
+    }
+
+    public String getIsConversionComplete() {
+        return isConversionComplete;
+    }
+
+    public void setIsConversionComplete(String isConversionComplete) {
+        this.isConversionComplete = isConversionComplete;
+    }
+
+    public ProjectFile(Integer projectFileId) {
 		this.projectFileId = projectFileId;
 	}
 

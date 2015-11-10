@@ -103,6 +103,16 @@ public class UploadDocumentDAOImpl implements UploadDocumentDAO {
     }
 
     @Override
+    public int getVersionNumberByParentProjectFileId(int parentProjectFileId) throws Exception {
+        return 0;
+    }
+
+    @Override
+    public boolean updateConversionComplete(Integer projectFileId, Integer loggedInUserId, String isConversionComplete) {
+       return false;
+    }
+
+    @Override
 	public boolean deleteProjectFile(Integer projectFileId,int userId) throws Exception {
 		// TODO Auto-generated method stub
 		return false;
