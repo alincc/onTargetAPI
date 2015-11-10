@@ -200,4 +200,7 @@ public interface OnTargetConstant {
 		public static final String DELETED = "DELETED";
 	}
 
+    public interface UserType {
+        public static final String PROJECT_MANAGER = "PM";
+    }
 }

@@ -32,6 +32,7 @@ public class UploadDocument implements Serializable {
 		this.modifiedDate = new Date();
 		this.categoryId = requestData.getCategoryId();
 		this.description = requestData.getDescription();
+        this.projectFileId=requestData.getProjectFileId();
 	}
 
 	public int getProjectId() {

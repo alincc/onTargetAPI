@@ -74,7 +74,12 @@ public class UploadDocumentDAOImpl implements UploadDocumentDAO {
 
 	}
 
-	@Override
+    @Override
+    public UploadedDocumentDetail updateProjectFile(UploadDocument documentBean) throws Exception {
+        return null;
+    }
+
+    @Override
 	public boolean addComment(ProjectFileCommentRequest request) throws Exception {
 		// TODO Auto-generated method stub
 		return false;

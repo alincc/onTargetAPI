@@ -12,7 +12,9 @@ public interface UploadDocumentDAO {
 
 	public List<UploadedDocumentDetail> getFilesByProjectId(int projectId);
 
-	public boolean deleteProjectFile(Integer projectFileId, int userId) throws Exception;
+    UploadedDocumentDetail updateProjectFile(UploadDocument documentBean) throws Exception;
+
+    public boolean deleteProjectFile(Integer projectFileId, int userId) throws Exception;
 
 	public boolean addComment(ProjectFileCommentRequest request) throws Exception;
 

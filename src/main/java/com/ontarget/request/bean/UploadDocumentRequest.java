@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "baseRequest", "projectId", "name", "fileType", "createdBy", "modifiedBy", "categoryId", "description" })
+@JsonPropertyOrder({ "baseRequest", "projectId", "name", "fileType", "createdBy", "modifiedBy", "categoryId", "description", "projectFileId" })
 public class UploadDocumentRequest {
 	@NotNull
 	@Valid
@@ -40,7 +40,21 @@ public class UploadDocumentRequest {
 	@JsonProperty("description")
 	private String description;
 
-	@JsonProperty("baseRequest")
+    @NotNull()
+    @JsonProperty("projectFileId")
+    private Integer projectFileId;
+
+    @JsonProperty("projectFileId")
+    public Integer getProjectFileId() {
+        return projectFileId;
+    }
+
+    @JsonProperty("projectFileId")
+    public void setProjectFileId(Integer projectFileId) {
+        this.projectFileId = projectFileId;
+    }
+
+    @JsonProperty("baseRequest")
 	public BaseRequest getBaseRequest() {
 		return baseRequest;
 	}

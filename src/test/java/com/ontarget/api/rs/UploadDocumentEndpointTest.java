@@ -13,6 +13,8 @@ import com.ontarget.request.bean.ProjectFileDeleteRequest;
 import com.ontarget.request.bean.UploadDocumentRequest;
 import com.ontarget.request.bean.UploadedFileDetail;
 
+import static junit.framework.Assert.fail;
+
 public class UploadDocumentEndpointTest extends BaseTest {
 
 	@Test
@@ -25,21 +27,27 @@ public class UploadDocumentEndpointTest extends BaseTest {
 	UploadDocumentRequest request = new UploadDocumentRequest();
 	request.setBaseRequest(baseRequest);
 
+
 	request.setCreatedBy(11);
 	request.setModifiedBy(11);
-	request.setName("Details 3.pdf");
+	request.setName("assets/projects/TBAeXqI4822DWZ4fQFcI/onsite/testpdf-1-updated.pdf");
 	request.setProjectId(45);
 	request.setFileType("application/pdf");
 	request.setCategoryId(1);
-	request.setDescription("Project image");
+	request.setDescription("Project image update");
+    request.setProjectFileId(104);
 
 	System.out.println("Client request.... \n");
 	System.out.println(toJsonString(request, true));
-	Response response = sendRequest("/upload/saveUploadedDocsInfo", request);
-	if (response.getStatus() != 200) {
-	throw new RuntimeException("Failed : HTTP error code : " +
-	response.getStatus());
-	}
+    Response response=null;
+
+            response = sendRequest("/upload/saveUploadedDocsInfo", request);
+            if (response.getStatus() != 200) {
+                throw new RuntimeException("Failed : HTTP error code : " +
+                        response.getStatus());
+
+            }
+
 	String output = response.readEntity(String.class);
 	System.out.println("Server response .... \n");
 	System.out.println(output);

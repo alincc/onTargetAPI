@@ -42,7 +42,7 @@ public class CompanyDAOTest extends BaseTest {
 		company.setAddress(address);
 
 		try {
-			boolean updated = companyDAO.update(company);
+			boolean updated = companyDAO.update(company,11);
 			Assert.assertTrue(updated);
 		} catch (Exception e) {
 			logger.error("Error while updating company details", e);

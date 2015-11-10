@@ -56,7 +56,13 @@ public class UploadDocumentServiceImpl implements UploadDocumentService {
 	public UploadDocumentDetailResponse saveUploadedDocsInfo(UploadDocumentRequest documentInfo) throws Exception {
 		logger.info("service call initiated for document upload");
 		UploadDocument documentBean = new UploadDocument(documentInfo);
-		UploadedDocumentDetail documentDetail = uploadDocumentDAO.saveUploadedDocsInfo(documentBean);
+
+        UploadedDocumentDetail documentDetail=null;
+        if(documentInfo.getProjectFileId() > 0){
+            documentDetail = uploadDocumentDAO.updateProjectFile(documentBean);
+        }else {
+            documentDetail = uploadDocumentDAO.saveUploadedDocsInfo(documentBean);
+        }
 
         UploadDocumentDetailResponse response = new UploadDocumentDetailResponse();
         response.setDocumentDetail(documentDetail);

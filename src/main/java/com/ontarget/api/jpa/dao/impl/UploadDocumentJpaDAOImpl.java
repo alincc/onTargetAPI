@@ -78,6 +78,30 @@ public class UploadDocumentJpaDAOImpl implements UploadDocumentDAO {
 
 	}
 
+
+    @Override
+    public UploadedDocumentDetail updateProjectFile(UploadDocument documentBean) throws Exception {
+        ProjectFile projectFile = projectFileRepository.findById(documentBean.getProjectFileId());
+        projectFile.setDescription(documentBean.getDescription());
+        projectFile.setFileName(documentBean.getName());
+        projectFile.setProjectFileCategory(new ProjectFileCategory(documentBean.getCategoryId()));
+        projectFile.setModifiedBy(new User(documentBean.getModifiedBy()));
+        projectFile.setModifiedDate(new Date());
+        projectFileRepository.save(projectFile);
+
+        UploadedDocumentDetail documentDetail = new UploadedDocumentDetail();
+        documentDetail.setFileId(projectFile.getProjectFileId());
+        documentDetail.setName(projectFile.getFileName());
+        documentDetail.setFileType(projectFile.getFileType());
+        documentDetail.setCreatedBy(projectFile.getCreatedBy().getUserId());
+        documentDetail.setCreatedDate(projectFile.getCreatedDate());
+        documentDetail.setProjectFileCategoryId(projectFile.getProjectFileCategory());
+        documentDetail.setDescription(projectFile.getDescription());
+
+        return documentDetail;
+
+    }
+
 	@Override
 	public boolean deleteProjectFile(Integer projectFileId, int userId) throws Exception {
 		ProjectFile projectFile = projectFileRepository.findById(projectFileId);
