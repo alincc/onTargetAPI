@@ -44,6 +44,7 @@ public class UserInvitationJpaDAOImpl implements UserInvitationDAO {
 		registrationRequest.setCompanyZip(userInvitationRequestDTO.getCompanyZip());
 		registrationRequest.setCompanyId(userInvitationRequestDTO.getCompanyId());
 		registrationRequest.setCompanyTypeId(userInvitationRequestDTO.getCompanyTypeId());
+        registrationRequest.setCompanyLogoPath(userInvitationRequestDTO.getCompanyLogoPath());
 		if (registrationRequest.getCompanyTypeId() == null) {
 			registrationRequest.setCompanyTypeId(0);
 		}
