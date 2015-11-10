@@ -167,11 +167,18 @@ public class UploadDocumentServiceImpl implements UploadDocumentService {
     }
 
     @Override
-    public OnTargetResponse udpateConversionComplete(Integer projectFileId, Integer loggedInUserId, Boolean isConversioinComplete) throws Exception {
-
-        boolean updated = uploadDocumentDAO.updateConversionComplete(projectFileId,loggedInUserId,isConversioinComplete == true ? "Y" : "N");
-
-        return null;
+    public OnTargetResponse udpateConversionComplete(Integer projectFileId, Integer loggedInUserId, Boolean isConversionComplete) throws Exception {
+        logger.debug("Updating connversion complete for file id: "+ projectFileId);
+        boolean updated = uploadDocumentDAO.updateConversionComplete(projectFileId,loggedInUserId,isConversionComplete == true ? "Y" : "N");
+        OnTargetResponse response=new OnTargetResponse();
+        if(updated){
+            response.setReturnVal(OnTargetConstant.SUCCESS);
+            response.setReturnMessage("Successfully updated conversion complete");
+        }else{
+            response.setReturnVal(OnTargetConstant.ERROR);
+            response.setReturnMessage("Error while updating conversion complete");
+        }
+        return response;
     }
 
     @Override

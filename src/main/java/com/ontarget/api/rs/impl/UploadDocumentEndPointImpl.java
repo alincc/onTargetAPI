@@ -71,10 +71,13 @@ public class UploadDocumentEndPointImpl implements UploadDocumentEndPoint {
 	}
 
 
+    @Override
+    @Path("/updateConversionComplete")
+    @POST
     public OnTargetResponse updateIsConversionComplete(UpdateIsConversionCompleteRequest request){
         OnTargetResponse response = new OnTargetResponse();
         try {
-            return documentService.udpateConversionComplete(request.getProjectFileId(), request.getBaseRequest().getLoggedInUserId(), request.getIsConversioinComplete());
+            return documentService.udpateConversionComplete(request.getProjectFileId(), request.getBaseRequest().getLoggedInUserId(), request.getIsConversionComplete());
         } catch (Exception e) {
             logger.error("Delete project file failed." + e);
             response.setReturnMessage("Delete project file failed");

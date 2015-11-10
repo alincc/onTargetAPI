@@ -2,6 +2,7 @@ package com.ontarget.api.jpa.dao.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -90,6 +91,8 @@ public class UploadDocumentJpaDAOImpl implements UploadDocumentDAO {
                 
                 
                 List<ProjectFile> versionedFiles=projectFileRepository.getProjectFileByParentProjectFileIdAndVersionNumSortedDescLimitOne(file.getProjectFileId(), new PageRequest(0, 100));
+                List<UploadedDocumentDetail> versionedFileList = new LinkedList<>();
+                documentDetail.setVersionProjectFiles(versionedFileList);
                 if(versionedFiles!=null && versionedFiles.size() > 0) {
                     for (ProjectFile versionedFile : versionedFiles) {
                         UploadedDocumentDetail documentDetailV = new UploadedDocumentDetail();
@@ -104,6 +107,7 @@ public class UploadDocumentJpaDAOImpl implements UploadDocumentDAO {
                         documentDetailV.setThumbnailImageName(versionedFile.getThumbnailImageName());
                         documentDetailV.setVersionNo(versionedFile.getVersionNo());
                         documentDetailV.setConversionComplete(versionedFile.getIsConversionComplete().equals("Y") ? true : false);
+                        versionedFileList.add(documentDetailV);
                     }
                 }
                 

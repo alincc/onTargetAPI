@@ -35,7 +35,10 @@ public class UploadDocumentEndpointTest extends BaseTest {
 	request.setFileType("application/pdf");
 	request.setCategoryId(1);
 	request.setDescription("Project image update");
-    request.setProjectFileId(104);
+    request.setProjectFileId(0);
+    request.setParentProjectFileId(104);
+    request.setThumbnailImageName("/assets/projects/TBAeXqI4822DWZ4fQFcI/abcdef.thumb.jpg");
+    request.setIsConversionComplete(false);
 
 	System.out.println("Client request.... \n");
 	System.out.println(toJsonString(request, true));

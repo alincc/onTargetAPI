@@ -31,7 +31,7 @@ public class UpdateIsConversionCompleteRequest {
 
     @NotEmpty
     @JsonProperty("isConversioinComplete")
-    private Boolean isConversioinComplete;
+    private Boolean isConversionComplete;
 
 
 }

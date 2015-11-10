@@ -41,7 +41,7 @@ public class UploadDocument implements Serializable {
         this.projectFileId=requestData.getProjectFileId();
         this.thumbnailImageName=requestData.getThumbnailImageName();
         this.parentProjectFileId=requestData.getParentProjectFileId();
-        this.isConversionComplete=requestData.getIsConversioinComplete();
+        this.isConversionComplete=requestData.getIsConversionComplete();
 	}
 
 	public int getProjectId() {
