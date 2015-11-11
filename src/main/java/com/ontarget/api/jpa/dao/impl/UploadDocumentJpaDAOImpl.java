@@ -182,6 +182,35 @@ public class UploadDocumentJpaDAOImpl implements UploadDocumentDAO {
         documentDetail.setProjectFileCategoryId(file.getProjectFileCategory());
         documentDetail.setDescription(file.getDescription());
 
+        documentDetail.setParentProjectFileId(file.getParentProjectFileId());
+        documentDetail.setThumbnailImageName(file.getThumbnailImageName());
+        documentDetail.setVersionNo(file.getVersionNo());
+        documentDetail.setConversionComplete(file.getIsConversionComplete().equals("Y") ? true : false);
+        documentDetail.setFilePath(file.getFilePath());
+
+        List<ProjectFile> versionedFiles=projectFileRepository.getProjectFileByParentProjectFileIdAndVersionNumSortedDescLimitOne(file.getProjectFileId(), new PageRequest(0, 100));
+        List<UploadedDocumentDetail> versionedFileList = new LinkedList<>();
+        documentDetail.setVersionProjectFiles(versionedFileList);
+        if(versionedFiles!=null && versionedFiles.size() > 0) {
+            for (ProjectFile versionedFile : versionedFiles) {
+                UploadedDocumentDetail documentDetailV = new UploadedDocumentDetail();
+                documentDetailV.setFileId(versionedFile.getProjectFileId());
+                documentDetailV.setName(versionedFile.getFileName());
+                documentDetailV.setFileType(versionedFile.getFileType());
+                documentDetailV.setCreatedBy(versionedFile.getCreatedBy().getUserId());
+                documentDetailV.setCreatedDate(versionedFile.getCreatedDate());
+                documentDetailV.setProjectFileCategoryId(versionedFile.getProjectFileCategory());
+                documentDetailV.setDescription(versionedFile.getDescription());
+                documentDetailV.setParentProjectFileId(versionedFile.getParentProjectFileId());
+                documentDetailV.setThumbnailImageName(versionedFile.getThumbnailImageName());
+                documentDetailV.setVersionNo(versionedFile.getVersionNo());
+                documentDetailV.setConversionComplete(versionedFile.getIsConversionComplete().equals("Y") ? true : false);
+                documentDetailV.setFilePath(versionedFile.getFilePath());
+                versionedFileList.add(documentDetailV);
+            }
+        }
+
+
         return documentDetail;
     }
 
