@@ -220,8 +220,22 @@ insert into `profile_feature` ( `active`, `application_feature_id`, `profile_id`
 insert into `profile_feature` ( `active`, `application_feature_id`, `profile_id`) values('Y','51','3');
 
 
+-- onbim access to regular user.
+
+insert into `profile_feature` ( `active`, `application_feature_id`, `profile_id`) values('Y','58','3');
+insert into `profile_feature` ( `active`, `application_feature_id`, `profile_id`) values('Y','59','3');
+insert into `profile_feature` ( `active`, `application_feature_id`, `profile_id`) values('Y','60','3');
+insert into `profile_feature` ( `active`, `application_feature_id`, `profile_id`) values('Y','61','3');
+insert into `profile_feature` ( `active`, `application_feature_id`, `profile_id`) values('Y','62','3');
+insert into `profile_feature` ( `active`, `application_feature_id`, `profile_id`) values('Y','68','3');
+insert into `profile_feature` ( `active`, `application_feature_id`, `profile_id`) values('Y','69','3');
+insert into `profile_feature` ( `active`, `application_feature_id`, `profile_id`) values('Y','70','3');
+insert into `profile_feature` ( `active`, `application_feature_id`, `profile_id`) values('Y','71','3');
 
 
+-- oncontact to regular user
+
+insert into `profile_feature` ( `active`, `application_feature_id`, `profile_id`) values('Y','44','3');
 
 
 
