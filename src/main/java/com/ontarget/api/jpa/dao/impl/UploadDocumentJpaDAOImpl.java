@@ -47,6 +47,7 @@ public class UploadDocumentJpaDAOImpl implements UploadDocumentDAO {
         projectFile.setThumbnailImageName(documentBean.getThumbnailImageName());
         projectFile.setIsConversionComplete(documentBean.isConversionComplete() ? "Y" : "N");
         projectFile.setVersionNo(documentBean.getVersionNo());
+        projectFile.setFilePath(documentBean.getFilePath());
 
 		projectFileRepository.save(projectFile);
 
@@ -62,7 +63,7 @@ public class UploadDocumentJpaDAOImpl implements UploadDocumentDAO {
         documentDetail.setThumbnailImageName(projectFile.getThumbnailImageName());
         documentDetail.setVersionNo(projectFile.getVersionNo());
         documentDetail.setConversionComplete(projectFile.getIsConversionComplete().equals("Y") ? true : false);
-
+        documentDetail.setFilePath(projectFile.getFilePath());
 
 
 		return documentDetail;
@@ -88,6 +89,7 @@ public class UploadDocumentJpaDAOImpl implements UploadDocumentDAO {
                 documentDetail.setThumbnailImageName(file.getThumbnailImageName());
                 documentDetail.setVersionNo(file.getVersionNo());
                 documentDetail.setConversionComplete(file.getIsConversionComplete().equals("Y") ? true : false);
+                documentDetail.setFilePath(file.getFilePath());
                 
                 
                 List<ProjectFile> versionedFiles=projectFileRepository.getProjectFileByParentProjectFileIdAndVersionNumSortedDescLimitOne(file.getProjectFileId(), new PageRequest(0, 100));
@@ -107,6 +109,7 @@ public class UploadDocumentJpaDAOImpl implements UploadDocumentDAO {
                         documentDetailV.setThumbnailImageName(versionedFile.getThumbnailImageName());
                         documentDetailV.setVersionNo(versionedFile.getVersionNo());
                         documentDetailV.setConversionComplete(versionedFile.getIsConversionComplete().equals("Y") ? true : false);
+                        documentDetailV.setFilePath(versionedFile.getFilePath());
                         versionedFileList.add(documentDetailV);
                     }
                 }
@@ -127,7 +130,6 @@ public class UploadDocumentJpaDAOImpl implements UploadDocumentDAO {
         ProjectFile projectFile = projectFileRepository.findById(documentBean.getProjectFileId());
         projectFile.setDescription(documentBean.getDescription());
         projectFile.setFileName(documentBean.getName());
-        projectFile.setThumbnailImageName(documentBean.getThumbnailImageName());
         projectFile.setProjectFileCategory(new ProjectFileCategory(documentBean.getCategoryId()));
         projectFile.setModifiedBy(new User(documentBean.getModifiedBy()));
         projectFile.setModifiedDate(new Date());
@@ -145,6 +147,7 @@ public class UploadDocumentJpaDAOImpl implements UploadDocumentDAO {
         documentDetail.setThumbnailImageName(projectFile.getThumbnailImageName());
         documentDetail.setVersionNo(projectFile.getVersionNo());
         documentDetail.setConversionComplete(projectFile.getIsConversionComplete().equals("Y") ? true : false);
+        documentDetail.setFilePath(projectFile.getFilePath());
 
         return documentDetail;
 

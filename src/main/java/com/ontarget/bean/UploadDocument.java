@@ -24,8 +24,17 @@ public class UploadDocument implements Serializable {
     private int versionNo;
     private boolean isConversionComplete;
 
+    private  String filePath;
 
-	public UploadDocument() {
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
+    }
+
+    public UploadDocument() {
 	}
 
 	public UploadDocument(UploadDocumentRequest requestData) {
@@ -42,6 +51,7 @@ public class UploadDocument implements Serializable {
         this.thumbnailImageName=requestData.getThumbnailImageName();
         this.parentProjectFileId=requestData.getParentProjectFileId();
         this.isConversionComplete=requestData.getIsConversionComplete();
+        this.filePath=requestData.getFilePath();
 	}
 
 	public int getProjectId() {

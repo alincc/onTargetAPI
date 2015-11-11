@@ -30,7 +30,8 @@ public class UploadDocumentEndpointTest extends BaseTest {
 
 	request.setCreatedBy(11);
 	request.setModifiedBy(11);
-	request.setName("assets/projects/TBAeXqI4822DWZ4fQFcI/onsite/testpdf-1-updated.pdf");
+	request.setName("testpdf-1-updated.pdf");
+    request.setFilePath("assets/projects/TBAeXqI4822DWZ4fQFcI/onsite/testpdf-1-renamed.pdf");
 	request.setProjectId(45);
 	request.setFileType("application/pdf");
 	request.setCategoryId(1);

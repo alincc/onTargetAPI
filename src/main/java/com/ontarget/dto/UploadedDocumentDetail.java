@@ -22,6 +22,15 @@ public class UploadedDocumentDetail{
     private int parentProjectFileId;
     private int versionNo;
     private boolean isConversionComplete;
+    private String filePath;
+
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
+    }
 
     public String getThumbnailImageName() {
         return thumbnailImageName;

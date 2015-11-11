@@ -37,9 +37,14 @@ public class UploadDocumentRequest {
 	@NotNull
 	@JsonProperty("categoryId")
 	private Integer categoryId;
-	@NotEmpty
-	@JsonProperty("description")
-	private String description;
+
+    @NotEmpty
+	@JsonProperty("filePath")
+	private String filePath;
+
+    @NotEmpty
+    @JsonProperty("description")
+    private String description;
 
     @NotNull
     @JsonProperty("projectFileId")

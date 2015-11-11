@@ -74,9 +74,21 @@ public class ProjectFile implements Serializable {
     @Column(name = "is_conversion_complete", nullable = false)
     private String isConversionComplete;
 
+    @Basic(optional = false)
+    @Column(name = "file_path", nullable = false, length = 255)
+    private String filePath;
+
 
 	public ProjectFile() {
 	}
+
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
+    }
 
     public Integer getParentProjectFileId() {
         return parentProjectFileId;
