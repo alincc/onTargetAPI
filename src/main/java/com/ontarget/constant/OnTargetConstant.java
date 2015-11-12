@@ -203,6 +203,8 @@ public interface OnTargetConstant {
 
     public interface UserType {
     	
-    	public static final String PROJECT_MANAGER = "PM";
+    	public static final String PROJECT_MANAGER = "PROJECT_MANAGER";
+        public static final String SUPER_USER = "SUPER_USER";
+        public static final String USER = "USER";
     }
 }

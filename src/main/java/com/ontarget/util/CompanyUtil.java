@@ -12,7 +12,7 @@ public class CompanyUtil {
 		if (creator.getUserId() == modifiedBy) {
 			return true;
 		}
-		if (creator.getUserType().getUserType().equalsIgnoreCase(OnTargetConstant.UserType.PROJECT_MANAGER)) {
+		if (creator.getUserType().getUserType().equalsIgnoreCase(OnTargetConstant.UserType.PROJECT_MANAGER) || creator.getUserType().getUserType().equalsIgnoreCase(OnTargetConstant.UserType.SUPER_USER)) {
 			return true;
 		}
 		return false;
