@@ -137,8 +137,11 @@ insert into `profile_feature` (`profile_feature_id`, `active`, `application_feat
 phase 2 changes.
  */
 
+insert into `profile_feature` (`profile_feature_id`, `active`, `application_feature_id`, `profile_id`) values('116','Y','53','1');
+
+
 insert into `profile_feature` (`profile_feature_id`, `active`, `application_feature_id`, `profile_id`) values('118','Y','52','1');
-insert into `profile_feature` (`profile_feature_id`, `active`, `application_feature_id`, `profile_id`) values('119','Y','53','1');
+
 insert into `profile_feature` (`profile_feature_id`, `active`, `application_feature_id`, `profile_id`) values('120','Y','54','1');
 insert into `profile_feature` (`profile_feature_id`, `active`, `application_feature_id`, `profile_id`) values('121','Y','55','1');
 insert into `profile_feature` (`profile_feature_id`, `active`, `application_feature_id`, `profile_id`) values('122','Y','56','1');
