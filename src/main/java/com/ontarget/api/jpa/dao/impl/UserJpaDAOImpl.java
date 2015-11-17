@@ -173,4 +173,9 @@ public class UserJpaDAOImpl implements UserDAO {
 		return userRepository.findUserByEmail(emailAddress);
 	}
 
+	@Override
+	public User findUserById(int userId) throws Exception {
+		return userRepository.findByUserId(userId);
+	}
+
 }

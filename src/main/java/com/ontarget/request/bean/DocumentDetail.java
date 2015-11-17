@@ -19,7 +19,7 @@ public class DocumentDetail {
 	private BaseRequest baseRequest;
 	@NotNull
 	@JsonProperty("dcoumentId")
-	private Integer dcoumentId;
+	private Integer documentId;
 
 	/**
 	 * 
@@ -46,7 +46,7 @@ public class DocumentDetail {
 	 */
 	@JsonProperty("dcoumentId")
 	public Integer getDcoumentId() {
-		return dcoumentId;
+		return documentId;
 	}
 
 	/**
@@ -55,8 +55,8 @@ public class DocumentDetail {
 	 *            The dcoumentId
 	 */
 	@JsonProperty("dcoumentId")
-	public void setDcoumentId(Integer dcoumentId) {
-		this.dcoumentId = dcoumentId;
+	public void setDcoumentId(Integer documentId) {
+		this.documentId = documentId;
 	}
 
 }

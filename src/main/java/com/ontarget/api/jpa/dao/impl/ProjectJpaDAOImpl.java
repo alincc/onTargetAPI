@@ -102,6 +102,7 @@ public class ProjectJpaDAOImpl implements ProjectDAO {
 
 	@Override
 	public int addMainProject(ProjectDTO projectDTO, CompanyInfo companyInfo, int userId) throws Exception {
+		logger.debug("user id: "+userId);
 		Address address = new Address();
 		address.setAddress1(companyInfo.getAddress1());
 		address.setAddress2(companyInfo.getAddress2());

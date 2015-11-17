@@ -1,6 +1,7 @@
 package com.ontarget.api.jpa.dao.impl;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -44,4 +45,8 @@ public class DocumentSubmittalJpaDAOImpl implements DocumentSubmittalDAO {
 		throw new UnsupportedOperationException();
 	}
 
+    @Override
+    public List<DocumentSubmittal> getDocumentSubmittalByDocumentId(int documentId) {
+        return documentSubmittalRepository.findDocumentSubmittalByDocumentId(documentId);
+    }
 }

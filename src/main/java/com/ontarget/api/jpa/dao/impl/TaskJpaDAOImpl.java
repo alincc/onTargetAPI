@@ -306,11 +306,16 @@ public class TaskJpaDAOImpl implements TaskDAO {
 		return taskPercentageList;
 	}
 
-	@Override
+    @Override
+    public int getCompletedTaskCount(int projectId) throws Exception {
+        return projectTaskRepository.getCountOfAllCompletedTasks(projectId).intValue();
+    }
+
+    @Override
 	public Contact getContact(int userId) throws Exception {
 		User userObj = userRepository.findByUserId(userId);
 
-		List<com.ontarget.entities.Contact> contactList = contactRepository.findByUserId(userId);
+		List<com.ontarget.entities.Contact> contactList = userObj.getContactList();// contactRepository.findByUserId(userId);
 
 		if (contactList == null || contactList.isEmpty()) {
 			throw new Exception("User " + userId + " does not exist");
@@ -320,7 +325,7 @@ public class TaskJpaDAOImpl implements TaskDAO {
 		Contact contact = new Contact();
 		contact.setContactId(contactObj.getContactId());
 		UserDTO user = new UserDTO();
-		user.setUserId((int) userId);
+		user.setUserId(userId);
 		contact.setUser(user);
 		contact.setFirstName(contactObj.getFirstName());
 		contact.setLastName(contactObj.getLastName());
@@ -408,7 +413,17 @@ public class TaskJpaDAOImpl implements TaskDAO {
 		com.ontarget.entities.ProjectTask projectTask = projectTaskRepository.findByProjectTaskId(task.getProjectTaskId());
 		projectTask.setTitle(task.getTitle());
 		projectTask.setDescription(task.getDescription());
-		projectTask.setStatus(Integer.parseInt(task.getStatus()));
+		int status = Integer.parseInt(task.getStatus());
+
+		/*
+		 * if updated status is other than COMPLETE and task percentage is 100
+		 * then we have to reset the task percentage
+		 */
+		if (projectTask.getTaskPercentage() == 100 && status != OnTargetConstant.TaskStatus.COMPLETED) {
+			projectTask.setTaskPercentage(0);
+		}
+		projectTask.setStatus(status);
+
 		projectTask.setStartDate(task.getStartDate());
 		projectTask.setEndDate(task.getEndDate());
 		projectTask.setSeverity(task.getSeverity());
@@ -584,7 +599,7 @@ public class TaskJpaDAOImpl implements TaskDAO {
 		task.setDescription(projectTask.getDescription());
 		task.setSeverity(projectTask.getSeverity());
 		task.setCreatorId(projectTask.getCreatedBy().getUserId());
-		task.setModifierId(projectTask.getModifiedBy().getUserId());
+		task.setModifierId(projectTask.getModifiedBy() != null ? projectTask.getModifiedBy().getUserId() : 0);
 		return task;
 	}
 

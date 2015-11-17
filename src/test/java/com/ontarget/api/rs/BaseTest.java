@@ -63,8 +63,8 @@ public class BaseTest extends AbstractTransactionalJUnit4SpringContextTests {
 			String fullUri = BASE_URI + path;
 			System.out.println(fullUri);
 			target = client.target(BASE_URI).path(path);
-			String payload = mapper.writeValueAsString(request);
-			response = target.request(MediaType.APPLICATION_JSON).post(Entity.json(payload));
+            String payload = mapper.writeValueAsString(request);
+            response = target.request(MediaType.APPLICATION_JSON).post(Entity.json(payload));
 			return response;
 		} catch (Throwable t) {
 			throw new RuntimeException(t);

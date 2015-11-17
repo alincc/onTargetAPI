@@ -1,17 +1,15 @@
 package com.ontarget.api.jpa.dao.impl;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+
+import com.ontarget.api.repository.ProjectRepository;
+import com.ontarget.entities.Project;
+import com.ontarget.util.OntargetUtil;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +23,7 @@ import com.ontarget.bean.ProjectTaskInfo;
 import com.ontarget.bean.TaskInfo;
 import com.ontarget.bean.TaskInterval;
 import com.ontarget.bean.TaskPercentage;
+import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.constant.OnTargetQuery;
 import com.ontarget.entities.ProjectTask;
 import com.ontarget.entities.TaskPercentageLog;
@@ -41,6 +40,9 @@ public class TaskPercentageJpaDAOImpl implements TaskPercentageDAO {
 	private TaskPercentageLogRepository taskPercentageLogRepository;
 	@Resource
 	private ProjectTaskRepository projectTaskRepository;
+	@Resource
+	private ProjectRepository projectRepository;
+
 	@PersistenceContext
 	private EntityManager entityManager;
 
@@ -101,6 +103,8 @@ public class TaskPercentageJpaDAOImpl implements TaskPercentageDAO {
 		logger.info("getting percentage for project Id: " + projectId);
 		Map<TaskInfo, Map<TaskInterval, TaskPercentage>> taskToPercentageMap = new LinkedHashMap<>();
 
+		Map<TaskInfo, String> startDateEndDateEmptyDataFiller = new HashMap<>();
+
 		jdbcTemplate.query(OnTargetQuery.GET_TASK_PERCENTAGE, new Object[] { projectId }, (resultSet, i) -> {
 			TaskPercentage percentage = new TaskPercentage();
 			percentage.setId(resultSet.getInt("task_percentage_log_id"));
@@ -127,32 +131,124 @@ public class TaskPercentageJpaDAOImpl implements TaskPercentageDAO {
 			Map<TaskInterval, TaskPercentage> percentageMapByMonthYear = taskToPercentageMap.get(task);
 			if (percentageMapByMonthYear == null) {
 				percentageMapByMonthYear = new LinkedHashMap<>();
-			}
-			percentageMapByMonthYear.put(new TaskInterval(month, year), percentage);
-
-			/**
-			 * if percentage complete is zero for this month year, use the
-			 * previous month/year
-			 */
-			double percentageComplete = percentage.getTaskPercentageComplete();
-			while (percentageComplete == 0) {
-				Calendar cal = Calendar.getInstance();
-				cal.setTime(fromDate);
-				cal.add(Calendar.MONTH, -1);
-
-				year = cal.get(Calendar.YEAR);
-				month = cal.get(Calendar.MONTH) + 1;
-				fromDate = cal.getTime();
-
-				TaskPercentage lastMonthPercentage = percentageMapByMonthYear.get(new TaskInterval(month, year));
-				percentageComplete = lastMonthPercentage.getTaskPercentageComplete();
+			} else {
+				return null;
 			}
 
-			percentage.setTaskPercentageComplete(percentageComplete);
+			// get all the task intervals and check if they have percentage if
+			// not use previous month.
 
-			taskToPercentageMap.put(task, percentageMapByMonthYear);
-			return null;
-		});
+				/**
+				 * temporary solution is to add same percentage for all task
+				 * intervals
+				 */
+
+				if (startDateEndDateEmptyDataFiller.get(task) == null) {
+					ProjectTask projectTask = projectTaskRepository.findOne(task.getProjectTaskId());
+					Integer totalPercentageComplete = projectTask.getTaskPercentage();
+					List<TaskInterval> taskIntervals = OntargetUtil.getTimeInterval(projectTask.getStartDate(), projectTask.getEndDate());
+					if (taskIntervals != null && taskIntervals.size() > 0) {
+						for (TaskInterval taskInterval : taskIntervals) {
+							if (percentageMapByMonthYear.get(taskInterval) == null) {
+								percentageMapByMonthYear.put(taskInterval, new TaskPercentage(totalPercentageComplete.doubleValue()));
+							}
+						}
+						startDateEndDateEmptyDataFiller.put(task, "Y");
+					}
+				}
+
+				// percentageMapByMonthYear.put(new TaskInterval(month, year),
+				// percentage);
+
+				// /**
+				// * if percentage complete is zero for this month year, use the
+				// * previous month/year
+				// */
+				// TaskInterval timeIntervalOfStartDateofTask=null;
+				// if (startDateOfTask != null) {
+				// Calendar cal = Calendar.getInstance();
+				// cal.setTime(startDateOfTask);
+				// year = cal.get(Calendar.YEAR);
+				// month = cal.get(Calendar.MONTH) + 1;
+				// timeIntervalOfStartDateofTask=new TaskInterval(month, year);
+				// }
+				//
+				// /**
+				// * loop until the start date is equal to the from date of the
+				// task.
+				// */
+				// double percentageComplete =
+				// percentage.getTaskPercentageComplete();
+				// while (percentageComplete == 0 &&
+				// !timeIntervalOfStartDateofTask.equals(fromDate)) {
+				// Calendar cal = Calendar.getInstance();
+				// cal.setTime(fromDate);
+				// cal.add(Calendar.MONTH, -1);
+				//
+				// year = cal.get(Calendar.YEAR);
+				// month = cal.get(Calendar.MONTH) + 1;
+				// fromDate = cal.getTime();
+				//
+				// TaskPercentage lastMonthPercentage =
+				// percentageMapByMonthYear.get(new TaskInterval(month, year));
+				// percentageComplete =
+				// lastMonthPercentage.getTaskPercentageComplete();
+				// }
+				//
+				// percentage.setTaskPercentageComplete(percentageComplete);
+
+				taskToPercentageMap.put(task, percentageMapByMonthYear);
+				return null;
+			});
+		return taskToPercentageMap;
+	}
+
+	@Override
+	public Map<TaskInfo, Map<TaskInterval, TaskPercentage>> getTaskPercentageCompletesByMonthYearTemp(Integer projectId) throws Exception {
+		logger.info("getting percentage for project Id: " + projectId);
+		Map<TaskInfo, Map<TaskInterval, TaskPercentage>> taskToPercentageMap = new LinkedHashMap<>();
+
+		List<ProjectTask> projectTasks = projectTaskRepository.findAllUndeletedTasksByProject(projectId);
+
+		Project project = projectRepository.findByProjectId(projectId);
+
+		Date today = new Date();
+		int todayYear = 0;
+		int todayMonth = 0;
+		TaskInterval todayTaskInterval = null;
+		if (today != null) {
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(today);
+			todayYear = cal.get(Calendar.YEAR);
+			todayMonth = cal.get(Calendar.MONTH) + 1;
+			todayTaskInterval = new TaskInterval(todayMonth, todayYear);
+		}
+
+		if (projectTasks != null && projectTasks.size() > 0) {
+			for (ProjectTask projectTask : projectTasks) {
+				TaskInfo task = new TaskInfo();
+				task.setProjectTaskId(projectTask.getProjectTaskId());
+				task.setTitle(projectTask.getTitle());
+				// get task percentage
+				Integer totalPercentageComplete = projectTask.getTaskPercentage();
+
+				Map<TaskInterval, TaskPercentage> percentageMapByMonthYear = new LinkedHashMap<>();
+				List<TaskInterval> taskIntervals = OntargetUtil.getTimeInterval(project.getProjectStartDate(), project.getProjectEndDate());
+				if (taskIntervals != null && taskIntervals.size() > 0) {
+					for (TaskInterval taskInterval : taskIntervals) {
+
+						if (percentageMapByMonthYear.get(taskInterval) == null) {
+							percentageMapByMonthYear.put(taskInterval, new TaskPercentage(totalPercentageComplete.doubleValue()));
+						}
+
+						// add percentage until the current month.
+						if (taskInterval.equals(todayTaskInterval))
+							break;
+					}
+				}
+				taskToPercentageMap.put(task, percentageMapByMonthYear);
+			}
+		}
 		return taskToPercentageMap;
 	}
 
@@ -177,6 +273,13 @@ public class TaskPercentageJpaDAOImpl implements TaskPercentageDAO {
 		projectTask.setTaskPercentage(taskProgress.getPercentageComplete().intValue());
 		projectTask.setModifiedBy(new User(addedBy));
 		projectTask.setModifiedDate(new Date());
+		if (taskProgress.getPercentageComplete().intValue() == 100) {
+			projectTask.setStatus(OnTargetConstant.TaskStatus.COMPLETED);
+		} else {
+			if (projectTask.getStatus().equals(OnTargetConstant.TaskStatus.COMPLETED)) {
+				projectTask.setStatus(OnTargetConstant.TaskStatus.ACTIVE);
+			}
+		}
 		projectTaskRepository.save(projectTask);
 		return 1;
 	}
@@ -197,7 +300,7 @@ public class TaskPercentageJpaDAOImpl implements TaskPercentageDAO {
 	@Override
 	public boolean expireTaskPercentage(int taskPercentageLogId) throws Exception {
 		TaskPercentageLog taskPercentageLog = taskPercentageLogRepository.findByTaskPercentageLogId(taskPercentageLogId);
-//		taskPercentageLog.setEndDate(DateFormater.convertToDate("9999-12-31"));
+		// taskPercentageLog.setEndDate(DateFormater.convertToDate("9999-12-31"));
 		taskPercentageLogRepository.save(taskPercentageLog);
 		return true;
 	}
@@ -218,9 +321,9 @@ public class TaskPercentageJpaDAOImpl implements TaskPercentageDAO {
 
 				TaskPercentage percentage = new TaskPercentage();
 				percentage.setId(taskPercentageLog.getTaskPercentageLogId());
-//				percentage.setFromDate(taskPercentageLog.getStartDate());
-//				percentage.setToDate(taskPercentageLog.getEndDate());
-//				percentage.setTaskPercentageType(taskPercentageLog.getPercentageType());
+				// percentage.setFromDate(taskPercentageLog.getStartDate());
+				// percentage.setToDate(taskPercentageLog.getEndDate());
+				// percentage.setTaskPercentageType(taskPercentageLog.getPercentageType());
 				percentage.setTaskPercentageComplete(taskPercentageLog.getPercentageComplete());
 				percentage.setCreatedBy(String.valueOf(taskPercentageLog.getCreatedBy().getUserId()));
 

@@ -114,13 +114,11 @@
             <groupId>org.glassfish.hk2</groupId>
             <artifactId>hk2-utils</artifactId>
             <version>2.4.0-b31</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.glassfish.hk2</groupId>
             <artifactId>hk2-api</artifactId>
             <version>2.4.0-b31</version>
-            <scope>test</scope>
         </dependency>
 
         <!-- support for json/xml -->
@@ -465,6 +463,12 @@
             </properties>
         </profile>
         <profile>
+            <id>sagarmatha</id>
+            <properties>
+                <env>sagarmatha</env>
+            </properties>
+        </profile>
+		<profile>
             <id>prod</id>
             <properties>
                 <env>prod</env>

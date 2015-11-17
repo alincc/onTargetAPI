@@ -28,6 +28,7 @@ public class UserRegistration implements Serializable {
 	private int companyTypeId;
 	private String companyWebsite;
 	private int companyId;
+	private String companyLogoPath;
 	private Integer invitedProjectId;
 
 	public int getCompanyId() {
@@ -190,14 +191,6 @@ public class UserRegistration implements Serializable {
 		this.invitedProjectId = invitedProjectId;
 	}
 
-	@Override
-	public String toString() {
-		return "UserRegistration{" + "registrationToken='" + registrationToken + '\'' + ", projectId=" + projectId
-				+ ",invitedProjectId=" + invitedProjectId + ", firstName='" + firstName + '\'' + ", email='" + email
-				+ '\'' + ", lastName='" + lastName + '\'' + ", status='" + status + '\'' + ", tsCreate=" + tsCreate
-				+ ", password='" + password + '\'' + ", userId=" + userId + '}';
-	}
-
 	public String getDiscipline() {
 		return discipline;
 	}
@@ -205,4 +198,20 @@ public class UserRegistration implements Serializable {
 	public void setDiscipline(String discipline) {
 		this.discipline = discipline;
 	}
+
+	public String getCompanyLogoPath() {
+		return companyLogoPath;
+	}
+
+	public void setCompanyLogoPath(String companyLogoPath) {
+		this.companyLogoPath = companyLogoPath;
+	}
+
+	@Override
+	public String toString() {
+		return "UserRegistration{" + "registrationToken='" + registrationToken + '\'' + ", projectId=" + projectId + ",invitedProjectId="
+				+ invitedProjectId + ", firstName='" + firstName + '\'' + ", email='" + email + '\'' + ", lastName='" + lastName + '\''
+				+ ", status='" + status + '\'' + ", tsCreate=" + tsCreate + ", password='" + password + '\'' + ", userId=" + userId + '}';
+	}
+
 }

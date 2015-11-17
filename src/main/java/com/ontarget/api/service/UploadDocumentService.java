@@ -8,9 +8,10 @@ import com.ontarget.request.bean.ProjectFileCommentRequest;
 import com.ontarget.request.bean.UploadDocumentRequest;
 import com.ontarget.response.bean.ProjectFileCategoryListResponse;
 import com.ontarget.response.bean.ProjectFileCommentListResponse;
+import com.ontarget.response.bean.UploadDocumentDetailResponse;
 
 public interface UploadDocumentService {
-	public boolean saveUploadedDocsInfo(UploadDocumentRequest documentInfo) throws Exception;
+	public UploadDocumentDetailResponse saveUploadedDocsInfo(UploadDocumentRequest documentInfo) throws Exception;
 
 	public List<UploadedDocumentDetail> getUploadedFile(int projectId) throws Exception;
 	
@@ -25,4 +26,6 @@ public interface UploadDocumentService {
 	public ProjectFileCommentListResponse getCommentList(Integer projectFileId) throws Exception;
 
     public UploadedDocumentDetail getUploadedFileByProjectFileId(Integer projectId, Integer porjectFileId) throws Exception;
+
+    public OnTargetResponse udpateConversionComplete(Integer projectFileId, Integer loggedInUserId, Boolean isConversioinComplete) throws Exception;
 }

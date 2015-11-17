@@ -8,8 +8,10 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import com.ontarget.api.request.UpdateIsConversionCompleteRequest;
 import com.ontarget.dto.ProjectFileResponse;
 import com.ontarget.request.bean.*;
+import com.ontarget.response.bean.UploadDocumentDetailResponse;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -43,10 +45,9 @@ public class UploadDocumentEndPointImpl implements UploadDocumentEndPoint {
 	@Override
 	@Path("/saveUploadedDocsInfo")
 	@POST
-	public OnTargetResponse saveUploadedDocsInfo(UploadDocumentRequest requestData) {
+	public UploadDocumentDetailResponse saveUploadedDocsInfo(UploadDocumentRequest requestData) {
 		logger.info("Starting document upload call");
-		OnTargetResponse response = new OnTargetResponse(OnTargetConstant.INTERNAL_SERVER_ERROR_CODE, OnTargetConstant.ERROR,
-				OnTargetConstant.INTERNAL_SERVER_ERROR_MSG);
+        UploadDocumentDetailResponse response = new UploadDocumentDetailResponse();
 
 		if (requestData.getProjectId() == 0 || requestData.getName().isEmpty()) {
 			response.setReturnMessage("Required information are missing.");
@@ -55,15 +56,37 @@ public class UploadDocumentEndPointImpl implements UploadDocumentEndPoint {
 			return response;
 		}
 		try {
-			Boolean success = documentService.saveUploadedDocsInfo(requestData);
-			return ((success) ? (new OnTargetResponse(OnTargetConstant.SUCCESS_CODE, OnTargetConstant.SUCCESS, OnTargetConstant.SUCCESS))
-					: response);
+			response = documentService.saveUploadedDocsInfo(requestData);
+            if(response == null){
+                throw new Exception("Error while saving project file.");
+            }
+
 		} catch (Exception ex) {
 			logger.error(OnTargetConstant.INTERNAL_SERVER_ERROR_MSG, ex);
+            response.setReturnMessage("upload project file failed");
+            response.setReturnVal(OnTargetConstant.ERROR);
 		}
 
 		return response;
 	}
+
+
+    @Override
+    @Path("/updateConversionComplete")
+    @POST
+    public OnTargetResponse updateIsConversionComplete(UpdateIsConversionCompleteRequest request){
+        OnTargetResponse response = new OnTargetResponse();
+        try {
+            return documentService.udpateConversionComplete(request.getProjectFileId(), request.getBaseRequest().getLoggedInUserId(), request.getIsConversionComplete());
+        } catch (Exception e) {
+            logger.error("Delete project file failed." + e);
+            response.setReturnMessage("Delete project file failed");
+            response.setReturnVal(OnTargetConstant.ERROR);
+        }
+        return response;
+    }
+
+
 
 	@Override
 	@POST

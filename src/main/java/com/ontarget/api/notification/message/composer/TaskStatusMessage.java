@@ -23,7 +23,8 @@ public class TaskStatusMessage extends MessageComposer {
 	public void composeMessage() {
 		notificationMessage = new Message();
 		String messageTemplate = notificationTemplateConfig.getTaskStatusChangeTemplate();
-        messageTemplate= MessageFormat.format(messageTemplate, user.getContactList().get(0).getFirstName() + " " + user.getContactList().get(0).getLastName(), taskStatus);
+		messageTemplate = MessageFormat.format(messageTemplate, user.getContactList().get(0).getFirstName() + " "
+				+ user.getContactList().get(0).getLastName(), taskStatus);
 		notificationMessage.setMessage(messageTemplate);
 	}
 }

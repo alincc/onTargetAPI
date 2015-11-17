@@ -27,8 +27,7 @@ public class AddDocumentRequest {
 	@Size(min = 1)
 	@JsonProperty("keyValues")
 	private List<DocumentKeyValue> keyValues;
-	@Valid
-	@NotNull
+
 	@JsonProperty("gridKeyValues")
 	private List<DocumentGridKeyValue> gridKeyValues;
 	@Valid

@@ -1,38 +1,35 @@
 package com.ontarget.api.rs;
 
-import javax.validation.Valid;
-
 import com.ontarget.dto.*;
 import com.ontarget.request.bean.*;
 import com.ontarget.response.bean.GetDocumentQuestionResponse;
 import com.ontarget.response.bean.UpdateDocumentQuestionResponse;
 
-import javax.ws.rs.*;
+import javax.validation.Valid;
 
 public interface DocumentEndpoint {
 
 	public AddDocumentResponse addDocument(@Valid AddDocumentRequest request);
 
-	public OnTargetResponse updateDocumentData(
-			@Valid UpdateDocumentRequest request);
+	public OnTargetResponse updateDocumentData(@Valid UpdateDocumentRequest request);
 
-	public OnTargetResponse updateDocumentStatus(
-			@Valid UpdateDocumentStatus request);
+	public OnTargetResponse updateDocumentStatus(@Valid UpdateDocumentStatus request);
 
 	public GetDocumentsResponse getDocuments(@Valid UserDocument userDocument);
 
 	public GetDocumentResponse getDocument(@Valid DocumentDetail documentDetail);
 
-	public OnTargetResponse addDocumentAttachment(
-			@Valid AddDocumentAttachment request);
+	public OnTargetResponse addDocumentAttachment(@Valid AddDocumentAttachment request);
 
-    public AddDocumentAttachmentResponse deleteDocumentAttachment(@Valid DeleteDocumentAttachmentRequest request);
+	public AddDocumentAttachmentResponse deleteDocumentAttachment(@Valid DeleteDocumentAttachmentRequest request);
 
-    GetDocumentQuestionResponse getDocumentQuestionResponse(@Valid GetDocumentQuestionResponseRequest request);
+	public GetDocumentQuestionResponse getDocumentQuestionResponse(@Valid GetDocumentQuestionResponseRequest request);
 
-    UpdateDocumentQuestionResponse addDocumentQuestionResponse(@Valid UpdateDocumentQuestionResponseRequest request);
+	public UpdateDocumentQuestionResponse addDocumentQuestionResponse(@Valid UpdateDocumentQuestionResponseRequest request);
 
-    UpdateDocumentQuestionResponse updateDocumentQuestionResponse(@Valid UpdateDocumentQuestionResponseRequest request);
+	public UpdateDocumentQuestionResponse updateDocumentQuestionResponse(@Valid UpdateDocumentQuestionResponseRequest request);
 
-    UpdateDocumentQuestionResponse deleteDocumentQuestionResponse(@Valid UpdateDocumentQuestionResponseRequest request);
+	public UpdateDocumentQuestionResponse deleteDocumentQuestionResponse(@Valid UpdateDocumentQuestionResponseRequest request);
+
+    public GetDocumentAttachmentsResponse getDocumentAttachments(@Valid GetDocumentAttachmentRequest request);
 }

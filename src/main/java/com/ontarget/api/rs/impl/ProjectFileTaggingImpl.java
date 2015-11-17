@@ -8,6 +8,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import com.ontarget.response.bean.AddUpdateTagCommentResponse;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -38,9 +39,9 @@ public class ProjectFileTaggingImpl implements ProjectFileTagging {
 	@Override
 	@POST
 	@Path("/save")
-	public OnTargetResponse save(AddProjectFileTagRequest request) {
+	public ProjectFileTagResponse save(AddProjectFileTagRequest request) {
 		logger.debug("Saving project file tags: " + request.getTags());
-		OnTargetResponse response = new OnTargetResponse();
+        ProjectFileTagResponse response = new ProjectFileTagResponse();
 		try {
 			return projectFileTaggingService.save(request.getTags(), request.getBaseRequest().getLoggedInUserId());
 		} catch (Exception e) {
@@ -73,9 +74,9 @@ public class ProjectFileTaggingImpl implements ProjectFileTagging {
 	@Override
 	@POST
 	@Path("/comment/add")
-	public OnTargetResponse addUpdateComment(ProjectFileTagCommentRequest request) {
+	public AddUpdateTagCommentResponse addUpdateComment(ProjectFileTagCommentRequest request) {
 		logger.debug("Add/Update project file comment for tag id: " + request.getProjectFileTagId());
-		OnTargetResponse response = new OnTargetResponse();
+        AddUpdateTagCommentResponse response = new AddUpdateTagCommentResponse();
 		try {
 			return projectFileTaggingService.addUpdateComment(request.getProjectFileTagId(), request.getComment(), request.getCommentId(),
 					request.getBaseRequest().getLoggedInUserId());

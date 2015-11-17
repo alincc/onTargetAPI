@@ -23,6 +23,6 @@ public class DeleteDocumentAttachmentRequest {
     @JsonProperty("baseRequest")
     private BaseRequest baseRequest;
     @NotNull
-    @JsonProperty("documentId")
+    @JsonProperty("documentAttachmentId")
     private Long documentAttachmentId;
 }

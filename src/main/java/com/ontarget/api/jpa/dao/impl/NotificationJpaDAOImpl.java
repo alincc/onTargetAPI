@@ -1,6 +1,8 @@
 package com.ontarget.api.jpa.dao.impl;
 
+import java.math.BigInteger;
 import java.util.Date;
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -41,13 +43,28 @@ public class NotificationJpaDAOImpl implements NotificationDAO {
 		return true;
 	}
 
+	/**
+	 * Mark all status as seen
+	 * 
+	 * @param userId
+	 * @param projectId
+	 * @return
+	 * @throws Exception
+	 */
 	@Override
 	public boolean updateAllStatusToSeen(Integer userId, Integer projectId) throws Exception {
 		logger.debug("Updating all notification for user: " + userId + " project: " + projectId);
-		int updated = userNotificationRepository.setAllNotificationAsSeen(OnTargetConstant.UserNotificationStatus.SEEN, new Date(), userId,
-				projectId.longValue());
-		logger.debug("total user notification maked as seen: " + updated);
+
+		List<UserNotification> userNotifications = userNotificationRepository.findNotifcationByUserId(userId, projectId.longValue());
+		if (userNotifications != null && userNotifications.size() > 0) {
+			for (UserNotification userNotification : userNotifications) {
+				userNotification.setStatus(OnTargetConstant.UserNotificationStatus.SEEN);
+				userNotification.setLastSeenAt(new Date());
+				userNotificationRepository.save(userNotification);
+			}
+		}
 		return true;
+
 	}
 
 	/**
@@ -65,6 +82,22 @@ public class NotificationJpaDAOImpl implements NotificationDAO {
 			throws Exception {
 		Pageable pageable = new PageRequest(pageNumber - 1, perPageLimit);
 		return notificationRepository.findNotifcationByUserId(userId, loggedInUserProjectId, pageable);
+	}
+
+	/*
+	 * Get NEW notification count
+	 * 
+	 * @param userId
+	 * 
+	 * @param loggedInUserProjectId
+	 * 
+	 * @return
+	 * 
+	 * @throws Exception
+	 */
+	@Override
+	public BigInteger countNewNotification(Integer userId, Long loggedInUserProjectId) throws Exception {
+		return notificationRepository.countNewNotification(userId, loggedInUserProjectId);
 	}
 
 }

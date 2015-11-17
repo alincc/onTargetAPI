@@ -1,12 +1,9 @@
 package com.ontarget.api.rs.impl;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
+import com.ontarget.dto.*;
 import com.ontarget.request.bean.*;
 import com.ontarget.response.bean.GetDocumentQuestionResponse;
 import com.ontarget.response.bean.UpdateDocumentQuestionResponse;
@@ -18,11 +15,6 @@ import com.ontarget.api.rs.DocumentEndpoint;
 import com.ontarget.api.service.DocumentService;
 import com.ontarget.api.service.impl.DocumentServiceImpl;
 import com.ontarget.constant.OnTargetConstant;
-import com.ontarget.dto.AddDocumentAttachmentResponse;
-import com.ontarget.dto.AddDocumentResponse;
-import com.ontarget.dto.GetDocumentResponse;
-import com.ontarget.dto.GetDocumentsResponse;
-import com.ontarget.dto.OnTargetResponse;
 
 @Component
 @Path("/document")
@@ -108,7 +100,7 @@ public class DocumentEndpointImpl implements DocumentEndpoint {
 	}
 
 	@PUT
-	@Path("/attachment")
+	@Path("/attachment/save")
 	@Override
 	public AddDocumentAttachmentResponse addDocumentAttachment(AddDocumentAttachment request) {
 		try {
@@ -193,5 +185,32 @@ public class DocumentEndpointImpl implements DocumentEndpoint {
             return response;
         }
     }
+
+    /**
+     * Returns the attachments that belongs to the specified document.
+     * The document id is withing the URL.
+     *
+     * e.g.
+     *
+     * /1234/attachments
+     * this will return the attachments that belong to the document with id 1234.
+     */
+	/* (non-Javadoc)
+	 * @see com.ontarget.api.rs.DocumentEndpoint#getDocumentAttachments(java.lang.Long)
+	 */
+    @POST
+    @Path("/attachment/getAll")
+    @Override
+    public GetDocumentAttachmentsResponse getDocumentAttachments(GetDocumentAttachmentRequest request) {
+        try {
+            GetDocumentAttachmentsResponse response = documentService.getDocumentAttachments(request.getDocumentId());
+            return response;
+        } catch (Throwable t) {
+            GetDocumentAttachmentsResponse response = new GetDocumentAttachmentsResponse(OnTargetConstant.ERROR,
+                    t.getMessage());
+            return response;
+        }
+    }
+
 
 }

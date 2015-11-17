@@ -131,3 +131,115 @@ insert into `profile_feature` (`profile_feature_id`, `active`, `application_feat
 
 insert into `profile_feature` (`profile_feature_id`, `active`, `application_feature_id`, `profile_id`) values('117','Y','38','3');
 
+
+
+/*
+phase 2 changes.
+ */
+
+insert into `profile_feature` (`profile_feature_id`, `active`, `application_feature_id`, `profile_id`) values('116','Y','53','1');
+
+
+insert into `profile_feature` (`profile_feature_id`, `active`, `application_feature_id`, `profile_id`) values('118','Y','52','1');
+
+insert into `profile_feature` (`profile_feature_id`, `active`, `application_feature_id`, `profile_id`) values('120','Y','54','1');
+insert into `profile_feature` (`profile_feature_id`, `active`, `application_feature_id`, `profile_id`) values('121','Y','55','1');
+insert into `profile_feature` (`profile_feature_id`, `active`, `application_feature_id`, `profile_id`) values('122','Y','56','1');
+insert into `profile_feature` (`profile_feature_id`, `active`, `application_feature_id`, `profile_id`) values('123','Y','57','1');
+insert into `profile_feature` (`profile_feature_id`, `active`, `application_feature_id`, `profile_id`) values('124','Y','58','1');
+insert into `profile_feature` (`profile_feature_id`, `active`, `application_feature_id`, `profile_id`) values('125','Y','59','1');
+insert into `profile_feature` (`profile_feature_id`, `active`, `application_feature_id`, `profile_id`) values('126','Y','60','1');
+insert into `profile_feature` (`profile_feature_id`, `active`, `application_feature_id`, `profile_id`) values('127','Y','61','1');
+insert into `profile_feature` (`profile_feature_id`, `active`, `application_feature_id`, `profile_id`) values('128','Y','62','1');
+insert into `profile_feature` (`profile_feature_id`, `active`, `application_feature_id`, `profile_id`) values('129','Y','63','1');
+
+insert into `profile_feature` (`profile_feature_id`, `active`, `application_feature_id`, `profile_id`) values('130','Y','64','1');
+insert into `profile_feature` (`profile_feature_id`, `active`, `application_feature_id`, `profile_id`) values('131','Y','65','1');
+insert into `profile_feature` (`profile_feature_id`, `active`, `application_feature_id`, `profile_id`) values('132','Y','66','1');
+insert into `profile_feature` (`profile_feature_id`, `active`, `application_feature_id`, `profile_id`) values('133','Y','67','1');
+insert into `profile_feature` (`profile_feature_id`, `active`, `application_feature_id`, `profile_id`) values('134','Y','68','1');
+insert into `profile_feature` (`profile_feature_id`, `active`, `application_feature_id`, `profile_id`) values('135','Y','69','1');
+insert into `profile_feature` (`profile_feature_id`, `active`, `application_feature_id`, `profile_id`) values('136','Y','70','1');
+insert into `profile_feature` (`profile_feature_id`, `active`, `application_feature_id`, `profile_id`) values('137','Y','71','1');
+insert into `profile_feature` (`profile_feature_id`, `active`, `application_feature_id`, `profile_id`) values('138','Y','72','1');
+insert into `profile_feature` (`profile_feature_id`, `active`, `application_feature_id`, `profile_id`) values('139','Y','73','1');
+insert into `profile_feature` (`profile_feature_id`, `active`, `application_feature_id`, `profile_id`) values('140','Y','74','1');
+insert into `profile_feature` (`profile_feature_id`, `active`, `application_feature_id`, `profile_id`) values('141','Y','75','1');
+
+
+insert into `profile_feature` (`profile_feature_id`, `active`, `application_feature_id`, `profile_id`) values('142','Y','51','2');
+insert into `profile_feature` (`profile_feature_id`, `active`, `application_feature_id`, `profile_id`) values('143','Y','52','2');
+insert into `profile_feature` (`profile_feature_id`, `active`, `application_feature_id`, `profile_id`) values('144','Y','53','2');
+insert into `profile_feature` (`profile_feature_id`, `active`, `application_feature_id`, `profile_id`) values('145','Y','54','2');
+insert into `profile_feature` (`profile_feature_id`, `active`, `application_feature_id`, `profile_id`) values('146','Y','55','2');
+insert into `profile_feature` (`profile_feature_id`, `active`, `application_feature_id`, `profile_id`) values('147','Y','56','2');
+insert into `profile_feature` (`profile_feature_id`, `active`, `application_feature_id`, `profile_id`) values('148','Y','57','2');
+insert into `profile_feature` (`profile_feature_id`, `active`, `application_feature_id`, `profile_id`) values('149','Y','58','2');
+insert into `profile_feature` (`profile_feature_id`, `active`, `application_feature_id`, `profile_id`) values('150','Y','59','2');
+insert into `profile_feature` (`profile_feature_id`, `active`, `application_feature_id`, `profile_id`) values('151','Y','60','2');
+insert into `profile_feature` (`profile_feature_id`, `active`, `application_feature_id`, `profile_id`) values('152','Y','61','2');
+insert into `profile_feature` (`profile_feature_id`, `active`, `application_feature_id`, `profile_id`) values('153','Y','62','2');
+insert into `profile_feature` (`profile_feature_id`, `active`, `application_feature_id`, `profile_id`) values('154','Y','63','2');
+
+insert into `profile_feature` (`profile_feature_id`, `active`, `application_feature_id`, `profile_id`) values('155','Y','64','2');
+insert into `profile_feature` (`profile_feature_id`, `active`, `application_feature_id`, `profile_id`) values('156','Y','65','2');
+insert into `profile_feature` (`profile_feature_id`, `active`, `application_feature_id`, `profile_id`) values('157','Y','66','2');
+insert into `profile_feature` (`profile_feature_id`, `active`, `application_feature_id`, `profile_id`) values('158','Y','67','2');
+insert into `profile_feature` (`profile_feature_id`, `active`, `application_feature_id`, `profile_id`) values('159','Y','68','2');
+insert into `profile_feature` (`profile_feature_id`, `active`, `application_feature_id`, `profile_id`) values('160','Y','69','2');
+insert into `profile_feature` (`profile_feature_id`, `active`, `application_feature_id`, `profile_id`) values('161','Y','70','2');
+insert into `profile_feature` (`profile_feature_id`, `active`, `application_feature_id`, `profile_id`) values('162','Y','71','2');
+insert into `profile_feature` (`profile_feature_id`, `active`, `application_feature_id`, `profile_id`) values('163','Y','72','2');
+insert into `profile_feature` (`profile_feature_id`, `active`, `application_feature_id`, `profile_id`) values('164','Y','73','2');
+insert into `profile_feature` (`profile_feature_id`, `active`, `application_feature_id`, `profile_id`) values('165','Y','74','2');
+insert into `profile_feature` (`profile_feature_id`, `active`, `application_feature_id`, `profile_id`) values('166','Y','75','2');
+
+insert into `profile_feature` (`profile_feature_id`, `active`, `application_feature_id`, `profile_id`) values('167','Y','51','1');
+
+-- regular user can add/edit/view markup tag
+insert into `profile_feature` ( `active`, `application_feature_id`, `profile_id`) values('Y','53','3');
+insert into `profile_feature` ( `active`, `application_feature_id`, `profile_id`) values('Y','54','3');
+insert into `profile_feature` (`active`, `application_feature_id`, `profile_id`) values('Y','55','3');
+insert into `profile_feature` (`active`, `application_feature_id`, `profile_id`) values('Y','56','3');
+insert into `profile_feature` (`active`, `application_feature_id`, `profile_id`) values('Y','65','3');
+insert into `profile_feature` (`active`, `application_feature_id`, `profile_id`) values('Y','66','3');
+
+-- get contact list allowed for regular user;
+
+insert into `profile_feature` ( `active`, `application_feature_id`, `profile_id`) values('Y','44','3');
+
+-- onfile getdocument and get response access.
+insert into `profile_feature` ( `active`, `application_feature_id`, `profile_id`) values('Y','63','3');
+insert into `profile_feature` ( `active`, `application_feature_id`, `profile_id`) values('Y','75','3');
+insert into `profile_feature` ( `active`, `application_feature_id`, `profile_id`) values('Y','72','3');
+insert into `profile_feature` ( `active`, `application_feature_id`, `profile_id`) values('Y','73','3');
+insert into `profile_feature` ( `active`, `application_feature_id`, `profile_id`) values('Y','74','3');
+insert into `profile_feature` ( `active`, `application_feature_id`, `profile_id`) values('Y','52','3');
+
+insert into `profile_feature` ( `active`, `application_feature_id`, `profile_id`) values('Y','45','3');
+insert into `profile_feature` ( `active`, `application_feature_id`, `profile_id`) values('Y','46','3');
+insert into `profile_feature` ( `active`, `application_feature_id`, `profile_id`) values('Y','47','3');
+insert into `profile_feature` ( `active`, `application_feature_id`, `profile_id`) values('Y','48','3');
+insert into `profile_feature` ( `active`, `application_feature_id`, `profile_id`) values('Y','51','3');
+
+
+-- onbim access to regular user.
+
+insert into `profile_feature` ( `active`, `application_feature_id`, `profile_id`) values('Y','58','3');
+insert into `profile_feature` ( `active`, `application_feature_id`, `profile_id`) values('Y','59','3');
+insert into `profile_feature` ( `active`, `application_feature_id`, `profile_id`) values('Y','60','3');
+insert into `profile_feature` ( `active`, `application_feature_id`, `profile_id`) values('Y','61','3');
+insert into `profile_feature` ( `active`, `application_feature_id`, `profile_id`) values('Y','62','3');
+insert into `profile_feature` ( `active`, `application_feature_id`, `profile_id`) values('Y','68','3');
+insert into `profile_feature` ( `active`, `application_feature_id`, `profile_id`) values('Y','69','3');
+insert into `profile_feature` ( `active`, `application_feature_id`, `profile_id`) values('Y','70','3');
+insert into `profile_feature` ( `active`, `application_feature_id`, `profile_id`) values('Y','71','3');
+
+
+-- oncontact to regular user
+
+insert into `profile_feature` ( `active`, `application_feature_id`, `profile_id`) values('Y','44','3');
+
+
+
+

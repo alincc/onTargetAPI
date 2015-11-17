@@ -17,6 +17,7 @@ import javax.validation.constraints.NotNull;
 @JsonPropertyOrder({"baseRequest" , "documentId"})
 public class GetDocumentQuestionResponseRequest {
 
+    @NotNull
     @JsonProperty("baseRequest")
     private BaseRequest baseRequest;
 

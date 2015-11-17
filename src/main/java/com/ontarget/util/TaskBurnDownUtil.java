@@ -13,7 +13,6 @@ public class TaskBurnDownUtil {
 		DateTime toDate = new DateTime(endDate);
 
 		int weeks = Weeks.weeksBetween(fromDate, toDate).plus(1).getWeeks();
-		System.out.println("weeks: " + weeks);
 
 		List<DateRange> dateRanges = new ArrayList<DateRange>();
 

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import com.ontarget.api.dao.DocumentGridKeyValueDAO;
 import com.ontarget.api.repository.DocumentGridKeyValueRepository;
 import com.ontarget.bean.DocumentGridKeyValueDTO;
+import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.entities.Document;
 import com.ontarget.entities.DocumentGridKeyValue;
 import com.ontarget.entities.User;
@@ -34,6 +35,7 @@ public class DocumentGridKeyValueJpaDAOImpl implements DocumentGridKeyValueDAO {
 		documentGridKeyValue.setValue(documentGridKeyValueDTO.getValue());
 		documentGridKeyValue.setCreatedBy(new User(documentGridKeyValueDTO.getCreatedBy()));
 		documentGridKeyValue.setCreatedDate(new Date());
+		documentGridKeyValue.setStatus(OnTargetConstant.GenericStatus.ACTIVE);
 		documentGridKeyValueRepository.save(documentGridKeyValue);
 
 		return documentGridKeyValueDTO;
@@ -100,12 +102,60 @@ public class DocumentGridKeyValueJpaDAOImpl implements DocumentGridKeyValueDAO {
 		// query.executeUpdate();
 
 		DocumentGridKeyValue documentGridKeyValue = documentGridKeyValueRepository.getDocumentGridKeyValueByDocumentIdGridIdAndRowIndex(
-				documentId, gridId, gridRowIndex);
-		documentGridKeyValue.setValue(newValue);
-		documentGridKeyValue.setModifiedBy(new User(modifiedBy));
-		documentGridKeyValue.setModifiedDate(new Date());
-		documentGridKeyValueRepository.save(documentGridKeyValue);
+				documentId, gridId, gridRowIndex, key);
+
+		// if(documentGridKeyValue == null){// this means while update new row
+		// was added
+		// DocumentGridKeyValueDTO documentGridKeyValueDTO = new
+		// DocumentGridKeyValueDTO();
+		// DocumentDTO documentDTO = new DocumentDTO();
+		// documentDTO.setDocumentId(documentId);
+		// documentGridKeyValueDTO.setDocument(documentDTO);
+		// documentGridKeyValueDTO.setKey(key);
+		// documentGridKeyValueDTO.setValue(newValue);
+		// documentGridKeyValueDTO.setGridId(gridId);
+		// documentGridKeyValueDTO.setGridRowIndex(gridRowIndex);
+		// documentGridKeyValueDTO.setCreatedBy(modifiedBy);
+		// documentGridKeyValueDTO.setModifiedBy(modifiedBy);
+		// this.insert(documentGridKeyValueDTO);
+		// }else {
+		// documentGridKeyValue.setValue(newValue);
+		// documentGridKeyValue.setModifiedBy(new User(modifiedBy));
+		// documentGridKeyValue.setModifiedDate(new Date());
+		// documentGridKeyValueRepository.save(documentGridKeyValue);
+		// }
+		if (documentGridKeyValue != null) {
+			documentGridKeyValue.setValue(newValue);
+			documentGridKeyValue.setModifiedBy(new User(modifiedBy));
+			documentGridKeyValue.setModifiedDate(new Date());
+			documentGridKeyValueRepository.save(documentGridKeyValue);
+		} else {
+			documentGridKeyValue = new DocumentGridKeyValue();
+			documentGridKeyValue.setDocument(new Document(documentId));
+			documentGridKeyValue.setGridId(gridId);
+			documentGridKeyValue.setGridRowIndex(gridRowIndex);
+			documentGridKeyValue.setKey(key);
+			documentGridKeyValue.setValue(newValue);
+			documentGridKeyValue.setCreatedBy(new User(modifiedBy));
+			documentGridKeyValue.setCreatedDate(new Date());
+			documentGridKeyValue.setStatus(OnTargetConstant.GenericStatus.ACTIVE);
+			documentGridKeyValueRepository.save(documentGridKeyValue);
+		}
+
 		return true;
+	}
+
+	@Override
+	public void deleteDocumentGridKeyValue(int documentId, List<String> usedKeys) {
+		List<DocumentGridKeyValue> documentGridKeyValueList = documentGridKeyValueRepository
+				.getDocumentGridKeyValuesByDocumentId(documentId);
+
+		for (DocumentGridKeyValue documentGridKeyValue : documentGridKeyValueList) {
+			if (!usedKeys.contains(documentGridKeyValue.getKey())) {
+				documentGridKeyValue.setStatus(OnTargetConstant.GenericStatus.DELETED);
+				documentGridKeyValueRepository.save(documentGridKeyValue);
+			}
+		}
 	}
 
 }

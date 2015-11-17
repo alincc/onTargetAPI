@@ -33,7 +33,7 @@ public class DocumentAttachment implements Serializable {
 	@Column(name = "file_path", nullable = false, length = 255)
 	private String filePath;
 	@JoinColumn(name = "created_by", referencedColumnName = "user_id")
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne()
 	private User createdBy;
 	@Basic(optional = false)
 	@Column(name = "created_date", nullable = false)

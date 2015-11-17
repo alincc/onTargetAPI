@@ -3,6 +3,8 @@ package com.ontarget.api.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ontarget.response.bean.AddUpdateTagCommentResponse;
+import com.ontarget.response.bean.ProjectFileTagResponse;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -37,10 +39,10 @@ public class ProjectFileTaggingServiceImpl implements ProjectFileTaggingService 
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
-	public OnTargetResponse save(List<ProjectFileTagBean> tags, int userId) throws Exception {
+	public ProjectFileTagResponse save(List<ProjectFileTagBean> tags, int userId) throws Exception {
 		logger.debug("Saving project file tags: " + tags);
 
-		OnTargetResponse response = new OnTargetResponse();
+        ProjectFileTagResponse response = new ProjectFileTagResponse();
 
 		for (ProjectFileTagBean tagBean : tags) {
 			String tagType = tagBean.getTagType();
@@ -93,6 +95,11 @@ public class ProjectFileTaggingServiceImpl implements ProjectFileTaggingService 
 					}
 				}
 				tagBean.setAttributes(attributes);
+
+                //get the tag comments.
+                List<CommentDTO> commentDTOs = this.getComments(projectFileTag.getProjectFileTagId());
+                tagBean.setComment(commentDTOs);
+
 				projectFileTagBeans.add(tagBean);
 			}
 		}
@@ -101,17 +108,26 @@ public class ProjectFileTaggingServiceImpl implements ProjectFileTaggingService 
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
-	public OnTargetResponse addUpdateComment(Long projectFileTagId, String comment, Long commentId, int userId) throws Exception {
+	public AddUpdateTagCommentResponse addUpdateComment(Long projectFileTagId, String comment, Long commentId, int userId) throws Exception {
 		logger.debug("Add/Update project file comment for project file tag id : " + projectFileTagId);
 
-		OnTargetResponse response = new OnTargetResponse();
 
-		boolean success = projectFileTaggingDAO.saveComment(projectFileTagId, comment.trim(), commentId, userId);
-		logger.debug("success " + success);
+        ProjectFileTagComment projectFileTagComment = projectFileTaggingDAO.saveComment(projectFileTagId, comment.trim(), commentId, userId);
+        logger.debug("Project File tag comment id:  " + projectFileTagComment.getProjectFileTagCommentId());
+
+        AddUpdateTagCommentResponse response = new AddUpdateTagCommentResponse();
+        CommentDTO commentDTO = new CommentDTO();
+        commentDTO.setCommentId(projectFileTagComment.getProjectFileTagCommentId());
+        commentDTO.setComment(projectFileTagComment.getComment());
+        commentDTO.setCommentedBy(projectFileTagComment.getCreatedBy().getUserId());
+        Contact contact = contactDAO.getContact(projectFileTagComment.getCreatedBy().getUserId());
+        commentDTO.setCommenterContact(contact);
+        commentDTO.setCommentedDate(projectFileTagComment.getCreatedDate());
+        response.setCommentDTO(commentDTO);
 
 		if (commentId != null && commentId > 0) {
 
-			if (success) {
+			if (projectFileTagComment!=null && projectFileTagComment.getProjectFileTagCommentId() > 0) {
 				response.setReturnVal(OnTargetConstant.SUCCESS);
 				response.setReturnMessage("Successfully updated comment.");
 			} else {
@@ -119,7 +135,7 @@ public class ProjectFileTaggingServiceImpl implements ProjectFileTaggingService 
 				response.setReturnVal(OnTargetConstant.ERROR);
 			}
 		} else {
-			if (success) {
+			if (projectFileTagComment!=null && projectFileTagComment.getProjectFileTagCommentId() > 0) {
 				response.setReturnVal(OnTargetConstant.SUCCESS);
 				response.setReturnMessage("Successfully added comment.");
 			} else {

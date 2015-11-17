@@ -45,21 +45,12 @@ public class TaskBurnDownServiceImpl implements TaskBurnDownService {
 			logger.info("project start date: " + DateFormater.convertToString(project.getProjectStartDate(), "yyyy-MM-dd"));
 			logger.info("project end date: " + DateFormater.convertToString(project.getProjectEndDate(), "yyyy-MM-dd"));
 
-			System.out.println("project start date: " + DateFormater.convertToString(project.getProjectStartDate(), "yyyy-MM-dd"));
-			System.out.println("project end date: " + DateFormater.convertToString(project.getProjectEndDate(), "yyyy-MM-dd"));
-
 			int i = 1;
 			for (DateRange dateRange : dateRanges) {
 				logger.debug("====================================" + i);
 				logger.debug("from date: " + JodaDateTimeUtil.getFormattedDate(dateRange.getFromDate(), JodaDateTimeUtil.sqlDateFormat));
 				logger.debug("to date: " + JodaDateTimeUtil.getFormattedDate(dateRange.getToDate(), JodaDateTimeUtil.sqlDateFormat));
 				logger.debug("====================================");
-
-				System.out.println("====================================" + i);
-				System.out.println("from date: "
-						+ JodaDateTimeUtil.getFormattedDate(dateRange.getFromDate(), JodaDateTimeUtil.sqlDateFormat));
-				System.out.println("to date: " + JodaDateTimeUtil.getFormattedDate(dateRange.getToDate(), JodaDateTimeUtil.sqlDateFormat));
-				System.out.println("====================================");
 				i++;
 			}
 

@@ -2,7 +2,9 @@ package com.ontarget.api.rs;
 
 import javax.validation.Valid;
 import javax.ws.rs.POST;
+import javax.ws.rs.Path;
 
+import com.ontarget.api.request.UpdateIsConversionCompleteRequest;
 import com.ontarget.dto.FileUploadResponse;
 import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.ProjectFileResponse;
@@ -15,7 +17,11 @@ public interface UploadDocumentEndPoint {
 
 	public FileUploadResponse getUploadedFile(@Valid UploadedFileDetail uploadedFileDetailBean);
 
-	public OnTargetResponse deleteProjectFile(@Valid ProjectFileDeleteRequest request);
+    @Path("/updateConversionComplete")
+    @POST
+    OnTargetResponse updateIsConversionComplete(UpdateIsConversionCompleteRequest request);
+
+    public OnTargetResponse deleteProjectFile(@Valid ProjectFileDeleteRequest request);
 
 	public ProjectFileCategoryListResponse projectFileCategoryList(@Valid ProjectFileCategoryRequest request);
 

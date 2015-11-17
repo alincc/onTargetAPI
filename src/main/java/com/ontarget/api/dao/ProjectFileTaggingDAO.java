@@ -11,7 +11,7 @@ public interface ProjectFileTaggingDAO {
 
 	List<ProjectFileTag> getProjectFileTags(int projectFileId) throws Exception;
 
-	boolean saveComment(Long projectFileTagId, String comment, Long commentId, int userId) throws Exception;
+    ProjectFileTagComment saveComment(Long projectFileTagId, String comment, Long commentId, int userId) throws Exception;
 
 	boolean deleteComment(Long commentId, int userId) throws Exception;
 

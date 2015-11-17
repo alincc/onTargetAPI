@@ -21,8 +21,8 @@ public class TaskPercentageEndpointTest extends BaseTest {
 	public void addTaskPercentageComplete() {
 
 		BaseRequest baseRequest = new BaseRequest();
-		baseRequest.setLoggedInUserId(10);
-		baseRequest.setLoggedInUserProjectId(42);
+		baseRequest.setLoggedInUserId(11);
+		baseRequest.setLoggedInUserProjectId(45);
 
 		AddTaskProgress request = new AddTaskProgress();
 		request.setBaseRequest(baseRequest);
@@ -31,7 +31,7 @@ public class TaskPercentageEndpointTest extends BaseTest {
 		TaskProgress taskProgress = new TaskProgress();
 		taskProgress.setPercentageComplete(10.0);
 		taskProgress.setPercentageType("PERCENTAGE");
-		taskProgress.setTaskId(54);
+		taskProgress.setTaskId(50);
 
 		taskProgressList.add(taskProgress);
 

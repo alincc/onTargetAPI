@@ -13,38 +13,50 @@ import com.ontarget.request.bean.ProjectFileDeleteRequest;
 import com.ontarget.request.bean.UploadDocumentRequest;
 import com.ontarget.request.bean.UploadedFileDetail;
 
+import static junit.framework.Assert.fail;
+
 public class UploadDocumentEndpointTest extends BaseTest {
 
-	// @Test
-	// public void saveUploadedDocsInfo() {
-	//
-	// BaseRequest baseRequest = new BaseRequest();
-	// baseRequest.setLoggedInUserId(10);
-	// baseRequest.setLoggedInUserProjectId(42);
-	//
-	// UploadDocumentRequest request = new UploadDocumentRequest();
-	// request.setBaseRequest(baseRequest);
-	//
-	// request.setCreatedBy(10);
-	// request.setModifiedBy(10);
-	// request.setName("Details 3.pdf");
-	// request.setProjectId(42);
-	// request.setFileType("application/pdf");
-	// request.setCategoryId(1);
-	// request.setDescription("Project image");
-	//
-	// System.out.println("Client request.... \n");
-	// System.out.println(toJsonString(request, true));
-	// Response response = sendRequest("/upload/saveUploadedDocsInfo", request);
-	// if (response.getStatus() != 200) {
-	// throw new RuntimeException("Failed : HTTP error code : " +
-	// response.getStatus());
-	// }
-	// String output = response.readEntity(String.class);
-	// System.out.println("Server response .... \n");
-	// System.out.println(output);
-	//
-	// }
+	@Test
+	public void saveUploadedDocsInfo() {
+
+	BaseRequest baseRequest = new BaseRequest();
+	baseRequest.setLoggedInUserId(11);
+	baseRequest.setLoggedInUserProjectId(45);
+
+	UploadDocumentRequest request = new UploadDocumentRequest();
+	request.setBaseRequest(baseRequest);
+
+
+	request.setCreatedBy(11);
+	request.setModifiedBy(11);
+	request.setName("testpdf-1-updated.pdf");
+    request.setFilePath("assets/projects/TBAeXqI4822DWZ4fQFcI/onsite/testpdf-1-renamed.pdf");
+	request.setProjectId(45);
+	request.setFileType("application/pdf");
+	request.setCategoryId(1);
+	request.setDescription("Project image update");
+    request.setProjectFileId(0);
+    request.setParentProjectFileId(104);
+    request.setThumbnailImageName("/assets/projects/TBAeXqI4822DWZ4fQFcI/abcdef.thumb.jpg");
+    request.setIsConversionComplete(false);
+
+	System.out.println("Client request.... \n");
+	System.out.println(toJsonString(request, true));
+    Response response=null;
+
+            response = sendRequest("/upload/saveUploadedDocsInfo", request);
+            if (response.getStatus() != 200) {
+                throw new RuntimeException("Failed : HTTP error code : " +
+                        response.getStatus());
+
+            }
+
+	String output = response.readEntity(String.class);
+	System.out.println("Server response .... \n");
+	System.out.println(output);
+
+	}
 
 	// @Test
 	// public void getUploadedFile() {

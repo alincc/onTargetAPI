@@ -17,7 +17,15 @@ public class TaskPercentage implements Serializable{
 	private int year;
 	private String createdBy;
 
-	public int getId() {
+    public TaskPercentage(Double taskPercentageComplete) {
+        this.taskPercentageComplete = taskPercentageComplete;
+    }
+
+    public TaskPercentage() {
+
+    }
+
+    public int getId() {
 		return id;
 	}
 

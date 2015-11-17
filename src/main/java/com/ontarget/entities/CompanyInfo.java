@@ -1,6 +1,7 @@
 package com.ontarget.entities;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Basic;
@@ -14,6 +15,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
@@ -46,6 +49,20 @@ public class CompanyInfo implements Serializable {
 	private String status;
 	@Column(name = "website", length = 30)
 	private String website;
+	@Column(name = "added_date")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date addedDate;
+	@JoinColumn(name = "added_by", referencedColumnName = "user_id")
+	@ManyToOne()
+	private User addedBy;
+	@Column(name = "modified_date")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date modifiedDate;
+	@JoinColumn(name = "modified_by", referencedColumnName = "user_id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	private User modifiedBy;
+	@Column(name = "logo_path", length = 255)
+	private String logoPath;
 	@OneToMany(mappedBy = "companyInfo", fetch = FetchType.LAZY)
 	private List<Contact> contactList;
 	@JoinColumn(name = "company_type_id", referencedColumnName = "company_type_id", nullable = false)
@@ -165,6 +182,46 @@ public class CompanyInfo implements Serializable {
 		this.projectList = projectList;
 	}
 
+	public Date getAddedDate() {
+		return addedDate;
+	}
+
+	public void setAddedDate(Date addedDate) {
+		this.addedDate = addedDate;
+	}
+
+	public User getAddedBy() {
+		return addedBy;
+	}
+
+	public void setAddedBy(User addedBy) {
+		this.addedBy = addedBy;
+	}
+
+	public Date getModifiedDate() {
+		return modifiedDate;
+	}
+
+	public void setModifiedDate(Date modifiedDate) {
+		this.modifiedDate = modifiedDate;
+	}
+
+	public User getModifiedBy() {
+		return modifiedBy;
+	}
+
+	public void setModifiedBy(User modifiedBy) {
+		this.modifiedBy = modifiedBy;
+	}
+
+	public String getLogoPath() {
+		return logoPath;
+	}
+
+	public void setLogoPath(String logoPath) {
+		this.logoPath = logoPath;
+	}
+
 	@Override
 	public int hashCode() {
 		int hash = 0;
@@ -180,9 +237,7 @@ public class CompanyInfo implements Serializable {
 			return false;
 		}
 		CompanyInfo other = (CompanyInfo) object;
-		if ((this.companyId == null && other.companyId != null)
-				|| (this.companyId != null && !this.companyId
-						.equals(other.companyId))) {
+		if ((this.companyId == null && other.companyId != null) || (this.companyId != null && !this.companyId.equals(other.companyId))) {
 			return false;
 		}
 		return true;

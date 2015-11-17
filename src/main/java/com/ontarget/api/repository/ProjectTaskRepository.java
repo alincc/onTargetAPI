@@ -53,4 +53,14 @@ public interface ProjectTaskRepository extends JpaRepository<ProjectTask, Intege
 
 	@Query(value = "select pt.* from project_task pt , task_assignee ta WHERE pt.project_task_id=ta.project_task_id and pt.project_id in (select project_id from  project where project_parent_id=?1 and project_status!=2) and ta.task_Assignee =?2 and pt.status !=4",nativeQuery = true)
 	List<ProjectTask> findAllUndeletedTasksByProjectAndUser(Integer projectId, Integer userId);
+
+    @Query(value = "select pt.* from project_task pt  WHERE  pt.project_id in (select project_id from  project where project_parent_id=?1 and project_status!=2) and pt.status !=4",nativeQuery = true)
+    List<ProjectTask> findAllUndeletedTasksByProject(Integer projectId);
+
+
+    @Query(value = "select count(pt.project_task_id) from project_task pt  WHERE  pt.project_id in (select project_id from  project where project_parent_id=?1 and project_status!=2) and (pt.status=3 or pt.task_percentage=100)",nativeQuery = true)
+    BigInteger getCountOfAllCompletedTasks(Integer projectId);
+
+
+
 }

@@ -12,7 +12,6 @@ import com.ontarget.request.bean.Assignee;
  */
 public interface EmailService {
 
-	public boolean sendUserRequestEmail(int userRequestId);
 
 	void sendTaskStatusChangeEmail(ProjectTaskInfo task, int userId);
 
@@ -27,7 +26,7 @@ public interface EmailService {
 
 	public boolean sendDocumentAssignmentEmails(DocumentDTO document, List<Assignee> assignees);
 
-	public boolean sendInviteToAccountEmail(String email, String firstName, String lastName, String tokenId);
+
 
 	public void sendTaskAssignmentEmail(ProjectTaskInfo task, Contact contact) throws Exception;
 

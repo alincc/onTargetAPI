@@ -3,6 +3,7 @@ package com.ontarget.api.jpa.dao.impl;
 import java.util.Date;
 import java.util.List;
 
+import com.ontarget.bean.CommentDTO;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -74,6 +75,16 @@ public class ProjectFileTaggingJpaDAOImpl implements ProjectFileTaggingDAO {
 					projectFileTagAttributeRepository.save(projectFileTagAttribute);
 				}
 			}
+
+            //save the comment as well. markup will not have comments.
+            List<CommentDTO> comments = tagBean.getComment();
+            if(comments!=null && comments.size() > 0) {
+                for (CommentDTO comment : comments) {
+                    ProjectFileTagComment tagComment = this.saveComment(projectFileTag.getProjectFileTagId(), comment.getComment(), 0L, userId);
+                }
+            }
+            // end.
+
 		}
 		return true;
 	}
@@ -81,11 +92,11 @@ public class ProjectFileTaggingJpaDAOImpl implements ProjectFileTaggingDAO {
 	@Override
 	public List<ProjectFileTag> getProjectFileTags(int projectFileId) throws Exception {
 		logger.debug("Getting tags for project file id: " + projectFileId);
-		return projectFileTagRepository.findRecentByProjectFileId(projectFileId, new PageRequest(0, 1));
+		return projectFileTagRepository.findRecentByProjectFileId(projectFileId, new PageRequest(0, 100));
 	}
 
 	@Override
-	public boolean saveComment(Long projectFileTagId, String comment, Long commentId, int userId) throws Exception {
+	public ProjectFileTagComment saveComment(Long projectFileTagId, String comment, Long commentId, int userId) throws Exception {
 		ProjectFileTagComment projectFileTagComment;
 		if (commentId != null && commentId > 0) {
 			projectFileTagComment = projectFileTagCommentRepository.findById(commentId);
@@ -99,8 +110,7 @@ public class ProjectFileTaggingJpaDAOImpl implements ProjectFileTaggingDAO {
 			projectFileTagComment.setCreatedDate(new Date());
 		}
 		projectFileTagComment.setComment(comment);
-		projectFileTagCommentRepository.save(projectFileTagComment);
-		return true;
+		return projectFileTagCommentRepository.save(projectFileTagComment);
 	}
 
 	@Override

@@ -36,8 +36,9 @@ public interface OnTargetConstant {
 	public static final String TOKEN_VERIFIED = "Token verification successful";
 	public static final String TOKEN_VERIFICATION_FAILED = "Token verification failed";
 	public static final String REGISTRATION_REQUEST_REJECTED = "REJECTED";
+    public static final int VersionOne=1;
 
-	interface AddressType {
+    interface AddressType {
 		public static final String PROJECT_ADDR = "PROJECT";
 		public static final String COMPANY_ADDR = "COMPANY";
 		public static final String CONTACT_ADDR = "CONTACT";
@@ -54,8 +55,9 @@ public interface OnTargetConstant {
 
 	interface EmailServiceConstants {
 		public static final String USER_REGISTRATION_SUBJECT = "OnTarget Registration Request";
-		public static final String EMAIL_FROM = "Uncle Atlas <donotreply@ontargetcloud.com>";
-		public static final String DO_NOT_REPLY_EMAIL = "<donotreply@ontargetcloud.com>";
+		public static final String EMAIL_FROM = "onTarget <no-reply@ontargetcloud.com>";
+        public static final String EMAIL_FROM_WITHOUT_NAME = "no-reply@ontargetcloud.com";
+		public static final String DO_NOT_REPLY_EMAIL = "<no-reply@ontargetcloud.com>";
 		public static final String ONBOARDING_TO_ONTARGET_SUBJECT = "Onboarding to OnTarget";
 
 		public static final String DOCUMENT_APPROVAL_SUBJECT = "New document available for approval";
@@ -207,4 +209,10 @@ public interface OnTargetConstant {
 		public static final String DELETED = "DELETED";
 	}
 
+    public interface UserType {
+    	
+    	public static final String PROJECT_MANAGER = "PROJECT_MANAGER";
+        public static final String SUPER_USER = "SUPER_USER";
+        public static final String USER = "USER";
+    }
 }

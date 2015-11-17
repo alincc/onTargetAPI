@@ -17,4 +17,6 @@ public interface NotificationDAO {
 			throws Exception;
 
 	public boolean updateAllStatusToSeen(Integer userId, Integer projectId) throws Exception;
+
+	public java.math.BigInteger countNewNotification(Integer userId, Long loggedInUserProjectId) throws Exception;
 }

@@ -59,6 +59,7 @@ import com.ontarget.request.bean.UpdateUserProfileRequest;
 import com.ontarget.request.bean.UserContactInfo;
 import com.ontarget.request.bean.UserInfo;
 import com.ontarget.request.bean.UserSignupRequest;
+import com.ontarget.util.CompanyUtil;
 import com.ontarget.util.ConvertPOJOUtils;
 import com.ontarget.util.Security;
 import com.ontarget.util.UserType;
@@ -146,7 +147,7 @@ public class UserProfileServiceImpl implements UserProfileService {
 		if (userRegistration.getCompanyId() != 0) {
 			companyId = userRegistration.getCompanyId();
 		} else {
-			companyId = companyDAO.addCompanyInfo(company);
+			companyId = companyDAO.addCompanyInfo(company, userInfo.getUserId());
 		}
 
 		// add the company.
@@ -250,11 +251,21 @@ public class UserProfileServiceImpl implements UserProfileService {
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
 	public OnTargetResponse updateCompanyInfo(CompanyInfoEditRequest request) throws Exception {
+		logger.info("Updating company info for company id " + request.getCompany().getCompanyId());
 		OnTargetResponse response = new OnTargetResponse();
 
 		CompanyEditInfo companyEditInfo = request.getCompany();
 
-		boolean updated = companyDAO.update(companyEditInfo);
+		CompanyInfo companyInfo = companyDAO.getCompanyInfo(request.getCompany().getCompanyId());
+
+		if (!CompanyUtil.isUserAllowedToEditCompany(companyInfo.getAddedBy(), request.getBaseRequest().getLoggedInUserId())) {
+			logger.debug("user not allowed to edit company details");
+			response.setReturnMessage("You are not authorized to edit company details.");
+			response.setReturnVal(OnTargetConstant.ERROR);
+			return response;
+		}
+
+		boolean updated = companyDAO.update(companyEditInfo, request.getBaseRequest().getLoggedInUserId());
 		if (updated) {
 			response.setReturnMessage("Successfully updated company details");
 			response.setReturnVal(OnTargetConstant.SUCCESS);
@@ -371,7 +382,7 @@ public class UserProfileServiceImpl implements UserProfileService {
 				if (registrationRequest.getCompanyId() != 0) {
 					companyId = registrationRequest.getCompanyId();
 				} else {
-					companyId = companyDAO.addCompanyInfo(company);
+					companyId = companyDAO.addCompanyInfo(company, user.getUserId());
 					userRegistrationDAO.updateRegistrationRequestCompanyId(companyId, request.getRegistrationToken());
 				}
 
@@ -518,15 +529,11 @@ public class UserProfileServiceImpl implements UserProfileService {
 		com.ontarget.response.bean.UserProfileResponse response = new com.ontarget.response.bean.UserProfileResponse();
 		logger.debug("Getting user profile info for user: " + userId);
 		UserProfile userProfile = userProfileRepository.getUserProfielbyUserId(userId);
-		logger.debug("Getting user profile info for user: " + userProfile);
 		Profile profile = userProfile.getProfile();
 		logger.debug("profile id: " + profile.getProfileId());
 
 		List<ProfileMenu> profileMenuList = profileMenuRepository.findByProfileId(profile.getProfileId());
 		List<ProfileFeature> profileFeatureList = profileFeatureRepository.findByProfileId(profile.getProfileId());
-
-		logger.debug("profile menu list:" + profileMenuList.size());
-		logger.debug("profile feature list:" + profileFeatureList.size());
 
 		List<ProfileMenuInfo> menuList = new ArrayList<ProfileMenuInfo>();
 		List<ProfileFeatureInfo> featureList = new ArrayList<ProfileFeatureInfo>();

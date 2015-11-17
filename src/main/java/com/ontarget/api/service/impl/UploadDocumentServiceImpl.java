@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.ontarget.response.bean.UploadDocumentDetailResponse;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -52,17 +53,35 @@ public class UploadDocumentServiceImpl implements UploadDocumentService {
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
-	public boolean saveUploadedDocsInfo(UploadDocumentRequest documentInfo) throws Exception {
+	public UploadDocumentDetailResponse saveUploadedDocsInfo(UploadDocumentRequest documentInfo) throws Exception {
 		logger.info("service call initiated for document upload");
 		UploadDocument documentBean = new UploadDocument(documentInfo);
-		documentBean = uploadDocumentDAO.saveUploadedDocsInfo(documentBean);
 
-		if (documentBean.getProjectFileId() >= 1) {
+        //get the latest version no for this project file id and set it to the new one.
+        if(documentBean.getProjectFileId() <=0 && documentBean.getParentProjectFileId()<=0){
+            documentBean.setVersionNo(OnTargetConstant.VersionOne);
+        }else if(documentBean.getProjectFileId()<=0 && documentBean.getParentProjectFileId() > 0){
+            //this means version
+            int currentVersionNum=uploadDocumentDAO.getVersionNumberByParentProjectFileId(documentBean.getParentProjectFileId());
+            documentBean.setVersionNo(currentVersionNum + 1);
+        }
+
+
+        UploadedDocumentDetail documentDetail=null;
+        if(documentInfo.getProjectFileId() > 0){
+            documentDetail = uploadDocumentDAO.updateProjectFile(documentBean);
+        }else {
+            documentDetail = uploadDocumentDAO.saveUploadedDocsInfo(documentBean);
+        }
+
+        UploadDocumentDetailResponse response = new UploadDocumentDetailResponse();
+        response.setDocumentDetail(documentDetail);
+		if (documentDetail.getFileId() >= 1) {
 			logger.info("Information saved successfully");
-			return Boolean.TRUE;
+			return response;
 		}
-		logger.info("failed to save information");
-		return Boolean.FALSE;
+
+		return null;
 	}
 
 	@Override
@@ -145,6 +164,21 @@ public class UploadDocumentServiceImpl implements UploadDocumentService {
         Contact c = contactDAO.getContact(createdBy);
         detail.setCreatedByContact(c);
         return detail;
+    }
+
+    @Override
+    public OnTargetResponse udpateConversionComplete(Integer projectFileId, Integer loggedInUserId, Boolean isConversionComplete) throws Exception {
+        logger.debug("Updating connversion complete for file id: "+ projectFileId);
+        boolean updated = uploadDocumentDAO.updateConversionComplete(projectFileId,loggedInUserId,isConversionComplete == true ? "Y" : "N");
+        OnTargetResponse response=new OnTargetResponse();
+        if(updated){
+            response.setReturnVal(OnTargetConstant.SUCCESS);
+            response.setReturnMessage("Successfully updated conversion complete");
+        }else{
+            response.setReturnVal(OnTargetConstant.ERROR);
+            response.setReturnMessage("Error while updating conversion complete");
+        }
+        return response;
     }
 
     @Override

@@ -17,7 +17,7 @@ import com.ontarget.util.JsonDateSerializer;
 public class JerseyResourceInitializer extends ResourceConfig {
 	public JerseyResourceInitializer() {
 		packages("com.ontarget.api.rs.impl");
-		//register(AuthorizationFilter.class);
+		register(AuthorizationFilter.class);
 		register(ValidationConfigurationContextResolver.class);
 		register(ValidationExceptionMapper.class);
 		//register(LoggingResponseFilter.class);

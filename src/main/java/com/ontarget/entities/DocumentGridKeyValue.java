@@ -57,6 +57,8 @@ public class DocumentGridKeyValue implements Serializable {
 	private Document document;
 	@Column(name = "value", columnDefinition = "TEXT")
 	private String value;
+	@Column(name = "status", length = 10)
+	private String status;
 
 	public DocumentGridKeyValue() {
 	}
@@ -143,6 +145,14 @@ public class DocumentGridKeyValue implements Serializable {
 
 	public void setDocument(Document document) {
 		this.document = document;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	@Override

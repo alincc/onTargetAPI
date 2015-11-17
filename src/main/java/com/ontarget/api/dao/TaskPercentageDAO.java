@@ -21,7 +21,9 @@ public interface TaskPercentageDAO {
 
 	public Map<TaskInfo, Map<TaskInterval, TaskPercentage>> getTaskPercentageCompletesByMonthYear(long projectId) throws Exception;
 
-	public int addTaskPercentageComplete(TaskProgress taskProgress, int addedBy) throws Exception;
+    Map<TaskInfo, Map<TaskInterval, TaskPercentage>> getTaskPercentageCompletesByMonthYearTemp(Integer projectId) throws Exception;
+
+    public int addTaskPercentageComplete(TaskProgress taskProgress, int addedBy) throws Exception;
 
 	public int updateTaskPercentageComplete(TaskProgress taskProgress, int addedBy) throws Exception;
 

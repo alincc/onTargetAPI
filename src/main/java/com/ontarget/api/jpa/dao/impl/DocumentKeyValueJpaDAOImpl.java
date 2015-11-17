@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.ontarget.api.dao.DocumentKeyValueDAO;
 import com.ontarget.api.repository.DocumentKeyValueRepository;
 import com.ontarget.bean.DocumentKeyValueDTO;
+import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.entities.Document;
 import com.ontarget.entities.DocumentKeyValue;
 import com.ontarget.entities.User;
@@ -29,6 +30,7 @@ public class DocumentKeyValueJpaDAOImpl implements DocumentKeyValueDAO {
 		documentKeyValue.setValue(documentKeyValueDTO.getValue());
 		documentKeyValue.setCreatedBy(new User(documentKeyValueDTO.getCreatedBy()));
 		documentKeyValue.setCreatedDate(new Date());
+		documentKeyValue.setStatus(OnTargetConstant.GenericStatus.ACTIVE);
 		documentKeyValueRepository.save(documentKeyValue);
 		return documentKeyValueDTO;
 	}
@@ -64,12 +66,34 @@ public class DocumentKeyValueJpaDAOImpl implements DocumentKeyValueDAO {
 	public boolean updateValue(int documentId, String key, String newValue, int modifiedBy) {
 
 		DocumentKeyValue documentKeyValue = documentKeyValueRepository.findByDocumentIdAndKey(documentId, key);
-		documentKeyValue.setValue(newValue);
-		documentKeyValue.setModifiedBy(new User(modifiedBy));
-		documentKeyValue.setModifiedDate(new Date());
-		documentKeyValueRepository.save(documentKeyValue);
-
+		if (documentKeyValue != null) {
+			documentKeyValue.setValue(newValue);
+			documentKeyValue.setModifiedBy(new User(modifiedBy));
+			documentKeyValue.setModifiedDate(new Date());
+			documentKeyValueRepository.save(documentKeyValue);
+		} else {
+			documentKeyValue = new DocumentKeyValue();
+			documentKeyValue.setDocument(new Document(documentId));
+			documentKeyValue.setKey(key);
+			documentKeyValue.setValue(newValue);
+			documentKeyValue.setCreatedBy(new User(modifiedBy));
+			documentKeyValue.setCreatedDate(new Date());
+			documentKeyValue.setStatus(OnTargetConstant.GenericStatus.ACTIVE);
+			documentKeyValueRepository.save(documentKeyValue);
+		}
 		return true;
+	}
+
+	@Override
+	public void deleteDocumentKeyValue(int documentId, List<String> usedKeys) {
+		List<DocumentKeyValue> documentKeyValueList = documentKeyValueRepository.getDocumentKeyValueByDocumentId(documentId);
+
+		for (DocumentKeyValue documentKeyValue : documentKeyValueList) {
+			if (!usedKeys.contains(documentKeyValue.getKey())) {
+				documentKeyValue.setStatus(OnTargetConstant.GenericStatus.DELETED);
+				documentKeyValueRepository.save(documentKeyValue);
+			}
+		}
 	}
 
 }

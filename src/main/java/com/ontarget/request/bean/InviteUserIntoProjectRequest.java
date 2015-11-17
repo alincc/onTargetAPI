@@ -3,11 +3,9 @@ package com.ontarget.request.bean;
 import javax.annotation.Generated;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-
 import lombok.Data;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -16,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({ "projectId", "firstName", "lastName", "email", "registrationToken", "companyName", "companyAddress1",
-		"companyAddress2", "companyCity", "companyState", "companyZip", "companyCountry" })
+		"companyAddress2", "companyCity", "companyState", "companyZip", "companyCountry", "companyLogoPath" })
 public class InviteUserIntoProjectRequest {
 	@NotNull
 	@JsonProperty("projectId")
@@ -51,6 +49,8 @@ public class InviteUserIntoProjectRequest {
 	private Integer companyId;
 	@JsonProperty("companyTypeId")
 	private Integer companyTypeId;
+	@JsonProperty("companyLogoPath")
+	private String companyLogoPath;
 	@NotNull
 	@Valid
 	private BaseRequest baseRequest;

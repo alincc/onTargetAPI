@@ -24,5 +24,7 @@ public interface UserDAO extends GenericDAO<UserDTO> {
 
 	public User findUserByUsername(String username) throws Exception;
 
+	public User findUserById(int userId) throws Exception;
+	
 	public User findUserByEmailAddress(String emailAddress) throws Exception;
 }

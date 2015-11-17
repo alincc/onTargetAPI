@@ -30,19 +30,19 @@ public class DocumentSubmittal implements Serializable {
 	@Column(name = "document_submittal_id", nullable = false)
 	private Integer documentSubmittalId;
 	@JoinColumn(name = "created_by", referencedColumnName = "user_id")
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne()
 	private User createdBy;
 	@Column(name = "created_date")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createdDate;
 	@JoinColumn(name = "modified_by", referencedColumnName = "user_id")
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne()
 	private User modifiedBy;
 	@Column(name = "modified_date")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date modifiedDate;
 	@JoinColumn(name = "assignee_user_id", referencedColumnName = "user_id")
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne()
 	private User user;
 	@JoinColumn(name = "document_id", referencedColumnName = "document_id", nullable = false)
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)

@@ -45,7 +45,7 @@ public class Document implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createdDate;
 	@JoinColumn(name = "modified_by", referencedColumnName = "user_id")
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne()
 	private User modifiedBy;
 	@Basic(optional = false)
 	@Column(name = "modified_date", nullable = false)
@@ -59,7 +59,7 @@ public class Document implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dueDate;
 	@JoinColumn(name = "document_template_id", referencedColumnName = "document_template_id", nullable = false)
-	@ManyToOne(optional = false, fetch = FetchType.LAZY)
+	@ManyToOne(optional = false)
 	private DocumentTemplate documentTemplate;
 	@OneToMany(mappedBy = "document", fetch = FetchType.LAZY)
 	private List<DocumentAttachment> documentAttachmentList;
@@ -184,8 +184,7 @@ public class Document implements Serializable {
 			return false;
 		}
 		Document other = (Document) object;
-		if ((this.documentId == null && other.documentId != null)
-				|| (this.documentId != null && !this.documentId.equals(other.documentId))) {
+		if ((this.documentId == null && other.documentId != null) || (this.documentId != null && !this.documentId.equals(other.documentId))) {
 			return false;
 		}
 		return true;

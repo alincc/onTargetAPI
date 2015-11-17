@@ -155,10 +155,20 @@ public class TaskServiceImpl implements TaskService {
 	 */
 	@Override
 	public com.ontarget.response.bean.TaskListResponse getTaskListByProjectAndUser(Integer projectId, Integer userId) throws Exception {
+        logger.debug("Getting users task for user: "+userId+" and  by project: "+ projectId);
+
+        long startTime = System.currentTimeMillis();
+
 		List<com.ontarget.entities.ProjectTask> projectTaskList = projectTaskRepository.findAllUndeletedTasksByProjectAndUser(projectId,
 				userId);
 
+        long endTime=System.currentTimeMillis();
+        logger.info("Time taken to fetch just task:"+ (endTime - startTime) +" ms");
+
+
 		List<com.ontarget.response.bean.Task> taskList = new ArrayList<com.ontarget.response.bean.Task>();
+
+        long startTaskLoop=System.currentTimeMillis();
 
 		for (com.ontarget.entities.ProjectTask projectTask : projectTaskList) {
 			com.ontarget.response.bean.Task task = new com.ontarget.response.bean.Task();
@@ -180,6 +190,8 @@ public class TaskServiceImpl implements TaskService {
 
 			// add assigned to as well.
 
+            long startAssigneesAndContactLoop = System.currentTimeMillis();
+
 			Set<Integer> assignees = getTaskMembers(task.getProjectTaskId());
 			List<UserDTO> assignedUsers = new ArrayList<>();
 			task.setAssignee(assignedUsers);
@@ -192,12 +204,20 @@ public class TaskServiceImpl implements TaskService {
 					assignedUsers.add(assignedToUser);
 				}
 			}
-
+            long endAssigneesAndContactLoop = System.currentTimeMillis();
+            logger.info("Total time take to loop and create Assignees for DTO for:  "+ (endAssigneesAndContactLoop - startAssigneesAndContactLoop) +" ms");
 			taskList.add(task);
 		}
+        long endTaskLoop = System.currentTimeMillis();
+        logger.info("Total time take to loop and create DTO for:  "+taskList.size()+" tasks : "+ (endTaskLoop - startTaskLoop) +" ms");
 
 		com.ontarget.response.bean.TaskListResponse taskListResponse = new com.ontarget.response.bean.TaskListResponse();
 		taskListResponse.setTasks(taskList);
+
+        endTime = System.currentTimeMillis();
+
+        logger.info("Total time take to fetch "+taskList.size()+" tasks : "+ (endTime - startTime) +" ms");
+
 		return taskListResponse;
 	}
 

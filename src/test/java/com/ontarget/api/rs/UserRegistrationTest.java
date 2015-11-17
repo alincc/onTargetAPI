@@ -13,19 +13,16 @@ public class UserRegistrationTest extends BaseTest {
 
 	@Test
 	public void inviteUserIntoProject() {
-
 		BaseRequest baseRequest = new BaseRequest();
 		baseRequest.setLoggedInUserId(11);
 		baseRequest.setLoggedInUserProjectId(45);
 
 		InviteUserIntoProjectRequest request = new InviteUserIntoProjectRequest();
-		request.setEmail("santosh8pun@gmail.com");
-		request.setProjectId(166);
+		request.setEmail("santosh7pun@gmail.com");
+		request.setProjectId(45);
 		request.setFirstName("santosh");
 		request.setLastName("pun");
 		request.setCompanyId(6);
-
-		request.setBaseRequest(baseRequest);
 
 		// request.setCompanyName("Test company name");
 		// request.setCompanyAddress1("address1");
@@ -35,6 +32,9 @@ public class UserRegistrationTest extends BaseTest {
 		// request.setCompanyCountry("COU");
 		// request.setCompanyZip("11234");
 		// request.setCompanyTypeId(1);
+		// request.setCompanyLogoPath("company.jpg");
+
+		request.setBaseRequest(baseRequest);
 
 		System.out.println("Client request .... \n");
 		System.out.println(toJsonString(request, true));
@@ -91,7 +91,7 @@ public class UserRegistrationTest extends BaseTest {
 		request.setFirstName("Santosh");
 		request.setLastName("Pun");
 		request.setPassword("123456");
-		request.setRegistrationToken("743954434923234018364468226209716418800233816332380216988396");
+		request.setRegistrationToken("151713024037716336156861413352402694741280362992645859889189");
 		request.setTitle("Mr");
 		request.setAreaCode(977);
 		request.setPhoneNumber("9808639594");

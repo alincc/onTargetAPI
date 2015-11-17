@@ -90,6 +90,11 @@ public class DocumentJpaDAOImpl implements DocumentDAO {
 				doc.setStatus(document.getStatus());
 				doc.setCreatedBy(document.getCreatedBy().getUserId());
 				doc.setDueDate(document.getDueDate());
+                doc.setCreatedDate(document.getCreatedDate());
+                doc.setModifiedDate(document.getModifiedDate());
+                if(document.getModifiedBy()!=null){
+                    doc.setModifiedBy(document.getModifiedBy().getUserId());
+                }
 
 				Contact contact = null;
 				try {
@@ -122,6 +127,11 @@ public class DocumentJpaDAOImpl implements DocumentDAO {
 				doc.setStatus(document.getStatus());
 				doc.setCreatedBy(document.getCreatedBy().getUserId());
 				doc.setDueDate(document.getDueDate());
+                doc.setCreatedDate(document.getCreatedDate());
+                doc.setModifiedDate(document.getModifiedDate());
+                if(document.getModifiedBy()!=null){
+                    doc.setModifiedBy(document.getModifiedBy().getUserId());
+                }
 
 				Contact contact = null;
 				try {

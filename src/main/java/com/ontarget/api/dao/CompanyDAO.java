@@ -11,15 +11,15 @@ import java.util.List;
  */
 public interface CompanyDAO {
 
-    public int addCompanyInfo(Company company) throws Exception;
-    
-    public boolean update(CompanyEditInfo company) throws Exception;
+	public int addCompanyInfo(Company company, int userId) throws Exception;
 
-    public Company getCompany(int companyId) throws Exception;
+	public boolean update(CompanyEditInfo company, int modifiedBy) throws Exception;
 
-    public java.util.Map<String, Object> getCompanyByUser(int userId) throws Exception;
+	public Company getCompany(int companyId) throws Exception;
 
-    public List<Company> getCompanyList() throws Exception;
-    
-    public CompanyInfo getCompanyInfo(int companyId) throws Exception;
+	public java.util.Map<String, Object> getCompanyByUser(int userId) throws Exception;
+
+	public List<Company> getCompanyList() throws Exception;
+
+	public CompanyInfo getCompanyInfo(int companyId) throws Exception;
 }
