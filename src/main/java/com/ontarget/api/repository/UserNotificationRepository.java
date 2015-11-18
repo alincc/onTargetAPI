@@ -13,7 +13,7 @@ public interface UserNotificationRepository extends JpaRepository<UserNotificati
 	@Query("select u from UserNotification u where u.userNotificationId = ?1")
 	UserNotification findById(Long id);
 
-	@Query("select u from UserNotification u where u.user.userId = ?1 and (u.notification.projectId=?2 or u.notification.projectId in (select projectId from Project p where p.projectParentId=?2)) order by u.userNotificationId desc")
+	@Query("select u from UserNotification u where u.user.userId = ?1 and u.status='"+OnTargetConstant.UserNotificationStatus.NEW+"' and (u.notification.projectId=?2 or u.notification.projectId in (select projectId from Project p where p.projectParentId=?2)) order by u.userNotificationId desc")
 	List<UserNotification> findNotifcationByUserId(Integer userId, Long loggedInUserProjectId);
 
 	@Modifying
