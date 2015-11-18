@@ -13,11 +13,9 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "baseRequest", "userId" })
+@JsonPropertyOrder({"userId" })
 public class ProjectUserRequest {
-	@NotNull
-	@Valid
-	private BaseRequest baseRequest;
+
 	@NotNull
 	@JsonProperty("userId")
 	private Integer userId;
