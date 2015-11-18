@@ -21,11 +21,13 @@ public interface OnTargetConstant {
 	public static final String SUCCESSFULLY_REGISTERED = "Registration Successfully Requested";
 	public static final String REGISTRATION_REQUEST_FAILED = "Registration request failed";
 	public static final String REGISTRATION_APPROVAL_REQUEST_FAILED = "Registration approval request failed";
+	public static final String REGISTRATION_REJECT_REQUEST_FAILED = "Registration reject request failed";
 	public static final String RETRIEVE_PENDING_REQUEST_FAILED = "Obtaining pending registration requests failed";
 	public static final String PENDING_REQUEST_RECEIVED = "Pending Requests Retrieved";
 	public static final String LOGOUT_SUCCESSFULL = "Successfully Logged out";
 	public static final String ERROR_LOGGEDOUT = "Error Logging out";
 	public static final String REGISTRATION_APPROVAL_REQUEST_SUCCESS = "Registration approval request success";
+	public static final String REGISTRATION_REJECT_REQUEST_SUCCESS = "Registration request rejected success";
 	public static final String AUTHENTICATION_FAILED = "Authentication Failed";
 	public static final String REGISTRATION_PENDING = "PENDING";
 	public static final String REGSITRATION_REQUEST_APPROVED = "APPROVED";
