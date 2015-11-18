@@ -319,12 +319,8 @@ public class ProjectEndpointTest extends BaseTest {
 	@Test
 	public void getUserProjectList() {
 
-		BaseRequest baseRequest = new BaseRequest();
-		baseRequest.setLoggedInUserId(1);
-		baseRequest.setLoggedInUserProjectId(2);
-
 		ProjectUserRequest request = new ProjectUserRequest();
-		request.setBaseRequest(baseRequest);
+
 		request.setUserId(1);
 
 		System.out.println("Client request ....getUserProjectList \n");
