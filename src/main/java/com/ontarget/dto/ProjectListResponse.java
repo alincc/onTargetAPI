@@ -10,7 +10,16 @@ import com.ontarget.bean.ProjectDTO;
 public class ProjectListResponse extends OnTargetResponse {
 
 	private static final long serialVersionUID = 1L;
+	private ProjectDTO mainProject;
 	private List<ProjectDTO> projects;
+
+	public ProjectDTO getMainProject() {
+		return mainProject;
+	}
+
+	public void setMainProject(ProjectDTO mainProject) {
+		this.mainProject = mainProject;
+	}
 
 	public List<ProjectDTO> getProjects() {
 		return projects;

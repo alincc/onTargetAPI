@@ -548,13 +548,51 @@ public class ProjectServiceImpl implements ProjectService {
 	 */
 	@Override
 	public ProjectListResponse getUserProjectList(Integer userId) throws Exception {
+        logger.debug("Getting all list of projects by user: "+ userId);
+
+        ProjectListResponse projectListResponse = new ProjectListResponse();
+
+        //Add main project as well.
+        Project mainProject = projectDAO.getMainProjectByUser(userId);
+        ProjectDTO mainProjectDTO=null;
+        if (mainProject != null) {
+            mainProjectDTO = ProjectUtil.convertToProjectDTO(mainProject, projectTaskRepository);
+            Company company = companyDAO.getCompany(mainProjectDTO.getCompanyId());
+            mainProjectDTO.setCompany(company);
+        }
+
+        List<Project> projects = projectDAO.getProjectsByUserId(userId);
+
+        List<ProjectDTO> projectInfoList = convertedProjectList(projects);
+        mainProjectDTO.setProjects(projectInfoList);
+
+        projectListResponse.setMainProject(mainProjectDTO);
+        return projectListResponse;
+	}
+
+	@Override
+	public ProjectListResponse getSuperUserProjectList(Integer userId) throws Exception {
 		ProjectListResponse projectListResponse = new ProjectListResponse();
 
-		List<Project> projects = projectDAO.getProjectsByUserId(userId);
+        //Add main project as well.
+        Project mainProject = projectDAO.getMainProjectByUser(userId);
+        ProjectDTO mainProjectDTO=null;
+        if (mainProject != null) {
+            mainProjectDTO = ProjectUtil.convertToProjectDTO(mainProject, projectTaskRepository);
+            Company company = companyDAO.getCompany(mainProjectDTO.getCompanyId());
+            mainProjectDTO.setCompany(company);
+        }
 
-		projectListResponse.setProjects(convertedProjectList(projects));
+        List<Project> projects = projectDAO.getProjectsByUserId(userId);
+
+        List<ProjectDTO> projectInfoList = convertedProjectList(projects);
+        mainProjectDTO.setProjects(projectInfoList);
+
+		projectListResponse.setMainProject(mainProjectDTO);
 		return projectListResponse;
 	}
+
+
 
 	// new
 	@Override
@@ -572,6 +610,17 @@ public class ProjectServiceImpl implements ProjectService {
 		projectListResponse.setProjects(projectInfoList);
 		return projectListResponse;
 	}
+
+	private ProjectListResponse getUserProjectResponse(ProjectDTO project, int userId) throws Exception {
+		ProjectListResponse response = new ProjectListResponse();
+		project.setTaskList(new ArrayList<>());
+		response.setMainProject(project);
+
+		setSubProjects(project, userId, 1);
+		response.setResponseCode("SUCC");
+		return response;
+	}
+
 
 	private List<ProjectDTO> convertedProjectList(List<Project> projects) throws Exception {
 		List<ProjectDTO> projectDTOList = new ArrayList<>();

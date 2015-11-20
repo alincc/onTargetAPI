@@ -47,7 +47,9 @@ public interface ProjectService {
 
 	public ProjectListResponse getUserProjectList(Integer userId) throws Exception;
 
-	public com.ontarget.response.bean.ProjectListResponse getActivityOfProject(Integer projectId) throws Exception;
+    public ProjectListResponse getSuperUserProjectList(Integer userId) throws Exception;
+
+    public com.ontarget.response.bean.ProjectListResponse getActivityOfProject(Integer projectId) throws Exception;
 
 	public com.ontarget.entities.Project findProjectById(int projectId) throws Exception;
 }
