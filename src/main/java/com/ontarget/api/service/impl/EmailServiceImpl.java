@@ -379,7 +379,7 @@ public class EmailServiceImpl implements EmailService {
 					message.setSubject(OnTargetConstant.EmailServiceConstants.USER_INVITE_TO_COLLABORATE);
 					message.setSentDate(new Date());
 
-					Map model = new HashMap();
+					Map model = getDefaultMapProperties(new HashMap());
 					if (senderFirstName != null && senderFirstName.trim().length() > 0) {
 						model.put("senderName", senderFirstName + " " + senderLastName);
 					} else {
