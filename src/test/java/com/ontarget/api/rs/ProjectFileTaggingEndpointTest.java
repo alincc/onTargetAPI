@@ -5,9 +5,10 @@ import java.util.List;
 
 import javax.ws.rs.core.Response;
 
-import com.ontarget.bean.CommentDTO;
 import org.apache.log4j.Logger;
 import org.junit.Test;
+
+import com.ontarget.bean.CommentDTO;
 import com.ontarget.bean.ProjectFileTagAttributeBean;
 import com.ontarget.bean.ProjectFileTagBean;
 import com.ontarget.request.bean.AddProjectFileTagRequest;
@@ -16,6 +17,7 @@ import com.ontarget.request.bean.DeleteProjectFileTagCommentRequest;
 import com.ontarget.request.bean.GetProjectFileTagCommentRequest;
 import com.ontarget.request.bean.GetProjectFileTagRequest;
 import com.ontarget.request.bean.ProjectFileTagCommentRequest;
+import com.ontarget.request.bean.UpdateProjectFileTagToTaskLink;
 
 public class ProjectFileTaggingEndpointTest extends BaseTest {
 	private Logger logger = Logger.getLogger(ProjectFileTaggingEndpointTest.class);
@@ -47,11 +49,11 @@ public class ProjectFileTaggingEndpointTest extends BaseTest {
 
 		tagBean.setAttributes(attributes);
 
-        List<CommentDTO> commentDTOs=new ArrayList<>();
-        CommentDTO commentDTO=new CommentDTO();
-        commentDTO.setComment("This is test comment");
-        commentDTOs.add(commentDTO);
-        tagBean.setComment(commentDTOs);
+		List<CommentDTO> commentDTOs = new ArrayList<>();
+		CommentDTO commentDTO = new CommentDTO();
+		commentDTO.setComment("This is test comment");
+		commentDTOs.add(commentDTO);
+		tagBean.setComment(commentDTOs);
 
 		tags.add(tagBean);
 
@@ -150,6 +152,52 @@ public class ProjectFileTaggingEndpointTest extends BaseTest {
 		logger.info("Client request .... \n");
 		logger.info(toJsonString(request, true));
 		Response response = sendRequest("/project/file/tag/comment/delete", request);
+		if (response.getStatus() != 200) {
+			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
+		}
+		String output = response.readEntity(String.class);
+		logger.info("Server response .... \n");
+		logger.info(output);
+	}
+
+	@Test
+	public void linkTagToTask() {
+		UpdateProjectFileTagToTaskLink request = new UpdateProjectFileTagToTaskLink();
+
+		BaseRequest baseRequestBean = new BaseRequest();
+		baseRequestBean.setLoggedInUserId(11);
+		baseRequestBean.setLoggedInUserProjectId(44);
+
+		request.setBaseRequest(baseRequestBean);
+		request.setProjectFileTagId(12l);
+		request.setProjectTaskId(50);
+
+		logger.info("Client request .... \n");
+		logger.info(toJsonString(request, true));
+		Response response = sendRequest("/project/file/tag/task/link", request);
+		if (response.getStatus() != 200) {
+			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
+		}
+		String output = response.readEntity(String.class);
+		logger.info("Server response .... \n");
+		logger.info(output);
+	}
+
+	@Test
+	public void unlinkTagToTask() {
+		UpdateProjectFileTagToTaskLink request = new UpdateProjectFileTagToTaskLink();
+
+		BaseRequest baseRequestBean = new BaseRequest();
+		baseRequestBean.setLoggedInUserId(11);
+		baseRequestBean.setLoggedInUserProjectId(44);
+
+		request.setBaseRequest(baseRequestBean);
+		request.setProjectFileTagId(12l);
+		request.setProjectTaskId(50);
+
+		logger.info("Client request .... \n");
+		logger.info(toJsonString(request, true));
+		Response response = sendRequest("/project/file/tag/task/unlink", request);
 		if (response.getStatus() != 200) {
 			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
 		}

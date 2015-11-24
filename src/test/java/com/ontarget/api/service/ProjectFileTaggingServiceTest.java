@@ -18,6 +18,7 @@ import com.ontarget.bean.ProjectFileTagBean;
 import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.request.bean.BaseRequest;
 import com.ontarget.request.bean.GetProjectFileTagRequest;
+import com.ontarget.request.bean.UpdateProjectFileTagToTaskLink;
 
 /**
  * Created by sanjeevghimire on 10/2/15.
@@ -116,6 +117,29 @@ public class ProjectFileTaggingServiceTest extends BaseTest {
 			Assert.assertTrue(comments != null);
 		} catch (Exception e) {
 			logger.error("Error while retrieving comments.", e);
+			fail();
+		}
+
+	}
+
+	@Test
+	public void addUpdateTagToTaskLink() {
+		try {
+			UpdateProjectFileTagToTaskLink request = new UpdateProjectFileTagToTaskLink();
+
+			BaseRequest baseRequestBean = new BaseRequest();
+			baseRequestBean.setLoggedInUserId(11);
+			baseRequestBean.setLoggedInUserProjectId(44);
+
+			request.setBaseRequest(baseRequestBean);
+			request.setProjectFileTagId(12l);
+			request.setProjectTaskId(50);
+
+			boolean success = projectFileTaggingService.addUpdateTagToTaskLink(request, true);
+
+			Assert.assertTrue(success);
+		} catch (Exception e) {
+			logger.error("Error while deleting comment.", e);
 			fail();
 		}
 

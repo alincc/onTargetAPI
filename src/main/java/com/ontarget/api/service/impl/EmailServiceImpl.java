@@ -370,8 +370,11 @@ public class EmailServiceImpl implements EmailService {
 					MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
 					message.setTo(userEmail);
 
+					logger.debug("sender first name: "+senderFirstName);
+					logger.debug("sender last name: "+senderLastName);
+					
 					String emailFrom = new StringBuilder().append(senderFirstName).append(" ").append(senderLastName)
-							.append(OnTargetConstant.EmailServiceConstants.EMAIL_FROM).toString();
+							.append(OnTargetConstant.EmailServiceConstants.DO_NOT_REPLY_EMAIL).toString();
 					message.setFrom(new InternetAddress(emailFrom));
 					message.setSubject(OnTargetConstant.EmailServiceConstants.USER_INVITE_TO_COLLABORATE);
 					message.setSentDate(new Date());

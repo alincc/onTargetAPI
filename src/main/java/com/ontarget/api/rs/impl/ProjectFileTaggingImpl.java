@@ -9,6 +9,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.ontarget.response.bean.AddUpdateTagCommentResponse;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -24,6 +25,7 @@ import com.ontarget.request.bean.DeleteProjectFileTagCommentRequest;
 import com.ontarget.request.bean.GetProjectFileTagCommentRequest;
 import com.ontarget.request.bean.GetProjectFileTagRequest;
 import com.ontarget.request.bean.ProjectFileTagCommentRequest;
+import com.ontarget.request.bean.UpdateProjectFileTagToTaskLink;
 import com.ontarget.response.bean.ProjectFileTagCommentResponse;
 import com.ontarget.response.bean.ProjectFileTagResponse;
 
@@ -41,7 +43,7 @@ public class ProjectFileTaggingImpl implements ProjectFileTagging {
 	@Path("/save")
 	public ProjectFileTagResponse save(AddProjectFileTagRequest request) {
 		logger.debug("Saving project file tags: " + request.getTags());
-        ProjectFileTagResponse response = new ProjectFileTagResponse();
+		ProjectFileTagResponse response = new ProjectFileTagResponse();
 		try {
 			return projectFileTaggingService.save(request.getTags(), request.getBaseRequest().getLoggedInUserId());
 		} catch (Exception e) {
@@ -76,7 +78,7 @@ public class ProjectFileTaggingImpl implements ProjectFileTagging {
 	@Path("/comment/add")
 	public AddUpdateTagCommentResponse addUpdateComment(ProjectFileTagCommentRequest request) {
 		logger.debug("Add/Update project file comment for tag id: " + request.getProjectFileTagId());
-        AddUpdateTagCommentResponse response = new AddUpdateTagCommentResponse();
+		AddUpdateTagCommentResponse response = new AddUpdateTagCommentResponse();
 		try {
 			return projectFileTaggingService.addUpdateComment(request.getProjectFileTagId(), request.getComment(), request.getCommentId(),
 					request.getBaseRequest().getLoggedInUserId());
@@ -123,6 +125,52 @@ public class ProjectFileTaggingImpl implements ProjectFileTagging {
 			response.setComments(comments);
 			response.setReturnVal(OnTargetConstant.SUCCESS);
 			response.setReturnMessage("Successfully retrieved comments");
+		} catch (Exception e) {
+			logger.error(e);
+			response.setReturnVal(OnTargetConstant.ERROR);
+			response.setReturnMessage(OnTargetConstant.INTERNAL_SERVER_ERROR_MSG);
+		}
+		return response;
+	}
+
+	@Override
+	@POST
+	@Path("/task/link")
+	public OnTargetResponse linkToTask(UpdateProjectFileTagToTaskLink request) {
+		logger.debug("Making tag link request for project file tag id: " + request.getProjectFileTagId());
+		AddUpdateTagCommentResponse response = new AddUpdateTagCommentResponse();
+		try {
+			boolean saved = projectFileTaggingService.addUpdateTagToTaskLink(request, true);
+			if (saved) {
+				response.setReturnVal(OnTargetConstant.SUCCESS);
+				response.setReturnMessage("Successfully linked.");
+			} else {
+				response.setReturnVal(OnTargetConstant.ERROR);
+				response.setReturnMessage("Error while linking.");
+			}
+		} catch (Exception e) {
+			logger.error(e);
+			response.setReturnVal(OnTargetConstant.ERROR);
+			response.setReturnMessage(OnTargetConstant.INTERNAL_SERVER_ERROR_MSG);
+		}
+		return response;
+	}
+
+	@Override
+	@POST
+	@Path("/task/unlink")
+	public OnTargetResponse unlinkFromTask(UpdateProjectFileTagToTaskLink request) {
+		logger.debug("Making tag unlink request for project file tag id: " + request.getProjectFileTagId());
+		AddUpdateTagCommentResponse response = new AddUpdateTagCommentResponse();
+		try {
+			boolean saved = projectFileTaggingService.addUpdateTagToTaskLink(request, false);
+			if (saved) {
+				response.setReturnVal(OnTargetConstant.SUCCESS);
+				response.setReturnMessage("Successfully unlinked.");
+			} else {
+				response.setReturnVal(OnTargetConstant.ERROR);
+				response.setReturnMessage("Error while unlinking.");
+			}
 		} catch (Exception e) {
 			logger.error(e);
 			response.setReturnVal(OnTargetConstant.ERROR);

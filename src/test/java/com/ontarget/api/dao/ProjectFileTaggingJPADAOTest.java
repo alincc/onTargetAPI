@@ -16,6 +16,7 @@ import com.ontarget.bean.ProjectFileTagAttributeBean;
 import com.ontarget.bean.ProjectFileTagBean;
 import com.ontarget.entities.ProjectFileTag;
 import com.ontarget.entities.ProjectFileTagComment;
+import com.ontarget.entities.ProjectFileTagTaskLink;
 
 /**
  * Created by sanjeevghimire on 10/2/15.
@@ -109,6 +110,43 @@ public class ProjectFileTaggingJPADAOTest extends BaseTest {
 			fail();
 		}
 
+	}
+
+	@Test
+	public void saveTagToTaskLink() {
+		try {
+			boolean success = projectFileTaggingDAO.saveTagToTaskLink(12l, 50, 11, "ACTIVE");
+
+			Assert.assertTrue(success);
+		} catch (Exception e) {
+			logger.error("Error while linking tag to task.", e);
+			fail();
+		}
+	}
+
+	@Test
+	public void getProjectFileTagTaskLink() {
+		try {
+			ProjectFileTagTaskLink projectFileTagTaskLink = projectFileTaggingDAO.getProjectFileTagTaskLink(12l, 50);
+
+			Assert.assertTrue(projectFileTagTaskLink != null);
+		} catch (Exception e) {
+			logger.error("Error while getting project file tag task link info.", e);
+			fail();
+		}
+
+	}
+
+	@Test
+	public void updateTagToTaskLink() {
+		try {
+			boolean success = projectFileTaggingDAO.updateTagToTaskLink(1l, 11, "ACTIVE");
+
+			Assert.assertTrue(success);
+		} catch (Exception e) {
+			logger.error("Error while updating tag linking/unlinking.", e);
+			fail();
+		}
 	}
 
 }
