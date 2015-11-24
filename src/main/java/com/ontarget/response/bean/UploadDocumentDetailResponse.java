@@ -10,5 +10,5 @@ import lombok.Data;
 @Data
 public class UploadDocumentDetailResponse extends OnTargetResponse{
 
-    UploadedDocumentDetail documentDetail;
+    public UploadedDocumentDetail documentDetail;
 }
