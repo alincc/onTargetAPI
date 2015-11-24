@@ -3,8 +3,6 @@ package com.ontarget.api.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ontarget.response.bean.AddUpdateTagCommentResponse;
-import com.ontarget.response.bean.ProjectFileTagResponse;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -19,13 +17,15 @@ import com.ontarget.bean.Contact;
 import com.ontarget.bean.ProjectFileTagAttributeBean;
 import com.ontarget.bean.ProjectFileTagBean;
 import com.ontarget.constant.OnTargetConstant;
-import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.entities.ProjectFileTag;
 import com.ontarget.entities.ProjectFileTagAttribute;
 import com.ontarget.entities.ProjectFileTagComment;
+import com.ontarget.entities.ProjectFileTagTaskLink;
 import com.ontarget.enums.TagType;
 import com.ontarget.request.bean.GetProjectFileTagRequest;
-import com.ontarget.response.bean.ProjectFileTagCommentResponse;
+import com.ontarget.request.bean.UpdateProjectFileTagToTaskLink;
+import com.ontarget.response.bean.AddUpdateTagCommentResponse;
+import com.ontarget.response.bean.ProjectFileTagResponse;
 import com.ontarget.util.ProjectFileTagUtil;
 
 @Service
@@ -42,7 +42,7 @@ public class ProjectFileTaggingServiceImpl implements ProjectFileTaggingService 
 	public ProjectFileTagResponse save(List<ProjectFileTagBean> tags, int userId) throws Exception {
 		logger.debug("Saving project file tags: " + tags);
 
-        ProjectFileTagResponse response = new ProjectFileTagResponse();
+		ProjectFileTagResponse response = new ProjectFileTagResponse();
 
 		for (ProjectFileTagBean tagBean : tags) {
 			String tagType = tagBean.getTagType();
@@ -96,9 +96,9 @@ public class ProjectFileTaggingServiceImpl implements ProjectFileTaggingService 
 				}
 				tagBean.setAttributes(attributes);
 
-                //get the tag comments.
-                List<CommentDTO> commentDTOs = this.getComments(projectFileTag.getProjectFileTagId());
-                tagBean.setComment(commentDTOs);
+				// get the tag comments.
+				List<CommentDTO> commentDTOs = this.getComments(projectFileTag.getProjectFileTagId());
+				tagBean.setComment(commentDTOs);
 
 				projectFileTagBeans.add(tagBean);
 			}
@@ -111,23 +111,23 @@ public class ProjectFileTaggingServiceImpl implements ProjectFileTaggingService 
 	public AddUpdateTagCommentResponse addUpdateComment(Long projectFileTagId, String comment, Long commentId, int userId) throws Exception {
 		logger.debug("Add/Update project file comment for project file tag id : " + projectFileTagId);
 
+		ProjectFileTagComment projectFileTagComment = projectFileTaggingDAO
+				.saveComment(projectFileTagId, comment.trim(), commentId, userId);
+		logger.debug("Project File tag comment id:  " + projectFileTagComment.getProjectFileTagCommentId());
 
-        ProjectFileTagComment projectFileTagComment = projectFileTaggingDAO.saveComment(projectFileTagId, comment.trim(), commentId, userId);
-        logger.debug("Project File tag comment id:  " + projectFileTagComment.getProjectFileTagCommentId());
-
-        AddUpdateTagCommentResponse response = new AddUpdateTagCommentResponse();
-        CommentDTO commentDTO = new CommentDTO();
-        commentDTO.setCommentId(projectFileTagComment.getProjectFileTagCommentId());
-        commentDTO.setComment(projectFileTagComment.getComment());
-        commentDTO.setCommentedBy(projectFileTagComment.getCreatedBy().getUserId());
-        Contact contact = contactDAO.getContact(projectFileTagComment.getCreatedBy().getUserId());
-        commentDTO.setCommenterContact(contact);
-        commentDTO.setCommentedDate(projectFileTagComment.getCreatedDate());
-        response.setCommentDTO(commentDTO);
+		AddUpdateTagCommentResponse response = new AddUpdateTagCommentResponse();
+		CommentDTO commentDTO = new CommentDTO();
+		commentDTO.setCommentId(projectFileTagComment.getProjectFileTagCommentId());
+		commentDTO.setComment(projectFileTagComment.getComment());
+		commentDTO.setCommentedBy(projectFileTagComment.getCreatedBy().getUserId());
+		Contact contact = contactDAO.getContact(projectFileTagComment.getCreatedBy().getUserId());
+		commentDTO.setCommenterContact(contact);
+		commentDTO.setCommentedDate(projectFileTagComment.getCreatedDate());
+		response.setCommentDTO(commentDTO);
 
 		if (commentId != null && commentId > 0) {
 
-			if (projectFileTagComment!=null && projectFileTagComment.getProjectFileTagCommentId() > 0) {
+			if (projectFileTagComment != null && projectFileTagComment.getProjectFileTagCommentId() > 0) {
 				response.setReturnVal(OnTargetConstant.SUCCESS);
 				response.setReturnMessage("Successfully updated comment.");
 			} else {
@@ -135,7 +135,7 @@ public class ProjectFileTaggingServiceImpl implements ProjectFileTaggingService 
 				response.setReturnVal(OnTargetConstant.ERROR);
 			}
 		} else {
-			if (projectFileTagComment!=null && projectFileTagComment.getProjectFileTagCommentId() > 0) {
+			if (projectFileTagComment != null && projectFileTagComment.getProjectFileTagCommentId() > 0) {
 				response.setReturnVal(OnTargetConstant.SUCCESS);
 				response.setReturnMessage("Successfully added comment.");
 			} else {
@@ -174,6 +174,31 @@ public class ProjectFileTaggingServiceImpl implements ProjectFileTaggingService 
 			}
 		}
 		return comments;
+	}
+
+	@Override
+	@Transactional(rollbackFor = { Exception.class })
+	public boolean addUpdateTagToTaskLink(UpdateProjectFileTagToTaskLink request, boolean toLink) throws Exception {
+		logger.debug("Link to task for project file tag id : " + request.getProjectFileTagId());
+
+		ProjectFileTagTaskLink projectFileTagTaskLink = projectFileTaggingDAO.getProjectFileTagTaskLink(request.getProjectFileTagId(),
+				request.getProjectTaskId());
+
+		logger.debug("TagTaskLink object: " + projectFileTagTaskLink);
+
+		boolean success;
+		if (projectFileTagTaskLink != null) {
+			String status = toLink ? OnTargetConstant.GenericStatus.ACTIVE : OnTargetConstant.GenericStatus.DELETED;
+			success = projectFileTaggingDAO.updateTagToTaskLink(projectFileTagTaskLink.getProjectFileTagTaskLinkId(), request
+					.getBaseRequest().getLoggedInUserId(), status);
+		} else {
+			success = projectFileTaggingDAO.saveTagToTaskLink(request.getProjectFileTagId(), request.getProjectTaskId(), request
+					.getBaseRequest().getLoggedInUserId(), OnTargetConstant.GenericStatus.ACTIVE);
+		}
+
+		logger.debug("success: " + success);
+
+		return success;
 	}
 
 }

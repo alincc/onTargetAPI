@@ -132,16 +132,16 @@ public class UserInvitationImpl implements UserInvitation {
 			if (success) {
 				emailService.sendInvitationEmailForRegistration(id);
 				response.setReturnVal(OnTargetConstant.SUCCESS);
-				response.setReturnMessage(OnTargetConstant.REGISTRATION_APPROVAL_REQUEST_SUCCESS);
-				logger.info("Approved successfully for id:: " + id);
+				response.setReturnMessage(OnTargetConstant.REGISTRATION_REJECT_REQUEST_SUCCESS);
+				logger.info("Rejected successfully for id:: " + id);
 			} else {
-				logger.error("Approval request failed.");
-				response.setReturnMessage(OnTargetConstant.REGISTRATION_APPROVAL_REQUEST_FAILED);
+				logger.error("Reject request failed.");
+				response.setReturnMessage(OnTargetConstant.REGISTRATION_REJECT_REQUEST_FAILED);
 				response.setReturnVal(OnTargetConstant.ERROR);
 			}
 		} catch (Exception e) {
-			logger.error("Error while saving registration request.", e);
-			response.setReturnMessage(OnTargetConstant.REGISTRATION_APPROVAL_REQUEST_FAILED);
+			logger.error("Error while rejecting request.", e);
+			response.setReturnMessage(OnTargetConstant.REGISTRATION_REJECT_REQUEST_FAILED);
 			response.setReturnVal(OnTargetConstant.ERROR);
 		}
 		return response;

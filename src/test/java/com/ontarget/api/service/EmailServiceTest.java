@@ -1,15 +1,16 @@
 package com.ontarget.api.service;
 
+import static org.junit.Assert.fail;
+
+import org.apache.log4j.Logger;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.ontarget.api.rs.BaseTest;
 import com.ontarget.bean.Contact;
 import com.ontarget.bean.ProjectTaskInfo;
 import com.ontarget.bean.UserDTO;
 import com.ontarget.entities.User;
-import org.apache.log4j.Logger;
-import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import static org.junit.Assert.fail;
 
 /**
  * Created by sanjeevghimire on 6/24/15.
@@ -46,22 +47,32 @@ public class EmailServiceTest extends BaseTest {
 		}
 	}
 
-//	@Test
-//	public void sendTaskStatusChangeEmailTest() {
-//
-//		ProjectTaskInfo taskInfo = new ProjectTaskInfo();
-//		taskInfo.setTitle("Test title");
-//		taskInfo.setStatus("ACTIVE");
-//		User createdBy = new User();
-//		createdBy.setUserId(10);
-//		// taskInfo.setCreatedBy(createdBy);
-//
-//		try {
-//			emailService.sendTaskStatusChangeEmail(taskInfo, 10);
-//		} catch (Exception e) {
-//			logger.error(e);
-//			fail();
-//		}
-//	}
+	@Test
+	public void sendTaskStatusChangeEmailTest() {
+
+		ProjectTaskInfo taskInfo = new ProjectTaskInfo();
+		taskInfo.setTitle("Test title");
+		taskInfo.setStatus("ACTIVE");
+		User createdBy = new User();
+		createdBy.setUserId(10);
+		// taskInfo.setCreatedBy(createdBy);
+
+		try {
+			emailService.sendTaskStatusChangeEmail(taskInfo, 10);
+		} catch (Exception e) {
+			logger.error(e);
+			fail();
+		}
+	}
+
+	@Test
+	public void sendInviteUserToProjectEmail() {
+		try {
+			emailService.sendInviteUserToProjectEmail("santosh8pun@gmail.com", "12345", "Santosh", "Niran", "Shrestha", "OnTarget App");
+		} catch (Exception e) {
+			logger.error(e);
+			fail();
+		}
+	}
 
 }

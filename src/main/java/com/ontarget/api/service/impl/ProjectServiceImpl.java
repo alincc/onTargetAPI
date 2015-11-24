@@ -8,11 +8,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.ontarget.api.dao.AddressDAO;
 import com.ontarget.api.dao.CompanyDAO;
 import com.ontarget.api.dao.ContactDAO;
@@ -492,7 +494,7 @@ public class ProjectServiceImpl implements ProjectService {
 		UserProjectListResponse response = new UserProjectListResponse();
 
 		List<Project> projectList = projectDAO.getAlllAssociatedProjectsByUser(userId);
-		List<ProjectDTO> projectDTOList = convertedProjectList(projectList);
+		List<ProjectDTO> projectDTOList = convertedProjectList(projectList, userId);
 		response.setProjects(projectDTOList);
 
 		for (ProjectDTO projectDTO : projectDTOList) {
@@ -506,37 +508,19 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Override
 	public ProjectListResponse getUserProjectDetails(int userId) throws Exception {
-		logger.info("Obtaining user project list of user id: " + userId);
-		ProjectListResponse response = new ProjectListResponse();
+		Project mainProject = projectDAO.getMainProjectByUser(userId);
 
-		List<Project> projects = projectDAO.getProjectsByUserId(userId);
+		if (mainProject != null) {
+			ProjectDTO project = ProjectUtil.convertToProjectDTO(mainProject, projectTaskRepository);
+			Company company = companyDAO.getCompany(project.getCompanyId());
+			project.setCompany(company);
 
-		List<ProjectDTO> projectDTOList = convertedProjectList(projects);
-		response.setProjects(projectDTOList);
-
-		for (ProjectDTO projectDTO : projectDTOList) {
-			setSubProjects(projectDTO, userId, 1);
+			return this.getUserProjectResponse(project, userId);
+		} else {
+			ProjectListResponse response = new ProjectListResponse();
+			response.setResponseCode("PNF");
+			return response;
 		}
-		response.setResponseCode("SUCC");
-		return response;
-	}
-
-	public void setSubProjects(ProjectDTO projectDTO, int userId, int level) throws Exception {
-		logger.info("fetching project list of parent project id: " + projectDTO.getProjectId());
-
-		List<Project> childProjects = projectDAO.getUndeletedProjectsByParentId(projectDTO.getProjectId());
-
-		List<ProjectDTO> projectDTOList = convertedProjectList(childProjects);
-
-		if (level < 3 && projectDTOList != null && !projectDTOList.isEmpty()) {
-			level++;
-			for (ProjectDTO p : projectDTOList) {
-				p.setTaskList(new ArrayList<>());
-				getProjectTasks(userId, p);
-				setSubProjects(p, userId, level);
-			}
-		}
-		projectDTO.setProjects(projectDTOList);
 	}
 
 	/**
@@ -548,51 +532,50 @@ public class ProjectServiceImpl implements ProjectService {
 	 */
 	@Override
 	public ProjectListResponse getUserProjectList(Integer userId) throws Exception {
-        logger.debug("Getting all list of projects by user: "+ userId);
 
-        ProjectListResponse projectListResponse = new ProjectListResponse();
+		logger.debug("Getting all list of projects by user: " + userId);
 
-        //Add main project as well.
-        Project mainProject = projectDAO.getMainProjectByUser(userId);
-        ProjectDTO mainProjectDTO=null;
-        if (mainProject != null) {
-            mainProjectDTO = ProjectUtil.convertToProjectDTO(mainProject, projectTaskRepository);
-            Company company = companyDAO.getCompany(mainProjectDTO.getCompanyId());
-            mainProjectDTO.setCompany(company);
-        }
+		ProjectListResponse projectListResponse = new ProjectListResponse();
 
-        List<Project> projects = projectDAO.getProjectsByUserId(userId);
+		// Add main project as well.
+		Project mainProject = projectDAO.getMainProjectByUser(userId);
+		ProjectDTO mainProjectDTO = null;
+		if (mainProject != null) {
+			mainProjectDTO = ProjectUtil.convertToProjectDTO(mainProject, projectTaskRepository);
+			Company company = companyDAO.getCompany(mainProjectDTO.getCompanyId());
+			mainProjectDTO.setCompany(company);
+		}
 
-        List<ProjectDTO> projectInfoList = convertedProjectList(projects);
-        mainProjectDTO.setProjects(projectInfoList);
+		List<Project> projects = projectDAO.getProjectsByUserId(userId);
 
-        projectListResponse.setMainProject(mainProjectDTO);
-        return projectListResponse;
+		List<ProjectDTO> projectInfoList = convertedProjectList(projects, userId);
+		mainProjectDTO.setProjects(projectInfoList);
+
+		projectListResponse.setMainProject(mainProjectDTO);
+		return projectListResponse;
 	}
 
 	@Override
 	public ProjectListResponse getSuperUserProjectList(Integer userId) throws Exception {
 		ProjectListResponse projectListResponse = new ProjectListResponse();
 
-        //Add main project as well.
-        Project mainProject = projectDAO.getMainProjectByUser(userId);
-        ProjectDTO mainProjectDTO=null;
-        if (mainProject != null) {
-            mainProjectDTO = ProjectUtil.convertToProjectDTO(mainProject, projectTaskRepository);
-            Company company = companyDAO.getCompany(mainProjectDTO.getCompanyId());
-            mainProjectDTO.setCompany(company);
-        }
+		// Add main project as well.
+		Project mainProject = projectDAO.getMainProjectByUser(userId);
+		ProjectDTO mainProjectDTO = null;
+		if (mainProject != null) {
+			mainProjectDTO = ProjectUtil.convertToProjectDTO(mainProject, projectTaskRepository);
+			Company company = companyDAO.getCompany(mainProjectDTO.getCompanyId());
+			mainProjectDTO.setCompany(company);
+		}
 
-        List<Project> projects = projectDAO.getProjectsByUserId(userId);
+		List<Project> projects = projectDAO.getProjectsByUserId(userId);
 
-        List<ProjectDTO> projectInfoList = convertedProjectList(projects);
-        mainProjectDTO.setProjects(projectInfoList);
+		List<ProjectDTO> projectInfoList = convertedProjectList(projects, userId);
+		mainProjectDTO.setProjects(projectInfoList);
 
 		projectListResponse.setMainProject(mainProjectDTO);
 		return projectListResponse;
 	}
-
-
 
 	// new
 	@Override
@@ -621,8 +604,28 @@ public class ProjectServiceImpl implements ProjectService {
 		return response;
 	}
 
+	public void setSubProjects(ProjectDTO projectDTO, int userId, int level) throws Exception {
+		List<Project> childProjects;
+		if (level == 1) {
+			childProjects = projectDAO.getUndeletedProjectsByParentIdAndUserId(projectDTO.getProjectId(), userId);
+		} else {
+			childProjects = projectDAO.getUndeletedProjectsByParentId(projectDTO.getProjectId());
+		}
+		List<ProjectDTO> projectDTOList = convertedProjectList(childProjects, userId);
 
-	private List<ProjectDTO> convertedProjectList(List<Project> projects) throws Exception {
+		if (level < 3 && projectDTOList != null && !projectDTOList.isEmpty()) {
+			level++;
+			for (ProjectDTO p : projectDTOList) {
+				p.setTaskList(new ArrayList<>());
+				getProjectTasks(userId, p);
+				setSubProjects(p, userId, level);
+			}
+		}
+
+		projectDTO.setProjects(projectDTOList);
+	}
+
+	private List<ProjectDTO> convertedProjectList(List<Project> projects, int userId) throws Exception {
 		List<ProjectDTO> projectDTOList = new ArrayList<>();
 
 		if (projects != null && !projects.isEmpty()) {
@@ -702,7 +705,7 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 
 	@Override
-	public com.ontarget.entities.Project findProjectById(int projectId) throws Exception {
+	public Project findProjectById(int projectId) throws Exception {
 		return projectDAO.findProjectById(projectId);
 	}
 }

@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.ontarget.bean.CommentDTO;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -13,6 +14,7 @@ import com.ontarget.api.dao.ProjectFileTaggingDAO;
 import com.ontarget.api.repository.ProjectFileTagAttributeRepository;
 import com.ontarget.api.repository.ProjectFileTagCommentRepository;
 import com.ontarget.api.repository.ProjectFileTagRepository;
+import com.ontarget.api.repository.ProjectFileTagTaskLinkRepository;
 import com.ontarget.bean.ProjectFileTagAttributeBean;
 import com.ontarget.bean.ProjectFileTagBean;
 import com.ontarget.constant.OnTargetConstant;
@@ -20,6 +22,8 @@ import com.ontarget.entities.ProjectFile;
 import com.ontarget.entities.ProjectFileTag;
 import com.ontarget.entities.ProjectFileTagAttribute;
 import com.ontarget.entities.ProjectFileTagComment;
+import com.ontarget.entities.ProjectFileTagTaskLink;
+import com.ontarget.entities.ProjectTask;
 import com.ontarget.entities.User;
 
 @Repository
@@ -32,6 +36,8 @@ public class ProjectFileTaggingJpaDAOImpl implements ProjectFileTaggingDAO {
 	private ProjectFileTagAttributeRepository projectFileTagAttributeRepository;
 	@Autowired
 	private ProjectFileTagCommentRepository projectFileTagCommentRepository;
+	@Autowired
+	private ProjectFileTagTaskLinkRepository projectFileTagTaskLinkRepository;
 
 	@Override
 	public boolean save(List<ProjectFileTagBean> tags, int userId) throws Exception {
@@ -76,14 +82,15 @@ public class ProjectFileTaggingJpaDAOImpl implements ProjectFileTaggingDAO {
 				}
 			}
 
-            //save the comment as well. markup will not have comments.
-            List<CommentDTO> comments = tagBean.getComment();
-            if(comments!=null && comments.size() > 0) {
-                for (CommentDTO comment : comments) {
-                    ProjectFileTagComment tagComment = this.saveComment(projectFileTag.getProjectFileTagId(), comment.getComment(), 0L, userId);
-                }
-            }
-            // end.
+			// save the comment as well. markup will not have comments.
+			List<CommentDTO> comments = tagBean.getComment();
+			if (comments != null && comments.size() > 0) {
+				for (CommentDTO comment : comments) {
+					ProjectFileTagComment tagComment = this.saveComment(projectFileTag.getProjectFileTagId(), comment.getComment(), 0L,
+							userId);
+				}
+			}
+			// end.
 
 		}
 		return true;
@@ -128,4 +135,30 @@ public class ProjectFileTaggingJpaDAOImpl implements ProjectFileTaggingDAO {
 		return projectFileTagCommentRepository.findCommentsByFileTag(projectFileTagId);
 	}
 
+	@Override
+	public boolean saveTagToTaskLink(Long projectFileTagId, int taskId, int userId, String status) throws Exception {
+		ProjectFileTagTaskLink projectFileTagTaskLink = new ProjectFileTagTaskLink();
+		projectFileTagTaskLink.setProjectFileTag(new ProjectFileTag(projectFileTagId));
+		projectFileTagTaskLink.setProjectTask(new ProjectTask(taskId));
+		projectFileTagTaskLink.setCreatedBy(new User(userId));
+		projectFileTagTaskLink.setCreatedDate(new Date());
+		projectFileTagTaskLink.setStatus(status);
+		projectFileTagTaskLinkRepository.save(projectFileTagTaskLink);
+		return true;
+	}
+
+	@Override
+	public ProjectFileTagTaskLink getProjectFileTagTaskLink(Long projectFileTagId, int taskId) {
+		return projectFileTagTaskLinkRepository.findByTagIdAndTaskId(projectFileTagId, taskId);
+	}
+
+	@Override
+	public boolean updateTagToTaskLink(Long projectFileTagTaskLinkId, int userId, String status) throws Exception {
+		ProjectFileTagTaskLink projectFileTagTaskLink = projectFileTagTaskLinkRepository.findOne(projectFileTagTaskLinkId);
+		projectFileTagTaskLink.setModifiedBy(new User(userId));
+		projectFileTagTaskLink.setModifiedDate(new Date());
+		projectFileTagTaskLink.setStatus(status);
+		projectFileTagTaskLinkRepository.save(projectFileTagTaskLink);
+		return true;
+	}
 }

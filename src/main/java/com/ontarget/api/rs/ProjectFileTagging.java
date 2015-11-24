@@ -8,12 +8,13 @@ import com.ontarget.request.bean.DeleteProjectFileTagCommentRequest;
 import com.ontarget.request.bean.GetProjectFileTagCommentRequest;
 import com.ontarget.request.bean.GetProjectFileTagRequest;
 import com.ontarget.request.bean.ProjectFileTagCommentRequest;
+import com.ontarget.request.bean.UpdateProjectFileTagToTaskLink;
 import com.ontarget.response.bean.ProjectFileTagCommentResponse;
 import com.ontarget.response.bean.ProjectFileTagResponse;
 
 public interface ProjectFileTagging {
 
-    ProjectFileTagResponse save(@Valid AddProjectFileTagRequest request);
+	ProjectFileTagResponse save(@Valid AddProjectFileTagRequest request);
 
 	ProjectFileTagResponse getProjectFileTags(@Valid GetProjectFileTagRequest request);
 
@@ -22,4 +23,8 @@ public interface ProjectFileTagging {
 	OnTargetResponse deleteComment(@Valid DeleteProjectFileTagCommentRequest request);
 
 	ProjectFileTagCommentResponse getComments(@Valid GetProjectFileTagCommentRequest request);
+
+	OnTargetResponse linkToTask(@Valid UpdateProjectFileTagToTaskLink request);
+
+	OnTargetResponse unlinkFromTask(@Valid UpdateProjectFileTagToTaskLink request);
 }
