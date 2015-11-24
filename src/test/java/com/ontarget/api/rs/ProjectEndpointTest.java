@@ -62,43 +62,40 @@ public class ProjectEndpointTest extends BaseTest {
 		System.out.println(output);
 	}
 
-	 @Test
-	 public void addActivity() {
-	
-	 BaseRequest baseRequest = new BaseRequest();
-	 baseRequest.setLoggedInUserId(10);
-	 baseRequest.setLoggedInUserProjectId(42);
-	
-	 ActivityRequest request = new ActivityRequest();
-	 request.setBaseRequest(baseRequest);
-	 request.setUserId(10);
-	 request.setAccountStatus("ACTIVE");
-	
-	 ActivityDetailInfo projectDetailInfo = new ActivityDetailInfo();
-	 projectDetailInfo.setCompanyId(5);
-	 projectDetailInfo.setEndDate(new java.sql.Date(new
-	 java.util.Date().getTime()));
-	 projectDetailInfo.setProjectDescription("activity desc");
-	 projectDetailInfo.setProjectName("activity name");
-	 projectDetailInfo.setProjectParentId(42);
-	 projectDetailInfo.setProjectTypeId(1);
-	 projectDetailInfo.setStartDate(new java.sql.Date(new
-	 java.util.Date().getTime()));
-	 projectDetailInfo.setStatus("1");
-	
-	 request.setProject(projectDetailInfo);
-	
-	 System.out.println("Client request .... addActivity\n");
-	 System.out.println(toJsonString(request, true));
-	 Response response = sendRequest("/project/addActivity", request);
-	 if (response.getStatus() != 200) {
-	 throw new RuntimeException("Failed : HTTP error code : " +
-	 response.getStatus());
-	 }
-	 String output = response.readEntity(String.class);
-	 System.out.println("Server response .... \n");
-	 System.out.println(output);
-	 }
+	@Test
+	public void addActivity() {
+
+		BaseRequest baseRequest = new BaseRequest();
+		baseRequest.setLoggedInUserId(10);
+		baseRequest.setLoggedInUserProjectId(42);
+
+		ActivityRequest request = new ActivityRequest();
+		request.setBaseRequest(baseRequest);
+		request.setUserId(10);
+		request.setAccountStatus("ACTIVE");
+
+		ActivityDetailInfo projectDetailInfo = new ActivityDetailInfo();
+		projectDetailInfo.setCompanyId(5);
+		projectDetailInfo.setEndDate(new java.sql.Date(new java.util.Date().getTime()));
+		projectDetailInfo.setProjectDescription("activity desc");
+		projectDetailInfo.setProjectName("activity name");
+		projectDetailInfo.setProjectParentId(42);
+		projectDetailInfo.setProjectTypeId(1);
+		projectDetailInfo.setStartDate(new java.sql.Date(new java.util.Date().getTime()));
+		projectDetailInfo.setStatus("1");
+
+		request.setProject(projectDetailInfo);
+
+		System.out.println("Client request .... addActivity\n");
+		System.out.println(toJsonString(request, true));
+		Response response = sendRequest("/project/addActivity", request);
+		if (response.getStatus() != 200) {
+			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
+		}
+		String output = response.readEntity(String.class);
+		System.out.println("Server response .... \n");
+		System.out.println(output);
+	}
 
 	@Test
 	public void updateActivity() {
