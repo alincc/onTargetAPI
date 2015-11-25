@@ -47,10 +47,10 @@ public class ProjectFileTagTaskLink implements Serializable {
 	@Column(name = "status", length = 10, nullable = false)
 	private String status;
 	@JoinColumn(name = "project_file_tag_id", referencedColumnName = "project_file_tag_id", nullable = false)
-	@ManyToOne(optional = false, fetch = FetchType.LAZY)
+	@ManyToOne(optional = false)
 	private ProjectFileTag projectFileTag;
 	@JoinColumn(name = "project_task_id", referencedColumnName = "project_task_id", nullable = false)
-	@ManyToOne(optional = false, fetch = FetchType.LAZY)
+	@ManyToOne(optional = false)
 	private ProjectTask projectTask;
 
 	public ProjectFileTagTaskLink() {
