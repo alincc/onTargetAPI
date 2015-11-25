@@ -17,6 +17,7 @@ import com.ontarget.bean.Contact;
 import com.ontarget.bean.ProjectFileTagAttributeBean;
 import com.ontarget.bean.ProjectFileTagBean;
 import com.ontarget.constant.OnTargetConstant;
+import com.ontarget.dto.TaskLink;
 import com.ontarget.entities.ProjectFileTag;
 import com.ontarget.entities.ProjectFileTagAttribute;
 import com.ontarget.entities.ProjectFileTagComment;
@@ -99,6 +100,22 @@ public class ProjectFileTaggingServiceImpl implements ProjectFileTaggingService 
 				// get the tag comments.
 				List<CommentDTO> commentDTOs = this.getComments(projectFileTag.getProjectFileTagId());
 				tagBean.setComment(commentDTOs);
+
+				List<ProjectFileTagTaskLink> projectFileTagTaskLinkList = projectFileTag.getProjectFileTagTaskLinkList();
+				logger.debug("tag task link list:" + projectFileTagTaskLinkList);
+
+				List<TaskLink> taskLinks = new ArrayList<TaskLink>();
+				if (projectFileTagTaskLinkList != null && !projectFileTagTaskLinkList.isEmpty()) {
+					for (ProjectFileTagTaskLink projectFileTagTaskLink : projectFileTagTaskLinkList) {
+						TaskLink taskLink = new TaskLink();
+						taskLink.setTaskId(projectFileTagTaskLink.getProjectTask().getProjectTaskId());
+						Contact creator = contactDAO.getContact(projectFileTagTaskLink.getCreatedBy().getUserId());
+						taskLink.setAdddedBy(creator);
+						taskLinks.add(taskLink);
+					}
+				}
+
+				tagBean.setTaskLinks(taskLinks);
 
 				projectFileTagBeans.add(tagBean);
 			}

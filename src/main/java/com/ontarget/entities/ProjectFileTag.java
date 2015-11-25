@@ -67,6 +67,8 @@ public class ProjectFileTag implements Serializable {
 	private ProjectFile projectFile;
 	@OneToMany(mappedBy = "projectFileTag", fetch = FetchType.EAGER)
 	private List<ProjectFileTagAttribute> projectFileTagAttributes;
+	@OneToMany(mappedBy = "projectFileTag", fetch = FetchType.EAGER)
+	private List<ProjectFileTagTaskLink> projectFileTagTaskLinkList;
 
 	public ProjectFileTag() {
 	}

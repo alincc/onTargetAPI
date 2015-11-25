@@ -12,6 +12,8 @@ import lombok.Data;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import com.ontarget.dto.TaskLink;
+
 @Data
 public class ProjectFileTagBean implements Serializable {
 	@NotNull
@@ -28,11 +30,12 @@ public class ProjectFileTagBean implements Serializable {
 	private String status;
 	private Contact addedBy;
 	private Date addedDate;
+	private List<TaskLink> taskLinks;
 
 	@NotNull
 	@Valid
 	private List<ProjectFileTagAttributeBean> attributes;
 
-    private List<CommentDTO> comment;
+	private List<CommentDTO> comment;
 
 }
