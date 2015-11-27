@@ -75,4 +75,14 @@ public class EmailServiceTest extends BaseTest {
 		}
 	}
 
+	@Test
+	public void sendDocumentStatusUpdateEmail() {
+		try {
+			emailService.sendDocumentStatusUpdateEmail("Test doc", "APPROVED", "Santosh", "Pun", "santosh8pun@gmail.com", "Mike", "Malony",
+					"Sanjeev");
+		} catch (Exception e) {
+			logger.error(e);
+			fail();
+		}
+	}
 }

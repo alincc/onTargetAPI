@@ -67,6 +67,7 @@ public interface OnTargetConstant {
 		public static final String INVITE_USER_TO_ACCOUNT_SUBJECT = "Invitation to OnTarget";
 		public static final String TASK_ASSIGNED_SUBJECT = "Task Assigned";
 		public static final String FORGOT_PASSWORD_SUBJECT = "Forgot Password";
+		public static final String DOCUMENT_STATUS_UPDATE_SUBJECT = "Document status";
 
 		public static final String REQUEST_FOR_DEMO_APPROVE_URL = "/#/app/pending-account-request";
 		public static final String USER_INVITE_TO_COLLABORATE = "Invite to Collaborate";

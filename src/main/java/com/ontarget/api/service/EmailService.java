@@ -12,7 +12,6 @@ import com.ontarget.request.bean.Assignee;
  */
 public interface EmailService {
 
-
 	void sendTaskStatusChangeEmail(ProjectTaskInfo task, int userId);
 
 	public void sendTaskCommentEmail(ProjectTaskInfo task, Contact commentedBy, int assigneeUserId);
@@ -26,8 +25,6 @@ public interface EmailService {
 
 	public boolean sendDocumentAssignmentEmails(DocumentDTO document, List<Assignee> assignees);
 
-
-
 	public void sendTaskAssignmentEmail(ProjectTaskInfo task, Contact contact) throws Exception;
 
 	public void sendForgotPasswordEmail(String emailAddress, String name, String forgotPasswordToken);
@@ -36,5 +33,8 @@ public interface EmailService {
 
 	public boolean sendInviteUserToProjectEmail(String userEmail, String tokenId, String receiverFirstName, String senderFirstName,
 			String senderLastName, String projectName);
+
+	public void sendDocumentStatusUpdateEmail(String documentTitle, String updatedStatus, String assigneeFirstName,
+			String assigneeLastName, String assigneeEmail, String modifierFirstName, String modifierLastName, String creatorFirstName);
 
 }

@@ -37,6 +37,14 @@ import com.ontarget.util.TaskStatusEnum;
 /**
  * Created by Owner on 11/2/14.
  */
+/**
+ * @author santosh
+ *
+ */
+/**
+ * @author santosh
+ *
+ */
 @Service
 public class EmailServiceImpl implements EmailService {
 
@@ -370,9 +378,9 @@ public class EmailServiceImpl implements EmailService {
 					MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
 					message.setTo(userEmail);
 
-					logger.debug("sender first name: "+senderFirstName);
-					logger.debug("sender last name: "+senderLastName);
-					
+					logger.debug("sender first name: " + senderFirstName);
+					logger.debug("sender last name: " + senderLastName);
+
 					String emailFrom = new StringBuilder().append(senderFirstName).append(" ").append(senderLastName)
 							.append(OnTargetConstant.EmailServiceConstants.DO_NOT_REPLY_EMAIL).toString();
 					message.setFrom(new InternetAddress(emailFrom));
@@ -508,6 +516,52 @@ public class EmailServiceImpl implements EmailService {
 			logger.error("Error while sending forgot password email.", e);
 		}
 
+	}
+
+	/**
+	 * Document status update email
+	 * 
+	 * @param documentTitle
+	 * @param updatedStatus
+	 * @param assigneeFirstName
+	 * @param assigneeLastName
+	 * @param assigneeEmail
+	 * @param modifierFirstName
+	 * @param modifierLastName
+	 * @param creatorFirstName
+	 * @return
+	 */
+	@Override
+	public void sendDocumentStatusUpdateEmail(String documentTitle, String updatedStatus, String assigneeFirstName,
+			String assigneeLastName, String assigneeEmail, String modifierFirstName, String modifierLastName, String creatorFirstName) {
+		try {
+			MimeMessagePreparator preparator = new MimeMessagePreparator() {
+				@SuppressWarnings({ "rawtypes", "unchecked" })
+				public void prepare(MimeMessage mimeMessage) throws Exception {
+					MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
+					message.setFrom(new InternetAddress(OnTargetConstant.EmailServiceConstants.EMAIL_FROM));
+					message.setTo(assigneeEmail);
+					message.setSubject(OnTargetConstant.EmailServiceConstants.DOCUMENT_STATUS_UPDATE_SUBJECT);
+					message.setSentDate(new Date());
+
+					Map model = getDefaultMapProperties(new HashMap());
+					model.put("documentTitle", documentTitle);
+					model.put("status", updatedStatus);
+					model.put("assigneeFirstName", assigneeFirstName);
+					model.put("assigneeLastName", assigneeLastName);
+					model.put("modifierFirstName", modifierFirstName);
+					model.put("modifierLastName", modifierLastName);
+					model.put("creatorFirstName", creatorFirstName);
+
+					String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "/template/documentStatusUpdateEmail.vm",
+							"UTF-8", model);
+					message.setText(text, true);
+				}
+			};
+			javaMailSender.send(preparator);
+		} catch (Exception e) {
+			logger.error("Error while sending email for task.", e);
+		}
 	}
 
 }

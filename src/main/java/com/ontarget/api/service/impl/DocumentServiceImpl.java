@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ontarget.api.repository.DocumentRepository;
 import com.ontarget.api.service.DocumentService;
 import com.ontarget.api.service.EmailService;
 import com.ontarget.constant.OnTargetConstant;
@@ -72,6 +73,9 @@ public class DocumentServiceImpl implements DocumentService {
 	@Qualifier("contactJpaDAOImpl")
 	private ContactDAO contactDAO;
 
+	@Autowired
+	private DocumentRepository documentRepository;
+
 	@Transactional(rollbackFor = { Exception.class })
 	@Override
 	public AddDocumentResponse addDocument(AddDocumentRequest request) throws Exception {
@@ -80,7 +84,6 @@ public class DocumentServiceImpl implements DocumentService {
 
 		List<Assignee> assignees = request.getAssignees();
 		try {
-
 			document.setDocumentTemplate(new DocumentTemplateDTO(request.getDocumentTemplateId()));
 			document.setName(request.getDocumentName());
 			document.setStatus(OnTargetConstant.DocumentStatus.SUBMITTED);
@@ -271,13 +274,33 @@ public class DocumentServiceImpl implements DocumentService {
 	@Override
 	public OnTargetResponse updateStatus(UpdateDocumentStatus request) throws Exception {
 		try {
-
 			int documentId = request.getDocumentId();
+			logger.info("updating status for document id: " + documentId);
 			String newStatus = request.getNewStatus();
 			int modifiedBy = request.getModifiedBy();
 			boolean updated = documentDAO.updateStatus(documentId, newStatus, modifiedBy);
 			OnTargetResponse response = new OnTargetResponse();
 			if (updated) {
+				Document document = documentRepository.findByDocumentId(documentId);
+
+				// send status update notification to all the assignee
+				List<DocumentSubmittal> documentSubmittalList = documentSubmittalDAO.getDocumentSubmittalByDocumentId(documentId);
+
+				logger.debug("document submittal list: " + documentSubmittalList);
+
+				Contact modifier = contactDAO.getContact(modifiedBy);
+
+				for (DocumentSubmittal assignee : documentSubmittalList) {
+					Contact contact = contactDAO.getContact(assignee.getUser().getUserId());
+
+					if (contact != null && (contact.getEmail() != null && contact.getEmail().trim().length() > 0)) {
+
+						emailService.sendDocumentStatusUpdateEmail(document.getName(), document.getStatus(), contact.getFirstName(),
+								contact.getLastName(), contact.getEmail(), modifier.getFirstName(), modifier.getLastName(), document
+										.getCreatedBy().getContactList().get(0).getFirstName());
+					}
+				}
+
 				response.setReturnVal(OnTargetConstant.SUCCESS);
 				response.setReturnMessage("Document status successfully updated!");
 			}
