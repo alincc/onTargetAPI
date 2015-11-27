@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `ontarget` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci */;
-USE `ontargetbeta`;
 -- MySQL dump 10.13  Distrib 5.5.43, for debian-linux-gnu (x86_64)
 --
 -- Host: localhost    Database: ontarget
