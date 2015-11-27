@@ -19,7 +19,7 @@ import com.ontarget.response.bean.TaskResponse;
  */
 public interface TaskService {
 
-	public boolean addTaskService(Task task, int userId) throws Exception;
+	public TaskResponse addTaskService(Task task, int userId) throws Exception;
 
 	public List<TaskInfo> getTask(Integer projectId) throws Exception;
 

@@ -63,11 +63,12 @@ public class TaskEndpointImpl implements TaskEndpoint {
 	@Override
 	@Path("/addTask")
 	@POST
-	public OnTargetResponse addTask(TaskRequest taskRequest) {
-		OnTargetResponse response = new OnTargetResponse();
+	public TaskResponse addTask(TaskRequest taskRequest) {
+        TaskResponse response = new TaskResponse();
 		Task task = taskRequest.getTask();
 		try {
-			if (taskService.addTaskService(task, taskRequest.getUserId())) {
+            response=taskService.addTaskService(task, taskRequest.getUserId());
+			if (response.getTask()!=null) {
 				if (taskService.isTaskAdd(task)) {
 					response.setReturnMessage("Successfully added task");
 				} else {

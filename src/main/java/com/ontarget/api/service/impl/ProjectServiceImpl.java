@@ -549,11 +549,44 @@ public class ProjectServiceImpl implements ProjectService {
 		List<Project> projects = projectDAO.getProjectsByUserId(userId);
 
 		List<ProjectDTO> projectInfoList = convertedProjectList(projects, userId);
-		mainProjectDTO.setProjects(projectInfoList);
+        mainProjectDTO.setProjects(projectInfoList);
 
 		projectListResponse.setMainProject(mainProjectDTO);
 		return projectListResponse;
 	}
+
+
+    /**
+     * Get all projects by user id. Returns only the project info
+     *
+     * @param userId
+     * @return
+     * @throws Exception
+     */
+    public ProjectListResponse getUserProjectListModified(Integer userId) throws Exception {
+
+        logger.debug("Getting all list of projects by user: " + userId);
+
+        ProjectListResponse projectListResponse = new ProjectListResponse();
+
+        // Add main project as well.
+        Project mainProject = projectDAO.getMainProjectByUser(userId);
+        ProjectDTO mainProjectDTO = null;
+        if (mainProject != null) {
+            mainProjectDTO = ProjectUtil.convertToProjectDTO(mainProject, projectTaskRepository);
+            Company company = companyDAO.getCompany(mainProjectDTO.getCompanyId());
+            mainProjectDTO.setCompany(company);
+        }
+
+        List<Project> projects = projectDAO.getProjectsByUserId(userId);
+
+        List<ProjectDTO> projectInfoList = convertedProjectList(projects, userId);
+        projectListResponse.setProjects(projectInfoList);
+
+        projectListResponse.setMainProject(mainProjectDTO);
+        return projectListResponse;
+    }
+
 
 	@Override
 	public ProjectListResponse getSuperUserProjectList(Integer userId) throws Exception {

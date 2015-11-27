@@ -76,7 +76,7 @@ public class TaskServiceImpl implements TaskService {
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
-	public boolean addTaskService(Task task, int userId) throws Exception {
+	public TaskResponse addTaskService(Task task, int userId) throws Exception {
 		logger.info("Add/Update task: " + task);
 
 		Integer taskId = task.getProjectTaskId();
@@ -115,7 +115,9 @@ public class TaskServiceImpl implements TaskService {
 			throw new Exception("Add/update task failed.");
 		}
 
-		return true;
+
+        return this.getTaskDetail(taskId);
+
 	}
 
 	public boolean isTaskAdd(Task task) {
