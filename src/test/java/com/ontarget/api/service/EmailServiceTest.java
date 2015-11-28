@@ -22,67 +22,81 @@ public class EmailServiceTest extends BaseTest {
 	@Autowired
 	private EmailService emailService;
 
+	// @Test
+	// public void sendTaskAssignmentEmailTest() {
+	//
+	// ProjectTaskInfo taskInfo = new ProjectTaskInfo();
+	// taskInfo.setTitle("Test title");
+	//
+	// User createdBy = new User();
+	// createdBy.setUserId(10);
+	// taskInfo.setCreatorId(1);
+	//
+	// Contact contact = new Contact();
+	// contact.setFirstName("Assinged fn");
+	// contact.setLastName("Assigned ln");
+	// UserDTO userDto = new UserDTO();
+	// userDto.setUserId(2);
+	// contact.setUser(userDto);
+	//
+	// try {
+	// emailService.sendTaskAssignmentEmail(taskInfo, contact);
+	// } catch (Exception e) {
+	// logger.error(e);
+	// fail();
+	// }
+	// }
+	//
+	// @Test
+	// public void sendTaskStatusChangeEmailTest() {
+	//
+	// ProjectTaskInfo taskInfo = new ProjectTaskInfo();
+	// taskInfo.setTitle("Test title");
+	// taskInfo.setStatus("ACTIVE");
+	// User createdBy = new User();
+	// createdBy.setUserId(10);
+	// // taskInfo.setCreatedBy(createdBy);
+	//
+	// try {
+	// emailService.sendTaskStatusChangeEmail(taskInfo, 10);
+	// } catch (Exception e) {
+	// logger.error(e);
+	// fail();
+	// }
+	// }
+	//
+	// @Test
+	// public void sendInviteUserToProjectEmail() {
+	// try {
+	// emailService.sendInviteUserToProjectEmail("santosh8pun@gmail.com",
+	// "12345", "Santosh", "Niran", "Shrestha", "OnTarget App");
+	// } catch (Exception e) {
+	// logger.error(e);
+	// fail();
+	// }
+	// }
+	//
+	// @Test
+	// public void sendDocumentStatusUpdateEmail() {
+	// try {
+	// emailService.sendDocumentStatusUpdateEmail("Test doc", "APPROVED",
+	// "Santosh", "Pun", "santosh8pun@gmail.com", "Mike", "Malony",
+	// "Sanjeev");
+	// } catch (Exception e) {
+	// logger.error(e);
+	// fail();
+	// }
+	// }
+
 	@Test
-	public void sendTaskAssignmentEmailTest() {
-
-		ProjectTaskInfo taskInfo = new ProjectTaskInfo();
-		taskInfo.setTitle("Test title");
-
-		User createdBy = new User();
-		createdBy.setUserId(10);
-		taskInfo.setCreatorId(1);
-
-		Contact contact = new Contact();
-		contact.setFirstName("Assinged fn");
-		contact.setLastName("Assigned ln");
-		UserDTO userDto = new UserDTO();
-		userDto.setUserId(2);
-		contact.setUser(userDto);
-
+	public void sendDocumentSubmittalEmail() {
 		try {
-			emailService.sendTaskAssignmentEmail(taskInfo, contact);
+			emailService.sendDocumentSubmittalEmail("Test doc", "santosh8pun@gmail.com", "Santosh", "Pun", "Sanjeev", "Ghimire", "High",
+					"2015-11-28");
 		} catch (Exception e) {
 			logger.error(e);
 			fail();
 		}
 	}
 
-	@Test
-	public void sendTaskStatusChangeEmailTest() {
-
-		ProjectTaskInfo taskInfo = new ProjectTaskInfo();
-		taskInfo.setTitle("Test title");
-		taskInfo.setStatus("ACTIVE");
-		User createdBy = new User();
-		createdBy.setUserId(10);
-		// taskInfo.setCreatedBy(createdBy);
-
-		try {
-			emailService.sendTaskStatusChangeEmail(taskInfo, 10);
-		} catch (Exception e) {
-			logger.error(e);
-			fail();
-		}
-	}
-
-	@Test
-	public void sendInviteUserToProjectEmail() {
-		try {
-			emailService.sendInviteUserToProjectEmail("santosh8pun@gmail.com", "12345", "Santosh", "Niran", "Shrestha", "OnTarget App");
-		} catch (Exception e) {
-			logger.error(e);
-			fail();
-		}
-	}
-
-	@Test
-	public void sendDocumentStatusUpdateEmail() {
-		try {
-			emailService.sendDocumentStatusUpdateEmail("Test doc", "APPROVED", "Santosh", "Pun", "santosh8pun@gmail.com", "Mike", "Malony",
-					"Sanjeev");
-		} catch (Exception e) {
-			logger.error(e);
-			fail();
-		}
-	}
 }

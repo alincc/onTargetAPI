@@ -560,7 +560,59 @@ public class EmailServiceImpl implements EmailService {
 			};
 			javaMailSender.send(preparator);
 		} catch (Exception e) {
-			logger.error("Error while sending email for task.", e);
+			logger.error("Error while sending email for document status update.", e);
+		}
+	}
+
+	/*
+	 * @param documentTitle
+	 * 
+	 * @param assigneeEmail
+	 * 
+	 * @param assigneeFirstName
+	 * 
+	 * @param assigneeLastName
+	 * 
+	 * @param creatorFirstName
+	 * 
+	 * @param creatorLastName
+	 * 
+	 * @param priority
+	 * 
+	 * @param dueDate
+	 */
+
+	@Override
+	public void sendDocumentSubmittalEmail(String documentTitle, String assigneeEmail, String assigneeFirstName, String assigneeLastName,
+			String creatorFirstName, String creatorLastName, String priority, String dueDate) {
+		try {
+			MimeMessagePreparator preparator = new MimeMessagePreparator() {
+				@SuppressWarnings({ "rawtypes", "unchecked" })
+				public void prepare(MimeMessage mimeMessage) throws Exception {
+					MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
+					message.setFrom(new InternetAddress(OnTargetConstant.EmailServiceConstants.EMAIL_FROM));
+					message.setTo(assigneeEmail);
+					message.setSubject(OnTargetConstant.EmailServiceConstants.DOCUMENT_SUBMITTAL_SUBJECT);
+					message.setSentDate(new Date());
+
+					Map model = getDefaultMapProperties(new HashMap());
+					model.put("documentTitle", documentTitle);
+					model.put("assigneeFirstName", assigneeFirstName);
+					model.put("assigneeLastName", assigneeLastName);
+					model.put("creatorFirstName", creatorFirstName);
+					model.put("creatorLastName", creatorLastName);
+					model.put("priority", priority);
+					model.put("dueDate", dueDate);
+					model.put("documentUrl", baseUrl + OnTargetConstant.URL.VIEW_DOCUMENT_URL);
+
+					String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "template/documentSubmittal.vm", "UTF-8",
+							model);
+					message.setText(text, true);
+				}
+			};
+			javaMailSender.send(preparator);
+		} catch (Exception e) {
+			logger.error("Error while sending email for document submittal.", e);
 		}
 	}
 

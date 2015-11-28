@@ -14,8 +14,8 @@ public class DocumentEndpointTest extends BaseTest {
 	@Test
 	public void addDocument() {
 		BaseRequest baseRequest = new BaseRequest();
-		baseRequest.setLoggedInUserId(10);
-		baseRequest.setLoggedInUserProjectId(42);
+		baseRequest.setLoggedInUserId(11);
+		baseRequest.setLoggedInUserProjectId(45);
 
 		AddDocumentRequest documentRequest = new AddDocumentRequest();
 		documentRequest.setBaseRequest(baseRequest);
@@ -23,11 +23,11 @@ public class DocumentEndpointTest extends BaseTest {
 		documentRequest.setDocumentTemplateId(1);
 		documentRequest.setDocumentName("test doc");
 		documentRequest.setDueDate(new java.sql.Date(new Date().getTime()));
-		documentRequest.setProjectId(42);
+		documentRequest.setProjectId(45);
 
 		List<Assignee> assignees = new ArrayList<>();
 		Assignee assignee = new Assignee();
-		assignee.setUserId(10);
+		assignee.setUserId(20);
 		assignee.setUsername("santosh8pun@gmail.com");
 		assignees.add(assignee);
 
@@ -46,14 +46,14 @@ public class DocumentEndpointTest extends BaseTest {
 
 		gridKeyValues.add(documentGridKeyValue);
 
-		documentRequest.setSubmittedBy(10);
+		documentRequest.setSubmittedBy(11);
 		documentRequest.setAssignees(assignees);
 		documentRequest.setKeyValues(keyValues);
 		documentRequest.setGridKeyValues(gridKeyValues);
 
 		System.out.println("Client request....addDocument \n");
 		System.out.println(toJsonString(documentRequest, true));
-		Response response = sendPutRequest("/documents", documentRequest);
+		Response response = sendPutRequest("/document", documentRequest);
 		if (response.getStatus() != 200) {
 			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
 		}

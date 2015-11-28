@@ -908,7 +908,7 @@ tr.border td {
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,700,400);
 </style>
 <![endif]--><meta name="robots" content="noindex,nofollow">
-<meta property="og:title" content="onFile - your document has been approved <Approved or Rejected>">
+<meta property="og:title" content="onFile: Document for your action">
 <style class="firebugResetStyles" type="text/css" charset="utf-8">/* See license.txt for terms of usage */
 /** reset styling **/
 .firebugResetStyles {
@@ -1057,15 +1057,15 @@ style.firebugResetStyles {
               <tbody><tr>
                 <td class="emb-logo-padding-box" style="padding: 0;vertical-align: top;padding-bottom: 24px;padding-top: 24px;text-align: right;width: 280px;letter-spacing: 0.01em;line-height: 17px;font-weight: 400;font-size: 11px;">
                   <div class="spacer" style="font-size: 1px;line-height: 2px;width: 100%;">&nbsp;</div>
-                  
-                  <div class="webversion" style="font-family: &quot;Open Sans&quot;,sans-serif;color: #b9b9b9;">No Images? <a target="_blank" style="text-decoration: none;letter-spacing: 0.03em;font-weight: 700;transition: opacity 0.2s ease-in;color: #b9b9b9;" href="http://ontargettechnologies.createsend1.com/t/i-e-tkudqk-l-y/">Click here</a></div>
+                  <div class="title" style="font-family: &quot;Open Sans&quot;,sans-serif;color: #b9b9b9;">onFile document for your review&nbsp;</div>
+                  <div class="webversion" style="font-family: &quot;Open Sans&quot;,sans-serif;color: #b9b9b9;">No Images? <a target="_blank" style="text-decoration: none;letter-spacing: 0.03em;font-weight: 700;transition: opacity 0.2s ease-in;color: #b9b9b9;" href="http://ontargettechnologies.createsend1.com/t/i-e-tkudlhd-l-y/">Click here</a></div>
                 </td>
               </tr>
             </tbody></table>
             <table style="border-collapse: collapse;border-spacing: 0;" align="left">
               <tbody><tr>
                 <td class="logo emb-logo-padding-box" style="padding: 0;vertical-align: top;mso-line-height-rule: at-least;width: 280px;padding-top: 24px;padding-bottom: 24px;">
-                  <div class="logo-left" style="font-weight: 700;font-family: Avenir,sans-serif;color: #555;font-size: 0px !important;line-height: 0 !important;" id="emb-email-header" align="left"><img style="border: 0;-ms-interpolation-mode: bicubic;display: block;max-width: 127px;" src="https://i1.createsend1.com/ei/i/54/AF2/29A/074555/csfinal/OnTargetLogo.png" alt="" height="96" width="85"></div>
+                  <div class="logo-left" style="font-weight: 700;font-family: Avenir,sans-serif;color: #555;font-size: 0px !important;line-height: 0 !important;" id="emb-email-header" align="left"><img style="border: 0;-ms-interpolation-mode: bicubic;display: block;max-width: 127px;" src="https://i1.createsend1.com/ei/i/32/164/30E/073302/csfinal/OnTargetLogo.png" alt="" height="96" width="85"></div>
                 </td>
               </tr>
             </tbody></table>
@@ -1086,7 +1086,7 @@ style.firebugResetStyles {
                     <td class="column" style="padding: 0;vertical-align: top;text-align: left;">
                       
             <div class="image" style="font-size: 12px;mso-line-height-rule: at-least;font-style: normal;font-weight: 400;Margin-bottom: 0;Margin-top: 0;font-family: &quot;Open Sans&quot;,sans-serif;color: #60666d;" align="center">
-              <img style="border: 0;-ms-interpolation-mode: bicubic;display: block;max-width: 500px;" src="src="${ontargetLogoImgUrl}" alt="" height="175" width="500">
+              <img style="border: 0;-ms-interpolation-mode: bicubic;display: block;max-width: 500px;" src="${ontargetLogoImgUrl}" alt="" height="175" width="500">
             </div>
           
                         <table class="contents" style="border-collapse: collapse;border-spacing: 0;table-layout: fixed;width: 100%;">
@@ -1103,8 +1103,8 @@ style.firebugResetStyles {
                           <tbody><tr>
                             <td class="padded" style="padding: 0;vertical-align: top;padding-left: 32px;padding-right: 32px;word-break: break-word;word-wrap: break-word;">
                               
-            <h3 class="font-open-sans size-15" style="font-style: normal;font-weight: 400;Margin-bottom: 0;Margin-top: 0;font-size: 15px;line-height: 23px;font-family: open sans,sans-serif;color: #3b3e42;text-align: left;"><span style="color:rgb(80, 0, 80)">Hi <em>${assigneeFirstName}&nbsp;${assigneeLastName}</em></span></h3><h3 class="font-open-sans size-15" style="font-style: normal;font-weight: 400;Margin-bottom: 0;Margin-top: 12px;font-size: 15px;line-height: 23px;font-family: open sans,sans-serif;color: #3b3e42;text-align: left;"><em>${modifierFirstName}&nbsp;${modifierLastName}</em> 
-has changed the status of the "<em>${documentTitle}</em>" to ${status}.</h3><h3 class="font-open-sans size-15" style="font-style: normal;font-weight: 400;Margin-bottom: 0;Margin-top: 12px;font-size: 15px;line-height: 23px;font-family: open sans,sans-serif;color: #3b3e42;text-align: left;"><span style="color:rgb(80, 0, 80)">Good Luck,</span></h3><h3 class="font-open-sans size-15" style="font-style: normal;font-weight: 400;Margin-bottom: 0;Margin-top: 12px;font-size: 15px;line-height: 23px;font-family: open sans,sans-serif;color: #3b3e42;text-align: left;"><em>${creatorFirstName}</em></h3>
+            <h3 class="font-open-sans size-15" style="font-style: normal;font-weight: 400;Margin-bottom: 0;Margin-top: 0;font-size: 15px;line-height: 23px;font-family: open sans,sans-serif;color: #3b3e42;text-align: left;"><span style="color:rgb(80, 0, 80)">Hi <em>${assigneeFirstName}&nbsp;${assigneeLastName}</em></span></h3><h3 class="font-open-sans size-15" style="font-style: normal;font-weight: 400;Margin-bottom: 0;Margin-top: 12px;font-size: 15px;line-height: 23px;font-family: open sans,sans-serif;color: #3b3e42;text-align: left;"><em>${creatorFirstName}&nbsp;${creatorLastName}</em> 
+has submitted a document &nbsp;"<em>${documentTitle}</em>" for your review.</h3><h3 class="font-open-sans size-15" style="font-style: normal;font-weight: 400;Margin-bottom: 0;Margin-top: 12px;font-size: 15px;line-height: 23px;font-family: open sans,sans-serif;color: #3b3e42;text-align: left;">The document has "<em>${priority}</em>" priority &nbsp;and hence you are kindly requested to review it by "<em>${dueDate}</em>".</h3><h3 class="font-open-sans size-15" style="font-style: normal;font-weight: 400;Margin-bottom: 0;Margin-top: 12px;font-size: 15px;line-height: 23px;font-family: open sans,sans-serif;color: #3b3e42;text-align: left;"><span style="color:rgb(80, 0, 80)">Kindly approve or reject the document by using following link&nbsp;<em><a target="_blank" style="transition: opacity 0.2s ease-in;color: #5c91ad;text-decoration: none;" href="${documentUrl}">${documentTitle}</a></em></span></h3><h3 class="font-open-sans size-15" style="font-style: normal;font-weight: 400;Margin-bottom: 0;Margin-top: 12px;font-size: 15px;line-height: 23px;font-family: open sans,sans-serif;color: #3b3e42;text-align: left;"><span style="color:rgb(80, 0, 80)">You can export the document as a pdf after your approval or rejection.&nbsp;</span></h3><h3 class="font-open-sans size-15" style="font-style: normal;font-weight: 400;Margin-bottom: 0;Margin-top: 12px;font-size: 15px;line-height: 23px;font-family: open sans,sans-serif;color: #3b3e42;text-align: left;"><span style="color:rgb(80, 0, 80)">Good Luck,</span></h3><h3 class="font-open-sans size-15" style="font-style: normal;font-weight: 400;Margin-bottom: 0;Margin-top: 12px;font-size: 15px;line-height: 23px;font-family: open sans,sans-serif;color: #3b3e42;text-align: left;"><em>${creatorFirstName}</em></h3>
           
                             </td>
                           </tr>
@@ -1140,7 +1140,7 @@ has changed the status of the "<em>${documentTitle}</em>" to ${status}.</h3><h3 
                             <td class="padded" style="padding: 0;vertical-align: top;padding-left: 32px;padding-right: 16px;word-break: break-word;word-wrap: break-word;">
                               
             <div class="image" style="font-size: 12px;mso-line-height-rule: at-least;font-style: normal;font-weight: 400;Margin-bottom: 0;Margin-top: 0;font-family: &quot;Open Sans&quot;,sans-serif;color: #60666d;" align="center">
-              <img style="border: 0;-ms-interpolation-mode: bicubic;display: block;max-width: 480px;" src="https://i2.createsend1.com/ei/i/54/AF2/29A/074555/csfinal/taskdetail1-43.png" alt="" height="161" width="252">
+              <img style="border: 0;-ms-interpolation-mode: bicubic;display: block;max-width: 467px;" src="https://i2.createsend1.com/ei/i/32/164/30E/073302/csfinal/onTask52.png" alt="" height="217" width="252">
             </div>
           
                             </td>
@@ -1166,8 +1166,8 @@ has changed the status of the "<em>${documentTitle}</em>" to ${status}.</h3><h3 
                             <td class="padded" style="padding: 0;vertical-align: top;padding-left: 16px;padding-right: 32px;word-break: break-word;word-wrap: break-word;">
                               
             <div class="btn" style="Margin-bottom: 0;Margin-top: 0;text-align: left;">
-              <!--[if !mso]--><a target="_blank" style="border-radius: 3px;display: inline-block;font-size: 12px;font-weight: 700;line-height: 22px;padding: 10px 28px;text-align: center;text-decoration: none !important;transition: opacity 0.2s ease-in;color: #fff;font-family: &quot;Open Sans&quot;,sans-serif;background-color: #5c91ad;" href="http://ontargettechnologies.createsend1.com/t/i-l-tkudqk-l-r/">Update your Task now</a><!--[endif]-->
-            <!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" href="http://ontargettechnologies.createsend1.com/t/i-l-tkudqk-l-r/" style="width:184px" arcsize="8%" fillcolor="#5C91AD" stroke="f"><v:textbox style="mso-fit-shape-to-text:t" inset="0px,9px,0px,9px"><center style="font-size:12px;line-height:22px;color:#FFFFFF;font-family:sans-serif;font-weight:700;mso-line-height-rule:exactly;mso-text-raise:4px">Update your Task now</center></v:textbox></v:roundrect><![endif]--></div>
+              <!--[if !mso]--><a target="_blank" style="border-radius: 3px;display: inline-block;font-size: 12px;font-weight: 700;line-height: 22px;padding: 10px 28px;text-align: center;text-decoration: none !important;transition: opacity 0.2s ease-in;color: #fff;font-family: &quot;Open Sans&quot;,sans-serif;background-color: #5c91ad;" href="http://ontargettechnologies.createsend1.com/t/i-l-tkudlhd-l-r/">Update your Task now</a><!--[endif]-->
+            <!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" href="http://ontargettechnologies.createsend1.com/t/i-l-tkudlhd-l-r/" style="width:184px" arcsize="8%" fillcolor="#5C91AD" stroke="f"><v:textbox style="mso-fit-shape-to-text:t" inset="0px,9px,0px,9px"><center style="font-size:12px;line-height:22px;color:#FFFFFF;font-family:sans-serif;font-weight:700;mso-line-height-rule:exactly;mso-text-raise:4px">Update your Task now</center></v:textbox></v:roundrect><![endif]--></div>
           
                             </td>
                           </tr>
@@ -1197,10 +1197,10 @@ has changed the status of the "<em>${documentTitle}</em>" to ${status}.</h3><h3 
                     
                     
                     <div style="Margin-bottom: 5px;">
-                      <!--[if !mso]--><a target="_blank" class="linkedinshare" style="font-family: &quot;Open Sans&quot;,sans-serif;transition: opacity 0.2s ease-in;color: #ffffff;background-image: url(https://i5.createsend1.com/static/eb/master/03-fresh/imgf/lishare.png);background-repeat: no-repeat;background-size: 200px 56px;border-radius: 2px;display: block;font-size: 11px;font-weight: bold;line-height: 11px;padding: 8px 11px 7px 28px;text-align: left;text-decoration: none;background-color: #7b7c7d;" href="http://ontargettechnologies.createsend1.com/t/i-li-tkudqk-l-j/" left-align-text="true">
+                      <!--[if !mso]--><a target="_blank" class="linkedinshare" style="font-family: &quot;Open Sans&quot;,sans-serif;transition: opacity 0.2s ease-in;color: #ffffff;background-image: url(https://i5.createsend1.com/static/eb/master/03-fresh/imgf/lishare.png);background-repeat: no-repeat;background-size: 200px 56px;border-radius: 2px;display: block;font-size: 11px;font-weight: bold;line-height: 11px;padding: 8px 11px 7px 28px;text-align: left;text-decoration: none;background-color: #7b7c7d;" href="http://ontargettechnologies.createsend1.com/t/i-li-tkudlhd-l-j/" left-align-text="true">
                         Share
                       </a><!--[endif]-->
-                    <!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" href="http://ontargettechnologies.createsend1.com/t/i-li-tkudqk-l-j/" style="width:70px" arcsize="8%" fill="t" stroke="f"><v:fill type="tile" src="https://i5.createsend1.com/static/eb/master/03-fresh/imgf/lishare.png" color="#7B7C7D"></v:fill><v:textbox style="mso-fit-shape-to-text:t" inset="27px,7px,0,6px"><p style="font-size:11px;line-height:11px;color:#FFFFFF;font-family:sans-serif;font-weight:bold;mso-line-height-rule:exactly;mso-text-raise:-1px">                        Share                      </p></v:textbox></v:roundrect><![endif]--></div>
+                    <!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" href="http://ontargettechnologies.createsend1.com/t/i-li-tkudlhd-l-j/" style="width:70px" arcsize="8%" fill="t" stroke="f"><v:fill type="tile" src="https://i5.createsend1.com/static/eb/master/03-fresh/imgf/lishare.png" color="#7B7C7D"></v:fill><v:textbox style="mso-fit-shape-to-text:t" inset="27px,7px,0,6px"><p style="font-size:11px;line-height:11px;color:#FFFFFF;font-family:sans-serif;font-weight:bold;mso-line-height-rule:exactly;mso-text-raise:-1px">                        Share                      </p></v:textbox></v:roundrect><![endif]--></div>
                     
                   </div>
                 </td>
@@ -1220,7 +1220,7 @@ has changed the status of the "<em>${documentTitle}</em>" to ${status}.</h3><h3 
                   </div>
                   <div class="campaign" style="font-family: &quot;Open Sans&quot;,sans-serif;Margin-bottom: 18px;">
                     
-                    <a target="_blank" style="transition: opacity 0.2s ease-in;color: #b9b9b9;font-weight: bold;text-decoration: none;" href="http://ontargettechnologies.createsend1.com/t/i-u-tkudqk-l-t/">Unsubscribe</a>
+                    <a target="_blank" style="transition: opacity 0.2s ease-in;color: #b9b9b9;font-weight: bold;text-decoration: none;" href="http://ontargettechnologies.createsend1.com/t/i-u-tkudlhd-l-t/">Unsubscribe</a>
                   </div>
                 </td>
               </tr>
@@ -1230,6 +1230,6 @@ has changed the status of the "<em>${documentTitle}</em>" to ${status}.</h3><h3 
         </tr>
       </tbody></table>
     </center>
-  <img style="border: 0 !important;-ms-interpolation-mode: bicubic;visibility: hidden !important;display: block !important;height: 1px !important;width: 1px !important;margin: 0 !important;padding: 0 !important;" src="https://ontargettechnologies.createsend1.com/t/i-o-tkudqk-l/o.gif" alt="" border="0" height="1" width="1">
+  <img style="border: 0 !important;-ms-interpolation-mode: bicubic;visibility: hidden !important;display: block !important;height: 1px !important;width: 1px !important;margin: 0 !important;padding: 0 !important;" src="https://ontargettechnologies.createsend1.com/t/i-o-tkudlhd-l/o.gif" alt="" border="0" height="1" width="1">
 <script type="text/javascript" src="https://js.createsend1.com/js/jquery-1.7.2.min.js?h=C99A465920151117"></script><script type="text/javascript">$(function(){$('area,a').attr('target', '_blank');});</script>
 </body>

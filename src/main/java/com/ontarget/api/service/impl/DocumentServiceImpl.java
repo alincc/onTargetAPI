@@ -14,6 +14,7 @@ import com.ontarget.entities.User;
 import com.ontarget.request.bean.*;
 import com.ontarget.response.bean.GetDocumentQuestionResponse;
 import com.ontarget.response.bean.UpdateDocumentQuestionResponse;
+import com.ontarget.util.DateFormater;
 import com.ontarget.util.DocumentUtil;
 
 import org.apache.log4j.Logger;
@@ -129,6 +130,16 @@ public class DocumentServiceImpl implements DocumentService {
 				submittal.setCreatedBy(request.getSubmittedBy());
 				submittal.setModifiedBy(request.getSubmittedBy());
 				documentSubmittalDAO.insert(submittal);
+
+				Contact creator = contactDAO.getContact(request.getSubmittedBy());
+
+				Contact contact = contactDAO.getContact(assignee.getUserId());
+
+				if (contact != null && (contact.getEmail() != null && contact.getEmail().trim().length() > 0)) {
+					emailService.sendDocumentSubmittalEmail(document.getName(), contact.getEmail(), contact.getFirstName(),
+							contact.getLastName(), creator.getFirstName(), creator.getLastName(), "HIGH",
+							DateFormater.convertToString(new java.util.Date(document.getDueDate().getTime()), "yyyy-MM-dd"));
+				}
 			}
 		} catch (Throwable t) {
 			logger.error("Unable to add document!", t);

@@ -38,9 +38,9 @@ public interface OnTargetConstant {
 	public static final String TOKEN_VERIFIED = "Token verification successful";
 	public static final String TOKEN_VERIFICATION_FAILED = "Token verification failed";
 	public static final String REGISTRATION_REQUEST_REJECTED = "REJECTED";
-    public static final int VersionOne=1;
+	public static final int VersionOne = 1;
 
-    interface AddressType {
+	interface AddressType {
 		public static final String PROJECT_ADDR = "PROJECT";
 		public static final String COMPANY_ADDR = "COMPANY";
 		public static final String CONTACT_ADDR = "CONTACT";
@@ -58,7 +58,7 @@ public interface OnTargetConstant {
 	interface EmailServiceConstants {
 		public static final String USER_REGISTRATION_SUBJECT = "OnTarget Registration Request";
 		public static final String EMAIL_FROM = "onTarget <no-reply@ontargetcloud.com>";
-        public static final String EMAIL_FROM_WITHOUT_NAME = "no-reply@ontargetcloud.com";
+		public static final String EMAIL_FROM_WITHOUT_NAME = "no-reply@ontargetcloud.com";
 		public static final String DO_NOT_REPLY_EMAIL = "<no-reply@ontargetcloud.com>";
 		public static final String ONBOARDING_TO_ONTARGET_SUBJECT = "Onboarding to OnTarget";
 
@@ -68,6 +68,7 @@ public interface OnTargetConstant {
 		public static final String TASK_ASSIGNED_SUBJECT = "Task Assigned";
 		public static final String FORGOT_PASSWORD_SUBJECT = "Forgot Password";
 		public static final String DOCUMENT_STATUS_UPDATE_SUBJECT = "Document status";
+		public static final String DOCUMENT_SUBMITTAL_SUBJECT = "Document submittal";
 
 		public static final String REQUEST_FOR_DEMO_APPROVE_URL = "/#/app/pending-account-request";
 		public static final String USER_INVITE_TO_COLLABORATE = "Invite to Collaborate";
@@ -85,8 +86,8 @@ public interface OnTargetConstant {
 		public static final String ACCOUNT_INVITATION = "ACCT_INVITE";
 		public static final String ACCT_NEW = "ACCT_NEW";
 	}
-	
-	public interface RegistrationRequestStatus{
+
+	public interface RegistrationRequestStatus {
 		public static final String PENDING = "PENDING";
 		public static final String ACCT_INVITE = "ACCT_INVITE";
 		public static final String ACCT_NEW = "ACCT_NEW";
@@ -156,7 +157,7 @@ public interface OnTargetConstant {
 		public static final String forgotPasswordUrl = "/#/pages/reset-password";
 		public static final String SIGNUP_URL = "/#/pages/signup";
 		public static final String INVITE_TO_PROJECT_URL = "/#/pages/invite-to-project";
-
+		public static final String VIEW_DOCUMENT_URL = "/#/app/onFile";
 	}
 
 	public interface UserNotificationStatus {
@@ -212,10 +213,10 @@ public interface OnTargetConstant {
 		public static final String DELETED = "DELETED";
 	}
 
-    public interface UserType {
-    	
-    	public static final String PROJECT_MANAGER = "PROJECT_MANAGER";
-        public static final String SUPER_USER = "SUPER_USER";
-        public static final String USER = "USER";
-    }
+	public interface UserType {
+
+		public static final String PROJECT_MANAGER = "PROJECT_MANAGER";
+		public static final String SUPER_USER = "SUPER_USER";
+		public static final String USER = "USER";
+	}
 }
