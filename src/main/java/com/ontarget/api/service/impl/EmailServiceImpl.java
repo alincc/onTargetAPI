@@ -164,7 +164,7 @@ public class EmailServiceImpl implements EmailService {
 					MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
 					message.setFrom(new InternetAddress(OnTargetConstant.EmailServiceConstants.EMAIL_FROM));
 					message.setTo(assigneeUser.getContact().getEmail());
-					message.setSubject(OnTargetConstant.EmailServiceConstants.TASK_ASSIGNED_SUBJECT);
+					message.setSubject(OnTargetConstant.EmailServiceConstants.TASK_STATUS_SUBJECT);
 					message.setSentDate(new Date());
 
 					Map model = getDefaultMapProperties(new HashMap());
@@ -211,7 +211,7 @@ public class EmailServiceImpl implements EmailService {
 
 					MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
 					message.setTo(assigneeUser.getContact().getEmail());
-					message.setSubject(OnTargetConstant.EmailServiceConstants.TASK_ASSIGNED_SUBJECT);
+					message.setSubject(OnTargetConstant.EmailServiceConstants.TASK_COMMENT_SUBJECT);
 					message.setSentDate(new Date());
 
 					Map model = getDefaultMapProperties(new HashMap());
@@ -252,7 +252,7 @@ public class EmailServiceImpl implements EmailService {
 
 					MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
 					message.setTo(assigneeUser.getContact().getEmail());
-					message.setSubject(OnTargetConstant.EmailServiceConstants.TASK_ASSIGNED_SUBJECT);
+					message.setSubject(OnTargetConstant.EmailServiceConstants.FORGOT_PASSWORD_SUBJECT);
 					message.setSentDate(new Date());
 
 					Map model = getDefaultMapProperties(new HashMap());
@@ -581,7 +581,6 @@ public class EmailServiceImpl implements EmailService {
 	 * 
 	 * @param dueDate
 	 */
-
 	@Override
 	public void sendDocumentSubmittalEmail(String documentTitle, String assigneeEmail, String assigneeFirstName, String assigneeLastName,
 			String creatorFirstName, String creatorLastName, String priority, String dueDate) {
@@ -615,5 +614,4 @@ public class EmailServiceImpl implements EmailService {
 			logger.error("Error while sending email for document submittal.", e);
 		}
 	}
-
 }

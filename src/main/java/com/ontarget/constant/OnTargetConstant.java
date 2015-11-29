@@ -66,6 +66,9 @@ public interface OnTargetConstant {
 		public static final String USER_REGISTRATION_ADMIN_EMAIL = "niran@ontargetcloud.com";
 		public static final String INVITE_USER_TO_ACCOUNT_SUBJECT = "Invitation to OnTarget";
 		public static final String TASK_ASSIGNED_SUBJECT = "Task Assigned";
+		public static final String TASK_STATUS_SUBJECT = "Task status";
+		public static final String TASK_COMMENT_SUBJECT = "Task comment";
+		public static final String TASK_ATTACHMENT_SUBJECT = "Task attachment";
 		public static final String FORGOT_PASSWORD_SUBJECT = "Forgot Password";
 		public static final String DOCUMENT_STATUS_UPDATE_SUBJECT = "Document status";
 		public static final String DOCUMENT_SUBMITTAL_SUBJECT = "Document submittal";
