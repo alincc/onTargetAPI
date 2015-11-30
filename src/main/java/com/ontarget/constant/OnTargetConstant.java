@@ -161,6 +161,7 @@ public interface OnTargetConstant {
 		public static final String SIGNUP_URL = "/#/pages/signup";
 		public static final String INVITE_TO_PROJECT_URL = "/#/pages/invite-to-project";
 		public static final String VIEW_DOCUMENT_URL = "/#/app/onFile";
+		public static final String TASK_URL = "#/app/onTime";
 	}
 
 	public interface UserNotificationStatus {

@@ -45,6 +45,22 @@ import com.ontarget.util.TaskStatusEnum;
  * @author santosh
  *
  */
+/**
+ * @author santosh
+ *
+ */
+/**
+ * @author santosh
+ *
+ */
+/**
+ * @author santosh
+ *
+ */
+/**
+ * @author santosh
+ *
+ */
 @Service
 public class EmailServiceImpl implements EmailService {
 
@@ -463,6 +479,9 @@ public class EmailServiceImpl implements EmailService {
 					UserDTO assigneeUser = authenticationDAO.getUserResponse(contact.getUser().getUserId());
 					assigneeUser.setContact(getContactDetails(assigneeUser.getUserId()));
 
+					logger.debug("creator id: " + task.getCreatorId());
+					Contact sender = getContactDetails(task.getCreatorId());
+
 					MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
 					message.setFrom(new InternetAddress(OnTargetConstant.EmailServiceConstants.EMAIL_FROM));
 					message.setTo(assigneeUser.getContact().getEmail());
@@ -472,10 +491,10 @@ public class EmailServiceImpl implements EmailService {
 					Map model = getDefaultMapProperties(new HashMap());
 					model.put("assignee", assigneeUser);
 					model.put("task", task);
-					model.put("sender", getContactDetails(task.getCreatorId()));
+					model.put("sender", sender);
 					model.put("taskInfoImageImgUrl", emailAssetServerUrl + "/" + emailTaskInfoImage);
-					// TODO: need to change
-					model.put("taskLink", "http://task");
+					model.put("taskLink", baseUrl + OnTargetConstant.URL.TASK_URL + "?activityId=" + task.getProjectId() + "&taskId="
+							+ task.getProjectTaskId());
 
 					String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "/template/taskAssignedEmail.vm", "UTF-8",
 							model);
@@ -490,6 +509,13 @@ public class EmailServiceImpl implements EmailService {
 
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.ontarget.api.service.EmailService#sendForgotPasswordEmail(java.lang
+	 * .String, java.lang.String, java.lang.String)
+	 */
 	@Override
 	public void sendForgotPasswordEmail(final String emailAddress, final String name, final String forgotPasswordToken) {
 		try {
@@ -564,23 +590,6 @@ public class EmailServiceImpl implements EmailService {
 		}
 	}
 
-	/*
-	 * @param documentTitle
-	 * 
-	 * @param assigneeEmail
-	 * 
-	 * @param assigneeFirstName
-	 * 
-	 * @param assigneeLastName
-	 * 
-	 * @param creatorFirstName
-	 * 
-	 * @param creatorLastName
-	 * 
-	 * @param priority
-	 * 
-	 * @param dueDate
-	 */
 	@Override
 	public void sendDocumentSubmittalEmail(String documentTitle, String assigneeEmail, String assigneeFirstName, String assigneeLastName,
 			String creatorFirstName, String creatorLastName, String priority, String dueDate) {
