@@ -137,7 +137,7 @@ public class DocumentServiceImpl implements DocumentService {
 
 				if (contact != null && (contact.getEmail() != null && contact.getEmail().trim().length() > 0)) {
 					emailService.sendDocumentSubmittalEmail(document.getName(), contact.getEmail(), contact.getFirstName(),
-							contact.getLastName(), creator.getFirstName(), creator.getLastName(), "HIGH",
+							contact.getLastName(), creator.getFirstName(), creator.getLastName(),
 							DateFormater.convertToString(new java.util.Date(document.getDueDate().getTime()), "yyyy-MM-dd"));
 				}
 			}

@@ -37,7 +37,7 @@ public interface EmailService {
 	public void sendDocumentStatusUpdateEmail(String documentTitle, String updatedStatus, String assigneeFirstName,
 			String assigneeLastName, String assigneeEmail, String modifierFirstName, String modifierLastName, String creatorFirstName);
 
-	public void sendDocumentSubmittalEmail(String documentTitle, String assigneeEmail, String assigneeFirstName,
-			String assigneeLastName, String creatorFirstName, String creatorLastName, String priority, String dueDate);
+	public void sendDocumentSubmittalEmail(String documentTitle, String assigneeEmail, String assigneeFirstName, String assigneeLastName,
+			String creatorFirstName, String creatorLastName, String dueDate);
 
 }

@@ -41,26 +41,6 @@ import com.ontarget.util.TaskStatusEnum;
  * @author santosh
  *
  */
-/**
- * @author santosh
- *
- */
-/**
- * @author santosh
- *
- */
-/**
- * @author santosh
- *
- */
-/**
- * @author santosh
- *
- */
-/**
- * @author santosh
- *
- */
 @Service
 public class EmailServiceImpl implements EmailService {
 
@@ -592,7 +572,7 @@ public class EmailServiceImpl implements EmailService {
 
 	@Override
 	public void sendDocumentSubmittalEmail(String documentTitle, String assigneeEmail, String assigneeFirstName, String assigneeLastName,
-			String creatorFirstName, String creatorLastName, String priority, String dueDate) {
+			String creatorFirstName, String creatorLastName,String dueDate) {
 		try {
 			MimeMessagePreparator preparator = new MimeMessagePreparator() {
 				@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -609,7 +589,6 @@ public class EmailServiceImpl implements EmailService {
 					model.put("assigneeLastName", assigneeLastName);
 					model.put("creatorFirstName", creatorFirstName);
 					model.put("creatorLastName", creatorLastName);
-					model.put("priority", priority);
 					model.put("dueDate", dueDate);
 					model.put("documentUrl", baseUrl + OnTargetConstant.URL.VIEW_DOCUMENT_URL);
 
