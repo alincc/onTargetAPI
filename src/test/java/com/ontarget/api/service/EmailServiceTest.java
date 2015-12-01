@@ -91,8 +91,7 @@ public class EmailServiceTest extends BaseTest {
 	@Test
 	public void sendDocumentSubmittalEmail() {
 		try {
-			emailService.sendDocumentSubmittalEmail("Test doc", "santosh8pun@gmail.com", "Santosh", "Pun", "Sanjeev", "Ghimire", "High",
-					"2015-11-28");
+			emailService.sendDocumentSubmittalEmail("Test doc", "santosh8pun@gmail.com", "Santosh", "Pun", "Sanjeev", "Ghimire","2015-11-28");
 		} catch (Exception e) {
 			logger.error(e);
 			fail();

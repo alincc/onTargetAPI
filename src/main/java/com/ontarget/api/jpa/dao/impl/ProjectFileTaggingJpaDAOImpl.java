@@ -73,12 +73,26 @@ public class ProjectFileTaggingJpaDAOImpl implements ProjectFileTaggingDAO {
 			if (attributes != null && !attributes.isEmpty()) {
 				for (ProjectFileTagAttributeBean attributeBean : attributes) {
 					ProjectFileTagAttribute projectFileTagAttribute = new ProjectFileTagAttribute();
-					projectFileTagAttribute.setAttributeKey(attributeBean.getKey());
+                    String key=attributeBean.getKey();
+                    projectFileTagAttribute.setAttributeKey(key);
 					projectFileTagAttribute.setAttributeValue(attributeBean.getValue());
 					projectFileTagAttribute.setCreatedBy(new User(userId));
 					projectFileTagAttribute.setCreatedDate(new Date());
 					projectFileTagAttribute.setProjectFileTag(projectFileTag);
 					projectFileTagAttributeRepository.save(projectFileTagAttribute);
+
+                    // link the linkTaskId to task in table. t his is for new versions
+                    if(key.equals("linkTaskId")){
+                        String taskId=attributeBean.getValue();
+                        if(Integer.parseInt(taskId)!=0) {
+                            boolean created = this.saveTagToTaskLink(projectFileTag.getProjectFileTagId(), Integer.parseInt(taskId), userId, "ACTIVE");
+                            if(!created){
+                                logger.error("Error while saving task and link");
+                            }
+                        }
+                    }
+
+
 				}
 			}
 
