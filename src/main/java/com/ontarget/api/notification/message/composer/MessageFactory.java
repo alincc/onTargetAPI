@@ -7,6 +7,10 @@ import com.ontarget.util.NotificationConstant;
 public class MessageFactory {
 	private static Logger logger = Logger.getLogger(MessageFactory.class);
 
+	/**
+	 * @param notificationType
+	 * @return
+	 */
 	public static MessageComposer getMessageComposer(String notificationType) {
 		if (notificationType == null) {
 			return null;
@@ -53,6 +57,8 @@ public class MessageFactory {
 			notificationMessageComposer = new DocumentResponseCreateMessage();
 		} else if (notificationType.equalsIgnoreCase(NotificationConstant.NotificationTypeConstant.documentResponseUpdate)) {
 			notificationMessageComposer = new DocumentResponseUpdateMessage();
+		} else if (notificationType.equalsIgnoreCase(NotificationConstant.NotificationTypeConstant.documentSubmittalAssignCreate)) {
+			notificationMessageComposer = new DocumentSubmittalAssignMessage();
 		}
 		logger.debug("composer: " + notificationMessageComposer);
 		return notificationMessageComposer;

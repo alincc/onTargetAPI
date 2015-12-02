@@ -22,6 +22,7 @@ public class NotificationConstant {
 		public static final String documentStatusUpdate = "DOCUMENT_STATUS_UPDATE";
 		public static final String documentResponseCreate = "DOCUMENT_RESPONSE_CREATE";
 		public static final String documentResponseUpdate = "DOCUMENT_RESPONSE_UPDATE";
+		public static final String documentSubmittalAssignCreate = "DOCUMENT_SUBMITTAL_ASSIGN_CREATE";
 	}
 
 	public static interface NotificationKeyConstant {

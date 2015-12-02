@@ -21,7 +21,7 @@ public class DocumentEndpointTest extends BaseTest {
 		documentRequest.setBaseRequest(baseRequest);
 
 		documentRequest.setDocumentTemplateId(1);
-		documentRequest.setDocumentName("test doc");
+		documentRequest.setDocumentName("test2 doc");
 		documentRequest.setDueDate(new java.sql.Date(new Date().getTime()));
 		documentRequest.setProjectId(45);
 

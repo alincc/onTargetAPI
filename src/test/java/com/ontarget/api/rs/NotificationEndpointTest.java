@@ -11,81 +11,75 @@ import com.ontarget.request.bean.NotificationStatusUpdateRequest;
 
 public class NotificationEndpointTest extends BaseTest {
 
-	// @Test
-	// public void getNotifications() {
-	// NotificationRequest request = new NotificationRequest();
-	//
-	// BaseRequest baseRequestBean = new BaseRequest();
-	// baseRequestBean.setLoggedInUserId(10);
-	// baseRequestBean.setLoggedInUserProjectId(42);
-	//
-	// request.setBaseRequest(baseRequestBean);
-	// request.setPageNumber(1);
-	// request.setPerPageLimit(10);
-	// request.setUserId(10);
-	//
-	// System.out.println("Client request .... \n");
-	// System.out.println(toJsonString(request, true));
-	// Response response = sendRequest("/notification/getNotifications",
-	// request);
-	// if (response.getStatus() != 200) {
-	// throw new RuntimeException("Failed : HTTP error code : " +
-	// response.getStatus());
-	// }
-	// String output = response.readEntity(String.class);
-	// System.out.println("Server response .... \n");
-	// System.out.println(output);
-	// }
+	@Test
+	public void getNotifications() {
+		NotificationRequest request = new NotificationRequest();
 
-	// @Test
-	// public void getNotificationsByProjectId() {
-	// NotificationRequest request = new NotificationRequest();
-	//
-	// BaseRequest baseRequestBean = new BaseRequest();
-	// baseRequestBean.setLoggedInUserId(10);
-	// baseRequestBean.setLoggedInUserProjectId(42);
-	//
-	// request.setBaseRequest(baseRequestBean);
-	// request.setPageNumber(1);
-	// request.setPerPageLimit(10);
-	// request.setUserId(10);
-	//
-	// System.out.println("Client request .... \n");
-	// System.out.println(toJsonString(request, true));
-	// Response response =
-	// sendRequest("/notification/getNotificationsByUserByProject", request);
-	// if (response.getStatus() != 200) {
-	// throw new RuntimeException("Failed : HTTP error code : " +
-	// response.getStatus());
-	// }
-	// String output = response.readEntity(String.class);
-	// System.out.println("Server response .... \n");
-	// System.out.println(output);
-	// }
+		BaseRequest baseRequestBean = new BaseRequest();
+		baseRequestBean.setLoggedInUserId(10);
+		baseRequestBean.setLoggedInUserProjectId(42);
 
-	// @Test
-	// public void markNotificationAsSeen() {
-	// NotificationStatusUpdateRequest request = new
-	// NotificationStatusUpdateRequest();
-	//
-	// BaseRequest baseRequestBean = new BaseRequest();
-	// baseRequestBean.setLoggedInUserId(1);
-	// baseRequestBean.setLoggedInUserProjectId(2);
-	//
-	// request.setBaseRequest(baseRequestBean);
-	// request.setId(1l);
-	//
-	// System.out.println("Client request .... \n");
-	// System.out.println(toJsonString(request, true));
-	// Response response = sendRequest("/notification/markAsSeen", request);
-	// if (response.getStatus() != 200) {
-	// throw new RuntimeException("Failed : HTTP error code : " +
-	// response.getStatus());
-	// }
-	// String output = response.readEntity(String.class);
-	// System.out.println("Server response .... \n");
-	// System.out.println(output);
-	// }
+		request.setBaseRequest(baseRequestBean);
+		request.setPageNumber(1);
+		request.setPerPageLimit(10);
+		request.setUserId(10);
+
+		System.out.println("Client request .... \n");
+		System.out.println(toJsonString(request, true));
+		Response response = sendRequest("/notification/getNotifications", request);
+		if (response.getStatus() != 200) {
+			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
+		}
+		String output = response.readEntity(String.class);
+		System.out.println("Server response .... \n");
+		System.out.println(output);
+	}
+
+	@Test
+	public void getNotificationsByProjectId() {
+		NotificationRequest request = new NotificationRequest();
+
+		BaseRequest baseRequestBean = new BaseRequest();
+		baseRequestBean.setLoggedInUserId(11);
+		baseRequestBean.setLoggedInUserProjectId(45);
+
+		request.setBaseRequest(baseRequestBean);
+		request.setPageNumber(1);
+		request.setPerPageLimit(10);
+		request.setUserId(11);
+
+		System.out.println("Client request .... \n");
+		System.out.println(toJsonString(request, true));
+		Response response = sendRequest("/notification/getNotificationsByUserByProject", request);
+		if (response.getStatus() != 200) {
+			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
+		}
+		String output = response.readEntity(String.class);
+		System.out.println("Server response .... \n");
+		System.out.println(output);
+	}
+
+	@Test
+	public void markNotificationAsSeen() {
+		NotificationStatusUpdateRequest request = new NotificationStatusUpdateRequest();
+
+		BaseRequest baseRequestBean = new BaseRequest();
+		baseRequestBean.setLoggedInUserId(1);
+		baseRequestBean.setLoggedInUserProjectId(2);
+
+		request.setBaseRequest(baseRequestBean);
+		request.setId(1l);
+
+		System.out.println("Client request .... \n");
+		System.out.println(toJsonString(request, true));
+		Response response = sendRequest("/notification/markAsSeen", request);
+		if (response.getStatus() != 200) {
+			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
+		}
+		String output = response.readEntity(String.class);
+		System.out.println("Server response .... \n");
+		System.out.println(output);
+	}
 
 	@Test
 	public void markAllNotificationAsSeen() {

@@ -57,6 +57,9 @@ public class MessageTemplateConfig {
 	@Value("${onfile.submittal.notification}")
 	private String onFileSubmittalTemplate;
 
+	@Value("${onfile.submittal.assign.notification}")
+	private String onFileSubmittalAssignTemplate;
+
 	@Value("${onfile.status.change.notification}")
 	private String onFileStatusChangeTemplate;
 
@@ -141,4 +144,9 @@ public class MessageTemplateConfig {
 	public String getOnFileRFICloseTemplate() {
 		return onFileRFICloseTemplate;
 	}
+
+	public String getOnFileSubmittalAssignTemplate() {
+		return onFileSubmittalAssignTemplate;
+	}
+
 }
