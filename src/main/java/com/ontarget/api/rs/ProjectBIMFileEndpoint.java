@@ -12,6 +12,7 @@ import com.ontarget.request.bean.SaveBIMRequest;
 import com.ontarget.request.bean.UpdateBIMThumbnailPathRequest;
 import com.ontarget.response.bean.GetBIMResponse;
 import com.ontarget.response.bean.ProjectBIMFileCommentListResponse;
+import com.ontarget.response.bean.ProjectBimFileCommentResponse;
 import com.ontarget.response.bean.SaveBIMResponse;
 
 /**
@@ -27,7 +28,7 @@ public interface ProjectBIMFileEndpoint {
 
 	SaveBIMResponse updateProjectBIMThumbnailPath(@Valid UpdateBIMThumbnailPathRequest request);
 
-	OnTargetResponse addUpdateComment(@Valid ProjectBIMFileCommentRequest request);
+    ProjectBimFileCommentResponse addUpdateComment(@Valid ProjectBIMFileCommentRequest request);
 
 	OnTargetResponse deleteComment(@Valid ProjectFileCommentDeleteRequest request);
 

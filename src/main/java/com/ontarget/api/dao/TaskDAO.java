@@ -28,9 +28,9 @@ public interface TaskDAO {
 
 	public List<com.ontarget.bean.TaskStatusCount> getTaskCountByStatus(int projectId) throws Exception;
 
-	public boolean updateComment(TaskCommentRequest comment) throws Exception;
+	public com.ontarget.entities.TaskComment updateComment(TaskCommentRequest comment) throws Exception;
 
-	public int addComment(TaskCommentRequest comment) throws Exception;
+	public com.ontarget.entities.TaskComment addComment(TaskCommentRequest comment) throws Exception;
 
 	public List<TaskComment> getTaskComments(int projectTaskId) throws Exception;
 

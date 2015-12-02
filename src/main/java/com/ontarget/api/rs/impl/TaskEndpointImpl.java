@@ -9,6 +9,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import com.ontarget.bean.TaskComment;
+import com.ontarget.response.bean.TaskCommentResponse;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -87,8 +89,7 @@ public class TaskEndpointImpl implements TaskEndpoint {
 			response.setReturnMessage(e.getMessage());
 			response.setReturnVal(OnTargetConstant.ERROR);
 		} catch (Exception e) {
-			e.printStackTrace();
-			logger.error("Add task failed." + e);
+			logger.error("Add task failed.", e);
 			if (taskService.isTaskAdd(task)) {
 				response.setReturnMessage("Add task failed");
 			} else {
@@ -112,8 +113,7 @@ public class TaskEndpointImpl implements TaskEndpoint {
 			response.setReturnMessage("Successfully retrieved tasks");
 			response.setReturnVal(OnTargetConstant.SUCCESS);
 		} catch (Exception e) {
-			e.printStackTrace();
-			logger.error("Error while retrieving task list." + e);
+			logger.error("Error while retrieving task list.", e);
 			response.setReturnMessage("Error while retrieving task list");
 			response.setReturnVal(OnTargetConstant.ERROR);
 		}
@@ -132,8 +132,7 @@ public class TaskEndpointImpl implements TaskEndpoint {
 			response.setReturnMessage("Successfully retrieved tasks");
 			response.setReturnVal(OnTargetConstant.SUCCESS);
 		} catch (Exception e) {
-			e.printStackTrace();
-			logger.error("Error while retrieving task list." + e);
+			logger.error("Error while retrieving task list.", e);
 			response.setReturnMessage("Error while retrieving task list");
 			response.setReturnVal(OnTargetConstant.ERROR);
 		}
@@ -151,7 +150,7 @@ public class TaskEndpointImpl implements TaskEndpoint {
 			response.setReturnMessage("Successfully retrieved tasks and counts");
 			response.setReturnVal(OnTargetConstant.SUCCESS);
 		} catch (Exception e) {
-			logger.error("Get task count failed." + e);
+			logger.error("Get task count failed.", e);
 			response.setReturnMessage("Get task count failed");
 			response.setReturnVal(OnTargetConstant.ERROR);
 		}
@@ -161,22 +160,16 @@ public class TaskEndpointImpl implements TaskEndpoint {
 	@Override
 	@POST
 	@Path("/addComment")
-	public UserResponse addUpdateCommentToTask(TaskCommentRequest comment) {
-		UserResponse response = new UserResponse();
+	public TaskCommentResponse addUpdateCommentToTask(TaskCommentRequest comment) {
+        TaskCommentResponse response = new TaskCommentResponse();
 		try {
-			Contact contact = taskService.addTaskComment(comment);
-			if (contact == null) {
-				response.setReturnMessage("Add task comment failed");
-				response.setReturnVal(OnTargetConstant.ERROR);
-			} else {
-				UserDTO user = new UserDTO();
-				user.setContact(contact);
-				response.setUser(user);
-				response.setReturnMessage("Successfully added Comment");
-				response.setReturnVal(OnTargetConstant.SUCCESS);
-			}
+			com.ontarget.entities.TaskComment taskComment = taskService.addTaskComment(comment);
+			response.setReturnMessage("Successfully saved Comment");
+			response.setReturnVal(OnTargetConstant.SUCCESS);
+            response.setTaskComment(taskComment);
+
 		} catch (Exception e) {
-			logger.error("Add task failed." + e);
+			logger.error("Add task failed.",e);
 			response.setReturnMessage("Add task comment failed");
 			response.setReturnVal(OnTargetConstant.ERROR);
 		}
@@ -193,7 +186,7 @@ public class TaskEndpointImpl implements TaskEndpoint {
 			taskResponse = taskService.getTaskDetail(taskDetailRequest.getTaskId());
 			taskResponse.setReturnVal(OnTargetConstant.SUCCESS);
 		} catch (Exception e) {
-			logger.error("Error while retrieving task details" + e);
+			logger.error("Error while retrieving task details",e);
 			taskResponse.setReturnMessage("Error while retrieving task details");
 			taskResponse.setReturnVal(OnTargetConstant.ERROR);
 		}
@@ -216,6 +209,7 @@ public class TaskEndpointImpl implements TaskEndpoint {
 				response.setReturnVal(OnTargetConstant.ERROR);
 			}
 		} catch (Exception e) {
+            logger.error("update task failed",e);
 			response.setReturnMessage("update task status failed");
 			response.setReturnVal(OnTargetConstant.ERROR);
 		}
@@ -254,6 +248,7 @@ public class TaskEndpointImpl implements TaskEndpoint {
 					response.setReturnVal(OnTargetConstant.SUCCESS);
 				}
 			} catch (Exception e) {
+                logger.error("Error while reading task member",e);
 				response.setReturnMessage("error while reading task members");
 				response.setReturnVal(OnTargetConstant.ERROR);
 			}
@@ -298,7 +293,7 @@ public class TaskEndpointImpl implements TaskEndpoint {
 			response.setTaskId(taskAttachmentRequest.getTaskId());
 			response.setReturnVal(OnTargetConstant.SUCCESS);
 		} catch (Exception e) {
-			e.printStackTrace();
+            logger.error("Error while getting task file", e);
 			response.setReturnMessage("error getting task file");
 			response.setReturnVal(OnTargetConstant.ERROR);
 		}
@@ -313,7 +308,7 @@ public class TaskEndpointImpl implements TaskEndpoint {
 		try {
 			return taskService.deleteTaskAttachment(request.getTaskFileId(), request.getBaseRequest().getLoggedInUserId());
 		} catch (Exception e) {
-			logger.error("Delete project task attachment failed." + e);
+			logger.error("Delete project task attachment failed.", e);
 			response.setReturnMessage("Delete project task attachment failed");
 			response.setReturnVal(OnTargetConstant.ERROR);
 		}
@@ -358,7 +353,6 @@ public class TaskEndpointImpl implements TaskEndpoint {
 				response.setReturnVal(OnTargetConstant.ERROR);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
 			logger.error("Error while assigning field workers to task", e);
 			response.setReturnMessage("Error while assigning field workers to task");
 			response.setReturnVal(OnTargetConstant.ERROR);
@@ -374,8 +368,7 @@ public class TaskEndpointImpl implements TaskEndpoint {
 		try {
 			return taskService.getFieldWorkersByTask(request.getTaskId());
 		} catch (Exception e) {
-			e.printStackTrace();
-			logger.error("Error while retrieving field workers for a task." + e);
+			logger.error("Error while retrieving field workers for a task.", e);
 			response.setReturnMessage("Error while retrieving field workers for a task");
 			response.setReturnVal(OnTargetConstant.ERROR);
 		}
@@ -391,7 +384,7 @@ public class TaskEndpointImpl implements TaskEndpoint {
 			response.setId(taskService.addDependentTask(addDependentRequest.getDependentTask()));
 			response.setReturnVal(OnTargetConstant.SUCCESS);
 		} catch (Exception e) {
-			e.printStackTrace();
+            logger.error("Error while adding dependant task", e);
 			response.setReturnMessage("Error while adding dependent task");
 			response.setReturnVal(OnTargetConstant.ERROR);
 		}
@@ -406,7 +399,7 @@ public class TaskEndpointImpl implements TaskEndpoint {
 			response.setTasks(taskService.getDependentTasks(dependentTaskDetail.getTaskId()));
 			response.setReturnVal(OnTargetConstant.SUCCESS);
 		} catch (Exception e) {
-			e.printStackTrace();
+            logger.error("Error while getting dependant task ", e);
 			response.setReturnMessage("Error while getting dependent task");
 			response.setReturnVal(OnTargetConstant.ERROR);
 		}
@@ -422,8 +415,8 @@ public class TaskEndpointImpl implements TaskEndpoint {
 			response.setTasks(taskService.getUserTasks(userTask.getUserId()));
 			response.setReturnVal(OnTargetConstant.SUCCESS);
 		} catch (Exception e) {
-			e.printStackTrace();
-			response.setReturnMessage("Error while getting dependent task");
+            logger.error("Error while gettng user task", e);
+			response.setReturnMessage("Error while getting user task");
 			response.setReturnVal(OnTargetConstant.ERROR);
 		}
 
@@ -436,7 +429,6 @@ public class TaskEndpointImpl implements TaskEndpoint {
 	public TaskDetailResponse deleteTask(TaskDetailRequest taskDetailRequest) {
 		TaskDetailResponse taskResponse = new TaskDetailResponse();
 		try {
-
 			boolean deleted = taskService.deleteTask(taskDetailRequest.getTaskId(), taskDetailRequest.getBaseRequest().getLoggedInUserId());
 			if (deleted) {
 				taskResponse.setReturnVal(OnTargetConstant.SUCCESS);
@@ -446,7 +438,7 @@ public class TaskEndpointImpl implements TaskEndpoint {
 				taskResponse.setReturnVal(OnTargetConstant.ERROR);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+            logger.error("Error while deleting task", e);
 			taskResponse.setReturnMessage("Task delete failed");
 			taskResponse.setReturnVal(OnTargetConstant.ERROR);
 		}

@@ -1,32 +1,25 @@
 package com.ontarget.api.rs.impl;
 
-import java.util.List;
+import com.ontarget.api.rs.ProjectBIMFileEndpoint;
+import com.ontarget.api.service.ProjectBIMFileService;
+import com.ontarget.bean.ProjectBIMFileCommentDTO;
+import com.ontarget.constant.OnTargetConstant;
+import com.ontarget.dto.OnTargetResponse;
+import com.ontarget.request.bean.*;
+import com.ontarget.response.bean.GetBIMResponse;
+import com.ontarget.response.bean.ProjectBIMFileCommentListResponse;
+import com.ontarget.response.bean.ProjectBimFileCommentResponse;
+import com.ontarget.response.bean.SaveBIMResponse;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import com.ontarget.api.rs.ProjectBIMFileEndpoint;
-import com.ontarget.api.service.ProjectBIMFileService;
-import com.ontarget.bean.ProjectBIMFileCommentDTO;
-import com.ontarget.constant.OnTargetConstant;
-import com.ontarget.dto.OnTargetResponse;
-import com.ontarget.request.bean.DeleteBIMRequest;
-import com.ontarget.request.bean.GetBIMRequest;
-import com.ontarget.request.bean.ProjectBIMFileCommentListRequest;
-import com.ontarget.request.bean.ProjectBIMFileCommentRequest;
-import com.ontarget.request.bean.ProjectFileCommentDeleteRequest;
-import com.ontarget.request.bean.SaveBIMRequest;
-import com.ontarget.request.bean.UpdateBIMThumbnailPathRequest;
-import com.ontarget.response.bean.GetBIMResponse;
-import com.ontarget.response.bean.ProjectBIMFileCommentListResponse;
-import com.ontarget.response.bean.SaveBIMResponse;
+import java.util.List;
 
 /**
  * Created by sanjeevghimire on 10/2/15.
@@ -125,11 +118,11 @@ public class ProjectBIMFileEndpointImpl implements ProjectBIMFileEndpoint {
 	@Override
 	@POST
 	@Path("/comment/save")
-	public OnTargetResponse addUpdateComment(ProjectBIMFileCommentRequest request) {
-		OnTargetResponse response = new OnTargetResponse();
+	public ProjectBimFileCommentResponse addUpdateComment(ProjectBIMFileCommentRequest request) {
+        ProjectBimFileCommentResponse response = new ProjectBimFileCommentResponse();
 		try {
-			boolean success = projectBIMFileService.addUpdateComment(request);
-			if (success) {
+			ProjectBIMFileCommentDTO projectBIMFileCommentDTO = projectBIMFileService.addUpdateComment(request);
+			if (projectBIMFileCommentDTO.getProjectBIMFileCommentId() > 0) {
 				response.setReturnVal(OnTargetConstant.SUCCESS);
 				if (request.getCommentId() != null) {
 					response.setReturnMessage("Comment updated successfully");

@@ -22,7 +22,7 @@ public interface ProjectBIMFileService {
 
 	boolean updateBimThumbnailPath(UpdateBIMThumbnailPathRequest request) throws Exception;
 
-	public boolean addUpdateComment(ProjectBIMFileCommentRequest request) throws Exception;
+	public ProjectBIMFileCommentDTO addUpdateComment(ProjectBIMFileCommentRequest request) throws Exception;
 	
 	public boolean deleteComment(Integer commentId) throws Exception;
 	

@@ -365,16 +365,16 @@ public class TaskJpaDAOImpl implements TaskDAO {
 	}
 
 	@Override
-	public boolean updateComment(TaskCommentRequest comment) throws Exception {
+	public com.ontarget.entities.TaskComment updateComment(TaskCommentRequest comment) throws Exception {
 		com.ontarget.entities.TaskComment taskComment = taskCommentRepository.findByTaskCommentId(comment.getTaskCommentId());
 		taskComment.setComment(comment.getComment());
 		taskComment.setCommentedBy(new User(comment.getCommentedBy()));
 		taskCommentRepository.save(taskComment);
-		return true;
+		return taskComment;
 	}
 
 	@Override
-	public int addComment(TaskCommentRequest comment) throws Exception {
+	public com.ontarget.entities.TaskComment addComment(TaskCommentRequest comment) throws Exception {
 		com.ontarget.entities.TaskComment taskComment = new com.ontarget.entities.TaskComment();
 		taskComment.setProjectTask(new com.ontarget.entities.ProjectTask(comment.getTaskId()));
 		taskComment.setComment(comment.getComment());
@@ -382,7 +382,7 @@ public class TaskJpaDAOImpl implements TaskDAO {
 		taskComment.setCommentedDate(new Date());
 		taskComment.setCommentStatus(OnTargetConstant.TaskCommentStatus.ACTIVE);
 		entityManager.persist(taskComment);
-		return taskComment.getTaskCommentId();
+		return taskComment;
 	}
 
 	@Override

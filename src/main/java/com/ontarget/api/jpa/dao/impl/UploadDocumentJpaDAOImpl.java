@@ -235,7 +235,7 @@ public class UploadDocumentJpaDAOImpl implements UploadDocumentDAO {
     }
 
     @Override
-	public boolean addComment(ProjectFileCommentRequest request) throws Exception {
+	public ProjectFileComment addComment(ProjectFileCommentRequest request) throws Exception {
 		ProjectFileComment projectFileComment;
 		if (request.getCommentId() != null) {
 			projectFileComment = projectFileCommentRepository.findOne(request.getCommentId());
@@ -248,7 +248,7 @@ public class UploadDocumentJpaDAOImpl implements UploadDocumentDAO {
 		projectFileComment.setCommentedDate(new Date());
 		projectFileComment.setCommentStatus(OnTargetConstant.ProjectFileCommentStatus.ACTIVE);
 		projectFileCommentRepository.save(projectFileComment);
-		return true;
+		return projectFileComment;
 	}
 
 	@Override

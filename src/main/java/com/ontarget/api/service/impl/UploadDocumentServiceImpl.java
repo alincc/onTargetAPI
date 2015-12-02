@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.ontarget.response.bean.UploadDocumentDetailResponse;
+import com.ontarget.response.bean.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -27,9 +27,6 @@ import com.ontarget.entities.ProjectFileCategory;
 import com.ontarget.entities.ProjectFileComment;
 import com.ontarget.request.bean.ProjectFileCommentRequest;
 import com.ontarget.request.bean.UploadDocumentRequest;
-import com.ontarget.response.bean.ProjectFileCategoryListResponse;
-import com.ontarget.response.bean.ProjectFileCommentListResponse;
-import com.ontarget.response.bean.ProjectFileCommentResponse;
 
 @Service
 public class UploadDocumentServiceImpl implements UploadDocumentService {
@@ -205,10 +202,10 @@ public class UploadDocumentServiceImpl implements UploadDocumentService {
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
-	public OnTargetResponse addUpdateComment(ProjectFileCommentRequest request) throws Exception {
-		OnTargetResponse response = new OnTargetResponse();
-		boolean success = uploadDocumentDAO.addComment(request);
-		if (success) {
+	public ProjectFileCommentObjResponse addUpdateComment(ProjectFileCommentRequest request) throws Exception {
+        ProjectFileCommentObjResponse response = new ProjectFileCommentObjResponse();
+		ProjectFileComment comment = uploadDocumentDAO.addComment(request);
+		if (comment.getProjectFileCommentId() > 0) {
 			response.setReturnVal(OnTargetConstant.SUCCESS);
 			if (request.getCommentId() != null) {
 				response.setReturnMessage("Comment updated successfully");

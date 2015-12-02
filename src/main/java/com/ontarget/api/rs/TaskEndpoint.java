@@ -24,6 +24,7 @@ import com.ontarget.request.bean.TaskMemberRequest;
 import com.ontarget.request.bean.TaskRequest;
 import com.ontarget.request.bean.TaskStatusUpdateRequest;
 import com.ontarget.request.bean.UserTask;
+import com.ontarget.response.bean.TaskCommentResponse;
 import com.ontarget.response.bean.TaskResponse;
 
 /**
@@ -39,7 +40,7 @@ public interface TaskEndpoint {
 
 	public TaskListCountResponse getTaskCountByStatus(@Valid ProjectTaskRequest projectTaskRequest);
 
-	public UserResponse addUpdateCommentToTask(@Valid TaskCommentRequest comment);
+	public TaskCommentResponse addUpdateCommentToTask(@Valid TaskCommentRequest comment);
 
 	public OnTargetResponse updateTaskStatus(@Valid TaskStatusUpdateRequest request);
 

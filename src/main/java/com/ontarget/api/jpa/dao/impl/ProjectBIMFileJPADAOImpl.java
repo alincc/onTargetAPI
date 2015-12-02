@@ -66,10 +66,10 @@ public class ProjectBIMFileJPADAOImpl implements ProjectBIMFileDAO {
 	}
 
 	@Override
-	public boolean saveComment(ProjectBimFileComment comment) throws Exception {
+	public ProjectBimFileComment saveComment(ProjectBimFileComment comment) throws Exception {
 		logger.debug("Saving bim file comment information: " + comment);
 		ProjectBimFileComment file = projectBimFileCommentRepository.save(comment);
-		return file.getProjectBimFileCommentId() != 0;
+		return file;
 	}
 
 	@Override

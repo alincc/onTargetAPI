@@ -18,7 +18,7 @@ public interface ProjectBIMFileDAO {
 
 	boolean updateThumbnailPath(Integer projectBimFileId, String thumbnailPath, Integer userId) throws Exception;
 
-	boolean saveComment(ProjectBimFileComment comment) throws Exception;
+    ProjectBimFileComment saveComment(ProjectBimFileComment comment) throws Exception;
 
 	boolean deleteComment(Integer commentId) throws Exception;
 

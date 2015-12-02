@@ -11,6 +11,7 @@ import javax.ws.rs.core.MediaType;
 import com.ontarget.api.request.UpdateIsConversionCompleteRequest;
 import com.ontarget.dto.ProjectFileResponse;
 import com.ontarget.request.bean.*;
+import com.ontarget.response.bean.ProjectFileCommentObjResponse;
 import com.ontarget.response.bean.UploadDocumentDetailResponse;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -122,8 +123,8 @@ public class UploadDocumentEndPointImpl implements UploadDocumentEndPoint {
 	@Override
 	@POST
 	@Path("/addComment")
-	public OnTargetResponse addUpdateComment(ProjectFileCommentRequest request) {
-		OnTargetResponse response = new OnTargetResponse();
+	public ProjectFileCommentObjResponse addUpdateComment(ProjectFileCommentRequest request) {
+        ProjectFileCommentObjResponse response = new ProjectFileCommentObjResponse();
 		try {
 			return documentService.addUpdateComment(request);
 		} catch (Exception e) {

@@ -100,9 +100,14 @@ public class ProjectBIMFileServiceImpl implements ProjectBIMFileService {
 
 	@Override
 	@Transactional
-	public boolean addUpdateComment(ProjectBIMFileCommentRequest request) throws Exception {
+	public ProjectBIMFileCommentDTO addUpdateComment(ProjectBIMFileCommentRequest request) throws Exception {
 		logger.debug("Saving comment to bim file: " + request.getProjectBIMFileId());
-		return projectBIMFileDAO.saveComment(ProjectBimFileUtil.getProjectBimFileCommentEntityFromCommentRequest(request));
+		ProjectBimFileComment comment =  projectBIMFileDAO.saveComment(ProjectBimFileUtil.getProjectBimFileCommentEntityFromCommentRequest(request));
+        ProjectBIMFileCommentDTO projectBIMFileCommentDTO=ProjectBimFileUtil.getBIMFileCommentDTOFromEntity(comment);
+
+        com.ontarget.bean.Contact contact = contactDAO.getContact(comment.getCommentedBy().getUserId());
+        projectBIMFileCommentDTO.setCommenterContact(contact);
+        return projectBIMFileCommentDTO;
 	}
 
 	@Override

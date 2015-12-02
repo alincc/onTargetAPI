@@ -16,7 +16,7 @@ public interface UploadDocumentDAO {
 
     public boolean deleteProjectFile(Integer projectFileId, int userId) throws Exception;
 
-	public boolean addComment(ProjectFileCommentRequest request) throws Exception;
+	public ProjectFileComment addComment(ProjectFileCommentRequest request) throws Exception;
 
 	public boolean deleteComment(Integer commentId) throws Exception;
 

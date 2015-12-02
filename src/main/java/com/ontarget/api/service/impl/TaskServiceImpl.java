@@ -304,34 +304,19 @@ public class TaskServiceImpl implements TaskService {
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
-	public Contact addTaskComment(TaskCommentRequest comment) throws Exception {
-		if (comment.getTaskCommentId() > 0) {
-			if (taskDAO.updateComment(comment)) {
-				Contact contact = contactDAO.getContact(comment.getCommentedBy());
-				return contact;
-			} else
-				throw new Exception("task not updated");
-		} else {
-			int taskCommentId = taskDAO.addComment(comment);
-			if (taskCommentId > 0) {
-				Contact contact = contactDAO.getContact(comment.getCommentedBy());
+	public com.ontarget.entities.TaskComment addTaskComment(TaskCommentRequest comment) throws Exception {
+        com.ontarget.entities.TaskComment taskComment = null;
+        if (comment.getTaskCommentId() > 0) {
+            taskComment = taskDAO.updateComment(comment);
+        } else {
+            taskComment = taskDAO.addComment(comment);
+            if (taskComment.getTaskCommentId() <= 0) {
+                throw new Exception("Task not added");
+            }
+        }
+        return taskComment;
+    }
 
-				ProjectTaskInfo task = taskDAO.getTaskInfo(comment.getTaskId());
-
-				Set<Integer> assignees = this.getTaskMembers(comment.getTaskId());
-				if (assignees != null && assignees.size() > 0) {
-					for (Integer assignee : assignees) {
-						emailService.sendTaskCommentEmail(task, contact, assignee.intValue());
-					}
-				}
-
-				return contact;
-			} else {
-				throw new Exception("Task not added");
-			}
-		}
-
-	}
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })

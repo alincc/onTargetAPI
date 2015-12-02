@@ -80,4 +80,23 @@ public class ProjectBimFileUtil {
 		});
 		return commentDTOList;
 	}
+
+    /**
+     *
+     * @param comment
+     * @return
+     */
+    public static ProjectBIMFileCommentDTO getBIMFileCommentDTOFromEntity(ProjectBimFileComment comment) {
+        ProjectBIMFileCommentDTO commentDTO = new ProjectBIMFileCommentDTO();
+        commentDTO.setProjectBIMFileCommentId(comment.getProjectBimFileCommentId());
+        commentDTO.setComment(comment.getComment());
+        commentDTO.setCommentedBy(comment.getCommentedBy().getUserId());
+        commentDTO.setCommentedDate(new Date());
+        int commentedBy = comment.getCommentedBy().getUserId();
+        commentDTO.setCommentedBy(commentedBy);
+        return commentDTO;
+    }
+
+
+
 }
