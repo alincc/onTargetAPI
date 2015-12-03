@@ -33,7 +33,7 @@ public interface TaskService {
 
 	public List<com.ontarget.bean.TaskStatusCount> getTaskCountByStatus(int projectId) throws Exception;
 
-    public com.ontarget.entities.TaskComment addTaskComment(TaskCommentRequest comment) throws Exception;
+    public com.ontarget.bean.TaskComment addTaskComment(TaskCommentRequest comment) throws Exception;
 
 	public boolean updateTaskStatus(int taskId, String taskStatus, int userId) throws Exception;
 

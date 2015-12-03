@@ -163,7 +163,7 @@ public class TaskEndpointImpl implements TaskEndpoint {
 	public TaskCommentResponse addUpdateCommentToTask(TaskCommentRequest comment) {
         TaskCommentResponse response = new TaskCommentResponse();
 		try {
-			com.ontarget.entities.TaskComment taskComment = taskService.addTaskComment(comment);
+			com.ontarget.bean.TaskComment taskComment = taskService.addTaskComment(comment);
 			response.setReturnMessage("Successfully saved Comment");
 			response.setReturnVal(OnTargetConstant.SUCCESS);
             response.setTaskComment(taskComment);

@@ -206,7 +206,16 @@ public class UploadDocumentServiceImpl implements UploadDocumentService {
         ProjectFileCommentObjResponse response = new ProjectFileCommentObjResponse();
 		ProjectFileComment comment = uploadDocumentDAO.addComment(request);
 		if (comment.getProjectFileCommentId() > 0) {
-			response.setReturnVal(OnTargetConstant.SUCCESS);
+            ProjectFileCommentResponse commentObj = new ProjectFileCommentResponse();
+            commentObj.setProjectFileCommentId(comment.getProjectFileCommentId());
+            commentObj.setComment(comment.getComment());
+            commentObj.setCommentedBy(comment.getCommentedBy().getUserId());
+            commentObj.setCommentedDate(comment.getCommentedDate());
+            int commentedBy = comment.getCommentedBy().getUserId();
+            Contact contact = contactDAO.getContact(commentedBy);
+            commentObj.setCommenterContact(contact);
+            response.setComment(commentObj);
+            response.setReturnVal(OnTargetConstant.SUCCESS);
 			if (request.getCommentId() != null) {
 				response.setReturnMessage("Comment updated successfully");
 			} else {

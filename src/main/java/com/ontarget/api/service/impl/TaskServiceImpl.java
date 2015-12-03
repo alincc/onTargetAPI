@@ -304,7 +304,7 @@ public class TaskServiceImpl implements TaskService {
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
-	public com.ontarget.entities.TaskComment addTaskComment(TaskCommentRequest comment) throws Exception {
+	public com.ontarget.bean.TaskComment addTaskComment(TaskCommentRequest comment) throws Exception {
         com.ontarget.entities.TaskComment taskComment = null;
         if (comment.getTaskCommentId() > 0) {
             taskComment = taskDAO.updateComment(comment);
@@ -314,7 +314,17 @@ public class TaskServiceImpl implements TaskService {
                 throw new Exception("Task not added");
             }
         }
-        return taskComment;
+
+        //convert to task bean. TODO: write util class
+        com.ontarget.bean.TaskComment taskCommentObj = new TaskComment();
+        taskCommentObj.setComment(taskComment.getComment());
+        taskCommentObj.setTaskCommentId(taskComment.getTaskCommentId());
+        taskCommentObj.setCommentedBy(taskComment.getCommentedBy().getUserId());
+        taskCommentObj.setTaskId(taskComment.getProjectTask().getProjectTaskId());
+        Contact contact = taskDAO.getContact(taskComment.getCommentedBy().getUserId());
+        taskCommentObj.setCommenterContact(contact);
+
+        return taskCommentObj;
     }
 
 

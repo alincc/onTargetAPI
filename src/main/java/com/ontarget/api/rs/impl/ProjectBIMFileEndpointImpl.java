@@ -123,6 +123,7 @@ public class ProjectBIMFileEndpointImpl implements ProjectBIMFileEndpoint {
 		try {
 			ProjectBIMFileCommentDTO projectBIMFileCommentDTO = projectBIMFileService.addUpdateComment(request);
 			if (projectBIMFileCommentDTO.getProjectBIMFileCommentId() > 0) {
+                response.setProjectBIMFileComment(projectBIMFileCommentDTO);
 				response.setReturnVal(OnTargetConstant.SUCCESS);
 				if (request.getCommentId() != null) {
 					response.setReturnMessage("Comment updated successfully");

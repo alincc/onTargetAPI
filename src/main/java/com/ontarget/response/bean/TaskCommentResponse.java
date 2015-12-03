@@ -2,7 +2,7 @@ package com.ontarget.response.bean;
 
 
 import com.ontarget.dto.OnTargetResponse;
-import com.ontarget.entities.TaskComment;
+import com.ontarget.bean.TaskComment;
 import lombok.Data;
 
 /**
@@ -11,7 +11,7 @@ import lombok.Data;
 @Data
 public class TaskCommentResponse extends OnTargetResponse{
 
-    public TaskComment taskComment;
+    private TaskComment taskComment;
 
 
 }
