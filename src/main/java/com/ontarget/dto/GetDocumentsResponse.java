@@ -10,6 +10,7 @@ public class GetDocumentsResponse extends OnTargetResponse {
 
     private List<DocumentDTO> submittals;
     private List<DocumentDTO> approvals;
+    private List<DocumentDTO> attentionsDocs;
     private int totalSubmits, totalApprovals;
 
     public GetDocumentsResponse() {
@@ -52,5 +53,13 @@ public class GetDocumentsResponse extends OnTargetResponse {
 
     public void setTotalApprovals(int totalApprovals) {
         this.totalApprovals = totalApprovals;
+    }
+
+    public List<DocumentDTO> getAttentionsDocs() {
+        return attentionsDocs;
+    }
+
+    public void setAttentionsDocs(List<DocumentDTO> attentionsDocs) {
+        this.attentionsDocs = attentionsDocs;
     }
 }

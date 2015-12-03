@@ -96,4 +96,11 @@ public class DocumentKeyValueJpaDAOImpl implements DocumentKeyValueDAO {
 		}
 	}
 
+
+    @Override
+    public List<String> getUsersInAttentionByDocument(int documentId) throws Exception {
+        return documentKeyValueRepository.findAllAttentionUsersByDocumentRFI(documentId);
+    }
+
+
 }

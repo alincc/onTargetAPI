@@ -13,7 +13,9 @@ public interface DocumentDAO extends GenericDAO<DocumentDTO> {
 
 	public List<DocumentDTO> getByAssigneeUsername(Integer userId, int projectId) throws Exception;
 
-	public List<DocumentDTO> getDocumentsByProject(int projectId, String approved) throws Exception;
+    public List<DocumentDTO> getByNOTAssigneeUsername(Integer userId, int projectId) throws Exception;
 
-	public boolean updateDueDate(int documentId, Date dueDate, String modifiedBy) throws Exception;
+    public List<DocumentDTO> getDocumentsByProject(int projectId, String approved) throws Exception;
+
+    public boolean updateDueDate(int documentId, Date dueDate, String modifiedBy) throws Exception;
 }

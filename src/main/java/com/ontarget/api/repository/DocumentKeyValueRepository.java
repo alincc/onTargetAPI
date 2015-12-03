@@ -15,4 +15,8 @@ public interface DocumentKeyValueRepository extends JpaRepository<DocumentKeyVal
 
 	@Query("select d from DocumentKeyValue d where d.document.id = ?1 and d.status !='" + OnTargetConstant.GenericStatus.DELETED + "'")
 	List<DocumentKeyValue> getDocumentKeyValueByDocumentId(Integer documentId);
+
+    @Query("select dkv.value from DocumentKeyValue dkv  where dkv.key like 'atten%' and dkv.document.id=?1 and dkv.status !='"+OnTargetConstant.GenericStatus.DELETED+"'")
+    List<String> findAllAttentionUsersByDocumentRFI(Integer documentId);
+
 }

@@ -222,7 +222,7 @@ public class DocumentServiceImpl implements DocumentService {
 
 				}
 
-				// get submitted to
+				// get submitted by
 				if (doc.getModifiedBy() > 0) {
 					Contact modifiedBy = contactDAO.getContact(doc.getModifiedBy());
 					UserDTO modifiedByUser = new UserDTO();
@@ -265,9 +265,56 @@ public class DocumentServiceImpl implements DocumentService {
 
 			}
 
+
+            // find ATTN to and if the user is part of ATTN
+            List<DocumentDTO> documentsNotCreatedOrAssignedButInAttention = documentDAO.getByNOTAssigneeUsername(userId, projectId);
+            logger.info("total documents not created by me or assigned to me: " + documentsNotCreatedOrAssignedButInAttention.size());
+            for (DocumentDTO doc : documentsNotCreatedOrAssignedButInAttention) {
+
+                //get all attn users;
+
+                List<String> attenUsers = documentKeyValueDAO.getUsersInAttentionByDocument(doc.getDocumentId());
+                //if this user is not part of the attention then ignore.
+                if(!attenUsers.contains(userId.toString())){
+                    continue;
+                }
+                logger.debug("User in Attention: "+attenUsers);
+                logger.info("Found user in attention"+ userId);
+
+                doc.setDocumentTemplate(documentTemplateDAO.getByDocumentId(doc.getDocumentId()));
+                List<DocumentKeyValueDTO> keyValues = documentKeyValueDAO.getByDocumentId(doc.getDocumentId());
+                doc.setKeyValues(keyValues);
+                List<DocumentGridKeyValueDTO> gridKeyValues = documentGridKeyValueDAO.getByDocumentId(doc.getDocumentId());
+                doc.setGridKeyValues(gridKeyValues);
+
+                List<DocumentSubmittal> documentSubmittalList = documentSubmittalDAO.getDocumentSubmittalByDocumentId(doc.getDocumentId());
+                List<UserDTO> documentSubmittalDTOs = new LinkedList<>();
+                doc.setSubmittedTo(documentSubmittalDTOs);
+                for (DocumentSubmittal documentSubmittal : documentSubmittalList) {
+                    // get submitted to
+                    Contact submittedTo = contactDAO.getContact(documentSubmittal.getUser().getUserId());
+                    UserDTO submittedToUser = new UserDTO();
+                    submittedToUser.setContact(submittedTo);
+                    documentSubmittalDTOs.add(submittedToUser);
+
+                }
+
+                // get submitted to
+                if (doc.getModifiedBy() > 0) {
+                    Contact modifiedBy = contactDAO.getContact(doc.getModifiedBy());
+                    UserDTO modifiedByUser = new UserDTO();
+                    modifiedByUser.setContact(modifiedBy);
+                    doc.setModifiedByUser(modifiedByUser);
+
+                }
+            }
+
+
+
 			GetDocumentsResponse response = new GetDocumentsResponse();
 			response.setSubmittals(submittals);
 			response.setApprovals(approvals);
+            response.setAttentionsDocs(documentsNotCreatedOrAssignedButInAttention);
 			response.setReturnVal(OnTargetConstant.SUCCESS);
 			response.setReturnMessage("Success");
 

@@ -150,6 +150,44 @@ public class DocumentJpaDAOImpl implements DocumentDAO {
 		return documentDTOList;
 	}
 
+
+    @Override
+    public List<DocumentDTO> getByNOTAssigneeUsername(Integer userId, int projectId) throws Exception {
+
+        List<Document> documents = documentRepository.findAllDocumentNotCreatedAndNotAssignedByProject(userId, projectId);
+
+        List<DocumentDTO> documentDTOList = new ArrayList<>();
+        if (documents != null && !documents.isEmpty()) {
+            for (Document document : documents) {
+                DocumentDTO doc = new DocumentDTO();
+                doc.setDocumentId(document.getDocumentId());
+                doc.setName(document.getName());
+                doc.setStatus(document.getStatus());
+                doc.setCreatedBy(document.getCreatedBy().getUserId());
+                doc.setDueDate(document.getDueDate());
+                doc.setCreatedDate(document.getCreatedDate());
+                doc.setModifiedDate(document.getModifiedDate());
+                if(document.getModifiedBy()!=null){
+                    doc.setModifiedBy(document.getModifiedBy().getUserId());
+                }
+
+                Contact contact = null;
+                try {
+                    contact = contactDAO.getContact(doc.getCreatedBy());
+                } catch (Exception e) {
+                    logger.error("Error while getting contact info", e);
+                    throw e;
+                }
+                UserDTO creator = new UserDTO();
+                creator.setContact(contact);
+                doc.setCreator(creator);
+                documentDTOList.add(doc);
+            }
+        }
+
+        return documentDTOList;
+    }
+
 	@Override
 	public List<DocumentDTO> getDocumentsByProject(int projectId, String approved) throws Exception {
 		List<Document> documents = documentRepository.findByProjectIdAndStatus(projectId, approved);
