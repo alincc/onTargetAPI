@@ -136,9 +136,7 @@ public class DocumentServiceImpl implements DocumentService {
 				Contact contact = contactDAO.getContact(assignee.getUserId());
 
 				if (contact != null && (contact.getEmail() != null && contact.getEmail().trim().length() > 0)) {
-					emailService.sendDocumentSubmittalEmail(document.getName(), contact.getEmail(), contact.getFirstName(),
-							contact.getLastName(), creator.getFirstName(), creator.getLastName(),
-							DateFormater.convertToString(new java.util.Date(document.getDueDate().getTime()), "yyyy-MM-dd"));
+					// emailService.sendDocumentSubmittalEmail(document.getName(), contact.getEmail(), contact.getFirstName(), contact.getLastName(), creator.getFirstName(), creator.getLastName(), DateFormater.convertToString(new java.util.Date(document.getDueDate().getTime()), "yyyy-MM-dd"));
 				}
 			}
 		} catch (Throwable t) {
@@ -146,7 +144,7 @@ public class DocumentServiceImpl implements DocumentService {
 			throw new Exception("Unable to create document!");
 		}
 
-		emailService.sendDocumentAssignmentEmails(document, assignees);
+		// emailService.sendDocumentAssignmentEmails(document, assignees);
 
 		AddDocumentResponse response = new AddDocumentResponse();
 		response.setDocument(document);

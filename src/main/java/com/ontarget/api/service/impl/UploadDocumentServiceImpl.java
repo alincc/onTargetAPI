@@ -130,7 +130,7 @@ public class UploadDocumentServiceImpl implements UploadDocumentService {
 			commentObj.setProjectFileCommentId(comment.getProjectFileCommentId());
 			commentObj.setComment(comment.getComment());
 			commentObj.setCommentedBy(comment.getCommentedBy().getUserId());
-			commentObj.setCommentedDate(new Date());
+			commentObj.setCommentedDate(comment.getCommentedDate());
 			int commentedBy = comment.getCommentedBy().getUserId();
 
 			if (contactMap.containsKey(commentedBy)) {
