@@ -1,17 +1,5 @@
 package com.ontarget.api.rs.impl;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.MediaType;
-
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import com.ontarget.api.rs.UserInvitation;
 import com.ontarget.api.service.EmailService;
 import com.ontarget.api.service.UserInvitationService;
@@ -23,6 +11,14 @@ import com.ontarget.entity.pojo.RegistrationRequestResponseDTO;
 import com.ontarget.request.bean.UserInvitationRequest;
 import com.ontarget.util.ConvertPOJOUtils;
 import com.ontarget.util.Security;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import java.util.HashMap;
+import java.util.Map;
 
 @Component
 @Path("/onTargetInvitation")
@@ -105,7 +101,12 @@ public class UserInvitationImpl implements UserInvitation {
 		try {
 			boolean success = userInvitationService.approvePendingRequest(id);
 			if (success) {
-				emailService.sendInvitationEmailForRegistration(id);
+
+                //prepare to send email.
+                Map<String, Object> emailAttributes = new HashMap<>();
+                emailAttributes.put("registrationRequestId",id);
+				emailService.sendEmail(emailAttributes);
+
 				response.setReturnVal(OnTargetConstant.SUCCESS);
 				response.setReturnMessage(OnTargetConstant.REGISTRATION_APPROVAL_REQUEST_SUCCESS);
 				logger.info("Approved successfully for id:: " + id);

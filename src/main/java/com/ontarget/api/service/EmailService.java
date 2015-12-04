@@ -1,6 +1,7 @@
 package com.ontarget.api.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.ontarget.bean.Contact;
 import com.ontarget.bean.DocumentDTO;
@@ -40,4 +41,5 @@ public interface EmailService {
 	public void sendDocumentSubmittalEmail(String documentTitle, String assigneeEmail, String assigneeFirstName, String assigneeLastName,
 			String creatorFirstName, String creatorLastName, String dueDate);
 
+    void sendEmail(Map<String, Object> emailAttributes) throws  Exception;
 }

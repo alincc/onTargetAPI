@@ -1,38 +1,35 @@
 package com.ontarget.api.service.impl;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-
-import com.ontarget.bean.*;
-
+import com.ontarget.api.dao.AuthenticationDAO;
+import com.ontarget.api.dao.ContactDAO;
+import com.ontarget.api.dao.EmailDAO;
+import com.ontarget.api.dao.UserInvitationDAO;
+import com.ontarget.api.mail.SendEmail;
+import com.ontarget.api.service.EmailService;
+import com.ontarget.bean.Contact;
+import com.ontarget.bean.DocumentDTO;
+import com.ontarget.bean.ProjectTaskInfo;
+import com.ontarget.bean.UserDTO;
+import com.ontarget.constant.OnTargetConstant;
+import com.ontarget.entity.pojo.RegistrationRequestResponseDTO;
+import com.ontarget.request.bean.Assignee;
+import com.ontarget.util.EmailConstant;
+import com.ontarget.util.TaskStatusEnum;
 import org.apache.log4j.Logger;
 import org.apache.velocity.app.VelocityEngine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.task.TaskExecutor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.velocity.VelocityEngineUtils;
 
-import com.ontarget.api.dao.AuthenticationDAO;
-import com.ontarget.api.dao.ContactDAO;
-import com.ontarget.api.dao.EmailDAO;
-import com.ontarget.api.dao.UserInvitationDAO;
-import com.ontarget.api.service.EmailService;
-import com.ontarget.constant.OnTargetConstant;
-import com.ontarget.entity.pojo.RegistrationRequestResponseDTO;
-import com.ontarget.request.bean.Assignee;
-import com.ontarget.request.bean.UserRegistrationRequest;
-import com.ontarget.util.EmailConstant;
-import com.ontarget.util.TaskStatusEnum;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import java.util.*;
 
 /**
  * Created by Owner on 11/2/14.
@@ -51,6 +48,13 @@ public class EmailServiceImpl implements EmailService {
 
 	@Autowired
 	private VelocityEngine velocityEngine;
+
+    @Autowired
+    private TaskExecutor taskExecutor;
+
+    @Autowired
+    @Qualifier("sendRegistrationEmail")
+    private SendEmail sendEmail;
 
 	@Autowired
 	@Qualifier("authenticationJpaDAOImpl")
@@ -602,4 +606,33 @@ public class EmailServiceImpl implements EmailService {
 			logger.error("Error while sending email for document submittal.", e);
 		}
 	}
+
+
+    @Override
+    public void sendEmail(Map<String, Object> emailAttributes) throws  Exception{
+        sendEmail.sendAsynchronousMail(getDefaultMapPropertiesAsObj(emailAttributes));
+    }
+
+
+    /**
+     * default map properties
+     * @return
+     */
+    private Map<String, Object> getDefaultMapPropertiesAsObj(Map<String, Object> emailAttributes) {
+        emailAttributes.put("constructionWorkerImgUrl", emailAssetServerUrl + "/" + emailConstructionWorkerImage);
+        emailAttributes.put("ontargetLogoImgUrl", emailAssetServerUrl + "/" + emailOnTargetLogoImage);
+        emailAttributes.put("baseUrl", baseUrl);
+        emailAttributes.put("ontargetUrl", baseUrl);
+        emailAttributes.put("appLink", EmailConstant.APP_LINK);
+        emailAttributes.put("emailConstructionWorkerImage",emailConstructionWorkerImage);
+        emailAttributes.put("emailTaskPercentageImage",emailTaskPercentageImage);
+        emailAttributes.put("emailOnTargetLogoImage",emailOnTargetLogoImage);
+        emailAttributes.put("emailTaskInfoImage",emailTaskInfoImage);
+        emailAttributes.put("taskDetailImgUrl",taskDetailImgUrl);
+        emailAttributes.put("taskDashboardImgUrl",taskDashboardImgUrl);
+        return emailAttributes;
+    }
+
+
+
 }

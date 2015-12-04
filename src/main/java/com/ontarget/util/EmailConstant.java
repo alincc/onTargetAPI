@@ -12,6 +12,11 @@ public class EmailConstant {
 
 	}
 
+    public interface SendEmailType{
+        public static final String REQUEST_FOR_DEMO_APPROVED="REQUEST_FOR_DEMO_APPROVED";
+    }
+
+
     public static final String APP_LINK="https://itunes.apple.com/us/app/ontarget-field/id971808755?ls=1&amp;mt=8";
 
 }

@@ -8,7 +8,7 @@
    http://www.springframework.org/schema/context
    http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 
-	<context:component-scan base-package="com.ontarget.api.*" />
+	<context:component-scan base-package="com.ontarget.api" />
 
 	<context:property-placeholder location="classpath:ontarget.properties" />
 	<import resource="classpath:ontarget-database.xml" />
@@ -30,6 +30,14 @@
 			</props>
 		</property>
 	</bean>
+
+    <bean class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor" id="taskExecutor">
+        <property name="corePoolSize" value="5"></property>
+        <property name="maxPoolSize" value="10"></property>
+        <property name="queueCapacity" value="40"></property>
+        <property name="waitForTasksToCompleteOnShutdown" value="true"></property>
+    </bean>
+
 
 	<bean id="velocityEngine"
 		class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
