@@ -123,6 +123,8 @@ public class DocumentServiceImpl implements DocumentService {
 				}
 			}
 
+			Contact creator = contactDAO.getContact(request.getSubmittedBy());
+
 			for (Assignee assignee : assignees) {
 				DocumentSubmittalDTO submittal = new DocumentSubmittalDTO();
 				submittal.setDocument(document);
@@ -131,14 +133,34 @@ public class DocumentServiceImpl implements DocumentService {
 				submittal.setModifiedBy(request.getSubmittedBy());
 				documentSubmittalDAO.insert(submittal);
 
-				Contact creator = contactDAO.getContact(request.getSubmittedBy());
-
 				Contact contact = contactDAO.getContact(assignee.getUserId());
 
 				if (contact != null && (contact.getEmail() != null && contact.getEmail().trim().length() > 0)) {
-					// emailService.sendDocumentSubmittalEmail(document.getName(), contact.getEmail(), contact.getFirstName(), contact.getLastName(), creator.getFirstName(), creator.getLastName(), DateFormater.convertToString(new java.util.Date(document.getDueDate().getTime()), "yyyy-MM-dd"));
+					emailService.sendDocumentSubmittalEmail(document.getName(), contact.getEmail(), contact.getFirstName(),
+							contact.getLastName(), creator.getFirstName(), creator.getLastName(),
+							DateFormater.convertToString(new java.util.Date(document.getDueDate().getTime()), "yyyy-MM-dd"));
 				}
 			}
+
+			// send email to the ones in the attentions
+			List<String> attenUsers = documentKeyValueDAO.getUsersInAttentionByDocument(document.getDocumentId());
+
+			logger.debug("attention user list : " + attenUsers);
+			
+			if (attenUsers != null && !attenUsers.isEmpty()) {
+
+				for (String userId : attenUsers) {
+
+					logger.debug("Sending email to attention user id: " + userId);
+
+					Contact contact = contactDAO.getContact(Integer.parseInt(userId));
+
+					emailService.sendDocumentSubmittalEmail(document.getName(), contact.getEmail(), contact.getFirstName(),
+							contact.getLastName(), creator.getFirstName(), creator.getLastName(),
+							DateFormater.convertToString(new java.util.Date(document.getDueDate().getTime()), "yyyy-MM-dd"));
+				}
+			}
+
 		} catch (Throwable t) {
 			logger.error("Unable to add document!", t);
 			throw new Exception("Unable to create document!");
@@ -265,56 +287,53 @@ public class DocumentServiceImpl implements DocumentService {
 
 			}
 
+			// find ATTN to and if the user is part of ATTN
+			List<DocumentDTO> documentsNotCreatedOrAssignedButInAttention = documentDAO.getByNOTAssigneeUsername(userId, projectId);
+			logger.info("total documents not created by me or assigned to me: " + documentsNotCreatedOrAssignedButInAttention.size());
+			for (DocumentDTO doc : documentsNotCreatedOrAssignedButInAttention) {
 
-            // find ATTN to and if the user is part of ATTN
-            List<DocumentDTO> documentsNotCreatedOrAssignedButInAttention = documentDAO.getByNOTAssigneeUsername(userId, projectId);
-            logger.info("total documents not created by me or assigned to me: " + documentsNotCreatedOrAssignedButInAttention.size());
-            for (DocumentDTO doc : documentsNotCreatedOrAssignedButInAttention) {
+				// get all attn users;
 
-                //get all attn users;
+				List<String> attenUsers = documentKeyValueDAO.getUsersInAttentionByDocument(doc.getDocumentId());
+				// if this user is not part of the attention then ignore.
+				if (!attenUsers.contains(userId.toString())) {
+					continue;
+				}
+				logger.debug("User in Attention: " + attenUsers);
+				logger.info("Found user in attention" + userId);
 
-                List<String> attenUsers = documentKeyValueDAO.getUsersInAttentionByDocument(doc.getDocumentId());
-                //if this user is not part of the attention then ignore.
-                if(!attenUsers.contains(userId.toString())){
-                    continue;
-                }
-                logger.debug("User in Attention: "+attenUsers);
-                logger.info("Found user in attention"+ userId);
+				doc.setDocumentTemplate(documentTemplateDAO.getByDocumentId(doc.getDocumentId()));
+				List<DocumentKeyValueDTO> keyValues = documentKeyValueDAO.getByDocumentId(doc.getDocumentId());
+				doc.setKeyValues(keyValues);
+				List<DocumentGridKeyValueDTO> gridKeyValues = documentGridKeyValueDAO.getByDocumentId(doc.getDocumentId());
+				doc.setGridKeyValues(gridKeyValues);
 
-                doc.setDocumentTemplate(documentTemplateDAO.getByDocumentId(doc.getDocumentId()));
-                List<DocumentKeyValueDTO> keyValues = documentKeyValueDAO.getByDocumentId(doc.getDocumentId());
-                doc.setKeyValues(keyValues);
-                List<DocumentGridKeyValueDTO> gridKeyValues = documentGridKeyValueDAO.getByDocumentId(doc.getDocumentId());
-                doc.setGridKeyValues(gridKeyValues);
+				List<DocumentSubmittal> documentSubmittalList = documentSubmittalDAO.getDocumentSubmittalByDocumentId(doc.getDocumentId());
+				List<UserDTO> documentSubmittalDTOs = new LinkedList<>();
+				doc.setSubmittedTo(documentSubmittalDTOs);
+				for (DocumentSubmittal documentSubmittal : documentSubmittalList) {
+					// get submitted to
+					Contact submittedTo = contactDAO.getContact(documentSubmittal.getUser().getUserId());
+					UserDTO submittedToUser = new UserDTO();
+					submittedToUser.setContact(submittedTo);
+					documentSubmittalDTOs.add(submittedToUser);
 
-                List<DocumentSubmittal> documentSubmittalList = documentSubmittalDAO.getDocumentSubmittalByDocumentId(doc.getDocumentId());
-                List<UserDTO> documentSubmittalDTOs = new LinkedList<>();
-                doc.setSubmittedTo(documentSubmittalDTOs);
-                for (DocumentSubmittal documentSubmittal : documentSubmittalList) {
-                    // get submitted to
-                    Contact submittedTo = contactDAO.getContact(documentSubmittal.getUser().getUserId());
-                    UserDTO submittedToUser = new UserDTO();
-                    submittedToUser.setContact(submittedTo);
-                    documentSubmittalDTOs.add(submittedToUser);
+				}
 
-                }
+				// get submitted to
+				if (doc.getModifiedBy() > 0) {
+					Contact modifiedBy = contactDAO.getContact(doc.getModifiedBy());
+					UserDTO modifiedByUser = new UserDTO();
+					modifiedByUser.setContact(modifiedBy);
+					doc.setModifiedByUser(modifiedByUser);
 
-                // get submitted to
-                if (doc.getModifiedBy() > 0) {
-                    Contact modifiedBy = contactDAO.getContact(doc.getModifiedBy());
-                    UserDTO modifiedByUser = new UserDTO();
-                    modifiedByUser.setContact(modifiedBy);
-                    doc.setModifiedByUser(modifiedByUser);
-
-                }
-            }
-
-
+				}
+			}
 
 			GetDocumentsResponse response = new GetDocumentsResponse();
 			response.setSubmittals(submittals);
 			response.setApprovals(approvals);
-            response.setAttentionsDocs(documentsNotCreatedOrAssignedButInAttention);
+			response.setAttentionsDocs(documentsNotCreatedOrAssignedButInAttention);
 			response.setReturnVal(OnTargetConstant.SUCCESS);
 			response.setReturnMessage("Success");
 
