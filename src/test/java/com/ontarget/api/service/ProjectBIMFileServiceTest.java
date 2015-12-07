@@ -2,6 +2,7 @@ package com.ontarget.api.service;
 
 import com.ontarget.api.rs.BaseTest;
 import com.ontarget.dto.ProjectBimFileDTO;
+import com.ontarget.entities.ProjectBimFile;
 import com.ontarget.request.bean.BaseRequest;
 import com.ontarget.request.bean.DeleteBIMRequest;
 import com.ontarget.request.bean.SaveBIMRequest;
@@ -28,7 +29,7 @@ public class ProjectBIMFileServiceTest extends BaseTest {
     @Test
     public void getBIMPoidsTest(){
         try {
-            GetBIMResponse response = projectBIMFileService.getBIMPoids(1L);
+            GetBIMResponse response = projectBIMFileService.getBIMProjects(1L);
             Assert.assertTrue(response.getPoids().size() >= 0);
         } catch (Exception e) {
             logger.error("Error while getting BIM poids.",e);
@@ -42,7 +43,6 @@ public class ProjectBIMFileServiceTest extends BaseTest {
     public void saveBIMPoidTest(){
         try {
             SaveBIMRequest request = new SaveBIMRequest();
-            request.setPoid(1234567L);
             request.setProjectBimFileLocation("/project/abc.jpg");
             request.setProjectid(42L);
 
@@ -50,9 +50,11 @@ public class ProjectBIMFileServiceTest extends BaseTest {
             baseRequest.setLoggedInUserId(10);
             baseRequest.setLoggedInUserProjectId(42);
             request.setBaseRequest(baseRequest);
+            request.setProjectBimFileIFCLocation("/project/bimfile.ifc");
+            request.setProjectBimFileJSONLocation("/project/bimfile.json");
 
-            boolean saved = projectBIMFileService.saveProjectBIMFile(request);
-            Assert.assertTrue(saved);
+            ProjectBimFile projectBimFile = projectBIMFileService.saveProjectBIMFile(request);
+            Assert.assertTrue(projectBimFile.getProjectBimFileId() > 0);
         } catch (Exception e) {
             logger.error("Error while saving bim poid",e);
             fail();
@@ -67,19 +69,20 @@ public class ProjectBIMFileServiceTest extends BaseTest {
         try {
 
             SaveBIMRequest request = new SaveBIMRequest();
-            request.setPoid(1234567L);
             request.setProjectBimFileLocation("/project/abc.jpg");
             request.setProjectid(42L);
             BaseRequest baseRequest=new BaseRequest();
             baseRequest.setLoggedInUserId(10);
             baseRequest.setLoggedInUserProjectId(42);
             request.setBaseRequest(baseRequest);
-            boolean saved = projectBIMFileService.saveProjectBIMFile(request);
-            Assert.assertTrue(saved);
+            request.setProjectBimFileIFCLocation("/project/bimfile.ifc");
+            request.setProjectBimFileJSONLocation("/project/bimfile.json");
 
+            ProjectBimFile projectBimFile = projectBIMFileService.saveProjectBIMFile(request);
+            Assert.assertTrue(projectBimFile.getProjectBimFileId() > 0);
             //get
 
-            GetBIMResponse response = projectBIMFileService.getBIMPoids(42L);
+            GetBIMResponse response = projectBIMFileService.getBIMProjects(42L);
             ProjectBimFileDTO poid = response.getPoids().get(0);
 
             //delete
@@ -100,19 +103,20 @@ public class ProjectBIMFileServiceTest extends BaseTest {
         try {
 
             SaveBIMRequest request = new SaveBIMRequest();
-            request.setPoid(1234567L);
             request.setProjectBimFileLocation("/project/abc.jpg");
             request.setProjectid(42L);
             BaseRequest baseRequest=new BaseRequest();
             baseRequest.setLoggedInUserId(10);
             baseRequest.setLoggedInUserProjectId(42);
             request.setBaseRequest(baseRequest);
-            boolean saved = projectBIMFileService.saveProjectBIMFile(request);
-            Assert.assertTrue(saved);
+            request.setProjectBimFileIFCLocation("/project/bimfile.ifc");
+            request.setProjectBimFileJSONLocation("/project/bimfile.json");
 
+            ProjectBimFile projectBimFile = projectBIMFileService.saveProjectBIMFile(request);
+            Assert.assertTrue(projectBimFile.getProjectBimFileId() > 0);
             //get
 
-            GetBIMResponse response = projectBIMFileService.getBIMPoids(42L);
+            GetBIMResponse response = projectBIMFileService.getBIMProjects(42L);
             ProjectBimFileDTO poid = response.getPoids().get(0);
 
 

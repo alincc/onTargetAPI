@@ -54,9 +54,9 @@ public class ProjectBIMFileServiceImpl implements ProjectBIMFileService {
 	private TaskDAO taskDAO;
 
 	@Override
-	public GetBIMResponse getBIMPoids(Long projectId) throws Exception {
+	public GetBIMResponse getBIMProjects(Long projectId) throws Exception {
 		logger.debug("Getting BIM poids :" + projectId);
-		List<ProjectBimFile> poids = projectBIMFileDAO.getBIMPoids(projectId);
+		List<ProjectBimFile> poids = projectBIMFileDAO.getBIMProjects(projectId);
 		GetBIMResponse response = new GetBIMResponse();
 		response.setProjectId(projectId);
 		List<ProjectBimFileDTO> poidDtos = new LinkedList<>();
@@ -67,6 +67,8 @@ public class ProjectBIMFileServiceImpl implements ProjectBIMFileService {
 				dto.setCreatedDate(projectBimFile.getCreatedDate());
 				dto.setPoid(projectBimFile.getBimPoid().longValue());
                 dto.setBimThumbnailPath(projectBimFile.getBimThumbnailFileLocation());
+                dto.setBimProjectIFCFilePath(projectBimFile.getBimIfcFilePath());
+                dto.setBimProjectJSONFilePath(projectBimFile.getBimIfcJsonFilePath());
 				Contact c = contactDAO.getContact(projectBimFile.getCreatedBy().getUserId());
 				dto.setCreatedByContact(c);
 				poidDtos.add(dto);
@@ -78,8 +80,8 @@ public class ProjectBIMFileServiceImpl implements ProjectBIMFileService {
 
 	@Override
 	@Transactional
-	public boolean saveProjectBIMFile(SaveBIMRequest request) throws Exception {
-		logger.debug("Saving project bim file with poid: " + request.getPoid());
+	public ProjectBimFile saveProjectBIMFile(SaveBIMRequest request) throws Exception {
+		logger.debug("Creating BIM project for project: " + request.getProjectid());
 		return projectBIMFileDAO.saveBIMPoid(ProjectBimFileUtil.getProjectBimEnitityFromBIMRequest(request));
 	}
 

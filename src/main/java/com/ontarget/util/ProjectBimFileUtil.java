@@ -31,7 +31,6 @@ public class ProjectBimFileUtil {
 	 */
 	public static ProjectBimFile getProjectBimEnitityFromBIMRequest(SaveBIMRequest request) {
 		ProjectBimFile file = new ProjectBimFile();
-		file.setBimPoid(new BigInteger(request.getPoid().toString()));
 		file.setStatus(OnTargetConstant.GenericStatus.ACTIVE);
 		Project project = new Project();
 		project.setProjectId(new Integer(request.getProjectid().toString()));
@@ -39,6 +38,8 @@ public class ProjectBimFileUtil {
 		file.setBimThumbnailFileLocation(request.getProjectBimFileLocation());
 		file.setCreatedBy(new User(request.getBaseRequest().getLoggedInUserId()));
 		file.setCreatedDate(new Date());
+        file.setBimIfcFilePath(request.getProjectBimFileIFCLocation());
+        file.setBimIfcJsonFilePath(request.getProjectBimFileJSONLocation());
 
 		return file;
 	}

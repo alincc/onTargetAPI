@@ -32,7 +32,7 @@ public class ProjectBIMFileJPADAOTest extends BaseTest{
     @Test
     public void getBIMPoidsTest(){
         try {
-            List<ProjectBimFile> poids = projectBIMFileDAO.getBIMPoids(1L);
+            List<ProjectBimFile> poids = projectBIMFileDAO.getBIMProjects(1L);
             Assert.assertTrue(poids.size() >= 0);
         } catch (Exception e) {
             logger.error("Error while fetching bim poids",e);
@@ -53,10 +53,12 @@ public class ProjectBIMFileJPADAOTest extends BaseTest{
             projectBimFile.setStatus(OnTargetConstant.GenericStatus.ACTIVE);
             projectBimFile.setCreatedDate(new Date());
             projectBimFile.setCreatedBy(new User(10));
-            projectBimFile.setBimPoid(new BigInteger("1234567"));
+            projectBimFile.setBimIfcJsonFilePath("/project/bimfile.json");
+            projectBimFile.setBimIfcFilePath("/project/bimfile.ifc");
 
-            boolean saved = projectBIMFileDAO.saveBIMPoid(projectBimFile);
-            Assert.assertTrue(saved);
+
+            projectBimFile = projectBIMFileDAO.saveBIMPoid(projectBimFile);
+            Assert.assertTrue(projectBimFile.getProjectBimFileId() > 0);
         } catch (Exception e) {
             logger.error("Error while saving bim poid",e);
             fail();
@@ -80,13 +82,16 @@ public class ProjectBIMFileJPADAOTest extends BaseTest{
             projectBimFile.setCreatedDate(new Date());
             projectBimFile.setCreatedBy(new User(10));
             projectBimFile.setBimPoid(new BigInteger("1234567"));
+            projectBimFile.setBimIfcJsonFilePath("/project/bimfile.json");
+            projectBimFile.setBimIfcFilePath("/project/bimfile.ifc");
 
-            boolean saved = projectBIMFileDAO.saveBIMPoid(projectBimFile);
-            Assert.assertTrue(saved);
+
+            projectBimFile = projectBIMFileDAO.saveBIMPoid(projectBimFile);
+            Assert.assertTrue(projectBimFile.getProjectBimFileId() > 0);
 
             //get
 
-            List<ProjectBimFile> poids = projectBIMFileDAO.getBIMPoids(42L);
+            List<ProjectBimFile> poids = projectBIMFileDAO.getBIMProjects(42L);
             ProjectBimFile poid = poids.get(0);
 
             //delete
@@ -114,13 +119,17 @@ public class ProjectBIMFileJPADAOTest extends BaseTest{
                 projectBimFile.setCreatedDate(new Date());
                 projectBimFile.setCreatedBy(new User(10));
                 projectBimFile.setBimPoid(new BigInteger("1234567"));
+                projectBimFile.setBimIfcJsonFilePath("/project/bimfile.json");
+                projectBimFile.setBimIfcFilePath("/project/bimfile.ifc");
 
-                boolean saved = projectBIMFileDAO.saveBIMPoid(projectBimFile);
-                Assert.assertTrue(saved);
+
+
+                projectBimFile = projectBIMFileDAO.saveBIMPoid(projectBimFile);
+                Assert.assertTrue(projectBimFile.getProjectBimFileId() > 0);
 
                 //get
 
-                List<ProjectBimFile> poids = projectBIMFileDAO.getBIMPoids(42L);
+                List<ProjectBimFile> poids = projectBIMFileDAO.getBIMProjects(42L);
                 ProjectBimFile  poid = poids.get(0);
                 poid.setBimThumbnailFileLocation("/project/def.jpg");
 

@@ -14,7 +14,7 @@ import javax.validation.constraints.NotNull;
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({"baseRequest", "projectId","poid","projectBimFileLocation"})
+@JsonPropertyOrder({"baseRequest", "projectId","poid","projectBimFileLocation,projectBimFileIFCLocation,projectBimFileJSONLocation"})
 public class SaveBIMRequest{
 
     @JsonProperty("baseRequest")
@@ -24,11 +24,15 @@ public class SaveBIMRequest{
     @JsonProperty("projectId")
     public Long projectid;
 
-    @NotNull
-    @JsonProperty("poid")
-    public Long poid;
-
     @JsonProperty("projectBimFileLocation")
     public String projectBimFileLocation;
+
+    @JsonProperty("projectBimFileIFCLocation")
+    public String projectBimFileIFCLocation;
+
+    @JsonProperty("projectBimFileJSONLocation")
+    public String projectBimFileJSONLocation;
+
+
 
 }

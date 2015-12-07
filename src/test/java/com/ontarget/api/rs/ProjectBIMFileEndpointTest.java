@@ -23,18 +23,20 @@ public class ProjectBIMFileEndpointTest extends BaseJerseyTest {
 	private static final String GET_BIM_COMMENT_ENDPOINT_URI = baseURI + "/bim/comment/list";
 
 	@Test
-	public void saveBIMPoid() {
+	public void saveBIMProjectTest() {
 		try {
 			SaveBIMRequest request = new SaveBIMRequest();
-			request.setPoid(1234567L);
 			request.setProjectBimFileLocation("/project/abc.jpg");
 			request.setProjectid(42L);
 			BaseRequest baseRequest = new BaseRequest();
 			baseRequest.setLoggedInUserId(10);
 			baseRequest.setLoggedInUserProjectId(42);
 			request.setBaseRequest(baseRequest);
+            request.setProjectBimFileIFCLocation("/project/bimfile.ifc");
+            request.setProjectBimFileJSONLocation("/project/bimfile.json");
 
-			logger.debug("Request: " + new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(request));
+
+            logger.debug("Request: " + new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(request));
 
 			String response = client.target(SAVE_BIM_ENDPOINT_URI).request().accept(MediaType.APPLICATION_JSON_TYPE)
 					.post(Entity.entity(request, MediaType.APPLICATION_JSON_TYPE), String.class);
@@ -50,7 +52,7 @@ public class ProjectBIMFileEndpointTest extends BaseJerseyTest {
 	}
 
 	@Test
-	public void getBIMPoidsTest() {
+	public void getBIMProjectTest() {
 
 		try {
 			BaseRequest baseRequest = new BaseRequest();
@@ -77,7 +79,7 @@ public class ProjectBIMFileEndpointTest extends BaseJerseyTest {
 	}
 
 	@Test
-	public void deleteBIMPoidsTest() {
+	public void deleteBIMProjectTest() {
 
 		try {
 			BaseRequest baseRequest = new BaseRequest();

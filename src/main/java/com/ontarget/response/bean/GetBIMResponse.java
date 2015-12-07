@@ -14,6 +14,6 @@ import java.util.List;
 public class GetBIMResponse extends OnTargetResponse{
 
     public Long projectId;
-    public List<ProjectBimFileDTO> poids;
+    public List<ProjectBimFileDTO> bimProjects;
 
 }

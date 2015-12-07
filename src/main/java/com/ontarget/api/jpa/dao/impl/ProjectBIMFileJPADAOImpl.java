@@ -31,16 +31,16 @@ public class ProjectBIMFileJPADAOImpl implements ProjectBIMFileDAO {
 	private ProjectBimFileCommentRepository projectBimFileCommentRepository;
 
 	@Override
-	public List<ProjectBimFile> getBIMPoids(Long projectId) throws Exception {
+	public List<ProjectBimFile> getBIMProjects(Long projectId) throws Exception {
 		logger.debug("Getting bim poids for project: " + projectId);
 		return projectBIMFileRepository.findByProjectId(projectId.intValue());
 	}
 
 	@Override
-	public boolean saveBIMPoid(ProjectBimFile projectBimFile) throws Exception {
+	public ProjectBimFile saveBIMPoid(ProjectBimFile projectBimFile) throws Exception {
 		logger.debug("Saving bim file information: " + projectBimFile);
 		ProjectBimFile file = projectBIMFileRepository.save(projectBimFile);
-		return file.getProjectBimFileId() != 0;
+		return file;
 	}
 
 	@Override

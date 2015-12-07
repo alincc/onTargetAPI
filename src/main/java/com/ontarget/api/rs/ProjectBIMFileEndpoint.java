@@ -20,11 +20,11 @@ import com.ontarget.response.bean.SaveBIMResponse;
  */
 public interface ProjectBIMFileEndpoint {
 
-	GetBIMResponse getBIMPoids(@Valid GetBIMRequest request);
+	GetBIMResponse getBIMProject(@Valid GetBIMRequest request);
 
-	SaveBIMResponse saveProjectBIMPoids(@Valid SaveBIMRequest request);
+	SaveBIMResponse saveBIMProject(@Valid SaveBIMRequest request);
 
-	SaveBIMResponse deleteProjectBIMPoids(@Valid DeleteBIMRequest request);
+	SaveBIMResponse deleteBIMProject(@Valid DeleteBIMRequest request);
 
 	SaveBIMResponse updateProjectBIMThumbnailPath(@Valid UpdateBIMThumbnailPathRequest request);
 

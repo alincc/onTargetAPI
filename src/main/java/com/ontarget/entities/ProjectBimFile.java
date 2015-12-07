@@ -30,6 +30,12 @@ public class ProjectBimFile {
 	@Column(name = "bim_thumb_file_loc")
 	private String bimThumbnailFileLocation;
 
+    @Column(name = "bim_ifc_file_path")
+    private String bimIfcFilePath;
+
+    @Column(name = "bim_ifc_json_file_path")
+    private String bimIfcJsonFilePath;
+
 	@Column(name = "created_date")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createdDate;
