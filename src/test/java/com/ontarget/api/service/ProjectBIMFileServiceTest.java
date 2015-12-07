@@ -30,7 +30,7 @@ public class ProjectBIMFileServiceTest extends BaseTest {
     public void getBIMPoidsTest(){
         try {
             GetBIMResponse response = projectBIMFileService.getBIMProjects(1L);
-            Assert.assertTrue(response.getPoids().size() >= 0);
+            Assert.assertTrue(response.getBimProjects().size() >= 0);
         } catch (Exception e) {
             logger.error("Error while getting BIM poids.",e);
             fail();
@@ -83,7 +83,7 @@ public class ProjectBIMFileServiceTest extends BaseTest {
             //get
 
             GetBIMResponse response = projectBIMFileService.getBIMProjects(42L);
-            ProjectBimFileDTO poid = response.getPoids().get(0);
+            ProjectBimFileDTO poid = response.getBimProjects().get(0);
 
             //delete
             DeleteBIMRequest requestDel= new DeleteBIMRequest();
@@ -117,7 +117,7 @@ public class ProjectBIMFileServiceTest extends BaseTest {
             //get
 
             GetBIMResponse response = projectBIMFileService.getBIMProjects(42L);
-            ProjectBimFileDTO poid = response.getPoids().get(0);
+            ProjectBimFileDTO poid = response.getBimProjects().get(0);
 
 
             //delete

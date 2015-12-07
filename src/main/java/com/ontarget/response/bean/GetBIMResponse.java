@@ -13,7 +13,7 @@ import java.util.List;
 @Data
 public class GetBIMResponse extends OnTargetResponse{
 
-    public Long projectId;
-    public List<ProjectBimFileDTO> bimProjects;
+    private Long projectId;
+    private List<ProjectBimFileDTO> bimProjects;
 
 }

@@ -56,12 +56,12 @@ public class ProjectBIMFileServiceImpl implements ProjectBIMFileService {
 	@Override
 	public GetBIMResponse getBIMProjects(Long projectId) throws Exception {
 		logger.debug("Getting BIM poids :" + projectId);
-		List<ProjectBimFile> poids = projectBIMFileDAO.getBIMProjects(projectId);
+		List<ProjectBimFile> bimprojects = projectBIMFileDAO.getBIMProjects(projectId);
 		GetBIMResponse response = new GetBIMResponse();
 		response.setProjectId(projectId);
-		List<ProjectBimFileDTO> poidDtos = new LinkedList<>();
-		if (poids != null && poids.size() > 0) {
-			for (ProjectBimFile projectBimFile : poids) {
+		List<ProjectBimFileDTO> bimProjectDTOs = new LinkedList<>();
+		if (bimprojects != null && bimprojects.size() > 0) {
+			for (ProjectBimFile projectBimFile : bimprojects) {
 				ProjectBimFileDTO dto = new ProjectBimFileDTO();
 				dto.setProjectBimFileId(projectBimFile.getProjectBimFileId());
 				dto.setCreatedDate(projectBimFile.getCreatedDate());
@@ -71,10 +71,10 @@ public class ProjectBIMFileServiceImpl implements ProjectBIMFileService {
                 dto.setBimProjectJSONFilePath(projectBimFile.getBimIfcJsonFilePath());
 				Contact c = contactDAO.getContact(projectBimFile.getCreatedBy().getUserId());
 				dto.setCreatedByContact(c);
-				poidDtos.add(dto);
+                bimProjectDTOs.add(dto);
 			}
 		}
-		response.setPoids(poidDtos);
+		response.setBimProjects(bimProjectDTOs);
 		return response;
 	}
 
