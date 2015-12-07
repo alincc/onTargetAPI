@@ -60,6 +60,11 @@ public class SendRegistrationEmail extends SendEmail {
                 }
             };
             javaMailSender.send(preparator);
+
+            if(logger.isDebugEnabled()){
+                logger.debug("Demo approval email successfully sent.");
+            }
+
         } catch (Exception e) {
             logger.error("Not able to send request for demo approval email", e);
         }
