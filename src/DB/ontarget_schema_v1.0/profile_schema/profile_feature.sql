@@ -239,6 +239,8 @@ insert into `profile_feature` ( `active`, `application_feature_id`, `profile_id`
 -- oncontact to regular user
 
 insert into `profile_feature` ( `active`, `application_feature_id`, `profile_id`) values('Y','44','3');
+insert into `profile_feature` ( `active`, `application_feature_id`, `profile_id`) values('Y','63','3');
+insert into `profile_feature` ( `active`, `application_feature_id`, `profile_id`) values('Y','75','3');
 
 
 

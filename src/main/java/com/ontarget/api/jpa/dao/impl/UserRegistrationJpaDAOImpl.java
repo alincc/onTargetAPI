@@ -116,6 +116,8 @@ public class UserRegistrationJpaDAOImpl implements com.ontarget.api.dao.UserRegi
 		userRepository.save(user);
 		logger.info("persist user: " + user.getUserId());
 
+        //check to see if email already exists TODO
+
 		Email email = new Email();
 		email.setEmailAddress(request.getEmail());
 		email.setStatus("ACTIVE");
