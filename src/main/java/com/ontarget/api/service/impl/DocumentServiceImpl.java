@@ -289,6 +289,7 @@ public class DocumentServiceImpl implements DocumentService {
 
 			// find ATTN to and if the user is part of ATTN
 			List<DocumentDTO> documentsNotCreatedOrAssignedButInAttention = documentDAO.getByNOTAssigneeUsername(userId, projectId);
+            List<DocumentDTO> documentsNotCreatedOrAssignedButInAttentionFiltered = new LinkedList<>();
 			logger.info("total documents not created by me or assigned to me: " + documentsNotCreatedOrAssignedButInAttention.size());
 			for (DocumentDTO doc : documentsNotCreatedOrAssignedButInAttention) {
 
@@ -297,6 +298,7 @@ public class DocumentServiceImpl implements DocumentService {
 				List<String> attenUsers = documentKeyValueDAO.getUsersInAttentionByDocument(doc.getDocumentId());
 				// if this user is not part of the attention then ignore.
 				if (!attenUsers.contains(userId.toString())) {
+
 					continue;
 				}
 				logger.debug("User in Attention: " + attenUsers);
@@ -328,12 +330,13 @@ public class DocumentServiceImpl implements DocumentService {
 					doc.setModifiedByUser(modifiedByUser);
 
 				}
+                documentsNotCreatedOrAssignedButInAttentionFiltered.add(doc);
 			}
 
 			GetDocumentsResponse response = new GetDocumentsResponse();
 			response.setSubmittals(submittals);
 			response.setApprovals(approvals);
-			response.setAttentionsDocs(documentsNotCreatedOrAssignedButInAttention);
+			response.setAttentionsDocs(documentsNotCreatedOrAssignedButInAttentionFiltered);
 			response.setReturnVal(OnTargetConstant.SUCCESS);
 			response.setReturnMessage("Success");
 

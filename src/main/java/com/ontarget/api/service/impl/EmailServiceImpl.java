@@ -20,7 +20,6 @@ import org.apache.velocity.app.VelocityEngine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.task.TaskExecutor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
@@ -48,9 +47,6 @@ public class EmailServiceImpl implements EmailService {
 
 	@Autowired
 	private VelocityEngine velocityEngine;
-
-    @Autowired
-    private TaskExecutor taskExecutor;
 
     @Autowired
     @Qualifier("sendRegistrationEmail")
