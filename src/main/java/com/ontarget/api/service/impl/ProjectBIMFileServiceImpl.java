@@ -65,7 +65,8 @@ public class ProjectBIMFileServiceImpl implements ProjectBIMFileService {
 				ProjectBimFileDTO dto = new ProjectBimFileDTO();
 				dto.setProjectBimFileId(projectBimFile.getProjectBimFileId());
 				dto.setCreatedDate(projectBimFile.getCreatedDate());
-				dto.setPoid(projectBimFile.getBimPoid().longValue());
+                if(projectBimFile.getBimPoid() == null) dto.setPoid(0L);
+                else dto.setPoid(projectBimFile.getBimPoid().longValue());
                 dto.setBimThumbnailPath(projectBimFile.getBimThumbnailFileLocation());
                 dto.setBimProjectIFCFilePath(projectBimFile.getBimIfcFilePath());
                 dto.setBimProjectJSONFilePath(projectBimFile.getBimIfcJsonFilePath());
