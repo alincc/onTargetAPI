@@ -146,7 +146,7 @@ public class DocumentServiceImpl implements DocumentService {
 			List<String> attenUsers = documentKeyValueDAO.getUsersInAttentionByDocument(document.getDocumentId());
 
 			logger.debug("attention user list : " + attenUsers);
-			
+
 			if (attenUsers != null && !attenUsers.isEmpty()) {
 
 				for (String userId : attenUsers) {
@@ -373,6 +373,25 @@ public class DocumentServiceImpl implements DocumentService {
 						emailService.sendDocumentStatusUpdateEmail(document.getName(), document.getStatus(), contact.getFirstName(),
 								contact.getLastName(), contact.getEmail(), modifier.getFirstName(), modifier.getLastName(), document
 										.getCreatedBy().getContactList().get(0).getFirstName());
+					}
+				}
+
+				// send email to the ones in the attentions
+				List<String> attenUsers = documentKeyValueDAO.getUsersInAttentionByDocument(documentId);
+
+				logger.debug("attention user list : " + attenUsers);
+
+				if (attenUsers != null && !attenUsers.isEmpty()) {
+
+					for (String userId : attenUsers) {
+
+						logger.debug("Sending email to attention user id: " + userId);
+
+						Contact contact = contactDAO.getContact(Integer.parseInt(userId));
+
+						emailService.sendDocumentStatusUpdateEmail(document.getName(), document.getStatus(), contact.getFirstName(),
+								contact.getLastName(), contact.getEmail(), modifier.getFirstName(), modifier.getLastName(), document
+									.getCreatedBy().getContactList().get(0).getFirstName());
 					}
 				}
 

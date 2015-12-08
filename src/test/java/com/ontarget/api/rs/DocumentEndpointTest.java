@@ -251,12 +251,12 @@ public class DocumentEndpointTest extends BaseTest {
 	public void addDocumentQuestionResponse() {
 		BaseRequest baseRequest = new BaseRequest();
 		baseRequest.setLoggedInUserId(11);
-		baseRequest.setLoggedInUserProjectId(43);
+		baseRequest.setLoggedInUserProjectId(45);
 
 		UpdateDocumentQuestionResponseRequest request = new UpdateDocumentQuestionResponseRequest();
 		request.setBaseRequest(baseRequest);
 		request.setResponse("Test question?");
-		request.setDocumentId(2);
+		request.setDocumentId(1);
 
 		System.out.println("Client request.... \n");
 		System.out.println(toJsonString(request, true));
