@@ -37,14 +37,14 @@ public class ProjectBIMFileJPADAOImpl implements ProjectBIMFileDAO {
 	}
 
 	@Override
-	public ProjectBimFile saveBIMPoid(ProjectBimFile projectBimFile) throws Exception {
+	public ProjectBimFile saveBIMProject(ProjectBimFile projectBimFile) throws Exception {
 		logger.debug("Saving bim file information: " + projectBimFile);
 		ProjectBimFile file = projectBIMFileRepository.save(projectBimFile);
 		return file;
 	}
 
 	@Override
-	public boolean deleteBIMPoid(Integer projectBimFileId, Integer userId) throws Exception {
+	public boolean deleteBIMProject(Integer projectBimFileId, Integer userId) throws Exception {
 		logger.debug("Deleting bim file information: " + projectBimFileId);
 		ProjectBimFile bimFile = projectBIMFileRepository.findOne(projectBimFileId);
 		bimFile.setStatus(OnTargetConstant.GenericStatus.DELETED);
@@ -56,7 +56,7 @@ public class ProjectBIMFileJPADAOImpl implements ProjectBIMFileDAO {
 
 	@Override
 	public boolean updateThumbnailPath(Integer projectBimFileId, String thumbnailPath, Integer userId) throws Exception {
-		logger.debug("udpating bim thumbnail file path information: " + projectBimFileId);
+		logger.debug("updating bim thumbnail file path information: " + projectBimFileId);
 		ProjectBimFile bimFile = projectBIMFileRepository.findOne(projectBimFileId);
 		bimFile.setBimThumbnailFileLocation(thumbnailPath);
 		bimFile.setModifiedBy(new User(userId));

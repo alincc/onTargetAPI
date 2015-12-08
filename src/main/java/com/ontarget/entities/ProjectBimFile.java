@@ -56,6 +56,10 @@ public class ProjectBimFile {
 	@Column(name = "status", nullable = false, length = 10)
 	private String status;
 
+    @Basic(optional = false)
+    @Column(name = "is_bim_ifc_file_converted",length = 1)
+    private String isBimIfcFileConverted;
+
 	public ProjectBimFile() {
 		super();
 	}

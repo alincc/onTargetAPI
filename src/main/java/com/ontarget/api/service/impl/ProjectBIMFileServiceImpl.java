@@ -69,6 +69,7 @@ public class ProjectBIMFileServiceImpl implements ProjectBIMFileService {
                 dto.setBimThumbnailPath(projectBimFile.getBimThumbnailFileLocation());
                 dto.setBimProjectIFCFilePath(projectBimFile.getBimIfcFilePath());
                 dto.setBimProjectJSONFilePath(projectBimFile.getBimIfcJsonFilePath());
+                dto.setIsBimIFCConversionComplete(projectBimFile.getIsBimIfcFileConverted());
 				Contact c = contactDAO.getContact(projectBimFile.getCreatedBy().getUserId());
 				dto.setCreatedByContact(c);
                 bimProjectDTOs.add(dto);
@@ -82,14 +83,14 @@ public class ProjectBIMFileServiceImpl implements ProjectBIMFileService {
 	@Transactional
 	public ProjectBimFile saveProjectBIMFile(SaveBIMRequest request) throws Exception {
 		logger.debug("Creating BIM project for project: " + request.getProjectid());
-		return projectBIMFileDAO.saveBIMPoid(ProjectBimFileUtil.getProjectBimEnitityFromBIMRequest(request));
+		return projectBIMFileDAO.saveBIMProject(ProjectBimFileUtil.getProjectBimEnitityFromBIMRequest(request));
 	}
 
 	@Override
 	@Transactional
 	public boolean deleteProjectBIMFile(DeleteBIMRequest request) throws Exception {
 		logger.debug("deleting project bim file with id: " + request.getProjectBimFileId());
-		return projectBIMFileDAO.deleteBIMPoid(request.getProjectBimFileId(), request.getBaseRequest().getLoggedInUserId());
+		return projectBIMFileDAO.deleteBIMProject(request.getProjectBimFileId(), request.getBaseRequest().getLoggedInUserId());
 	}
 
 	@Override

@@ -57,7 +57,7 @@ public class ProjectBIMFileJPADAOTest extends BaseTest{
             projectBimFile.setBimIfcFilePath("/project/bimfile.ifc");
 
 
-            projectBimFile = projectBIMFileDAO.saveBIMPoid(projectBimFile);
+            projectBimFile = projectBIMFileDAO.saveBIMProject(projectBimFile);
             Assert.assertTrue(projectBimFile.getProjectBimFileId() > 0);
         } catch (Exception e) {
             logger.error("Error while saving bim poid",e);
@@ -86,7 +86,7 @@ public class ProjectBIMFileJPADAOTest extends BaseTest{
             projectBimFile.setBimIfcFilePath("/project/bimfile.ifc");
 
 
-            projectBimFile = projectBIMFileDAO.saveBIMPoid(projectBimFile);
+            projectBimFile = projectBIMFileDAO.saveBIMProject(projectBimFile);
             Assert.assertTrue(projectBimFile.getProjectBimFileId() > 0);
 
             //get
@@ -95,7 +95,7 @@ public class ProjectBIMFileJPADAOTest extends BaseTest{
             ProjectBimFile poid = poids.get(0);
 
             //delete
-            boolean deleted = projectBIMFileDAO.deleteBIMPoid(poid.getProjectBimFileId(),10);
+            boolean deleted = projectBIMFileDAO.deleteBIMProject(poid.getProjectBimFileId(),10);
             Assert.assertTrue(deleted);
 
         } catch (Exception e) {
@@ -124,7 +124,7 @@ public class ProjectBIMFileJPADAOTest extends BaseTest{
 
 
 
-                projectBimFile = projectBIMFileDAO.saveBIMPoid(projectBimFile);
+                projectBimFile = projectBIMFileDAO.saveBIMProject(projectBimFile);
                 Assert.assertTrue(projectBimFile.getProjectBimFileId() > 0);
 
                 //get

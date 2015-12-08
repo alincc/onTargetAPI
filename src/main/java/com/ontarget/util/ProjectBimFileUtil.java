@@ -40,6 +40,7 @@ public class ProjectBimFileUtil {
 		file.setCreatedDate(new Date());
         file.setBimIfcFilePath(request.getProjectBimFileIFCLocation());
         file.setBimIfcJsonFilePath(request.getProjectBimFileJSONLocation());
+        file.setIsBimIfcFileConverted(request.getIsIfcFileConversionComplete());
 
 		return file;
 	}

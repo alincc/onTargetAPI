@@ -22,17 +22,18 @@ public class SaveBIMRequest{
 
     @NotNull
     @JsonProperty("projectId")
-    public Long projectid;
+    private Long projectid;
 
     @JsonProperty("projectBimFileLocation")
-    public String projectBimFileLocation;
+    private String projectBimFileLocation;
 
     @JsonProperty("projectBimFileIFCLocation")
-    public String projectBimFileIFCLocation;
+    private String projectBimFileIFCLocation;
 
     @JsonProperty("projectBimFileJSONLocation")
-    public String projectBimFileJSONLocation;
+    private String projectBimFileJSONLocation;
 
-
+    @JsonProperty("isIfcFileConversionComplete")
+    private String isIfcFileConversionComplete;
 
 }
