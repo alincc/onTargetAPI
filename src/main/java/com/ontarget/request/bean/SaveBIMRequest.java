@@ -14,7 +14,7 @@ import javax.validation.constraints.NotNull;
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({"baseRequest", "projectId","poid","projectBimFileLocation,projectBimFileIFCLocation,projectBimFileJSONLocation"})
+@JsonPropertyOrder({"baseRequest", "projectId","poid","projectBimFileLocation,projectBimFileIFCLocation,projectBimFileJSONLocation,isIfcFileConversionComplete,name,description"})
 public class SaveBIMRequest{
 
     @JsonProperty("baseRequest")
@@ -35,5 +35,11 @@ public class SaveBIMRequest{
 
     @JsonProperty("isIfcFileConversionComplete")
     private String isIfcFileConversionComplete;
+
+    @JsonProperty("name")
+    private String name;
+
+    @JsonProperty("description")
+    private String description;
 
 }
