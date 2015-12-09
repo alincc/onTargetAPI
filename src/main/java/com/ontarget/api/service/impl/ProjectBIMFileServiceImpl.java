@@ -71,6 +71,8 @@ public class ProjectBIMFileServiceImpl implements ProjectBIMFileService {
                 dto.setBimProjectIFCFilePath(projectBimFile.getBimIfcFilePath());
                 dto.setBimProjectJSONFilePath(projectBimFile.getBimIfcJsonFilePath());
                 dto.setIsBimIFCConversionComplete(projectBimFile.getIsBimIfcFileConverted());
+                dto.setName(projectBimFile.getName());
+                dto.setDescription(projectBimFile.getDescription());
 				Contact c = contactDAO.getContact(projectBimFile.getCreatedBy().getUserId());
 				dto.setCreatedByContact(c);
                 bimProjectDTOs.add(dto);
