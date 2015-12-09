@@ -41,7 +41,8 @@ public class ProjectBimFileUtil {
         file.setBimIfcFilePath(request.getProjectBimFileIFCLocation());
         file.setBimIfcJsonFilePath(request.getProjectBimFileJSONLocation());
         file.setIsBimIfcFileConverted(request.getIsIfcFileConversionComplete());
-
+        file.setName(request.getName());
+        file.setDescription(request.getDescription());
 		return file;
 	}
 
