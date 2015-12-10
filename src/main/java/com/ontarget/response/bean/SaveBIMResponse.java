@@ -1,6 +1,7 @@
 package com.ontarget.response.bean;
 
 import com.ontarget.dto.OnTargetResponse;
+import com.ontarget.dto.ProjectBimFileDTO;
 import com.ontarget.entities.ProjectBimFile;
 import lombok.Data;
 
@@ -10,6 +11,6 @@ import lombok.Data;
 @Data
 public class SaveBIMResponse extends OnTargetResponse {
 
-    private ProjectBimFile projectBimFile;
+    private ProjectBimFileDTO projectBimFileDTO;
 
 }
