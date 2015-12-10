@@ -12,9 +12,11 @@ public interface ProjectBIMFileDAO {
 
 	public List<ProjectBimFile> getBIMProjects(Long projectId) throws Exception;
 
+    ProjectBimFile getBIMProject(int projectBimFileId) throws Exception;
+
     public ProjectBimFile saveBIMProject(ProjectBimFile projectBimFile) throws Exception;
 
-	public boolean deleteBIMProject(Integer projectBimFileId, Integer userId) throws Exception;
+    public boolean deleteBIMProject(Integer projectBimFileId, Integer userId) throws Exception;
 
 	public boolean updateThumbnailPath(Integer projectBimFileId, String thumbnailPath, Integer userId) throws Exception;
 
