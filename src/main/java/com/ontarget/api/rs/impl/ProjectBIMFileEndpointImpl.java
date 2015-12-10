@@ -5,12 +5,10 @@ import com.ontarget.api.service.ProjectBIMFileService;
 import com.ontarget.bean.ProjectBIMFileCommentDTO;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.OnTargetResponse;
+import com.ontarget.dto.ProjectBimFileDTO;
 import com.ontarget.entities.ProjectBimFile;
 import com.ontarget.request.bean.*;
-import com.ontarget.response.bean.GetBIMResponse;
-import com.ontarget.response.bean.ProjectBIMFileCommentListResponse;
-import com.ontarget.response.bean.ProjectBimFileCommentResponse;
-import com.ontarget.response.bean.SaveBIMResponse;
+import com.ontarget.response.bean.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -52,6 +50,25 @@ public class ProjectBIMFileEndpointImpl implements ProjectBIMFileEndpoint {
 		}
 		return response;
 	}
+
+    @Override
+    @POST
+    @Path("/get")
+    public GetBimProjectResponse getBIMProject(GetBimProjectRequest request) {
+        logger.debug("Getting BIM project for bim file: " + request.getProjectBimFileId());
+        GetBimProjectResponse response = new GetBimProjectResponse();
+        try {
+            ProjectBimFileDTO projectBimFileDTO = projectBIMFileService.getBIMProject(request.getProjectBimFileId().intValue());
+            response.setProjectBimFileDTO(projectBimFileDTO);
+            response.setReturnVal(OnTargetConstant.SUCCESS);
+            response.setReturnMessage("Successfully retrieved BIM project");
+        } catch (Exception e) {
+            logger.error("Error while getting project bim: ", e);
+            response.setReturnVal("false");
+            response.setReturnMessage("Error while fetching BIM files.");
+        }
+        return response;
+    }
 
 	@Override
 	@POST
