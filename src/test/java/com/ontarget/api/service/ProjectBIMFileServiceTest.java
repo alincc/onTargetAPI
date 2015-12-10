@@ -53,7 +53,7 @@ public class ProjectBIMFileServiceTest extends BaseTest {
             request.setProjectBimFileIFCLocation("/project/bimfile.ifc");
             request.setProjectBimFileJSONLocation("/project/bimfile.json");
 
-            ProjectBimFile projectBimFile = projectBIMFileService.saveProjectBIMFile(request);
+            ProjectBimFileDTO projectBimFile = projectBIMFileService.saveProjectBIMFile(request);
             Assert.assertTrue(projectBimFile.getProjectBimFileId() > 0);
         } catch (Exception e) {
             logger.error("Error while saving bim poid",e);
@@ -78,7 +78,7 @@ public class ProjectBIMFileServiceTest extends BaseTest {
             request.setProjectBimFileIFCLocation("/project/bimfile.ifc");
             request.setProjectBimFileJSONLocation("/project/bimfile.json");
 
-            ProjectBimFile projectBimFile = projectBIMFileService.saveProjectBIMFile(request);
+            ProjectBimFileDTO projectBimFile = projectBIMFileService.saveProjectBIMFile(request);
             Assert.assertTrue(projectBimFile.getProjectBimFileId() > 0);
             //get
 
@@ -112,7 +112,7 @@ public class ProjectBIMFileServiceTest extends BaseTest {
             request.setProjectBimFileIFCLocation("/project/bimfile.ifc");
             request.setProjectBimFileJSONLocation("/project/bimfile.json");
 
-            ProjectBimFile projectBimFile = projectBIMFileService.saveProjectBIMFile(request);
+            ProjectBimFileDTO projectBimFile = projectBIMFileService.saveProjectBIMFile(request);
             Assert.assertTrue(projectBimFile.getProjectBimFileId() > 0);
             //get
 
