@@ -32,9 +32,15 @@ public class ProjectBIMFileJPADAOImpl implements ProjectBIMFileDAO {
 
 	@Override
 	public List<ProjectBimFile> getBIMProjects(Long projectId) throws Exception {
-		logger.debug("Getting bim poids for project: " + projectId);
+		logger.debug("Getting bim projectes for project: " + projectId);
 		return projectBIMFileRepository.findByProjectId(projectId.intValue());
 	}
+
+    @Override
+    public ProjectBimFile getBIMProject(int projectBimFileId) throws Exception {
+        logger.debug("Getting bim project: " + projectBimFileId);
+        return projectBIMFileRepository.findOne(projectBimFileId);
+    }
 
 	@Override
 	public ProjectBimFile saveBIMProject(ProjectBimFile projectBimFile) throws Exception {
