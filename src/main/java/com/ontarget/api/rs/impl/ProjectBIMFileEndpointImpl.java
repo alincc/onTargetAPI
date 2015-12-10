@@ -80,7 +80,7 @@ public class ProjectBIMFileEndpointImpl implements ProjectBIMFileEndpoint {
 			ProjectBimFile projectBimFile = projectBIMFileService.saveProjectBIMFile(request);
 			if (projectBimFile.getProjectBimFileId() > 0) {
 				response.setReturnVal("true");
-				response.setReturnMessage("Successfully saved bim poid.");
+				response.setReturnMessage("Successfully saved bim project.");
                 response.setProjectBimFile(projectBimFile);
 			}
 		} catch (Exception e) {
