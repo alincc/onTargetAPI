@@ -20,7 +20,7 @@ public interface ProjectBIMFileService {
 
     public ProjectBimFileDTO getBIMProject(int projectBimFileId) throws Exception;
 
-    public ProjectBimFile saveProjectBIMFile(SaveBIMRequest request) throws Exception;
+    public ProjectBimFileDTO saveProjectBIMFile(SaveBIMRequest request) throws Exception;
 
 	public boolean deleteProjectBIMFile(DeleteBIMRequest request) throws Exception;
 
