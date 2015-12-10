@@ -77,11 +77,11 @@ public class ProjectBIMFileEndpointImpl implements ProjectBIMFileEndpoint {
 		logger.debug("Saving BIM projects for project: " + request.getProjectid());
 		SaveBIMResponse response = new SaveBIMResponse();
 		try {
-			ProjectBimFile projectBimFile = projectBIMFileService.saveProjectBIMFile(request);
-			if (projectBimFile.getProjectBimFileId() > 0) {
-				response.setReturnVal("true");
+			ProjectBimFileDTO projectBimFileDTO = projectBIMFileService.saveProjectBIMFile(request);
+			if (projectBimFileDTO.getProjectBimFileId() > 0) {
+				response.setReturnVal(OnTargetConstant.SUCCESS);
 				response.setReturnMessage("Successfully saved bim project.");
-                response.setProjectBimFile(projectBimFile);
+                response.setProjectBimFileDTO(projectBimFileDTO);
 			}
 		} catch (Exception e) {
 			logger.error("Error while saving bim poid: ", e);
