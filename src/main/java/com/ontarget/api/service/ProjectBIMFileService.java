@@ -3,6 +3,7 @@ package com.ontarget.api.service;
 import java.util.List;
 
 import com.ontarget.bean.ProjectBIMFileCommentDTO;
+import com.ontarget.dto.ProjectBimFileDTO;
 import com.ontarget.entities.ProjectBimFile;
 import com.ontarget.request.bean.DeleteBIMRequest;
 import com.ontarget.request.bean.ProjectBIMFileCommentRequest;
@@ -17,7 +18,9 @@ public interface ProjectBIMFileService {
 
 	public GetBIMResponse getBIMProjects(Long projectId) throws Exception;
 
-	public ProjectBimFile saveProjectBIMFile(SaveBIMRequest request) throws Exception;
+    public ProjectBimFileDTO getBIMProject(int projectBimFileId) throws Exception;
+
+    public ProjectBimFile saveProjectBIMFile(SaveBIMRequest request) throws Exception;
 
 	public boolean deleteProjectBIMFile(DeleteBIMRequest request) throws Exception;
 
