@@ -82,6 +82,26 @@ public class ProjectBIMFileServiceImpl implements ProjectBIMFileService {
 		return response;
 	}
 
+    @Override
+    public ProjectBimFileDTO getBIMProject(int projectBimFileId) throws Exception {
+        logger.debug("Getting bim project: " + projectBimFileId);
+        ProjectBimFile projectBimFile = projectBIMFileDAO.getBIMProject(projectBimFileId);
+        ProjectBimFileDTO dto = new ProjectBimFileDTO();
+        dto.setProjectBimFileId(projectBimFile.getProjectBimFileId());
+        dto.setCreatedDate(projectBimFile.getCreatedDate());
+        if(projectBimFile.getBimPoid() == null) dto.setPoid(0L);
+        else dto.setPoid(projectBimFile.getBimPoid().longValue());
+        dto.setBimThumbnailPath(projectBimFile.getBimThumbnailFileLocation());
+        dto.setBimProjectIFCFilePath(projectBimFile.getBimIfcFilePath());
+        dto.setBimProjectJSONFilePath(projectBimFile.getBimIfcJsonFilePath());
+        dto.setIsBimIFCConversionComplete(projectBimFile.getIsBimIfcFileConverted());
+        dto.setName(projectBimFile.getName());
+        dto.setDescription(projectBimFile.getDescription());
+        Contact c = contactDAO.getContact(projectBimFile.getCreatedBy().getUserId());
+        dto.setCreatedByContact(c);
+        return dto;
+    }
+
 	@Override
 	@Transactional
 	public ProjectBimFile saveProjectBIMFile(SaveBIMRequest request) throws Exception {
