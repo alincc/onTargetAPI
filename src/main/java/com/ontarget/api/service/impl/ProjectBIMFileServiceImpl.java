@@ -104,9 +104,23 @@ public class ProjectBIMFileServiceImpl implements ProjectBIMFileService {
 
 	@Override
 	@Transactional
-	public ProjectBimFile saveProjectBIMFile(SaveBIMRequest request) throws Exception {
+	public ProjectBimFileDTO saveProjectBIMFile(SaveBIMRequest request) throws Exception {
 		logger.debug("Creating BIM project for project: " + request.getProjectid());
-		return projectBIMFileDAO.saveBIMProject(ProjectBimFileUtil.getProjectBimEnitityFromBIMRequest(request));
+		ProjectBimFile projectBimFile =  projectBIMFileDAO.saveBIMProject(ProjectBimFileUtil.getProjectBimEnitityFromBIMRequest(request));
+        ProjectBimFileDTO dto = new ProjectBimFileDTO();
+        dto.setProjectBimFileId(projectBimFile.getProjectBimFileId());
+        dto.setCreatedDate(projectBimFile.getCreatedDate());
+        if(projectBimFile.getBimPoid() == null) dto.setPoid(0L);
+        else dto.setPoid(projectBimFile.getBimPoid().longValue());
+        dto.setBimThumbnailPath(projectBimFile.getBimThumbnailFileLocation());
+        dto.setBimProjectIFCFilePath(projectBimFile.getBimIfcFilePath());
+        dto.setBimProjectJSONFilePath(projectBimFile.getBimIfcJsonFilePath());
+        dto.setIsBimIFCConversionComplete(projectBimFile.getIsBimIfcFileConverted());
+        dto.setName(projectBimFile.getName());
+        dto.setDescription(projectBimFile.getDescription());
+        Contact c = contactDAO.getContact(projectBimFile.getCreatedBy().getUserId());
+        dto.setCreatedByContact(c);
+        return dto;
 	}
 
 	@Override
