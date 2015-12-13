@@ -8,25 +8,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 
-import com.ontarget.api.dao.ProjectFileTaggingDAO;
+import com.ontarget.api.dao.DocumentFileTaggingDAO;
 import com.ontarget.api.repository.ProjectFileTagAttributeRepository;
 import com.ontarget.api.repository.ProjectFileTagCommentRepository;
 import com.ontarget.api.repository.ProjectFileTagRepository;
 import com.ontarget.api.repository.ProjectFileTagTaskLinkRepository;
 import com.ontarget.bean.CommentDTO;
-import com.ontarget.bean.ProjectFileTagAttributeBean;
-import com.ontarget.bean.ProjectFileTagBean;
+import com.ontarget.bean.DocumentFileTagAttributeBean;
+import com.ontarget.bean.DocumentFileTagBean;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.entities.ProjectFileTag;
 import com.ontarget.entities.ProjectFileTagAttribute;
 import com.ontarget.entities.ProjectFileTagComment;
-import com.ontarget.entities.ProjectFileTagTaskLink;
-import com.ontarget.entities.ProjectTask;
 import com.ontarget.entities.User;
 
 @Repository
-public class ProjectFileTaggingJpaDAOImpl implements ProjectFileTaggingDAO {
-	private Logger logger = Logger.getLogger(ProjectFileTaggingJpaDAOImpl.class);
+public class DocumentFileTaggingJpaDAOImpl implements DocumentFileTaggingDAO {
+	private Logger logger = Logger.getLogger(DocumentFileTaggingJpaDAOImpl.class);
 
 	@Autowired
 	private ProjectFileTagRepository projectFileTagRepository;
@@ -38,10 +36,10 @@ public class ProjectFileTaggingJpaDAOImpl implements ProjectFileTaggingDAO {
 	private ProjectFileTagTaskLinkRepository projectFileTagTaskLinkRepository;
 
 	@Override
-	public boolean save(List<ProjectFileTagBean> tags, int userId) throws Exception {
+	public boolean save(List<DocumentFileTagBean> tags, int userId) throws Exception {
 		logger.debug("Saving tag information: " + tags);
 
-		for (ProjectFileTagBean tagBean : tags) {
+		for (DocumentFileTagBean tagBean : tags) {
 			ProjectFileTag projectFileTag = new ProjectFileTag();
 			projectFileTag.setLongitude(tagBean.getLongitude());
 			projectFileTag.setLattitude(tagBean.getLattitude());
@@ -56,9 +54,9 @@ public class ProjectFileTaggingJpaDAOImpl implements ProjectFileTaggingDAO {
 			projectFileTag.setCreatedBy(new User(userId));
 			projectFileTag.setCreatedDate(new Date());
 			projectFileTag.setParentFileTagId(tagBean.getParentFileTagId());
-			projectFileTag.setFileId(tagBean.getProjectFileId());
-			List<ProjectFileTag> recentTag = projectFileTagRepository.findRecentByProjectFileId(tagBean.getProjectFileId(),
-					new PageRequest(0, 1));
+			projectFileTag.setFileId(tagBean.getDocumentId());
+			List<ProjectFileTag> recentTag = projectFileTagRepository.findRecentByProjectFileId(tagBean.getDocumentId(), new PageRequest(0,
+					1));
 			logger.debug("recent tag: " + recentTag);
 			if (recentTag != null && recentTag.size() > 0) {
 				projectFileTag.setVersionNo(recentTag.get(0).getVersionNo() + 1);
@@ -67,9 +65,9 @@ public class ProjectFileTaggingJpaDAOImpl implements ProjectFileTaggingDAO {
 			}
 			projectFileTagRepository.save(projectFileTag);
 
-			List<ProjectFileTagAttributeBean> attributes = tagBean.getAttributes();
+			List<DocumentFileTagAttributeBean> attributes = tagBean.getAttributes();
 			if (attributes != null && !attributes.isEmpty()) {
-				for (ProjectFileTagAttributeBean attributeBean : attributes) {
+				for (DocumentFileTagAttributeBean attributeBean : attributes) {
 					ProjectFileTagAttribute projectFileTagAttribute = new ProjectFileTagAttribute();
 					String key = attributeBean.getKey();
 					projectFileTagAttribute.setAttributeKey(key);
@@ -78,20 +76,6 @@ public class ProjectFileTaggingJpaDAOImpl implements ProjectFileTaggingDAO {
 					projectFileTagAttribute.setCreatedDate(new Date());
 					projectFileTagAttribute.setProjectFileTag(projectFileTag);
 					projectFileTagAttributeRepository.save(projectFileTagAttribute);
-
-					// link the linkTaskId to task in table. t his is for new
-					// versions
-					if (key.equals("linkTaskId")) {
-						String taskId = attributeBean.getValue();
-						if (Integer.parseInt(taskId) != 0) {
-							boolean created = this.saveTagToTaskLink(projectFileTag.getProjectFileTagId(), Integer.parseInt(taskId),
-									userId, "ACTIVE");
-							if (!created) {
-								logger.error("Error while saving task and link");
-							}
-						}
-					}
-
 				}
 			}
 
@@ -104,18 +88,10 @@ public class ProjectFileTaggingJpaDAOImpl implements ProjectFileTaggingDAO {
 				}
 			}
 			// end.
-
 		}
 		return true;
 	}
 
-	@Override
-	public List<ProjectFileTag> getProjectFileTags(int projectFileId) throws Exception {
-		logger.debug("Getting tags for project file id: " + projectFileId);
-		return projectFileTagRepository.findRecentByProjectFileId(projectFileId, new PageRequest(0, 100));
-	}
-
-	@Override
 	public ProjectFileTagComment saveComment(Long projectFileTagId, String comment, Long commentId, int userId) throws Exception {
 		ProjectFileTagComment projectFileTagComment;
 		if (commentId != null && commentId > 0) {
@@ -134,44 +110,9 @@ public class ProjectFileTaggingJpaDAOImpl implements ProjectFileTaggingDAO {
 	}
 
 	@Override
-	public boolean deleteComment(Long commentId, int userId) throws Exception {
-		ProjectFileTagComment projectFileTagComment = projectFileTagCommentRepository.findById(commentId);
-		projectFileTagComment.setModifiedBy(new User(userId));
-		projectFileTagComment.setModifiedDate(new Date());
-		projectFileTagComment.setStatus(OnTargetConstant.GenericStatus.DELETED);
-		projectFileTagCommentRepository.save(projectFileTagComment);
-		return true;
+	public List<ProjectFileTag> getProjectFileTags(int projectFileId) throws Exception {
+		logger.debug("Getting tags for project file id: " + projectFileId);
+		return projectFileTagRepository.findRecentByProjectFileId(projectFileId, new PageRequest(0, 100));
 	}
 
-	@Override
-	public List<ProjectFileTagComment> getComments(Long projectFileTagId) throws Exception {
-		return projectFileTagCommentRepository.findCommentsByFileTag(projectFileTagId);
-	}
-
-	@Override
-	public boolean saveTagToTaskLink(Long projectFileTagId, int taskId, int userId, String status) throws Exception {
-		ProjectFileTagTaskLink projectFileTagTaskLink = new ProjectFileTagTaskLink();
-		projectFileTagTaskLink.setProjectFileTag(new ProjectFileTag(projectFileTagId));
-		projectFileTagTaskLink.setProjectTask(new ProjectTask(taskId));
-		projectFileTagTaskLink.setCreatedBy(new User(userId));
-		projectFileTagTaskLink.setCreatedDate(new Date());
-		projectFileTagTaskLink.setStatus(status);
-		projectFileTagTaskLinkRepository.save(projectFileTagTaskLink);
-		return true;
-	}
-
-	@Override
-	public ProjectFileTagTaskLink getProjectFileTagTaskLink(Long projectFileTagId, int fileId) {
-		return projectFileTagTaskLinkRepository.findByTagIdAndFileId(projectFileTagId, fileId);
-	}
-
-	@Override
-	public boolean updateTagToTaskLink(Long projectFileTagTaskLinkId, int userId, String status) throws Exception {
-		ProjectFileTagTaskLink projectFileTagTaskLink = projectFileTagTaskLinkRepository.findOne(projectFileTagTaskLinkId);
-		projectFileTagTaskLink.setModifiedBy(new User(userId));
-		projectFileTagTaskLink.setModifiedDate(new Date());
-		projectFileTagTaskLink.setStatus(status);
-		projectFileTagTaskLinkRepository.save(projectFileTagTaskLink);
-		return true;
-	}
 }

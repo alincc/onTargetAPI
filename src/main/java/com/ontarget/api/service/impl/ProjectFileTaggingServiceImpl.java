@@ -114,7 +114,6 @@ public class ProjectFileTaggingServiceImpl implements ProjectFileTaggingService 
 						taskLinks.add(taskLink);
 					}
 				}
-
 				tagBean.setTaskLinks(taskLinks);
 
 				projectFileTagBeans.add(tagBean);

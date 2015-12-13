@@ -185,12 +185,12 @@ public class ProjectEndpointTest extends BaseTest {
 	public void getProjectDetail() {
 
 		BaseRequest baseRequest = new BaseRequest();
-		baseRequest.setLoggedInUserId(1);
-		baseRequest.setLoggedInUserProjectId(1);
+		baseRequest.setLoggedInUserId(11);
+		baseRequest.setLoggedInUserProjectId(45);
 
 		ProjectDetailRequest request = new ProjectDetailRequest();
 		request.setBaseRequest(baseRequest);
-		request.setProjectId(30);
+		request.setProjectId(45);
 
 		System.out.println("Client request ....getProjectDetail \n");
 		System.out.println(toJsonString(request, true));
@@ -318,7 +318,7 @@ public class ProjectEndpointTest extends BaseTest {
 
 		ProjectUserRequest request = new ProjectUserRequest();
 
-		request.setUserId(1);
+		request.setUserId(11);
 
 		System.out.println("Client request ....getUserProjectList \n");
 		System.out.println(toJsonString(request, true));
@@ -335,12 +335,12 @@ public class ProjectEndpointTest extends BaseTest {
 	public void getActivityOfProject() {
 
 		BaseRequest baseRequest = new BaseRequest();
-		baseRequest.setLoggedInUserId(1);
-		baseRequest.setLoggedInUserProjectId(2);
+		baseRequest.setLoggedInUserId(11);
+		baseRequest.setLoggedInUserProjectId(45);
 
 		ProjectDetailRequest request = new ProjectDetailRequest();
 		request.setBaseRequest(baseRequest);
-		request.setProjectId(2);
+		request.setProjectId(45);
 
 		System.out.println("Client request ....getActivityOfProject \n");
 		System.out.println(toJsonString(request, true));
