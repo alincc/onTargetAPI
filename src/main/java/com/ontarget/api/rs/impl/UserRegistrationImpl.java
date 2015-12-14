@@ -1,37 +1,30 @@
 package com.ontarget.api.rs.impl;
 
-import javax.validation.constraints.NotNull;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.MediaType;
-
-import com.ontarget.api.dao.UserProjectProfileDAO;
-import com.ontarget.api.jpa.dao.impl.UserProjectProfileJpaDAOImpl;
 import com.ontarget.api.service.*;
-import com.ontarget.entities.*;
-import com.ontarget.enums.*;
-import com.ontarget.enums.UserType;
-import org.apache.log4j.Logger;
-import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
+import com.ontarget.bean.*;
 import com.ontarget.bean.Contact;
-import com.ontarget.bean.UserRegistration;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.OnTargetResponse;
+import com.ontarget.dto.ProjectMemberListResponse;
 import com.ontarget.dto.UserInvitationRequestDTO;
 import com.ontarget.dto.UserInviteResponse;
+import com.ontarget.entities.*;
+import com.ontarget.entities.Email;
+import com.ontarget.enums.UserType;
 import com.ontarget.request.bean.AssignUserToProjectRequest;
 import com.ontarget.request.bean.InviteUserIntoProjectRequest;
 import com.ontarget.request.bean.UserSignupRequest;
 import com.ontarget.util.ConvertPOJOUtils;
 import com.ontarget.util.Security;
+import org.apache.log4j.Logger;
+import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import javax.validation.constraints.NotNull;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import java.util.List;
 
 /**
  * Created by sumit on 12/1/14.
@@ -100,6 +93,8 @@ public class UserRegistrationImpl implements com.ontarget.api.rs.UserRegistratio
 					 */
 					RegistrationRequest registrationRequestWithProjectId = userInvitationService.findRecentRegRequestByEmailAndProjectId(
 							email, projectId);
+
+
 					logger.info("registration request with project id: " + registrationRequestWithProjectId);
 
 					if (registrationRequestWithProjectId != null) {
@@ -116,13 +111,21 @@ public class UserRegistrationImpl implements com.ontarget.api.rs.UserRegistratio
 								return response;
 							}
 
-						} else {
-							response.setReturnVal(OnTargetConstant.ERROR);
-							response.setReturnMessage("User is already a member of invited project");
-							return response;
 						}
 					}
-				}
+
+                    //check if the user is already a member
+                    ProjectMemberListResponse projectMemberList = projectService.getProjectMembers(projectId);
+                    //get userid associate with email. there must be only one.
+                    int userId  = emailEntity.getUser().getUserId();
+                    for(com.ontarget.bean.ProjectMember projectMember : projectMemberList.getProjectMemberList()){
+                        if(userId == projectMember.getUserId()){
+                            response.setReturnVal(OnTargetConstant.ERROR);
+                            response.setReturnMessage("User is already part of this project");
+                            return response;
+                        }
+                    }
+                }
 
 				final String tokenId = Security.generateRandomValue(OnTargetConstant.TOKEN_LENGTH);
 
