@@ -43,6 +43,7 @@ public class ProjectBimFileUtil {
         file.setIsBimIfcFileConverted(request.getIsIfcFileConversionComplete());
         file.setName(request.getName());
         file.setDescription(request.getDescription());
+        file.setBimPoid(new BigInteger(request.getPoid().toString()));
 
         if(request.getProjectBimFileId() > 0){
             file.setProjectBimFileId(request.getProjectBimFileId());
