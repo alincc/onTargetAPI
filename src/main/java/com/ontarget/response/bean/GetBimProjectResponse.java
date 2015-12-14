@@ -2,15 +2,13 @@ package com.ontarget.response.bean;
 
 import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.ProjectBimFileDTO;
-import com.ontarget.entities.ProjectBimFile;
 import lombok.Data;
 
 /**
- * Created by sanjeevghimire on 10/2/15.
+ * Created by sanjeevghimire on 12/9/15.
  */
 @Data
-public class SaveBIMResponse extends OnTargetResponse {
+public class GetBimProjectResponse extends OnTargetResponse{
 
     private ProjectBimFileDTO projectBimFileDTO;
-
 }

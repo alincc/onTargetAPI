@@ -21,7 +21,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	@Query("select u from User u where u.userName = ?1")
 	List<User> findUserByUsername(String username);
 
-	@Query("select u from User u join u.emailList e where e.emailAddress = ?1")
+	@Query("select u from User u join u.email e where e.emailAddress = ?1")
 	User findUserByEmail(String email);
 
 	@Modifying

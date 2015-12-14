@@ -3,10 +3,12 @@ package com.ontarget.api.rs.impl;
 import com.ontarget.api.rs.UserInvitation;
 import com.ontarget.api.service.EmailService;
 import com.ontarget.api.service.UserInvitationService;
+import com.ontarget.api.service.UserProfileService;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.UserInvitationApprovalResponse;
 import com.ontarget.dto.UserInvitationRequestDTO;
+import com.ontarget.entities.Email;
 import com.ontarget.entity.pojo.RegistrationRequestResponseDTO;
 import com.ontarget.request.bean.UserInvitationRequest;
 import com.ontarget.util.ConvertPOJOUtils;
@@ -33,12 +35,32 @@ public class UserInvitationImpl implements UserInvitation {
 	@Autowired
 	private EmailService emailService;
 
+    @Autowired
+    private UserProfileService userProfileService;
+
 	@Override
 	@POST
 	@Path("/inviteToNewAccount")
-	public OnTargetResponse inviteUserIntoNewAccount(UserInvitationRequest request) {
+	public OnTargetResponse inviteUserIntoNewAccount(UserInvitationRequest request) throws Exception{
 
-		OnTargetResponse response = new OnTargetResponse();
+        OnTargetResponse response = new OnTargetResponse();
+        /**
+         * check to see if email is already registered.
+         */
+
+        String email = request.getEmail();
+        Email emailEntity = userProfileService.findEmailByEmailAddres(email);
+        logger.debug("email entity for email address: " + email);
+        if(emailEntity!=null && emailEntity.getEmailId() > 0){
+            logger.debug("Email Exists already"+ email);
+            response.setReturnVal(OnTargetConstant.ERROR);
+            response.setReturnMessage("You are already registered with this email. Please try login.");
+            return response;
+        }
+
+        /**
+         * check to see if invitation is not 24 hours old.
+         */
 		try {
 			RegistrationRequestResponseDTO registrationRequest = userInvitationService.getRegistrationRequest(request.getEmail());
 

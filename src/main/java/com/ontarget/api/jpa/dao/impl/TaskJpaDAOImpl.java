@@ -339,11 +339,10 @@ public class TaskJpaDAOImpl implements TaskDAO {
 			contact.setPhoneNumber(phone.getPhoneNumber());
 		}
 
-		List<Email> emailList = userObj.getEmailList();
-		if (emailList != null && !emailList.isEmpty()) {
-			Email email = emailList.get(0);
-			contact.setEmail(email.getEmailAddress());
-		}
+        Email email = userObj.getEmail();
+        if (email != null) {
+            contact.setEmail(email.getEmailAddress());
+        }
 		return contact;
 	}
 

@@ -10,17 +10,19 @@ import com.ontarget.entities.ProjectBimFileComment;
  */
 public interface ProjectBIMFileDAO {
 
-	List<ProjectBimFile> getBIMPoids(Long projectId) throws Exception;
+	public List<ProjectBimFile> getBIMProjects(Long projectId) throws Exception;
 
-	boolean saveBIMPoid(ProjectBimFile projectBimFile) throws Exception;
+    ProjectBimFile getBIMProject(int projectBimFileId) throws Exception;
 
-	boolean deleteBIMPoid(Integer projectBimFileId, Integer userId) throws Exception;
+    public ProjectBimFile saveBIMProject(ProjectBimFile projectBimFile) throws Exception;
 
-	boolean updateThumbnailPath(Integer projectBimFileId, String thumbnailPath, Integer userId) throws Exception;
+    public boolean deleteBIMProject(Integer projectBimFileId, Integer userId) throws Exception;
 
-    ProjectBimFileComment saveComment(ProjectBimFileComment comment) throws Exception;
+	public boolean updateThumbnailPath(Integer projectBimFileId, String thumbnailPath, Integer userId) throws Exception;
 
-	boolean deleteComment(Integer commentId) throws Exception;
+    public ProjectBimFileComment saveComment(ProjectBimFileComment comment) throws Exception;
 
-	List<ProjectBimFileComment> getCommentsByFileId(int projectBimFileId);
+	public boolean deleteComment(Integer commentId) throws Exception;
+
+	public List<ProjectBimFileComment> getCommentsByFileId(int projectBimFileId);
 }

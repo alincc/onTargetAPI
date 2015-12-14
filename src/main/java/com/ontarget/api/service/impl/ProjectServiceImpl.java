@@ -9,6 +9,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.ontarget.api.service.UserProjectProfileService;
+import com.ontarget.entities.*;
+import com.ontarget.enums.*;
+import com.ontarget.enums.UserType;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -40,8 +44,6 @@ import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.ProjectListResponse;
 import com.ontarget.dto.ProjectMemberListResponse;
 import com.ontarget.dto.UserProjectListResponse;
-import com.ontarget.entities.Project;
-import com.ontarget.entities.ProjectConfiguration;
 import com.ontarget.request.bean.ActivityDetailInfo;
 import com.ontarget.request.bean.ActivityRequest;
 import com.ontarget.request.bean.ProjectAddressInfo;
@@ -92,8 +94,10 @@ public class ProjectServiceImpl implements ProjectService {
 	@Autowired
 	private ProjectTaskRepository projectTaskRepository;
 
-	@Autowired
-	BashScriptService bashScriptService;
+    @Autowired
+    UserProjectProfileService userProjectProfileService;
+
+
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
@@ -124,6 +128,21 @@ public class ProjectServiceImpl implements ProjectService {
 
 		int projectId = projectDAO.addProject(projectDTO, userId);
 
+        // add the user as super user to this project id.
+        // give this user RU profile.
+        UserProjectProfile projectProfile = new UserProjectProfile();
+        projectProfile.setStatus(OnTargetConstant.UserProjectProfileStatus.ACTIVE);
+        projectProfile.setProject(new Project(projectId));
+
+        projectProfile.setUser(new User(userId));
+        projectProfile.setProfile(new Profile(UserType.SUPERUSER.getProfileId())); //TODO: create service layer to get profile id by code
+        try {
+            userProjectProfileService.saveOrUpdate(projectProfile);
+        }catch(Exception e){
+            logger.error("Error while assigning user:"+userId +" and project id:"+projectId,e);
+            throw new Exception("Error while assigning user:"+userId +" and project id:"+projectId,e);
+        }
+
 		OnTargetResponse response = new OnTargetResponse();
 		if (projectId > 0) {
 			response.setReturnMessage("Successfully created project.");
@@ -131,45 +150,6 @@ public class ProjectServiceImpl implements ProjectService {
 		} else {
 			throw new Exception("Error while creating project: projectId: " + projectId);
 		}
-
-		/**
-		 * turning this off as UI is doing this
-		 *
-		 * try { logger.debug(
-		 * "Executing bash script to create folder structure for this projectId: "
-		 * + projectId); // Execute bash script asynchronously to create folder
-		 * structure
-		 * 
-		 * String projectFolderName = RandomStringUtils.randomAlphanumeric(16) +
-		 * new Date().getTime();
-		 * 
-		 * 
-		 * //do { // projectFolderName =
-		 * RandomStringUtils.randomAlphanumeric(16); // exist =
-		 * projectDAO.isExistsProjectFolderName(projectFolderName); //} while
-		 * (exist);
-		 * 
-		 * logger.debug("Creating asset folder with name: "+ projectFolderName
-		 * +" for project id: "+ projectId); boolean created=false;
-		 * if(projectFolderName!=null) { created =
-		 * bashScriptService.runBashScriptInRemoteServer(projectFolderName); }
-		 * logger.debug("Folder creation successful: "+created);
-		 * 
-		 * //updating project with the project folder name:
-		 * logger.debug("updating project "
-		 * +projectId+" with the  project folder name:"+projectFolderName);
-		 * 
-		 * boolean updated =
-		 * projectDAO.updateProjectAssetFolderName(projectId,userId
-		 * ,projectFolderName);
-		 * 
-		 * if(updated){
-		 * logger.debug("Asset folder successfully created and updated."); }
-		 * 
-		 * }catch(Exception e){ logger.error(
-		 * "Error while running bash script to create folder for project id: "+
-		 * projectId,e); }
-		 */
 
 		return response;
 	}

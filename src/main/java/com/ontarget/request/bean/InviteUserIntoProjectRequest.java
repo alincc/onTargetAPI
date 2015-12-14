@@ -19,10 +19,8 @@ public class InviteUserIntoProjectRequest {
 	@NotNull
 	@JsonProperty("projectId")
 	private Integer projectId;
-	@NotEmpty
 	@JsonProperty("firstName")
 	private String firstName;
-	@NotEmpty
 	@JsonProperty("lastName")
 	private String lastName;
 	@NotEmpty

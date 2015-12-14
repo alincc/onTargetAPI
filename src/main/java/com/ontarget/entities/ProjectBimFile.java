@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 
+import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.Date;
 
@@ -13,7 +14,7 @@ import java.util.Date;
 @Data
 @Entity
 @Table(name = "project_bim_file")
-public class ProjectBimFile {
+public class ProjectBimFile implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Basic(optional = false)
@@ -29,6 +30,12 @@ public class ProjectBimFile {
 
 	@Column(name = "bim_thumb_file_loc")
 	private String bimThumbnailFileLocation;
+
+    @Column(name = "bim_ifc_file_path")
+    private String bimIfcFilePath;
+
+    @Column(name = "bim_ifc_json_file_path")
+    private String bimIfcJsonFilePath;
 
 	@Column(name = "created_date")
 	@Temporal(TemporalType.TIMESTAMP)
@@ -49,6 +56,18 @@ public class ProjectBimFile {
 	@Basic(optional = false)
 	@Column(name = "status", nullable = false, length = 10)
 	private String status;
+
+    @Basic(optional = true)
+    @Column(name = "is_bim_ifc_file_converted",length = 1)
+    private String isBimIfcFileConverted;
+
+    @Basic(optional = true)
+    @Column(name = "name",length = 40)
+    private String name;
+
+    @Basic(optional = false)
+    @Column(name = "description",length = 100)
+    private String description;
 
 	public ProjectBimFile() {
 		super();

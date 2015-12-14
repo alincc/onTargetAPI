@@ -2,7 +2,10 @@ package com.ontarget.api.rs;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
 
+import com.ontarget.request.bean.UserProjectProfileRequest;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import com.ontarget.dto.ChangeUserPasswordRequest;
@@ -44,4 +47,8 @@ public interface UserProfile {
 	public UserResponse getUserDetails(@Valid UserInfo request);
 	
 	public com.ontarget.response.bean.UserProfileResponse userProfileInfo(@Valid com.ontarget.request.bean.UserProfileRequest request);
+
+    @POST
+    @Path("/userProfileInfo")
+    com.ontarget.response.bean.UserProjectProfileResponse userProfileInfo(UserProjectProfileRequest request);
 }

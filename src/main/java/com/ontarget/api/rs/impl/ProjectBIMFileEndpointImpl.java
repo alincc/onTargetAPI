@@ -5,11 +5,10 @@ import com.ontarget.api.service.ProjectBIMFileService;
 import com.ontarget.bean.ProjectBIMFileCommentDTO;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.OnTargetResponse;
+import com.ontarget.dto.ProjectBimFileDTO;
+import com.ontarget.entities.ProjectBimFile;
 import com.ontarget.request.bean.*;
-import com.ontarget.response.bean.GetBIMResponse;
-import com.ontarget.response.bean.ProjectBIMFileCommentListResponse;
-import com.ontarget.response.bean.ProjectBimFileCommentResponse;
-import com.ontarget.response.bean.SaveBIMResponse;
+import com.ontarget.response.bean.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -38,11 +37,11 @@ public class ProjectBIMFileEndpointImpl implements ProjectBIMFileEndpoint {
 	@Override
 	@POST
 	@Path("/getAll")
-	public GetBIMResponse getBIMPoids(GetBIMRequest request) {
+	public GetBIMResponse getBIMProject(GetBIMRequest request) {
 		logger.debug("Getting BIM projects for project: " + request.getProjectId());
 		GetBIMResponse response = null;
 		try {
-			response = projectBIMFileService.getBIMPoids(request.getProjectId());
+			response = projectBIMFileService.getBIMProjects(request.getProjectId());
 		} catch (Exception e) {
 			logger.error("Error while getting poids: ", e);
 			response = new GetBIMResponse();
@@ -52,17 +51,37 @@ public class ProjectBIMFileEndpointImpl implements ProjectBIMFileEndpoint {
 		return response;
 	}
 
+    @Override
+    @POST
+    @Path("/get")
+    public GetBimProjectResponse getBIMProject(GetBimProjectRequest request) {
+        logger.debug("Getting BIM project for bim file: " + request.getProjectBimFileId());
+        GetBimProjectResponse response = new GetBimProjectResponse();
+        try {
+            ProjectBimFileDTO projectBimFileDTO = projectBIMFileService.getBIMProject(request.getProjectBimFileId().intValue());
+            response.setProjectBimFileDTO(projectBimFileDTO);
+            response.setReturnVal(OnTargetConstant.SUCCESS);
+            response.setReturnMessage("Successfully retrieved BIM project");
+        } catch (Exception e) {
+            logger.error("Error while getting project bim: ", e);
+            response.setReturnVal("false");
+            response.setReturnMessage("Error while fetching BIM files.");
+        }
+        return response;
+    }
+
 	@Override
 	@POST
 	@Path("/save")
-	public SaveBIMResponse saveProjectBIMPoids(SaveBIMRequest request) {
+	public SaveBIMResponse saveBIMProject(SaveBIMRequest request) {
 		logger.debug("Saving BIM projects for project: " + request.getProjectid());
 		SaveBIMResponse response = new SaveBIMResponse();
 		try {
-			Boolean saved = projectBIMFileService.saveProjectBIMFile(request);
-			if (saved) {
-				response.setReturnVal("true");
-				response.setReturnMessage("Successfully saved bim poid.");
+			ProjectBimFileDTO projectBimFileDTO = projectBIMFileService.saveProjectBIMFile(request);
+			if (projectBimFileDTO.getProjectBimFileId() > 0) {
+				response.setReturnVal(OnTargetConstant.SUCCESS);
+				response.setReturnMessage("Successfully saved bim project.");
+                response.setProjectBimFileDTO(projectBimFileDTO);
 			}
 		} catch (Exception e) {
 			logger.error("Error while saving bim poid: ", e);
@@ -76,7 +95,7 @@ public class ProjectBIMFileEndpointImpl implements ProjectBIMFileEndpoint {
 	@Override
 	@POST
 	@Path("/delete")
-	public SaveBIMResponse deleteProjectBIMPoids(DeleteBIMRequest request) {
+	public SaveBIMResponse deleteBIMProject(DeleteBIMRequest request) {
 		logger.debug("Saving BIM projects for project bim file id: " + request.getProjectBimFileId());
 		SaveBIMResponse response = new SaveBIMResponse();
 		try {

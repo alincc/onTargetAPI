@@ -17,5 +17,10 @@ public class ProjectBimFileDTO implements Serializable{
     private Date createdDate;
     private Contact createdByContact;
     private String bimThumbnailPath;
+    private String bimProjectIFCFilePath;
+    private String bimProjectJSONFilePath;
+    private String isBimIFCConversionComplete;
+    private String name;
+    private String description;
 
 }
