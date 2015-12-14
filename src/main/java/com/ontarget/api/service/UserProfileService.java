@@ -16,6 +16,7 @@ import com.ontarget.request.bean.CompanyInfoEditRequest;
 import com.ontarget.request.bean.UpdateUserProfileRequest;
 import com.ontarget.request.bean.UserInfo;
 import com.ontarget.request.bean.UserSignupRequest;
+import com.ontarget.response.bean.UserProjectProfileResponse;
 
 /**
  * Created by Owner on 11/4/14.
@@ -58,9 +59,13 @@ public interface UserProfileService {
 
 	public com.ontarget.response.bean.UserProfileResponse getUserProfileInfo(int userId) throws Exception;
 
-	public Email findEmailByEmailAddres(String emailAddress) throws Exception;
+    UserProjectProfileResponse getUserProfileInfoByProject(int userId, int projectId) throws Exception;
+
+    public Email findEmailByEmailAddres(String emailAddress) throws Exception;
 
 	public boolean assignProjectToMember(RegistrationRequest registrationRequest) throws Exception;
 	
 	public RegistrationRequest findRegistrationRequestByToken(String token) throws Exception;
+
+    public boolean isAllowedToCreateProject(Integer userId) throws Exception;
 }

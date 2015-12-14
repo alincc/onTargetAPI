@@ -4,20 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.UniqueConstraint;
+import javax.persistence.*;
 
 /**
  *
@@ -61,8 +48,8 @@ public class User implements Serializable {
 	@JoinColumn(name = "user_type_id", referencedColumnName = "user_type_id")
 	@ManyToOne
 	private UserType userType;
-	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
-	private List<Email> emailList;
+	@OneToOne(mappedBy = "user", fetch = FetchType.EAGER)
+	private Email email;
 
 	public User() {
 	}
@@ -183,14 +170,6 @@ public class User implements Serializable {
 		this.userType = userType;
 	}
 
-	public List<Email> getEmailList() {
-		return emailList;
-	}
-
-	public void setEmailList(List<Email> emailList) {
-		this.emailList = emailList;
-	}
-
 	@Override
 	public int hashCode() {
 		int hash = 0;
@@ -217,4 +196,11 @@ public class User implements Serializable {
 		return "com.ontarget.entities.User[userId=" + userId + "]";
 	}
 
+    public Email getEmail() {
+        return email;
+    }
+
+    public void setEmail(Email email) {
+        this.email = email;
+    }
 }

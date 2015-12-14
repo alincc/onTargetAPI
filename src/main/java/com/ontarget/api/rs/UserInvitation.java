@@ -15,7 +15,7 @@ import com.ontarget.request.bean.UserInvitationRequest;
 public interface UserInvitation {
 
 	public OnTargetResponse inviteUserIntoNewAccount(
-			@Valid UserInvitationRequest request);
+			@Valid UserInvitationRequest request) throws  Exception;
 
 	public UserInvitationApprovalResponse getPendingRequestList();
 

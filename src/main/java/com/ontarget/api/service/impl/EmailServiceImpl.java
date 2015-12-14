@@ -14,7 +14,7 @@ import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.entity.pojo.RegistrationRequestResponseDTO;
 import com.ontarget.request.bean.Assignee;
 import com.ontarget.util.EmailConstant;
-import com.ontarget.util.TaskStatusEnum;
+import com.ontarget.enums.TaskStatusEnum;
 import org.apache.log4j.Logger;
 import org.apache.velocity.app.VelocityEngine;
 import org.springframework.beans.factory.annotation.Autowired;

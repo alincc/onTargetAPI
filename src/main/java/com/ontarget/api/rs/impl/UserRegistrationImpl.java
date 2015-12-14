@@ -10,24 +10,23 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
+import com.ontarget.api.dao.UserProjectProfileDAO;
+import com.ontarget.api.jpa.dao.impl.UserProjectProfileJpaDAOImpl;
+import com.ontarget.api.service.*;
+import com.ontarget.entities.*;
+import com.ontarget.enums.*;
+import com.ontarget.enums.UserType;
 import org.apache.log4j.Logger;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.ontarget.api.service.EmailService;
-import com.ontarget.api.service.ProjectService;
-import com.ontarget.api.service.UserInvitationService;
-import com.ontarget.api.service.UserProfileService;
 import com.ontarget.bean.Contact;
 import com.ontarget.bean.UserRegistration;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.UserInvitationRequestDTO;
 import com.ontarget.dto.UserInviteResponse;
-import com.ontarget.entities.Email;
-import com.ontarget.entities.Project;
-import com.ontarget.entities.RegistrationRequest;
 import com.ontarget.request.bean.AssignUserToProjectRequest;
 import com.ontarget.request.bean.InviteUserIntoProjectRequest;
 import com.ontarget.request.bean.UserSignupRequest;
@@ -57,18 +56,19 @@ public class UserRegistrationImpl implements com.ontarget.api.rs.UserRegistratio
 	@Autowired
 	private UserInvitationService userInvitationService;
 
+    @Autowired
+    private UserProjectProfileService userProjectProfileService;
+
 	@Override
 	@POST
 	@Path("/inviteUserIntoProject")
 	public OnTargetResponse inviteUserIntoProject(InviteUserIntoProjectRequest request) {
 		logger.info("Inviting user into project id: " + request.getProjectId() + ", invited email: " + request.getEmail());
 		Integer projectId = request.getProjectId();
-		String firstName = request.getFirstName();
-		String lastName = request.getLastName();
 		String email = request.getEmail();
 		OnTargetResponse response = new OnTargetResponse();
 		if (projectId > 0) {
-			logger.info("first name " + firstName + " last name " + lastName + " and email" + email + ", project id " + projectId);
+			logger.info("email" + email + ", project id " + projectId);
 
 			try {
 				Email emailEntity = userProfileService.findEmailByEmailAddres(email);
@@ -143,10 +143,14 @@ public class UserRegistrationImpl implements com.ontarget.api.rs.UserRegistratio
 					String senderFirstName = contact.getFirstName();
 					String senderLastName = contact.getLastName();
 
+
+                    String firstName=request.getFirstName();
 					if (signup) {
 						emailService.sendUserRegistrationEmail(email, tokenId, firstName, senderFirstName, senderLastName,
 								project.getProjectName());
 					} else {
+                        Contact receiverContact = userProfileService.getContact(emailEntity.getUser().getUserId());
+                        firstName=receiverContact.getFirstName();
 						emailService.sendInviteUserToProjectEmail(email, tokenId, firstName, senderFirstName, senderLastName,
 								project.getProjectName());
 					}
@@ -156,6 +160,7 @@ public class UserRegistrationImpl implements com.ontarget.api.rs.UserRegistratio
 					response.setReturnMessage("Registration save failed");
 					response.setReturnVal(OnTargetConstant.ERROR);
 				}
+
 			} catch (Exception e) {
 				logger.error("Error while inviting user to project.", e);
 				response.setReturnMessage("Error while saving registration request and sending email.");
@@ -263,13 +268,27 @@ public class UserRegistrationImpl implements com.ontarget.api.rs.UserRegistratio
 
 			if (System.currentTimeMillis() - registrationRequest.getTsCreate().getTime() > OnTargetConstant.TOKEN_MAX_LIFE) {
 				response.setReturnVal(OnTargetConstant.ERROR);
-				response.setReturnMessage("expired link. Please try with new link");
+				response.setReturnMessage("Your request has already expired. Please contact your manager to send another request.");
 				return response;
 			}
 
 			boolean success = userProfileService.assignProjectToMember(registrationRequest);
-
 			logger.debug("success: " + success);
+
+            // give this user RU profile.
+            UserProjectProfile projectProfile = new UserProjectProfile();
+            projectProfile.setStatus(OnTargetConstant.UserProjectProfileStatus.ACTIVE);
+            projectProfile.setProject(new Project(registrationRequest.getProjectId()));
+
+            //find user by email address
+            Email email = userProfileService.findEmailByEmailAddres(registrationRequest.getEmail());
+            if(email == null){
+                throw new Exception("Email cannot be null");
+            }
+            projectProfile.setUser(email.getUser());
+            projectProfile.setProfile(new Profile(UserType.REGULARUSER.getProfileId())); //TODO: create service layer to get profile id
+            userProjectProfileService.saveOrUpdate(projectProfile);
+
 
 			if (success) {
 				response.setReturnVal(OnTargetConstant.SUCCESS);

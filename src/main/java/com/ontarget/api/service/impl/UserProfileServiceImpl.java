@@ -5,6 +5,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import com.ontarget.api.service.UserProjectProfileService;
+import com.ontarget.entities.*;
+import com.ontarget.enums.MemberShipType;
+import com.ontarget.response.bean.UserProjectProfileResponse;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -45,14 +49,6 @@ import com.ontarget.dto.UserInvitationRequestDTO;
 import com.ontarget.dto.UserProfileRequest;
 import com.ontarget.dto.UserProfileResponse;
 import com.ontarget.dto.UserResponse;
-import com.ontarget.entities.CompanyInfo;
-import com.ontarget.entities.Email;
-import com.ontarget.entities.Profile;
-import com.ontarget.entities.ProfileFeature;
-import com.ontarget.entities.ProfileMenu;
-import com.ontarget.entities.RegistrationRequest;
-import com.ontarget.entities.User;
-import com.ontarget.entities.UserProfile;
 import com.ontarget.request.bean.CompanyEditInfo;
 import com.ontarget.request.bean.CompanyInfoEditRequest;
 import com.ontarget.request.bean.UpdateUserProfileRequest;
@@ -62,7 +58,7 @@ import com.ontarget.request.bean.UserSignupRequest;
 import com.ontarget.util.CompanyUtil;
 import com.ontarget.util.ConvertPOJOUtils;
 import com.ontarget.util.Security;
-import com.ontarget.util.UserType;
+import com.ontarget.enums.UserType;
 
 /**
  * Created by Owner on 11/4/14.
@@ -114,6 +110,10 @@ public class UserProfileServiceImpl implements UserProfileService {
 	@Autowired
 	@Qualifier("emailJpaDAOImpl")
 	private EmailDAO emailDao;
+
+    @Autowired
+    private UserProjectProfileService userProjectProfileService;
+
 
 	@Autowired
 	private UserProfileRepository userProfileRepository;
@@ -435,7 +435,21 @@ public class UserProfileServiceImpl implements UserProfileService {
 						throw new Exception("Error while adding main project");
 					}
 					userInvitationDAO.updateRegistrationRequestProjectIdByUser(addedProjectId, userId);
-				}
+				}else{
+                    /**
+                     * give this user RU profile for this project
+                     */
+                    // give this user RU profile.
+                    UserProjectProfile projectProfile = new UserProjectProfile();
+                    projectProfile.setStatus(OnTargetConstant.UserProjectProfileStatus.ACTIVE);
+                    projectProfile.setProject(new Project((int)registrationRequest.getProjectId()));
+
+                    projectProfile.setUser(new User(userId));
+                    projectProfile.setProfile(new Profile(UserType.REGULARUSER.getProfileId())); //TODO: create service layer to get profile id
+                    userProjectProfileService.saveOrUpdate(projectProfile);
+
+
+                }
 
 				boolean activated = this.activateAccount(user.getUserId());
 				if (!activated) {
@@ -489,7 +503,7 @@ public class UserProfileServiceImpl implements UserProfileService {
 			return response;
 		}
 
-		Email email = user.getEmailList().get(0);
+		Email email = user.getEmail();
 
 		final String forgotPasswordToken = Security.generateRandomValue(OnTargetConstant.TOKEN_LENGTH);
 		int id = userDAO.saveForgotPasswordRequest(user.getUserId(), forgotPasswordToken);
@@ -532,39 +546,59 @@ public class UserProfileServiceImpl implements UserProfileService {
 		Profile profile = userProfile.getProfile();
 		logger.debug("profile id: " + profile.getProfileId());
 
-		List<ProfileMenu> profileMenuList = profileMenuRepository.findByProfileId(profile.getProfileId());
-		List<ProfileFeature> profileFeatureList = profileFeatureRepository.findByProfileId(profile.getProfileId());
-
-		List<ProfileMenuInfo> menuList = new ArrayList<ProfileMenuInfo>();
-		List<ProfileFeatureInfo> featureList = new ArrayList<ProfileFeatureInfo>();
-
-		if (profileMenuList != null && !profileMenuList.isEmpty()) {
-			for (ProfileMenu profileMenu : profileMenuList) {
-				if (profileMenu.getActive().equals(new Character('Y'))) {
-					ProfileMenuInfo profileMenuInfo = new ProfileMenuInfo();
-					profileMenuInfo.setMenuKey(profileMenu.getApplicationMenu().getMenuKey());
-					profileMenuInfo.setMenuName(profileMenu.getApplicationMenu().getMenuName());
-					menuList.add(profileMenuInfo);
-				}
-			}
-		}
-
-		if (profileFeatureList != null && !profileFeatureList.isEmpty()) {
-			for (ProfileFeature profileFeature : profileFeatureList) {
-				if (profileFeature.getActive().equals(new Character('Y'))) {
-					ProfileFeatureInfo profileFeatureInfo = new ProfileFeatureInfo();
-					profileFeatureInfo.setFeatureKey(profileFeature.getApplicationFeature().getFeatureKey());
-					profileFeatureInfo.setFeatureName(profileFeature.getApplicationFeature().getFeatureName());
-					featureList.add(profileFeatureInfo);
-				}
-			}
-		}
-		response.setMenuList(menuList);
-		response.setFeatureList(featureList);
+        response.setMembershipType(MemberShipType.getMemberShipCodeByProfileCode(profile.getProfileCode()));
 		response.setReturnMessage("Successfully retrieved user profile details");
 		response.setReturnVal(OnTargetConstant.SUCCESS);
 		return response;
 	}
+
+
+    @Override
+    public UserProjectProfileResponse getUserProfileInfoByProject(int userId, int projectId) throws Exception {
+        com.ontarget.response.bean.UserProjectProfileResponse response = new com.ontarget.response.bean.UserProjectProfileResponse();
+
+        logger.debug("Getting user profile info for user: " + userId + " and project: "+ projectId);
+        UserProjectProfile userProjectProfile = userProjectProfileService.findProfileByUserAndProject(userId,projectId);
+        Profile profile = userProjectProfile.getProfile();
+        logger.debug("profile id: " + profile.getProfileId());
+
+        List<ProfileMenu> profileMenuList = profileMenuRepository.findByProfileId(profile.getProfileId());
+        List<ProfileFeature> profileFeatureList = profileFeatureRepository.findByProfileId(profile.getProfileId());
+
+        List<ProfileMenuInfo> menuList = new ArrayList<>();
+        List<ProfileFeatureInfo> featureList = new ArrayList<>();
+
+        if (profileMenuList != null && !profileMenuList.isEmpty()) {
+            for (ProfileMenu profileMenu : profileMenuList) {
+                if (profileMenu.getActive().equals(new Character('Y'))) {
+                    ProfileMenuInfo profileMenuInfo = new ProfileMenuInfo();
+                    profileMenuInfo.setMenuKey(profileMenu.getApplicationMenu().getMenuKey());
+                    profileMenuInfo.setMenuName(profileMenu.getApplicationMenu().getMenuName());
+                    menuList.add(profileMenuInfo);
+                }
+            }
+        }
+
+        if (profileFeatureList != null && !profileFeatureList.isEmpty()) {
+            for (ProfileFeature profileFeature : profileFeatureList) {
+                if (profileFeature.getActive().equals(new Character('Y'))) {
+                    ProfileFeatureInfo profileFeatureInfo = new ProfileFeatureInfo();
+                    profileFeatureInfo.setFeatureKey(profileFeature.getApplicationFeature().getFeatureKey());
+                    profileFeatureInfo.setFeatureName(profileFeature.getApplicationFeature().getFeatureName());
+                    featureList.add(profileFeatureInfo);
+                }
+            }
+        }
+        response.setMenuList(menuList);
+        response.setFeatureList(featureList);
+        response.setProjectId(projectId);
+        response.setUserId(userId);
+        response.setReturnMessage("Successfully retrieved user profile details by project");
+        response.setReturnVal(OnTargetConstant.SUCCESS);
+        return response;
+    }
+
+
 
 	@Override
 	public Email findEmailByEmailAddres(String emailAddress) throws Exception {
@@ -576,7 +610,19 @@ public class UserProfileServiceImpl implements UserProfileService {
 		return registrationRequestRepository.findByRegistrationToken(token);
 	}
 
-	@Override
+    /**
+     * Check to see if this user is SU so that he can create projects.
+     * @param userId
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public boolean isAllowedToCreateProject(Integer userId) throws Exception {
+        UserProfile userProfile =  userProfileRepository.getUserProfielbyUserId(userId);
+        return userProfile.getProfile().getProfileCode().equals(UserType.SUPERUSER.getCode());
+    }
+
+    @Override
 	public boolean assignProjectToMember(RegistrationRequest registrationRequest) throws Exception {
 		logger.info("Adding user into invited project");
 

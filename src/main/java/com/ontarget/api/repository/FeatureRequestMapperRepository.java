@@ -15,7 +15,7 @@ public interface FeatureRequestMapperRepository extends JpaRepository<FeatureReq
 	List<FeatureRequestMapper> findByRequestPath(String requestPath);
 
 	@Transactional
-	@Query("select af from UserProfile up JOIN up.user u JOIN up.profile p JOIN p.profileFeatureList pfl"
-			+ " JOIN pfl.applicationFeature af WHERE u.userId =?1 and af.applicationFeatureId =?2 and af.active = 'Y' and pfl.active ='Y'")
-	ApplicationFeature hasPermissionToUser(Integer userId, Integer applicationFeatureId);
+	@Query("select af from UserProjectProfile up JOIN up.user u JOIN up.project JOIN up.profile p JOIN p.profileFeatureList pfl"
+			+ " JOIN pfl.applicationFeature af WHERE u.userId =?1 and af.applicationFeatureId =?2 and up.project.projectId=?3 and af.active = 'Y' and pfl.active ='Y' and up.status='Y'")
+	ApplicationFeature hasPermissionToUser(Integer userId,  Integer applicationFeatureId, Integer projectId);
 }

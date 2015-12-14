@@ -5,7 +5,7 @@ import java.util.Map;
 
 import com.ontarget.entities.User;
 import com.ontarget.util.NotificationConstant;
-import com.ontarget.util.TaskStatusEnum;
+import com.ontarget.enums.TaskStatusEnum;
 
 public class TaskStatusMessage extends MessageComposer {
 	private User user;

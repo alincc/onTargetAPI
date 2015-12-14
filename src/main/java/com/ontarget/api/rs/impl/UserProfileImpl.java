@@ -10,6 +10,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
+import com.ontarget.request.bean.UserProjectProfileRequest;
 import org.apache.log4j.Logger;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -267,5 +268,21 @@ public class UserProfileImpl implements UserProfile {
 		}
 		return response;
 	}
+
+    @Override
+    @POST
+    @Path("/userProfileInfo")
+    public com.ontarget.response.bean.UserProjectProfileResponse userProfileInfo(UserProjectProfileRequest request) {
+        logger.info("getting user profile info of userID: "+ request.getBaseRequest().getLoggedInUserId());
+        com.ontarget.response.bean.UserProjectProfileResponse response = new com.ontarget.response.bean.UserProjectProfileResponse();
+        try {
+            return userProfileService.getUserProfileInfoByProject(request.getBaseRequest().getLoggedInUserId(), request.getBaseRequest().getLoggedInUserProjectId());
+        } catch (Exception e) {
+            logger.error("Error while retrieving user profile details.", e);
+            response.setReturnMessage("Error while retrieving user profile details.");
+            response.setReturnVal(OnTargetConstant.ERROR);
+        }
+        return response;
+    }
 
 }

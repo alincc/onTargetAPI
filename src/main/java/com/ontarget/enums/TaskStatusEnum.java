@@ -1,4 +1,4 @@
-package com.ontarget.util;
+package com.ontarget.enums;
 
 public enum TaskStatusEnum {
 	Active(1), Pending(2), Completed(3), Deleted(4);

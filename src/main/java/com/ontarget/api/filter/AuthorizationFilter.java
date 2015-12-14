@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ontarget.api.repository.FeatureRequestMapperRepository;
 import com.ontarget.api.service.AuthorizationService;
+import com.ontarget.api.service.UserProfileService;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.entities.ApplicationFeature;
 import com.ontarget.entities.FeatureRequestMapper;
@@ -12,14 +13,13 @@ import org.apache.log4j.Logger;
 import org.glassfish.jersey.message.internal.ReaderWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 
-
+import javax.annotation.Resource;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.ext.Provider;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -29,14 +29,21 @@ import java.util.List;
 
 @Provider
 public class AuthorizationFilter implements ContainerRequestFilter {
-	private Logger logger = Logger.getLogger(AuthorizationFilter.class);
+    private static final String ADD_PROJECT_PATH = "/project/addProject";
+    private static final String DELETE_PROJECT_PATH = "/project/deleteProject";
+    private Logger logger = Logger.getLogger(AuthorizationFilter.class);
 
 	@Autowired
 	private AuthorizationService authorizationService;
-	@Autowired
-	private FeatureRequestMapperRepository featureRequestMapperRepository;
 
-	@Override
+    @Autowired
+    UserProfileService userProfileService;
+
+    @Autowired
+    private FeatureRequestMapperRepository featureRequestMapperRepository;
+
+
+    @Override
 	public void filter(ContainerRequestContext request) {
 		logger.info("base URI:: " + request.getUriInfo().getBaseUri() + ", path:: " + request.getUriInfo().getPath() + ", http method:: "
 				+ request.getMethod());
@@ -67,25 +74,64 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 				throw new WebApplicationException(unauthorizedResponse());
 			}
 
-			String authorizedApiRequest = requestApiAuthorized(jsonPost, requestPath);
-			logger.debug("authorizedApiRequest: " + authorizedApiRequest);
+            ObjectMapper mapper = new ObjectMapper();
 
-			if (authorizedApiRequest.equalsIgnoreCase(OnTargetConstant.ApplicationPermission.UNAUTHORIZED)) {
-				throw new WebApplicationException(unauthorizedResponse());
-			}
+            JsonNode actualObj = mapper.readTree(jsonPost);
 
-			String authorized = authenticate(jsonPost, requestPath);
+            JsonNode baseRequestObj = actualObj.get("baseRequest");
+
+            JsonNode userObjNode = baseRequestObj.get("loggedInUserId");
+            Integer userId = userObjNode.intValue();
+
+            JsonNode projectObjNode = baseRequestObj.get("loggedInUserProjectId");
+            Integer projectId = projectObjNode.intValue();
+
+            /**
+             * check to see if its a add project and check if this user is super user
+             */
+            try {
+
+                if(requestPath.equals(ADD_PROJECT_PATH) || requestPath.equals(DELETE_PROJECT_PATH)) {
+                    boolean allowedToCreateProject = userProfileService.isAllowedToCreateProject(userId);
+                    if(!allowedToCreateProject){
+                        throw new WebApplicationException(unauthorizedResponse());
+                    }
+
+                    return;
+                }
+            }catch(Exception e){
+                logger.error("Error while auth",e);
+                throw new WebApplicationException(unauthorizedResponse());
+            }
+
+            /**
+             * check if this user has access to project
+             */
+			String authorized = authenticate(userId, projectId);
 			logger.debug("authorized: " + authorized);
 
 			if (authorized.equalsIgnoreCase(OnTargetConstant.ApplicationPermission.UNAUTHORIZED)) {
 				throw new WebApplicationException(unauthorizedResponse());
 			}
 
+            /**
+             * check if the request path operation is allowed
+             */
+
+            String authorizedApiRequest = requestApiAuthorized(userId, projectId, requestPath);
+            logger.debug("authorizedApiRequest: " + authorizedApiRequest);
+
+            if (authorizedApiRequest.equalsIgnoreCase(OnTargetConstant.ApplicationPermission.UNAUTHORIZED)) {
+                throw new WebApplicationException(unauthorizedResponse());
+            }
+
+
+
 			request.setEntityStream(new ByteArrayInputStream(requestEntity));
 			return;
 
 		} catch (IOException ex) {
-			ex.printStackTrace();
+			logger.error("Error while auth: ",ex);
 			throw new WebApplicationException(unauthorizedResponse());
 		}
 	}
@@ -102,18 +148,8 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 		return b.toString();
 	}
 
-	private String requestApiAuthorized(String jsonData, String requestPath) {
+	private String requestApiAuthorized(int userId, int projectId, String requestPath) {
 		try {
-
-			ObjectMapper mapper = new ObjectMapper();
-
-			JsonNode actualObj = mapper.readTree(jsonData);
-
-			JsonNode baseRequestObj = actualObj.get("baseRequest");
-
-			JsonNode userObjNode = baseRequestObj.get("loggedInUserId");
-			Integer userId = userObjNode.intValue();
-
             logger.debug("Checking feature request mapping permission for path: "+ requestPath);
 
 			List<FeatureRequestMapper> featureRequestMapperList = featureRequestMapperRepository.findByRequestPath(requestPath);
@@ -126,8 +162,8 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 				if (featureRequestMapper.getHasFeature().equals(new Character('N'))) {
 					return OnTargetConstant.ApplicationPermission.UNAUTHORIZED;
 				} else {
-					ApplicationFeature applicationFeature = featureRequestMapperRepository.hasPermissionToUser(userId, featureRequestMapper
-							.getApplicationFeature().getApplicationFeatureId());
+					ApplicationFeature applicationFeature = featureRequestMapperRepository.hasPermissionToUser(userId,featureRequestMapper
+							.getApplicationFeature().getApplicationFeatureId(),projectId);
 					logger.debug("application feature: " + applicationFeature);
 					if (applicationFeature == null) {
 						return OnTargetConstant.ApplicationPermission.UNAUTHORIZED;
@@ -143,20 +179,8 @@ public class AuthorizationFilter implements ContainerRequestFilter {
         return OnTargetConstant.ApplicationPermission.UNAUTHORIZED;
 	}
 
-	private String authenticate(String jsonData, String requestPath) {
+	private String authenticate(int userId, int projectId) {
 		try {
-
-			ObjectMapper mapper = new ObjectMapper();
-
-			JsonNode actualObj = mapper.readTree(jsonData);
-
-			JsonNode baseRequestObj = actualObj.get("baseRequest");
-
-			JsonNode userObjNode = baseRequestObj.get("loggedInUserId");
-			Integer userId = userObjNode.intValue();
-
-			JsonNode projectObjNode = baseRequestObj.get("loggedInUserProjectId");
-			Integer projectId = projectObjNode.intValue();
             logger.debug("Validating user:: "+ userId+" with project: "+projectId);
 			boolean authorized = authorizationService.validateUserOnProject(userId, projectId);
 

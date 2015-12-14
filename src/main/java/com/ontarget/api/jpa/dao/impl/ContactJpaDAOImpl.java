@@ -109,9 +109,8 @@ public class ContactJpaDAOImpl implements ContactDAO {
 			contact.setPhoneNumber(phone.getPhoneNumber());
 		}
 
-		List<Email> emailList = userObj.getEmailList();
-		if (emailList != null && !emailList.isEmpty()) {
-			Email email = emailList.get(0);
+		Email email = userObj.getEmail();
+		if (email != null) {
 			contact.setEmail(email.getEmailAddress());
 		}
 		return contact;

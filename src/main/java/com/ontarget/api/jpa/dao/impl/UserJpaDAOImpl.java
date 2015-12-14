@@ -64,7 +64,7 @@ public class UserJpaDAOImpl implements UserDAO {
 		User user = userRepository.findByUserId(userId);
 		UserDTO userDTO = new UserDTO();
 		userDTO.setUsername(user.getUserName());
-		userDTO.setUserId((int) userId);
+		userDTO.setUserId(userId);
 		userDTO.setAccountStatus(user.getAccountStatus());
 		userDTO.setUserStatus(String.valueOf(user.getUserStatus()));
 		userDTO.setUserTypeId(user.getUserType().getUserTypeId());
@@ -133,13 +133,12 @@ public class UserJpaDAOImpl implements UserDAO {
 		phone.setAreaCode(profile.getAreaCode());
 		phoneRepository.save(phone);
 
-		List<Email> emailList = user.getEmailList();
-		if (emailList != null && !emailList.isEmpty()) {
-			Email email = emailList.get(0);
+        Email email = user.getEmail();
+        if (email != null) {
 			email.setEmailAddress(profile.getEmail());
 			emailRepository.save(email);
 		} else {
-			Email email = new Email();
+			email = new Email();
 			email.setUser(user);
 			email.setEmailAddress(profile.getEmail());
 			email.setAddedDate(new Date());
