@@ -1,17 +1,16 @@
 package com.ontarget.api.service.impl;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 import com.ontarget.api.dao.*;
 import com.ontarget.bean.*;
-import com.ontarget.entities.Document;
-import com.ontarget.entities.DocumentResponse;
-import com.ontarget.entities.DocumentSubmittal;
-import com.ontarget.entities.User;
+import com.ontarget.bean.Contact;
+import com.ontarget.entities.*;
+import com.ontarget.enums.DocumentStatusEnum;
 import com.ontarget.request.bean.*;
+import com.ontarget.request.bean.DocumentGridKeyValue;
+import com.ontarget.request.bean.DocumentKeyValue;
+import com.ontarget.response.bean.DocumentStatsResponse;
 import com.ontarget.response.bean.GetDocumentQuestionResponse;
 import com.ontarget.response.bean.UpdateDocumentQuestionResponse;
 import com.ontarget.util.DateFormater;
@@ -482,7 +481,40 @@ public class DocumentServiceImpl implements DocumentService {
 		return response;
 	}
 
-	@Override
+    @Override
+    public DocumentStatsResponse getDocumentStatisticsByProject(Integer loggedInUserProjectId) throws Exception {
+        logger.debug("Getting document stats for project: "+loggedInUserProjectId);
+        List<Object[]> documentStats = documentDAO.getDocumentsByProjectGroupedByStatusAndDocumentTemplateId(loggedInUserProjectId);
+
+        Map<String, DocumentStatistic> documentCountByTemplateAndStatus=new HashMap<>();
+        DocumentStatsResponse response=new DocumentStatsResponse();
+        response.setCountByDocumentTemplateAndStatus(documentCountByTemplateAndStatus);
+        if(documentStats!=null && documentStats.size() > 0){
+            for(Object obj[] : documentStats){
+                Document doc = (Document) obj[0];
+                String status=doc.getStatus();
+                DocumentStatistic documentStatistic = documentCountByTemplateAndStatus.get(doc.getDocumentTemplate());
+                if(documentStatistic == null){
+                    documentStatistic=new DocumentStatistic();
+                }
+                if(DocumentStatusEnum.Approved.value.equals(status)){
+                    documentStatistic.setApprovedCount((Long)obj[1]);
+                }else if(DocumentStatusEnum.Submitted.value.equals(status)){
+                    documentStatistic.setSubmittedCount((Long)obj[1]);
+                }else if(DocumentStatusEnum.Rejected.value.equals(status)){
+                    documentStatistic.setRejectedCount((Long)obj[1]);
+                }
+                documentCountByTemplateAndStatus.put(doc.getDocumentTemplate().getName(),documentStatistic);
+            }
+        }
+
+        response.setReturnVal(OnTargetConstant.SUCCESS);
+        response.setReturnMessage("Successfully retrieved Document statistics");
+
+        return response;
+    }
+
+    @Override
 	@Transactional(rollbackFor = { Exception.class })
 	public UpdateDocumentQuestionResponse saveDocumentQuestionResponse(UpdateDocumentQuestionResponseRequest request) throws Exception {
 		logger.debug("saving new response for document  id: " + request.getDocumentId());

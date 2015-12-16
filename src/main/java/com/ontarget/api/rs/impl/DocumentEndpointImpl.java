@@ -5,6 +5,7 @@ import javax.ws.rs.core.MediaType;
 
 import com.ontarget.dto.*;
 import com.ontarget.request.bean.*;
+import com.ontarget.response.bean.DocumentStatsResponse;
 import com.ontarget.response.bean.GetDocumentQuestionResponse;
 import com.ontarget.response.bean.UpdateDocumentQuestionResponse;
 import org.apache.log4j.Logger;
@@ -69,7 +70,7 @@ public class DocumentEndpointImpl implements DocumentEndpoint {
 	}
 
 	@POST
-	@Path("getUserDocument")
+	@Path("/getUserDocument")
 	@Override
 	public GetDocumentsResponse getDocuments(UserDocument userDocument) {
 		try {
@@ -208,6 +209,22 @@ public class DocumentEndpointImpl implements DocumentEndpoint {
         } catch (Throwable t) {
             GetDocumentAttachmentsResponse response = new GetDocumentAttachmentsResponse(OnTargetConstant.ERROR,
                     t.getMessage());
+            return response;
+        }
+    }
+
+
+    @POST
+    @Path("/getDocumentStats")
+    @Override
+    public DocumentStatsResponse getDocumentAttachments(DocumentStatsRequest request) {
+        try {
+           return documentService.getDocumentStatisticsByProject(request.getBaseRequest().getLoggedInUserProjectId());
+        } catch (Exception e) {
+            logger.error("Error while getting document statistics",e);
+            DocumentStatsResponse response = new DocumentStatsResponse();
+            response.setReturnVal(OnTargetConstant.ERROR);
+            response.setReturnMessage("Error while getting document statistics");
             return response;
         }
     }

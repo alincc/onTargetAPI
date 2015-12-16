@@ -2,10 +2,13 @@ package com.ontarget.api.rs;
 
 import com.ontarget.dto.*;
 import com.ontarget.request.bean.*;
+import com.ontarget.response.bean.DocumentStatsResponse;
 import com.ontarget.response.bean.GetDocumentQuestionResponse;
 import com.ontarget.response.bean.UpdateDocumentQuestionResponse;
 
 import javax.validation.Valid;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
 
 public interface DocumentEndpoint {
 
@@ -32,4 +35,8 @@ public interface DocumentEndpoint {
 	public UpdateDocumentQuestionResponse deleteDocumentQuestionResponse(@Valid UpdateDocumentQuestionResponseRequest request);
 
     public GetDocumentAttachmentsResponse getDocumentAttachments(@Valid GetDocumentAttachmentRequest request);
+
+    @POST
+    @Path("/getDocumentStats")
+    DocumentStatsResponse getDocumentAttachments(DocumentStatsRequest request);
 }

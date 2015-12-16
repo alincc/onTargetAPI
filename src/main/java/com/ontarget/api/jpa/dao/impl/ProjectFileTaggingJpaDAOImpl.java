@@ -79,7 +79,7 @@ public class ProjectFileTaggingJpaDAOImpl implements ProjectFileTaggingDAO {
 					projectFileTagAttribute.setProjectFileTag(projectFileTag);
 					projectFileTagAttributeRepository.save(projectFileTagAttribute);
 
-					// link the linkTaskId to task in table. t his is for new
+					// link the linkTaskId to task in table. this is for new
 					// versions
 					if (key.equals("linkTaskId")) {
 						String taskId = attributeBean.getValue();

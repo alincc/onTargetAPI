@@ -23,20 +23,21 @@ public class UserProjectProfile implements Serializable {
     private Integer userProjectProfileId;
 
     @JoinColumn(name = "profile_id", referencedColumnName = "profile_id")
-    @OneToOne()
+    @OneToOne(fetch = FetchType.EAGER)
     private Profile profile;
 
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
-    @OneToOne()
+    @OneToOne(fetch = FetchType.LAZY)
     private User user;
 
     @JoinColumn(name = "project_id", referencedColumnName = "project_id")
-    @OneToOne()
+    @OneToOne(fetch = FetchType.LAZY)
     private Project project;
 
     @Column(name = "status")
     @Basic(optional = false)
     private String status;
+
     @Column(name = "created_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
@@ -52,6 +53,8 @@ public class UserProjectProfile implements Serializable {
     @JoinColumn(name = "modified_by", referencedColumnName = "user_id")
     @ManyToOne(fetch = FetchType.LAZY)
     private User modifiedBy;
+
+
 
 
 }

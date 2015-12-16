@@ -14,7 +14,7 @@ public interface UserProjectProfileRepository extends JpaRepository<UserProjectP
     public UserProjectProfile findByUserProjectProfileId(Integer userProjectProfileId);
 
     @Query("select upp from UserProjectProfile upp where upp.project.projectId=?1 and upp.user.userId=?2 and upp.status='Y'")
-    public UserProjectProfile findProfileByUserAndProject(Integer projectId, Integer userId);
+    public UserProjectProfile getProfileByUserAndProject(Integer projectId, Integer userId);
 
     @Query("select upp from UserProjectProfile upp where upp.user.userId=?2")
     public List<UserProjectProfile> findByUserId(Integer userId);

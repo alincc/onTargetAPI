@@ -18,7 +18,7 @@ public class UserProfile implements Serializable {
 	@Column(name = "user_profile_id", nullable = false)
 	private Integer userProfileId;
 	@JoinColumn(name = "profile_id", referencedColumnName = "profile_id")
-	@OneToOne()
+	@OneToOne(fetch = FetchType.EAGER)
 	private Profile profile;
 	@JoinColumn(name = "user_id", referencedColumnName = "user_id")
 	@OneToOne()

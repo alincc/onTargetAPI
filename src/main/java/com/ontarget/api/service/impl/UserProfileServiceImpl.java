@@ -557,8 +557,8 @@ public class UserProfileServiceImpl implements UserProfileService {
     public UserProjectProfileResponse getUserProfileInfoByProject(int userId, int projectId) throws Exception {
         com.ontarget.response.bean.UserProjectProfileResponse response = new com.ontarget.response.bean.UserProjectProfileResponse();
 
-        logger.debug("Getting user profile info for user: " + userId + " and project: "+ projectId);
-        UserProjectProfile userProjectProfile = userProjectProfileService.findProfileByUserAndProject(userId,projectId);
+        logger.debug("Getting user project profile info for user: " + userId + " and project: "+ projectId);
+        UserProjectProfile userProjectProfile = userProjectProfileService.getProfileByUserAndProject(projectId,userId);
         Profile profile = userProjectProfile.getProfile();
         logger.debug("profile id: " + profile.getProfileId());
 

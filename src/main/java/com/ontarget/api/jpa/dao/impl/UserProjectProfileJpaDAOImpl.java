@@ -31,7 +31,8 @@ public class UserProjectProfileJpaDAOImpl  implements UserProjectProfileDAO {
 
     @Override
     public UserProjectProfile findProfileByUserAndProject(Integer projectId, Integer userId) throws Exception {
-        return userProjectProfileRepository.findProfileByUserAndProject(projectId,userId);
+        UserProjectProfile userProjectProfile =  userProjectProfileRepository.getProfileByUserAndProject(projectId, userId);
+        return userProjectProfile;
     }
 
 

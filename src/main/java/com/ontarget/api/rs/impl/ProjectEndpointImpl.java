@@ -30,9 +30,6 @@ public class ProjectEndpointImpl implements ProjectEndoint {
 	@Autowired
 	private ProjectService projectService;
 
-	@Autowired
-	private UserProfileService userProfileService;
-
 	@Override
 	@POST
 	@Path("/addProject")

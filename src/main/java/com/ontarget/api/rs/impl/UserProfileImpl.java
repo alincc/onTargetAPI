@@ -271,7 +271,7 @@ public class UserProfileImpl implements UserProfile {
 
     @Override
     @POST
-    @Path("/userProfileInfo")
+    @Path("/userProjectProfileInfo")
     public com.ontarget.response.bean.UserProjectProfileResponse userProfileInfo(UserProjectProfileRequest request) {
         logger.info("getting user profile info of userID: "+ request.getBaseRequest().getLoggedInUserId());
         com.ontarget.response.bean.UserProjectProfileResponse response = new com.ontarget.response.bean.UserProjectProfileResponse();

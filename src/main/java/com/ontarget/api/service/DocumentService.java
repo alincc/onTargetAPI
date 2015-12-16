@@ -1,5 +1,6 @@
 package com.ontarget.api.service;
 
+import com.ontarget.response.bean.DocumentStatsResponse;
 import com.ontarget.response.bean.GetDocumentQuestionResponse;
 import com.ontarget.dto.AddDocumentAttachmentResponse;
 import com.ontarget.dto.AddDocumentResponse;
@@ -36,4 +37,5 @@ public interface DocumentService {
 
     public UpdateDocumentQuestionResponse updateDocumentQuestionResponse(UpdateDocumentQuestionResponseRequest request) throws Exception;
 
+    public DocumentStatsResponse getDocumentStatisticsByProject(Integer loggedInUserProjectId) throws Exception;
 }

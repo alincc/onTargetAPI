@@ -13,7 +13,7 @@ public interface UserProjectProfileService {
 
     public boolean delete(Integer userProjectProfileId) throws Exception;
 
-    public UserProjectProfile findProfileByUserAndProject(Integer projectId, Integer userId) throws Exception;
+    public UserProjectProfile getProfileByUserAndProject(Integer projectId, Integer userId) throws Exception;
 
     public List<UserProjectProfile> findProfileByUserForEachProject(Integer userId) throws Exception;
 

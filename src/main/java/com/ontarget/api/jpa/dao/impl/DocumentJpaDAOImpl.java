@@ -3,6 +3,7 @@ package com.ontarget.api.jpa.dao.impl;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -217,5 +218,10 @@ public class DocumentJpaDAOImpl implements DocumentDAO {
 		documentRepository.save(document);
 		return true;
 	}
+
+    @Override
+    public List<Object[]> getDocumentsByProjectGroupedByStatusAndDocumentTemplateId(Integer loggedInUserProjectId) throws Exception{
+        return documentRepository.getDocumentsByProjectGroupedByStatusAndDocumentTemplateId(loggedInUserProjectId);
+    }
 
 }

@@ -40,8 +40,8 @@ public class UserProjectProfileServiceImpl implements UserProjectProfileService 
     }
 
     @Override
-    public UserProjectProfile findProfileByUserAndProject(Integer projectId, Integer userId) throws Exception {
-        logger.debug("Fetching profile by user: "+ userId +" and project"+ projectId);
+    public UserProjectProfile getProfileByUserAndProject(Integer projectId, Integer userId) throws Exception {
+        logger.debug("Fetching profile by user: "+ userId +" and project: "+ projectId);
         return userProjectProfileDAO.findProfileByUserAndProject(projectId,userId);
     }
 
