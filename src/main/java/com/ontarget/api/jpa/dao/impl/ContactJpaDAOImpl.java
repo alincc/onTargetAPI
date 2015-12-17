@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import com.ontarget.bean.Company;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -95,12 +96,15 @@ public class ContactJpaDAOImpl implements ContactDAO {
 		Contact contact = new Contact();
 		contact.setContactId(contactObj.getContactId());
 		UserDTO user = new UserDTO();
-		user.setUserId((int) userId);
+		user.setUserId(userId);
 		contact.setUser(user);
 		contact.setFirstName(contactObj.getFirstName());
 		contact.setLastName(contactObj.getLastName());
 		contact.setTitle(contactObj.getTitle());
 		contact.setUserImagePath(contactObj.getContactImage());
+        Company company=new Company();
+        company.setCompanyId(contactObj.getCompanyInfo().getCompanyId());
+        contact.setCompany(company);
 
 		List<Phone> phoneList = contactObj.getPhoneList();
 		if (phoneList != null && !phoneList.isEmpty()) {

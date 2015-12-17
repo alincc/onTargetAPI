@@ -9,7 +9,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.ontarget.api.request.UpdateIsConversionCompleteRequest;
-import com.ontarget.dto.ProjectFileResponse;
+import com.ontarget.dto.*;
 import com.ontarget.request.bean.*;
 import com.ontarget.response.bean.ProjectFileCommentObjResponse;
 import com.ontarget.response.bean.UploadDocumentDetailResponse;
@@ -20,9 +20,6 @@ import org.springframework.stereotype.Component;
 import com.ontarget.api.rs.UploadDocumentEndPoint;
 import com.ontarget.api.service.UploadDocumentService;
 import com.ontarget.constant.OnTargetConstant;
-import com.ontarget.dto.FileUploadResponse;
-import com.ontarget.dto.OnTargetResponse;
-import com.ontarget.dto.UploadedDocumentDetail;
 import com.ontarget.response.bean.ProjectFileCategoryListResponse;
 import com.ontarget.response.bean.ProjectFileCommentListResponse;
 
@@ -209,5 +206,29 @@ public class UploadDocumentEndPointImpl implements UploadDocumentEndPoint {
 		}
 		return response;
 	}
+
+
+    @Override
+    @POST
+    @Path("/page/save")
+    public ProjectFileResponse saveProjectFilePage(ProjectFilePageRequest request){
+        logger.info("Saving page info for file: "+ request.getProjectFileId());
+        ProjectFileResponse response = new ProjectFileResponse();
+        UploadedDocumentDetail projectFile;
+        try {
+            documentService.saveProjectFilePage(request.getProjectFilePage(),request.getProjectFileId().intValue());
+            projectFile = documentService.getUploadedFileByProjectFileId(request.getBaseRequest().getLoggedInUserProjectId(), request.getProjectFileId().intValue());
+            response.setProjectFile(projectFile);
+            response.setProjectId(request.getBaseRequest().getLoggedInUserProjectId());
+            response.setProjectFileId(request.getProjectFileId().intValue());
+            response.setReturnVal(OnTargetConstant.SUCCESS);
+            response.setReturnMessage("Successfully saved page info");
+        } catch (Exception e) {
+            logger.error("Error while saving project file page info",e);
+            response.setReturnVal(OnTargetConstant.ERROR);
+            response.setReturnMessage("Error while saving page info");
+        }
+        return response;
+    }
 
 }

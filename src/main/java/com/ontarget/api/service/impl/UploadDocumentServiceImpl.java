@@ -6,7 +6,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.ontarget.api.dao.ProjectFilePageDAO;
+import com.ontarget.dto.ProjectFilePageDTO;
+import com.ontarget.entities.ProjectFilePage;
 import com.ontarget.response.bean.*;
+import com.ontarget.util.ProjectFilePageUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -47,6 +51,9 @@ public class UploadDocumentServiceImpl implements UploadDocumentService {
 
 	@Autowired
 	private ProjectFileCategoryRepository projectFileCategoryRepository;
+
+    @Autowired
+    private ProjectFilePageDAO projectFilePageDAO;
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
@@ -242,5 +249,15 @@ public class UploadDocumentServiceImpl implements UploadDocumentService {
 		}
 		return response;
 	}
+
+    @Override
+    @Transactional(rollbackFor = {Exception.class})
+    public ProjectFilePageDTO saveProjectFilePage(ProjectFilePageDTO projectFilePageDTO,Integer projectFileId) throws Exception{
+        logger.debug("Saving project file page"+ projectFilePageDTO);
+        ProjectFilePage projectFilePage=projectFilePageDAO.save(ProjectFilePageUtil.getEntityFromDTO(projectFilePageDTO,projectFileId));
+        return ProjectFilePageUtil.getDTOFromEntity(projectFilePage);
+    }
+
+
 
 }

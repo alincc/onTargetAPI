@@ -7,7 +7,11 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.ontarget.api.repository.ProjectFilePageRepository;
 import com.ontarget.bean.Contact;
+import com.ontarget.dto.ProjectFilePageDTO;
+import com.ontarget.entities.*;
+import com.ontarget.util.ProjectFilePageUtil;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
@@ -18,11 +22,6 @@ import com.ontarget.api.repository.ProjectFileRepository;
 import com.ontarget.bean.UploadDocument;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.UploadedDocumentDetail;
-import com.ontarget.entities.Project;
-import com.ontarget.entities.ProjectFile;
-import com.ontarget.entities.ProjectFileCategory;
-import com.ontarget.entities.ProjectFileComment;
-import com.ontarget.entities.User;
 import com.ontarget.request.bean.ProjectFileCommentRequest;
 
 @Repository("uploadDocumentJpaDAOImpl")
@@ -32,6 +31,8 @@ public class UploadDocumentJpaDAOImpl implements UploadDocumentDAO {
 	private ProjectFileRepository projectFileRepository;
 	@Resource
 	private ProjectFileCommentRepository projectFileCommentRepository;
+    @Resource
+    ProjectFilePageRepository projectFilePageRepository;
 
 	@Override
 	public UploadedDocumentDetail saveUploadedDocsInfo(UploadDocument documentBean) throws Exception {
@@ -66,12 +67,27 @@ public class UploadDocumentJpaDAOImpl implements UploadDocumentDAO {
         documentDetail.setConversionComplete(projectFile.getIsConversionComplete().equals("Y") ? true : false);
         documentDetail.setFilePath(projectFile.getFilePath());
 
+        /**
+         * Also get all the pages if exists
+         */
 
-		return documentDetail;
+        List<ProjectFilePage> projectFilePages = projectFilePageRepository.findPagesByProjectFileId(documentBean.getProjectFileId());
+        List<ProjectFilePageDTO> projectFilePageDTOs = new LinkedList<>();
+
+        if(projectFilePages!=null && projectFilePages.size() > 0){
+            for(ProjectFilePage projectFilePage : projectFilePages){
+                projectFilePageDTOs.add(ProjectFilePageUtil.getDTOFromEntity(projectFilePage));
+            }
+        }
+        documentDetail.setProjectFilePageDTOs(projectFilePageDTOs);
+
+
+
+        return documentDetail;
 	}
 
 	@Override
-	public List<UploadedDocumentDetail> getFilesByProjectId(int projectId) {
+	public List<UploadedDocumentDetail> getFilesByProjectId(int projectId) throws Exception{
 		List<UploadedDocumentDetail> resultList = new ArrayList<UploadedDocumentDetail>();
 
 		List<ProjectFile> files = projectFileRepository.getProjectFilesByProjectId(projectId);
@@ -114,6 +130,21 @@ public class UploadDocumentJpaDAOImpl implements UploadDocumentDAO {
                         versionedFileList.add(documentDetailV);
                     }
                 }
+
+
+                /**
+                 * Also get all the pages if exists
+                 */
+
+                List<ProjectFilePage> projectFilePages = projectFilePageRepository.findPagesByProjectFileId(file.getProjectFileId());
+                List<ProjectFilePageDTO> projectFilePageDTOs = new LinkedList<>();
+
+                if(projectFilePages!=null && projectFilePages.size() > 0){
+                    for(ProjectFilePage projectFilePage : projectFilePages){
+                        projectFilePageDTOs.add(ProjectFilePageUtil.getDTOFromEntity(projectFilePage));
+                    }
+                }
+                documentDetail.setProjectFilePageDTOs(projectFilePageDTOs);
                 
                 
                 
@@ -149,6 +180,21 @@ public class UploadDocumentJpaDAOImpl implements UploadDocumentDAO {
         documentDetail.setVersionNo(projectFile.getVersionNo());
         documentDetail.setConversionComplete(projectFile.getIsConversionComplete().equals("Y") ? true : false);
         documentDetail.setFilePath(projectFile.getFilePath());
+
+        /**
+         * Also get all the pages if exists
+         */
+
+        List<ProjectFilePage> projectFilePages = projectFilePageRepository.findPagesByProjectFileId(documentBean.getProjectFileId());
+        List<ProjectFilePageDTO> projectFilePageDTOs = new LinkedList<>();
+
+        if(projectFilePages!=null && projectFilePages.size() > 0){
+            for(ProjectFilePage projectFilePage : projectFilePages){
+                projectFilePageDTOs.add(ProjectFilePageUtil.getDTOFromEntity(projectFilePage));
+            }
+        }
+        documentDetail.setProjectFilePageDTOs(projectFilePageDTOs);
+
 
         return documentDetail;
 
@@ -210,6 +256,21 @@ public class UploadDocumentJpaDAOImpl implements UploadDocumentDAO {
                 versionedFileList.add(documentDetailV);
             }
         }
+
+        /**
+         * Also get all the pages if exists
+         */
+
+        List<ProjectFilePage> projectFilePages = projectFilePageRepository.findPagesByProjectFileId(file.getProjectFileId());
+        List<ProjectFilePageDTO> projectFilePageDTOs = new LinkedList<>();
+
+        if(projectFilePages!=null && projectFilePages.size() > 0){
+            for(ProjectFilePage projectFilePage : projectFilePages){
+                projectFilePageDTOs.add(ProjectFilePageUtil.getDTOFromEntity(projectFilePage));
+            }
+        }
+        documentDetail.setProjectFilePageDTOs(projectFilePageDTOs);
+
 
 
         return documentDetail;

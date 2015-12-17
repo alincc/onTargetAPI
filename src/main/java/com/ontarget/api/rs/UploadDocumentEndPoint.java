@@ -17,19 +17,19 @@ public interface UploadDocumentEndPoint {
 
 	public FileUploadResponse getUploadedFile(@Valid UploadedFileDetail uploadedFileDetailBean);
 
-    @Path("/updateConversionComplete")
-    @POST
-    OnTargetResponse updateIsConversionComplete(UpdateIsConversionCompleteRequest request);
+    public OnTargetResponse updateIsConversionComplete(UpdateIsConversionCompleteRequest request);
 
     public OnTargetResponse deleteProjectFile(@Valid ProjectFileDeleteRequest request);
 
 	public ProjectFileCategoryListResponse projectFileCategoryList(@Valid ProjectFileCategoryRequest request);
 
-	public OnTargetResponse addUpdateComment(ProjectFileCommentRequest request);
+	public OnTargetResponse addUpdateComment(@Valid ProjectFileCommentRequest request);
 
-	public OnTargetResponse deleteComment(ProjectFileCommentDeleteRequest request);
+	public OnTargetResponse deleteComment(@Valid ProjectFileCommentDeleteRequest request);
 
-    public ProjectFileResponse getUploadedFileByDocumentId(ProjectFileRequest projectFileRequest);
+    public ProjectFileResponse getUploadedFileByDocumentId(@Valid ProjectFileRequest projectFileRequest);
 
-    public ProjectFileCommentListResponse projectFileCommentList(ProjectFileCommentListRequest request);
+    public ProjectFileCommentListResponse projectFileCommentList(@Valid ProjectFileCommentListRequest request);
+
+    public ProjectFileResponse saveProjectFilePage(@Valid ProjectFilePageRequest request);
 }
