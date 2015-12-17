@@ -10,7 +10,7 @@ import com.ontarget.entities.ProjectFileTag;
 
 public interface ProjectFileTagRepository extends JpaRepository<ProjectFileTag, Long> {
 
-	@Query("select p from ProjectFileTag p where p.fileId = ?1 order by p.projectFileTagId desc")
+	@Query("select p from ProjectFileTag p where p.projectFile.projectFileId = ?1 order by p.projectFileTagId desc")
 	List<ProjectFileTag> findRecentByProjectFileId(Integer projectFileId, Pageable pageable);
 
 }

@@ -62,8 +62,9 @@ public class ProjectFileTag implements Serializable {
 	private Integer versionNo;
 	@Column(name = "parent_file_tag_id")
 	private Long parentFileTagId;
-	@Column(name = "file_id", nullable = false)
-	private Integer fileId;
+    @JoinColumn(name = "project_file_id", referencedColumnName = "project_file_id", nullable = false)
+    @ManyToOne(optional = false)
+    private ProjectFile projectFile;
 	@OneToMany(mappedBy = "projectFileTag", fetch = FetchType.EAGER)
 	private List<ProjectFileTagAttribute> projectFileTagAttributes;
 	@OneToMany(mappedBy = "projectFileTag", fetch = FetchType.EAGER)

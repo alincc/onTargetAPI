@@ -3,6 +3,7 @@ package com.ontarget.api.jpa.dao.impl;
 import java.util.Date;
 import java.util.List;
 
+import com.ontarget.entities.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -17,10 +18,6 @@ import com.ontarget.bean.CommentDTO;
 import com.ontarget.bean.DocumentFileTagAttributeBean;
 import com.ontarget.bean.DocumentFileTagBean;
 import com.ontarget.constant.OnTargetConstant;
-import com.ontarget.entities.ProjectFileTag;
-import com.ontarget.entities.ProjectFileTagAttribute;
-import com.ontarget.entities.ProjectFileTagComment;
-import com.ontarget.entities.User;
 
 @Repository
 public class DocumentFileTaggingJpaDAOImpl implements DocumentFileTaggingDAO {
@@ -54,7 +51,7 @@ public class DocumentFileTaggingJpaDAOImpl implements DocumentFileTaggingDAO {
 			projectFileTag.setCreatedBy(new User(userId));
 			projectFileTag.setCreatedDate(new Date());
 			projectFileTag.setParentFileTagId(tagBean.getParentFileTagId());
-			projectFileTag.setFileId(tagBean.getDocumentId());
+			projectFileTag.setProjectFile(new ProjectFile(tagBean.getDocumentId()));
 			List<ProjectFileTag> recentTag = projectFileTagRepository.findRecentByProjectFileId(tagBean.getDocumentId(), new PageRequest(0,
 					1));
 			logger.debug("recent tag: " + recentTag);
