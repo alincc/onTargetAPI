@@ -94,10 +94,10 @@ public class AuthorizationFilter implements ContainerRequestFilter {
                 if(requestPath.equals(ADD_PROJECT_PATH) || requestPath.equals(DELETE_PROJECT_PATH)) {
                     boolean allowedToCreateProject = userProfileService.isAllowedToCreateProject(userId);
                     if(!allowedToCreateProject){
+                        logger.error("User doesn't have access to request path: "+ requestPath);
                         throw new WebApplicationException(unauthorizedResponse());
                     }
-
-                    return;
+                    logger.debug("Authorized to create project:: user :: "+ userId);
                 }
             }catch(Exception e){
                 logger.error("Error while auth",e);
