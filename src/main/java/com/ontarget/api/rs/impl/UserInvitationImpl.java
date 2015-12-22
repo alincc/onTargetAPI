@@ -9,6 +9,7 @@ import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.UserInvitationApprovalResponse;
 import com.ontarget.dto.UserInvitationRequestDTO;
 import com.ontarget.entities.Email;
+import com.ontarget.entities.RegistrationRequest;
 import com.ontarget.entity.pojo.RegistrationRequestResponseDTO;
 import com.ontarget.request.bean.UserInvitationRequest;
 import com.ontarget.util.ConvertPOJOUtils;
@@ -62,11 +63,11 @@ public class UserInvitationImpl implements UserInvitation {
          * check to see if invitation is not 24 hours old.
          */
 		try {
-			RegistrationRequestResponseDTO registrationRequest = userInvitationService.getRegistrationRequest(request.getEmail());
+			RegistrationRequest registrationRequest = userInvitationService.findRecentRegRequestByEmail(request.getEmail());
 
 			if (registrationRequest != null) {
 
-				if (System.currentTimeMillis() - registrationRequest.getTsCreate() <= OnTargetConstant.TOKEN_MAX_LIFE) {
+				if (System.currentTimeMillis() - registrationRequest.getTsCreate().getTime() <= OnTargetConstant.TOKEN_MAX_LIFE) {
 					response.setReturnVal(OnTargetConstant.ERROR);
 					response.setReturnMessage("You are already invited");
 					return response;
