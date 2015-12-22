@@ -26,7 +26,7 @@ public class Email implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date addedDate;
 	@JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false)
-	@OneToOne(optional = false, fetch = FetchType.LAZY)
+	@OneToOne(optional = false, fetch = FetchType.EAGER)
 	private User user;
 
 	public Email() {
