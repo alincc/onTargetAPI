@@ -9,6 +9,8 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
 import com.ontarget.api.dao.UserInvitationDAO;
@@ -120,12 +122,14 @@ public class UserInvitationJpaDAOImpl implements UserInvitationDAO {
 	
 	@Override
 	public RegistrationRequest findRecentRegRequestByEmail(String email){
-		return registrationRequestRepository.findFirstByEmailOrderByIdDesc(email);
+		List<RegistrationRequest> registrationRequests = registrationRequestRepository.findTopByEmailOrderByIdDesc(email, new PageRequest(0,1, Sort.Direction.DESC,"id"));
+        return registrationRequests.get(0);
 	}
 	
 	@Override
 	public RegistrationRequest findRecentRegRequestByEmailAndProjectId(String email,Integer projectId){
-		return registrationRequestRepository.findTopByEmailAndProjectIdOrderByIdDesc(email, projectId);
+        List<RegistrationRequest> registrationRequests = registrationRequestRepository.findTopByEmailAndProjectIdOrderByIdDesc(email, projectId,new PageRequest(0,1, Sort.Direction.DESC,"id"));
+        return registrationRequests.get(0);
 	}
 
 	@Override

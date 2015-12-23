@@ -2,6 +2,7 @@ package com.ontarget.api.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -13,9 +14,9 @@ public interface RegistrationRequestRepository extends JpaRepository<Registratio
 
 	RegistrationRequest findByEmail(String email);
 
-	RegistrationRequest findFirstByEmailOrderByIdDesc(String email);
+    List<RegistrationRequest> findTopByEmailOrderByIdDesc(String email, Pageable pageable);
 
-	RegistrationRequest findTopByEmailAndProjectIdOrderByIdDesc(String email, Integer projectId);
+	List<RegistrationRequest> findTopByEmailAndProjectIdOrderByIdDesc(String email, Integer projectId, Pageable pageable);
 
 	RegistrationRequest findByRegistrationToken(String token);
 
