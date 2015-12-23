@@ -123,13 +123,13 @@ public class UserInvitationJpaDAOImpl implements UserInvitationDAO {
 	@Override
 	public RegistrationRequest findRecentRegRequestByEmail(String email){
 		List<RegistrationRequest> registrationRequests = registrationRequestRepository.findTopByEmailOrderByIdDesc(email, new PageRequest(0,1, Sort.Direction.DESC,"id"));
-        return registrationRequests.get(0);
+        return registrationRequests!=null && registrationRequests.size() > 0 ? registrationRequests.get(0) : null ;
 	}
 	
 	@Override
 	public RegistrationRequest findRecentRegRequestByEmailAndProjectId(String email,Integer projectId){
         List<RegistrationRequest> registrationRequests = registrationRequestRepository.findTopByEmailAndProjectIdOrderByIdDesc(email, projectId,new PageRequest(0,1, Sort.Direction.DESC,"id"));
-        return registrationRequests.get(0);
+        return registrationRequests!=null && registrationRequests.size() > 0 ? registrationRequests.get(0) : null ;
 	}
 
 	@Override
