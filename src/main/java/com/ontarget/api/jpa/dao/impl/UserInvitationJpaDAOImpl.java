@@ -120,7 +120,7 @@ public class UserInvitationJpaDAOImpl implements UserInvitationDAO {
 	
 	@Override
 	public RegistrationRequest findRecentRegRequestByEmail(String email){
-		return registrationRequestRepository.findTopByEmailOrderByIdDesc(email);
+		return registrationRequestRepository.findFirstByEmailOrderByIdDesc(email);
 	}
 	
 	@Override
