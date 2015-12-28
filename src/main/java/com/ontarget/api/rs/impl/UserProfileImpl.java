@@ -179,7 +179,7 @@ public class UserProfileImpl implements UserProfile {
 	public SafetyInfoResponse getSafetyInfoForUser(@NotNull @QueryParam("userId") Integer userId) {
 		SafetyInfoResponse response = new SafetyInfoResponse();
 		try {
-			String safetyUserInfo = userProfileService.getRandomSafetyUserInfo(userId);
+			String safetyUserInfo = userProfileService.getRandomSafetyUserInfoById();
 			if (safetyUserInfo == null) {
 				response.setReturnVal(OnTargetConstant.ERROR);
 				response.setReturnMessage("No safety info found");

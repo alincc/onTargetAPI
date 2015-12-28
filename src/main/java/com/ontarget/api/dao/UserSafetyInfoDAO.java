@@ -5,4 +5,6 @@ package com.ontarget.api.dao;
  */
 public interface UserSafetyInfoDAO {
     public String getRandomSafetyInfo(long disciplineId);
+
+    public String getRandomSafetyInfoByID();
 }

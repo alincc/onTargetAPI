@@ -41,7 +41,9 @@ public interface UserProfileService {
 
 	public String getRandomSafetyUserInfo(Integer userId) throws Exception;
 
-	public OnTargetResponse createNewUserFromInvitation(UserSignupRequest request) throws Exception;
+    String getRandomSafetyUserInfoById() throws Exception;
+
+    public OnTargetResponse createNewUserFromInvitation(UserSignupRequest request) throws Exception;
 
 	public boolean activateAccount(int userId) throws Exception;
 

@@ -29,4 +29,16 @@ public class UserSafetyInfoJpaDAOImpl implements com.ontarget.api.dao.UserSafety
 		return (String) rs.get("name");
 	}
 
+
+    public String getRandomSafetyInfoByID() {
+        Map<String, Object> rs = jdbcTemplate.queryForMap(OnTargetQuery.GET_RANDOM_SAFETY_INFO_BY_ID);
+        if (rs == null) {
+            return null;
+        }
+
+        return (String) rs.get("name");
+    }
+
+
+
 }

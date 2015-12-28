@@ -354,6 +354,11 @@ public class UserProfileServiceImpl implements UserProfileService {
 		return userSafetyInfoDAO.getRandomSafetyInfo(user.getDiscipline());
 	}
 
+    @Override
+    public String getRandomSafetyUserInfoById() throws Exception {
+        return userSafetyInfoDAO.getRandomSafetyInfoByID();
+    }
+
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
 	public OnTargetResponse createNewUserFromInvitation(UserSignupRequest request) throws Exception {
