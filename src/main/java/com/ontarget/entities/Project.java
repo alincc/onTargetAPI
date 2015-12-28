@@ -93,7 +93,11 @@ public class Project implements Serializable {
 	@Column(name = "project_asset_folder_name", length = 30)
 	private String projectAssetFolderName;
 
-	public String getProjectAssetFolderName() {
+    @Column(name = "project_topic_arn", length = 255)
+    private String projectTopicArn;
+
+
+    public String getProjectAssetFolderName() {
 		return projectAssetFolderName;
 	}
 
@@ -339,4 +343,11 @@ public class Project implements Serializable {
 		return "com.ontarget.entities.Project[projectId=" + projectId + "]";
 	}
 
+    public String getProjectTopicArn() {
+        return projectTopicArn;
+    }
+
+    public void setProjectTopicArn(String projectTopicArn) {
+        this.projectTopicArn = projectTopicArn;
+    }
 }

@@ -29,6 +29,7 @@ public class ProjectDTO implements Serializable {
 	private List<ProjectConfigDTO> projectConfiguration;
 	private Integer percentageComplete;
     private String projectAssetFolderName;
+    private String projectTopicArn;
 
     public String getProjectAssetFolderName() {
         return projectAssetFolderName;
@@ -231,4 +232,11 @@ public class ProjectDTO implements Serializable {
 		return sb.toString();
 	}
 
+    public String getProjectTopicArn() {
+        return projectTopicArn;
+    }
+
+    public void setProjectTopicArn(String projectTopicArn) {
+        this.projectTopicArn = projectTopicArn;
+    }
 }

@@ -2,7 +2,6 @@ package com.ontarget.api.rs.impl;
 
 import com.ontarget.api.rs.ProjectEndoint;
 import com.ontarget.api.service.ProjectService;
-import com.ontarget.api.service.UserProfileService;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.*;
 import com.ontarget.request.bean.*;
@@ -33,14 +32,14 @@ public class ProjectEndpointImpl implements ProjectEndoint {
 	@Override
 	@POST
 	@Path("/addProject")
-	public OnTargetResponse addProject(ProjectRequest request) {
-		OnTargetResponse response = null;
+	public com.ontarget.response.bean.ProjectResponse addProject(ProjectRequest request) {
+        com.ontarget.response.bean.ProjectResponse response = new com.ontarget.response.bean.ProjectResponse();
 		if (request.getProject().getProjectId() == null) {
 			try {
 				response = projectService.addProject(request);
 			} catch (Exception e) {
 				logger.error("Error while adding project", e);
-				response = new OnTargetResponse();
+				response = new com.ontarget.response.bean.ProjectResponse();
 				response.setReturnMessage("Error while creating project");
 				response.setReturnVal(OnTargetConstant.ERROR);
 			}
@@ -49,7 +48,6 @@ public class ProjectEndpointImpl implements ProjectEndoint {
 				response = projectService.updateProject(request);
 			} catch (Exception e) {
 				logger.error("Error while updating project", e);
-				response = new OnTargetResponse();
 				response.setReturnMessage("Error while updating project");
 				response.setReturnVal(OnTargetConstant.ERROR);
 			}
@@ -102,6 +100,30 @@ public class ProjectEndpointImpl implements ProjectEndoint {
 		}
 		return response;
 	}
+
+
+    @Override
+    @POST
+    @Path("/arn/add")
+    public com.ontarget.response.bean.ProjectResponse updateProjectTopicArn(ProjectArnRequest projectArnRequest) {
+        com.ontarget.response.bean.ProjectResponse response = new com.ontarget.response.bean.ProjectResponse();
+        try {
+            response = projectService.updateProjectArn(projectArnRequest.getProjectArn(),projectArnRequest.getBaseRequest().getLoggedInUserProjectId());
+            response.setReturnVal(OnTargetConstant.SUCCESS);
+            response.setReturnMessage("Successfully updated project arn");
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("Error while getting project", e);
+            response.setReturnMessage("Error while getting project");
+            response.setReturnVal(OnTargetConstant.ERROR);
+        }
+        return response;
+    }
+
+
+
+
+
 
 	@Override
 	@POST
@@ -207,6 +229,25 @@ public class ProjectEndpointImpl implements ProjectEndoint {
 		return response;
 	}
 
+
+    @Override
+    @POST
+    @Path("/v1/getUserProjectList")
+    public ProjectListResponse getUserProjectListV1(ProjectUserRequest projectUserRequest) {
+        logger.info("Getting project list of user id: " + projectUserRequest.getUserId());
+        ProjectListResponse response = new ProjectListResponse();
+        try {
+            response = projectService.getUserProjectListV1(projectUserRequest.getUserId());
+            response.setReturnVal(OnTargetConstant.SUCCESS);
+            response.setReturnMessage("Successfully retrieved projects assigned to user");
+        } catch (Exception e) {
+            logger.error("Error while getting projects assigned to user", e);
+            response.setReturnMessage("Error while getting projects assigned to user");
+            response.setReturnVal(OnTargetConstant.ERROR);
+        }
+        return response;
+    }
+
 	@Override
 	@POST
 	@Path("/getActivityOfProject")
@@ -223,5 +264,8 @@ public class ProjectEndpointImpl implements ProjectEndoint {
 		}
 		return response;
 	}
+
+
+
 
 }

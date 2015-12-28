@@ -11,15 +11,16 @@ import com.ontarget.dto.UserProjectListResponse;
 import com.ontarget.entities.Project;
 import com.ontarget.request.bean.ActivityRequest;
 import com.ontarget.request.bean.ProjectRequest;
+import com.ontarget.response.bean.ProjectResponse;
 
 /**
  * Created by Owner on 11/6/14.
  */
 public interface ProjectService {
 
-	public OnTargetResponse addProject(ProjectRequest request) throws Exception;
+	public com.ontarget.response.bean.ProjectResponse addProject(ProjectRequest request) throws Exception;
 
-	public OnTargetResponse updateProject(ProjectRequest request) throws Exception;
+	public com.ontarget.response.bean.ProjectResponse updateProject(ProjectRequest request) throws Exception;
 
 	public OnTargetResponse addActivity(ActivityRequest request) throws Exception;
 
@@ -47,7 +48,11 @@ public interface ProjectService {
 
 	public ProjectListResponse getUserProjectList(Integer userId) throws Exception;
 
-	public com.ontarget.response.bean.ProjectListResponse getActivityOfProject(Integer projectId) throws Exception;
+    public ProjectListResponse getUserProjectListV1(Integer userId) throws Exception;
+
+    public com.ontarget.response.bean.ProjectListResponse getActivityOfProject(Integer projectId) throws Exception;
 
 	public com.ontarget.entities.Project findProjectById(int projectId) throws Exception;
+
+    public ProjectResponse updateProjectArn(String projectArn, int projectId) throws Exception;
 }

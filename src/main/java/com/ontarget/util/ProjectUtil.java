@@ -85,6 +85,7 @@ public class ProjectUtil {
 		project.setType(projectDetail.getType());
 		project.setProjectOwnerId(projectDetail.getProjectOwnerId());
 		project.setProjectAssetFolderName(projectDetail.getProjectAssetFolderName());
+        project.setProjectTopicArn(projectDetail.getProjectTopicArn());
 
 		List<ProjectConfigDTO> projectConfigList = new ArrayList<>();
 		List<ProjectConfiguration> projectConfigurations = projectDetail.getProjectConfigurationList();

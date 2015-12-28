@@ -31,30 +31,30 @@ public class UserInvitationRequest {
 	@NotEmpty
 	@JsonProperty("phoneNumber")
 	private String phoneNumber;
-	@NotEmpty
+
 	@JsonProperty("msg")
 	private String msg;
 	@NotEmpty
 	@JsonProperty("companyName")
 	private String companyName;
-	@NotEmpty
+
 	@JsonProperty("companyAddress1")
 	private String companyAddress1;
 	@JsonProperty("companyAddress2")
 	private String companyAddress2;
-	@NotEmpty
+
 	@JsonProperty("companyCity")
 	private String companyCity;
-	@NotEmpty
+
 	@JsonProperty("companyState")
 	private String companyState;
-	@NotEmpty
+
 	@JsonProperty("companyZip")
 	private String companyZip;
-	@NotEmpty
+
 	@JsonProperty("companyCountry")
 	private String companyCountry;
-	@NotNull
+
 	@JsonProperty("companyId")
 	private int companyId;
 	@JsonProperty("companyTypeId")

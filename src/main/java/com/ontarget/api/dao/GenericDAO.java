@@ -1,7 +1,11 @@
 package com.ontarget.api.dao;
 
 public interface GenericDAO<T> {
-	T insert(T bean);
-	T read(long id);
-	boolean update(T bean);
+
+    public T insert(T bean);
+
+	public T read(long id);
+
+	public boolean update(T bean);
+
 }

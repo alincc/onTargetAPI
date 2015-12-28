@@ -1,59 +1,37 @@
 package com.ontarget.api.service.impl;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import com.ontarget.api.service.UserProjectProfileService;
-import com.ontarget.entities.*;
-import com.ontarget.enums.*;
-import com.ontarget.enums.UserType;
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import com.ontarget.api.dao.AddressDAO;
-import com.ontarget.api.dao.CompanyDAO;
-import com.ontarget.api.dao.ContactDAO;
-import com.ontarget.api.dao.ProjectDAO;
-import com.ontarget.api.dao.TaskDAO;
-import com.ontarget.api.dao.TaskPercentageDAO;
-import com.ontarget.api.dao.UserRegistrationDAO;
+import com.ontarget.api.dao.*;
 import com.ontarget.api.repository.ProjectTaskRepository;
-import com.ontarget.api.service.BashScriptService;
 import com.ontarget.api.service.ProjectService;
-import com.ontarget.bean.AddressDTO;
-import com.ontarget.bean.Company;
+import com.ontarget.api.service.UserProjectProfileService;
+import com.ontarget.bean.*;
 import com.ontarget.bean.Contact;
-import com.ontarget.bean.ProjectDTO;
-import com.ontarget.bean.ProjectInfo;
 import com.ontarget.bean.ProjectMember;
 import com.ontarget.bean.TaskComment;
-import com.ontarget.bean.TaskInfo;
-import com.ontarget.bean.TaskPercentage;
-import com.ontarget.bean.TaskStatusCount;
-import com.ontarget.bean.UserDTO;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.ProjectListResponse;
 import com.ontarget.dto.ProjectMemberListResponse;
 import com.ontarget.dto.UserProjectListResponse;
-import com.ontarget.request.bean.ActivityDetailInfo;
-import com.ontarget.request.bean.ActivityRequest;
-import com.ontarget.request.bean.ProjectAddressInfo;
-import com.ontarget.request.bean.ProjectDetailInfo;
-import com.ontarget.request.bean.ProjectRequest;
+import com.ontarget.entities.*;
+import com.ontarget.entities.Project;
+import com.ontarget.enums.UserType;
+import com.ontarget.request.bean.*;
 import com.ontarget.response.bean.Address;
 import com.ontarget.response.bean.ProjectConfig;
+import com.ontarget.response.bean.ProjectResponse;
 import com.ontarget.util.CalculatePercentageComplete;
 import com.ontarget.util.ConvertPOJOUtils;
 import com.ontarget.util.ProjectUtil;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.*;
 
 /**
  * Created by Owner on 11/6/14.
@@ -101,7 +79,7 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
-	public OnTargetResponse addProject(ProjectRequest request) throws Exception {
+	public com.ontarget.response.bean.ProjectResponse addProject(ProjectRequest request) throws Exception {
 		logger.info("Adding new project " + request.getProject());
 
 		ProjectAddressInfo projectAdd = request.getProject().getProjectAddress();
@@ -143,7 +121,9 @@ public class ProjectServiceImpl implements ProjectService {
             throw new Exception("Error while assigning user:"+userId +" and project id:"+projectId,e);
         }
 
-		OnTargetResponse response = new OnTargetResponse();
+        com.ontarget.response.bean.ProjectResponse response = new com.ontarget.response.bean.ProjectResponse();
+        Project project = projectDAO.findProjectById(projectId);
+        response.setProject(getProjectInfo(project));
 		if (projectId > 0) {
 			response.setReturnMessage("Successfully created project.");
 			response.setReturnVal(OnTargetConstant.SUCCESS);
@@ -156,7 +136,7 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
-	public OnTargetResponse updateProject(ProjectRequest request) throws Exception {
+	public com.ontarget.response.bean.ProjectResponse updateProject(ProjectRequest request) throws Exception {
 		logger.info("Updating project " + request.getProject());
 
 		ProjectAddressInfo projectAddress = request.getProject().getProjectAddress();
@@ -173,7 +153,11 @@ public class ProjectServiceImpl implements ProjectService {
 		ProjectDTO projectDTO = ConvertPOJOUtils.convertToProjectDTO(project, addressDTO);
 		boolean updatedPr = projectDAO.updateProject(projectDTO, request.getUserId());
 
-		OnTargetResponse response = new OnTargetResponse();
+        com.ontarget.response.bean.ProjectResponse response = new com.ontarget.response.bean.ProjectResponse();
+        Project projectEnt = projectDAO.findProjectById(project.getProjectId());
+
+        response.setProject(getProjectInfo(projectEnt));
+
 		if (updatedPr) {
 			response.setReturnMessage("Successfully updated project.");
 			response.setReturnVal(OnTargetConstant.SUCCESS);
@@ -528,7 +512,7 @@ public class ProjectServiceImpl implements ProjectService {
 	 * @throws Exception
 	 */
 	@Override
-	public ProjectListResponse getUserProjectList(Integer userId) throws Exception {
+	public ProjectListResponse getUserProjectListV1(Integer userId) throws Exception {
 		ProjectListResponse projectListResponse = new ProjectListResponse();
 
 		List<Project> projects = projectDAO.getProjectsByUserId(userId);
@@ -536,6 +520,35 @@ public class ProjectServiceImpl implements ProjectService {
 		projectListResponse.setProjects(convertedProjectList(projects));
 		return projectListResponse;
 	}
+
+
+    @Override
+    public ProjectListResponse getUserProjectList(Integer userId) throws Exception {
+        Project mainProject = projectDAO.getMainProjectByUser(userId);
+
+        if (mainProject != null) {
+            ProjectDTO project = ProjectUtil.convertToProjectDTO(mainProject, projectTaskRepository);
+            Company company = companyDAO.getCompany(project.getCompanyId());
+            project.setCompany(company);
+
+            return this.getUserProjectResponse(project, userId);
+        } else {
+            ProjectListResponse response = new ProjectListResponse();
+            response.setResponseCode("PNF");
+            return response;
+        }
+    }
+
+    private ProjectListResponse getUserProjectResponse(ProjectDTO project, int userId) throws Exception {
+        ProjectListResponse response = new ProjectListResponse();
+        project.setTaskList(new ArrayList<>());
+        response.setMainProject(project);
+
+        setSubProjects(project, userId, 1);
+        response.setResponseCode(OnTargetConstant.SUCCESS);
+        response.setReturnMessage("Successfully got user projects");
+        return response;
+    }
 
 	// new
 	@Override
@@ -637,4 +650,13 @@ public class ProjectServiceImpl implements ProjectService {
 	public com.ontarget.entities.Project findProjectById(int projectId) throws Exception {
 		return projectDAO.findProjectById(projectId);
 	}
+
+    @Override
+    @Transactional(rollbackFor = { Exception.class })
+    public ProjectResponse updateProjectArn(String projectArn, int projectId) throws Exception {
+        Project project=projectDAO.updateProjectArn(projectArn,projectId);
+        com.ontarget.response.bean.ProjectResponse projectResponse = new com.ontarget.response.bean.ProjectResponse();
+        projectResponse.setProject(getProjectInfo(project));
+        return projectResponse;
+    }
 }

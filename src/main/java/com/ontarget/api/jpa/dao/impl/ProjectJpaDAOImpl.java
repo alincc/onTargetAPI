@@ -62,6 +62,7 @@ public class ProjectJpaDAOImpl implements ProjectDAO {
 		project.setProjectAssetFolderName(projectDTO.getProjectAssetFolderName());
 
 		project.setType(OnTargetConstant.ProjectInfoType.PROJECT);
+        project.setProjectTopicArn(projectDTO.getProjectTopicArn());
 		projectRepository.save(project);
 
 		com.ontarget.entities.ProjectMember projectMember = new com.ontarget.entities.ProjectMember();
@@ -378,7 +379,15 @@ public class ProjectJpaDAOImpl implements ProjectDAO {
 		return 0;
 	}
 
-	@Override
+    @Override
+    public Project updateProjectArn(String projectArn, int projectId) throws Exception {
+        Project project = this.findProjectById(projectId);
+        project.setProjectTopicArn(projectArn);
+        projectRepository.save(project);
+        return project;
+    }
+
+    @Override
 	public List<Map<String, Object>> getProjectByUser(int userId) {
 		return jdbcTemplate.queryForList(OnTargetQuery.GET_PROJECT_BY_USER, new Object[] { userId });
 	}

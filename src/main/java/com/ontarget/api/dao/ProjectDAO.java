@@ -67,4 +67,6 @@ public interface ProjectDAO {
     public boolean updateProjectAssetFolderName(Integer projectId,Integer userId, String projectFolderName) throws Exception;
     
     public int addMemberToProject(int projectId, int userId) throws Exception;
+
+    public Project updateProjectArn(String projectArn, int projectId) throws Exception;
 }
