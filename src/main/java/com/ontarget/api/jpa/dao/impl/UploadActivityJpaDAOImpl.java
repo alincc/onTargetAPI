@@ -85,7 +85,7 @@ public class UploadActivityJpaDAOImpl implements UploadActivityDAO {
 				projectTask.setEndDate(DateFormater.convertToDate(activityTaskInfo.getEndDate(), DateValidator.dateFormat));
 				projectTask.setCreatedBy(new User(userId));
 				projectTask.setCreatedDate(new Date());
-				projectTask.setSeverity(String.valueOf(activityTaskInfo.getPriority()));
+				projectTask.setSeverity(new TaskPriority(activityTaskInfo.getPriority()));
 				projectTask.setTaskPercentage(Integer.parseInt(activityTaskInfo.getPercentageComplete()));
 				entityManager.persist(projectTask);
 

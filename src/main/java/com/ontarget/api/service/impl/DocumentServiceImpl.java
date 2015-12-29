@@ -367,16 +367,12 @@ public class DocumentServiceImpl implements DocumentService {
 
 				Contact modifier = contactDAO.getContact(modifiedBy);
 
-				for (DocumentSubmittal assignee : documentSubmittalList) {
-					Contact contact = contactDAO.getContact(assignee.getUser().getUserId());
+                Contact createdBy = contactDAO.getContact(document.getCreatedBy().getUserId());
 
-					if (contact != null && (contact.getEmail() != null && contact.getEmail().trim().length() > 0)) {
+				emailService.sendDocumentStatusUpdateEmail(document.getName(), document.getStatus(), createdBy.getFirstName(),
+								createdBy.getLastName(), createdBy.getEmail(), modifier.getFirstName(), modifier.getLastName());
 
-						emailService.sendDocumentStatusUpdateEmail(document.getName(), document.getStatus(), contact.getFirstName(),
-								contact.getLastName(), contact.getEmail(), modifier.getFirstName(), modifier.getLastName(), document
-										.getCreatedBy().getContactList().get(0).getFirstName());
-					}
-				}
+
 
 				// send email to the ones in the attentions
 				List<String> attenUsers = documentKeyValueDAO.getUsersInAttentionByDocument(documentId);
@@ -392,8 +388,7 @@ public class DocumentServiceImpl implements DocumentService {
 						Contact contact = contactDAO.getContact(Integer.parseInt(userId));
 
 						emailService.sendDocumentStatusUpdateEmail(document.getName(), document.getStatus(), contact.getFirstName(),
-								contact.getLastName(), contact.getEmail(), modifier.getFirstName(), modifier.getLastName(), document
-									.getCreatedBy().getContactList().get(0).getFirstName());
+								contact.getLastName(), contact.getEmail(), modifier.getFirstName(), modifier.getLastName());
 					}
 				}
 

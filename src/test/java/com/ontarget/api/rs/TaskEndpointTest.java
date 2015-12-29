@@ -43,7 +43,7 @@ public class TaskEndpointTest extends BaseTest {
 		task.setTitle("task1");
 		task.setDescription("task desc");
 		task.setStatus("1");
-		task.setSeverity("1");
+		task.setSeverity(1);
 		task.setProjectId(43);
 		task.setAssignees(new ArrayList<Integer>());
 
@@ -80,7 +80,7 @@ public class TaskEndpointTest extends BaseTest {
 		task.setTitle("task1");
 		task.setDescription("task desc");
 		task.setStatus("1");
-		task.setSeverity("1");
+		task.setSeverity(1);
 		task.setProjectId(43);
 		task.setAssignees(new ArrayList<Integer>());
 

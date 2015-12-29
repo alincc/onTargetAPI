@@ -31,6 +31,10 @@ public class TaskPriority implements Serializable {
 	public TaskPriority() {
 	}
 
+    public TaskPriority(int taskPriorityId) {
+        this.taskPriorityId=taskPriorityId;
+    }
+
 	public Integer getTaskPriorityId() {
 		return taskPriorityId;
 	}

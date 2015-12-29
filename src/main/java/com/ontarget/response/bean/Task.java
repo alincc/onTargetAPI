@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import com.ontarget.entities.TaskPriority;
 import lombok.Data;
 
 import com.ontarget.bean.TaskComment;
@@ -15,7 +16,7 @@ public class Task implements Serializable {
 	private String title;
 	private String description;
 	private String status;
-	private String severity;
+	private TaskPriority severity;
 	private Integer projectTaskId;
 	private Date startDate;
 	private Date endDate;

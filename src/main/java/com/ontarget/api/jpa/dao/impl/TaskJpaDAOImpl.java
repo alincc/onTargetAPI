@@ -15,6 +15,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import com.ontarget.entities.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -39,15 +40,6 @@ import com.ontarget.bean.UserDTO;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.constant.OnTargetQuery;
 import com.ontarget.dto.ProjectTask;
-import com.ontarget.entities.DependentTask;
-import com.ontarget.entities.Email;
-import com.ontarget.entities.FieldWorker;
-import com.ontarget.entities.Phone;
-import com.ontarget.entities.Project;
-import com.ontarget.entities.TaskAssignee;
-import com.ontarget.entities.TaskFieldWorker;
-import com.ontarget.entities.TaskPercentageLog;
-import com.ontarget.entities.User;
 import com.ontarget.request.bean.Task;
 import com.ontarget.request.bean.TaskCommentRequest;
 
@@ -80,7 +72,7 @@ public class TaskJpaDAOImpl implements TaskDAO {
 		projectTask.setTitle(task.getTitle());
 		projectTask.setDescription(task.getDescription());
 		projectTask.setStatus(Integer.parseInt(task.getStatus()));
-		projectTask.setSeverity(task.getSeverity());
+		projectTask.setSeverity(new TaskPriority(task.getSeverity()));
 		projectTask.setStartDate(task.getStartDate());
 		projectTask.setEndDate(task.getEndDate());
 		projectTask.setCreatedBy(new User(userId));
@@ -440,7 +432,7 @@ public class TaskJpaDAOImpl implements TaskDAO {
 
 		projectTask.setStartDate(task.getStartDate());
 		projectTask.setEndDate(task.getEndDate());
-		projectTask.setSeverity(task.getSeverity());
+		projectTask.setSeverity(new TaskPriority(task.getSeverity()));
 		projectTask.setModifiedBy(new User(userId));
 		projectTask.setModifiedDate(new Date());
 		projectTaskRepository.save(projectTask);

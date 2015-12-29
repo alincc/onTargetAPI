@@ -238,7 +238,7 @@ public interface OnTargetQuery {
 
     public static final String GET_RANDOM_SAFETY_INFO = new StringBuilder("SELECT name FROM user_safety_info where discipline_id=? ORDER BY RAND() LIMIT 1").toString();
 
-    public static final String GET_RANDOM_SAFETY_INFO_BY_ID = new StringBuilder("SELECT name FROM user_safety_info where ORDER BY RAND() LIMIT 1").toString();
+    public static final String GET_RANDOM_SAFETY_INFO_BY_ID = new StringBuilder("SELECT name FROM user_safety_info ORDER BY RAND() LIMIT 1").toString();
 
     public static final String INSERT_TASK_FILE = new StringBuilder("INSERT INTO project_task_files (project_task_id, file_name, created_by, location) VALUES (?, ?, ?, ?)").toString();
 

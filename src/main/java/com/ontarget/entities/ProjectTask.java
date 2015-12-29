@@ -4,19 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 
 /**
  *
@@ -58,8 +46,9 @@ public class ProjectTask implements Serializable {
 	@JoinColumn(name = "modified_by", referencedColumnName = "user_id")
 	@ManyToOne()
 	private User modifiedBy;
-	@Column(name = "severity", length = 45)
-	private String severity;
+    @JoinColumn(name = "severity", referencedColumnName = "task_priority_id")
+    @OneToOne(fetch = FetchType.EAGER)
+	private TaskPriority severity;
 	@Column(name = "description", length = 65535, columnDefinition = "TEXT")
 	private String description;
 	@Column(name = "task_percentage")
@@ -174,11 +163,11 @@ public class ProjectTask implements Serializable {
 		this.modifiedBy = modifiedBy;
 	}
 
-	public String getSeverity() {
+	public TaskPriority getSeverity() {
 		return severity;
 	}
 
-	public void setSeverity(String severity) {
+	public void setSeverity(TaskPriority severity) {
 		this.severity = severity;
 	}
 

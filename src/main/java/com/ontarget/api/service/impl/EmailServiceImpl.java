@@ -64,10 +64,6 @@ public class EmailServiceImpl implements EmailService {
 	@Qualifier("contactJpaDAOImpl")
 	private ContactDAO contactDAO;
 
-	@Autowired
-	@Qualifier("emailJpaDAOImpl")
-	private EmailDAO emailDAO;
-
 	@Value("${baseUIUrl}")
 	private String baseUrl;
 
@@ -157,8 +153,13 @@ public class EmailServiceImpl implements EmailService {
 					UserDTO assigneeUser = authenticationDAO.getUserResponse(assigneeUserId);
 					assigneeUser.setContact(getContactDetails(assigneeUser.getUserId()));
 
+                    Contact sender = getContactDetails(task.getModifierId());
+
+                    String emailFrom = new StringBuilder().append(sender.getFirstName()).append(" ").append(sender.getLastName())
+                            .append(OnTargetConstant.EmailServiceConstants.DO_NOT_REPLY_EMAIL).toString();
+
 					MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
-					message.setFrom(new InternetAddress(OnTargetConstant.EmailServiceConstants.EMAIL_FROM));
+					message.setFrom(new InternetAddress(emailFrom));
 					message.setTo(assigneeUser.getContact().getEmail());
 					message.setSubject(OnTargetConstant.EmailServiceConstants.TASK_STATUS_SUBJECT);
 					message.setSentDate(new Date());
@@ -167,11 +168,11 @@ public class EmailServiceImpl implements EmailService {
 					model.put("assignee", assigneeUser);
 					model.put("task", task);
 					model.put("taskStatus", TaskStatusEnum.getStatusTextByStatus(Integer.parseInt(task.getStatus())));
-					model.put("modifier", getContactDetails(task.getModifierId()));
+					model.put("modifier", sender);
 					model.put("creator", getContactDetails(task.getCreatorId()));
 					model.put("taskPercentageImgUrl", emailAssetServerUrl + "/" + emailTaskPercentageImage);
-					// TODO: need to change
-					model.put("taskLink", "http://task");
+                    model.put("taskLink", baseUrl + OnTargetConstant.URL.TASK_URL + "?activityId=" + task.getProjectId() + "&taskId="
+                            + task.getProjectTaskId());
 
 					String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "/template/taskStatusChangedEmail.vm",
 							"UTF-8", model);
@@ -205,8 +206,14 @@ public class EmailServiceImpl implements EmailService {
 					UserDTO assigneeUser = authenticationDAO.getUserResponse(assigneeUserId);
 					assigneeUser.setContact(getContactDetails(assigneeUser.getUserId()));
 
+                    Contact sender = getContactDetails(task.getCreatorId());
+
+                    String emailFrom = new StringBuilder().append(sender.getFirstName()).append(" ").append(sender.getLastName())
+                            .append(OnTargetConstant.EmailServiceConstants.DO_NOT_REPLY_EMAIL).toString();
+
 					MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
 					message.setTo(assigneeUser.getContact().getEmail());
+                    message.setFrom(new InternetAddress(emailFrom));
 					message.setSubject(OnTargetConstant.EmailServiceConstants.TASK_COMMENT_SUBJECT);
 					message.setSentDate(new Date());
 
@@ -214,10 +221,10 @@ public class EmailServiceImpl implements EmailService {
 					model.put("assignee", assigneeUser);
 					model.put("task", task);
 					model.put("commentor", commentedBy);
-					model.put("creator", getContactDetails(task.getCreatorId()));
+					model.put("creator", sender);
 					model.put("taskDetailImgUrl", emailAssetServerUrl + "/" + emailTaskPercentageImage);
-					// TODO: need to change
-					model.put("taskLink", "http://task");
+                    model.put("taskLink", baseUrl + OnTargetConstant.URL.TASK_URL + "?activityId=" + task.getProjectId() + "&taskId="
+                            + task.getProjectTaskId());
 
 					String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "/template/taskComment.vm", "UTF-8", model);
 					message.setText(text, true);
@@ -246,8 +253,14 @@ public class EmailServiceImpl implements EmailService {
 					UserDTO assigneeUser = authenticationDAO.getUserResponse(assigneeUserId);
 					assigneeUser.setContact(getContactDetails(assigneeUser.getUserId()));
 
+                    Contact sender = getContactDetails(task.getCreatorId());
+
+                    String emailFrom = new StringBuilder().append(sender.getFirstName()).append(" ").append(sender.getLastName())
+                            .append(OnTargetConstant.EmailServiceConstants.DO_NOT_REPLY_EMAIL).toString();
+
 					MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
 					message.setTo(assigneeUser.getContact().getEmail());
+                    message.setFrom(new InternetAddress(emailFrom));
 					message.setSubject(OnTargetConstant.EmailServiceConstants.FORGOT_PASSWORD_SUBJECT);
 					message.setSentDate(new Date());
 
@@ -255,10 +268,10 @@ public class EmailServiceImpl implements EmailService {
 					model.put("assignee", assigneeUser);
 					model.put("task", task);
 					model.put("commentor", attachmentDoneBy);
-					model.put("creator", getContactDetails(task.getCreatorId()));
+					model.put("creator", sender);
 					model.put("taskDashboardImgUrl", emailAssetServerUrl + "/" + taskDashboardImgUrl);
-					// TODO: need to change
-					model.put("taskLink", "http://task");
+                    model.put("taskLink", baseUrl + OnTargetConstant.URL.TASK_URL + "?activityId=" + task.getProjectId() + "&taskId="
+                            + task.getProjectTaskId());
 
 					String text = VelocityEngineUtils
 							.mergeTemplateIntoString(velocityEngine, "/template/taskAttachment.vm", "UTF-8", model);
@@ -406,47 +419,7 @@ public class EmailServiceImpl implements EmailService {
 		return true;
 	}
 
-	/**
-	 * Document assignment email
-	 * 
-	 * @param document
-	 * @param assignees
-	 * @return
-	 */
-	@Override
-	public boolean sendDocumentAssignmentEmails(final DocumentDTO document, List<Assignee> assignees) {
-		List<Assignee> failures = new ArrayList<>();
-		for (final Assignee assignee : assignees) {
-			try {
-				MimeMessagePreparator preparator = new MimeMessagePreparator() {
-					@SuppressWarnings({ "rawtypes", "unchecked" })
-					public void prepare(MimeMessage mimeMessage) throws Exception {
-						MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
 
-						message.setFrom(new InternetAddress(OnTargetConstant.EmailServiceConstants.EMAIL_FROM));
-						message.setSubject(OnTargetConstant.EmailServiceConstants.DOCUMENT_APPROVAL_SUBJECT);
-						message.setSentDate(new Date());
-
-						Contact contact = contactDAO.getContact(assignee.getUserId());
-						message.setTo(contact.getEmail());
-						Map model = new HashMap();
-						model.put("document", document);
-						model.put("assignee", assignee);
-						model.put("documentUrl", "http://www.ontarget.com/documents");
-
-						String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "template/documentApprovalEmail.vm",
-								"UTF-8", model);
-						message.setText(text, true);
-					}
-				};
-				javaMailSender.send(preparator);
-			} catch (Exception e) {
-				String errMsg = "Unable to send approval email. user_id is %d and document_id is %d.";
-				logger.error(String.format(errMsg, assignee.getUserId(), document.getDocumentId()), e);
-			}
-		}
-		return failures.size() == assignees.size();
-	}
 
 	@Override
 	public void sendTaskAssignmentEmail(ProjectTaskInfo task, Contact contact) throws Exception {
@@ -462,8 +435,12 @@ public class EmailServiceImpl implements EmailService {
 					logger.debug("creator id: " + task.getCreatorId());
 					Contact sender = getContactDetails(task.getCreatorId());
 
+                    String emailFrom = new StringBuilder().append(sender.getFirstName()).append(" ").append(sender.getLastName())
+                            .append(OnTargetConstant.EmailServiceConstants.DO_NOT_REPLY_EMAIL).toString();
+
+
 					MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
-					message.setFrom(new InternetAddress(OnTargetConstant.EmailServiceConstants.EMAIL_FROM));
+                    message.setFrom(new InternetAddress(emailFrom));
 					message.setTo(assigneeUser.getContact().getEmail());
 					message.setSubject(OnTargetConstant.EmailServiceConstants.TASK_ASSIGNED_SUBJECT);
 					message.setSentDate(new Date());
@@ -534,18 +511,20 @@ public class EmailServiceImpl implements EmailService {
 	 * @param assigneeEmail
 	 * @param modifierFirstName
 	 * @param modifierLastName
-	 * @param creatorFirstName
 	 * @return
 	 */
 	@Override
 	public void sendDocumentStatusUpdateEmail(String documentTitle, String updatedStatus, String assigneeFirstName,
-			String assigneeLastName, String assigneeEmail, String modifierFirstName, String modifierLastName, String creatorFirstName) {
+                                              String assigneeLastName, String assigneeEmail, String modifierFirstName, String modifierLastName) {
 		try {
 			MimeMessagePreparator preparator = new MimeMessagePreparator() {
 				@SuppressWarnings({ "rawtypes", "unchecked" })
 				public void prepare(MimeMessage mimeMessage) throws Exception {
 					MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
-					message.setFrom(new InternetAddress(OnTargetConstant.EmailServiceConstants.EMAIL_FROM));
+                    String emailFrom = new StringBuilder().append(modifierFirstName).append(" ").append(modifierLastName)
+                            .append(OnTargetConstant.EmailServiceConstants.DO_NOT_REPLY_EMAIL).toString();
+
+					message.setFrom(new InternetAddress(emailFrom));
 					message.setTo(assigneeEmail);
 					message.setSubject(OnTargetConstant.EmailServiceConstants.DOCUMENT_STATUS_UPDATE_SUBJECT);
 					message.setSentDate(new Date());
@@ -557,7 +536,6 @@ public class EmailServiceImpl implements EmailService {
 					model.put("assigneeLastName", assigneeLastName);
 					model.put("modifierFirstName", modifierFirstName);
 					model.put("modifierLastName", modifierLastName);
-					model.put("creatorFirstName", creatorFirstName);
 
 					String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "/template/documentStatusUpdateEmail.vm",
 							"UTF-8", model);
@@ -578,7 +556,10 @@ public class EmailServiceImpl implements EmailService {
 				@SuppressWarnings({ "rawtypes", "unchecked" })
 				public void prepare(MimeMessage mimeMessage) throws Exception {
 					MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
-					message.setFrom(new InternetAddress(OnTargetConstant.EmailServiceConstants.EMAIL_FROM));
+                    String emailFrom = new StringBuilder().append(creatorFirstName).append(" ").append(creatorLastName)
+                            .append(OnTargetConstant.EmailServiceConstants.DO_NOT_REPLY_EMAIL).toString();
+
+                    message.setFrom(new InternetAddress(emailFrom));
 					message.setTo(assigneeEmail);
 					message.setSubject(OnTargetConstant.EmailServiceConstants.DOCUMENT_SUBMITTAL_SUBJECT);
 					message.setSentDate(new Date());
