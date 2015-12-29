@@ -22,4 +22,6 @@ public interface DocumentDAO extends GenericDAO<DocumentDTO> {
     public boolean updateDueDate(int documentId, Date dueDate, String modifiedBy) throws Exception;
 
     public List<Object[]> getDocumentsByProjectGroupedByStatusAndDocumentTemplateId(Integer loggedInUserProjectId) throws Exception;
+
+    public List<Object[]> getDocumentsByUserByProjectGroupedByStatusAndDocumentTemplateId(Integer loggedInUserId, Integer loggedInUserProjectId);
 }

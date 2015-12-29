@@ -311,7 +311,22 @@ public class TaskJpaDAOImpl implements TaskDAO {
 		return projectTaskRepository.getCountOfAllCompletedTasks(projectId).intValue();
 	}
 
-	@Override
+    @Override
+    public List<TaskStatusCount> getTaskCountByStatusByUserByProject(Integer userId, Integer projectId) throws Exception {
+        List<Map<String, Object>> taskList = jdbcTemplate.queryForList(OnTargetQuery.GET_PROJECT_TASK_COUNT_BY_USER_BY_PROJECT_BY_STATUS, new Object[] { userId, projectId, projectId});
+        List<TaskStatusCount> taskCountByStatus = new ArrayList<>();
+        if (taskList != null && taskList.size() > 0) {
+            for (Map<String, Object> taskMap : taskList) {
+                TaskStatusCount count = new TaskStatusCount();
+                count.setStatusType((String) taskMap.get("status_name"));
+                count.setTaskCount((Long) taskMap.get("count"));
+                taskCountByStatus.add(count);
+            }
+        }
+        return taskCountByStatus;
+    }
+
+    @Override
 	public Contact getContact(int userId) throws Exception {
 		User userObj = userRepository.findByUserId(userId);
 

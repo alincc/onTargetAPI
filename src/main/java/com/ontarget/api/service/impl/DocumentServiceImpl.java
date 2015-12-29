@@ -486,14 +486,35 @@ public class DocumentServiceImpl implements DocumentService {
         logger.debug("Getting document stats for project: "+loggedInUserProjectId);
         List<Object[]> documentStats = documentDAO.getDocumentsByProjectGroupedByStatusAndDocumentTemplateId(loggedInUserProjectId);
 
-        Map<String, DocumentStatistic> documentCountByTemplateAndStatus=new HashMap<>();
+        Map<String, DocumentStatistic> documentCountByTemplateAndStatus=getDocumentCountByTemplateAndStatus(documentStats);
         DocumentStatsResponse response=new DocumentStatsResponse();
         response.setCountByDocumentTemplateAndStatus(documentCountByTemplateAndStatus);
+        response.setReturnVal(OnTargetConstant.SUCCESS);
+        response.setReturnMessage("Successfully retrieved Document statistics");
+        return response;
+    }
+
+
+    @Override
+    public DocumentStatsResponse getDocumentStatisticsByUserByProject(Integer loggedInUserId, Integer loggedInUserProjectId) {
+        logger.debug("Getting document stats for project: "+loggedInUserProjectId + " and user Id: "+ loggedInUserId);
+        List<Object[]> documentStats = documentDAO.getDocumentsByUserByProjectGroupedByStatusAndDocumentTemplateId(loggedInUserId,loggedInUserProjectId);
+        return null;
+    }
+
+    /**
+     * return submittals statistics by user and project
+     * @param documentStats
+     * @return
+     */
+    private Map<String, DocumentStatistic> getDocumentCountByTemplateAndStatus(List<Object[]> documentStats){
+        Map<String, DocumentStatistic> documentCountByTemplateAndStatus=new HashMap<>();
+
         if(documentStats!=null && documentStats.size() > 0){
             for(Object obj[] : documentStats){
                 Document doc = (Document) obj[0];
                 String status=doc.getStatus();
-                DocumentStatistic documentStatistic = documentCountByTemplateAndStatus.get(doc.getDocumentTemplate());
+                DocumentStatistic documentStatistic = documentCountByTemplateAndStatus.get(doc.getDocumentTemplate().getName());
                 if(documentStatistic == null){
                     documentStatistic=new DocumentStatistic();
                 }
@@ -507,12 +528,9 @@ public class DocumentServiceImpl implements DocumentService {
                 documentCountByTemplateAndStatus.put(doc.getDocumentTemplate().getName(),documentStatistic);
             }
         }
-
-        response.setReturnVal(OnTargetConstant.SUCCESS);
-        response.setReturnMessage("Successfully retrieved Document statistics");
-
-        return response;
+        return documentCountByTemplateAndStatus;
     }
+
 
     @Override
 	@Transactional(rollbackFor = { Exception.class })

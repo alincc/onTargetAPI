@@ -3,10 +3,7 @@ package com.ontarget.api.service;
 import java.util.List;
 import java.util.Set;
 
-import com.ontarget.bean.Contact;
-import com.ontarget.bean.DependentTaskDTO;
-import com.ontarget.bean.FileAttachment;
-import com.ontarget.bean.TaskInfo;
+import com.ontarget.bean.*;
 import com.ontarget.dto.FieldWorkerResponse;
 import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.ProjectTask;
@@ -61,4 +58,5 @@ public interface TaskService {
 
 	public com.ontarget.response.bean.TaskListResponse getTaskListByProjectAndUser(Integer projectId,Integer userId) throws Exception;
 
+    public List<TaskStatusCount> getTaskCountByStatusByUserByProject(Integer userId, Integer projectId) throws Exception;
 }

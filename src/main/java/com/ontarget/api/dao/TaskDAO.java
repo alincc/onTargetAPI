@@ -77,4 +77,6 @@ public interface TaskDAO {
 	public List<TaskPercentage> getTaskPercentageByTask(int projectTaskId) throws Exception;
 
     public int getCompletedTaskCount(int projectId) throws Exception;
+
+    public List<TaskStatusCount> getTaskCountByStatusByUserByProject(Integer userId, Integer projectId) throws Exception;
 }

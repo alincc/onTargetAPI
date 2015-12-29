@@ -29,4 +29,7 @@ public interface DocumentRepository extends JpaRepository<Document, Integer> {
 
     @Query("select doc,count(doc.documentId) as count from Document doc where doc.projectId=?1 group by doc.documentTemplate.documentTemplateId,doc.status")
     List<Object[]> getDocumentsByProjectGroupedByStatusAndDocumentTemplateId(Integer loggedInUserProjectId);
+
+    @Query("select doc,count(doc.documentId) as count from Document doc join doc.documentSubmittalList dsl where doc.projectId=?2 and dsl.user.userId=?1 group by doc.documentTemplate.documentTemplateId,doc.status")
+    List<Object[]> getDocumentsByUserByProjectGroupedByStatusAndDocumentTemplateId(Integer loggedInUserId, Integer loggedInUserProjectId);
 }

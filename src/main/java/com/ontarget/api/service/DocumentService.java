@@ -38,4 +38,6 @@ public interface DocumentService {
     public UpdateDocumentQuestionResponse updateDocumentQuestionResponse(UpdateDocumentQuestionResponseRequest request) throws Exception;
 
     public DocumentStatsResponse getDocumentStatisticsByProject(Integer loggedInUserProjectId) throws Exception;
+
+    public DocumentStatsResponse getDocumentStatisticsByUserByProject(Integer loggedInUserId, Integer loggedInUserProjectId1);
 }

@@ -36,7 +36,7 @@ public interface DocumentEndpoint {
 
     public GetDocumentAttachmentsResponse getDocumentAttachments(@Valid GetDocumentAttachmentRequest request);
 
-    @POST
-    @Path("/getDocumentStats")
-    DocumentStatsResponse getDocumentAttachments(DocumentStatsRequest request);
+    public DocumentStatsResponse getDocumentStatisticsByProject(@Valid DocumentStatsRequest request);
+
+    public DocumentStatsResponse getDocumentStatsByUserByProject(@Valid DocumentStatsRequest request);
 }

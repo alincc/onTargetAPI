@@ -6,17 +6,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.ontarget.api.dao.*;
+import com.ontarget.entities.UserProjectProfile;
+import com.ontarget.enums.UserType;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ontarget.api.dao.ContactDAO;
-import com.ontarget.api.dao.ProjectDAO;
-import com.ontarget.api.dao.ProjectTaskFileDAO;
-import com.ontarget.api.dao.TaskDAO;
-import com.ontarget.api.dao.TaskEstimatedCostDAO;
 import com.ontarget.api.repository.ProjectTaskRepository;
 import com.ontarget.api.service.EmailService;
 import com.ontarget.api.service.TaskService;
@@ -70,6 +68,9 @@ public class TaskServiceImpl implements TaskService {
 	@Autowired
 	@Qualifier("projectJpaDAOImpl")
 	private ProjectDAO projectDAO;
+
+    @Autowired
+    UserProjectProfileDAO userProjectProfileDAO;
 
 	@Autowired
 	private ProjectTaskRepository projectTaskRepository;
@@ -160,12 +161,28 @@ public class TaskServiceImpl implements TaskService {
         logger.debug("Getting users task for user: "+userId+" and  by project: "+ projectId);
 
         long startTime = System.currentTimeMillis();
+        com.ontarget.response.bean.TaskListResponse taskListResponse = new com.ontarget.response.bean.TaskListResponse();
 
-		List<com.ontarget.entities.ProjectTask> projectTaskList = projectTaskRepository.findAllUndeletedTasksByProjectAndUser(projectId,
-				userId);
+
+        /**
+         * if super user return all tasks
+         */
+        UserProjectProfile userProjectProfile = userProjectProfileDAO.findProfileByUserAndProject(projectId, userId);
+        List<com.ontarget.entities.ProjectTask> projectTaskList=null;
+        if(userProjectProfile.getProfile().getProfileCode().equals(UserType.SUPERUSER.getCode())){
+            projectTaskList = projectTaskRepository.findAllUndeletedTasksByProject(projectId);
+        }else {
+            projectTaskList = projectTaskRepository.findAllUndeletedTasksByProjectAndUser(projectId,userId);
+        }
 
         long endTime=System.currentTimeMillis();
         logger.info("Time taken to fetch just task:"+ (endTime - startTime) +" ms");
+
+        //if no tasks found return null
+        if(projectTaskList == null || projectTaskList.size() == 0){
+            taskListResponse.setTasks(null);
+            return taskListResponse;
+        }
 
 
 		List<com.ontarget.response.bean.Task> taskList = new ArrayList<com.ontarget.response.bean.Task>();
@@ -213,7 +230,6 @@ public class TaskServiceImpl implements TaskService {
         long endTaskLoop = System.currentTimeMillis();
         logger.info("Total time take to loop and create DTO for:  "+taskList.size()+" tasks : "+ (endTaskLoop - startTaskLoop) +" ms");
 
-		com.ontarget.response.bean.TaskListResponse taskListResponse = new com.ontarget.response.bean.TaskListResponse();
 		taskListResponse.setTasks(taskList);
 
         endTime = System.currentTimeMillis();
@@ -223,7 +239,12 @@ public class TaskServiceImpl implements TaskService {
 		return taskListResponse;
 	}
 
-	private com.ontarget.response.bean.Task getTaskInfo(com.ontarget.entities.ProjectTask projectTask) throws Exception {
+    @Override
+    public List<TaskStatusCount> getTaskCountByStatusByUserByProject(Integer userId, Integer projectId) throws Exception {
+        return taskDAO.getTaskCountByStatusByUserByProject(userId, projectId);
+    }
+
+    private com.ontarget.response.bean.Task getTaskInfo(com.ontarget.entities.ProjectTask projectTask) throws Exception {
 		com.ontarget.response.bean.Task task = new com.ontarget.response.bean.Task();
 		task.setTitle(projectTask.getTitle());
 		task.setDescription(projectTask.getDescription());

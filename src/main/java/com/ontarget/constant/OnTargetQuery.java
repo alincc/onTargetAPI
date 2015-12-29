@@ -59,7 +59,12 @@ public interface OnTargetQuery {
 
     public static final String GET_PROJECT_TASK_COUNT_BY_STATUS = new StringBuilder("select t.status_name, if(j.count is null,0,j.count) as count from task_status t")
             .append(" left outer join (select p.status, count(p.status) as count from project_task p where (project_id=? or project_id in ")
-            .append(" (select project_id from project where  project_parent_id=? and type='ACTIVITY')) group by status) j")
+            .append(" (select project_id from project where  project_parent_id=? and type='ACTIVITY' and project_status!=2)) group by status) j")
+            .append(" on t.task_status_id=j.status").toString();
+
+    public static final String GET_PROJECT_TASK_COUNT_BY_USER_BY_PROJECT_BY_STATUS = new StringBuilder("select t.status_name, if(j.count is null,0,j.count) as count from task_status t")
+            .append(" left outer join (select p.status, count(p.status) as count from project_task p, task_assignee ta where p.project_task_id = ta.project_task_id AND ta.task_assignee = ? and (project_id=? or project_id in ")
+            .append(" (select project_id from project where  project_parent_id=? and type='ACTIVITY' and project_status!=2)) group by status) j")
             .append(" on t.task_status_id=j.status").toString();
 
     public static final String GET_PROJECT_AND_TASKS = new StringBuilder("select p.project_id, p.project_parent_id, t.* from project p left outer join project_task t")

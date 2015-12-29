@@ -1,6 +1,8 @@
 package com.ontarget.api.rs;
 
 import javax.validation.Valid;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
 
 import com.ontarget.api.constraint.TaskDateRangeBetweenProject;
 import com.ontarget.api.response.TaskListCountResponse;
@@ -38,7 +40,9 @@ public interface TaskEndpoint {
 
 	public FieldWorkerResponse getTaskFieldWorkers(@Valid TaskFieldWorkerRequest request);
 
-	public TaskListCountResponse getTaskCountByStatus(@Valid ProjectTaskRequest projectTaskRequest);
+    TaskListCountResponse getTaskCountByStatusV1(ProjectTaskRequest projectTaskRequest);
+
+    public TaskListCountResponse getTaskCountByStatus(@Valid ProjectTaskRequest projectTaskRequest);
 
 	public TaskCommentResponse addUpdateCommentToTask(@Valid TaskCommentRequest comment);
 

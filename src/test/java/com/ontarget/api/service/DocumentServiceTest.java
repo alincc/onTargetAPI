@@ -7,12 +7,15 @@ import com.ontarget.request.bean.BaseRequest;
 import com.ontarget.request.bean.DeleteDocumentAttachmentRequest;
 import com.ontarget.request.bean.GetDocumentQuestionResponseRequest;
 import com.ontarget.request.bean.UpdateDocumentQuestionResponseRequest;
+import com.ontarget.response.bean.DocumentStatsResponse;
 import com.ontarget.response.bean.GetDocumentQuestionResponse;
 import com.ontarget.response.bean.UpdateDocumentQuestionResponse;
 import junit.framework.Assert;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
 
 import static junit.framework.Assert.fail;
 
@@ -140,6 +143,16 @@ public class DocumentServiceTest extends BaseTest{
 
         } catch (Exception e) {
             logger.error("Error while saving document response.",e);
+            fail();
+        }
+    }
+
+    @Test
+    public void documentStatsTest(){
+        try {
+            DocumentStatsResponse response =  documentService.getDocumentStatisticsByProject(45);
+        } catch (Exception e) {
+            logger.error("Error while getting document status",e);
             fail();
         }
     }

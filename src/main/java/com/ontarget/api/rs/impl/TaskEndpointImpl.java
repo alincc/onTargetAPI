@@ -141,12 +141,12 @@ public class TaskEndpointImpl implements TaskEndpoint {
 
 	@Override
 	@POST
-	@Path("/getTaskCountsOfProject")
-	public TaskListCountResponse getTaskCountByStatus(ProjectTaskRequest projectTaskRequest) {
+	@Path("/getTaskCountByUserByProjectByStatus")
+	public TaskListCountResponse getTaskCountByStatusV1(ProjectTaskRequest projectTaskRequest) {
 		TaskListCountResponse response = new TaskListCountResponse();
 		logger.info("Getting all tasks count for project: " + projectTaskRequest.getProjectId());
 		try {
-			response.setTaskCountByStatus(taskService.getTaskCountByStatus(projectTaskRequest.getProjectId()));
+			response.setTaskCountByStatus(taskService.getTaskCountByStatusByUserByProject(projectTaskRequest.getBaseRequest().getLoggedInUserId(),projectTaskRequest.getProjectId()));
 			response.setReturnMessage("Successfully retrieved tasks and counts");
 			response.setReturnVal(OnTargetConstant.SUCCESS);
 		} catch (Exception e) {
@@ -156,6 +156,24 @@ public class TaskEndpointImpl implements TaskEndpoint {
 		}
 		return response;
 	}
+
+    @Override
+    @POST
+    @Path("/getTaskCountsOfProject")
+    public TaskListCountResponse getTaskCountByStatus(ProjectTaskRequest projectTaskRequest) {
+        TaskListCountResponse response = new TaskListCountResponse();
+        logger.info("Getting all tasks count for project: " + projectTaskRequest.getProjectId());
+        try {
+            response.setTaskCountByStatus(taskService.getTaskCountByStatus(projectTaskRequest.getProjectId()));
+            response.setReturnMessage("Successfully retrieved tasks and counts");
+            response.setReturnVal(OnTargetConstant.SUCCESS);
+        } catch (Exception e) {
+            logger.error("Get task count failed.", e);
+            response.setReturnMessage("Get task count failed");
+            response.setReturnVal(OnTargetConstant.ERROR);
+        }
+        return response;
+    }
 
 	@Override
 	@POST

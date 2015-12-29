@@ -224,4 +224,9 @@ public class DocumentJpaDAOImpl implements DocumentDAO {
         return documentRepository.getDocumentsByProjectGroupedByStatusAndDocumentTemplateId(loggedInUserProjectId);
     }
 
+    @Override
+    public List<Object[]> getDocumentsByUserByProjectGroupedByStatusAndDocumentTemplateId(Integer loggedInUserId, Integer loggedInUserProjectId) {
+        return documentRepository.getDocumentsByUserByProjectGroupedByStatusAndDocumentTemplateId(loggedInUserId, loggedInUserProjectId);
+    }
+
 }

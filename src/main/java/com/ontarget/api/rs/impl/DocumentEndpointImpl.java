@@ -217,9 +217,25 @@ public class DocumentEndpointImpl implements DocumentEndpoint {
     @POST
     @Path("/getDocumentStats")
     @Override
-    public DocumentStatsResponse getDocumentAttachments(DocumentStatsRequest request) {
+    public DocumentStatsResponse getDocumentStatisticsByProject(DocumentStatsRequest request) {
         try {
            return documentService.getDocumentStatisticsByProject(request.getBaseRequest().getLoggedInUserProjectId());
+        } catch (Exception e) {
+            logger.error("Error while getting document statistics",e);
+            DocumentStatsResponse response = new DocumentStatsResponse();
+            response.setReturnVal(OnTargetConstant.ERROR);
+            response.setReturnMessage("Error while getting document statistics");
+            return response;
+        }
+    }
+
+
+    @POST
+    @Path("/getDocumentStatsByUserByProject")
+    @Override
+    public DocumentStatsResponse getDocumentStatsByUserByProject(DocumentStatsRequest request) {
+        try {
+            return documentService.getDocumentStatisticsByUserByProject(request.getBaseRequest().getLoggedInUserId(),request.getBaseRequest().getLoggedInUserProjectId());
         } catch (Exception e) {
             logger.error("Error while getting document statistics",e);
             DocumentStatsResponse response = new DocumentStatsResponse();
