@@ -30,9 +30,9 @@ public class Task {
 	@NotEmpty
 	@JsonProperty("status")
 	private String status;
-	@NotEmpty
+	@NotNull
 	@JsonProperty("severity")
-	private int severity;
+	private Integer severity;
 	@JsonProperty("startDate")
 	private Date startDate;
 	@JsonProperty("endDate")

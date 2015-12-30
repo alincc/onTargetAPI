@@ -1,235 +1,236 @@
-<head>
-    <title></title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <style type="text/css">
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html><head>
+<title></title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
 .font-sans-serif {
-  font-family: sans-serif;
+    font-family: sans-serif;
 }
 .font-avenir {
-  font-family: Avenir, sans-serif;
+    font-family: Avenir, sans-serif;
 }
 .mso .wrapper .font-avenir {
-  font-family: sans-serif !important;
+    font-family: sans-serif !important;
 }
 .font-lato {
-  font-family: Lato, Tahoma, sans-serif;
+    font-family: Lato, Tahoma, sans-serif;
 }
 .mso .wrapper .font-lato {
-  font-family: Tahoma, sans-serif !important;
+    font-family: Tahoma, sans-serif !important;
 }
 .font-cabin {
-  font-family: Cabin, Avenir, sans-serif;
+    font-family: Cabin, Avenir, sans-serif;
 }
 .mso .wrapper .font-cabin {
-  font-family: sans-serif !important;
+    font-family: sans-serif !important;
 }
 .font-open-Sans {
-  font-family: "Open Sans", sans-serif;
+    font-family: "Open Sans", sans-serif;
 }
 .mso .wrapper .font-open-Sans {
-  font-family: sans-serif !important;
+    font-family: sans-serif !important;
 }
 .font-roboto {
-  font-family: Roboto, Tahoma, sans-serif;
+    font-family: Roboto, Tahoma, sans-serif;
 }
 .mso .wrapper .font-roboto {
-  font-family: Tahoma, sans-serif !important;
+    font-family: Tahoma, sans-serif !important;
 }
 .font-ubuntu {
-  font-family: Ubuntu, sans-serif;
+    font-family: Ubuntu, sans-serif;
 }
 .mso .wrapper .font-ubuntu {
-  font-family: sans-serif !important;
+    font-family: sans-serif !important;
 }
 .font-pt-sans {
-  font-family: "PT Sans", "Trebuchet MS", sans-serif;
+    font-family: "PT Sans", "Trebuchet MS", sans-serif;
 }
 .mso .wrapper .font-pt-sans {
-  font-family: "Trebuchet MS", sans-serif !important;
+    font-family: "Trebuchet MS", sans-serif !important;
 }
 .font-georgia {
-  font-family: Georgia, serif;
+    font-family: Georgia, serif;
 }
 .font-merriweather {
-  font-family: Merriweather, Georgia, serif;
+    font-family: Merriweather, Georgia, serif;
 }
 .mso .wrapper .font-merriweather {
-  font-family: Georgia, serif !important;
+    font-family: Georgia, serif !important;
 }
 .font-bitter {
-  font-family: Bitter, Georgia, serif;
+    font-family: Bitter, Georgia, serif;
 }
 .mso .wrapper .font-bitter {
-  font-family: Georgia, serif !important;
+    font-family: Georgia, serif !important;
 }
 .font-pt-serif {
-  font-family: "PT Serif", Georgia, serif;
+    font-family: "PT Serif", Georgia, serif;
 }
 .mso .wrapper .font-pt-serif {
-  font-family: Georgia, serif !important;
+    font-family: Georgia, serif !important;
 }
 .font-pompiere {
-  font-family: Pompiere, "Trebuchet MS", sans-serif;
+    font-family: Pompiere, "Trebuchet MS", sans-serif;
 }
 .mso .wrapper .font-pompiere {
-  font-family: "Trebuchet MS", sans-serif !important;
+    font-family: "Trebuchet MS", sans-serif !important;
 }
 .font-roboto-slab {
-  font-family: "Roboto Slab", Georgia, serif;
+    font-family: "Roboto Slab", Georgia, serif;
 }
 .mso .wrapper .font-roboto-slab {
-  font-family: Georgia, serif !important;
+    font-family: Georgia, serif !important;
 }
 @media only screen and (max-width: 620px) {
-  .wrapper .column .size-8 {
-    font-size: 8px !important;
-    line-height: 14px !important;
-  }
-  .wrapper .column .size-9 {
-    font-size: 9px !important;
-    line-height: 16px !important;
-  }
-  .wrapper .column .size-10 {
-    font-size: 10px !important;
-    line-height: 18px !important;
-  }
-  .wrapper .column .size-11 {
-    font-size: 11px !important;
-    line-height: 19px !important;
-  }
-  .wrapper .column .size-12 {
-    font-size: 12px !important;
-    line-height: 19px !important;
-  }
-  .wrapper .column .size-13 {
-    font-size: 13px !important;
-    line-height: 21px !important;
-  }
-  .wrapper .column .size-14 {
-    font-size: 14px !important;
-    line-height: 21px !important;
-  }
-  .wrapper .column .size-15 {
-    font-size: 15px !important;
-    line-height: 23px !important;
-  }
-  .wrapper .column .size-16 {
-    font-size: 16px !important;
-    line-height: 24px !important;
-  }
-  .wrapper .column .size-17 {
-    font-size: 17px !important;
-    line-height: 26px !important;
-  }
-  .wrapper .column .size-18 {
-    font-size: 17px !important;
-    line-height: 26px !important;
-  }
-  .wrapper .column .size-20 {
-    font-size: 17px !important;
-    line-height: 26px !important;
-  }
-  .wrapper .column .size-22 {
-    font-size: 18px !important;
-    line-height: 26px !important;
-  }
-  .wrapper .column .size-24 {
-    font-size: 20px !important;
-    line-height: 28px !important;
-  }
-  .wrapper .column .size-26 {
-    font-size: 22px !important;
-    line-height: 31px !important;
-  }
-  .wrapper .column .size-28 {
-    font-size: 24px !important;
-    line-height: 32px !important;
-  }
-  .wrapper .column .size-30 {
-    font-size: 26px !important;
-    line-height: 34px !important;
-  }
-  .wrapper .column .size-32 {
-    font-size: 28px !important;
-    line-height: 36px !important;
-  }
-  .wrapper .column .size-34 {
-    font-size: 30px !important;
-    line-height: 38px !important;
-  }
-  .wrapper .column .size-36 {
-    font-size: 30px !important;
-    line-height: 38px !important;
-  }
-  .wrapper .column .size-40 {
-    font-size: 32px !important;
-    line-height: 40px !important;
-  }
-  .wrapper .column .size-44 {
-    font-size: 34px !important;
-    line-height: 43px !important;
-  }
-  .wrapper .column .size-48 {
-    font-size: 36px !important;
-    line-height: 43px !important;
-  }
-  .wrapper .column .size-56 {
-    font-size: 40px !important;
-    line-height: 47px !important;
-  }
-  .wrapper .column .size-64 {
-    font-size: 44px !important;
-    line-height: 50px !important;
-  }
+    .wrapper .column .size-8 {
+        font-size: 8px !important;
+        line-height: 14px !important;
+    }
+    .wrapper .column .size-9 {
+        font-size: 9px !important;
+        line-height: 16px !important;
+    }
+    .wrapper .column .size-10 {
+        font-size: 10px !important;
+        line-height: 18px !important;
+    }
+    .wrapper .column .size-11 {
+        font-size: 11px !important;
+        line-height: 19px !important;
+    }
+    .wrapper .column .size-12 {
+        font-size: 12px !important;
+        line-height: 19px !important;
+    }
+    .wrapper .column .size-13 {
+        font-size: 13px !important;
+        line-height: 21px !important;
+    }
+    .wrapper .column .size-14 {
+        font-size: 14px !important;
+        line-height: 21px !important;
+    }
+    .wrapper .column .size-15 {
+        font-size: 15px !important;
+        line-height: 23px !important;
+    }
+    .wrapper .column .size-16 {
+        font-size: 16px !important;
+        line-height: 24px !important;
+    }
+    .wrapper .column .size-17 {
+        font-size: 17px !important;
+        line-height: 26px !important;
+    }
+    .wrapper .column .size-18 {
+        font-size: 17px !important;
+        line-height: 26px !important;
+    }
+    .wrapper .column .size-20 {
+        font-size: 17px !important;
+        line-height: 26px !important;
+    }
+    .wrapper .column .size-22 {
+        font-size: 18px !important;
+        line-height: 26px !important;
+    }
+    .wrapper .column .size-24 {
+        font-size: 20px !important;
+        line-height: 28px !important;
+    }
+    .wrapper .column .size-26 {
+        font-size: 22px !important;
+        line-height: 31px !important;
+    }
+    .wrapper .column .size-28 {
+        font-size: 24px !important;
+        line-height: 32px !important;
+    }
+    .wrapper .column .size-30 {
+        font-size: 26px !important;
+        line-height: 34px !important;
+    }
+    .wrapper .column .size-32 {
+        font-size: 28px !important;
+        line-height: 36px !important;
+    }
+    .wrapper .column .size-34 {
+        font-size: 30px !important;
+        line-height: 38px !important;
+    }
+    .wrapper .column .size-36 {
+        font-size: 30px !important;
+        line-height: 38px !important;
+    }
+    .wrapper .column .size-40 {
+        font-size: 32px !important;
+        line-height: 40px !important;
+    }
+    .wrapper .column .size-44 {
+        font-size: 34px !important;
+        line-height: 43px !important;
+    }
+    .wrapper .column .size-48 {
+        font-size: 36px !important;
+        line-height: 43px !important;
+    }
+    .wrapper .column .size-56 {
+        font-size: 40px !important;
+        line-height: 47px !important;
+    }
+    .wrapper .column .size-64 {
+        font-size: 44px !important;
+        line-height: 50px !important;
+    }
 }
 body {
-  margin: 0;
-  padding: 0;
-  min-width: 100%;
+    margin: 0;
+    padding: 0;
+    min-width: 100%;
 }
 .mso body {
-  mso-line-height-rule: exactly;
+    mso-line-height-rule: exactly;
 }
 .no-padding .wrapper .column .column-top,
 .no-padding .wrapper .column .column-bottom {
-  font-size: 0px;
-  line-height: 0px;
+    font-size: 0px;
+    line-height: 0px;
 }
 table {
-  border-collapse: collapse;
-  border-spacing: 0;
+    border-collapse: collapse;
+    border-spacing: 0;
 }
 td {
-  padding: 0;
-  vertical-align: top;
+    padding: 0;
+    vertical-align: top;
 }
 .spacer,
 .border {
-  font-size: 1px;
-  line-height: 1px;
+    font-size: 1px;
+    line-height: 1px;
 }
 .spacer {
-  width: 100%;
+    width: 100%;
 }
 img {
-  border: 0;
-  -ms-interpolation-mode: bicubic;
+    border: 0;
+    -ms-interpolation-mode: bicubic;
 }
 .image {
-  font-size: 12px;
-  mso-line-height-rule: at-least;
+    font-size: 12px;
+    mso-line-height-rule: at-least;
 }
 .image img {
-  display: block;
+    display: block;
 }
 .logo {
-  mso-line-height-rule: at-least;
+    mso-line-height-rule: at-least;
 }
 .logo img {
-  display: block;
+    display: block;
 }
 strong {
-  font-weight: bold;
+    font-weight: bold;
 }
 h1,
 h2,
@@ -239,289 +240,289 @@ ol,
 ul,
 blockquote,
 .image {
-  font-style: normal;
-  font-weight: 400;
+    font-style: normal;
+    font-weight: 400;
 }
 ol,
 ul,
 li {
-  padding-left: 0;
+    padding-left: 0;
 }
 blockquote {
-  Margin-left: 0;
-  Margin-right: 0;
-  padding-right: 0;
+    Margin-left: 0;
+    Margin-right: 0;
+    padding-right: 0;
 }
 .column-top,
 .column-bottom {
-  font-size: 32px;
-  line-height: 32px;
-  transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
-  transition-duration: 150ms;
-  transition-property: all;
+    font-size: 32px;
+    line-height: 32px;
+    transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+    transition-duration: 150ms;
+    transition-property: all;
 }
 .half-padding .column .column-top,
 .half-padding .column .column-bottom {
-  font-size: 16px;
-  line-height: 16px;
+    font-size: 16px;
+    line-height: 16px;
 }
 .column {
-  text-align: left;
+    text-align: left;
 }
 .contents {
-  table-layout: fixed;
-  width: 100%;
+    table-layout: fixed;
+    width: 100%;
 }
 .padded {
-  padding-left: 32px;
-  padding-right: 32px;
-  word-break: break-word;
-  word-wrap: break-word;
+    padding-left: 32px;
+    padding-right: 32px;
+    word-break: break-word;
+    word-wrap: break-word;
 }
 .wrapper {
-  display: table;
-  table-layout: fixed;
-  width: 100%;
-  min-width: 620px;
-  -webkit-text-size-adjust: 100%;
-  -ms-text-size-adjust: 100%;
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    min-width: 620px;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
 }
 .wrapper a {
-  transition: opacity 0.2s ease-in;
+    transition: opacity 0.2s ease-in;
 }
 table.wrapper {
-  table-layout: fixed;
+    table-layout: fixed;
 }
 .one-col,
 .two-col,
 .three-col {
-  Margin-left: auto;
-  Margin-right: auto;
-  width: 600px;
+    Margin-left: auto;
+    Margin-right: auto;
+    width: 600px;
 }
 .centered {
-  Margin-left: auto;
-  Margin-right: auto;
+    Margin-left: auto;
+    Margin-right: auto;
 }
 .btn a {
-  border-radius: 3px;
-  display: inline-block;
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 24px;
-  padding: 13px 35px 12px 35px;
-  text-align: center;
-  text-decoration: none !important;
+    border-radius: 3px;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 24px;
+    padding: 13px 35px 12px 35px;
+    text-align: center;
+    text-decoration: none !important;
 }
 .btn a:hover {
-  opacity: 0.8;
+    opacity: 0.8;
 }
 .two-col .btn a {
-  font-size: 12px;
-  line-height: 22px;
-  padding: 10px 28px;
+    font-size: 12px;
+    line-height: 22px;
+    padding: 10px 28px;
 }
 .three-col .btn a,
 .wrapper .narrower .btn a {
-  font-size: 11px;
-  line-height: 19px;
-  padding: 6px 18px 5px 18px;
+    font-size: 11px;
+    line-height: 19px;
+    padding: 6px 18px 5px 18px;
 }
 @media only screen and (max-width: 620px) {
-  .btn a {
-    display: block !important;
-    font-size: 14px !important;
-    line-height: 24px !important;
-    padding: 13px 10px 12px 10px !important;
-  }
+    .btn a {
+        display: block !important;
+        font-size: 14px !important;
+        line-height: 24px !important;
+        padding: 13px 10px 12px 10px !important;
+    }
 }
 .two-col .column {
-  width: 300px;
+    width: 300px;
 }
 .two-col .first .padded {
-  padding-left: 32px;
-  padding-right: 16px;
+    padding-left: 32px;
+    padding-right: 16px;
 }
 .two-col .second .padded {
-  padding-left: 16px;
-  padding-right: 32px;
+    padding-left: 16px;
+    padding-right: 32px;
 }
 .three-col .column {
-  width: 200px;
+    width: 200px;
 }
 .three-col .first .padded {
-  padding-left: 32px;
-  padding-right: 8px;
+    padding-left: 32px;
+    padding-right: 8px;
 }
 .three-col .second .padded {
-  padding-left: 20px;
-  padding-right: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 .three-col .third .padded {
-  padding-left: 8px;
-  padding-right: 32px;
+    padding-left: 8px;
+    padding-right: 32px;
 }
 .wider {
-  width: 400px;
+    width: 400px;
 }
 .narrower {
-  width: 200px;
+    width: 200px;
 }
 @media only screen and (min-width: 0) {
-  .wrapper {
-    text-rendering: optimizeLegibility;
-  }
+    .wrapper {
+        text-rendering: optimizeLegibility;
+    }
 }
 @media only screen and (max-width: 620px) {
-  [class=wrapper] {
-    min-width: 320px !important;
-    width: 100% !important;
-  }
-  [class=wrapper] .one-col,
-  [class=wrapper] .two-col,
-  [class=wrapper] .three-col {
-    width: 320px !important;
-  }
-  [class=wrapper] .column,
-  [class=wrapper] .gutter {
-    display: block;
-    float: left;
-    width: 320px !important;
-  }
-  [class=wrapper] .padded {
-    padding-left: 20px !important;
-    padding-right: 20px !important;
-  }
-  [class=wrapper] .block {
-    display: block !important;
-  }
-  [class=wrapper] .hide {
-    display: none !important;
-  }
-  [class=wrapper] .image img {
-    height: auto !important;
-    width: 100% !important;
-  }
+    [class=wrapper] {
+        min-width: 320px !important;
+        width: 100% !important;
+    }
+    [class=wrapper] .one-col,
+    [class=wrapper] .two-col,
+    [class=wrapper] .three-col {
+        width: 320px !important;
+    }
+    [class=wrapper] .column,
+    [class=wrapper] .gutter {
+        display: block;
+        float: left;
+        width: 320px !important;
+    }
+    [class=wrapper] .padded {
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+    }
+    [class=wrapper] .block {
+        display: block !important;
+    }
+    [class=wrapper] .hide {
+        display: none !important;
+    }
+    [class=wrapper] .image img {
+        height: auto !important;
+        width: 100% !important;
+    }
 }
 .footer {
-  width: 100%;
+    width: 100%;
 }
 .footer .inner {
-  padding: 58px 0 29px 0;
-  width: 600px;
+    padding: 58px 0 29px 0;
+    width: 600px;
 }
 .footer .left td,
 .footer .right td {
-  font-size: 12px;
-  line-height: 22px;
+    font-size: 12px;
+    line-height: 22px;
 }
 .footer .left td {
-  text-align: left;
-  width: 400px;
+    text-align: left;
+    width: 400px;
 }
 .footer .right td {
-  max-width: 200px;
-  mso-line-height-rule: at-least;
+    max-width: 200px;
+    mso-line-height-rule: at-least;
 }
 .footer .links {
-  line-height: 26px;
-  Margin-bottom: 26px;
-  mso-line-height-rule: at-least;
+    line-height: 26px;
+    Margin-bottom: 26px;
+    mso-line-height-rule: at-least;
 }
 .footer .links a:hover {
-  opacity: 0.8;
+    opacity: 0.8;
 }
 .footer .links img {
-  vertical-align: middle;
+    vertical-align: middle;
 }
 .footer .address {
-  Margin-bottom: 18px;
+    Margin-bottom: 18px;
 }
 .footer .campaign {
-  Margin-bottom: 18px;
+    Margin-bottom: 18px;
 }
 .footer .campaign a {
-  font-weight: bold;
-  text-decoration: none;
+    font-weight: bold;
+    text-decoration: none;
 }
 .footer .sharing div {
-  Margin-bottom: 5px;
+    Margin-bottom: 5px;
 }
 .wrapper .footer .fblike,
 .wrapper .footer .tweet,
 .wrapper .footer .linkedinshare,
 .wrapper .footer .forwardtoafriend {
-  background-repeat: no-repeat;
-  background-size: 200px 56px;
-  border-radius: 2px;
-  color: #ffffff;
-  display: block;
-  font-size: 11px;
-  font-weight: bold;
-  line-height: 11px;
-  padding: 8px 11px 7px 28px;
-  text-align: left;
-  text-decoration: none;
+    background-repeat: no-repeat;
+    background-size: 200px 56px;
+    border-radius: 2px;
+    color: #ffffff;
+    display: block;
+    font-size: 11px;
+    font-weight: bold;
+    line-height: 11px;
+    padding: 8px 11px 7px 28px;
+    text-align: left;
+    text-decoration: none;
 }
 .wrapper .footer .fblike:hover,
 .wrapper .footer .tweet:hover,
 .wrapper .footer .linkedinshare:hover,
 .wrapper .footer .forwardtoafriend:hover {
-  color: #ffffff !important;
-  opacity: 0.8;
+    color: #ffffff !important;
+    opacity: 0.8;
 }
 .footer .fblike {
-  background-image: url(https://i3.createsend1.com/static/eb/master/03-fresh/imgf/fblike.png);
+    background-image: url(http://i3.createsend1.com/static/eb/master/03-fresh/imgf/fblike.png);
 }
 .footer .tweet {
-  background-image: url(https://i4.createsend1.com/static/eb/master/03-fresh/imgf/tweet.png);
+    background-image: url(http://i4.createsend1.com/static/eb/master/03-fresh/imgf/tweet.png);
 }
 .footer .linkedinshare {
-  background-image: url(https://i5.createsend1.com/static/eb/master/03-fresh/imgf/lishare.png);
+    background-image: url(http://i5.createsend1.com/static/eb/master/03-fresh/imgf/lishare.png);
 }
 .footer .forwardtoafriend {
-  background-image: url(https://i6.createsend1.com/static/eb/master/03-fresh/imgf/forward.png);
+    background-image: url(http://i6.createsend1.com/static/eb/master/03-fresh/imgf/forward.png);
 }
 @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2/1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
-  .footer .fblike {
-    background-image: url(https://i7.createsend1.com/static/eb/master/03-fresh/imgf/fblike@2x.png) !important;
-  }
-  .footer .tweet {
-    background-image: url(https://i9.createsend1.com/static/eb/master/03-fresh/imgf/tweet@2x.png) !important;
-  }
-  .footer .linkedinshare {
-    background-image: url(https://i8.createsend1.com/static/eb/master/03-fresh/imgf/lishare@2x.png) !important;
-  }
-  .footer .forwardtoafriend {
-    background-image: url(https://i10.createsend1.com/static/eb/master/03-fresh/imgf/forward@2x.png) !important;
-  }
+    .footer .fblike {
+        background-image: url(http://i7.createsend1.com/static/eb/master/03-fresh/imgf/fblike@2x.png) !important;
+    }
+    .footer .tweet {
+        background-image: url(http://i9.createsend1.com/static/eb/master/03-fresh/imgf/tweet@2x.png) !important;
+    }
+    .footer .linkedinshare {
+        background-image: url(http://i8.createsend1.com/static/eb/master/03-fresh/imgf/lishare@2x.png) !important;
+    }
+    .footer .forwardtoafriend {
+        background-image: url(http://i10.createsend1.com/static/eb/master/03-fresh/imgf/forward@2x.png) !important;
+    }
 }
 @media only screen and (max-width: 620px) {
-  .footer {
-    width: 320px !important;
-  }
-  .footer td {
-    display: none;
-  }
-  .footer .inner,
-  .footer .inner td {
-    display: block;
-    text-align: center !important;
-    max-width: 320px !important;
-    width: 320px !important;
-  }
-  .footer .sharing {
-    Margin-bottom: 40px;
-  }
-  .footer .sharing div {
-    display: inline-block;
-  }
-  .footer .fblike,
-  .footer .tweet,
-  .footer .linkedinshare,
-  .footer .forwardtoafriend {
-    display: inline-block !important;
-  }
+    .footer {
+        width: 320px !important;
+    }
+    .footer td {
+        display: none;
+    }
+    .footer .inner,
+    .footer .inner td {
+        display: block;
+        text-align: center !important;
+        max-width: 320px !important;
+        width: 320px !important;
+    }
+    .footer .sharing {
+        Margin-bottom: 40px;
+    }
+    .footer .sharing div {
+        display: inline-block;
+    }
+    .footer .fblike,
+    .footer .tweet,
+    .footer .linkedinshare,
+    .footer .forwardtoafriend {
+        display: inline-block !important;
+    }
 }
 .wrapper h1,
 .wrapper h2,
@@ -534,36 +535,36 @@ table.wrapper {
 .image,
 .btn,
 .divider {
-  Margin-bottom: 0;
-  Margin-top: 0;
+    Margin-bottom: 0;
+    Margin-top: 0;
 }
 .wrapper .column h1 + * {
-  Margin-top: 20px;
+    Margin-top: 20px;
 }
 .wrapper .column h2 + * {
-  Margin-top: 16px;
+    Margin-top: 16px;
 }
 .wrapper .column h3 + * {
-  Margin-top: 12px;
+    Margin-top: 12px;
 }
 .wrapper .column p + *,
 .wrapper .column ol + *,
 .wrapper .column ul + *,
 .wrapper .column blockquote + *,
 .image + .contents td > :first-child {
-  Margin-top: 24px;
+    Margin-top: 24px;
 }
 .contents:nth-last-child(n+3) h1:last-child,
 .no-padding .contents:nth-last-child(n+2) h1:last-child {
-  Margin-bottom: 20px;
+    Margin-bottom: 20px;
 }
 .contents:nth-last-child(n+3) h2:last-child,
 .no-padding .contents:nth-last-child(n+2) h2:last-child {
-  Margin-bottom: 16px;
+    Margin-bottom: 16px;
 }
 .contents:nth-last-child(n+3) h3:last-child,
 .no-padding .contents:nth-last-child(n+2) h3:last-child {
-  Margin-bottom: 12px;
+    Margin-bottom: 12px;
 }
 .contents:nth-last-child(n+3) p:last-child,
 .no-padding .contents:nth-last-child(n+2) p:last-child,
@@ -579,7 +580,7 @@ table.wrapper {
 .no-padding .contents:nth-last-child(n+2) .divider,
 .contents:nth-last-child(n+3) .btn,
 .no-padding .contents:nth-last-child(n+2) .btn {
-  Margin-bottom: 24px;
+    Margin-bottom: 24px;
 }
 .two-col .column p + *,
 .wider .column p + *,
@@ -591,7 +592,7 @@ table.wrapper {
 .wider .column blockquote + *,
 .two-col .image + .contents td > :first-child,
 .wider .image + .contents td > :first-child {
-  Margin-top: 21px;
+    Margin-top: 21px;
 }
 .two-col .contents:nth-last-child(n+3) p:last-child,
 .wider .contents:nth-last-child(n+3) p:last-child,
@@ -621,7 +622,7 @@ table.wrapper {
 .wider .contents:nth-last-child(n+3) .btn,
 .no-padding .two-col .contents:nth-last-child(n+2) .btn,
 .no-padding .wider .contents:nth-last-child(n+2) .btn {
-  Margin-bottom: 21px;
+    Margin-bottom: 21px;
 }
 .three-col .column p + *,
 .narrower .column p + *,
@@ -633,7 +634,7 @@ table.wrapper {
 .narrower .column blockquote + *,
 .three-col .image + .contents td > :first-child,
 .narrower .image + .contents td > :first-child {
-  Margin-top: 18px;
+    Margin-top: 18px;
 }
 .three-col .contents:nth-last-child(n+3) p:last-child,
 .narrower .contents:nth-last-child(n+3) p:last-child,
@@ -663,573 +664,434 @@ table.wrapper {
 .narrower .contents:nth-last-child(n+3) .btn,
 .no-padding .three-col .contents:nth-last-child(n+2) .btn,
 .no-padding .narrower .contents:nth-last-child(n+2) .btn {
-  Margin-bottom: 18px;
+    Margin-bottom: 18px;
 }
 @media only screen and (max-width: 620px) {
-  .wrapper p + *,
-  .wrapper ol + *,
-  .wrapper ul + *,
-  .wrapper blockquote + *,
-  .image + .contents td > :first-child {
-    Margin-top: 24px !important;
-  }
-  .contents:nth-last-child(n+3) p:last-child,
-  .no-padding .contents:nth-last-child(n+2) p:last-child,
-  .contents:nth-last-child(n+3) ol:last-child,
-  .no-padding .contents:nth-last-child(n+2) ol:last-child,
-  .contents:nth-last-child(n+3) ul:last-child,
-  .no-padding .contents:nth-last-child(n+2) ul:last-child,
-  .contents:nth-last-child(n+3) blockquote:last-child,
-  .no-padding .contents:nth-last-child(n+2) blockquote:last-child,
-  .contents:nth-last-child(n+3) .image:last-child,
-  .no-padding .contents:nth-last-child(n+2) .image:last-child,
-  .contents:nth-last-child(n+3) .divider:last-child,
-  .no-padding .contents:nth-last-child(n+2) .divider:last-child,
-  .contents:nth-last-child(n+3) .btn:last-child,
-  .no-padding .contents:nth-last-child(n+2) .btn:last-child {
-    Margin-bottom: 24px !important;
-  }
+    .wrapper p + *,
+    .wrapper ol + *,
+    .wrapper ul + *,
+    .wrapper blockquote + *,
+    .image + .contents td > :first-child {
+        Margin-top: 24px !important;
+    }
+    .contents:nth-last-child(n+3) p:last-child,
+    .no-padding .contents:nth-last-child(n+2) p:last-child,
+    .contents:nth-last-child(n+3) ol:last-child,
+    .no-padding .contents:nth-last-child(n+2) ol:last-child,
+    .contents:nth-last-child(n+3) ul:last-child,
+    .no-padding .contents:nth-last-child(n+2) ul:last-child,
+    .contents:nth-last-child(n+3) blockquote:last-child,
+    .no-padding .contents:nth-last-child(n+2) blockquote:last-child,
+    .contents:nth-last-child(n+3) .image:last-child,
+    .no-padding .contents:nth-last-child(n+2) .image:last-child,
+    .contents:nth-last-child(n+3) .divider:last-child,
+    .no-padding .contents:nth-last-child(n+2) .divider:last-child,
+    .contents:nth-last-child(n+3) .btn:last-child,
+    .no-padding .contents:nth-last-child(n+2) .btn:last-child {
+        Margin-bottom: 24px !important;
+    }
 }
 td.border {
-  width: 1px;
+    width: 1px;
 }
 tr.border {
-  background-color: #e3e3e3;
-  height: 1px;
+    background-color: #e3e3e3;
+    height: 1px;
 }
 tr.border td {
-  line-height: 1px;
+    line-height: 1px;
 }
 .sidebar {
-  width: 600px;
+    width: 600px;
 }
 .first.wider .padded {
-  padding-left: 32px;
-  padding-right: 20px;
+    padding-left: 32px;
+    padding-right: 20px;
 }
 .second.wider .padded {
-  padding-left: 20px;
-  padding-right: 32px;
+    padding-left: 20px;
+    padding-right: 32px;
 }
 .first.narrower .padded {
-  padding-left: 32px;
-  padding-right: 8px;
+    padding-left: 32px;
+    padding-right: 8px;
 }
 .second.narrower .padded {
-  padding-left: 8px;
-  padding-right: 32px;
+    padding-left: 8px;
+    padding-right: 32px;
 }
 .wrapper h1 {
-  font-size: 40px;
-  line-height: 48px;
+    font-size: 40px;
+    line-height: 48px;
 }
 .wrapper h2 {
-  font-size: 24px;
-  line-height: 32px;
+    font-size: 24px;
+    line-height: 32px;
 }
 .wrapper h3 {
-  font-size: 18px;
-  line-height: 24px;
+    font-size: 18px;
+    line-height: 24px;
 }
 .wrapper h1 a,
 .wrapper h2 a,
 .wrapper h3 a {
-  text-decoration: none;
+    text-decoration: none;
 }
 .wrapper a:hover {
-  text-decoration: none;
+    text-decoration: none;
 }
 .wrapper p,
 .wrapper ol,
 .wrapper ul {
-  font-size: 15px;
-  line-height: 24px;
+    font-size: 15px;
+    line-height: 24px;
 }
 .wrapper ol,
 .wrapper ul {
-  Margin-left: 20px;
+    Margin-left: 20px;
 }
 .wrapper li {
-  padding-left: 2px;
+    padding-left: 2px;
 }
 .wrapper blockquote {
-  Margin-left: 0;
-  padding-left: 18px;
+    Margin-left: 0;
+    padding-left: 18px;
 }
 .one-col,
 .two-col,
 .three-col,
 .sidebar {
-  background-color: #ffffff;
-  table-layout: fixed;
+    background-color: #ffffff;
+    table-layout: fixed;
 }
 .wrapper .two-col blockquote,
 .wrapper .wider blockquote {
-  padding-left: 16px;
+    padding-left: 16px;
 }
 .wrapper .three-col ol,
 .wrapper .narrower ol,
 .wrapper .three-col ul,
 .wrapper .narrower ul {
-  Margin-left: 14px;
+    Margin-left: 14px;
 }
 .wrapper .three-col li,
 .wrapper .narrower li {
-  padding-left: 1px;
+    padding-left: 1px;
 }
 .wrapper .three-col blockquote,
 .wrapper .narrower blockquote {
-  padding-left: 12px;
+    padding-left: 12px;
 }
 .wrapper h2 {
-  font-weight: 700;
+    font-weight: 700;
 }
 .wrapper blockquote {
-  font-style: italic;
+    font-style: italic;
 }
 .preheader a,
 .header a {
-  text-decoration: none;
+    text-decoration: none;
 }
 .header {
-  Margin-left: auto;
-  Margin-right: auto;
-  width: 600px;
+    Margin-left: auto;
+    Margin-right: auto;
+    width: 600px;
 }
 .preheader td {
-  padding-bottom: 24px;
-  padding-top: 24px;
+    padding-bottom: 24px;
+    padding-top: 24px;
 }
 .logo {
-  width: 280px;
+    width: 280px;
 }
 .logo div {
-  font-weight: 700;
+    font-weight: 700;
 }
 .logo div.logo-center {
-  text-align: center;
+    text-align: center;
 }
 .logo div.logo-center img {
-  Margin-left: auto;
-  Margin-right: auto;
+    Margin-left: auto;
+    Margin-right: auto;
 }
 .preheader td {
-  text-align: right;
-  width: 280px;
+    text-align: right;
+    width: 280px;
 }
 .preheader td {
-  letter-spacing: 0.01em;
-  line-height: 17px;
-  font-weight: 400;
+    letter-spacing: 0.01em;
+    line-height: 17px;
+    font-weight: 400;
 }
 .preheader a {
-  letter-spacing: 0.03em;
-  font-weight: 700;
+    letter-spacing: 0.03em;
+    font-weight: 700;
 }
 .preheader td {
-  font-size: 11px;
+    font-size: 11px;
 }
 @media only screen and (max-width: 620px) {
-  [class=wrapper] .header,
-  [class=wrapper] .preheader td,
-  [class=wrapper] .logo,
-  [class=wrapper] .sidebar {
-    width: 320px !important;
-  }
-  [class=wrapper] .header .logo {
-    padding-left: 10px !important;
-    padding-right: 10px !important;
-  }
-  [class=wrapper] .header .logo img {
-    max-width: 280px !important;
-    height: auto !important;
-  }
-  [class=wrapper] .header .preheader td {
-    padding-top: 3px !important;
-    padding-bottom: 22px !important;
-  }
-  [class=wrapper] .header .title {
-    display: none !important;
-  }
-  [class=wrapper] .header .webversion {
-    text-align: center !important;
-  }
-  [class=wrapper] h1 {
-    font-size: 40px !important;
-    line-height: 48px !important;
-  }
-  [class=wrapper] h2 {
-    font-size: 24px !important;
-    line-height: 32px !important;
-  }
-  [class=wrapper] h3 {
-    font-size: 18px !important;
-    line-height: 24px !important;
-  }
-  [class=wrapper] .column p,
-  [class=wrapper] .column ol,
-  [class=wrapper] .column ul {
-    font-size: 15px !important;
-    line-height: 24px !important;
-  }
-  [class=wrapper] ol,
-  [class=wrapper] ul {
-    Margin-left: 20px !important;
-  }
-  [class=wrapper] li {
-    padding-left: 2px !important;
-  }
-  [class=wrapper] blockquote {
-    border-left-width: 4px !important;
-    padding-left: 18px !important;
-  }
-  [class=wrapper] table.border {
-    width: 320px !important;
-  }
-  [class=wrapper] .second .column-top,
-  [class=wrapper] .third .column-top {
-    display: none;
-  }
+    [class=wrapper] .header,
+    [class=wrapper] .preheader td,
+    [class=wrapper] .logo,
+    [class=wrapper] .sidebar {
+        width: 320px !important;
+    }
+    [class=wrapper] .header .logo {
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+    }
+    [class=wrapper] .header .logo img {
+        max-width: 280px !important;
+        height: auto !important;
+    }
+    [class=wrapper] .header .preheader td {
+        padding-top: 3px !important;
+        padding-bottom: 22px !important;
+    }
+    [class=wrapper] .header .title {
+        display: none !important;
+    }
+    [class=wrapper] .header .webversion {
+        text-align: center !important;
+    }
+    [class=wrapper] h1 {
+        font-size: 40px !important;
+        line-height: 48px !important;
+    }
+    [class=wrapper] h2 {
+        font-size: 24px !important;
+        line-height: 32px !important;
+    }
+    [class=wrapper] h3 {
+        font-size: 18px !important;
+        line-height: 24px !important;
+    }
+    [class=wrapper] .column p,
+    [class=wrapper] .column ol,
+    [class=wrapper] .column ul {
+        font-size: 15px !important;
+        line-height: 24px !important;
+    }
+    [class=wrapper] ol,
+    [class=wrapper] ul {
+        Margin-left: 20px !important;
+    }
+    [class=wrapper] li {
+        padding-left: 2px !important;
+    }
+    [class=wrapper] blockquote {
+        border-left-width: 4px !important;
+        padding-left: 18px !important;
+    }
+    [class=wrapper] table.border {
+        width: 320px !important;
+    }
+    [class=wrapper] .second .column-top,
+    [class=wrapper] .third .column-top {
+        display: none;
+    }
 }
 @media only screen and (max-width: 320px) {
-  td.border {
-    display: none;
-  }
+    td.border {
+        display: none;
+    }
 }
 </style>
-  <!--[if !mso]><!--><style type="text/css">
-@import url(https://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,700,400);
+<!--[if !mso]><!--><style type="text/css">
+    @import url(https://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,700,400);
 </style><link href="https://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,700,400" rel="stylesheet" type="text/css"><!--<![endif]--><style type="text/css">
-.wrapper h1{}.wrapper h1{font-family:"Open Sans",sans-serif}.mso .wrapper h1{font-family:sans-serif !important}.wrapper h2{}.wrapper h2{font-family:"Open Sans",sans-serif}.mso .wrapper h2{font-family:sans-serif !important}.wrapper h3{}.wrapper h3{font-family:"Open Sans",sans-serif}.mso .wrapper h3{font-family:sans-serif !important}.wrapper p,.wrapper ol,.wrapper ul,.wrapper .image{}.wrapper p,.wrapper ol,.wrapper ul,.wrapper .image{font-family:"Open Sans",sans-serif}.mso .wrapper p,.mso .wrapper ol,.mso .wrapper ul,.mso .wrapper .image{font-family:sans-serif !important}.wrapper .btn a{}.wrapper .btn a{font-family:"Open Sans",sans-serif}.mso .wrapper .btn a{font-family:sans-serif !important}.logo div{}.logo div{font-family:Avenir,sans-serif}.mso .logo div{font-family:sans-serif 
-!important}.title,.webversion,.fblike,.tweet,.linkedinshare,.forwardtoafriend,.link,.address,.permission,.campaign{}.title,.webversion,.fblike,.tweet,.linkedinshare,.forwardtoafriend,.link,.address,.permission,.campaign{font-family:"Open Sans",sans-serif}.mso .title,.mso .webversion,.mso .fblike,.mso .tweet,.mso .linkedinshare,.mso .forwardtoafriend,.mso .link,.mso .address,.mso .permission,.mso .campaign{font-family:sans-serif !important}body,.wrapper,.emb-editor-canvas{background-color:#f5f7fa}.border{background-color:#dddee1}.wrapper h1{color:#44a8c7}.wrapper h2{color:#44a8c7}.wrapper h3{color:#3b3e42}.wrapper p,.wrapper ol,.wrapper ul{color:#60666d}.wrapper .image{color:#60666d}.wrapper a{color:#5c91ad}.wrapper a:hover{color:#48768e !important}.wrapper blockquote{border-left:4px solid #f5f7fa}.wrapper .three-col blockquote,.wrapper .narrower blockquote{border-left:2px solid 
-#f5f7fa}.wrapper .btn a{background-color:#5c91ad;color:#fff}.wrapper .btn a:hover{color:#fff !important}.logo div{color:#555}.logo div a{color:#555}.logo div a:hover{color:#555 !important}.title,.webversion,.footer .inner td{color:#b9b9b9}.wrapper .title a,.wrapper .webversion a,.wrapper .footer a{color:#b9b9b9}.wrapper .title a:hover,.wrapper .webversion a:hover,.wrapper .footer a:hover{color:#939393 !important}.wrapper .footer .fblike,.wrapper .footer .tweet,.wrapper .footer .linkedinshare,.wrapper .footer .forwardtoafriend{background-color:#7b7c7d}
-</style><!--[if mso]>
-<style type="text/css">
-@import url(https://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,700,400);
-</style>
-<![endif]--><meta name="robots" content="noindex,nofollow">
-<meta property="og:title" content="onFile - your document has been approved <Approved or Rejected>">
-<style class="firebugResetStyles" type="text/css" charset="utf-8">/* See license.txt for terms of usage */
-/** reset styling **/
-.firebugResetStyles {
-    z-index: 2147483646 !important;
-    top: 0 !important;
-    left: 0 !important;
-    display: block !important;
-    border: 0 none !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    outline: 0 !important;
-    min-width: 0 !important;
-    max-width: none !important;
-    min-height: 0 !important;
-    max-height: none !important;
-    position: fixed !important;
-    transform: rotate(0deg) !important;
-    transform-origin: 50% 50% !important;
-    border-radius: 0 !important;
-    box-shadow: none !important;
-    background: transparent none !important;
-    pointer-events: none !important;
-    white-space: normal !important;
-}
-style.firebugResetStyles {
-    display: none !important;
-}
-
-.firebugBlockBackgroundColor {
-    background-color: transparent !important;
-}
-
-.firebugResetStyles:before, .firebugResetStyles:after {
-    content: "" !important;
-}
-/**actual styling to be modified by firebug theme**/
-.firebugCanvas {
-    display: none !important;
-}
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-.firebugLayoutBox {
-    width: auto !important;
-    position: static !important;
-}
-
-.firebugLayoutBoxOffset {
-    opacity: 0.8 !important;
-    position: fixed !important;
-}
-
-.firebugLayoutLine {
-    opacity: 0.4 !important;
-    background-color: #000000 !important;
-}
-
-.firebugLayoutLineLeft, .firebugLayoutLineRight {
-    width: 1px !important;
-    height: 100% !important;
-}
-
-.firebugLayoutLineTop, .firebugLayoutLineBottom {
-    width: 100% !important;
-    height: 1px !important;
-}
-
-.firebugLayoutLineTop {
-    margin-top: -1px !important;
-    border-top: 1px solid #999999 !important;
-}
-
-.firebugLayoutLineRight {
-    border-right: 1px solid #999999 !important;
-}
-
-.firebugLayoutLineBottom {
-    border-bottom: 1px solid #999999 !important;
-}
-
-.firebugLayoutLineLeft {
-    margin-left: -1px !important;
-    border-left: 1px solid #999999 !important;
-}
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-.firebugLayoutBoxParent {
-    border-top: 0 none !important;
-    border-right: 1px dashed #E00 !important;
-    border-bottom: 1px dashed #E00 !important;
-    border-left: 0 none !important;
-    position: fixed !important;
-    width: auto !important;
-}
-
-.firebugRuler{
-    position: absolute !important;
-}
-
-.firebugRulerH {
-    top: -15px !important;
-    left: 0 !important;
-    width: 100% !important;
-    height: 14px !important;
-    background: url("data:image/png,%89PNG%0D%0A%1A%0A%00%00%00%0DIHDR%00%00%13%88%00%00%00%0E%08%02%00%00%00L%25a%0A%00%00%00%04gAMA%00%00%D6%D8%D4OX2%00%00%00%19tEXtSoftware%00Adobe%20ImageReadyq%C9e%3C%00%00%04%F8IDATx%DA%EC%DD%D1n%E2%3A%00E%D1%80%F8%FF%EF%E2%AF2%95%D0D4%0E%C1%14%B0%8Fa-%E9%3E%CC%9C%87n%B9%81%A6W0%1C%A6i%9A%E7y%0As8%1CT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AATE9%FE%FCw%3E%9F%AF%2B%2F%BA%97%FDT%1D~K(%5C%9D%D5%EA%1B%5C%86%B5%A9%BDU%B5y%80%ED%AB*%03%FAV9%AB%E1%CEj%E7%82%EF%FB%18%BC%AEJ8%AB%FA'%D2%BEU9%D7U%ECc0%E1%A2r%5DynwVi%CFW%7F%BB%17%7Dy%EACU%CD%0E%F0%FA%3BX%FEbV%FEM%9B%2B%AD%BE%AA%E5%95v%AB%AA%E3E5%DCu%15rV9%07%B5%7F%B5w%FCm%BA%BE%AA%FBY%3D%14%F0%EE%C7%60%0EU%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5JU%88%D3%F5%1F%AE%DF%3B%1B%F2%3E%DAUCNa%F92%D02%AC%7Dm%F9%3A%D4%F2%8B6%AE*%BF%5C%C2Ym~9g5%D0Y%95%17%7C%C8c%B0%7C%18%26%9CU%CD%13i%F7%AA%90%B3Z%7D%95%B4%C7%60%E6E%B5%BC%05%B4%FBY%95U%9E%DB%FD%1C%FC%E0%9F%83%7F%BE%17%7DkjMU%E3%03%AC%7CWj%DF%83%9An%BCG%AE%F1%95%96yQ%0Dq%5Dy%00%3Et%B5'%FC6%5DS%95pV%95%01%81%FF'%07%00%00%00%00%00%00%00%00%00%F8x%C7%F0%BE%9COp%5D%C9%7C%AD%E7%E6%EBV%FB%1E%E0(%07%E5%AC%C6%3A%ABi%9C%8F%C6%0E9%AB%C0'%D2%8E%9F%F99%D0E%B5%99%14%F5%0D%CD%7F%24%C6%DEH%B8%E9rV%DFs%DB%D0%F7%00k%FE%1D%84%84%83J%B8%E3%BA%FB%EF%20%84%1C%D7%AD%B0%8E%D7U%C8Y%05%1E%D4t%EF%AD%95Q%BF8w%BF%E9%0A%BF%EB%03%00%00%00%00%00%00%00%00%00%B8vJ%8E%BB%F5%B1u%8Cx%80%E1o%5E%CA9%AB%CB%CB%8E%03%DF%1D%B7T%25%9C%D5(%EFJM8%AB%CC'%D2%B2*%A4s%E7c6%FB%3E%FA%A2%1E%80~%0E%3E%DA%10x%5D%95Uig%15u%15%ED%7C%14%B6%87%A1%3B%FCo8%A8%D8o%D3%ADO%01%EDx%83%1A~%1B%9FpP%A3%DC%C6'%9C%95gK%00%00%00%00%00%00%00%00%00%20%D9%C9%11%D0%C0%40%AF%3F%EE%EE%92%94%D6%16X%B5%BCMH%15%2F%BF%D4%A7%C87%F1%8E%F2%81%AE%AAvzr%DA2%ABV%17%7C%E63%83%E7I%DC%C6%0Bs%1B%EF6%1E%00%00%00%00%00%00%00%00%00%80cr%9CW%FF%7F%C6%01%0E%F1%CE%A5%84%B3%CA%BC%E0%CB%AA%84%CE%F9%BF)%EC%13%08WU%AE%AB%B1%AE%2BO%EC%8E%CBYe%FE%8CN%ABr%5Dy%60~%CFA%0D%F4%AE%D4%BE%C75%CA%EDVB%EA(%B7%F1%09g%E5%D9%12%00%00%00%00%00%00%00%00%00H%F6%EB%13S%E7y%5E%5E%FB%98%F0%22%D1%B2'%A7%F0%92%B1%BC%24z3%AC%7Dm%60%D5%92%B4%7CEUO%5E%F0%AA*%3BU%B9%AE%3E%A0j%94%07%A0%C7%A0%AB%FD%B5%3F%A0%F7%03T%3Dy%D7%F7%D6%D4%C0%AAU%D2%E6%DFt%3F%A8%CC%AA%F2%86%B9%D7%F5%1F%18%E6%01%F8%CC%D5%9E%F0%F3z%88%AA%90%EF%20%00%00%00%00%00%00%00%00%00%C0%A6%D3%EA%CFi%AFb%2C%7BB%0A%2B%C3%1A%D7%06V%D5%07%A8r%5D%3D%D9%A6%CAu%F5%25%CF%A2%99%97zNX%60%95%AB%5DUZ%D5%FBR%03%AB%1C%D4k%9F%3F%BB%5C%FF%81a%AE%AB'%7F%F3%EA%FE%F3z%94%AA%D8%DF%5B%01%00%00%00%00%00%00%00%00%00%8E%FB%F3%F2%B1%1B%8DWU%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*UiU%C7%BBe%E7%F3%B9%CB%AAJ%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5*%AAj%FD%C6%D4%5Eo%90%B5Z%ADV%AB%D5j%B5Z%ADV%AB%D5j%B5Z%ADV%AB%D5j%B5Z%ADV%AB%D5j%B5Z%ADV%AB%D5j%B5Z%ADV%AB%D5j%B5Z%ADV%AB%D5j%B5%86%AF%1B%9F%98%DA%EBm%BBV%AB%D5j%B5Z%ADV%AB%D5j%B5Z%ADV%AB%D5j%B5Z%ADV%AB%D5j%B5Z%ADV%AB%D5j%B5Z%ADV%AB%D5j%B5Z%ADV%AB%D5j%B5Z%AD%D6%E4%F58%01%00%00%00%00%00%00%00%00%00%00%00%00%00%40%85%7F%02%0C%008%C2%D0H%16j%8FX%00%00%00%00IEND%AEB%60%82") repeat-x !important;
-    border-top: 1px solid #BBBBBB !important;
-    border-right: 1px dashed #BBBBBB !important;
-    border-bottom: 1px solid #000000 !important;
-}
-
-.firebugRulerV {
-    top: 0 !important;
-    left: -15px !important;
-    width: 14px !important;
-    height: 100% !important;
-    background: url("data:image/png,%89PNG%0D%0A%1A%0A%00%00%00%0DIHDR%00%00%00%0E%00%00%13%88%08%02%00%00%00%0E%F5%CB%10%00%00%00%04gAMA%00%00%D6%D8%D4OX2%00%00%00%19tEXtSoftware%00Adobe%20ImageReadyq%C9e%3C%00%00%06~IDATx%DA%EC%DD%D1v%A20%14%40Qt%F1%FF%FF%E4%97%D9%07%3BT%19%92%DC%40(%90%EEy%9A5%CB%B6%E8%F6%9Ac%A4%CC0%84%FF%DC%9E%CF%E7%E3%F1%88%DE4%F8%5D%C7%9F%2F%BA%DD%5E%7FI%7D%F18%DDn%BA%C5%FB%DF%97%BFk%F2%10%FF%FD%B4%F2M%A7%FB%FD%FD%B3%22%07p%8F%3F%AE%E3%F4S%8A%8F%40%EEq%9D%BE8D%F0%0EY%A1Uq%B7%EA%1F%81%88V%E8X%3F%B4%CEy%B7h%D1%A2E%EBohU%FC%D9%AF2fO%8BBeD%BE%F7X%0C%97%A4%D6b7%2Ck%A5%12%E3%9B%60v%B7r%C7%1AI%8C%BD%2B%23r%00c0%B2v%9B%AD%CA%26%0C%1Ek%05A%FD%93%D0%2B%A1u%8B%16-%95q%5Ce%DCSO%8E%E4M%23%8B%F7%C2%FE%40%BB%BD%8C%FC%8A%B5V%EBu%40%F9%3B%A72%FA%AE%8C%D4%01%CC%B5%DA%13%9CB%AB%E2I%18%24%B0n%A9%0CZ*Ce%9C%A22%8E%D8NJ%1E%EB%FF%8F%AE%CAP%19*%C3%BAEKe%AC%D1%AAX%8C*%DEH%8F%C5W%A1e%AD%D4%B7%5C%5B%19%C5%DB%0D%EF%9F%19%1D%7B%5E%86%BD%0C%95%A12%AC%5B*%83%96%CAP%19%F62T%86%CAP%19*%83%96%CA%B8Xe%BC%FE)T%19%A1%17xg%7F%DA%CBP%19*%C3%BA%A52T%86%CAP%19%F62T%86%CA%B0n%A9%0CZ%1DV%C6%3D%F3%FCH%DE%B4%B8~%7F%5CZc%F1%D6%1F%AF%84%F9%0F6%E6%EBVt9%0E~%BEr%AF%23%B0%97%A12T%86%CAP%19%B4T%86%CA%B8Re%D8%CBP%19*%C3%BA%A52huX%19%AE%CA%E5%BC%0C%7B%19*CeX%B7h%A9%0C%95%E1%BC%0C%7B%19*CeX%B7T%06%AD%CB%5E%95%2B%BF.%8F%C5%97%D5%E4%7B%EE%82%D6%FB%CF-%9C%FD%B9%CF%3By%7B%19%F62T%86%CA%B0n%D1R%19*%A3%D3%CA%B0%97%A12T%86uKe%D0%EA%B02*%3F1%99%5DB%2B%A4%B5%F8%3A%7C%BA%2B%8Co%7D%5C%EDe%A8%0C%95a%DDR%19%B4T%C66%82fA%B2%ED%DA%9FC%FC%17GZ%06%C9%E1%B3%E5%2C%1A%9FoiB%EB%96%CA%A0%D5qe4%7B%7D%FD%85%F7%5B%ED_%E0s%07%F0k%951%ECr%0D%B5C%D7-g%D1%A8%0C%EB%96%CA%A0%A52T%C6)*%C3%5E%86%CAP%19%D6-%95A%EB*%95q%F8%BB%E3%F9%AB%F6%E21%ACZ%B7%22%B7%9B%3F%02%85%CB%A2%5B%B7%BA%5E%B7%9C%97%E1%BC%0C%EB%16-%95%A12z%AC%0C%BFc%A22T%86uKe%D0%EA%B02V%DD%AD%8A%2B%8CWhe%5E%AF%CF%F5%3B%26%CE%CBh%5C%19%CE%CB%B0%F3%A4%095%A1%CAP%19*Ce%A8%0C%3BO*Ce%A8%0C%95%A12%3A%AD%8C%0A%82%7B%F0v%1F%2FD%A9%5B%9F%EE%EA%26%AF%03%CA%DF9%7B%19*Ce%A8%0C%95%A12T%86%CA%B8Ze%D8%CBP%19*Ce%A8%0C%95%D1ae%EC%F7%89I%E1%B4%D7M%D7P%8BjU%5C%BB%3E%F2%20%D8%CBP%19*Ce%A8%0C%95%A12T%C6%D5*%C3%5E%86%CAP%19*Ce%B4O%07%7B%F0W%7Bw%1C%7C%1A%8C%B3%3B%D1%EE%AA%5C%D6-%EBV%83%80%5E%D0%CA%10%5CU%2BD%E07YU%86%CAP%19*%E3%9A%95%91%D9%A0%C8%AD%5B%EDv%9E%82%FFKOee%E4%8FUe%A8%0C%95%A12T%C6%1F%A9%8C%C8%3D%5B%A5%15%FD%14%22r%E7B%9F%17l%F8%BF%ED%EAf%2B%7F%CF%ECe%D8%CBP%19*Ce%A8%0C%95%E1%93~%7B%19%F62T%86%CAP%19*Ce%A8%0C%E7%13%DA%CBP%19*Ce%A8%0CZf%8B%16-Z%B4h%D1R%19f%8B%16-Z%B4h%D1R%19%B4%CC%16-Z%B4h%D1R%19%B4%CC%16-Z%B4h%D1%A2%A52%CC%16-Z%B4h%D1%A2%A52h%99-Z%B4h%D1%A2%A52h%99-Z%B4h%D1%A2EKe%98-Z%B4h%D1%A2EKe%D02%5B%B4h%D1%A2EKe%D02%5B%B4h%D1%A2E%8B%96%CA0%5B%B4h%D1%A2E%8B%96%CA%A0e%B6h%D1%A2E%8B%96%CA%A0e%B6h%D1%A2E%8B%16-%95a%B6h%D1%A2E%8B%16-%95A%CBl%D1%A2E%8B%16-%95A%CBl%D1%A2E%8B%16-Z*%C3l%D1%A2E%8B%16-Z*%83%96%D9%A2E%8B%16-Z*%83%96%D9%A2E%8B%16-Z%B4T%86%D9%A2E%8B%16-Z%B4T%06-%B3E%8B%16-Z%B4T%06-%B3E%8B%16-Z%B4h%A9%0C%B3E%8B%16-Z%B4h%A9%0CZf%8B%16-Z%B4h%A9%0CZf%8B%16-Z%B4h%D1R%19f%8B%16-Z%B4h%D1R%19%B4%CC%16-Z%B4h%D1R%19%B4%CC%16-Z%B4h%D1%A2%A52%CC%16-Z%B4h%D1%A2%A52h%99-Z%B4h%D1%A2%A52h%99-Z%B4h%D1%A2EKe%98-Z%B4h%D1%A2EKe%D02%5B%B4h%D1%A2EKe%D02%5B%B4h%D1%A2E%8B%96%CA0%5B%B4h%D1%A2E%8B%96%CA%A0e%B6h%D1%A2E%8B%96%CA%A0e%B6h%D1%A2E%8B%16-%95a%B6h%D1%A2E%8B%16-%95A%CBl%D1%A2E%8B%16-%95A%CBl%D1%A2E%8B%16-Z*%C3l%D1%A2E%8B%16-Z*%83%96%D9%A2E%8B%16-Z*%83%96%D9%A2E%8B%16-Z%B4T%86%D9%A2E%8B%16-Z%B4T%06-%B3E%8B%16-Z%B4T%06-%B3E%8B%16-Z%B4h%A9%0C%B3E%8B%16-Z%B4h%A9%0CZf%8B%16-Z%B4h%A9%0CZf%8B%16-Z%B4h%D1R%19f%8B%16-Z%B4h%D1R%19%B4%CC%16-Z%B4h%D1R%19%B4%CC%16-Z%B4h%D1%A2%A52%CC%16-Z%B4h%D1%A2%A52h%99-Z%B4h%D1%A2%A52h%99-Z%B4h%D1%A2EKe%98-Z%B4h%D1%A2EKe%D02%5B%B4h%D1%A2EKe%D02%5B%B4h%D1%A2E%8B%96%CA0%5B%B4h%D1%A2E%8B%96%CA%A0e%B6h%D1%A2E%8B%96%CA%A0e%B6h%D1%A2E%8B%16-%95a%B6h%D1%A2E%8B%16-%95A%CBl%D1%A2E%8B%16-%95A%CBl%D1%A2E%8B%16-Z*%C3l%D1%A2E%8B%16-Z*%83%96%D9%A2E%8B%16-Z*%83%96%D9%A2E%8B%16-Z%B4T%86%D9%A2E%8B%16-Z%B4T%06-%B3E%8B%16-Z%B4%AE%A4%F5%25%C0%00%DE%BF%5C'%0F%DA%B8q%00%00%00%00IEND%AEB%60%82") repeat-y !important;
-    border-left: 1px solid #BBBBBB !important;
-    border-right: 1px solid #000000 !important;
-    border-bottom: 1px dashed #BBBBBB !important;
-}
-
-.overflowRulerX > .firebugRulerV {
-    left: 0 !important;
-}
-
-.overflowRulerY > .firebugRulerH {
-    top: 0 !important;
-}
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-.fbProxyElement {
-    position: fixed !important;
-    pointer-events: auto !important;
-}
-</style></head>
+    .wrapper h1{}.wrapper h1{font-family:"Open Sans",sans-serif}.mso .wrapper h1{font-family:sans-serif !important}.wrapper h2{}.wrapper h2{font-family:"Open Sans",sans-serif}.mso .wrapper h2{font-family:sans-serif !important}.wrapper h3{}.wrapper h3{font-family:"Open Sans",sans-serif}.mso .wrapper h3{font-family:sans-serif !important}.wrapper p,.wrapper ol,.wrapper ul,.wrapper .image{}.wrapper p,.wrapper ol,.wrapper ul,.wrapper .image{font-family:"Open Sans",sans-serif}.mso .wrapper p,.mso .wrapper ol,.mso .wrapper ul,.mso .wrapper .image{font-family:sans-serif !important}.wrapper .btn a{}.wrapper .btn a{font-family:"Open Sans",sans-serif}.mso .wrapper .btn a{font-family:sans-serif !important}.logo div{}.logo div{font-family:Avenir,sans-serif}.mso .logo div{font-family:sans-serif
+    !important}.title,.webversion,.fblike,.tweet,.linkedinshare,.forwardtoafriend,.link,.address,.permission,.campaign{}.title,.webversion,.fblike,.tweet,.linkedinshare,.forwardtoafriend,.link,.address,.permission,.campaign{font-family:"Open Sans",sans-serif}.mso .title,.mso .webversion,.mso .fblike,.mso .tweet,.mso .linkedinshare,.mso .forwardtoafriend,.mso .link,.mso .address,.mso .permission,.mso .campaign{font-family:sans-serif !important}body,.wrapper,.emb-editor-canvas{background-color:#f5f7fa}.border{background-color:#dddee1}.wrapper h1{color:#44a8c7}.wrapper h2{color:#44a8c7}.wrapper h3{color:#3b3e42}.wrapper p,.wrapper ol,.wrapper ul{color:#60666d}.wrapper .image{color:#60666d}.wrapper a{color:#5c91ad}.wrapper a:hover{color:#48768e !important}.wrapper blockquote{border-left:4px solid #f5f7fa}.wrapper .three-col blockquote,.wrapper .narrower blockquote{border-left:2px solid
+    #f5f7fa}.wrapper .btn a{background-color:#5c91ad;color:#fff}.wrapper .btn a:hover{color:#fff !important}.logo div{color:#555}.logo div a{color:#555}.logo div a:hover{color:#555 !important}.title,.webversion,.footer .inner td{color:#b9b9b9}.wrapper .title a,.wrapper .webversion a,.wrapper .footer a{color:#b9b9b9}.wrapper .title a:hover,.wrapper .webversion a:hover,.wrapper .footer a:hover{color:#939393 !important}.wrapper .footer .fblike,.wrapper .footer .tweet,.wrapper .footer .linkedinshare,.wrapper .footer .forwardtoafriend{background-color:#7b7c7d}
+</style><meta name="robots" content="noindex,nofollow"></meta>
+<meta property="og:title" content="onFile - your document has been approved &lt;Approved or Rejected&gt;"></meta>
+</head>
 <!--[if mso]>
-  <body class="mso">
+<body class="mso">
 <![endif]-->
 <!--[if !mso]><!-->
-  <body class="full-padding" style="margin: 0;padding: 0;min-width: 100%;background-color: #f5f7fa;">
+<body class="full-padding" style="margin: 0;padding: 0;min-width: 100%;background-color: #f5f7fa;">
 <!--<![endif]-->
-    <center class="wrapper" style="display: table;table-layout: fixed;width: 100%;min-width: 620px;-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;background-color: #f5f7fa;">
-      <table class="header centered" style="border-collapse: collapse;border-spacing: 0;Margin-left: auto;Margin-right: auto;width: 600px;">
+<center class="wrapper" style="display: table;table-layout: fixed;width: 100%;min-width: 620px;-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;background-color: #f5f7fa;">
+    <table class="header centered" style="border-collapse: collapse;border-spacing: 0;Margin-left: auto;Margin-right: auto;width: 600px;">
         <tbody><tr>
-          <td style="padding: 0;vertical-align: top;">
-            <table class="preheader" style="border-collapse: collapse;border-spacing: 0;" align="right">
-              <tbody><tr>
-                <td class="emb-logo-padding-box" style="padding: 0;vertical-align: top;padding-bottom: 24px;padding-top: 24px;text-align: right;width: 280px;letter-spacing: 0.01em;line-height: 17px;font-weight: 400;font-size: 11px;">
-                  <div class="spacer" style="font-size: 1px;line-height: 2px;width: 100%;">&nbsp;</div>
-                  
-                  <div class="webversion" style="font-family: &quot;Open Sans&quot;,sans-serif;color: #b9b9b9;">No Images? <a target="_blank" style="text-decoration: none;letter-spacing: 0.03em;font-weight: 700;transition: opacity 0.2s ease-in;color: #b9b9b9;" href="http://ontargettechnologies.createsend1.com/t/i-e-tkudqk-l-y/">Click here</a></div>
-                </td>
-              </tr>
-            </tbody></table>
-            <table style="border-collapse: collapse;border-spacing: 0;" align="left">
-              <tbody><tr>
-                <td class="logo emb-logo-padding-box" style="padding: 0;vertical-align: top;mso-line-height-rule: at-least;width: 280px;padding-top: 24px;padding-bottom: 24px;">
-                  <div class="logo-left" style="font-weight: 700;font-family: Avenir,sans-serif;color: #555;font-size: 0px !important;line-height: 0 !important;" id="emb-email-header" align="left"><img style="border: 0;-ms-interpolation-mode: bicubic;display: block;max-width: 127px;" src="https://i1.createsend1.com/ei/i/54/AF2/29A/074555/csfinal/OnTargetLogo.png" alt="" height="96" width="85"></div>
-                </td>
-              </tr>
-            </tbody></table>
-          </td>
+            <td style="padding: 0;vertical-align: top;">
+                <table class="preheader" style="border-collapse: collapse;border-spacing: 0;" align="right">
+                    <tbody><tr>
+                        <td class="emb-logo-padding-box" style="padding: 0;vertical-align: top;padding-bottom: 24px;padding-top: 24px;text-align: right;width: 280px;letter-spacing: 0.01em;line-height: 17px;font-weight: 400;font-size: 11px;">
+                            <div class="spacer" style="font-size: 1px;line-height: 2px;width: 100%;">&nbsp;</div>
+
+                            <div class="webversion" style='font-family: "Open Sans",sans-serif;color: #b9b9b9;'>No Images? <a style="text-decoration: none;letter-spacing: 0.03em;font-weight: 700;transition: opacity 0.2s ease-in;color: #b9b9b9;" href="http://ontargettechnologies.createsend1.com/t/i-e-tkudqk-l-y/">Click here</a></div>
+                        </td>
+                    </tr>
+                    </tbody></table>
+                <table style="border-collapse: collapse;border-spacing: 0;" align="left">
+                    <tbody><tr>
+                        <td class="logo emb-logo-padding-box" style="padding: 0;vertical-align: top;mso-line-height-rule: at-least;width: 280px;padding-top: 24px;padding-bottom: 24px;">
+                            <div class="logo-left" style="font-weight: 700;font-family: Avenir,sans-serif;color: #555;font-size: 0px !important;line-height: 0 !important;" align="left" id="emb-email-header"><img style="border: 0;-ms-interpolation-mode: bicubic;display: block;max-width: 85px;" src="http://i1.createsend1.com/ei/i/54/AF2/29A/125057/csfinal/OnTargetLogo.png" alt="" width="85" height="96"></div>
+                        </td>
+                    </tr>
+                    </tbody></table>
+            </td>
         </tr>
-      </tbody></table>
-      
-          <table class="border" style="border-collapse: collapse;border-spacing: 0;font-size: 1px;line-height: 1px;background-color: #dddee1;Margin-left: auto;Margin-right: auto;" width="602">
-            <tbody><tr><td style="padding: 0;vertical-align: top;">​</td></tr>
-          </tbody></table>
-        
-          <table class="centered" style="border-collapse: collapse;border-spacing: 0;Margin-left: auto;Margin-right: auto;">
-            <tbody><tr>
-              <td class="border" style="padding: 0;vertical-align: top;font-size: 1px;line-height: 1px;background-color: #dddee1;width: 1px;">​</td>
-              <td style="padding: 0;vertical-align: top;">
-                <table class="one-col" style="border-collapse: collapse;border-spacing: 0;Margin-left: auto;Margin-right: auto;width: 600px;background-color: #ffffff;table-layout: fixed;" emb-background-style="">
-                  <tbody><tr>
-                    <td class="column" style="padding: 0;vertical-align: top;text-align: left;">
-                      
-            <div class="image" style="font-size: 12px;mso-line-height-rule: at-least;font-style: normal;font-weight: 400;Margin-bottom: 0;Margin-top: 0;font-family: &quot;Open Sans&quot;,sans-serif;color: #60666d;" align="center">
-              <img style="border: 0;-ms-interpolation-mode: bicubic;display: block;max-width: 500px;" src="src="${ontargetLogoImgUrl}" alt="" height="175" width="500">
-            </div>
-          
-                        <table class="contents" style="border-collapse: collapse;border-spacing: 0;table-layout: fixed;width: 100%;">
-                          <tbody><tr>
-                            <td class="padded" style="padding: 0;vertical-align: top;padding-left: 32px;padding-right: 32px;word-break: break-word;word-wrap: break-word;">
-                              
-            <div style="Margin-top: 24px;height: 15px;">&nbsp;</div>
-          
-                            </td>
-                          </tr>
-                        </tbody></table>
-                      
-                        <table class="contents" style="border-collapse: collapse;border-spacing: 0;table-layout: fixed;width: 100%;">
-                          <tbody><tr>
-                            <td class="padded" style="padding: 0;vertical-align: top;padding-left: 32px;padding-right: 32px;word-break: break-word;word-wrap: break-word;">
-                              
-            <h3 class="font-open-sans size-15" style="font-style: normal;font-weight: 400;Margin-bottom: 0;Margin-top: 0;font-size: 15px;line-height: 23px;font-family: open sans,sans-serif;color: #3b3e42;text-align: left;"><span style="color:rgb(80, 0, 80)">Hi <em>${assigneeFirstName}&nbsp;${assigneeLastName}</em></span></h3><h3 class="font-open-sans size-15" style="font-style: normal;font-weight: 400;Margin-bottom: 0;Margin-top: 12px;font-size: 15px;line-height: 23px;font-family: open sans,sans-serif;color: #3b3e42;text-align: left;">
-                                "<em>${documentTitle}</em>" status has been changed to <em>${status}</em></em>.</h3><h3 class="font-open-sans size-15" style="font-style: normal;font-weight: 400;Margin-bottom: 0;Margin-top: 12px;font-size: 15px;line-height: 23px;font-family: open sans,sans-serif;color: #3b3e42;text-align: left;"><span style="color:rgb(80, 0, 80)">Good Luck,</span></h3><h3 class="font-open-sans size-15" style="font-style: normal;font-weight: 400;Margin-bottom: 0;Margin-top: 12px;font-size: 15px;line-height: 23px;font-family: open sans,sans-serif;color: #3b3e42;text-align: left;"><em>${modifierFirstName}&nbsp;${modifierLastName}</em></h3>
-          
-                            </td>
-                          </tr>
-                        </tbody></table>
-                      
-                      <div class="column-bottom" style="font-size: 32px;line-height: 32px;transition-timing-function: cubic-bezier(0, 0, 0.2, 1);transition-duration: 150ms;transition-property: all;">&nbsp;</div>
-                    </td>
-                  </tr>
-                </tbody></table>
-              </td>
-              <td class="border" style="padding: 0;vertical-align: top;font-size: 1px;line-height: 1px;background-color: #dddee1;width: 1px;">​</td>
-            </tr>
-          </tbody></table>
-        
-          <table class="border" style="border-collapse: collapse;border-spacing: 0;font-size: 1px;line-height: 1px;background-color: #dddee1;Margin-left: auto;Margin-right: auto;" width="602">
-            <tbody><tr class="border" style="font-size: 1px;line-height: 1px;background-color: #e3e3e3;height: 1px;">
-              <td class="border" style="padding: 0;vertical-align: top;font-size: 1px;line-height: 1px;background-color: #dddee1;width: 1px;">​</td>
-              <td style="padding: 0;vertical-align: top;line-height: 1px;">​</td>
-              <td class="border" style="padding: 0;vertical-align: top;font-size: 1px;line-height: 1px;background-color: #dddee1;width: 1px;">​</td>
-            </tr>
-          </tbody></table>
-        
-          <table class="centered" style="border-collapse: collapse;border-spacing: 0;Margin-left: auto;Margin-right: auto;">
-            <tbody><tr>
-              <td class="border" style="padding: 0;vertical-align: top;font-size: 1px;line-height: 1px;background-color: #dddee1;width: 1px;">​</td>
-              <td style="padding: 0;vertical-align: top;">
-                <table class="two-col" style="border-collapse: collapse;border-spacing: 0;Margin-left: auto;Margin-right: auto;width: 600px;background-color: #ffffff;table-layout: fixed;" emb-background-style="">
-                  <tbody><tr>
-                    <td class="column first" style="padding: 0;vertical-align: top;text-align: left;width: 300px;">
-                      <div><div class="column-top" style="font-size: 32px;line-height: 32px;transition-timing-function: cubic-bezier(0, 0, 0.2, 1);transition-duration: 150ms;transition-property: all;">&nbsp;</div></div>
-                        <table class="contents" style="border-collapse: collapse;border-spacing: 0;table-layout: fixed;width: 100%;">
-                          <tbody><tr>
-                            <td class="padded" style="padding: 0;vertical-align: top;padding-left: 32px;padding-right: 16px;word-break: break-word;word-wrap: break-word;">
-                              
-            <div class="image" style="font-size: 12px;mso-line-height-rule: at-least;font-style: normal;font-weight: 400;Margin-bottom: 0;Margin-top: 0;font-family: &quot;Open Sans&quot;,sans-serif;color: #60666d;" align="center">
-              <img style="border: 0;-ms-interpolation-mode: bicubic;display: block;max-width: 480px;" src="https://i2.createsend1.com/ei/i/54/AF2/29A/074555/csfinal/taskdetail1-43.png" alt="" height="161" width="252">
-            </div>
-          
-                            </td>
-                          </tr>
-                        </tbody></table>
-                      
-                      <div class="column-bottom" style="font-size: 32px;line-height: 32px;transition-timing-function: cubic-bezier(0, 0, 0.2, 1);transition-duration: 150ms;transition-property: all;">&nbsp;</div>
-                    </td>
-                    <td class="column second" style="padding: 0;vertical-align: top;text-align: left;width: 300px;">
-                      <div><div class="column-top" style="font-size: 32px;line-height: 32px;transition-timing-function: cubic-bezier(0, 0, 0.2, 1);transition-duration: 150ms;transition-property: all;">&nbsp;</div></div>
-                        <table class="contents" style="border-collapse: collapse;border-spacing: 0;table-layout: fixed;width: 100%;">
-                          <tbody><tr>
-                            <td class="padded" style="padding: 0;vertical-align: top;padding-left: 16px;padding-right: 32px;word-break: break-word;word-wrap: break-word;">
-                              
-            <h2 style="font-style: normal;font-weight: 700;Margin-bottom: 0;Margin-top: 0;font-size: 24px;line-height: 32px;font-family: &quot;Open Sans&quot;,sans-serif;color: #44a8c7;">Go Mobile</h2><p style="font-style: normal;font-weight: 400;Margin-bottom: 21px;Margin-top: 16px;font-size: 15px;line-height: 24px;font-family: &quot;Open Sans&quot;,sans-serif;color: #60666d;">Use onTarget Mobile App to update the status of the task and notify your team members in real time.&nbsp;</p>
-          
-                            </td>
-                          </tr>
-                        </tbody></table>
-                      
-                        <table class="contents" style="border-collapse: collapse;border-spacing: 0;table-layout: fixed;width: 100%;">
-                          <tbody><tr>
-                            <td class="padded" style="padding: 0;vertical-align: top;padding-left: 16px;padding-right: 32px;word-break: break-word;word-wrap: break-word;">
-                              
-            <div class="btn" style="Margin-bottom: 0;Margin-top: 0;text-align: left;">
-              <!--[if !mso]--><a target="_blank" style="border-radius: 3px;display: inline-block;font-size: 12px;font-weight: 700;line-height: 22px;padding: 10px 28px;text-align: center;text-decoration: none !important;transition: opacity 0.2s ease-in;color: #fff;font-family: &quot;Open Sans&quot;,sans-serif;background-color: #5c91ad;" href="http://ontargettechnologies.createsend1.com/t/i-l-tkudqk-l-r/">Update your Task now</a><!--[endif]-->
-            <!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" href="http://ontargettechnologies.createsend1.com/t/i-l-tkudqk-l-r/" style="width:184px" arcsize="8%" fillcolor="#5C91AD" stroke="f"><v:textbox style="mso-fit-shape-to-text:t" inset="0px,9px,0px,9px"><center style="font-size:12px;line-height:22px;color:#FFFFFF;font-family:sans-serif;font-weight:700;mso-line-height-rule:exactly;mso-text-raise:4px">Update your Task now</center></v:textbox></v:roundrect><![endif]--></div>
-          
-                            </td>
-                          </tr>
-                        </tbody></table>
-                      
-                      <div class="column-bottom" style="font-size: 32px;line-height: 32px;transition-timing-function: cubic-bezier(0, 0, 0.2, 1);transition-duration: 150ms;transition-property: all;">&nbsp;</div>
-                    </td>
-                  </tr>
-                </tbody></table>
-              </td>
-              <td class="border" style="padding: 0;vertical-align: top;font-size: 1px;line-height: 1px;background-color: #dddee1;width: 1px;">​</td>
-            </tr>
-          </tbody></table>
-        
-          <table class="border" style="border-collapse: collapse;border-spacing: 0;font-size: 1px;line-height: 1px;background-color: #dddee1;Margin-left: auto;Margin-right: auto;" width="602">
-            <tbody><tr><td style="padding: 0;vertical-align: top;">&nbsp;</td></tr>
-          </tbody></table>
-        
-      <table class="footer centered" style="border-collapse: collapse;border-spacing: 0;Margin-left: auto;Margin-right: auto;width: 100%;">
+        </tbody></table>
+
+    <table class="centered" style="border-collapse: collapse;border-spacing: 0;Margin-left: auto;Margin-right: auto;">
         <tbody><tr>
-          <td style="padding: 0;vertical-align: top;">&nbsp;</td>
-          <td class="inner" style="padding: 58px 0 29px 0;vertical-align: top;width: 600px;">
-            <table class="right" style="border-collapse: collapse;border-spacing: 0;" align="right">
-              <tbody><tr>
-                <td style="padding: 0;vertical-align: top;color: #b9b9b9;font-size: 12px;line-height: 22px;max-width: 200px;mso-line-height-rule: at-least;">
-                  <div class="sharing">
-                    
-                    
-                    <div style="Margin-bottom: 5px;">
-                      <!--[if !mso]--><a target="_blank" class="linkedinshare" style="font-family: &quot;Open Sans&quot;,sans-serif;transition: opacity 0.2s ease-in;color: #ffffff;background-image: url(https://i5.createsend1.com/static/eb/master/03-fresh/imgf/lishare.png);background-repeat: no-repeat;background-size: 200px 56px;border-radius: 2px;display: block;font-size: 11px;font-weight: bold;line-height: 11px;padding: 8px 11px 7px 28px;text-align: left;text-decoration: none;background-color: #7b7c7d;" href="http://ontargettechnologies.createsend1.com/t/i-li-tkudqk-l-j/" left-align-text="true">
-                        Share
-                      </a><!--[endif]-->
-                    <!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" href="http://ontargettechnologies.createsend1.com/t/i-li-tkudqk-l-j/" style="width:70px" arcsize="8%" fill="t" stroke="f"><v:fill type="tile" src="https://i5.createsend1.com/static/eb/master/03-fresh/imgf/lishare.png" color="#7B7C7D"></v:fill><v:textbox style="mso-fit-shape-to-text:t" inset="27px,7px,0,6px"><p style="font-size:11px;line-height:11px;color:#FFFFFF;font-family:sans-serif;font-weight:bold;mso-line-height-rule:exactly;mso-text-raise:-1px">                        Share                      </p></v:textbox></v:roundrect><![endif]--></div>
-                    
-                  </div>
-                </td>
-              </tr>
-            </tbody></table>
-            <table class="left" style="border-collapse: collapse;border-spacing: 0;" align="left">
-              <tbody><tr>
-                <td style="padding: 0;vertical-align: top;color: #b9b9b9;font-size: 12px;line-height: 22px;text-align: left;width: 400px;">
-                  <div class="links emb-web-links" style="line-height: 26px;Margin-bottom: 26px;mso-line-height-rule: at-least;">
-                    
-                  </div>
-                  <div class="address" style="font-family: &quot;Open Sans&quot;,sans-serif;Margin-bottom: 18px;">
-                    <div>onTarget Technologies Inc</div>
-                  </div>
-                  <div class="permission" style="font-family: &quot;Open Sans&quot;,sans-serif;">
-                    
-                  </div>
-                  <div class="campaign" style="font-family: &quot;Open Sans&quot;,sans-serif;Margin-bottom: 18px;">
-                    
-                    <a target="_blank" style="transition: opacity 0.2s ease-in;color: #b9b9b9;font-weight: bold;text-decoration: none;" href="http://ontargettechnologies.createsend1.com/t/i-u-tkudqk-l-t/">Unsubscribe</a>
-                  </div>
-                </td>
-              </tr>
-            </tbody></table>
-          </td>
-          <td style="padding: 0;vertical-align: top;">&nbsp;</td>
+            <td class="border" style="padding: 0;vertical-align: top;font-size: 1px;line-height: 1px;background-color: #dddee1;width: 1px;">&#8203;</td>
+            <td style="padding: 0;vertical-align: top;">
+                <table class="one-col" style="border-collapse: collapse;border-spacing: 0;Margin-left: auto;Margin-right: auto;width: 600px;background-color: #ffffff;table-layout: fixed;" emb-background-style>
+                    <tbody><tr>
+                        <td class="column" style="padding: 0;vertical-align: top;text-align: left;">
+
+                            <div class="image" style='font-size: 12px;mso-line-height-rule: at-least;font-style: normal;font-weight: 400;Margin-bottom: 0;Margin-top: 0;font-family: "Open Sans",sans-serif;color: #60666d;' align="center">
+                                <img style="border: 0;-ms-interpolation-mode: bicubic;display: block;max-width: 500px;" src="http://i1.createsend1.com/ei/i/54/AF2/29A/125057/csfinal/construction-worker-tablet.jpg" alt="" width="500" height="175">
+                            </div>
+
+                            <table class="contents" style="border-collapse: collapse;border-spacing: 0;table-layout: fixed;width: 100%;">
+                                <tbody><tr>
+                                    <td class="padded" style="padding: 0;vertical-align: top;padding-left: 32px;padding-right: 32px;word-break: break-word;word-wrap: break-word;">
+
+                                        <div style="Margin-top: 24px;line-height: 15px;font-size: 1px;">&nbsp;</div>
+
+                                    </td>
+                                </tr>
+                                </tbody></table>
+
+                            <table class="contents" style="border-collapse: collapse;border-spacing: 0;table-layout: fixed;width: 100%;">
+                                <tbody><tr>
+                                    <td class="padded" style="padding: 0;vertical-align: top;padding-left: 32px;padding-right: 32px;word-break: break-word;word-wrap: break-word;">
+
+                                        <h3 class="font-open-sans size-15" style="font-style: normal;font-weight: 400;Margin-bottom: 0;Margin-top: 0;font-size: 15px;line-height: 23px;font-family: open sans,sans-serif;color: #3b3e42;text-align: left;"><span style="color:rgb(80, 0, 80)">Hi <em>${assigneeFirstName}&nbsp;${assigneeLastName}</em></span></h3><h3 class="font-open-sans size-15" style="font-style: normal;font-weight: 400;Margin-bottom: 0;Margin-top: 12px;font-size: 15px;line-height: 23px;font-family: open sans,sans-serif;color: #3b3e42;text-align: left;">
+                                        "<em>${documentTitle}</em>" status has been changed to <em>${status}</em></em>.</h3><h3 class="font-open-sans size-15" style="font-style: normal;font-weight: 400;Margin-bottom: 0;Margin-top: 12px;font-size: 15px;line-height: 23px;font-family: open sans,sans-serif;color: #3b3e42;text-align: left;"><span style="color:rgb(80, 0, 80)">Good Luck,</span></h3><h3 class="font-open-sans size-15" style="font-style: normal;font-weight: 400;Margin-bottom: 0;Margin-top: 12px;font-size: 15px;line-height: 23px;font-family: open sans,sans-serif;color: #3b3e42;text-align: left;"><em>${modifierFirstName}&nbsp;${modifierLastName}</em></h3>
+
+
+
+
+                                    </td>
+                                </tr>
+                                </tbody></table>
+
+                            <div class="column-bottom" style="font-size: 32px;line-height: 32px;transition-timing-function: cubic-bezier(0, 0, 0.2, 1);transition-duration: 150ms;transition-property: all;">&nbsp;</div>
+                        </td>
+                    </tr>
+                    </tbody></table>
+            </td>
+            <td class="border" style="padding: 0;vertical-align: top;font-size: 1px;line-height: 1px;background-color: #dddee1;width: 1px;">&#8203;</td>
         </tr>
-      </tbody></table>
-    </center>
-  <img style="border: 0 !important;-ms-interpolation-mode: bicubic;visibility: hidden !important;display: block !important;height: 1px !important;width: 1px !important;margin: 0 !important;padding: 0 !important;" src="https://ontargettechnologies.createsend1.com/t/i-o-tkudqk-l/o.gif" alt="" border="0" height="1" width="1">
-<script type="text/javascript" src="https://js.createsend1.com/js/jquery-1.7.2.min.js?h=C99A465920151117"></script><script type="text/javascript">$(function(){$('area,a').attr('target', '_blank');});</script>
-</body>
+        </tbody></table>
+
+    <table class="border" style="border-collapse: collapse;border-spacing: 0;font-size: 1px;line-height: 1px;background-color: #dddee1;Margin-left: auto;Margin-right: auto;" width="602">
+        <tbody><tr class="border" style="font-size: 1px;line-height: 1px;background-color: #e3e3e3;height: 1px;">
+            <td class="border" style="padding: 0;vertical-align: top;font-size: 1px;line-height: 1px;background-color: #dddee1;width: 1px;">&#8203;</td>
+            <td style="padding: 0;vertical-align: top;line-height: 1px;">&#8203;</td>
+            <td class="border" style="padding: 0;vertical-align: top;font-size: 1px;line-height: 1px;background-color: #dddee1;width: 1px;">&#8203;</td>
+        </tr>
+        </tbody></table>
+
+    <table class="centered" style="border-collapse: collapse;border-spacing: 0;Margin-left: auto;Margin-right: auto;">
+        <tbody><tr>
+            <td class="border" style="padding: 0;vertical-align: top;font-size: 1px;line-height: 1px;background-color: #dddee1;width: 1px;">&#8203;</td>
+            <td style="padding: 0;vertical-align: top;">
+                <table class="two-col" style="border-collapse: collapse;border-spacing: 0;Margin-left: auto;Margin-right: auto;width: 600px;background-color: #ffffff;table-layout: fixed;" emb-background-style>
+                    <tbody><tr>
+                        <td class="column first" style="padding: 0;vertical-align: top;text-align: left;width: 300px;">
+                            <div><div class="column-top" style="font-size: 32px;line-height: 32px;transition-timing-function: cubic-bezier(0, 0, 0.2, 1);transition-duration: 150ms;transition-property: all;">&nbsp;</div></div>
+                            <table class="contents" style="border-collapse: collapse;border-spacing: 0;table-layout: fixed;width: 100%;">
+                                <tbody><tr>
+                                    <td class="padded" style="padding: 0;vertical-align: top;padding-left: 32px;padding-right: 16px;word-break: break-word;word-wrap: break-word;">
+
+                                        <div class="image" style='font-size: 12px;mso-line-height-rule: at-least;font-style: normal;font-weight: 400;Margin-bottom: 0;Margin-top: 0;font-family: "Open Sans",sans-serif;color: #60666d;' align="center">
+                                            <img style="border: 0;-ms-interpolation-mode: bicubic;display: block;max-width: 480px;" src="http://i2.createsend1.com/ei/i/54/AF2/29A/125057/csfinal/taskdetail1-43.png" alt="" width="252" height="161">
+                                        </div>
+
+                                    </td>
+                                </tr>
+                                </tbody></table>
+
+                            <div class="column-bottom" style="font-size: 32px;line-height: 32px;transition-timing-function: cubic-bezier(0, 0, 0.2, 1);transition-duration: 150ms;transition-property: all;">&nbsp;</div>
+                        </td>
+                        <td class="column second" style="padding: 0;vertical-align: top;text-align: left;width: 300px;">
+                            <div><div class="column-top" style="font-size: 32px;line-height: 32px;transition-timing-function: cubic-bezier(0, 0, 0.2, 1);transition-duration: 150ms;transition-property: all;">&nbsp;</div></div>
+                            <table class="contents" style="border-collapse: collapse;border-spacing: 0;table-layout: fixed;width: 100%;">
+                                <tbody><tr>
+                                    <td class="padded" style="padding: 0;vertical-align: top;padding-left: 16px;padding-right: 32px;word-break: break-word;word-wrap: break-word;">
+
+                                        <h2 style='font-style: normal;font-weight: 700;Margin-bottom: 0;Margin-top: 0;font-size: 24px;line-height: 32px;font-family: "Open Sans",sans-serif;color: #44a8c7;'>Go Mobile</h2><p style='font-style: normal;font-weight: 400;Margin-bottom: 21px;Margin-top: 16px;font-size: 15px;line-height: 24px;font-family: "Open Sans",sans-serif;color: #60666d;'>Use onTarget Mobile App to update the status of the task and notify your team members in real time.&nbsp;</p>
+
+                                    </td>
+                                </tr>
+                                </tbody></table>
+
+                            <table class="contents" style="border-collapse: collapse;border-spacing: 0;table-layout: fixed;width: 100%;">
+                                <tbody><tr>
+                                    <td class="padded" style="padding: 0;vertical-align: top;padding-left: 16px;padding-right: 32px;word-break: break-word;word-wrap: break-word;">
+
+                                        <div class="btn btn--left" style="Margin-bottom: 0;Margin-top: 0;text-align: left;">
+                                            <![if !mso]><a style='border-radius: 3px;display: inline-block;font-size: 12px;font-weight: 700;line-height: 22px;padding: 10px 28px;text-align: center;text-decoration: none !important;transition: opacity 0.2s ease-in;color: #fff;font-family: "Open Sans",sans-serif;background-color: #5c91ad;' href="http://ontargettechnologies.createsend1.com/t/i-l-tkudqk-l-r/">View Document</a><![endif]>
+                                            <!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" href="http://ontargettechnologies.createsend1.com/t/i-l-tkudqk-l-r/" style="width:150px" arcsize="8%" fillcolor="#5C91AD" stroke="f"><v:textbox style="mso-fit-shape-to-text:t" inset="0px,9px,0px,9px"><center style="font-size:12px;line-height:22px;color:#FFFFFF;font-family:sans-serif;font-weight:700;mso-line-height-rule:exactly;mso-text-raise:4px">View Document</center></v:textbox></v:roundrect><![endif]--></div>
+
+                                    </td>
+                                </tr>
+                                </tbody></table>
+
+                            <div class="column-bottom" style="font-size: 32px;line-height: 32px;transition-timing-function: cubic-bezier(0, 0, 0.2, 1);transition-duration: 150ms;transition-property: all;">&nbsp;</div>
+                        </td>
+                    </tr>
+                    </tbody></table>
+            </td>
+            <td class="border" style="padding: 0;vertical-align: top;font-size: 1px;line-height: 1px;background-color: #dddee1;width: 1px;">&#8203;</td>
+        </tr>
+        </tbody></table>
+
+    <table class="border" style="border-collapse: collapse;border-spacing: 0;font-size: 1px;line-height: 1px;background-color: #dddee1;Margin-left: auto;Margin-right: auto;" width="602">
+        <tbody><tr><td style="padding: 0;vertical-align: top;">&nbsp;</td></tr>
+        </tbody></table>
+
+    <table class="footer centered" style="border-collapse: collapse;border-spacing: 0;Margin-left: auto;Margin-right: auto;width: 100%;">
+        <tbody><tr>
+            <td style="padding: 0;vertical-align: top;">&nbsp;</td>
+            <td class="inner" style="padding: 58px 0 29px 0;vertical-align: top;width: 600px;">
+                <table class="right" style="border-collapse: collapse;border-spacing: 0;" align="right">
+                    <tbody><tr>
+                        <td style="padding: 0;vertical-align: top;color: #b9b9b9;font-size: 12px;line-height: 22px;max-width: 200px;mso-line-height-rule: at-least;">
+                            <div class="sharing">
+
+
+                                <div style="Margin-bottom: 5px;">
+                                    <![if !mso]><a class="linkedinshare" style='font-family: "Open Sans",sans-serif;transition: opacity 0.2s ease-in;color: #ffffff;background-image: url(http://i5.createsend1.com/static/eb/master/03-fresh/imgf/lishare.png);background-repeat: no-repeat;background-size: 200px 56px;border-radius: 2px;display: block;font-size: 11px;font-weight: bold;line-height: 11px;padding: 8px 11px 7px 28px;text-align: left;text-decoration: none;background-color: #7b7c7d;' href="http://ontargettechnologies.createsend1.com/t/i-li-tkudqk-l-j/" left-align-text="true">
+                                    Share
+                                </a><![endif]>
+                                    <!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" href="http://ontargettechnologies.createsend1.com/t/i-li-tkudqk-l-j/" style="width:71px" arcsize="8%" fill="t" stroke="f"><v:fill type="tile" src="http://i5.createsend1.com/static/eb/master/03-fresh/imgf/lishare.png" color="#7B7C7D"></v:fill><v:textbox style="mso-fit-shape-to-text:t" inset="27px,7px,0,6px"><p style="font-size:11px;line-height:11px;color:#FFFFFF;font-family:sans-serif;font-weight:bold;mso-line-height-rule:exactly;mso-text-raise:-1px">                        Share                      </p></v:textbox></v:roundrect><![endif]--></div>
+
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody></table>
+                <table class="left" style="border-collapse: collapse;border-spacing: 0;" align="left">
+                    <tbody><tr>
+                        <td style="padding: 0;vertical-align: top;color: #b9b9b9;font-size: 12px;line-height: 22px;text-align: left;width: 400px;">
+                            <div class="links emb-web-links" style="line-height: 26px;Margin-bottom: 26px;mso-line-height-rule: at-least;">
+
+                            </div>
+                            <div class="address" style='font-family: "Open Sans",sans-serif;Margin-bottom: 18px;'>
+                                <div>onTarget Technologies Inc</div>
+                            </div>
+                            <div class="permission" style='font-family: "Open Sans",sans-serif;'>
+
+                            </div>
+                            <div class="campaign" style='font-family: "Open Sans",sans-serif;Margin-bottom: 18px;'>
+
+                                <a style="transition: opacity 0.2s ease-in;color: #b9b9b9;font-weight: bold;text-decoration: none;" href="http://ontargettechnologies.createsend1.com/t/i-u-tkudqk-l-t/">Unsubscribe</a>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody></table>
+            </td>
+            <td style="padding: 0;vertical-align: top;">&nbsp;</td>
+        </tr>
+        </tbody></table>
+</center>
+<img style="border: 0 !important;-ms-interpolation-mode: bicubic;visibility: hidden !important;display: block !important;height: 1px !important;width: 1px !important;margin: 0 !important;padding: 0 !important;" src="http://ontargettechnologies.createsend1.com/t/i-o-tkudqk-l/o.gif" width="1" height="1" border="0" alt="">
+</body></html>
