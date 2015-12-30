@@ -960,7 +960,7 @@
                                           <tr>
                                              <td style="padding: 0;vertical-align: top;padding-left: 16px;padding-right: 32px;word-break: break-word;word-wrap: break-word" class="padded">
                                                 <div style="Margin-bottom: 21px;text-align: left" class="btn">
-                                                   <!--[if !mso]--><a href="${ontargetUrl}" style="border-radius: 3px;display: inline-block;font-size: 12px;font-weight: 700;line-height: 22px;padding: 10px 28px;text-align: center;text-decoration: none !important;transition: opacity 0.2s ease-in;color: #fff;font-family: &quot;Open Sans&quot;,sans-serif;background-color: #5c91ad" target="_blank">Update your Task now</a><!--[endif]-->
+                                                   <!--[if !mso]--><a href="${taskLink}" style="border-radius: 3px;display: inline-block;font-size: 12px;font-weight: 700;line-height: 22px;padding: 10px 28px;text-align: center;text-decoration: none !important;transition: opacity 0.2s ease-in;color: #fff;font-family: &quot;Open Sans&quot;,sans-serif;background-color: #5c91ad" target="_blank">Update your Task now</a><!--[endif]-->
                                                       <!--[if mso]>
                                                    <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" href="http://ontargettechnologies.createsend1.com/t/i-l-trirjyt-l-y/" style="width:190px" arcsize="8%" fillcolor="#5C91AD" stroke="f">
                                                       <v:textbox style="mso-fit-shape-to-text:t" inset="0px,9px,0px,9px">

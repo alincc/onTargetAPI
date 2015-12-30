@@ -2,19 +2,16 @@ package com.ontarget.api.service.impl;
 
 import com.ontarget.api.dao.AuthenticationDAO;
 import com.ontarget.api.dao.ContactDAO;
-import com.ontarget.api.dao.EmailDAO;
 import com.ontarget.api.dao.UserInvitationDAO;
 import com.ontarget.api.mail.SendEmail;
 import com.ontarget.api.service.EmailService;
 import com.ontarget.bean.Contact;
-import com.ontarget.bean.DocumentDTO;
 import com.ontarget.bean.ProjectTaskInfo;
 import com.ontarget.bean.UserDTO;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.entity.pojo.RegistrationRequestResponseDTO;
-import com.ontarget.request.bean.Assignee;
-import com.ontarget.util.EmailConstant;
 import com.ontarget.enums.TaskStatusEnum;
+import com.ontarget.util.EmailConstant;
 import org.apache.log4j.Logger;
 import org.apache.velocity.app.VelocityEngine;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +25,9 @@ import org.springframework.ui.velocity.VelocityEngineUtils;
 
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Owner on 11/2/14.
@@ -88,6 +87,9 @@ public class EmailServiceImpl implements EmailService {
 	@Value("${email.asset.task.dashboard.image}")
 	private String taskDashboardImgUrl;
 
+    @Value("${email.asset.ipadscreen.mockup.image}")
+    private String ipadScreenMockup;
+
 	/**
 	 * Email after the request for demo is approved
 	 * 
@@ -129,10 +131,18 @@ public class EmailServiceImpl implements EmailService {
 	}
 
 	private Map getDefaultMapProperties(Map model) {
-		model.put("constructionWorkerImgUrl", emailAssetServerUrl + "/" + emailConstructionWorkerImage);
-		model.put("ontargetLogoImgUrl", emailAssetServerUrl + "/" + emailOnTargetLogoImage);
-		model.put("ontargetUrl", baseUrl);
-		model.put("appLink", EmailConstant.APP_LINK);
+        model.put("constructionWorkerImgUrl", emailAssetServerUrl + "/" + emailConstructionWorkerImage);
+        model.put("ontargetLogoImgUrl", emailAssetServerUrl + "/" + emailOnTargetLogoImage);
+        model.put("baseUrl", baseUrl);
+        model.put("ontargetUrl", baseUrl);
+        model.put("appLink", EmailConstant.APP_LINK);
+        model.put("emailConstructionWorkerImage",emailAssetServerUrl + "/" +emailConstructionWorkerImage);
+        model.put("emailTaskPercentageImage",emailAssetServerUrl + "/" +emailTaskPercentageImage);
+        model.put("emailOnTargetLogoImage",emailAssetServerUrl + "/" +emailOnTargetLogoImage);
+        model.put("emailTaskInfoImage",emailAssetServerUrl + "/" +emailTaskInfoImage);
+        model.put("taskDetailImgUrl",emailAssetServerUrl + "/" +taskDetailImgUrl);
+        model.put("taskDashboardImgUrl",emailAssetServerUrl + "/" +taskDashboardImgUrl);
+        model.put("ipadScreenMockup",emailAssetServerUrl +"/"+ipadScreenMockup);
 		return model;
 	}
 
@@ -601,12 +611,12 @@ public class EmailServiceImpl implements EmailService {
         emailAttributes.put("baseUrl", baseUrl);
         emailAttributes.put("ontargetUrl", baseUrl);
         emailAttributes.put("appLink", EmailConstant.APP_LINK);
-        emailAttributes.put("emailConstructionWorkerImage",emailConstructionWorkerImage);
-        emailAttributes.put("emailTaskPercentageImage",emailTaskPercentageImage);
-        emailAttributes.put("emailOnTargetLogoImage",emailOnTargetLogoImage);
-        emailAttributes.put("emailTaskInfoImage",emailTaskInfoImage);
-        emailAttributes.put("taskDetailImgUrl",taskDetailImgUrl);
-        emailAttributes.put("taskDashboardImgUrl",taskDashboardImgUrl);
+        emailAttributes.put("emailConstructionWorkerImage",emailAssetServerUrl + "/" +emailConstructionWorkerImage);
+        emailAttributes.put("emailTaskPercentageImage",emailAssetServerUrl + "/" +emailTaskPercentageImage);
+        emailAttributes.put("emailOnTargetLogoImage",emailAssetServerUrl + "/" +emailOnTargetLogoImage);
+        emailAttributes.put("emailTaskInfoImage",emailAssetServerUrl + "/" +emailTaskInfoImage);
+        emailAttributes.put("taskDetailImgUrl",emailAssetServerUrl + "/" +taskDetailImgUrl);
+        emailAttributes.put("taskDashboardImgUrl",emailAssetServerUrl + "/" +taskDashboardImgUrl);
         return emailAttributes;
     }
 

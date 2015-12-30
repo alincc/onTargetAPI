@@ -1059,7 +1059,7 @@ style.firebugResetStyles {
             <table style="border-collapse: collapse;border-spacing: 0;" align="left">
               <tbody><tr>
                 <td class="logo emb-logo-padding-box" style="padding: 0;vertical-align: top;mso-line-height-rule: at-least;width: 280px;padding-top: 24px;padding-bottom: 24px;">
-                  <div class="logo-left" style="font-weight: 700;font-family: Avenir,sans-serif;color: #555;font-size: 0px !important;line-height: 0 !important;" id="emb-email-header" align="left"><img style="border: 0;-ms-interpolation-mode: bicubic;display: block;max-width: 71px;" src="https://i1.createsend1.com/ei/i/3C/421/5CC/131556/csfinal/onTarget_Logo_PNG.png" alt="" height="68" width="71"></div>
+                  <div class="logo-left" style="font-weight: 700;font-family: Avenir,sans-serif;color: #555;font-size: 0px !important;line-height: 0 !important;" id="emb-email-header" align="left"><img style="border: 0;-ms-interpolation-mode: bicubic;display: block;max-width: 71px;" src="${emailOnTargetLogoImage}" alt="" height="68" width="71"></div>
                 </td>
               </tr>
             </tbody></table>
@@ -1080,7 +1080,7 @@ style.firebugResetStyles {
                     <td class="column" style="padding: 0;vertical-align: top;text-align: left;">
                       
             <div class="image" style="font-size: 12px;mso-line-height-rule: at-least;font-style: normal;font-weight: 400;Margin-bottom: 0;Margin-top: 0;font-family: &quot;Open Sans&quot;,sans-serif;color: #60666d;" align="center">
-              <img style="border: 0;-ms-interpolation-mode: bicubic;display: block;max-width: 500px;" src="${ontargetUrl}" alt="" height="175" width="500">
+              <img style="border: 0;-ms-interpolation-mode: bicubic;display: block;max-width: 500px;" src="${emailConstructionWorkerImage}" alt="" height="175" width="500">
             </div>
           
                         <table class="contents" style="border-collapse: collapse;border-spacing: 0;table-layout: fixed;width: 100%;">
@@ -1134,7 +1134,7 @@ style.firebugResetStyles {
                             <td class="padded" style="padding: 0;vertical-align: top;padding-left: 32px;padding-right: 16px;word-break: break-word;word-wrap: break-word;">
                               
             <div class="image" style="font-size: 12px;mso-line-height-rule: at-least;font-style: normal;font-weight: 400;Margin-bottom: 0;Margin-top: 0;font-family: &quot;Open Sans&quot;,sans-serif;color: #60666d;" align="center">
-              <img style="border: 0;-ms-interpolation-mode: bicubic;display: block;max-width: 480px;" src="https://i2.createsend1.com/ei/i/3C/421/5CC/131556/csfinal/_addTask1.png" alt="" height="189" width="252">
+              <img style="border: 0;-ms-interpolation-mode: bicubic;display: block;max-width: 480px;" src="${emailTaskInfoImage}" alt="" height="189" width="252">
             </div>
           
                             </td>
@@ -1189,7 +1189,7 @@ style.firebugResetStyles {
                             <td class="padded" style="padding: 0;vertical-align: top;padding-left: 32px;padding-right: 16px;word-break: break-word;word-wrap: break-word;">
                               
             <div class="image" style="font-size: 12px;mso-line-height-rule: at-least;font-style: normal;font-weight: 400;Margin-bottom: 0;Margin-top: 0;font-family: &quot;Open Sans&quot;,sans-serif;color: #60666d;" align="center">
-              <img style="border: 0;-ms-interpolation-mode: bicubic;display: block;max-width: 480px;" src="https://i3.createsend1.com/ei/i/3C/421/5CC/131556/csfinal/533_ipad-screens-mockups.png" alt="" height="201" width="252">
+              <img style="border: 0;-ms-interpolation-mode: bicubic;display: block;max-width: 480px;" src="${ipadScreenMockup}" alt="" height="201" width="252">
             </div>
           
                             </td>
