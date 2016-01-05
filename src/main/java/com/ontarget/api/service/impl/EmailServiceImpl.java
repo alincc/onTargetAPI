@@ -339,9 +339,10 @@ public class EmailServiceImpl implements EmailService {
 	 * @return
 	 */
 	@Override
-	public boolean sendUserRegistrationEmail(String userEmail, String tokenId, String receiverFirstName, String senderFirstName,
+	public boolean sendUserRegistrationEmail(String userEmail, String tokenId,  String receiverFirstName, String senderFirstName,
 			String senderLastName, String projectName) {
 		try {
+
 			MimeMessagePreparator preparator = new MimeMessagePreparator() {
 				@SuppressWarnings({ "rawtypes", "unchecked" })
 				public void prepare(MimeMessage mimeMessage) throws Exception {
@@ -360,7 +361,9 @@ public class EmailServiceImpl implements EmailService {
 					} else {
 						model.put("senderName", OnTargetConstant.EmailServiceConstants.EMAIL_FROM);
 					}
-					model.put("receiverFirstName", receiverFirstName);
+
+
+					model.put("receiverFirstName", OnTargetConstant.EmailServiceConstants.DEFAULT_NAME);
 					model.put("url", baseUrl + OnTargetConstant.URL.SIGNUP_URL + "?q=" + tokenId);
 					model.put("projectName", projectName);
 

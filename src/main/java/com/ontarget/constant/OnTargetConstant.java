@@ -75,6 +75,8 @@ public interface OnTargetConstant {
 
 		public static final String REQUEST_FOR_DEMO_APPROVE_URL = "/#/app/pending-account-request";
 		public static final String USER_INVITE_TO_COLLABORATE = "Invite to Collaborate";
+
+        public static final String DEFAULT_NAME="there";
 	}
 
 	public interface USER_STATUS {
