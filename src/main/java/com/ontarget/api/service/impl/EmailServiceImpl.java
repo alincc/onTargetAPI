@@ -459,7 +459,7 @@ public class EmailServiceImpl implements EmailService {
 					model.put("assignee", assigneeUser);
 					model.put("task", task);
 					model.put("sender", sender);
-					model.put("taskInfoImageImgUrl", emailAssetServerUrl + "/" + emailTaskInfoImage);
+					model.put("taskInfoImageImgUrl", emailAssetServerUrl + emailTaskInfoImage);
 					model.put("taskLink", baseUrl + OnTargetConstant.URL.TASK_URL + "?activityId=" + task.getProjectId() + "&taskId="
 							+ task.getProjectTaskId());
 
