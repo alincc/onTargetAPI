@@ -159,7 +159,7 @@ public class ConvertPOJOUtils {
 		projectDTO.setUnitOfMeasurement(project.getUnitOfMeasurement());
 		projectDTO.setProjectImagePath(project.getProjectImagePath());
 		projectDTO.setProjectAssetFolderName(project.getProjectAssetFolderName());
-        //projectDTO.setProjectTopicArn(project.getProjectTopicArn());
+        projectDTO.setProjectTopicArn(project.getProjectTopicArn());
 		return projectDTO;
 	}
 
