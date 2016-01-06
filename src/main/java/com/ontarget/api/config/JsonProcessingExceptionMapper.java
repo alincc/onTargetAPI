@@ -1,9 +1,8 @@
 package com.ontarget.api.config;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.ontarget.api.filter.AuthorizationFilter;
 import org.apache.log4j.Logger;
 
+import javax.inject.Singleton;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
@@ -12,9 +11,10 @@ import javax.ws.rs.ext.Provider;
  * Created by sanjeevghimire on 1/5/16.
  */
 @Provider
-public class JsonProcessingExceptionMapper implements ExceptionMapper<JsonProcessingException>{
+@Singleton
+public class JsonProcessingExceptionMapper implements ExceptionMapper<Exception>{
 
-    private Logger logger = Logger.getLogger(AuthorizationFilter.class);
+    private Logger logger = Logger.getLogger(JsonProcessingExceptionMapper.class);
 
     public static class Error {
         public String key;
@@ -22,7 +22,7 @@ public class JsonProcessingExceptionMapper implements ExceptionMapper<JsonProces
     }
 
     @Override
-    public Response toResponse(JsonProcessingException exception) {
+    public Response toResponse(Exception exception) {
         logger.error("Bad Json",exception);
         Error error = new Error();
         error.key = "bad-json";

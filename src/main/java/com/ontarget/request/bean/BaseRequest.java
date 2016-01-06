@@ -6,7 +6,9 @@ import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import lombok.Data;
 
+@Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({ "loggedInUserId", "loggedInUserProjectId" })
@@ -18,41 +20,5 @@ public class BaseRequest {
 	@JsonProperty("loggedInUserProjectId")
 	private Integer loggedInUserProjectId;
 
-	/**
-	 * 
-	 * @return The loggedInUserId
-	 */
-	@JsonProperty("loggedInUserId")
-	public Integer getLoggedInUserId() {
-		return loggedInUserId;
-	}
 
-	/**
-	 * 
-	 * @param loggedInUserId
-	 *            The loggedInUserId
-	 */
-	@JsonProperty("loggedInUserId")
-	public void setLoggedInUserId(Integer loggedInUserId) {
-		this.loggedInUserId = loggedInUserId;
-	}
-
-	/**
-	 * 
-	 * @return The loggedInUserprojectId
-	 */
-	@JsonProperty("loggedInUserProjectId")
-	public Integer getLoggedInUserProjectId() {
-		return loggedInUserProjectId;
-	}
-
-	/**
-	 * 
-	 * @param loggedInUserprojectId
-	 *            The loggedInUserprojectId
-	 */
-	@JsonProperty("loggedInUserProjectId")
-	public void setLoggedInUserProjectId(Integer loggedInUserprojectId) {
-		this.loggedInUserProjectId = loggedInUserprojectId;
-	}
 }

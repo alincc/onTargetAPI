@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "address1", "address2", "city", "state", "country", "zip","addressId" })
+@JsonPropertyOrder({ "address1", "address2", "city", "state", "country", "zip" })
 public class ProjectAddressInfo {
 
 	@NotEmpty

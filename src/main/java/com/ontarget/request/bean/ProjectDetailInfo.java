@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({ "projectId","projectParentId", "projectTypeId", "projectAddress", "companyId", "projectName",
-		"projectImagePath", "projectDescription", "status", "startDate", "endDate", "unitOfMeasurement","projectAssetFolderName","projectTopicArn" })
+		"projectImagePath", "projectDescription", "status", "startDate", "endDate", "unitOfMeasurement"})
 public class ProjectDetailInfo {
 
 	@JsonProperty("projectId")
@@ -58,8 +58,8 @@ public class ProjectDetailInfo {
 
     @JsonProperty("projectAssetFolderName")
     private String projectAssetFolderName;
-
-    @JsonProperty("projectTopicArn")
-    private String projectTopicArn;
+//
+//    @JsonProperty("projectTopicArn")
+//    private String projectTopicArn;
 
 }
