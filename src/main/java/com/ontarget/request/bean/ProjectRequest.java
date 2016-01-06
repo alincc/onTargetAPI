@@ -12,7 +12,7 @@ import lombok.Data;
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "project", "baseRequest", "userId","accountStatus","projectTopicArn" })
+@JsonPropertyOrder({ "baseRequest", "project", "userId","accountStatus"})
 public class ProjectRequest {
 	@JsonProperty("baseRequest")
 	private BaseRequest baseRequest;

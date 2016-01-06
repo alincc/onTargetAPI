@@ -16,8 +16,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "projectParentId", "projectTypeId", "projectAddress", "companyId", "projectName",
-		"projectImagePath", "projectDescription", "status", "startDate", "endDate", "unitOfMeasurement","projectTopicArn" })
+@JsonPropertyOrder({ "projectId","projectParentId", "projectTypeId", "projectAddress", "companyId", "projectName",
+		"projectImagePath", "projectDescription", "status", "startDate", "endDate", "unitOfMeasurement","projectAssetFolderName","projectTopicArn" })
 public class ProjectDetailInfo {
 
 	@JsonProperty("projectId")

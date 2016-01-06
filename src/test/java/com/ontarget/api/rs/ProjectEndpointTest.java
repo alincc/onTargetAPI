@@ -29,7 +29,7 @@ public class ProjectEndpointTest extends BaseTest {
 		request.setAccountStatus("ACTIVE");
 
 		ProjectDetailInfo projectDetailInfo = new ProjectDetailInfo();
-		projectDetailInfo.setCompanyId(6);
+		projectDetailInfo.setCompanyId(9);
 		projectDetailInfo.setEndDate(new java.sql.Date(new java.util.Date().getTime()));
 		projectDetailInfo.setProjectDescription("project2 desc");
 		projectDetailInfo.setProjectName("project2 name");

@@ -24,7 +24,6 @@ public class Task {
 	@NotEmpty
 	@JsonProperty("title")
 	private String title;
-	@NotEmpty
 	@JsonProperty("description")
 	private String description;
 	@NotEmpty

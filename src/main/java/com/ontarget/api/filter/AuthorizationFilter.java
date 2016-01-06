@@ -87,7 +87,8 @@ public class AuthorizationFilter implements ContainerRequestFilter {
             Integer projectId = projectObjNode.intValue();
 
             /**
-             * check to see if its a add project and check if this user is super user
+             * check to see if its a add project and check if this user is super user.
+             * we can return from this point if its a add or delete project path.
              */
             try {
 
@@ -98,6 +99,7 @@ public class AuthorizationFilter implements ContainerRequestFilter {
                         throw new WebApplicationException(unauthorizedResponse());
                     }
                     logger.debug("Authorized to create project:: user :: "+ userId);
+                    return;
                 }
             }catch(Exception e){
                 logger.error("Error while auth",e);
