@@ -211,29 +211,10 @@ public class ProjectEndpointImpl implements ProjectEndoint {
 		return response;
 	}
 
-	@Override
-	@POST
-	@Path("/getUserProjectList")
-	public ProjectListResponse getUserProjectList(ProjectUserRequest projectUserRequest) {
-		logger.info("Getting project list of user id: " + projectUserRequest.getUserId());
-		ProjectListResponse response = new ProjectListResponse();
-		try {
-			response = projectService.getUserProjectList(projectUserRequest.getUserId());
-			response.setReturnVal(OnTargetConstant.SUCCESS);
-			response.setReturnMessage("Successfully retrieved projects assigned to user");
-		} catch (Exception e) {
-			logger.error("Error while getting projects assigned to user", e);
-			response.setReturnMessage("Error while getting projects assigned to user");
-			response.setReturnVal(OnTargetConstant.ERROR);
-		}
-		return response;
-	}
-
-
     @Override
     @POST
-    @Path("/v1/getUserProjectList")
-    public ProjectListResponse getUserProjectListV1(ProjectUserRequest projectUserRequest) {
+    @Path("/getUserProjectList")
+    public ProjectListResponse getUserProjectList(ProjectUserRequest projectUserRequest) {
         logger.info("Getting project list of user id: " + projectUserRequest.getUserId());
         ProjectListResponse response = new ProjectListResponse();
         try {

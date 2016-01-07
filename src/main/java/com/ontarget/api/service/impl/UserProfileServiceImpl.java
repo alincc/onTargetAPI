@@ -429,18 +429,9 @@ public class UserProfileServiceImpl implements UserProfileService {
 					throw new Exception("Error while adding phone");
 				}
 
-				// if user is invited from a request-demo then add project
+				// if user is invited to a project
 				logger.info("project id: " + registrationRequest.getInvitedProjectId());
-				if (registrationRequest.getInvitedProjectId() == 0) {
-					CompanyInfo companyInfo = companyDAO.getCompanyInfo(companyId);
-					ProjectDTO projectDTO = ConvertPOJOUtils.setMainProject(companyInfo);
-					int addedProjectId = projectDAO.addMainProject(projectDTO, companyInfo, user.getUserId());
-					// add main project for request a demo user
-					if (addedProjectId <= 0) {
-						throw new Exception("Error while adding main project");
-					}
-					userInvitationDAO.updateRegistrationRequestProjectIdByUser(addedProjectId, userId);
-				}else{
+				if (!(registrationRequest.getInvitedProjectId() == 0)) {
                     /**
                      * give this user RU profile for this project
                      */

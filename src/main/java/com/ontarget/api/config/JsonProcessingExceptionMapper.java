@@ -10,8 +10,6 @@ import javax.ws.rs.ext.Provider;
 /**
  * Created by sanjeevghimire on 1/5/16.
  */
-@Provider
-@Singleton
 public class JsonProcessingExceptionMapper implements ExceptionMapper<Exception>{
 
     private Logger logger = Logger.getLogger(JsonProcessingExceptionMapper.class);

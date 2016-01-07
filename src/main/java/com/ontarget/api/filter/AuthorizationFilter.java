@@ -99,6 +99,7 @@ public class AuthorizationFilter implements ContainerRequestFilter {
                         throw new WebApplicationException(unauthorizedResponse());
                     }
                     logger.debug("Authorized to create project:: user :: "+ userId);
+                    request.setEntityStream(new ByteArrayInputStream(requestEntity));
                     return;
                 }
             }catch(Exception e){
