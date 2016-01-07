@@ -94,6 +94,7 @@ public class UserRegistrationJpaDAOImpl implements com.ontarget.api.dao.UserRegi
 		userRegistration.setCompanyTypeId(registrationRequest.getCompanyTypeId());
 		userRegistration.setCompanyLogoPath(registrationRequest.getCompanyLogoPath());
 		userRegistration.setInvitedProjectId(registrationRequest.getProjectId());
+        userRegistration.setPhoneNumber(registrationRequest.getPhoneNumber());
 		return userRegistration;
 	}
 
@@ -167,7 +168,7 @@ public class UserRegistrationJpaDAOImpl implements com.ontarget.api.dao.UserRegi
 		RegistrationRequest registrationRequest = registrationRequestRepository.findByUserId(userId);
 
 		UserRegistration userRegistration = new UserRegistration();
-		Object d = null;
+
 		userRegistration.setFirstName(registrationRequest.getFirstName());
 		userRegistration.setLastName(registrationRequest.getLastName());
 		userRegistration.setEmail(registrationRequest.getEmail());
@@ -182,18 +183,8 @@ public class UserRegistrationJpaDAOImpl implements com.ontarget.api.dao.UserRegi
 		userRegistration.setCompanyId(registrationRequest.getCompanyId());
 		userRegistration.setCompanyTypeId(registrationRequest.getCompanyTypeId());
 		userRegistration.setInvitedProjectId(registrationRequest.getProjectId());
-
-		d = registrationRequest.getProjectId();
-
-		if (d != null) {
-			if (d instanceof Long)
-				userRegistration.setProjectId((Long) d);
-			else if (d instanceof Integer) {
-				userRegistration.setProjectId((Integer) d);
-			} else
-				userRegistration.setProjectId(Long.parseLong((String) d));
-		}
-		d = registrationRequest.getTsCreate();
+		userRegistration.setProjectId(registrationRequest.getProjectId());
+		Object d = registrationRequest.getTsCreate();
 		if (d != null) {
 			userRegistration.setTsCreate(((Timestamp) d).getTime());
 		}

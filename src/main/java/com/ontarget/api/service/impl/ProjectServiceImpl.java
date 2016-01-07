@@ -104,6 +104,9 @@ public class ProjectServiceImpl implements ProjectService {
 		projectDTO.setCompanyId(companyId);
 		projectDTO.setProjectOwnerId(userId);
 
+        /**
+         * Adds project, project member and project configurations
+         */
 		int projectId = projectDAO.addProject(projectDTO, userId);
 
         // add the user as super user to this project id.

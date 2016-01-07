@@ -430,22 +430,33 @@ public class UserProfileServiceImpl implements UserProfileService {
 				}
 
 				// if user is invited to a project
-				logger.info("project id: " + registrationRequest.getInvitedProjectId());
-				if (!(registrationRequest.getInvitedProjectId() == 0)) {
+                int projectId = registrationRequest.getInvitedProjectId();
+                logger.info("project id: " + projectId);
+                if (registrationRequest.getInvitedProjectId() > 0) {
                     /**
                      * give this user RU profile for this project
                      */
                     // give this user RU profile.
                     UserProjectProfile projectProfile = new UserProjectProfile();
                     projectProfile.setStatus(OnTargetConstant.UserProjectProfileStatus.ACTIVE);
-                    projectProfile.setProject(new Project((int)registrationRequest.getProjectId()));
+                    projectProfile.setProject(new Project(projectId));
 
                     projectProfile.setUser(new User(userId));
                     projectProfile.setProfile(new Profile(UserType.REGULARUSER.getProfileId())); //TODO: create service layer to get profile id
+                    logger.debug("Adding User: "+ userId +" to Project: "+ projectId + " as Profile: "+ projectProfile);
                     userProjectProfileService.saveOrUpdate(projectProfile);
 
+                    /**
+                     * Add the user to the project if s/he was invited to the project
+                     *
+                     */
 
+                    boolean added = this.addProjectMember(projectId,userId);
+                    if (!added) {
+                        throw new Exception("Error while adding user to project");
+                    }
                 }
+
 
 				boolean activated = this.activateAccount(user.getUserId());
 				if (!activated) {
@@ -468,21 +479,27 @@ public class UserProfileServiceImpl implements UserProfileService {
 	}
 
 	@Override
+    @Transactional(rollbackFor = { Exception.class })
 	public boolean activateAccount(int userId) throws Exception {
 		int updated = userRegistrationDAO.activateAccount(userId);
 		if (updated <= 0) {
 			throw new Exception("Error while activating account");
 		}
-
-		// update project member
-		UserRegistration userRegistration = userRegistrationDAO.getInvitationRegistrationByUser(userId);
-
-		int added = projectDAO.addProjectMember((int) userRegistration.getProjectId(), userId);
-		if (added <= 0) {
-			throw new Exception("Error while adding project member");
-		}
 		return true;
 	}
+
+
+    @Override
+    @Transactional(rollbackFor = { Exception.class })
+    public boolean addProjectMember(int projectId, int userId) throws Exception {
+        logger.debug("Adding user: "+ userId +" to project: "+ projectId);
+        int added = projectDAO.addProjectMember(projectId, userId);
+        if (added <= 0) {
+            throw new Exception("Error while adding project member");
+        }
+        return true;
+    }
+
 
 	@Override
 	public ForgotPasswordRequestResponse forgotPasswordRequest(String username) throws Exception {
