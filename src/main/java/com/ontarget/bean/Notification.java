@@ -16,7 +16,7 @@ public class Notification implements Serializable {
 	private String text;
 	private String notificationType;
 	private String action;
-	private long tsInsert;
+	private Date tsInsert;
 	private int userId;
 	private String status;
 	private Date lastSeenAt;

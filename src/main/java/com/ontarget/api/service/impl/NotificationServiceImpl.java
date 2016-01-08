@@ -69,7 +69,7 @@ public class NotificationServiceImpl implements com.ontarget.api.service.Notific
 
 				com.ontarget.bean.Notification notificationObj = new com.ontarget.bean.Notification();
 				notificationObj.setUserNotificationId(userNotification.getUserNotificationId());
-				notificationObj.setTsInsert(notification.getTsInsert().getTime());
+				notificationObj.setTsInsert(notification.getTsInsert());
 				notificationObj.setText(formattedMessage);
 				notificationObj.setUserId(userNotification.getUser().getUserId());
 				notificationObj.setStatus(userNotification.getStatus());
@@ -147,7 +147,7 @@ public class NotificationServiceImpl implements com.ontarget.api.service.Notific
 
 				com.ontarget.bean.Notification notificationObj = new com.ontarget.bean.Notification();
 				notificationObj.setUserNotificationId(userNotification.getUserNotificationId());
-				notificationObj.setTsInsert(notification.getTsInsert().getTime());
+				notificationObj.setTsInsert(notification.getTsInsert());
 				notificationObj.setText(formattedMessage);
 				notificationObj.setUserId(userNotification.getUser().getUserId());
 				notificationObj.setStatus(userNotification.getStatus());

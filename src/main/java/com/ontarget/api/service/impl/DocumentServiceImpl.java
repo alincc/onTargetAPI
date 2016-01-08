@@ -130,6 +130,7 @@ public class DocumentServiceImpl implements DocumentService {
 				submittal.setAssignedTo(assignee.getUserId());
 				submittal.setCreatedBy(request.getSubmittedBy());
 				submittal.setModifiedBy(request.getSubmittedBy());
+                submittal.setActive("Y");
 				documentSubmittalDAO.insert(submittal);
 
 				Contact contact = contactDAO.getContact(assignee.getUserId());
@@ -208,6 +209,54 @@ public class DocumentServiceImpl implements DocumentService {
 				}
 				documentGridKeyValueDAO.deleteDocumentGridKeyValue(documentId, usedKeys);
 			}
+
+
+            /**
+             * update assignee as well if it has changed.
+             */
+
+                List<DocumentSubmittal> documentSubmittals=documentSubmittalDAO.getDocumentSubmittalByDocumentId(documentId);
+
+                /*
+                delete existing users if not is assignee
+                 */
+            DocumentDTO document=documentDAO.read(documentId);
+
+            if(documentSubmittals!=null && documentSubmittals.size() > 0) {
+                    for(DocumentSubmittal documentSubmittal : documentSubmittals){
+                        DocumentSubmittalDTO submittal = new DocumentSubmittalDTO();
+                        submittal.setDocument(document);
+                        submittal.setAssignedTo(documentSubmittal.getUser().getUserId());
+                        submittal.setCreatedBy(updateDocumentRequest.getSubmittedBy());
+                        submittal.setModifiedBy(updateDocumentRequest.getSubmittedBy());
+                        submittal.setActive("N");
+                        documentSubmittalDAO.update(submittal);
+                    }
+                }
+            List<Assignee> assignees = updateDocumentRequest.getAssignee();
+            for (Assignee assignee : assignees) {
+                DocumentSubmittalDTO submittal = new DocumentSubmittalDTO();
+                submittal.setDocument(document);
+                submittal.setAssignedTo(assignee.getUserId());
+                submittal.setCreatedBy(updateDocumentRequest.getSubmittedBy());
+                submittal.setModifiedBy(updateDocumentRequest.getSubmittedBy());
+                submittal.setActive("Y");
+                documentSubmittalDAO.insert(submittal);
+
+                /**
+                 * need to send update document email.
+                 */
+
+//                Contact contact = contactDAO.getContact(assignee.getUserId());
+//
+//                if (contact != null && (contact.getEmail() != null && contact.getEmail().trim().length() > 0)) {
+//                    emailService.sendDocumentSubmittalEmail(document.getName(), contact.getEmail(), contact.getFirstName(),
+//                            contact.getLastName(), creator.getFirstName(), creator.getLastName(),
+//                            DateFormater.convertToString(new java.util.Date(document.getDueDate().getTime()), "yyyy-MM-dd"));
+//                }
+            }
+
+
 			OnTargetResponse response = new OnTargetResponse(null, OnTargetConstant.SUCCESS, "Document data succefully updated.");
 			return response;
 		} catch (Throwable t) {

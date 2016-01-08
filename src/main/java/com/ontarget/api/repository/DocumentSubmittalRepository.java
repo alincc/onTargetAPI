@@ -11,6 +11,6 @@ public interface DocumentSubmittalRepository extends JpaRepository<DocumentSubmi
 	
 	DocumentSubmittal findByDocumentSubmittalId(Integer documentSubmittalId);
 
-    @Query("select doc from DocumentSubmittal doc where doc.document.documentId=?1")
+    @Query("select doc from DocumentSubmittal doc where doc.document.documentId=?1 and active='Y'")
     List<DocumentSubmittal> findDocumentSubmittalByDocumentId(int documentId);
 }

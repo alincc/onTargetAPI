@@ -48,6 +48,9 @@ public class DocumentSubmittal implements Serializable {
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
 	private Document document;
 
+    @Column(name = "active")
+    private String active;
+
 	public DocumentSubmittal() {
 	}
 
@@ -138,4 +141,11 @@ public class DocumentSubmittal implements Serializable {
 		return "com.ontarget.entities.DocumentSubmittal[documentSubmittalId=" + documentSubmittalId + "]";
 	}
 
+    public String getActive() {
+        return active;
+    }
+
+    public void setActive(String active) {
+        this.active = active;
+    }
 }
