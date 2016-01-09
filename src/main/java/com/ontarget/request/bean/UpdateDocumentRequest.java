@@ -16,7 +16,7 @@ import lombok.Data;
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "baseRequest", "keyValues", "gridKeyValues", "submittedBy", "documentId", "projectId", "dueDate","assignee" })
+@JsonPropertyOrder({ "baseRequest", "keyValues", "gridKeyValues", "submittedBy", "documentId", "projectId", "dueDate","assignees" })
 public class UpdateDocumentRequest {
 	@NotNull
 	@Valid
@@ -42,8 +42,8 @@ public class UpdateDocumentRequest {
 
     @Valid
     @NotNull
-    @JsonProperty("assignee")
-    private List<Assignee> assignee;
+    @JsonProperty("assignees")
+    private List<Assignee> assignees;
 
 
 

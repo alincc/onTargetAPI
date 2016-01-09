@@ -26,6 +26,7 @@ public class DocumentSubmittalJpaDAOImpl implements DocumentSubmittalDAO {
 		documentSubmittal.setUser(new User(documentSubmittalDTO.getAssignedTo()));
 		documentSubmittal.setCreatedBy(new User(documentSubmittalDTO.getCreatedBy()));
 		documentSubmittal.setCreatedDate(new Date());
+        documentSubmittal.setActive(documentSubmittalDTO.getActive());
 		documentSubmittalRepository.save(documentSubmittal);
 		documentSubmittalDTO.setDocumentSubmittalId(documentSubmittal.getDocumentSubmittalId());
 		return documentSubmittalDTO;
@@ -34,15 +35,18 @@ public class DocumentSubmittalJpaDAOImpl implements DocumentSubmittalDAO {
 	@Override
 	public DocumentSubmittalDTO read(long id) {
 		DocumentSubmittal documentSubmittal = documentSubmittalRepository.findByDocumentSubmittalId((int) id);
-
 		DocumentSubmittalDTO docSub = new DocumentSubmittalDTO();
 		docSub.setDocumentSubmittalId(documentSubmittal.getDocumentSubmittalId());
 		return docSub;
 	}
 
 	@Override
-	public boolean update(DocumentSubmittalDTO bean) {
-		throw new UnsupportedOperationException();
+	public boolean update(DocumentSubmittalDTO documentSubmittalDTO) {
+        DocumentSubmittal documentSubmittal = documentSubmittalRepository.findByDocumentSubmittalId((int) documentSubmittalDTO.getDocumentSubmittalId());
+        documentSubmittal.setActive(documentSubmittalDTO.getActive());
+        documentSubmittalRepository.save(documentSubmittal);
+
+        return true;
 	}
 
     @Override

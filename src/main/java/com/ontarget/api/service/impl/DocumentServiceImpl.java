@@ -226,14 +226,13 @@ public class DocumentServiceImpl implements DocumentService {
                     for(DocumentSubmittal documentSubmittal : documentSubmittals){
                         DocumentSubmittalDTO submittal = new DocumentSubmittalDTO();
                         submittal.setDocument(document);
-                        submittal.setAssignedTo(documentSubmittal.getUser().getUserId());
-                        submittal.setCreatedBy(updateDocumentRequest.getSubmittedBy());
                         submittal.setModifiedBy(updateDocumentRequest.getSubmittedBy());
+                        submittal.setDocumentSubmittalId(documentSubmittal.getDocumentSubmittalId());
                         submittal.setActive("N");
                         documentSubmittalDAO.update(submittal);
                     }
                 }
-            List<Assignee> assignees = updateDocumentRequest.getAssignee();
+            List<Assignee> assignees = updateDocumentRequest.getAssignees();
             for (Assignee assignee : assignees) {
                 DocumentSubmittalDTO submittal = new DocumentSubmittalDTO();
                 submittal.setDocument(document);
