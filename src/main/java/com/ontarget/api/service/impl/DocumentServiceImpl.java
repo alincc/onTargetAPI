@@ -16,6 +16,7 @@ import com.ontarget.response.bean.UpdateDocumentQuestionResponse;
 import com.ontarget.util.DateFormater;
 import com.ontarget.util.DocumentUtil;
 
+import com.ontarget.util.EmailConstant;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -123,6 +124,7 @@ public class DocumentServiceImpl implements DocumentService {
 			}
 
 			Contact creator = contactDAO.getContact(request.getSubmittedBy());
+            Map<String, Object> emailAttributes = new HashMap<>();
 
 			for (Assignee assignee : assignees) {
 				DocumentSubmittalDTO submittal = new DocumentSubmittalDTO();
@@ -135,10 +137,17 @@ public class DocumentServiceImpl implements DocumentService {
 
 				Contact contact = contactDAO.getContact(assignee.getUserId());
 
-				if (contact != null && (contact.getEmail() != null && contact.getEmail().trim().length() > 0)) {
-					emailService.sendDocumentSubmittalEmail(document.getName(), contact.getEmail(), contact.getFirstName(),
-							contact.getLastName(), creator.getFirstName(), creator.getLastName(),
-							DateFormater.convertToString(new java.util.Date(document.getDueDate().getTime()), "yyyy-MM-dd"));
+                /**
+                 * email send for submittal assignee
+                 */
+
+                emailAttributes.put("document", document);
+                emailAttributes.put("sender",creator);
+                emailAttributes.put("emailType", EmailConstant.SendEmailType.DOCUMENT_SUBMITTAL);
+
+                if (contact != null && (contact.getEmail() != null && contact.getEmail().trim().length() > 0)) {
+                    emailAttributes.put("assignee",contact);
+                    emailService.sendEmail(emailAttributes);
 				}
 			}
 
@@ -152,12 +161,9 @@ public class DocumentServiceImpl implements DocumentService {
 				for (String userId : attenUsers) {
 
 					logger.debug("Sending email to attention user id: " + userId);
-
 					Contact contact = contactDAO.getContact(Integer.parseInt(userId));
-
-					emailService.sendDocumentSubmittalEmail(document.getName(), contact.getEmail(), contact.getFirstName(),
-							contact.getLastName(), creator.getFirstName(), creator.getLastName(),
-							DateFormater.convertToString(new java.util.Date(document.getDueDate().getTime()), "yyyy-MM-dd"));
+                    emailAttributes.put("assignee",contact);
+					emailService.sendEmail(emailAttributes);
 				}
 			}
 

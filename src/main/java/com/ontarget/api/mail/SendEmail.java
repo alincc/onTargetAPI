@@ -68,14 +68,14 @@ public abstract class SendEmail implements ISendEmail{
                     message.setSubject(subject);
                     message.setSentDate(new Date());
 
-                    String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "/template/taskAssignedEmail.vm", "UTF-8",
+                    String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, (String) emailAttributes.get("emailTemplate"), "UTF-8",
                             emailAttributes);
                     message.setText(text, true);
                 }
             };
             javaMailSender.send(preparator);
         } catch (Exception e) {
-            logger.error("Error while sending email for task.", e);
+            logger.error("Error while sending email.", e);
         }
 
     }

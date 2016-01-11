@@ -19,6 +19,8 @@ public class SendEmailFactory {
             return new SendRegistrationEmail(javaMailSender,velocityEngine,taskExecutor);
         }else if(EmailConstant.SendEmailType.TASK_ASSIGNMENT.equals(emailType)) {
             return new SendTaskAssignmentEmail(javaMailSender,velocityEngine,taskExecutor);
+        }else if(EmailConstant.SendEmailType.DOCUMENT_SUBMITTAL.equals(emailType)) {
+            return new SendSubmittalAssignEmail(javaMailSender,velocityEngine,taskExecutor);
         }else{
             throw new UnsupportedOperationException("Email type not found ::"+ emailType);
         }

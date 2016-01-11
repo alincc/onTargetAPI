@@ -5,6 +5,7 @@ public class EmailConstant {
 	public interface Template {
 		public static final String REGISTRATION_REQUEST = "/template/registrationRequest.vm";
         public static final String TASK_ASSIGNMENT = "/template/taskAssignedEmail.vm";
+        public static final String DOCUMENT_SUBMITTAL = "/template/documentSubmittal.vm";
     }
 
 	public interface EmailParameter {
@@ -16,6 +17,7 @@ public class EmailConstant {
     public interface SendEmailType{
         public static final String REQUEST_FOR_DEMO_APPROVED="REQUEST_FOR_DEMO_APPROVED";
         public static final String TASK_ASSIGNMENT="TASK_ASSIGNMENT";
+        public static final String DOCUMENT_SUBMITTAL = "DOCUMENT_SUBMITTAL";
     }
 
 
