@@ -880,14 +880,14 @@
                                        <tbody>
                                           <tr>
                                              <td style="padding: 0;vertical-align: top;padding-left: 32px;padding-right: 32px;word-break: break-word;word-wrap: break-word" class="padded">
-                                                <h3 style="Margin-top: 0;font-style: normal;font-weight: 400;font-size: 15px;line-height: 23px;Margin-bottom: 12px;font-family: open sans,sans-serif;color: #3b3e42;text-align: left" class="font-open-sans size-15"><span style="color:rgb(80, 0, 80)">Hi <em>${assignee.contact.firstName}&nbsp;${assignee.contact.lastName}</em></span></h3>
+                                                <h3 style="Margin-top: 0;font-style: normal;font-weight: 400;font-size: 15px;line-height: 23px;Margin-bottom: 12px;font-family: open sans,sans-serif;color: #3b3e42;text-align: left" class="font-open-sans size-15"><span style="color:rgb(80, 0, 80)">Hi <em>${assignee.firstName}&nbsp;${assignee.lastName}</em></span></h3>
                                                 <h3 style="Margin-top: 0;font-style: normal;font-weight: 400;font-size: 15px;line-height: 23px;Margin-bottom: 12px;font-family: open sans,sans-serif;color: #3b3e42;text-align: left" class="font-open-sans size-15"><em>${sender.firstName} ${sender.lastName}</em> 
                                                    has assigned task "<em>${task.title}</em>" to you.
                                                 </h3>
                                                 <h3 style="Margin-top: 0;font-style: normal;font-weight: 400;font-size: 15px;line-height: 23px;Margin-bottom: 12px;font-family: open sans,sans-serif;color: #3b3e42;text-align: left" class="font-open-sans size-15">The task has "<em>${task.severity.priority}</em>" priority &nbsp;and hence you are kindly requested to complete it by "<em>${task.endDate}</em>".</h3>
                                                 <h3 style="Margin-top: 0;font-style: normal;font-weight: 400;font-size: 15px;line-height: 23px;Margin-bottom: 12px;font-family: open sans,sans-serif;color: #3b3e42;text-align: left" class="font-open-sans size-15"><span style="color:rgb(80, 0, 80)">Kindly submit your progress status daily using 
                                                    <a href="http://ontargettechnologies.createsend1.com/t/i-l-trirjyt-l-r/" style="transition: opacity 0.2s ease-in;color: #5c91ad;text-decoration: none" target="_blank">onTarget Mobile app</a>&nbsp;&nbsp;or the following link - 
-                                                   <em><a href="${taskLink}" target="_blank">Go to Task</a></em></span>
+                                                   <em><a href="${baseUrl}${taskLink}" target="_blank">Go to Task</a></em></span>
                                                 </h3>
                                                 <h3 style="Margin-top: 0;font-style: normal;font-weight: 400;font-size: 15px;line-height: 23px;Margin-bottom: 12px;font-family: open sans,sans-serif;color: #3b3e42;text-align: left" class="font-open-sans size-15"><span style="color:rgb(80, 0, 80)">You can collaborate with other members of the task online and download attachments.</span></h3>
                                                 <h3 style="Margin-top: 0;font-style: normal;font-weight: 400;font-size: 15px;line-height: 23px;Margin-bottom: 12px;font-family: open sans,sans-serif;color: #3b3e42;text-align: left" class="font-open-sans size-15"><span style="color:rgb(80, 0, 80)">Good Luck,</span></h3>
@@ -933,7 +933,7 @@
                                           <tr>
                                              <td style="padding: 0;vertical-align: top;padding-left: 32px;padding-right: 16px;word-break: break-word;word-wrap: break-word" class="padded">
                                                 <div align="center" style="font-size: 12px;Margin-bottom: 21px;mso-line-height-rule: at-least;font-style: normal;font-weight: 400;font-family: &quot;Open Sans&quot;,sans-serif;color: #60666d" class="image">
-                                                   <img width="252" height="217" alt="" src="${taskInfoImageImgUrl}" style="border: 0;-ms-interpolation-mode: bicubic;display: block;max-width: 467px">
+                                                   <img width="252" height="217" alt="" src="${taskDetailImgUrl}" style="border: 0;-ms-interpolation-mode: bicubic;display: block;max-width: 467px">
                                                 </div>
                                              </td>
                                           </tr>

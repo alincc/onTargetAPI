@@ -1,7 +1,11 @@
 package com.ontarget.api.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import com.ontarget.api.service.EmailService;
+import com.ontarget.util.EmailConstant;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -22,6 +26,9 @@ public class UserInvitationServiceImpl implements UserInvitationService {
 	@Qualifier("userInvitationJpaDAOImpl")
 	private UserInvitationDAO userInvitationDAO;
 
+    @Autowired
+    private EmailService emailService;
+
 	@Override
 	public boolean registrationRequest(UserInvitationRequestDTO request) throws Exception {
 		return userInvitationDAO.saveRegistrationRequest(request);
@@ -37,7 +44,17 @@ public class UserInvitationServiceImpl implements UserInvitationService {
 
 	@Override
 	public boolean approvePendingRequest(int id) throws Exception {
-		return userInvitationDAO.approvePendingRequest(id);
+
+		boolean success =  userInvitationDAO.approvePendingRequest(id);
+        if(success){
+            //prepare to send email.
+            Map<String, Object> emailAttributes = new HashMap<>();
+            RegistrationRequestResponseDTO info = userInvitationDAO.findRegRequestById(id);
+            emailAttributes.put("registrationRequestInfo",info);
+            emailAttributes.put("emailType", EmailConstant.SendEmailType.REQUEST_FOR_DEMO_APPROVED);
+            emailService.sendEmail(emailAttributes);
+        }
+        return success;
 	}
 
 	@Override

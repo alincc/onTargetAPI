@@ -9,4 +9,6 @@ public interface ISendEmail {
 
     public void sendEmail(Map<String, Object> emailAttributes) throws Exception;
 
+    public void sendAsynchronousMail(Map<String, Object> emailAttributes) throws Exception;
+
 }

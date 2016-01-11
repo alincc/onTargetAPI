@@ -9,6 +9,7 @@ import java.util.Set;
 import com.ontarget.api.dao.*;
 import com.ontarget.entities.UserProjectProfile;
 import com.ontarget.enums.UserType;
+import com.ontarget.util.EmailConstant;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -437,13 +438,21 @@ public class TaskServiceImpl implements TaskService {
 	public void assignTaskToUser(int taskId, List<Integer> users, int assigningUser) throws Exception {
 		List<Integer> assignees = taskDAO.assignTaskToUser(taskId, assigningUser, users);
 		logger.info("assignees: " + assignees);
+
+        ProjectTaskInfo task = taskDAO.getTaskInfo(taskId);
+        Contact sender = contactDAO.getContact(task.getCreatorId());
+
 		for (Integer userId : assignees) {
 			logger.info("user id: " + userId);
 			Contact contact = contactDAO.getContact(userId);
 
 			if (contact != null && (contact.getEmail() != null && contact.getEmail().trim().length() > 0)) {
-				ProjectTaskInfo task = taskDAO.getTaskInfo(taskId);
-				emailService.sendTaskAssignmentEmail(task, contact);
+                Map<String, Object> emailAttributes = new HashMap<>();
+                emailAttributes.put("task", task);
+                emailAttributes.put("assigneeUser",contact);
+                emailAttributes.put("sender",sender);
+                emailAttributes.put("emailType", EmailConstant.SendEmailType.TASK_ASSIGNMENT);
+				emailService.sendEmail(emailAttributes);
 			}
 		}
 	}

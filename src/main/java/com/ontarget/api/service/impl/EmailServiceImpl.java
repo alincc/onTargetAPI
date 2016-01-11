@@ -4,6 +4,7 @@ import com.ontarget.api.dao.AuthenticationDAO;
 import com.ontarget.api.dao.ContactDAO;
 import com.ontarget.api.dao.UserInvitationDAO;
 import com.ontarget.api.mail.SendEmail;
+import com.ontarget.api.mail.SendEmailFactory;
 import com.ontarget.api.service.EmailService;
 import com.ontarget.bean.Contact;
 import com.ontarget.bean.ProjectTaskInfo;
@@ -17,6 +18,7 @@ import org.apache.velocity.app.VelocityEngine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.task.TaskExecutor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
@@ -48,8 +50,7 @@ public class EmailServiceImpl implements EmailService {
 	private VelocityEngine velocityEngine;
 
     @Autowired
-    @Qualifier("sendRegistrationEmail")
-    private SendEmail sendEmail;
+    protected TaskExecutor taskExecutor;
 
 	@Autowired
 	@Qualifier("authenticationJpaDAOImpl")
@@ -600,6 +601,8 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     public void sendEmail(Map<String, Object> emailAttributes) throws  Exception{
+        SendEmail sendEmail = SendEmailFactory.getSendEmailObject((String)emailAttributes.get("emailType"),javaMailSender, velocityEngine, taskExecutor);
+        sendEmail.prepareEmailAttributes(emailAttributes);
         sendEmail.sendAsynchronousMail(getDefaultMapPropertiesAsObj(emailAttributes));
     }
 

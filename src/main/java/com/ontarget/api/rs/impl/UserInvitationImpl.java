@@ -13,6 +13,7 @@ import com.ontarget.entities.RegistrationRequest;
 import com.ontarget.entity.pojo.RegistrationRequestResponseDTO;
 import com.ontarget.request.bean.UserInvitationRequest;
 import com.ontarget.util.ConvertPOJOUtils;
+import com.ontarget.util.EmailConstant;
 import com.ontarget.util.Security;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,7 @@ public class UserInvitationImpl implements UserInvitation {
 
 	@Autowired
 	private UserInvitationService userInvitationService;
+
 	@Autowired
 	private EmailService emailService;
 
@@ -124,12 +126,6 @@ public class UserInvitationImpl implements UserInvitation {
 		try {
 			boolean success = userInvitationService.approvePendingRequest(id);
 			if (success) {
-
-                //prepare to send email.
-                Map<String, Object> emailAttributes = new HashMap<>();
-                emailAttributes.put("registrationRequestId",id);
-				emailService.sendEmail(emailAttributes);
-
 				response.setReturnVal(OnTargetConstant.SUCCESS);
 				response.setReturnMessage(OnTargetConstant.REGISTRATION_APPROVAL_REQUEST_SUCCESS);
 				logger.info("Approved successfully for id:: " + id);
