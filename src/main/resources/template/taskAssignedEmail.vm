@@ -880,7 +880,7 @@
                                        <tbody>
                                           <tr>
                                              <td style="padding: 0;vertical-align: top;padding-left: 32px;padding-right: 32px;word-break: break-word;word-wrap: break-word" class="padded">
-                                                <h3 style="Margin-top: 0;font-style: normal;font-weight: 400;font-size: 15px;line-height: 23px;Margin-bottom: 12px;font-family: open sans,sans-serif;color: #3b3e42;text-align: left" class="font-open-sans size-15"><span style="color:rgb(80, 0, 80)">Hi <em>${assignee.firstName}&nbsp;${assignee.lastName}</em></span></h3>
+                                                <h3 style="Margin-top: 0;font-style: normal;font-weight: 400;font-size: 15px;line-height: 23px;Margin-bottom: 12px;font-family: open sans,sans-serif;color: #3b3e42;text-align: left" class="font-open-sans size-15"><span style="color:rgb(80, 0, 80)">Hi <em>${assigneeUser.firstName}&nbsp;${assigneeUser.lastName}</em></span></h3>
                                                 <h3 style="Margin-top: 0;font-style: normal;font-weight: 400;font-size: 15px;line-height: 23px;Margin-bottom: 12px;font-family: open sans,sans-serif;color: #3b3e42;text-align: left" class="font-open-sans size-15"><em>${sender.firstName} ${sender.lastName}</em> 
                                                    has assigned task "<em>${task.title}</em>" to you.
                                                 </h3>

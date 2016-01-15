@@ -272,7 +272,7 @@ public class EmailServiceImpl implements EmailService {
 					MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
 					message.setTo(assigneeUser.getContact().getEmail());
                     message.setFrom(new InternetAddress(emailFrom));
-					message.setSubject(OnTargetConstant.EmailServiceConstants.FORGOT_PASSWORD_SUBJECT);
+					message.setSubject(OnTargetConstant.EmailServiceConstants.TASK_ATTACHMENT_SUBJECT);
 					message.setSentDate(new Date());
 
 					Map model = getDefaultMapProperties(new HashMap());
