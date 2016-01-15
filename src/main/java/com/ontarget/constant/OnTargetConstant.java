@@ -116,8 +116,9 @@ public interface OnTargetConstant {
 
 	public interface ProjectStatus {
 		public static final int ACTIVE = 1;
-		public static final int PENDING = 0;
-		public static final int DELETED = 2;
+		public static final int PENDING = 2;
+		public static final int COMPLETED = 3;
+        public static final int DELETED = 4;
 	}
 
 	public interface TaskStatus {
