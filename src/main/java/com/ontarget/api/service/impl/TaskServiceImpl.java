@@ -84,15 +84,6 @@ public class TaskServiceImpl implements TaskService {
 		Integer taskId = task.getProjectTaskId();
 		logger.info("task id:: " + taskId);
 
-		if (task.getProjectId() == null) {
-			throw new Exception("task project is null");
-		} else {
-			ProjectDTO project = projectDAO.getProject(task.getProjectId());
-			if (project.getProjectId() == null) {
-				throw new Exception("project is invalid for task");
-			}
-		}
-
 		if (isTaskAdd(taskId)) {
 			taskId = taskDAO.addTask(task, userId);
 			if (taskId > 0) {

@@ -281,7 +281,7 @@ public class TaskPercentageJpaDAOImpl implements TaskPercentageDAO {
 			}
 		}
 		projectTaskRepository.save(projectTask);
-		return 1;
+		return projectTask.getProjectTaskId().intValue();
 	}
 
 	// @Override

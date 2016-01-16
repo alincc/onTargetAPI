@@ -427,7 +427,9 @@ public class TaskJpaDAOImpl implements TaskDAO {
 		 */
 		if (projectTask.getTaskPercentage() == 100 && status != OnTargetConstant.TaskStatus.COMPLETED) {
 			projectTask.setTaskPercentage(0);
-		}
+		}else if(status == OnTargetConstant.TaskStatus.COMPLETED){
+            projectTask.setTaskPercentage(100);
+        }
 		projectTask.setStatus(status);
 
 		projectTask.setStartDate(task.getStartDate());
