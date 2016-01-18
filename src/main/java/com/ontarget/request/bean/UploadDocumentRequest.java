@@ -42,7 +42,7 @@ public class UploadDocumentRequest {
 	@JsonProperty("filePath")
 	private String filePath;
 
-    @NotEmpty
+    
     @JsonProperty("description")
     private String description;
 

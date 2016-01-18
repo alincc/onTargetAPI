@@ -32,7 +32,7 @@ public class ActivityDetailInfo {
 	@NotEmpty
 	@JsonProperty("projectName")
 	private String projectName;
-	
+
 	@JsonProperty("projectDescription")
 	private String projectDescription;
 	@NotEmpty
