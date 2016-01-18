@@ -81,12 +81,14 @@ public class ProjectReportServiceImpl implements ProjectReportService {
         String uom=pConfig.getConfigValue();
         Map<TaskInfo, Map<TaskInterval, Double>> taskActualCostByMonthAndYear=null;
 
-        if (uom.equals(ProjectUOM.HOUR.name())) {
-            // task actual cost
-            taskActualCostByMonthAndYear = taskPlannedCostByMonthAndYear;//timeCardDAO.calculateActualCostByMonthYear(projectId);
-        }else{
-            taskActualCostByMonthAndYear = taskBudgetDAO.getTaskToCostMapByMonthYearDouble(projectId, OnTargetConstant.CostType.ACTUAL);
-        }
+//        if (uom.equals(ProjectUOM.HOUR.name())) {
+//            // task actual cost
+//            taskActualCostByMonthAndYear = taskPlannedCostByMonthAndYear;//timeCardDAO.calculateActualCostByMonthYear(projectId);
+//        }else{
+//            taskActualCostByMonthAndYear = taskBudgetDAO.getTaskToCostMapByMonthYearDouble(projectId, OnTargetConstant.CostType.ACTUAL);
+//        }
+
+        taskActualCostByMonthAndYear = taskBudgetDAO.getTaskToCostMapByMonthYearDouble(projectId, OnTargetConstant.CostType.ACTUAL);
 
 		// task percentage temporary solution. making all interval the same percentage.
 		Map<TaskInfo, Map<TaskInterval, TaskPercentage>> taskPercentageByMonthAndYear = taskPercentageDAO

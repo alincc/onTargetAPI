@@ -26,13 +26,13 @@ public class ActivityDetailInfo {
 
 	@JsonProperty("projectTypeId")
 	private Integer projectTypeId;
-	@NotNull
+
 	@JsonProperty("companyId")
 	private Integer companyId;
 	@NotEmpty
 	@JsonProperty("projectName")
 	private String projectName;
-	@NotEmpty
+	
 	@JsonProperty("projectDescription")
 	private String projectDescription;
 	@NotEmpty
