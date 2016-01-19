@@ -243,5 +243,6 @@ insert into `profile_feature` ( `active`, `application_feature_id`, `profile_id`
 insert into `profile_feature` ( `active`, `application_feature_id`, `profile_id`) values('Y','75','3');
 
 
-
+insert into `profile_feature` ( `active`, `application_feature_id`, `profile_id`) values('Y','10','1');
+insert into `profile_feature` ( `active`, `application_feature_id`, `profile_id`) values('Y','11','1');
 
