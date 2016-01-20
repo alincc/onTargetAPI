@@ -114,6 +114,11 @@ public interface OnTargetConstant {
 		public static final String REJECTED = "REJECTED";
 	}
 
+	public interface ProjectBimFileElementTaskLinkStatus {
+		public static final String ACTIVE = "ACTIVE";
+		public static final String DELETED = "DELETED";
+	}
+
 	public interface ProjectStatus {
 		public static final int ACTIVE = 1;
 		public static final int PENDING = 2;
