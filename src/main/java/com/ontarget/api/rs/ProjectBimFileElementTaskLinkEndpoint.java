@@ -1,6 +1,9 @@
 package com.ontarget.api.rs;
 
+import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.entities.ProjectBimFileElementTaskLink;
+import com.ontarget.request.bean.ProjectBimFileElementToTaskLinkRequest;
+import com.ontarget.response.bean.ProjectBimFileElementTaskLinkResponse;
 
 
 import javax.validation.Valid;
@@ -10,8 +13,8 @@ import javax.validation.Valid;
  */
 public interface ProjectBimFileElementTaskLinkEndpoint {
 
-    ProjectBimFileElementTaskLink linkProjectBinFileElementTaskLink(@Valid ProjectBimFileElementTaskLink request);
+    ProjectBimFileElementTaskLinkResponse linkProjectBinFileElementTaskLink(@Valid ProjectBimFileElementToTaskLinkRequest request);
 
-    ProjectBimFileElementTaskLink unlinkProjectBinFileElementTaskLink(@Valid ProjectBimFileElementTaskLink request);
+    OnTargetResponse unlinkProjectBinFileElementTaskLink(@Valid ProjectBimFileElementToTaskLinkRequest request);
 
 }

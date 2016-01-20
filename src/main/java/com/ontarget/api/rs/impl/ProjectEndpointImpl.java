@@ -154,7 +154,6 @@ public class ProjectEndpointImpl implements ProjectEndoint {
 			response.setReturnVal(OnTargetConstant.SUCCESS);
 			response.setReturnMessage("Successfully retrieved company by project");
 		} catch (Exception e) {
-			e.printStackTrace();
 			logger.error("Error while getting company by project", e);
 			response.setReturnMessage("Error while getting company by project");
 			response.setReturnVal(OnTargetConstant.ERROR);

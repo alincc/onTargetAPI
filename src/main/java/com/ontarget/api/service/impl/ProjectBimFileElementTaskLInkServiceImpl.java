@@ -3,7 +3,10 @@ package com.ontarget.api.service.impl;
 import com.ontarget.api.dao.ProjectBimFileElementTaskLinkDAO;
 import com.ontarget.api.repository.ProjectBimFileElementTaskLinkRepository;
 import com.ontarget.api.service.ProjectBimFileElementTaskLinkService;
+import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.entities.ProjectBimFileElementTaskLink;
+import com.ontarget.request.bean.ProjectBimFileElementToTaskLinkRequest;
+import com.ontarget.response.bean.ProjectBimFileElementTaskLinkResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,33 +19,23 @@ import java.util.Date;
 @Service
 public class ProjectBimFileElementTaskLInkServiceImpl implements ProjectBimFileElementTaskLinkService  {
 
-     @Autowired
-    ProjectBimFileElementTaskLinkDAO  projectBimFileElementTaskLinkDAO;
-
     @Autowired
-    ProjectBimFileElementTaskLinkService projectBimFileElementTaskLinkService;
-
-    @Resource
-    ProjectBimFileElementTaskLinkRepository projectBimFileElementTaskLinkRepository;
-
+    ProjectBimFileElementTaskLinkDAO  projectBimFileElementTaskLinkDAO;
 
 
     @Override
-    ProjectBimFileElementTaskLink save(ProjectBimFileElementTaskLink projectBimFileElementTaskLink) throws Exception {
-        return projectBimFileElementTaskLinkDAO.saveLinkBimFileToTask(projectBimFileElementTaskLink);
-
+    public ProjectBimFileElementTaskLinkResponse save(ProjectBimFileElementToTaskLinkRequest request) throws Exception {
+        //create ProjectBimfile link entity from request
+        //
+        //ProjectBimFileElementTaskLink projectBimFileElementTaskLink=UtilClass.getEntityFromRequest();
+        // projectBimFileElementTaskLinkDAO.saveLinkBimFileToTask(projectBimFileElementTaskLink);
+        return null;
     }
 
     @Override
-    ProjectBimFileElementTaskLink delete(ProjectBimFileElementTaskLink projectBimFileElementTaskLink) {
-        ProjectBimFileElementTaskLink projectBimFileElementTask1 = projectBimFileElementTaskLinkRepository.findByLinkId(id);
-        projectBimFileElementTask1.setStatus(projectBimFileElementTaskLink.getStatus());
-        projectBimFileElementTask1.setModifiedDate(new Date());
-        projectBimFileElementTask1.setModifiedBy(projectBimFileElementTaskLink.getModifiedBy());
-        projectBimFileElementTask1.setElementId(projectBimFileElementTaskLink.getElementId());
-        projectBimFileElementTask1.setProjectBimFile(projectBimFileElementTaskLink.getProjectBimFile());
+    public OnTargetResponse delete(ProjectBimFileElementToTaskLinkRequest request) throws Exception {
+        //create ProjectBimfile link entity from request
 
-
-         return  projectBimFileElementTaskLinkDAO.unLinkBimFileToTask(projectBimFileElementTask1);
+        return null;
     }
 }

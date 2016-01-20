@@ -8,8 +8,8 @@ import com.ontarget.entities.ProjectBimFileElementTaskLink;
  */
 public interface ProjectBimFileElementTaskLinkDAO {
 
-    ProjectBimFileElementTaskLink saveLinkBimFileToTask(ProjectBimFileElementTaskLink projectBimFileElementTaskLink);
+    public ProjectBimFileElementTaskLink saveLinkBimFileToTask(ProjectBimFileElementTaskLink projectBimFileElementTaskLink) throws  Exception;
 
-    ProjectBimFileElementTaskLink unLinkBimFileToTask(ProjectBimFileElementTaskLink projectBinFileElementTaskLink);
+    public boolean unLinkBimFileToTask(ProjectBimFileElementTaskLink projectBinFileElementTaskLink) throws  Exception;
 
 }

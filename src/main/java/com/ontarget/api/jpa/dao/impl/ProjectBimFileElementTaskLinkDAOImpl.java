@@ -14,7 +14,8 @@ import javax.annotation.Resource;
  */
 @Repository("ProjectBimFileElementTaskLinkDAOImpl")
 public class ProjectBimFileElementTaskLinkDAOImpl implements ProjectBimFileElementTaskLinkDAO {
-    private Logger logger = Logger.getLogger(CompanyJpaDAOImpl.class);
+
+    private Logger logger = Logger.getLogger(ProjectBimFileElementTaskLinkDAOImpl.class);
 
 
     @Resource
@@ -23,18 +24,18 @@ public class ProjectBimFileElementTaskLinkDAOImpl implements ProjectBimFileEleme
 
     @Override
     public ProjectBimFileElementTaskLink saveLinkBimFileToTask(ProjectBimFileElementTaskLink projectBimFileElementTaskLink) {
-
         projectBimFileElementTaskLinkRepository.save(projectBimFileElementTaskLink);
         logger.info("persist link: " + projectBimFileElementTaskLink.getProjectBimFileElementTaskLinkId());
-
         return projectBimFileElementTaskLink;
     }
 
     @Override
-    public ProjectBimFileElementTaskLink unLinkBimFileToTask(ProjectBimFileElementTaskLink  projectBimFileElementTaskLink) {
-        ProjectBimFileElementTaskLink projectBimFileElementTaskLink1 = projectBimFileElementTaskLinkRepository.findByLinkId(id);
-        projectBimFileElementTaskLink1.setStatus(OnTargetConstant.ProjectBimFileElementTaskLinkStatus.DELETED);
-        projectBimFileElementTaskLinkRepository.save(projectBimFileElementTaskLink1);
+    public boolean unLinkBimFileToTask(ProjectBimFileElementTaskLink  projectBimFileElementTaskLink) {
+        logger.debug("Unlinking bim file element task::"+ projectBimFileElementTaskLink.getElementId());
+        projectBimFileElementTaskLink = projectBimFileElementTaskLinkRepository.findByBimFileIdElementId(projectBimFileElementTaskLink.getProjectBimFile().getProjectBimFileId(), projectBimFileElementTaskLink.getElementId());
+        projectBimFileElementTaskLink.setStatus(OnTargetConstant.ProjectBimFileElementTaskLinkStatus.DELETED);
+        projectBimFileElementTaskLinkRepository.save(projectBimFileElementTaskLink);
+        return projectBimFileElementTaskLink.getStatus().equals(OnTargetConstant.ProjectBimFileElementTaskLinkStatus.DELETED);
     }
 
 

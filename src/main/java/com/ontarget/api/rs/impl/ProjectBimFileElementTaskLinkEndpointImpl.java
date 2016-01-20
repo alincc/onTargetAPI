@@ -2,7 +2,10 @@ package com.ontarget.api.rs.impl;
 
 import com.ontarget.api.rs.ProjectBimFileElementTaskLinkEndpoint;
 import com.ontarget.api.service.ProjectBimFileElementTaskLinkService;
+import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.entities.ProjectBimFileElementTaskLink;
+import com.ontarget.request.bean.ProjectBimFileElementToTaskLinkRequest;
+import com.ontarget.response.bean.ProjectBimFileElementTaskLinkResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -24,22 +27,13 @@ public class ProjectBimFileElementTaskLinkEndpointImpl  implements ProjectBimFil
     ProjectBimFileElementTaskLinkService projectBimFileElementTaskLinkService;
 
 
-
-
     @Override
-    @POST
-    @Path("/save")
-    public ProjectBimFileElementTaskLink linkProjectBinFileElementTaskLink(@Valid ProjectBimFileElementTaskLink request) throws Exception {
-        return projectBimFileElementTaskLinkService.save(request);
+    public ProjectBimFileElementTaskLinkResponse linkProjectBinFileElementTaskLink(@Valid ProjectBimFileElementToTaskLinkRequest request) {
+        return null;
     }
 
     @Override
-    @POST
-    @Path("/unlink")
-    public ProjectBimFileElementTaskLink unlinkProjectBinFileElementTaskLink(@Valid ProjectBimFileElementTaskLink request) throws Exception {
-        return  projectBimFileElementTaskLinkService.delete(request);
-
+    public OnTargetResponse unlinkProjectBinFileElementTaskLink(@Valid ProjectBimFileElementToTaskLinkRequest request) {
+        return null;
     }
-
-
 }
