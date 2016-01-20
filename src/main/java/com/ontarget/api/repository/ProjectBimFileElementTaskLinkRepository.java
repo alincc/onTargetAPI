@@ -9,8 +9,6 @@ import org.springframework.data.jpa.repository.Query;
  */
 public interface ProjectBimFileElementTaskLinkRepository extends JpaRepository<ProjectBimFileElementTaskLink, Long> {
 
-    ProjectBimFileElementTaskLink findByLinkId(Long projectBimFileElementTaskLink);
-
     @Query("select b from ProjectBimFileElementTaskLink b where b.projectBimFile.projectBimFileId=?1 and b.elementId=?2")
     ProjectBimFileElementTaskLink findByBimFileIdElementId(Integer projectBimFileId, long elementId);
 }

@@ -1,11 +1,11 @@
 package com.ontarget.util;
 
-import com.ontarget.constant.OnTargetConstant;
-import com.ontarget.entities.*;
+import com.ontarget.entities.ProjectBimFile;
+import com.ontarget.entities.ProjectBimFileElementTaskLink;
+import com.ontarget.entities.ProjectTask;
+import com.ontarget.entities.User;
 import com.ontarget.request.bean.ProjectBimFileElementToTaskLinkRequest;
-import com.ontarget.request.bean.SaveBIMRequest;
 
-import java.math.BigInteger;
 import java.util.Date;
 
 /**
@@ -19,13 +19,13 @@ public class ProjectBimFileElementTaskLinkUtil {
         file.setCreatedDate(new Date());
 
         ProjectBimFile projectBimFile = new ProjectBimFile();
-        projectBimFile.setProjectBimFileId(new Integer(request.getBimFileId().toString()));
+        projectBimFile.setProjectBimFileId(request.getBimFileId().intValue());
         file.setProjectBimFile(projectBimFile);
         file.setCreatedBy(new User(request.getBaseRequest().getLoggedInUserId()));
 
         file.setElementId(request.getBimFileElementId());
         ProjectTask projectTask = new ProjectTask();
-        projectTask.setParentTaskId(new Integer(request.getTaskId().toString()));
+        projectTask.setProjectTaskId(request.getTaskId().intValue());
         file.setProjectTask(projectTask);
 
 

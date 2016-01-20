@@ -5,11 +5,14 @@ import com.ontarget.api.service.ProjectBimFileElementTaskLinkService;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.entities.ProjectBimFileElementTaskLink;
+import com.ontarget.entities.User;
 import com.ontarget.request.bean.ProjectBimFileElementToTaskLinkRequest;
 import com.ontarget.response.bean.ProjectBimFileElementTaskLinkResponse;
 import com.ontarget.util.ProjectBimFileElementTaskLinkUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
 
 
 /**
@@ -34,6 +37,8 @@ public class ProjectBimFileElementTaskLInkServiceImpl implements ProjectBimFileE
     @Override
     public OnTargetResponse delete(ProjectBimFileElementToTaskLinkRequest request) throws Exception {
         ProjectBimFileElementTaskLink projectBimFileElementTaskLink = ProjectBimFileElementTaskLinkUtil.getBimFileElementLinkEnitityFromBimFileElementLinkRequest(request);
+        projectBimFileElementTaskLink.setModifiedBy(new User(request.getBaseRequest().getLoggedInUserId()));
+        projectBimFileElementTaskLink.setModifiedDate(new Date());
         projectBimFileElementTaskLinkDAO.unLinkBimFileToTask(projectBimFileElementTaskLink);
         OnTargetResponse response = new OnTargetResponse();
         response.setReturnMessage("Successfully unlinked task to bim element.");

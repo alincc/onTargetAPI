@@ -21,10 +21,10 @@ public class ProjectBimFileElementTaskLink implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "project_bim_file_element_task_link_id", nullable = false)
-    private Long projectBimFileElementTaskLinkId;
+    private long projectBimFileElementTaskLinkId;
 
 
-    @JoinColumn(name = " project_bim_file_id", referencedColumnName = " project_bim_file_id", nullable = false)
+    @JoinColumn(name = "project_bim_file_id", referencedColumnName = "project_bim_file_id", nullable = false)
     @ManyToOne(optional = false)
     private ProjectBimFile projectBimFile;
 
@@ -53,9 +53,5 @@ public class ProjectBimFileElementTaskLink implements Serializable {
     @JoinColumn(name = "modified_by", referencedColumnName = "user_id")
     @ManyToOne()
     private User modifiedBy;
-
-
-
-
 
 }

@@ -22,14 +22,25 @@ public class ProjectBimFileElementTaskLinkDAOImpl implements ProjectBimFileEleme
     private ProjectBimFileElementTaskLinkRepository projectBimFileElementTaskLinkRepository;
 
 
+    /**
+     * Linking element id to task id in the database
+     * @param projectBimFileElementTaskLink
+     * @return
+     */
     @Override
     public ProjectBimFileElementTaskLink saveLinkBimFileToTask(ProjectBimFileElementTaskLink projectBimFileElementTaskLink) {
-        projectBimFileElementTaskLinkRepository.save(projectBimFileElementTaskLink);
         projectBimFileElementTaskLink.setStatus(OnTargetConstant.ProjectBimFileElementTaskLinkStatus.ACTIVE);
+        projectBimFileElementTaskLinkRepository.save(projectBimFileElementTaskLink);
         logger.info("persist link: " + projectBimFileElementTaskLink.getProjectBimFileElementTaskLinkId());
         return projectBimFileElementTaskLink;
     }
 
+
+    /**
+     * Unlinking element id to task id
+     * @param projectBimFileElementTaskLink
+     * @return
+     */
     @Override
     public boolean unLinkBimFileToTask(ProjectBimFileElementTaskLink  projectBimFileElementTaskLink) {
         logger.debug("Unlinking bim file element task::"+ projectBimFileElementTaskLink.getElementId());
@@ -38,8 +49,5 @@ public class ProjectBimFileElementTaskLinkDAOImpl implements ProjectBimFileEleme
         projectBimFileElementTaskLinkRepository.save(projectBimFileElementTaskLink);
         return projectBimFileElementTaskLink.getStatus().equals(OnTargetConstant.ProjectBimFileElementTaskLinkStatus.DELETED);
     }
-
-
-
 
 }
