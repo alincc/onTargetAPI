@@ -29,7 +29,6 @@ public class ProjectBimFileElementToTaskLinkRequest {
     @JsonProperty("bimFileElementId")
     private Long bimFileElementId;
 
-    @NotNull
     @JsonProperty("taskId")
     private Long taskId;
 
