@@ -2,6 +2,7 @@ package com.ontarget.api.service.impl;
 
 import com.ontarget.api.dao.ProjectBimFileElementTaskLinkDAO;
 import com.ontarget.api.service.ProjectBimFileElementTaskLinkService;
+import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.entities.ProjectBimFileElementTaskLink;
 import com.ontarget.request.bean.ProjectBimFileElementToTaskLinkRequest;
@@ -25,19 +26,18 @@ public class ProjectBimFileElementTaskLInkServiceImpl implements ProjectBimFileE
     public ProjectBimFileElementTaskLinkResponse save(ProjectBimFileElementToTaskLinkRequest request) throws Exception {
         ProjectBimFileElementTaskLink projectBimFileElementTaskLink = ProjectBimFileElementTaskLinkUtil.getBimFileElementLinkEnitityFromBimFileElementLinkRequest(request);
         projectBimFileElementTaskLinkDAO.saveLinkBimFileToTask(projectBimFileElementTaskLink);
-
         ProjectBimFileElementTaskLinkResponse response = new ProjectBimFileElementTaskLinkResponse();
         response.setProjectBimFileElementTaskLink(projectBimFileElementTaskLink);
-
         return response;
     }
 
     @Override
     public OnTargetResponse delete(ProjectBimFileElementToTaskLinkRequest request) throws Exception {
-        //create ProjectBimfile link entity from
         ProjectBimFileElementTaskLink projectBimFileElementTaskLink = ProjectBimFileElementTaskLinkUtil.getBimFileElementLinkEnitityFromBimFileElementLinkRequest(request);
         projectBimFileElementTaskLinkDAO.unLinkBimFileToTask(projectBimFileElementTaskLink);
-            
-        return null;
+        OnTargetResponse response = new OnTargetResponse();
+        response.setReturnMessage("Successfully unlinked task to bim element.");
+        response.setReturnVal(OnTargetConstant.SUCCESS);
+        return response;
     }
 }

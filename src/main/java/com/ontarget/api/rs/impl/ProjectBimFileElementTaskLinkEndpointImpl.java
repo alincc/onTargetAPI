@@ -4,19 +4,17 @@ import com.ontarget.api.rs.ProjectBimFileElementTaskLinkEndpoint;
 import com.ontarget.api.service.ProjectBimFileElementTaskLinkService;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.OnTargetResponse;
-import com.ontarget.dto.ProjectBimFileDTO;
-import com.ontarget.entities.ProjectBimFileElementTaskLink;
 import com.ontarget.request.bean.ProjectBimFileElementToTaskLinkRequest;
 import com.ontarget.response.bean.ProjectBimFileElementTaskLinkResponse;
-import com.ontarget.response.bean.SaveBIMResponse;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.validation.Valid;
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-
-import com.ontarget.dto.ProjectBimFileElementTaskLinkDTO;
 
 /**
  * Created by TRON on 1/19/2016.
@@ -28,25 +26,44 @@ import com.ontarget.dto.ProjectBimFileElementTaskLinkDTO;
 @Produces(MediaType.APPLICATION_JSON)
 public class ProjectBimFileElementTaskLinkEndpointImpl  implements ProjectBimFileElementTaskLinkEndpoint {
 
+    private Logger logger = Logger.getLogger(ProjectBimFileElementTaskLinkEndpointImpl.class);
+
     @Autowired
     ProjectBimFileElementTaskLinkService projectBimFileElementTaskLinkService;
 
     @Override
-    public ProjectBimFileElementTaskLinkResponse linkProjectBinFileElementTaskLink(@Valid ProjectBimFileElementToTaskLinkRequest request) {
-
+    @POST
+    @Path("/add")
+    public ProjectBimFileElementTaskLinkResponse linkProjectBinFileElementTaskLink(ProjectBimFileElementToTaskLinkRequest request) {
+        logger.debug("linking bim element: "+ request.getBimFileElementId() + " with task: "+ request.getTaskId());
         ProjectBimFileElementTaskLinkResponse response = new ProjectBimFileElementTaskLinkResponse();
         try {
-            ProjectBimFileElementToTaskLinkRequest projectBimFileElementTaskLink = projectBimFileElementTaskLinkService.save(request);
-
+            response = projectBimFileElementTaskLinkService.save(request);
+            response.setReturnMessage("Successfully linked task to bim element.");
+            response.setReturnVal(OnTargetConstant.SUCCESS);
         } catch (Exception e) {
-
+            logger.error("Error while linking bim element to task",e);
+            response.setReturnMessage("Error while  linking task to bim element.");
+            response.setReturnVal(OnTargetConstant.ERROR);
         }
-
-        return null;
+        return response;
     }
 
     @Override
-    public OnTargetResponse unlinkProjectBinFileElementTaskLink(@Valid ProjectBimFileElementToTaskLinkRequest request) {
-        return null;
+    @POST
+    @Path("/delete")
+    public OnTargetResponse unlinkProjectBinFileElementTaskLink(ProjectBimFileElementToTaskLinkRequest request) {
+        logger.debug("Unlinking bim element: "+ request.getBimFileElementId() + " with task: "+ request.getTaskId());
+        OnTargetResponse response = new OnTargetResponse();
+        try {
+            response = projectBimFileElementTaskLinkService.delete(request);
+            response.setReturnMessage("Successfully unlinked task to bim element.");
+            response.setReturnVal(OnTargetConstant.SUCCESS);
+        } catch (Exception e) {
+            logger.error("Error while unlinking bim element to task",e);
+            response.setReturnMessage("Error while  unlinking task to bim element.");
+            response.setReturnVal(OnTargetConstant.ERROR);
+        }
+        return response;
     }
 }
