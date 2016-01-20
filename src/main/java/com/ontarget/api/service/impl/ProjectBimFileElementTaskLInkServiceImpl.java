@@ -1,17 +1,15 @@
 package com.ontarget.api.service.impl;
 
 import com.ontarget.api.dao.ProjectBimFileElementTaskLinkDAO;
-import com.ontarget.api.repository.ProjectBimFileElementTaskLinkRepository;
 import com.ontarget.api.service.ProjectBimFileElementTaskLinkService;
 import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.entities.ProjectBimFileElementTaskLink;
 import com.ontarget.request.bean.ProjectBimFileElementToTaskLinkRequest;
 import com.ontarget.response.bean.ProjectBimFileElementTaskLinkResponse;
+import com.ontarget.util.ProjectBimFileElementTaskLinkUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
-import java.util.Date;
 
 /**
  * Created by TRON on 1/19/2016.
@@ -25,17 +23,21 @@ public class ProjectBimFileElementTaskLInkServiceImpl implements ProjectBimFileE
 
     @Override
     public ProjectBimFileElementTaskLinkResponse save(ProjectBimFileElementToTaskLinkRequest request) throws Exception {
-        //create ProjectBimfile link entity from request
-        //
-        //ProjectBimFileElementTaskLink projectBimFileElementTaskLink=UtilClass.getEntityFromRequest();
-        // projectBimFileElementTaskLinkDAO.saveLinkBimFileToTask(projectBimFileElementTaskLink);
-        return null;
+        ProjectBimFileElementTaskLink projectBimFileElementTaskLink = ProjectBimFileElementTaskLinkUtil.getBimFileElementLinkEnitityFromBimFileElementLinkRequest(request);
+        projectBimFileElementTaskLinkDAO.saveLinkBimFileToTask(projectBimFileElementTaskLink);
+
+        ProjectBimFileElementTaskLinkResponse response = new ProjectBimFileElementTaskLinkResponse();
+        response.setProjectBimFileElementTaskLink(projectBimFileElementTaskLink);
+
+        return response;
     }
 
     @Override
     public OnTargetResponse delete(ProjectBimFileElementToTaskLinkRequest request) throws Exception {
-        //create ProjectBimfile link entity from request
-
+        //create ProjectBimfile link entity from
+        ProjectBimFileElementTaskLink projectBimFileElementTaskLink = ProjectBimFileElementTaskLinkUtil.getBimFileElementLinkEnitityFromBimFileElementLinkRequest(request);
+        projectBimFileElementTaskLinkDAO.unLinkBimFileToTask(projectBimFileElementTaskLink);
+            
         return null;
     }
 }
