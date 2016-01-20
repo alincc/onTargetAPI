@@ -59,7 +59,7 @@ public class ProjectBimFileElementTaskLinkDAOImpl implements ProjectBimFileEleme
     * */
     @Override
     public ProjectBimFileElementTaskLink getLinkBimFileToTask(Integer projectBimFileId, Long projectElementId) throws Exception {
-        logger.debug("get link object related to ::"+ projectBimFileId + "   "+ projectElementId );
+        logger.debug("get link object related to ::"+ projectBimFileId + "  and element:: "+ projectElementId );
 
         return projectBimFileElementTaskLinkRepository.findByBimFileIdElementId(projectBimFileId, projectElementId);
     }

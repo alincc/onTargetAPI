@@ -34,5 +34,9 @@ public interface ProjectEndoint {
 
     public ProjectListResponse getUserProjectList(@Valid ProjectUserRequest projectUserRequest);
 
+    @POST
+    @Path("/v1/getUserProjectList")
+    ProjectListResponse getUserProjectListV1(ProjectUserRequest projectUserRequest);
+
     public com.ontarget.response.bean.ProjectListResponse getActivityOfProject(@Valid ProjectDetailRequest projectDetailRequest);
 }
