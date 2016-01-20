@@ -36,6 +36,8 @@ public class ProjectBimFileElementTaskLinkDAOImpl implements ProjectBimFileEleme
     }
 
 
+
+
     /**
      * Unlinking element id to task id
      * @param projectBimFileElementTaskLink
@@ -48,6 +50,18 @@ public class ProjectBimFileElementTaskLinkDAOImpl implements ProjectBimFileEleme
         projectBimFileElementTaskLink.setStatus(OnTargetConstant.ProjectBimFileElementTaskLinkStatus.DELETED);
         projectBimFileElementTaskLinkRepository.save(projectBimFileElementTaskLink);
         return projectBimFileElementTaskLink.getStatus().equals(OnTargetConstant.ProjectBimFileElementTaskLinkStatus.DELETED);
+    }
+
+
+    /**
+    * Getting link object related
+    * projectBimFieldId, projectElementId
+    * */
+    @Override
+    public ProjectBimFileElementTaskLink getLinkBimFileToTask(Integer projectBimFileId, Long projectElementId) throws Exception {
+        logger.debug("get link object related to ::"+ projectBimFileId + "   "+ projectElementId );
+
+        return projectBimFileElementTaskLinkRepository.findByBimFileIdElementId(projectBimFileId, projectElementId);
     }
 
 }

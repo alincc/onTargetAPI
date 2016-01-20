@@ -18,4 +18,6 @@ public interface ProjectBimFileElementTaskLinkService {
     public OnTargetResponse delete(ProjectBimFileElementToTaskLinkRequest request) throws Exception;
 
 
+    public ProjectBimFileElementTaskLinkResponse get(ProjectBimFileElementToTaskLinkRequest request) throws Exception;
+
 }

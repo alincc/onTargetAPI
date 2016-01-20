@@ -12,4 +12,7 @@ public interface ProjectBimFileElementTaskLinkDAO {
 
     public boolean unLinkBimFileToTask(ProjectBimFileElementTaskLink projectBinFileElementTaskLink) throws  Exception;
 
+
+    public ProjectBimFileElementTaskLink getLinkBimFileToTask(Integer projectBimFileId, Long projectElementId) throws Exception;
+
 }

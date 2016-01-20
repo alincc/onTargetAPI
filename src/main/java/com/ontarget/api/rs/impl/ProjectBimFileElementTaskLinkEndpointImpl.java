@@ -10,10 +10,8 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.validation.Valid;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
 /**
@@ -44,6 +42,23 @@ public class ProjectBimFileElementTaskLinkEndpointImpl  implements ProjectBimFil
         } catch (Exception e) {
             logger.error("Error while linking bim element to task",e);
             response.setReturnMessage("Error while  linking task to bim element.");
+            response.setReturnVal(OnTargetConstant.ERROR);
+        }
+        return response;
+    }
+
+    @Override
+    @GET
+    @Path("/get")
+    public ProjectBimFileElementTaskLinkResponse getProjectBinFileElementTaskLink(@Valid ProjectBimFileElementToTaskLinkRequest request) {
+        logger.debug("getting bim element: "+ request.getBimFileId() + " with task: "+ request.getBimFileElementId());
+        ProjectBimFileElementTaskLinkResponse response = new ProjectBimFileElementTaskLinkResponse();
+
+        try{
+            response = projectBimFileElementTaskLinkService.get(request);
+        }catch  (Exception e) {
+            logger.error("Error while getting link object");
+            response.setReturnMessage("Error while get requested link");
             response.setReturnVal(OnTargetConstant.ERROR);
         }
         return response;

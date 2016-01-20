@@ -46,4 +46,14 @@ public class ProjectBimFileElementTaskLInkServiceImpl implements ProjectBimFileE
         return response;
 
     }
+
+    @Override
+    public ProjectBimFileElementTaskLinkResponse get(ProjectBimFileElementToTaskLinkRequest request) throws Exception {
+        ProjectBimFileElementTaskLink projectBimFileElementTaskLink = projectBimFileElementTaskLinkDAO.getLinkBimFileToTask(request.getBimFileId().intValue(), request.getBimFileElementId());
+
+        ProjectBimFileElementTaskLinkResponse response = new ProjectBimFileElementTaskLinkResponse();
+        response.setProjectBimFileElementTaskLink(projectBimFileElementTaskLink);
+
+        return response;
+    }
 }

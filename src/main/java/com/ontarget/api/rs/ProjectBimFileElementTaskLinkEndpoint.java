@@ -17,4 +17,6 @@ public interface ProjectBimFileElementTaskLinkEndpoint {
 
     OnTargetResponse unlinkProjectBinFileElementTaskLink(@Valid ProjectBimFileElementToTaskLinkRequest request);
 
+    ProjectBimFileElementTaskLinkResponse getProjectBinFileElementTaskLink(@Valid ProjectBimFileElementToTaskLinkRequest request);
+
 }
