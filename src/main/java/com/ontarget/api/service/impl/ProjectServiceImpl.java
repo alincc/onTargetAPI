@@ -534,8 +534,12 @@ public class ProjectServiceImpl implements ProjectService {
 
         if (mainProject != null) {
             ProjectDTO project = ProjectUtil.convertToProjectDTO(mainProject, projectTaskRepository);
-            Company company = companyDAO.getCompany(project.getCompanyId());
-            project.setCompany(company);
+
+            List<Company> companies = projectDAO.getCompanyByProject(project.getProjectId());
+
+            if( companies != null && companies.size() > 0) {
+                project.setCompany(companies.get(0));
+            }
 
             return this.getUserProjectResponse(project, userId);
         } else {

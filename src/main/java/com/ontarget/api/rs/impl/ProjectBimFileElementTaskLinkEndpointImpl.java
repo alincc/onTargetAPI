@@ -48,16 +48,18 @@ public class ProjectBimFileElementTaskLinkEndpointImpl  implements ProjectBimFil
     }
 
     @Override
-    @GET
-    @Path("/get")
-    public ProjectBimFileElementTaskLinkResponse getProjectBinFileElementTaskLink(@Valid ProjectBimFileElementToTaskLinkRequest request) {
+    @POST
+    @Path("/getTask")
+    public ProjectBimFileElementTaskLinkResponse getProjectBinFileElementTaskLink(ProjectBimFileElementToTaskLinkRequest request) {
         logger.debug("getting bim element: "+ request.getBimFileId() + " with task: "+ request.getBimFileElementId());
         ProjectBimFileElementTaskLinkResponse response = new ProjectBimFileElementTaskLinkResponse();
 
         try{
             response = projectBimFileElementTaskLinkService.get(request);
+            response.setReturnMessage("Successfully retrieved task to bim element.");
+            response.setReturnVal(OnTargetConstant.SUCCESS);
         }catch  (Exception e) {
-            logger.error("Error while getting link object");
+            logger.error("Error while getting link object",e);
             response.setReturnMessage("Error while get requested link");
             response.setReturnVal(OnTargetConstant.ERROR);
         }
