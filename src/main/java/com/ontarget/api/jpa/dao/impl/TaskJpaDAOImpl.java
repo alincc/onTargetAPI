@@ -71,7 +71,7 @@ public class TaskJpaDAOImpl implements TaskDAO {
 		projectTask.setProject(new Project(task.getProjectId()));
 		projectTask.setTitle(task.getTitle());
 		projectTask.setDescription(task.getDescription());
-		projectTask.setStatus(Integer.parseInt(task.getStatus()));
+		projectTask.setStatus(task.getStatus());
 		projectTask.setSeverity(new TaskPriority(task.getSeverity()));
 		projectTask.setStartDate(task.getStartDate());
 		projectTask.setEndDate(task.getEndDate());
@@ -419,7 +419,7 @@ public class TaskJpaDAOImpl implements TaskDAO {
 		com.ontarget.entities.ProjectTask projectTask = projectTaskRepository.findByProjectTaskId(task.getProjectTaskId());
 		projectTask.setTitle(task.getTitle());
 		projectTask.setDescription(task.getDescription());
-		int status = Integer.parseInt(task.getStatus());
+		int status = task.getStatus();
 
 		/*
 		 * if updated status is other than COMPLETE and task percentage is 100
