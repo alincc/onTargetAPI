@@ -26,7 +26,7 @@ public class Task {
 	private String title;
 	@JsonProperty("description")
 	private String description;
-	@NotEmpty
+	@NotNull
 	@JsonProperty("status")
 	private Integer status;
 	@NotNull
