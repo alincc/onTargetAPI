@@ -37,7 +37,7 @@ CREATE TABLE `project_bim_file_element_task_link` (
 ALTER TABLE `project_bim_file_element_task_link`
 ADD COLUMN `status` VARCHAR(10) NOT NULL COMMENT '' AFTER `modified_date`;
 
-ALTER TABLE `ontargetbeta`.`project_bim_file_element_task_link`
+ALTER TABLE `project_bim_file_element_task_link`
 CHANGE COLUMN `project_bim_file_element_task_link_id` `project_bim_file_element_task_link_id` BIGINT(20) NOT NULL AUTO_INCREMENT COMMENT '' ;
 
 

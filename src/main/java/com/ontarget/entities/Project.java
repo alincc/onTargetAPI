@@ -80,7 +80,7 @@ public class Project implements Serializable {
 	@ManyToOne(optional = false)
 	private ProjectType projectType;
 	@JoinColumn(name = "company_id", referencedColumnName = "company_id", nullable = false)
-	@ManyToOne(optional = false)
+	@ManyToOne(optional = true, fetch = FetchType.LAZY)
 	private CompanyInfo companyInfo;
 	@JoinColumn(name = "address_id", referencedColumnName = "address_id")
 	@ManyToOne()
