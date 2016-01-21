@@ -47,24 +47,6 @@ public class ProjectBimFileElementTaskLinkEndpointImpl  implements ProjectBimFil
         return response;
     }
 
-    @Override
-    @POST
-    @Path("/getTask")
-    public ProjectBimFileElementTaskLinkResponse getProjectBinFileElementTaskLink(ProjectBimFileElementToTaskLinkRequest request) {
-        logger.debug("getting bim element: "+ request.getBimFileId() + " with task: "+ request.getBimFileElementId());
-        ProjectBimFileElementTaskLinkResponse response = new ProjectBimFileElementTaskLinkResponse();
-
-        try{
-            response = projectBimFileElementTaskLinkService.get(request);
-            response.setReturnMessage("Successfully retrieved task to bim element.");
-            response.setReturnVal(OnTargetConstant.SUCCESS);
-        }catch  (Exception e) {
-            logger.error("Error while getting link object",e);
-            response.setReturnMessage("Error while get requested link");
-            response.setReturnVal(OnTargetConstant.ERROR);
-        }
-        return response;
-    }
 
     @Override
     @POST
@@ -79,6 +61,26 @@ public class ProjectBimFileElementTaskLinkEndpointImpl  implements ProjectBimFil
         } catch (Exception e) {
             logger.error("Error while unlinking bim element to task",e);
             response.setReturnMessage("Error while  unlinking task to bim element.");
+            response.setReturnVal(OnTargetConstant.ERROR);
+        }
+        return response;
+    }
+
+    @Override
+    @POST
+    @Path("/get")
+    public ProjectBimFileElementTaskLinkResponse getProjectBinFileElementTaskLink(@Valid ProjectBimFileElementToTaskLinkRequest request) {
+        logger.debug("getting bim element: "+ request.getBimFileId() + " with task: "+ request.getBimFileElementId());
+
+        ProjectBimFileElementTaskLinkResponse response;
+        try {
+            response = projectBimFileElementTaskLinkService.get(request);
+            response.setReturnMessage("Error while getting task linked to bim element");
+            response.setReturnVal(OnTargetConstant.ERROR);
+        } catch (Exception e) {
+            logger.error("Error while getting task linked to bim element",e);
+            response =  new ProjectBimFileElementTaskLinkResponse();
+            response.setReturnMessage("Error while getting task linked to bim element");
             response.setReturnVal(OnTargetConstant.ERROR);
         }
         return response;

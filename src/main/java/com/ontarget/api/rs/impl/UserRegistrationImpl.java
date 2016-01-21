@@ -275,6 +275,23 @@ public class UserRegistrationImpl implements com.ontarget.api.rs.UserRegistratio
 				return response;
 			}
 
+            int projectId = registrationRequest.getProjectId();
+
+            //check if the user is already a member
+            ProjectMemberListResponse projectMemberList = projectService.getProjectMembers(projectId);
+            //get userid associate with email. there must be only one.
+
+            Email emailEntity = userProfileService.findEmailByEmailAddres(registrationRequest.getEmail());
+
+            int userId  = emailEntity.getUser().getUserId();
+            for(com.ontarget.bean.ProjectMember projectMember : projectMemberList.getProjectMemberList()){
+                if(userId == projectMember.getUserId()){
+                    response.setReturnVal(OnTargetConstant.ERROR);
+                    response.setReturnMessage("User is already part of this project");
+                    return response;
+                }
+            }
+
 			boolean success = userProfileService.assignProjectToMember(registrationRequest);
 			logger.debug("success: " + success);
 

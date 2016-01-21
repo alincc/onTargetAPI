@@ -13,10 +13,10 @@ import javax.validation.Valid;
  */
 public interface ProjectBimFileElementTaskLinkEndpoint {
 
-    ProjectBimFileElementTaskLinkResponse linkProjectBinFileElementTaskLink(@Valid ProjectBimFileElementToTaskLinkRequest request);
+    public ProjectBimFileElementTaskLinkResponse linkProjectBinFileElementTaskLink(@Valid ProjectBimFileElementToTaskLinkRequest request);
 
-    OnTargetResponse unlinkProjectBinFileElementTaskLink(@Valid ProjectBimFileElementToTaskLinkRequest request);
+    public OnTargetResponse unlinkProjectBinFileElementTaskLink(@Valid ProjectBimFileElementToTaskLinkRequest request);
 
-    ProjectBimFileElementTaskLinkResponse getProjectBinFileElementTaskLink(@Valid ProjectBimFileElementToTaskLinkRequest request);
+    public ProjectBimFileElementTaskLinkResponse getProjectBinFileElementTaskLink(@Valid ProjectBimFileElementToTaskLinkRequest request);
 
 }
