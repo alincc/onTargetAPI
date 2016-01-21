@@ -79,7 +79,7 @@ public class Project implements Serializable {
 	@JoinColumn(name = "project_type_id", referencedColumnName = "project_type_id", nullable = false)
 	@ManyToOne(optional = false)
 	private ProjectType projectType;
-	@JoinColumn(name = "company_id", referencedColumnName = "company_id", nullable = false)
+	@JoinColumn(name = "company_id", referencedColumnName = "company_id", nullable = true)
 	@ManyToOne(optional = true, fetch = FetchType.LAZY)
 	private CompanyInfo companyInfo;
 	@JoinColumn(name = "address_id", referencedColumnName = "address_id")

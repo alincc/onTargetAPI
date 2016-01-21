@@ -142,7 +142,7 @@ public class ProjectJpaDAOImpl implements ProjectDAO {
 		projectDTO.setProjectDescription(project.getProjectDescription());
 		projectDTO.setProjectTypeId(project.getProjectType().getProjectTypeId());
 		projectDTO.setProjectParentId(project.getProjectParentId());
-		projectDTO.setCompanyId(project.getCompanyInfo().getCompanyId());
+		//projectDTO.setCompanyId(project.getCompanyInfo().getCompanyId());
 		projectDTO.setProjectOwnerId(project.getProjectOwnerId());
 		projectDTO.setStartDate(project.getProjectStartDate());
 		projectDTO.setEndDate(project.getProjectEndDate());
@@ -165,7 +165,7 @@ public class ProjectJpaDAOImpl implements ProjectDAO {
 		projectDTO.setProjectDescription(project.getProjectDescription());
 		projectDTO.setProjectTypeId(project.getProjectType().getProjectTypeId());
 		projectDTO.setProjectParentId(project.getProjectParentId());
-		projectDTO.setCompanyId(project.getCompanyInfo().getCompanyId());
+		//projectDTO.setCompanyId(project.getCompanyInfo().getCompanyId());
 		projectDTO.setProjectOwnerId(project.getProjectOwnerId());
 		projectDTO.setStartDate(project.getProjectStartDate());
 		projectDTO.setEndDate(project.getProjectEndDate());
@@ -184,7 +184,7 @@ public class ProjectJpaDAOImpl implements ProjectDAO {
 		projectInfo.setProjectDescription(project.getProjectDescription());
 		projectInfo.setProjectTypeId(project.getProjectType().getProjectTypeId());
 		projectInfo.setProjectParentId(project.getProjectParentId());
-		projectInfo.setCompanyId(project.getCompanyInfo().getCompanyId());
+		//projectInfo.setCompanyId(project.getCompanyInfo().getCompanyId());
 		projectInfo.setProjectOwnerId(project.getProjectOwnerId());
 		projectInfo.setStartDate(project.getProjectStartDate());
 		projectInfo.setEndDate(project.getProjectEndDate());
@@ -221,7 +221,7 @@ public class ProjectJpaDAOImpl implements ProjectDAO {
 			projectDTO.setProjectDescription(project.getProjectDescription());
 			projectDTO.setProjectTypeId(project.getProjectType().getProjectTypeId());
 			projectDTO.setProjectParentId(project.getProjectParentId());
-			projectDTO.setCompanyId(project.getCompanyInfo().getCompanyId());
+			//projectDTO.setCompanyId(project.getCompanyInfo().getCompanyId());
 
 			if (project.getProjectParentId() == 0 && projectToSubProject.get(projectId) == null) {
 				List<ProjectDTO> subProjects = new ArrayList<>();
@@ -447,7 +447,7 @@ public class ProjectJpaDAOImpl implements ProjectDAO {
 			project.setProjectName(proj.getProjectName());
 			project.setProjectDescription(proj.getProjectDescription());
 			project.setProjectParentId(proj.getProjectParentId());
-			project.setCompanyId(proj.getCompanyInfo().getCompanyId());
+			//project.setCompanyId(proj.getCompanyInfo().getCompanyId());
 			project.setProjectOwnerId(proj.getProjectOwnerId());
 
 			project.setStartDate(proj.getProjectStartDate());

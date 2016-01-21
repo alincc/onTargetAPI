@@ -293,8 +293,11 @@ public class ProjectServiceImpl implements ProjectService {
 			}
 		}
 
-		Company company = companyDAO.getCompany(project.getCompanyInfo().getCompanyId());
-		projectInfo.setCompany(company);
+        List<Company> companies = projectDAO.getCompanyByProject(project.getProjectId());
+
+        if( companies != null && companies.size() > 0) {
+            projectInfo.setCompany(companies.get(0));
+        }
 
 		if (project.getAddress() != null) {
 			Address projectAddress = addressDAO.getAddressById(project.getAddress().getAddressId());
@@ -577,8 +580,12 @@ public class ProjectServiceImpl implements ProjectService {
 			for (Project proj : projects) {
 				ProjectDTO project = ProjectUtil.convertToProjectDTO(proj, projectTaskRepository);
 
-				Company company = companyDAO.getCompany(project.getCompanyId());
-				project.setCompany(company);
+                List<Company> companies = projectDAO.getCompanyByProject(project.getProjectId());
+
+                if( companies != null && companies.size() > 0) {
+                    project.setCompany(companies.get(0));
+                }
+
 				if (!project.getType().equalsIgnoreCase(OnTargetConstant.ProjectInfoType.ACTIVITY)) {
 					AddressDTO projectAddress = addressDAO.getAddress(project.getProjectAddress().getAddressId());
 					project.setProjectAddress(projectAddress);

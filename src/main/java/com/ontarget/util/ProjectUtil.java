@@ -40,7 +40,7 @@ public class ProjectUtil {
 			project.setProjectDescription((String) projectDetail.get("project_description"));
 			project.setProjectType(new ProjectType((Integer) projectDetail.get("project_type_id")));
 			project.setProjectParentId((Integer) projectDetail.get("project_parent_id"));
-			project.setCompanyInfo(new CompanyInfo((Integer) projectDetail.get("company_id")));
+			//project.setCompanyInfo(new CompanyInfo((Integer) projectDetail.get("company_id")));
 			project.setProjectImagePath((String) projectDetail.get("project_image_path"));
 			project.setProjectStartDate((Date) projectDetail.get("project_start_date"));
 			project.setProjectEndDate((Date) projectDetail.get("project_end_date"));
@@ -59,7 +59,7 @@ public class ProjectUtil {
 		project.setProjectDescription((String) projectDetail.get("project_description"));
 		project.setProjectType(new ProjectType((Integer) projectDetail.get("project_type_id")));
 		project.setProjectParentId((Integer) projectDetail.get("project_parent_id"));
-		project.setCompanyInfo(new CompanyInfo((Integer) projectDetail.get("company_id")));
+		//project.setCompanyInfo(new CompanyInfo((Integer) projectDetail.get("company_id")));
 		project.setProjectImagePath((String) projectDetail.get("project_image_path"));
 		project.setProjectStartDate((Date) projectDetail.get("project_start_date"));
 		project.setProjectEndDate((Date) projectDetail.get("project_end_date"));
@@ -77,7 +77,7 @@ public class ProjectUtil {
 		project.setProjectDescription(projectDetail.getProjectDescription());
 		project.setProjectTypeId(projectDetail.getProjectType().getProjectTypeId());
 		project.setProjectParentId(projectDetail.getProjectParentId());
-		project.setCompanyId(projectDetail.getCompanyInfo().getCompanyId());
+		//project.setCompanyId(projectDetail.getCompanyInfo().getCompanyId());
 		project.setProjectImagePath(projectDetail.getProjectImagePath());
 		project.setStartDate(projectDetail.getProjectStartDate());
 		project.setEndDate(projectDetail.getProjectEndDate());
@@ -135,7 +135,7 @@ public class ProjectUtil {
 		project.setProjectDescription((String) projectDetail.get("project_description"));
 		project.setProjectTypeId((Integer) projectDetail.get("project_type_id"));
 		project.setProjectParentId((Integer) projectDetail.get("project_parent_id"));
-		project.setCompanyId((Integer) projectDetail.get("company_id"));
+		//project.setCompanyId((Integer) projectDetail.get("company_id"));
 		project.setProjectImagePath((String) projectDetail.get("project_image_path"));
 		project.setStartDate((Date) projectDetail.get("project_start_date"));
 		project.setEndDate((Date) projectDetail.get("project_end_date"));
