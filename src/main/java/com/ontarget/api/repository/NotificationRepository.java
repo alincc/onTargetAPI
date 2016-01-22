@@ -16,7 +16,7 @@ public interface NotificationRepository extends JpaRepository<Notification, Long
 	@Query("select u from UserNotification u where u.user.userId = ? order by u.userNotificationId desc")
 	Page<UserNotification> findUserNotificationByUserId(Integer userId, Pageable pageable);
 
-	@Query("select u from UserNotification u where u.user.userId = ?1 and u.notification.projectId=?2  order by u.userNotificationId desc")
+	@Query("select u from UserNotification u join u.notification n where u.user.userId = ?1 and u.notification.projectId=?2  order by u.userNotificationId desc")
 	Page<UserNotification> findNotifcationByUserId(Integer userId, Long loggedInUserProjectId, Pageable pageable);
 
 	@Query(value = "SELECT COUNT(1) FROM user_notification un join notification n on(un.notification_id=n.notification_id) where un.user_id = ?1"

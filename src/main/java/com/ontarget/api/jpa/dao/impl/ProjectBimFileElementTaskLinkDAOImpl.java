@@ -30,7 +30,7 @@ public class ProjectBimFileElementTaskLinkDAOImpl implements ProjectBimFileEleme
     @Override
     public ProjectBimFileElementTaskLink saveLinkBimFileToTask(ProjectBimFileElementTaskLink projectBimFileElementTaskLink) {
         projectBimFileElementTaskLink.setStatus(OnTargetConstant.ProjectBimFileElementTaskLinkStatus.ACTIVE);
-        projectBimFileElementTaskLinkRepository.save(projectBimFileElementTaskLink);
+        projectBimFileElementTaskLink = projectBimFileElementTaskLinkRepository.save(projectBimFileElementTaskLink);
         logger.info("persist link: " + projectBimFileElementTaskLink.getProjectBimFileElementTaskLinkId());
         return projectBimFileElementTaskLink;
     }

@@ -1,7 +1,7 @@
 package com.ontarget.response.bean;
 
 import com.ontarget.dto.OnTargetResponse;
-import com.ontarget.entities.ProjectBimFileElementTaskLink;
+import com.ontarget.dto.ProjectBimElementToTaskLinkDTO;
 import lombok.Data;
 
 /**
@@ -10,7 +10,7 @@ import lombok.Data;
 @Data
 public class ProjectBimFileElementTaskLinkResponse extends OnTargetResponse{
 
-   private ProjectBimFileElementTaskLink projectBimFileElementTaskLink;
+   private ProjectBimElementToTaskLinkDTO projectBimElementToTaskLinkDTO;
 
 
 }

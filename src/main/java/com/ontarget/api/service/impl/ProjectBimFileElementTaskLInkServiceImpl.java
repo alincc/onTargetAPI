@@ -4,6 +4,7 @@ import com.ontarget.api.dao.ProjectBimFileElementTaskLinkDAO;
 import com.ontarget.api.service.ProjectBimFileElementTaskLinkService;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.OnTargetResponse;
+import com.ontarget.dto.ProjectBimElementToTaskLinkDTO;
 import com.ontarget.entities.ProjectBimFileElementTaskLink;
 import com.ontarget.entities.User;
 import com.ontarget.request.bean.ProjectBimFileElementToTaskLinkRequest;
@@ -28,9 +29,15 @@ public class ProjectBimFileElementTaskLInkServiceImpl implements ProjectBimFileE
     @Override
     public ProjectBimFileElementTaskLinkResponse save(ProjectBimFileElementToTaskLinkRequest request) throws Exception {
         ProjectBimFileElementTaskLink projectBimFileElementTaskLink = ProjectBimFileElementTaskLinkUtil.getBimFileElementLinkEnitityFromBimFileElementLinkRequest(request);
-        projectBimFileElementTaskLinkDAO.saveLinkBimFileToTask(projectBimFileElementTaskLink);
+        projectBimFileElementTaskLink = projectBimFileElementTaskLinkDAO.saveLinkBimFileToTask(projectBimFileElementTaskLink);
+
+        ProjectBimElementToTaskLinkDTO projectBimElementToTaskLinkDTO = new ProjectBimElementToTaskLinkDTO();
+        projectBimElementToTaskLinkDTO.setBimElelmentId(projectBimFileElementTaskLink.getElementId());
+        projectBimElementToTaskLinkDTO.setProjectBimFileId(projectBimFileElementTaskLink.getProjectBimFile().getProjectBimFileId());
+        projectBimElementToTaskLinkDTO.setProjectTaskId(projectBimFileElementTaskLink.getProjectTask().getProjectTaskId());
+
         ProjectBimFileElementTaskLinkResponse response = new ProjectBimFileElementTaskLinkResponse();
-        response.setProjectBimFileElementTaskLink(projectBimFileElementTaskLink);
+        response.setProjectBimElementToTaskLinkDTO(projectBimElementToTaskLinkDTO);
         return response;
     }
 
@@ -51,9 +58,14 @@ public class ProjectBimFileElementTaskLInkServiceImpl implements ProjectBimFileE
     public ProjectBimFileElementTaskLinkResponse get(ProjectBimFileElementToTaskLinkRequest request) throws Exception {
         ProjectBimFileElementTaskLink projectBimFileElementTaskLink = projectBimFileElementTaskLinkDAO.getLinkBimFileToTask(request.getBimFileId().intValue(), request.getBimFileElementId());
 
-        ProjectBimFileElementTaskLinkResponse response = new ProjectBimFileElementTaskLinkResponse();
-        response.setProjectBimFileElementTaskLink(projectBimFileElementTaskLink);
+        ProjectBimElementToTaskLinkDTO projectBimElementToTaskLinkDTO = new ProjectBimElementToTaskLinkDTO();
+        projectBimElementToTaskLinkDTO.setBimElelmentId(projectBimFileElementTaskLink.getElementId());
+        projectBimElementToTaskLinkDTO.setProjectBimFileId(projectBimFileElementTaskLink.getProjectBimFile().getProjectBimFileId());
+        projectBimElementToTaskLinkDTO.setProjectTaskId(projectBimFileElementTaskLink.getProjectTask().getProjectTaskId());
 
+        ProjectBimFileElementTaskLinkResponse response = new ProjectBimFileElementTaskLinkResponse();
+        response.setProjectBimElementToTaskLinkDTO(projectBimElementToTaskLinkDTO);
         return response;
+
     }
 }
