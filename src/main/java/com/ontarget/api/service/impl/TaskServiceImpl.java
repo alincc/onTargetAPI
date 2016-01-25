@@ -1,33 +1,10 @@
 package com.ontarget.api.service.impl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import com.ontarget.api.dao.*;
-import com.ontarget.entities.UserProjectProfile;
-import com.ontarget.enums.UserType;
-import com.ontarget.util.EmailConstant;
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.ontarget.api.repository.ProjectTaskRepository;
 import com.ontarget.api.service.EmailService;
 import com.ontarget.api.service.TaskService;
-import com.ontarget.bean.Contact;
-import com.ontarget.bean.DependentTaskDTO;
-import com.ontarget.bean.FileAttachment;
-import com.ontarget.bean.ProjectDTO;
-import com.ontarget.bean.ProjectTaskInfo;
-import com.ontarget.bean.TaskComment;
-import com.ontarget.bean.TaskInfo;
-import com.ontarget.bean.TaskStatusCount;
-import com.ontarget.bean.UserDTO;
+import com.ontarget.bean.*;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.dto.FieldWorkerInfo;
 import com.ontarget.dto.FieldWorkerResponse;
@@ -35,9 +12,21 @@ import com.ontarget.dto.OnTargetResponse;
 import com.ontarget.dto.ProjectTask;
 import com.ontarget.entities.FieldWorker;
 import com.ontarget.entities.TaskFieldWorker;
+import com.ontarget.entities.UserProjectProfile;
+import com.ontarget.enums.UserType;
+import com.ontarget.exception.DateAfterException;
+import com.ontarget.exception.DateBeforeException;
 import com.ontarget.request.bean.Task;
 import com.ontarget.request.bean.TaskCommentRequest;
 import com.ontarget.response.bean.TaskResponse;
+import com.ontarget.util.EmailConstant;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.*;
 
 /**
  * Created by Owner on 11/6/14.
@@ -83,6 +72,34 @@ public class TaskServiceImpl implements TaskService {
 
 		Integer taskId = task.getProjectTaskId();
 		logger.info("task id:: " + taskId);
+
+
+        // validate start date and end date to be aligned with  project start date and end date
+        Date startDate = task.getStartDate();
+        Date endDate = task.getEndDate();
+
+        if (task.getProjectId() == 0) {
+            throw new Exception("Task project is null");
+        } else {
+
+            ProjectDTO projectDTO = projectDAO.getProject(task.getProjectId());
+
+            Date projectStartDate = projectDTO.getStartDate();
+            Date projectEndDate = projectDTO.getEndDate();
+
+            if (startDate.getTime() < projectStartDate.getTime()) {
+                logger.info(startDate.toString() + " less than " + projectStartDate.toString());
+                throw new DateBeforeException("Task starts before Activity start date");
+            } else {
+                if (endDate.getTime() > projectEndDate.getTime()) {
+                    logger.info(endDate.toString() + " more than " + projectEndDate.toString());
+                    throw new DateAfterException("Task ends after Activity end date");
+                }
+            }
+        }
+
+        // validation ends.
+
 
 		if (isTaskAdd(taskId)) {
 			taskId = taskDAO.addTask(task, userId);
