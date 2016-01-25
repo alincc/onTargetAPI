@@ -495,7 +495,9 @@ public class ProjectServiceImpl implements ProjectService {
 	public void setSubProjects(ProjectDTO projectDTO, int userId, int level) throws Exception {
 		logger.info("fetching project list of parent project id: " + projectDTO.getProjectId());
 
-		List<Project> childProjects = projectDAO.getUndeletedProjectsByParentId(projectDTO.getProjectId());
+		//List<Project> childProjects = projectDAO.getUndeletedProjectsByParentId(projectDTO.getProjectId());
+
+        List<Project> childProjects = projectDAO.getProjectsByUserId(userId);
 
 		List<ProjectDTO> projectDTOList = convertedProjectList(childProjects);
 
