@@ -45,7 +45,7 @@ public class NotificationEndpointImpl implements com.ontarget.api.rs.Notificatio
 			response.setReturnVal(OnTargetConstant.SUCCESS);
 			response.setReturnMessage("notification read");
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("Error while getting notificaiton",e);
 			response.setReturnMessage(e.getMessage());
 			response.setReturnVal(OnTargetConstant.ERROR);
 		}
@@ -68,7 +68,7 @@ public class NotificationEndpointImpl implements com.ontarget.api.rs.Notificatio
 			response.setReturnVal(OnTargetConstant.SUCCESS);
 			response.setReturnMessage("Notification read successfully");
 		} catch (Exception e) {
-			e.printStackTrace();
+            logger.error("Error while getting notificaiton",e);
 			response.setReturnMessage("Error while getting notification");
 			response.setReturnVal(OnTargetConstant.ERROR);
 		}
