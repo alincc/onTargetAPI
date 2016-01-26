@@ -26,7 +26,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.Date;
 
 /**
  * Created by Owner on 11/6/14.
@@ -74,29 +77,33 @@ public class TaskServiceImpl implements TaskService {
 		logger.info("task id:: " + taskId);
 
 
-        // validate start date and end date to be aligned with  project start date and end date
-        Date startDate = task.getStartDate();
-        Date endDate = task.getEndDate();
-
-        if (task.getProjectId() == 0) {
-            throw new Exception("Task project is null");
-        } else {
-
-            ProjectDTO projectDTO = projectDAO.getProject(task.getProjectId());
-
-            Date projectStartDate = projectDTO.getStartDate();
-            Date projectEndDate = projectDTO.getEndDate();
-
-            if (startDate.getTime() < projectStartDate.getTime()) {
-                logger.info(startDate.toString() + " less than " + projectStartDate.toString());
-                throw new DateBeforeException("Task starts before Activity start date");
-            } else {
-                if (endDate.getTime() > projectEndDate.getTime()) {
-                    logger.info(endDate.toString() + " more than " + projectEndDate.toString());
-                    throw new DateAfterException("Task ends after Activity end date");
-                }
-            }
-        }
+//        // validate start date and end date to be aligned with  project start date and end date
+//        Date startDate = task.getStartDate();
+//        Date endDate = task.getEndDate();
+//
+//        java.sql.Date startDateSQL = new java.sql.Date(startDate.getTime());
+//        java.sql.Date endDateSQL = new java.sql.Date(endDate.getTime());
+//
+//
+//        if (task.getProjectId() == 0) {
+//            throw new Exception("Task project is null");
+//        } else {
+//
+//            ProjectDTO projectDTO = projectDAO.getProject(task.getProjectId());
+//
+//            Date projectStartDate = projectDTO.getStartDate();
+//            Date projectEndDate = projectDTO.getEndDate();
+//
+//            if (startDateSQL.getTime() < projectStartDate.getTime()) {
+//                    logger.info(startDate.toString() + " less than " + projectStartDate.toString());
+//                throw new DateBeforeException("Task starts before Activity start date");
+//            } else {
+//                if (endDateSQL.getTime() > projectEndDate.getTime()) {
+//                    logger.info(endDate.toString() + " more than " + projectEndDate.toString());
+//                    throw new DateAfterException("Task ends after Activity end date");
+//                }
+//            }
+//        }
 
         // validation ends.
 
@@ -519,5 +526,24 @@ public class TaskServiceImpl implements TaskService {
 		}
 		return response;
 	}
+//
+//
+//    public static void main(String[] args) throws Exception{
+//        String date1="2015-01-07";
+//        String date2="2015-01-07'T'00:00:00";
+//
+//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+//        Date d1=dateFormat.parse(date1);
+//
+//        Date d2=dateFormat.parse(date2);
+//
+//        System.out.println(d1.getTime());
+//        System.out.println(d2.getTime());
+//
+//
+//
+//
+//    }
+
 
 }

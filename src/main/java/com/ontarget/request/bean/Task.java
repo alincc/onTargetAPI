@@ -1,18 +1,15 @@
 package com.ontarget.request.bean;
 
-import java.sql.Date;
-import java.util.List;
-
-import javax.annotation.Generated;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-
-import lombok.Data;
-import org.hibernate.validator.constraints.NotEmpty;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import lombok.Data;
+import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.annotation.Generated;
+import javax.validation.constraints.NotNull;
+import java.util.Date;
+import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")

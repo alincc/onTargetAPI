@@ -1,5 +1,6 @@
 package com.ontarget.util;
 
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -52,6 +53,11 @@ public class DateFormater {
 		DateFormat sqlDateFormatter = new SimpleDateFormat(format);
 		return sqlDateFormatter.parse(date);
 	}
+
+    public static Timestamp convertToTimestamp(String date,String format) throws ParseException {
+        DateFormat sqlDateFormatter = new SimpleDateFormat(format);
+        return new Timestamp(sqlDateFormatter.parse(date).getTime());
+    }
 
 	public static java.util.Date changeFormat(java.util.Date date, String format) {
 		try {

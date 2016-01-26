@@ -1,5 +1,7 @@
 package com.ontarget.entities;
 
+import org.hibernate.annotations.Type;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
