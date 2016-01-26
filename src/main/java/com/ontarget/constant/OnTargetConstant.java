@@ -119,6 +119,11 @@ public interface OnTargetConstant {
 		public static final String DELETED = "DELETED";
 	}
 
+	public interface UserProjectProfile{
+		public static final String ACTIVE = "Y";
+		public static final String DELETED = "N";
+	}
+
 	public interface ProjectStatus {
 		public static final int ACTIVE = 1;
 		public static final int PENDING = 2;

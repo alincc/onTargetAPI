@@ -11,4 +11,9 @@ import javax.validation.constraints.NotNull;
 public class UserProjectProfileRequest {
     @NotNull
     private BaseRequest baseRequest;
+
+    @NotNull
+    private Integer profileid;
+
+
 }
