@@ -314,6 +314,23 @@
             <version>1.4.7</version>
         </dependency>
 
+   <!--     &lt;!&ndash; Jave Testing using JMocket&ndash;&gt;
+        <dependency>
+            <groupId>org.jmockit</groupId>
+            <artifactId>jmockit</artifactId>
+            <version>1.21</version>
+            <scope>test</scope>
+        </dependency>-->
+
+        <!--Testing with Mockito-->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>1.9.5</version>
+        </dependency>
+
+
+
 
         <!-- velocity -->
         <dependency>
