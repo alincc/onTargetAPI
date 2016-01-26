@@ -49,10 +49,10 @@ public class Project implements Serializable {
 	@Column(name = "project_image", length = 255)
 	private String projectImage;
 	@Column(name = "project_start_date")
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date projectStartDate;
 	@Column(name = "project_end_date")
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date projectEndDate;
 	@Column(name = "project_status", length = 1)
 	private Integer projectStatus;
