@@ -1,52 +1,27 @@
 package com.ontarget.api.rs.impl;
 
-import java.util.List;
-import java.util.Set;
+import com.ontarget.api.response.TaskListCountResponse;
+import com.ontarget.api.rs.TaskEndpoint;
+import com.ontarget.api.service.TaskService;
+import com.ontarget.constant.OnTargetConstant;
+import com.ontarget.dto.*;
+import com.ontarget.exception.DateAfterException;
+import com.ontarget.exception.DateBeforeException;
+import com.ontarget.request.bean.*;
+import com.ontarget.response.bean.TaskCommentResponse;
+import com.ontarget.response.bean.TaskResponse;
+import com.ontarget.util.ConvertPOJOUtils;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-
-import com.ontarget.bean.TaskComment;
-import com.ontarget.response.bean.TaskCommentResponse;
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import com.ontarget.api.response.TaskListCountResponse;
-import com.ontarget.api.rs.TaskEndpoint;
-import com.ontarget.api.service.TaskService;
-import com.ontarget.bean.Contact;
-import com.ontarget.bean.UserDTO;
-import com.ontarget.constant.OnTargetConstant;
-import com.ontarget.dto.AddDependentRequest;
-import com.ontarget.dto.FieldWorkerResponse;
-import com.ontarget.dto.GetTaskAttachmentResponse;
-import com.ontarget.dto.InsertResponse;
-import com.ontarget.dto.OnTargetResponse;
-import com.ontarget.dto.ProjectTaskResponse;
-import com.ontarget.dto.TaskDetailResponse;
-import com.ontarget.dto.UserResponse;
-import com.ontarget.exception.DateAfterException;
-import com.ontarget.exception.DateBeforeException;
-import com.ontarget.request.bean.DependentTaskDetail;
-import com.ontarget.request.bean.DependentTaskRequest;
-import com.ontarget.request.bean.ProjectTaskFileDeleteRequest;
-import com.ontarget.request.bean.ProjectTaskRequest;
-import com.ontarget.request.bean.Task;
-import com.ontarget.request.bean.TaskAttachmentRequest;
-import com.ontarget.request.bean.TaskCommentRequest;
-import com.ontarget.request.bean.TaskDetailRequest;
-import com.ontarget.request.bean.TaskFieldWorkerRequest;
-import com.ontarget.request.bean.TaskFileSaveRequest;
-import com.ontarget.request.bean.TaskMemberRequest;
-import com.ontarget.request.bean.TaskRequest;
-import com.ontarget.request.bean.TaskStatusUpdateRequest;
-import com.ontarget.request.bean.UserTask;
-import com.ontarget.response.bean.TaskResponse;
-import com.ontarget.util.ConvertPOJOUtils;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Owner on 11/6/14.
