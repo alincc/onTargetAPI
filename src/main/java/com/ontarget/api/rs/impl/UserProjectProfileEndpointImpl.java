@@ -25,7 +25,7 @@ import org.apache.log4j.Logger;
  */
 
 @Component
-@Path("project/profile")
+@Path("/project/profile")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class UserProjectProfileEndpointImpl implements UserProjectProfileEndpoint {
