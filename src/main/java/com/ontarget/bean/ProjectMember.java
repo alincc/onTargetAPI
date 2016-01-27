@@ -1,5 +1,7 @@
 package com.ontarget.bean;
 
+import com.ontarget.dto.ProfileDTO;
+
 import java.io.Serializable;
 
 /**
@@ -15,6 +17,8 @@ public class ProjectMember implements Serializable {
 	private String memberStatus;
 	private Contact contact;
 	private ContactPhone phone;
+	private ProfileDTO profileDto;
+
 
 	public ProjectMember() {
 	}
