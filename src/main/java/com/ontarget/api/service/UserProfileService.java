@@ -43,7 +43,7 @@ public interface UserProfileService {
 
     String getRandomSafetyUserInfoById() throws Exception;
 
-    public OnTargetResponse createNewUserFromInvitation(UserSignupRequest request) throws Exception;
+    public int createNewUserFromInvitation(UserSignupRequest request) throws Exception;
 
 	public boolean activateAccount(int userId) throws Exception;
 

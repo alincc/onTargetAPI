@@ -13,13 +13,18 @@ import com.ontarget.response.bean.ProjectConfig;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.SqlOutParameter;
+import org.springframework.jdbc.core.SqlParameter;
+import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.StoredProcedureQuery;
 
+import java.sql.Types;
 import java.util.*;
 
 @Repository("projectJpaDAOImpl")
@@ -385,6 +390,30 @@ public class ProjectJpaDAOImpl implements ProjectDAO {
         project.setProjectTopicArn(projectArn);
         projectRepository.save(project);
         return project;
+    }
+
+    /**
+     * Create sample project for newly registered user.
+     * @param userId
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public boolean createSampleProject(Integer userId) throws Exception {
+        logger.debug("Creating sample project for newly registered user: "+ userId);
+        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
+                .withoutProcedureColumnMetaDataAccess()
+                .withProcedureName("create_sample_project")
+                .declareParameters(
+                        new SqlParameter( "userId", Types.INTEGER ),
+                        new SqlOutParameter("done", Types.BOOLEAN));
+
+        Map<String, Object> result = new HashMap(1);
+        result.put("userId", userId);
+        //execute
+        result = jdbcCall.execute(result);
+
+        return (Boolean)result.get("done");
     }
 
     @Override

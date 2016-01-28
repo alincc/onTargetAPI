@@ -675,4 +675,21 @@ public class ProjectServiceImpl implements ProjectService {
         projectResponse.setProject(getProjectInfo(project));
         return projectResponse;
     }
+
+    @Override
+    @Transactional(rollbackFor = { Exception.class })
+    public boolean createSampleProject(int userId) throws Exception {
+        //create sample project:
+        boolean sampleProjectCreated=false;
+        try {
+            sampleProjectCreated = projectDAO.createSampleProject(userId);
+            if (!sampleProjectCreated) {
+                logger.error("Error while creating sample project");
+            }
+        }catch(Exception e){
+            logger.error("Error while creating sample project",e);
+        }
+        return sampleProjectCreated;
+
+    }
 }

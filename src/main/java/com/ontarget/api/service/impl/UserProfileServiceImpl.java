@@ -8,6 +8,7 @@ import java.util.Random;
 import com.ontarget.api.service.UserProjectProfileService;
 import com.ontarget.entities.*;
 import com.ontarget.enums.MemberShipType;
+import com.ontarget.exception.UserNameAlreadyExistExcepiton;
 import com.ontarget.response.bean.UserProjectProfileResponse;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -361,10 +362,10 @@ public class UserProfileServiceImpl implements UserProfileService {
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
-	public OnTargetResponse createNewUserFromInvitation(UserSignupRequest request) throws Exception {
+	public int createNewUserFromInvitation(UserSignupRequest request) throws Exception,UserNameAlreadyExistExcepiton {
 		OnTargetResponse response = new OnTargetResponse();
 		UserRegistration registrationRequest = userRegistrationDAO.getInvitationRegistration(request.getRegistrationToken());
-
+        int userId=0;
 		if (registrationRequest != null) {
 			if (!userDAO.usernameAlreadyRegistered(request.getUsername())) {
 
@@ -405,7 +406,7 @@ public class UserProfileServiceImpl implements UserProfileService {
 				userDTO.setUserId(user.getUserId());
 				userDTO.setAccountStatus(user.getAccountStatus());
 
-				int userId = userDTO.getUserId();
+				userId = userDTO.getUserId();
 				contact.setUser(userDTO);
 
 				boolean saved = contactDAO.addContactInfo(contact, userId);
@@ -463,19 +464,14 @@ public class UserProfileServiceImpl implements UserProfileService {
 					throw new Exception("Error while activating account");
 				}
 
-				response.setReturnMessage("Successfully created user.");
-				response.setReturnVal(OnTargetConstant.SUCCESS);
-
 			} else {
-				response.setReturnVal(OnTargetConstant.ERROR);
-				response.setReturnMessage("Username already registered");
+				throw new UserNameAlreadyExistExcepiton("Username already registered");
 			}
 		} else {
-			response.setReturnVal(OnTargetConstant.ERROR);
-			response.setReturnMessage("Invalid registration");
+			throw new Exception("Invalid request");
 		}
 
-		return response;
+		return userId;
 	}
 
 	@Override

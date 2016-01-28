@@ -55,4 +55,7 @@ public interface ProjectService {
 	public com.ontarget.entities.Project findProjectById(int projectId) throws Exception;
 
     public ProjectResponse updateProjectArn(String projectArn, int projectId) throws Exception;
+
+    public boolean createSampleProject(int userId) throws Exception;
+
 }

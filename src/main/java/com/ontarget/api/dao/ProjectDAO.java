@@ -69,4 +69,6 @@ public interface ProjectDAO {
     public int addMemberToProject(int projectId, int userId) throws Exception;
 
     public Project updateProjectArn(String projectArn, int projectId) throws Exception;
+
+    public boolean createSampleProject(Integer userId) throws Exception;
 }

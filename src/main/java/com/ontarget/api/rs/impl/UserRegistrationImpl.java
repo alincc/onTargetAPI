@@ -11,6 +11,7 @@ import com.ontarget.dto.UserInviteResponse;
 import com.ontarget.entities.*;
 import com.ontarget.entities.Email;
 import com.ontarget.enums.UserType;
+import com.ontarget.exception.UserNameAlreadyExistExcepiton;
 import com.ontarget.request.bean.AssignUserToProjectRequest;
 import com.ontarget.request.bean.InviteUserIntoProjectRequest;
 import com.ontarget.request.bean.UserSignupRequest;
@@ -44,13 +45,13 @@ public class UserRegistrationImpl implements com.ontarget.api.rs.UserRegistratio
 	private EmailService emailService;
 
 	@Autowired
-	private ProjectService projectService;
-
-	@Autowired
 	private UserInvitationService userInvitationService;
 
     @Autowired
     private UserProjectProfileService userProjectProfileService;
+
+    @Autowired
+    private ProjectService projectService;
 
 	@Override
 	@POST
@@ -223,8 +224,23 @@ public class UserRegistrationImpl implements com.ontarget.api.rs.UserRegistratio
 		logger.info("Adding new user: " + request);
 		OnTargetResponse response = new OnTargetResponse();
 		try {
-			return userProfileService.createNewUserFromInvitation(request);
-		} catch (Exception e) {
+			int userId = userProfileService.createNewUserFromInvitation(request);
+
+            //creating sample project
+            boolean created = projectService.createSampleProject(userId);
+
+            if(!created){
+                logger.error("Error creating sample project");
+            }
+
+            response.setReturnMessage("Successfully created user.");
+            response.setReturnVal(OnTargetConstant.SUCCESS);
+
+		}catch(UserNameAlreadyExistExcepiton u) {
+            logger.debug("Error while creating user", u);
+            response.setReturnMessage("Error while creating user.");
+            response.setReturnVal(OnTargetConstant.ERROR);
+        }catch (Exception e) {
 			logger.debug("Error while creating user", e);
 			response.setReturnMessage("Error while creating user.");
 			response.setReturnVal(OnTargetConstant.ERROR);
