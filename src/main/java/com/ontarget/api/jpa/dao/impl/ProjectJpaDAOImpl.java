@@ -7,9 +7,9 @@ import com.ontarget.bean.Contact;
 import com.ontarget.bean.ProjectMember;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.constant.OnTargetQuery;
+import com.ontarget.dto.ProfileDTO;
 import com.ontarget.entities.*;
 import com.ontarget.response.bean.ProjectConfig;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -19,7 +19,6 @@ import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-
 import java.util.*;
 
 @Repository("projectJpaDAOImpl")
@@ -387,7 +386,23 @@ public class ProjectJpaDAOImpl implements ProjectDAO {
         return project;
     }
 
-    @Override
+	@Override
+	public   ProfileDTO getMemberProfile(int projectId, int userId) {
+
+	//	List<ProjectMember> projectMemberList = new LinkedList<ProjectMember>();
+
+		String hql = "select p.name, p.profileCode from Profile p join UserProjectProfile.profileId " +
+				" where p.projectId = :projectId AND p.userid = userId";
+		Query query = entityManager.createQuery(hql);
+		query.setParameter("projectId", projectId);
+		ProfileDTO profile = (ProfileDTO)query.getSingleResult();
+
+		return profile;
+	}
+
+
+
+	@Override
 	public List<Map<String, Object>> getProjectByUser(int userId) {
 		return jdbcTemplate.queryForList(OnTargetQuery.GET_PROJECT_BY_USER, new Object[] { userId });
 	}

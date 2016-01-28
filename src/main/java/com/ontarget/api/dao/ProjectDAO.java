@@ -7,6 +7,7 @@ import com.ontarget.bean.Company;
 import com.ontarget.bean.ProjectDTO;
 import com.ontarget.bean.ProjectInfo;
 import com.ontarget.bean.ProjectMember;
+import com.ontarget.dto.ProfileDTO;
 import com.ontarget.entities.CompanyInfo;
 import com.ontarget.entities.Project;
 import com.ontarget.entities.ProjectConfiguration;
@@ -69,4 +70,6 @@ public interface ProjectDAO {
     public int addMemberToProject(int projectId, int userId) throws Exception;
 
     public Project updateProjectArn(String projectArn, int projectId) throws Exception;
+
+	public  ProfileDTO getMemberProfile(int projectID,int userId);
 }
