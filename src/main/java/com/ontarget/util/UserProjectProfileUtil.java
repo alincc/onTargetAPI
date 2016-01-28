@@ -23,7 +23,7 @@ public class UserProjectProfileUtil {
         userProjectProfile.setProject(project);
 
         Profile profile = new Profile();
-        profile.setProfileId(request.getProfileid());
+        profile.setProfileCode(request.getProfileCode());
 
         return userProjectProfile;
     }

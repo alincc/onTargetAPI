@@ -71,7 +71,5 @@ public interface ProjectDAO {
 
     public Project updateProjectArn(String projectArn, int projectId) throws Exception;
 
-	public  ProfileDTO getMemberProfile(int projectID,int userId);
-
     public boolean createSampleProject(Integer userId) throws Exception;
 }

@@ -1,9 +1,11 @@
 package com.ontarget.api.jpa.dao.impl;
 
 import com.ontarget.api.dao.UserProjectProfileDAO;
+import com.ontarget.api.repository.ProfileRepository;
 import com.ontarget.api.repository.UserProjectProfileRepository;
 import com.ontarget.constant.OnTargetConstant;
 import com.ontarget.constant.OnTargetQuery;
+import com.ontarget.entities.Profile;
 import com.ontarget.entities.UserProjectProfile;
 import org.springframework.stereotype.Repository;
 
@@ -19,10 +21,17 @@ public class UserProjectProfileJpaDAOImpl  implements UserProjectProfileDAO {
     @Resource
     UserProjectProfileRepository userProjectProfileRepository;
 
+    @Resource
+    private ProfileRepository profileRepository;
+
 
     @Override
     public UserProjectProfile saveOrUpdate(UserProjectProfile userProjectProfile) throws Exception {
         userProjectProfile.setStatus(OnTargetConstant.UserProjectProfile.ACTIVE);
+
+        Profile profile = profileRepository.findProfileByCode(userProjectProfile.getProfile().getProfileCode());
+        userProjectProfile.setProfile(profile);
+
         return userProjectProfileRepository.save(userProjectProfile);
     }
 

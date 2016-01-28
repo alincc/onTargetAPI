@@ -13,7 +13,7 @@ public class UserProjectProfileRequest {
     private BaseRequest baseRequest;
 
     @NotNull
-    private Integer profileid;
+    private String  profileCode;
 
 
 }

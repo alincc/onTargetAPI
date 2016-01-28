@@ -417,22 +417,6 @@ public class ProjectJpaDAOImpl implements ProjectDAO {
     }
 
 	@Override
-	public   ProfileDTO getMemberProfile(int projectId, int userId) {
-
-	//	List<ProjectMember> projectMemberList = new LinkedList<ProjectMember>();
-
-		String hql = "select p.name, p.profileCode from Profile p join UserProjectProfile.profileId " +
-				" where p.projectId = :projectId AND p.userid = userId";
-		Query query = entityManager.createQuery(hql);
-		query.setParameter("projectId", projectId);
-		ProfileDTO profile = (ProfileDTO)query.getSingleResult();
-
-		return profile;
-	}
-
-
-
-	@Override
 	public List<Map<String, Object>> getProjectByUser(int userId) {
 		return jdbcTemplate.queryForList(OnTargetQuery.GET_PROJECT_BY_USER, new Object[] { userId });
 	}

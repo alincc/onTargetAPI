@@ -9,10 +9,7 @@ import com.ontarget.bean.Contact;
 import com.ontarget.bean.ProjectMember;
 import com.ontarget.bean.TaskComment;
 import com.ontarget.constant.OnTargetConstant;
-import com.ontarget.dto.OnTargetResponse;
-import com.ontarget.dto.ProjectListResponse;
-import com.ontarget.dto.ProjectMemberListResponse;
-import com.ontarget.dto.UserProjectListResponse;
+import com.ontarget.dto.*;
 import com.ontarget.entities.*;
 import com.ontarget.entities.Project;
 import com.ontarget.enums.UserType;
@@ -335,6 +332,7 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Override
 	public ProjectMemberListResponse getProjectMembers(int projectId) throws Exception {
+        logger.debug("Fetching members for project with id: "+ projectId);
 		List<ProjectMember> projectMembers = projectDAO.getProjectMembers(projectId);
 		Map<Long, Contact> contactMap = new HashMap<>();
 		for (ProjectMember member : projectMembers) {
@@ -346,7 +344,12 @@ public class ProjectServiceImpl implements ProjectService {
 				contactMap.put((long) userId, contact);
 				member.setContact(contact);
 			}
-			member.setProfileDto(projectDAO.getMemberProfile(projectId, userId));
+
+            UserProjectProfile userProjectProfile = userProjectProfileService.getProfileByUserAndProject(projectId,userId);
+            ProfileDTO profileDTO = new ProfileDTO();
+            profileDTO.setProfileCode(userProjectProfile.getProfile().getProfileCode());
+            profileDTO.setProfileName(userProjectProfile.getProfile().getName());
+			member.setProfile(profileDTO);
 
 		}
 		ProjectMemberListResponse response = new ProjectMemberListResponse();

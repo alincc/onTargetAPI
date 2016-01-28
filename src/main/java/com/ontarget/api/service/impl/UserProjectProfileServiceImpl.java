@@ -27,8 +27,6 @@ public class UserProjectProfileServiceImpl implements UserProjectProfileService 
     public UserProjectProfile saveOrUpdate(UserProjectProfile userProjectProfile) throws Exception {
         logger.debug("Saving/updating project file: " + userProjectProfile);
         UserProjectProfile user = userProjectProfileDAO.findProfileByUserAndProject(userProjectProfile.getProject().getProjectId(), userProjectProfile.getUser().getUserId());
-        user.setProfile(userProjectProfile.getProfile());
-
         return userProjectProfileDAO.saveOrUpdate(user);
     }
 
