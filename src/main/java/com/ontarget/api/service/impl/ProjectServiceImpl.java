@@ -346,6 +346,8 @@ public class ProjectServiceImpl implements ProjectService {
 				contactMap.put((long) userId, contact);
 				member.setContact(contact);
 			}
+			member.setProfileDto(projectDAO.getMemberProfile(projectId, userId));
+
 		}
 		ProjectMemberListResponse response = new ProjectMemberListResponse();
 		response.setProjectId(projectId);

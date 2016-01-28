@@ -17,6 +17,15 @@ public class ProjectMember implements Serializable {
 	private String memberStatus;
 	private Contact contact;
 	private ContactPhone phone;
+
+	public ProfileDTO getProfileDto() {
+		return profileDto;
+	}
+
+	public void setProfileDto(ProfileDTO profileDto) {
+		this.profileDto = profileDto;
+	}
+
 	private ProfileDTO profileDto;
 
 
