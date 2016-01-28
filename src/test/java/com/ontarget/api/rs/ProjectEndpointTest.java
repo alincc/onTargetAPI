@@ -207,8 +207,8 @@ public class ProjectEndpointTest extends BaseTest {
 	public void getProjectMembers() {
 
 		BaseRequest baseRequest = new BaseRequest();
-		baseRequest.setLoggedInUserId(1);
-		baseRequest.setLoggedInUserProjectId(1);
+		baseRequest.setLoggedInUserId(11);
+		baseRequest.setLoggedInUserProjectId(45);
 
 		ProjectDetailRequest request = new ProjectDetailRequest();
 		request.setBaseRequest(baseRequest);
