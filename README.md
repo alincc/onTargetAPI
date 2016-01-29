@@ -1,6 +1,6 @@
 # README #
 
-OnTarget - Construction Management Tool API
+OnTarget - API
 
 ### What is this repository for? ###
 
