@@ -19,5 +19,4 @@ OnTarget - Construction Management Tool API
 
 
 ### Who do I talk to? ###
-
 * Sanjeev Ghimire
